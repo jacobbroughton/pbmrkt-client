@@ -1,0 +1,83 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --shadow-subtle: 0 1px 2px #000000;
+  --text-color: #ffffffde;
+  --bg-primary: #242424;
+  --lightgreen: #4ad493;
+  --red: #ff607d;
+
+  color: var(--text-color);
+  background-color: var(--bg-primary);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline-color: var(--lightgreen);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 55px;
+  height: calc(100% - 300px);
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+}
+
+input[type='radio'] {
+  accent-color: var(--lightgreen);
+}
+
+a {
+  appearance: none;
+  color: var(--lightgreen);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.modal-overlay {
+  background-color: #333333a5;
+  position: fixed;
+  inset: 0;
+}
+
+.horizontal-divider {
+  height: 1px;
+  background-color: #343434;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.small-text {
+  font-size: 0.875rem;
+}
+
+.tiny-text {
+  font-size: 0.75rem;
+}
+
+.auth-wrapper {
+  color: white;
+}

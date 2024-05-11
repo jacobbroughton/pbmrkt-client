@@ -1,0 +1,42 @@
+.register {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.register h1 {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+.register form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register form .form-block {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.register form .form-group label {
+  font-size: 0.875rem;
+}
+
+.register form .form-group input,
+.register form button {
+  width: 100%;
+  padding: 5px;
+  font-size: 1rem;
+}

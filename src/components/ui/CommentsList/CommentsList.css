@@ -1,0 +1,22 @@
+
+.item .comments-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.item .comments-section .comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+}
+
+.item .comments-section .comment-form button[type='submit']:not(:disabled) {
+  cursor: pointer;
+}
+
+.item .comments-section  h3 {
+  margin-bottom: 10px;
+  }

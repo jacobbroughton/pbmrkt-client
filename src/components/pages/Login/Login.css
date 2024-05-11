@@ -1,0 +1,42 @@
+.login {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.login h1 {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login form .form-block {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login form .form-group label {
+  font-size: 0.875rem;
+}
+
+.login form .form-group input,
+.login form button {
+  width: 100%;
+  padding: 5px;
+  font-size: 1rem;
+}

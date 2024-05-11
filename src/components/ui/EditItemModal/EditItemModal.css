@@ -1,0 +1,181 @@
+.edit-item-modal {
+  padding: 10px; 
+  z-index: 3;
+  background-color: #242424;
+  position: fixed;
+  left: 50%;
+  top: 50px;
+  max-width: 600px;
+  width: 100%;
+  transform: translateX(-50%);
+}
+
+
+.edit-item-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.edit-item-modal form .form-block {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-item-modal form fieldset {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.edit-item-modal form fieldset.radio-form-groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+
+.edit-item-modal form .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+}
+
+
+.edit-item-modal form .form-group:first-child {
+  flex-grow: 0;
+}
+.edit-item-modal form .form-group.year,
+.edit-item-modal form .form-group.price {
+  max-width: 100px;
+}
+
+.edit-item-modal form .form-group .radio-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-item-modal form .form-group .radio-options .radio-option label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  gap: 5px;
+}
+
+.edit-item-modal form label {
+  font-size: 0.875rem;
+}
+
+.edit-item-modal form .form-group input:not([type='radio']),
+.edit-item-modal form .form-group textarea,
+.edit-item-modal form .form-group select {
+  width: 100%;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #3B3B3B;
+  border: 1px solid grey;
+  border-radius: 3px;
+}
+
+.edit-item-modal form .form-group input[type='file'] {
+  padding: 0;
+}
+
+.edit-item-modal form .form-group select {
+  position: pointer;
+}
+
+.edit-item-modal form .form-group select {
+  background-image: url("src/components/ui/Icons/Arrow.svg");
+  background-repeat: no-repeat;
+  background-position: 98% center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.edit-item-modal form button[type="submit"] {
+  background-color: var(--lightgreen);
+  padding: 7px 15px;
+  align-self: flex-start;
+  border-radius: 3px;
+  font-size: 1rem;
+  color: #212529;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+}
+d
+.edit-item-modal form button[type="submit"]:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+.edit-item-modal form button[type="submit"]:disabled {
+  color: grey;
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.edit-item-modal form .selling-item-images {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  flex-wrap: wrap;
+  flex-grow: 0;
+}
+
+.edit-item-modal form .selling-item-images .image-container {
+  height: 75px;
+  width: 75px;
+  border: 1px solid transparent;
+  transition: 0.05s ease border;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-item-modal form .selling-item-images .image-container.cover {
+  border: 1px solid lightgrey;
+}
+
+.edit-item-modal form .selling-item-images .image-container img {
+height: 100%;
+width: 100%;;
+  object-fit: cover;
+}
+
+.edit-item-modal form .selling-item-images .image-container .delete-button {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border: 1px solid var(--lightgreen);
+}
+
+.edit-item-modal form .selling-item-images .image-container .delete-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.edit-item-modal form .selling-item-images .image-container .cover-button {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border: 1px solid var(--lightgreen);
+}
+
+.edit-item-modal form .selling-item-images .image-container .cover-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

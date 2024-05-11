@@ -1,0 +1,55 @@
+.comment button:not(:disabled) {
+  cursor: pointer;
+}
+
+.comment {
+  border-bottom: #343434 1px solid;
+}
+
+.comment:hover .depth-bar:last-child {
+  background-color: blue;
+}
+
+.comment:last-child {
+  border-bottom: 0;
+}
+
+.comment .bars-and-content {
+  display: flex;
+}
+
+.comment .bars-and-content .comment-contents {
+  padding: 5px 10px;
+  width: 100%;
+  padding-left: 0;
+}
+
+.comment .depth-bar {
+  margin-right: 15px;
+  background-color: #666;
+  width: 1px;
+}
+
+.comment .depth-bar.root {
+  margin-right: 5px;
+}
+
+.comment-form.is-reply {
+  margin-top: 5px;
+}
+
+.comment-form textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.comment .controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.comment .body {
+  white-space: pre;
+}

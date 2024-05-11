@@ -1,11 +1,11 @@
-import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Listings from "./components/pages/Home/Home";
 import Navbar from "./components/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "./redux/auth.js";
 import Sell from "./components/pages/Sell/Sell.jsx";
-import Item from "./components/pages/item/item.jsx";
+import Item from "./components/pages/Item/Item.jsx";
 import { supabase } from "./utils/supabase.js";
 import Login from "./components/pages/Login/Login.jsx";
 import Register from "./components/pages/Register/Register.jsx";

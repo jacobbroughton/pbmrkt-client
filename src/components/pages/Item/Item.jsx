@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import "./item.css";
+import "./Item.css";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import EditItemModal from "../../ui/EditItemModal/EditItemModal";

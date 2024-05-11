@@ -28,6 +28,12 @@
   outline-color: var(--lightgreen);
 }
 
+button,
+select,
+input {
+  appearance: none;
+}
+
 main {
   display: flex;
   flex-direction: column;

@@ -270,6 +270,7 @@
   border: 1px solid #acacac;
   background-color: #3b3b3b;
   font-size: 1rem;
+  color: white;
 }
 
 .listings .filters > .filter-items .filter-item .min-max-input-container {

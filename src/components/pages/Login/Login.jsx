@@ -75,7 +75,7 @@ const Login = () => {
   return (
     <div className="login">
       {loginError && <div className="login-error">{loginError}</div>}
-      <h1>{isResetPasswordView ? 'Reset Password' : 'Login'}</h1>
+      <h1>{isResetPasswordView ? "Reset Password" : "Login"}</h1>
       <form onSubmit={handleSubmit}>
         <p>
           Need to create an account? <Link to="/register">Register here</Link>
@@ -93,7 +93,11 @@ const Login = () => {
             <>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                <input
+                  placeholder="Email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>

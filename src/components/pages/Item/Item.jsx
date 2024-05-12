@@ -316,25 +316,36 @@ const Item = () => {
       <div className="comments-section">
         <div className="horizontal-divider"></div>
         <h3>Comments</h3>
-        <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
-          <textarea
-            placeholder="Add a comment..."
-            onChange={(e) => setNewCommentBody(e.target.value)}
-            value={newCommentBody}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        {user ? (
+          <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
+            <textarea
+              placeholder="Add a comment..."
+              onChange={(e) => setNewCommentBody(e.target.value)}
+              value={newCommentBody}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        ) : (
+          <p>
+            <Link to="/login">Login</Link> or <Link to="/register">sign up</Link> to leave
+            comment.
+          </p>
+        )}
         <div className="horizontal-divider"></div>
-        <CommentsList
-          passedComments={localComments}
-          handleCommentSubmit={handleNewCommentSubmit}
-          handleRepliesClickFromRootLevel={handleRepliesClick}
-          handleDeleteComment={handleDeleteComment}
-          isRootLevel={true}
-          setRootLevelComments={setLocalComments}
-          setError={setError}
-          getComments={getComments}
-        />
+        {localComments.length ? (
+          <CommentsList
+            passedComments={localComments}
+            handleCommentSubmit={handleNewCommentSubmit}
+            handleRepliesClickFromRootLevel={handleRepliesClick}
+            handleDeleteComment={handleDeleteComment}
+            isRootLevel={true}
+            setRootLevelComments={setLocalComments}
+            setError={setError}
+            getComments={getComments}
+          />
+        ) : (
+          <p>No comments, consider starting the conversation!</p>
+        )}
       </div>
       {modals.editItemModalToggled ? (
         <EditItemModal

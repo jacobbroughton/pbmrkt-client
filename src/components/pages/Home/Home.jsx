@@ -237,6 +237,7 @@ function Listings() {
 
     setFilters({ ...filters, saved: filters.draft });
     setFiltersUpdated(true);
+    if (windowSize.width <= 625) setSidebarToggled(false)
     // getListings(searchValue);
   }
 

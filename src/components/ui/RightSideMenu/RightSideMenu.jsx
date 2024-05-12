@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const rightSideMenuRef = useRef(null)
+  const rightSideMenuRef = useRef(null);
   const user = useSelector((state) => state.auth.session?.user);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
-      const { data, error } = await supabase.auth.signOut();
+      const { data } = await supabase.auth.signOut();
 
       console.log(data);
 

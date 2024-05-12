@@ -1,13 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
-// import { setUser } from "../../../redux/auth";
-import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
 
 function Navbar() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
@@ -37,7 +34,7 @@ function Navbar() {
         ) : (
           <>
             <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            {/* <Link to="/register">Register</Link> */}
           </>
         )}
         {/* {!auth.user && <Link to="/login">Login</Link>} */}

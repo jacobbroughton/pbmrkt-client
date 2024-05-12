@@ -84,8 +84,8 @@ function Listings() {
   }, [windowSize.width]);
 
   useEffect(() => {
-      console.log(filters.draft)
-  }, [filters.draft])
+    console.log(filters.draft);
+  }, [filters.draft]);
 
   async function getListings(searchValue = "") {
     try {
@@ -240,6 +240,11 @@ function Listings() {
     // getListings(searchValue);
   }
 
+  console.log({
+    draft: filters.draft.negotiableOptions,
+    saved: filters.saved.negotiableOptions,
+  });
+
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
       filters.draft.model == filters.saved.model &&
@@ -248,8 +253,8 @@ function Listings() {
       filters.draft.negotiableOptions == filters.saved.negotiableOptions &&
       filters.draft.tradeOptions == filters.saved.tradeOptions &&
       filters.draft.conditionOptions == filters.saved.conditionOptions &&
-      filters.draft.shippingOptions == filters.saved.shippingOptions &&
-      filters.draft.negotiableOptions.filter((option) => option.checked).length == 0) ||
+      filters.draft.shippingOptions == filters.saved.shippingOptions) ||
+    filters.draft.negotiableOptions.filter((option) => option.checked).length == 0 ||
     filters.draft.tradeOptions.filter((option) => option.checked).length == 0 ||
     filters.draft.conditionOptions.filter((option) => option.checked).length == 0 ||
     filters.draft.shippingOptions.filter((option) => option.checked).length == 0;
@@ -563,23 +568,25 @@ function Listings() {
                 <Link
                   to={`/${listing.id}`}
                   key={listing.id}
-                  className="grid-item"
+                  // className="grid-item"
                   title={listing.what_is_this}
                 >
-                  <div className="image-container">
-                    {listing.path ? (
-                      <img
-                        src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
-                      />
-                    ) : (
-                      <img
-                        src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`}
-                      />
-                    )}
-                  </div>
-                  <div className="listing-card-info">
-                    <p className="price">${listing.price}</p>
-                    <p className="what-is-this">{listing.what_is_this}</p>
+                  <div className="grid-item">
+                    <div className="image-container">
+                      {listing.path ? (
+                        <img
+                          src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
+                        />
+                      ) : (
+                        <img
+                          src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`}
+                        />
+                      )}
+                    </div>
+                    <div className="listing-card-info">
+                      <p className="price">${listing.price}</p>
+                      <p className="what-is-this">{listing.what_is_this}</p>
+                    </div>
                   </div>
                 </Link>
               ))}

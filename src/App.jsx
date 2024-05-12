@@ -10,6 +10,8 @@ import { supabase } from "./utils/supabase.js";
 import Login from "./components/pages/Login/Login.jsx";
 import Register from "./components/pages/Register/Register.jsx";
 import Profile from "./components/pages/Profile/Profile.jsx";
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
+import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,25 +22,38 @@ function App() {
   useEffect(() => {
     setSessionLoading(true);
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log(session);
       dispatch(setSession(session));
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       if (sessionLoading) setSessionLoading(false);
+
+      if (_event === "INITIAL_SESSION") {
+        // handle initial session
+      } else if (_event === "SIGNED_IN") {
+        // handle sign in event
+      } else if (_event === "SIGNED_OUT") {
+        // handle sign out event
+      } else if (_event === "PASSWORD_RECOVERY") {
+        // handle password recovery event
+      } else if (_event === "TOKEN_REFRESHED") {
+        // handle token refreshed event
+      } else if (_event === "USER_UPDATED") {
+        // handle user updated event
+      }
+
       console.log(session);
       dispatch(setSession(session));
     });
 
-    return () => subscription.unsubscribe();
+    return () => data.subscription.unsubscribe();
   }, []);
 
   if (sessionLoading) return <main>Loading...</main>;
 
   const PrivateRoutes = () => {
     const userAuthenticated = session && !sessionLoading;
+    console.log("userAuthenticated", userAuthenticated);
     return userAuthenticated ? <Outlet /> : <Navigate to="/login" />;
   };
 
@@ -53,8 +68,10 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="/sell" element={<Sell />} />
             <Route path="/user/:userID" element={<Profile />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
           <Route element={<Item />} path="/:itemID" />
+          <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
       </main>
     </>

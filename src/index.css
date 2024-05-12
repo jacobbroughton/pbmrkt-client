@@ -1,3 +1,9 @@
+html,
+body,
+#root,
+main {
+  height: 100%;
+}
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -33,16 +39,13 @@ main {
   flex-direction: column;
   padding: 15px;
   padding-top: 55px;
-  height: calc(100% - 300px);
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
 }
 
-input[type='radio'] {
+input[type="radio"] {
   accent-color: var(--lightgreen);
 }
-
-
 
 a {
   appearance: none;
@@ -50,9 +53,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
 
 textarea {
   resize: vertical;

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
 }
 
 .listings .listings-section {
@@ -100,6 +101,7 @@
 .listings > .sidebar-and-grid {
   display: flex;
   gap: 20px;
+  height: 100%;
 }
 
 .listings .sidebar {
@@ -107,6 +109,7 @@
   left: 0;
   top: 0;
   padding: 15px;
+  height: 100%;
   max-height: 100%;
   overflow: hidden;
   border-right: #626262 1px solid;
@@ -348,23 +351,18 @@
 }
 
 .listings .grid .grid-item {
-  /* background-color: #666; */
-  background-color: #444;
-  padding: 5px;
-  border-radius: 3px;
   color: white;
   cursor: pointer;
-  border: grey 1px solid;
-  transition: transform 0.1s ease, background-color 0.1s ease;
   text-decoration: none;
   position: relative;
-  height: 175px;
+  height: 270px;
 }
 
-.listings .grid .grid-item:hover {
+.listings .grid .grid-item:hover .image-container {
   transform: translateY(-1px);
-  border: 1px solid var(--lightgreen);
+  border: 2px solid var(--lightgreen);
 }
+
 
 .listings .grid .grid-item > .image-container {
   max-width: 100%;
@@ -373,7 +371,11 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid transparent;
+  background-color: #444;
+  padding: 5px;
+  border-radius: 3px;
+  border: grey 2px solid;
+  transition: transform 0.1s ease, background-color 0.1s ease;
 }
 
 .listings .grid .grid-item > .image-container > img {
@@ -391,10 +393,11 @@
 }
 
 .listings .grid .grid-item > .listing-card-info {
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 0;
+  /* position: absolute; */
+  /* z-index: 2; */
+  /* bottom: -40px; */
+  /* left: 0; */
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -403,25 +406,16 @@
 .listings .grid .grid-item > .listing-card-info .what-is-this,
 .listings .grid .grid-item > .listing-card-info .price {
   font-size: 0.875rem;
-  background-color: #666;
+  text-decoration: none !important;
 }
 
 .listings .grid .grid-item > .listing-card-info .price {
-  border-top: lightgrey 1px solid;
-  border-right: lightgrey 1px solid;
-  padding: 0 5px;
   border-top-right-radius: 3px;
   font-weight: 600;
 }
 
-.listings .grid .grid-item > .listing-card-info .what-is-this {
-  bottom: 0;
-  left: 0;
-
-  border-right: lightgrey 1px solid;
-  border-top: lightgrey 1px solid;
-  padding: 0 5px;
-  border-top-right-radius: 3px;
+.listings .grid .grid-item:hover > .listing-card-info .what-is-this {
+  text-decoration: none !important;
 }
 
 .listings .view-toggle {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Register.css";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch } from "react-redux";
 import { supabase } from "../../../utils/supabase";
@@ -13,8 +13,8 @@ const Register = () => {
 
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [registerError, setRegisterError] = useState("");
@@ -57,8 +57,8 @@ const Register = () => {
         password,
         options: {
           data: {
-            firstName,
-            lastName,
+            // firstName,
+            // lastName,
             username,
             phoneNumber,
           },
@@ -69,9 +69,9 @@ const Register = () => {
 
       if (error) throw error.message;
 
-      console.log("Sign up", {data, error})
-      dispatch(setSession(data))
-      navigate('/')
+      console.log("Sign up", { data, error });
+      dispatch(setSession(data));
+      navigate("/");
     } catch (e) {
       setRegisterError(e.toString());
       setLoading(false);
@@ -96,17 +96,20 @@ const Register = () => {
 
   const submitDisabled =
     !isValidEmail(email) ||
-    (username === "" ||
+    username === "" ||
     password === "" ||
-    firstName == "" ||
-    lastName == "" ||
-    phoneNumber == "");
+    // firstName == "" ||
+    // lastName == "" ||
+    phoneNumber == "";
 
   return (
     <div className="register">
       {registerError && <div className="register-error">{registerError}</div>}
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
+        <p>
+          Have an account already? <Link to="/login">Sign in</Link>
+        </p>
         {/* <button className='google-auth-button' onClick={handleGoogleAuth} type="button">Sign in with Google</button> */}
         <div className="form-block">
           <div className="form-group">
@@ -136,7 +139,7 @@ const Register = () => {
               value={username}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="first-name">First Name</label>
             <input
               placeholder="First Name"
@@ -151,7 +154,7 @@ const Register = () => {
               onChange={(e) => setLastName(e.target.value)}
               value={lastName}
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label htmlFor="phone-number">Phone Number</label>
             <input

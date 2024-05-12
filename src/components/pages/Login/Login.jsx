@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Login.css";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch } from "react-redux";
 import { supabase } from "../../../utils/supabase";
@@ -15,6 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isResetPasswordView, setIsResetPasswordView] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -46,14 +47,14 @@ const Login = () => {
 
       // console.log("login ->", data);
       // dispatch(setUser(data.user));
-      
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      
+
       if (error) throw error.message;
-      
+
       console.log("login", { data, error });
       navigate("/");
       // dispatch(setUser(data.user));
@@ -74,27 +75,47 @@ const Login = () => {
   return (
     <div className="login">
       {loginError && <div className="login-error">{loginError}</div>}
-      <h1>Login</h1>
+      <h1>{isResetPasswordView ? 'Reset Password' : 'Login'}</h1>
       <form onSubmit={handleSubmit}>
+        <p>
+          Need to create an account? <Link to="/register">Register here</Link>
+        </p>
         {/* <button className='google-auth-button' onClick={handleGoogleAuth} type="button">Sign in with Google</button> */}
         <div className="form-block">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              placeholder="Password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          {isResetPasswordView ? (
+            <>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  placeholder="Password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <button type="submit" disabled={email === "" || password === ""}>
           Submit
         </button>
+
+        <p>
+          <Link type="button" to={`/reset-password`}>
+            Forgot password?
+          </Link>
+        </p>
       </form>
       {loading && <LoadingOverlay message="Logging you in..." />}
     </div>

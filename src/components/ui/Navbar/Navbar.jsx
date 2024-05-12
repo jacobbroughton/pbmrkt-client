@@ -3,53 +3,36 @@ import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 // import { setUser } from "../../../redux/auth";
 import { supabase } from "../../../utils/supabase";
+import { toggleModal } from "../../../redux/modals";
+import RightSideMenu from "../RightSideMenu/RightSideMenu";
 
 function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const modals = useSelector((state) => state.modals);
 
-  async function handleLogout(e) {
+  function handleRightSideMenuToggle(e) {
     e.preventDefault();
+    e.stopPropagation()
 
-    try {
-      // const response = await fetch(`http://localhost:3001/logout/`, {
-      //   credentials: "include",
-      //   headers: {
-      //     "Access-Control-Allow-Origin": "http://localhost:3000",
-      //   },
-      // });
-
-      // if (response.status !== 200) throw response.statusText;
-
-      // const data = await response.json();
-
-      // if (!data) throw "There was a problem parsing logout response";
-
-      const { data, error } = await supabase.auth.signOut();
-
-      console.log(data);
-
-      // dispatch(setUser(null));
-      // navigate("/login");
-    } catch (e) {
-      if (typeof e === "string") {
-        alert(e);
-      } else if (e instanceof Error) {
-        alert("ERROR: " + e.message);
-      }
-    }
+    dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
   }
 
   return (
     <nav>
       <Link to="/">PBMRKT</Link>
       <div className="nav-links">
-        <Link to="/">Home</Link>
         {auth.session?.user ? (
           <>
             <Link to="/sell">Sell</Link>
-            <button onClick={handleLogout}>Logout</button>
+
+            <button
+              onClick={handleRightSideMenuToggle}
+              className="right-side-menu-button"
+            >
+              <div className="profile-picture"></div>
+            </button>
           </>
         ) : (
           <>
@@ -60,6 +43,7 @@ function Navbar() {
         {/* {!auth.user && <Link to="/login">Login</Link>} */}
         {/* {!auth.user && <Link to="/register">Register</Link>} */}
       </div>
+      {modals.rightSideMenuToggled && <RightSideMenu />}
     </nav>
   );
 }

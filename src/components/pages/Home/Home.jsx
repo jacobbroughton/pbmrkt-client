@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
 import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import useWindowSize from "../../../utils/useWindowSize";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 
 function Listings() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -37,7 +39,8 @@ function Listings() {
     model: "",
     minPrice: 0,
     maxPrice: null,
-    location: null,
+    city: "All",
+    state: "All",
     conditionOptions: [
       { id: 0, value: "Brand New", checked: true },
       { id: 1, value: "Like New", checked: true },
@@ -80,6 +83,10 @@ function Listings() {
     }
   }, [windowSize.width]);
 
+  useEffect(() => {
+      console.log(filters.draft)
+  }, [filters.draft])
+
   async function getListings(searchValue = "") {
     try {
       if (!listingsLoading) {
@@ -90,9 +97,9 @@ function Listings() {
         p_search_value: searchValue,
         p_brand: filters.saved.brand,
         p_model: filters.saved.model,
-        p_min_price: filters.saved.minPrice,
+        p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
-        p_location: filters.saved.location,
+        p_location: filters.saved.location || "",
         p_condition: filters.saved.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
@@ -108,8 +115,6 @@ function Listings() {
         p_sort: sort,
         p_seller_id: null,
       });
-
-      console.log({ data, error });
 
       if (!data) throw "No listings available";
 
@@ -165,6 +170,31 @@ function Listings() {
               checked: e.target.checked,
             }),
           })),
+        },
+      };
+    });
+  }
+
+  function handleStateFilterSelect(e) {
+    setFilters((prevState) => {
+      return {
+        ...prevState,
+        draft: {
+          ...prevState.draft,
+          state: e.target.value,
+          city: "All",
+        },
+      };
+    });
+  }
+
+  function handleCityFilterSelect(e) {
+    setFilters((prevState) => {
+      return {
+        ...prevState,
+        draft: {
+          ...prevState.draft,
+          city: e.target.value,
         },
       };
     });
@@ -282,19 +312,31 @@ function Listings() {
                   />
                 </div>
                 <div className="filter-item">
-                  <label>By Location</label>
-                  <input
-                    placeholder="Charlotte, NC"
-                    type="text"
-                    onChange={(e) =>
-                      setFilters({
-                        ...filters,
-                        draft: { ...filters.draft, location: e.target.value },
-                      })
-                    }
-                    value={filters.draft.model}
-                  />
+                  <label>By State</label>
+
+                  <select onChange={handleStateFilterSelect}>
+                    <option>All</option>
+                    {states.map((state) => (
+                      <option>{state}</option>
+                    ))}
+                  </select>
                 </div>
+                <div className="filter-item">
+                  <label>By City</label>
+
+                  <select
+                    className=""
+                    disabled={filters.draft.state == "All"}
+                    onChange={handleCityFilterSelect}
+                    value={filters.draft.city}
+                  >
+                    <option>All</option>
+                    {statesAndCities[filters.draft.state]?.map((city) => (
+                      <option>{capitalizeWords(city)}</option>
+                    ))}
+                  </select>
+                </div>
+
                 <div className="filter-item">
                   <div className="min-max-price-inputs">
                     <div className="min-max-input-container">
@@ -346,7 +388,11 @@ function Listings() {
                   <label>By Condition</label>
                   <div className="checkbox-options">
                     {filters.draft.conditionOptions.map((conditionOption) => (
-                      <div className="checkbox-option">
+                      <div
+                        className={`checkbox-option ${
+                          conditionOption.checked ? "checked" : ""
+                        }`}
+                      >
                         <label>
                           <input
                             type="checkbox"
@@ -370,7 +416,11 @@ function Listings() {
                   <label>By Shipping</label>
                   <div className="checkbox-options">
                     {filters.draft.shippingOptions.map((shippingOption) => (
-                      <div className="checkbox-option">
+                      <div
+                        className={`checkbox-option ${
+                          shippingOption.checked ? "checked" : ""
+                        }`}
+                      >
                         <label>
                           <input
                             type="checkbox"
@@ -394,7 +444,11 @@ function Listings() {
                   <label>By Trades</label>
                   <div className="checkbox-options">
                     {filters.draft.tradeOptions.map((tradeOption) => (
-                      <div className="checkbox-option">
+                      <div
+                        className={`checkbox-option ${
+                          tradeOption.checked ? "checked" : ""
+                        }`}
+                      >
                         <label>
                           <input
                             type="checkbox"
@@ -418,7 +472,11 @@ function Listings() {
                   <label>By Negotiatable</label>
                   <div className="checkbox-options">
                     {filters.draft.negotiableOptions.map((negotiableOption) => (
-                      <div className="checkbox-option">
+                      <div
+                        className={`checkbox-option ${
+                          negotiableOption.checked ? "checked" : ""
+                        }`}
+                      >
                         <label>
                           <input
                             type="checkbox"
@@ -476,9 +534,9 @@ function Listings() {
           </div>
           <div className="listings-controls">
             {windowSize.width <= 625 ? (
-              <div className="control-group filters-button">
-                <button onClick={() => setSidebarToggled(true)}>Show Filters</button>
-              </div>
+              <button onClick={() => setSidebarToggled(true)} className="filters-button">
+                Show Filters
+              </button>
             ) : (
               <span>&nbsp;</span>
             )}

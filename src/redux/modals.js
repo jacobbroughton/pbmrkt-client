@@ -4,6 +4,7 @@ const modalsSlice = createSlice({
   name: "modals",
   initialState: {
     editItemModalToggled: false,
+    sidebarToggled: true
   },
   reducers: {
     toggleModal: (state, { payload }) => {

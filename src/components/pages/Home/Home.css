@@ -77,15 +77,23 @@
 .listings .listings-controls .control-group {
 }
 
-.listings .listings-controls .control-group select {
+.listings .listings-controls .filters-button,
+.listings .listings-controls .control-group select,
+.listings .search-bar form button {
+  font-size: 1rem;
+  color: white;
+  background-color: #444;
+  border: 1px solid grey;
   border-radius: 3px;
-  cursor: pointer;
   padding: 3px 5px;
-  background-color: #666;
+  cursor: pointer;
+
   transition: 0.1s ease background-color;
 }
 
-.listings .listings-controls .control-group select:hover {
+.listings .listings-controls .control-group select:hover,
+.listings .listings-controls .filters-button:hover,
+.listings .search-bar form button:hover {
   background-color: #5f5f5f;
 }
 
@@ -100,17 +108,19 @@
   top: 0;
   padding: 15px;
   max-height: 100%;
-  /* height: calc(100vh - 38px); */
+  overflow: hidden;
   border-right: #626262 1px solid;
   /* margin-top: -15px; */
   padding-top: 53px;
   padding-right: 15px;
-  height: 100%;
+  overflow: auto;
   background-color: var(--bg-primary);
+  max-width: 240px;
 }
 
 .listings .sidebar.over-nav {
-  z-index: 3;
+  z-index: 4;
+  padding-top: 15px;
 }
 
 .listings .sidebar-toggle-button {
@@ -135,13 +145,15 @@
   align-self: flex-start;
   fill: white;
   cursor: pointer;
-  padding: 7px 15px;
-  border-radius: 5px;
-  border: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #666;
+  font-size: 1rem;
+  color: white;
+  background-color: #444;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 7px 15px;
+  cursor: pointer;
+  transition: 0.1s ease background-color;
 }
 
 .listings .close-sidebar-button:hover {
@@ -184,7 +196,7 @@
   margin-bottom: 25px;
   gap: 15px;
   /* margin-top: 50px; */
-  height: calc(100% - 60px);
+  /* height: calc(100% - 60px); */
   padding-bottom: 30px;
 }
 
@@ -212,22 +224,54 @@
   font-size: 0.875rem;
 }
 
-.listings .filters > .filter-items .filter-item > label {
+.listings
+  .filters
+  > .filter-items
+  .filter-item
+  > .checkbox-options
+  > .checkbox-option
+  > label {
   font-size: 0.875rem;
+  cursor: pointer;
 }
 
 .listings .filters > .filter-items .filter-item > .checkbox-options > .checkbox-option {
   display: flex;
   gap: 5px;
   font-size: 0.875rem;
+  cursor: pointer !important;
+}
+
+.listings
+  .filters
+  > .filter-items
+  .filter-item
+  > .checkbox-options
+  > .checkbox-option:hover {
+  border-color: #aaa;
+}
+
+.listings .filters > .filter-items .filter-item select {
+  max-width: 100%;
+}
+
+.listings .filters > .filter-items .filter-item select:not(:disabled) {
+  cursor: pointer;
 }
 
 .listings .filters > .filter-items .filter-item input[type="text"],
-.listings .filters > .filter-items .filter-item input[type="number"] {
-  padding: 3px;
+.listings .filters > .filter-items .filter-item input[type="number"],
+.listings .filters > .filter-items .filter-item select {
+  padding: 3px 5px;
   border-radius: 3px;
   border: 1px solid #acacac;
   background-color: #3b3b3b;
+  font-size: 1rem;
+}
+
+.listings .filters > .filter-items .filter-item .min-max-input-container {
+  width: 100%;
+  overflow: hidden;
 }
 
 .listings .filters > .filter-items .filter-item .min-max-input-container input {
@@ -245,7 +289,52 @@
   outline: green;
 }
 
-.listings .filters .filter-warning {
+.listings .filters .radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.listings .filters > .filter-items .filter-item > .checkbox-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.listings
+  .filters
+  > .filter-items
+  .filter-item
+  > .checkbox-options
+  > .checkbox-option
+  label {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  gap: 5px;
+  background-color: #2b2b2b;
+  border: 1px solid grey;
+  padding: 3px 5px 3px 3px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.listings
+  .filters
+  > .filter-items
+  .filter-item
+  > .checkbox-options
+  > .checkbox-option.checked
+  label {
+  background-color: #3b3b3b;
+  border: 1px solid grey;
+}
+
+.filters .filter-warning {
   font-size: 0.875rem;
   color: var(--red);
 }
@@ -315,7 +404,6 @@
 .listings .grid .grid-item > .listing-card-info .price {
   font-size: 0.875rem;
   background-color: #666;
-  
 }
 
 .listings .grid .grid-item > .listing-card-info .price {
@@ -377,7 +465,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   .listings .grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -400,6 +488,7 @@
     background-color: var(--bg-primary);
     width: 100%;
     padding: 10px 15px;
+    z-index: 3;
   }
 
   .listings-section .listings-controls {
@@ -409,7 +498,7 @@
     width: calc(100% - 30px);
     transform: translateX(-50%);
     width: 100%;
-    z-index: 2;
+    z-index: 3;
     background-color: var(--bg-primary);
     padding: 10px 15px;
     border-bottom: #444 1px solid;

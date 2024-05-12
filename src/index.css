@@ -28,12 +28,6 @@
   outline-color: var(--lightgreen);
 }
 
-button,
-select,
-input {
-  appearance: none;
-}
-
 main {
   display: flex;
   flex-direction: column;
@@ -47,6 +41,8 @@ main {
 input[type='radio'] {
   accent-color: var(--lightgreen);
 }
+
+
 
 a {
   appearance: none;

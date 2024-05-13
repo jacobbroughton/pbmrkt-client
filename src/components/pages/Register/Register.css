@@ -13,6 +13,50 @@
   margin-bottom: 10px;
 }
 
+.register .modal.confirm-email {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: calc(100% - 30px);
+  max-width: 375px;
+}
+
+.register .modal.confirm-email .confirm-button {
+  background-color: var(--lightgreen);
+  padding: 7px 15px;
+  align-self: flex-start;
+  border-radius: 3px;
+  font-size: 1rem;
+  color: #212529;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+  width: 100%;
+  color: white;
+  text-shadow: 1px 1px 3px #21252953;
+  font-weight: 600;
+  transition: color 0.1s ease, background-color 0.1s ease;
+  cursor: pointer;
+}
+
+.register .modal.confirm-email .resend-email-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  gap: 10px;
+}
+
+.register .modal.confirm-email .resend-email-container button {
+padding: 0;
+border: 0;
+background-color: transparent;
+color: var(--lightgreen);
+font-size: 1rem;
+font-weight: 600;
+  
+}
+/* 
 .register form {
   display: flex;
   flex-direction: column;
@@ -32,10 +76,20 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 3px;
 }
 
 .register form .form-group label {
   font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.register form .form-block .username-warning {
+  font-size: 0.875rem;
+  color: var(--red);
 }
 
 .register form .form-group input,
@@ -59,3 +113,7 @@
   cursor: pointer;
   transition: 0.1s ease background-color;
 }
+
+.register form button[type='submit']:disabled {
+  color: #aaa;
+} */

@@ -4,13 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
 import LogOutIcon from "../Icons/LogOutIcon";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const rightSideMenuRef = useRef(null);
   const user = useSelector((state) => state.auth.session?.user);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     function handler(e) {
@@ -34,24 +35,18 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
+      dispatch(toggleModal({ key: "rightSideMenu", value: false }));
       const { data } = await supabase.auth.signOut();
 
-      console.log(data);
-
-      // dispatch(setUser(null));
-      dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-      navigate("/login");
+      if (!data) navigate("/login");
     } catch (e) {
-      if (typeof e === "string") {
-        alert(e);
-      } else if (e instanceof Error) {
-        alert("ERROR: " + e.message);
-      }
+      setError(e.toString());
     }
   }
 
   return (
     <div className="right-side-menu" ref={rightSideMenuRef}>
+      {error && <p className="error">{error}</p>}
       <Link
         to={`/user/${user?.id}`}
         className="menu-item"
@@ -61,7 +56,7 @@ const RightSideMenu = () => {
           <div className="profile-picture"></div>
           <div className="info">
             <label>View Profile</label>
-            <p className="user-email">{user.email}</p>
+            <p className="user-email">{user.username}</p>
           </div>
         </div>
       </Link>

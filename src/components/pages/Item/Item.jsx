@@ -33,13 +33,20 @@ const Item = () => {
       try {
         const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID });
 
-        const { data: data2, error: error2 } = await supabase.rpc(
+        if (error) throw error.message;
+        if (!data) throw "item not found";
+
+        const { data: data19, error: error2 } = await supabase.rpc(
           "get_item_photo_metadata",
           { p_item_id: itemID }
         );
 
-        setItem({ photos: data2, info: data[0] });
-        setSelectedPhoto(data2[0]);
+        if (error2) throw error2.message;
+
+        console.log(data);
+
+        setItem({ photos: data19, info: data[0] });
+        setSelectedPhoto(data19[0]);
       } catch (error) {
         setError(error);
       }
@@ -213,8 +220,8 @@ const Item = () => {
   const isAdmin = item?.info.created_by_id == user?.id;
 
   if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
-  if (!item) return <p>item not found</p>;
   if (error) return <p>There was an error - {error.toString()}</p>;
+  if (!item) return <p>item not found</p>;
   if (!item.info.eff_status) return <p>This item was deleted.</p>;
   return (
     <div className="item">
@@ -303,8 +310,8 @@ const Item = () => {
               <p className="heading">Seller Info</p>
               <p>Location: {item.info.location}</p>
               <p>
-                <Link to={`/user/${item.info.created_by_email}`}>
-                  {item.info.created_by_email}
+                <Link to={`/user/${item.info.created_by_username}`}>
+                  {item.info.created_by_username}
                 </Link>
               </p>
             </div>

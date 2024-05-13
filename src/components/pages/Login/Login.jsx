@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch } from "react-redux";
 import { supabase } from "../../../utils/supabase";
+import EyeIcon from "../../ui/Icons/EyeIcon";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isResetPasswordView, setIsResetPasswordView] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -74,7 +76,7 @@ const Login = () => {
 
   return (
     <div className="login">
-      {loginError && <div className="login-error">{loginError}</div>}
+      {loginError && <div className="error-text">{loginError}</div>}
       <h1>{isResetPasswordView ? "Reset Password" : "Login"}</h1>
       <form onSubmit={handleSubmit}>
         <p>
@@ -101,11 +103,19 @@ const Login = () => {
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input
-                  placeholder="Password"
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className='input-and-visible-toggle'>
+                  <input
+                    placeholder="Password"
+                    type={passwordVisible ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    type="button"
+                  >
+                    <EyeIcon closed={passwordVisible} />
+                  </button>
+                </div>
               </div>
             </>
           )}

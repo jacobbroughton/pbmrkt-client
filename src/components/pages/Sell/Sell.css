@@ -115,6 +115,7 @@
   align-items: flex-start;
   gap: 3px;
   width: 100%;
+  gap: 3px;
 }
 
 .sell form .form-group:first-child {

@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <nav>
-      <Link to="/">PBMRKT</Link>
+      <Link to="/" className='home-link'>PBMRKT</Link>
       <div className="nav-links">
         {auth.session?.user ? (
           <>

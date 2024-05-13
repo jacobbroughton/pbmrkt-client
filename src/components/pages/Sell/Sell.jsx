@@ -1,14 +1,12 @@
 import { useRef, useState } from "react";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
-import ToggleButton from "../../ui/ToggleButton/ToggleButton";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
-import { batch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
-import { read, readFile, writeFileXLSX } from "xlsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -138,7 +136,7 @@ const Sell = () => {
         p_brand: brand,
         p_created_by_id: user.id,
         p_details: details,
-        p_location: "Matthews, NC",
+        p_state: "NC",
         p_model: model,
         p_price: price,
         p_status: "Available",
@@ -148,15 +146,21 @@ const Sell = () => {
         p_negotiable: negotiable,
         p_condition: condition,
         p_shipping_cost: shippingCost,
+        p_city: "Matthews",
       });
+
+      if (error) throw error.message;
 
       if (!data) throw "Listed item id is undefined";
 
-      if (newCoverPhotoId /* put selected new cover photo id here */)
-        await supabase.rpc("update_cover_photo", {
+      if (newCoverPhotoId /* put selected new cover photo id here */) {
+        const { data: data2, error } = await supabase.rpc("update_cover_photo", {
           p_item_id: data,
           p_image_id: newCoverPhotoId,
         });
+
+        if (error) throw error.message;
+      }
 
       const imagePaths = photos.map(
         (photo) => `${user.id}/${generatedGroupId}/${photo.name}`
@@ -167,20 +171,19 @@ const Sell = () => {
         { p_item_id: data, p_group_id: generatedGroupId }
       );
 
+      if (error2) throw error2.message;
+
       imagePaths.forEach(async (path) => {
         const { data, error: error2 } = await supabase.storage
           .from("item_images")
           .move(`temp/${path}`, `saved/${path}`);
+        if (error2) throw error2.message;
       });
       setListedItemID(data);
       navigate(`/${data}`);
     } catch (e) {
-      console.error(e);
-      if (typeof e === "string") {
-        setSellError(e);
-      } else if (e instanceof Error) {
-        setSellError(e.message);
-      }
+      console.log(e);
+      setSellError(e.toString());
       setLoading(false);
     }
   }
@@ -209,68 +212,76 @@ const Sell = () => {
 
   let index = 0;
   async function handleImageUpload(imageFiles) {
-    const tempImages = [];
+    try {
+      const tempImages = [];
 
-    setImagesUploading(true);
+      setImagesUploading(true);
 
-    if (numPhotosUploaded == 0) {
-      index += 1;
-      setNumPhotosUploaded(index);
-    }
+      if (numPhotosUploaded == 0) {
+        index += 1;
+        setNumPhotosUploaded(index);
+      }
 
-    for (let i = 0; i < imageFiles.length; i++) {
-      const thisUploadUUID = uuidv4();
-      const file = imageFiles[i];
+      for (let i = 0; i < imageFiles.length; i++) {
+        const thisUploadUUID = uuidv4();
+        const file = imageFiles[i];
+        const { data, error } = await supabase.storage
+          .from("item_images")
+          .upload(`temp/${user.id}/${generatedGroupId}/${thisUploadUUID}`, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (i == imageFiles.length - 1) {
+          setImagesUploading(false);
+        }
+
+        if (error) throw error.message;
+
+        const { data: data22, error: error2 } = await supabase.rpc(
+          "add_item_photo_temp",
+          {
+            p_group_id: generatedGroupId,
+            p_generated_id: data.id,
+            p_full_path: data.fullPath,
+            p_path: data.path,
+            p_is_cover: i == 0 ? 1 : 0,
+            p_created_by_id: user.id,
+          }
+        );
+        if (error2) throw error2.message;
+
+        console.log("add item photo temp", data22);
+        tempImages.push(data22[0]);
+
+        index += 1;
+        setNumPhotosUploaded(index);
+      }
+
       const { data, error } = await supabase.storage
         .from("item_images")
-        .upload(`temp/${user.id}/${generatedGroupId}/${thisUploadUUID}`, file, {
-          cacheControl: "3600",
-          upsert: false,
+        .list(`temp/${user.id}/${generatedGroupId}/`, {
+          limit: 100,
+          offset: 0,
         });
 
-      if (i == imageFiles.length - 1) {
-        setImagesUploading(false);
+      if (error) throw error.message;
+
+      if (data !== null) {
+        console.log(data);
+        setNewCoverPhotoId(data[0].id);
+        setPhotos(
+          data.map((photo, i) => ({
+            ...photo,
+            is_cover: i == 0,
+          }))
+        );
+      } else {
+        alert("error uploading images");
       }
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      const { data: data2, error: error2 } = await supabase.rpc("add_item_photo_temp", {
-        p_group_id: generatedGroupId,
-        p_generated_id: data.id,
-        p_full_path: data.fullPath,
-        p_path: data.path,
-        p_is_cover: i == 0 ? 1 : 0,
-        p_created_by_id: user.id,
-      });
-      if (error2) console.error(error2);
-
-      console.log("add item photo temp", data2);
-      tempImages.push(data2[0]);
-
-      index += 1;
-      setNumPhotosUploaded(index);
-    }
-
-    const { data, error } = await supabase.storage
-      .from("item_images")
-      .list(`temp/${user.id}/${generatedGroupId}/`, {
-        limit: 100,
-        offset: 0,
-      });
-    if (data !== null) {
-      console.log(data);
-      setNewCoverPhotoId(data[0]);
-      setPhotos(
-        data.map((photo, i) => ({
-          ...photo,
-          is_cover: i == 0,
-        }))
-      );
-    } else {
-      alert("error uploading images");
+    } catch (error) {
+      console.error(error);
+      setSellError(error.toString());
     }
   }
 
@@ -357,16 +368,19 @@ const Sell = () => {
 
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
 
-      const { data: data2, error: error2 } = await supabase.rpc("delete_temp_images", {
+      if (error) throw error.message;
+
+      const { error: error2 } = await supabase.rpc("delete_temp_images", {
         p_user_id: user.id,
         p_group_id: generatedGroupId,
       });
 
-      console.log(data2);
+      if (error2) throw error2.message;
 
       setPhotos([]);
-      setNumPhotosUploaded(0)
+      setNumPhotosUploaded(0);
     } catch (error) {
+      console.error(error);
       setSellError(error.toString());
     }
   }
@@ -380,7 +394,7 @@ const Sell = () => {
 
   return (
     <div className="sell">
-      {sellError && <div className="sell-error">{sellError}</div>}
+      {sellError && <div className="error-text">{sellError}</div>}
       <h1>Create a new listing</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-block">

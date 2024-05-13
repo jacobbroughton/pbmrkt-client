@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Register.css";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { setSession } from "../../../redux/auth";
+import EyeIcon from "../../ui/Icons/EyeIcon";
+import { toggleModal } from "../../../redux/modals";
 
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const modals = useSelector((state) => state.modals);
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   // const [firstName, setFirstName] = useState("");
@@ -18,7 +20,22 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [registerError, setRegisterError] = useState("");
+  const [usernameExists, setUsernameExists] = useState(0);
+  const [usernameExistsLoading, setUsernameExistsLoading] = useState("");
+  const [usernameIsInitial, setUsernameIsInitial] = useState(true);
+  const [usernameHasBeenInteracted, setUsernameHasBeenInteracted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  useEffect(() => {
+    const debounceFn = setTimeout(() => {
+      if (username == "" && usernameIsInitial) return;
+
+      checkForExistingMatchingUsername(username);
+    }, 1500);
+
+    return () => clearTimeout(debounceFn);
+  }, [username]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -26,65 +43,76 @@ const Register = () => {
     try {
       setLoading(true);
 
-      // const response = await fetch(`http://localhost:3001/register`, {
-      //   method: "post",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json;charset=UTF-8",
-      //     "Access-Control-Allow-Origin": "http://localhost:3000",
-      //   },
-      //   credentials: "include",
-      //   body: JSON.stringify({
-      //     username,
-      //     password,
-      //   }),
-      // });
-
-      // if (!response || response.status !== 200) {
-      //   throw "ERROR: " + response?.statusText || "Something happened";
-      // }
-
-      // const data = await response.json();
-
-      // if (!data) throw "There was a problem parsing register response";
-
-      // console.log("register ->", data);
-      // // dispatch(setUser(data.user));
-      // navigate("/");
-
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            // firstName,
-            // lastName,
             username,
             phoneNumber,
           },
         },
       });
 
-      // TODO - Add user to local database
-
       if (error) throw error.message;
+      if (!data) throw "no data after signup";
 
-      console.log("Sign up", { data, error });
-      dispatch(setSession(data));
-      navigate("/");
+      const user = data.user;
+
+      console.log("after supabase sign up", data);
+
+      // TODO - Add user to local database
+      const { error: error2 } = await supabase.rpc("add_user", {
+        p_generated_id: user.id,
+        p_email: user.email,
+        p_username: username,
+        p_phone_number: phoneNumber,
+      });
+
+      if (error2) throw error2.message;
+
+      dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
+
+      // dispatch(setSession(data));
+      // navigate("/login");
     } catch (e) {
       setRegisterError(e.toString());
       setLoading(false);
     }
+
   }
 
-  // function handleGoogleAuth(e) {
-  //   e.preventDefault();
+  async function confirmUserCheckedTheirEmail() {
+    navigate("/login");
+    dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
+  }
 
-  //   supabase.auth.signInWithOAuth({
-  //     provider: "google",
-  //   });
-  // }
+  async function checkForExistingMatchingUsername(newUsername) {
+    try {
+      setUsernameIsInitial(false);
+      setUsernameExistsLoading(true);
+
+      const { data, error } = await supabase.rpc("check_for_existing_username", {
+        p_username: newUsername,
+      });
+
+      if (error) throw error.message;
+
+      setUsernameExists(data);
+    } catch (error) {
+      setRegisterError(error.toString());
+    }
+
+    setUsernameExistsLoading(false);
+  }
+
+  async function handleConfirmationEmailResend() {
+    try {
+      const { data, error } = await supabase.auth.resend();
+    } catch (error) {
+      setRegisterError(error.toString());
+    }
+  }
 
   const isValidEmail = (email) => {
     return String(email)
@@ -95,68 +123,83 @@ const Register = () => {
   };
 
   const submitDisabled =
-    !isValidEmail(email) ||
-    username === "" ||
-    password === "" ||
-    // firstName == "" ||
-    // lastName == "" ||
-    phoneNumber == "";
+    !isValidEmail(email) || username === "" || password === "" || password.length <= 6; //|| phoneNumber == "";
 
   return (
     <div className="register">
-      {registerError && <div className="register-error">{registerError}</div>}
+      {registerError && <div className="error-text">{registerError}</div>}
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <p>
           Have an account already? <Link to="/login">Sign in</Link>
         </p>
-        {/* <button className='google-auth-button' onClick={handleGoogleAuth} type="button">Sign in with Google</button> */}
+
         <div className="form-block">
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (!usernameHasBeenInteracted) setUsername(e.target.value.split("@")[0]);
+              }}
               type="email"
             />
+            {email == "" ? (
+              <p className="small-text">Email field can't be empty</p>
+            ) : !isValidEmail(email) ? (
+              <p className="error-text small-text">Not a valid email</p>
+            ) : (
+              false
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              placeholder="Password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="input-and-visible-toggle">
+              <input
+                placeholder="Password"
+                type={passwordVisible ? "text" : "password"}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button onClick={() => setPasswordVisible(!passwordVisible)} type="button">
+                <EyeIcon closed={passwordVisible} />
+              </button>
+            </div>
           </div>
         </div>
 
         <div className="form-block">
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">
+              Username {/* <p className="info-icon-span" title="">?</p> */}
+            </label>
             <input
               placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                // setUsernameIsInitial(true);
+                setUsername(e.target.value);
+                // checkForExistingMatchingUsername(e.target.value);
+              }}
+              onClick={() => setUsernameHasBeenInteracted(true)}
+              onFocus={() => setUsernameHasBeenInteracted(true)}
               value={username}
             />
+            {!loading &&
+              (usernameExistsLoading ? (
+                <p className="small-text">Checking if this username exists...</p>
+              ) : usernameExists == 1 ? (
+                <p className="small-text error-text">
+                  This username is already attached to an account{" "}
+                </p>
+              ) : !usernameIsInitial ? (
+                <p className="small-text">You're good to use this username</p>
+              ) : (
+                false
+              ))}
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="first-name">First Name</label>
-            <input
-              placeholder="First Name"
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstName}
-            />
-          </div>
+
           <div className="form-group">
-            <label htmlFor="last-name">Last Name</label>
-            <input
-              placeholder="Last Name"
-              onChange={(e) => setLastName(e.target.value)}
-              value={lastName}
-            />
-          </div> */}
-          <div className="form-group">
-            <label htmlFor="phone-number">Phone Number</label>
+            <label htmlFor="phone-number">Phone Number (Optional)</label>
             <input
               placeholder="Phone Number"
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -170,7 +213,29 @@ const Register = () => {
           Submit
         </button>
       </form>
-      {loading && <LoadingOverlay message="Logging you in..." />}
+      {modals.verifyUserCheckedEmailModalToggled && (
+        <div className="modal confirm-email">
+          <p className="large-text ">Check your email</p>
+          <p className="small-text">
+            An email was just sent to you containing a confirmation link. Click 'confirm my email' and return here
+            or continue through the email.
+          </p>
+          <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
+            I have confirmed my email
+          </button>
+          <div className="resend-email-container">
+            <p className="small-text">Didn't get an email?</p>
+            <button onClick={handleConfirmationEmailResend}>Resend email</button>
+          </div>
+        </div>
+      )}
+      {(loading || modals.verifyUserCheckedEmailModalToggled) && (
+        <LoadingOverlay
+          message={
+            modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"
+          }
+        />
+      )}
     </div>
   );
 };

@@ -2,11 +2,14 @@ import { useParams } from "react-router-dom";
 import "./Profile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const { userID } = useParams();
+  // const { userID } = useParams();
   const [listingsLoading, setListingsLoading] = useState(true);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
+
+  const user = useSelector(state => state.auth.session.user)
 
   useEffect(() => {
     getProfile();
@@ -18,11 +21,20 @@ const Profile = () => {
 
   async function getProfile() {
     try {
-      const { data: sellerProfileData, error: error2 } = await supabase.rpc("get_items", {
-        p_user_email: userID,
-      });
 
-      if (!sellerProfileData) throw "No seller profile data found";
+      const {data: data1, error: error1} = await supabase.rpc('get_user_profile_complex', {
+        p_user_id: user.id
+      })
+
+      console.log(data1, error1)
+
+      // const { data: sellerProfileData, error: error2 } = await supabase.rpc("get_items", {
+      //   p_user_email: userID,
+      // });
+
+      // if (error2) throw error2.message;
+
+      // if (!sellerProfileData) throw "No seller profile data found";
 
       // Get Items
       const { data, error } = await supabase.rpc("get_items", {
@@ -31,6 +43,7 @@ const Profile = () => {
         p_model: "",
         p_min_price: 0,
         p_max_price: null,
+        p_state: "",
         p_condition: [
           { id: 0, value: "Brand New", checked: true },
           { id: 1, value: "Like New", checked: true },
@@ -59,8 +72,8 @@ const Profile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: sellerProfileData.id,
-        p_location: "",
+        p_seller_id: user.id,
+        p_city: "",
       });
 
       if (!data) throw "No listings available";
@@ -71,6 +84,6 @@ const Profile = () => {
   }
 
   if (error) return <p>{error}</p>;
-  return <div>{userID}</div>;
+  return <div>{user.username}</div>;
 };
 export default Profile;

@@ -38,7 +38,7 @@ main {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  padding-top: 55px;
+  padding-top: 65px;
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
 }
@@ -52,7 +52,6 @@ a {
   color: var(--lightgreen);
   text-decoration: none;
 }
-
 
 textarea {
   resize: vertical;
@@ -72,8 +71,17 @@ textarea {
   width: 100%;
 }
 
+.large-text {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
 .small-text {
   font-size: 0.875rem;
+}
+
+.error-text {
+  color: var(--red);
 }
 
 .tiny-text {
@@ -82,4 +90,188 @@ textarea {
 
 .auth-wrapper {
   color: white;
+}
+
+.info-icon-span {
+  background-color: #666;
+  border-radius: 100px;
+  width: 16px;
+  height: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  cursor: help;
+  font-size: 0.875rem;
+  align-items: center;
+}
+
+/* Forms */
+
+/* Resets autocomplete colors */
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #3b3b3b inset !important;
+}
+/* Additionally, you can use this to change the text color: */
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill{
+    -webkit-text-fill-color: yellow !important;
+}
+
+.reset-password form,
+.update-password form,
+.register form,
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reset-password form .form-block,
+.update-password form .form-block,
+.register form .form-block,
+.login form .form-block {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reset-password form .form-group,
+.update-password form .form-group,
+.register form .form-group,
+.login form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.reset-password form .form-group label,
+.update-password form .form-group label,
+.register form .form-group label,
+.login form .form-group label {
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.reset-password form .form-group .input-and-visible-toggle,
+.update-password form .form-group .input-and-visible-toggle,
+.register form .form-group .input-and-visible-toggle,
+.login form .form-group .input-and-visible-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.reset-password form .form-group .input-and-visible-toggle button,
+.update-password form .form-group .input-and-visible-toggle button,
+.register form .form-group .input-and-visible-toggle button,
+.login form .form-group .input-and-visible-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.reset-password form .form-group .input-and-visible-toggle svg,
+.update-password form .form-group .input-and-visible-toggle svg,
+.register form .form-group .input-and-visible-toggle svg,
+.login form .form-group .input-and-visible-toggle svg {
+  fill: white;
+  width: 15px;
+}
+
+.reset-password form .form-group .input-and-visible-toggle input,
+.update-password form .form-group .input-and-visible-toggle input,
+.register form .form-group .input-and-visible-toggle input,
+.login form .form-group .input-and-visible-toggle input {
+  width: 100%;
+}
+
+.reset-password form .form-group input,
+.update-password form .form-group input,
+.register form .form-group input,
+.login form .form-group input {
+  padding: 3px 5px;
+  border-radius: 3px;
+  border: 1px solid grey;
+  background-color: #3b3b3b;
+  color: white;
+  font-size: 1rem;
+}
+
+.reset-password form button[type="submit"],
+.update-password form button[type="submit"],
+.register form button[type="submit"],
+.login form button[type="submit"] {
+  align-self: flex-start;
+  font-size: 1rem;
+  color: white;
+  background-color: #444;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 3px 5px;
+  cursor: pointer;
+  transition: 0.1s ease background-color;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.reset-password form button[type="submit"]:disabled,
+.update-password form button[type="submit"]:disabled,
+.register form button[type="submit"]:disabled,
+.login form button[type="submit"]:disabled {
+  color: #aaa;
+  cursor: disabled;
+}
+
+.modal {
+  z-index: 2;
+  background-color: #333;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid grey;
+  box-shadow: 3px 3px 15px #181818;
+}
+
+.cta-button {
+  background-color: var(--lightgreen);
+  padding: 7px 15px;
+  align-self: flex-start;
+  border-radius: 3px;
+  font-size: 1rem;
+  color: #212529;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+  width: 100%;
+  color: white;
+  text-shadow: 1px 1px 3px #21252953;
+  font-weight: 600;
+  transition: color 0.1s ease, background-color 0.1s ease;
+}
+
+.cta-button.apply {
+  background-color: var(--lightgreen);
 }

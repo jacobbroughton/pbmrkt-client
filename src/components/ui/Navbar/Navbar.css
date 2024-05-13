@@ -12,6 +12,10 @@ nav {
   gap: 40px;
 }
 
+nav .home-link {
+  font-weight: 600;
+}
+
 nav .nav-links {
   display: flex;
   align-items: center;
@@ -19,8 +23,8 @@ nav .nav-links {
 }
 
 nav .nav-links .right-side-menu-button {
-  height: 25px;
-  width: 25px;
+  height: 35px;
+  width: 35px;
   border-radius: 100px;
   display: flex;
   align-items: center;

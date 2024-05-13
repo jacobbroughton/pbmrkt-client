@@ -42,7 +42,7 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password">
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error-text">{error}</div>}
       <h1>Reset Password</h1>
       <form onSubmit={handleRequestEmail}>
         <p>

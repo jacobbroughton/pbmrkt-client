@@ -21,8 +21,24 @@ function App() {
 
   useEffect(() => {
     setSessionLoading(true);
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      dispatch(setSession(session));
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      console.log("here", session.user.id)
+
+      const {data: data, error: error} = await supabase.rpc('get_user_profile_simple', {
+        p_user_id: session.user.id
+      })
+
+      console.log(data, error)
+
+      const sbUserWithDBUser = {
+        ...session.user,
+        ...data[0]
+      }
+
+      dispatch(setSession({
+        ...session,
+        user: sbUserWithDBUser
+      }));
     });
 
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {

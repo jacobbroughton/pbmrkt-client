@@ -68,11 +68,6 @@ function Listings() {
   });
 
   useEffect(() => {
-    // console.log({ sidebarToggled, windowWidth: windowSize.width });
-    // console.log({
-    //   firstIf: !sidebarToggled && windowSize.width > 625,
-    //   secondIf: sidebarToggled && windowSize.width < 625 && sidebarNeedsUpdate,
-    // });
     if (windowSize.width > 625) {
       setSidebarToggled(true);
       setSidebarNeedsUpdate(true);
@@ -99,7 +94,7 @@ function Listings() {
         p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
-        p_location: filters.saved.location || "",
+        p_state: filters.saved.state || "",
         p_condition: filters.saved.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
@@ -114,7 +109,10 @@ function Listings() {
           .map((option) => option.value),
         p_sort: sort,
         p_seller_id: null,
+        p_city: filters.saved.city || "",
       });
+
+      if (error) throw error.message
 
       if (!data) throw "No listings available";
 
@@ -246,11 +244,25 @@ function Listings() {
     saved: filters.saved.negotiableOptions,
   });
 
+  function handleFiltersReset(e) {
+
+    console.log({
+      ...filters,
+      draft: initialFilters
+    })
+    setFilters({
+      ...filters,
+      draft: initialFilters
+    })
+  }
+
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
       filters.draft.model == filters.saved.model &&
       filters.draft.minPrice == filters.saved.minPrice &&
       filters.draft.maxPrice == filters.saved.maxPrice &&
+      filters.draft.city == filters.saved.city &&
+      filters.draft.state == filters.saved.state &&
       filters.draft.negotiableOptions == filters.saved.negotiableOptions &&
       filters.draft.tradeOptions == filters.saved.tradeOptions &&
       filters.draft.conditionOptions == filters.saved.conditionOptions &&
@@ -281,8 +293,9 @@ function Listings() {
                   <DoubleArrow direction="left" />
                 </button>
               )}
+              <button onClick={handleFiltersReset} type='button' className='reset-button'>Reset</button>
               <button
-                className="apply-button"
+                className="cta-button apply"
                 type="submit"
                 disabled={applyButtonDisabled}
               >
@@ -541,7 +554,7 @@ function Listings() {
           <div className="listings-controls">
             {windowSize.width <= 625 ? (
               <button onClick={() => setSidebarToggled(true)} className="filters-button">
-                Show Filters
+                Filters
               </button>
             ) : (
               <span>&nbsp;</span>

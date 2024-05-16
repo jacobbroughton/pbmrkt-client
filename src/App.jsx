@@ -9,7 +9,8 @@ import Item from "./components/pages/Item/Item.jsx";
 import { supabase } from "./utils/supabase.js";
 import Login from "./components/pages/Login/Login.jsx";
 import Register from "./components/pages/Register/Register.jsx";
-import Profile from "./components/pages/Profile/Profile.jsx";
+import UserProfile from "./components/pages/UserProfile/UserProfile.jsx";
+import SellerProfile from "./components/pages/SellerProfile/SellerProfile.jsx";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
 
@@ -22,23 +23,33 @@ function App() {
   useEffect(() => {
     setSessionLoading(true);
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      console.log("here", session.user.id)
+      try {
+        console.log("here", session.user.id);
 
-      const {data: data, error: error} = await supabase.rpc('get_user_profile_simple', {
-        p_user_id: session.user.id
-      })
+        const { data: data, error: error } = await supabase.rpc(
+          "get_user_profile_simple",
+          {
+            p_username: session.user.user_metadata.username,
+          }
+        );
 
-      console.log(data, error)
+        if (error) throw error.message;
+        console.log(data, error);
 
-      const sbUserWithDBUser = {
-        ...session.user,
-        ...data[0]
+        const sbUserWithDBUser = {
+          ...session.user,
+          ...data[0],
+        };
+
+        dispatch(
+          setSession({
+            ...session,
+            user: sbUserWithDBUser,
+          })
+        );
+      } catch (error) {
+        console.error(error.toString())
       }
-
-      dispatch(setSession({
-        ...session,
-        user: sbUserWithDBUser
-      }));
     });
 
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -83,9 +94,11 @@ function App() {
           <Route element={<Login />} path="/login" />
           <Route element={<PrivateRoutes />}>
             <Route path="/sell" element={<Sell />} />
-            <Route path="/user/:userID" element={<Profile />} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
+          <Route path="/user/:username" element={<SellerProfile />} />
+
           <Route element={<Item />} path="/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>

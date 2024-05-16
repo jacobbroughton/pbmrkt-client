@@ -7,6 +7,8 @@ const modalsSlice = createSlice({
     sidebarToggled: true,
     rightSideMenuToggled: false,
     verifyUserCheckedEmailModalToggled: false,
+    addReviewModalToggled: false,
+    sellerReviewsModalToggled: false
   },
   reducers: {
     toggleModal: (state, { payload }) => {

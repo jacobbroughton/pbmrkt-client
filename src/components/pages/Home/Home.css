@@ -1,38 +1,38 @@
-.listings {
+.home {
   display: flex;
   flex-direction: column;
   gap: 20px;
   height: 100%;
 }
 
-.listings .listings-section {
+.home .listings-section {
   width: 100%;
   margin-left: 241px;
 }
 
 /* * Search bar */
-.listings .search-bar {
+.home .search-bar {
   width: 100%;
   margin-bottom: 20px;
 }
 
-.listings .search-bar form {
+.home .search-bar form {
   display: flex;
   width: 100%;
   gap: 10px;
 }
 
-.listings .search-bar form svg {
+.home .search-bar form svg {
   width: 15px;
   fill: white;
 }
 
-.listings .search-bar form .search-input-container {
+.home .search-bar form .search-input-container {
   position: relative;
   width: 100%;
 }
 
-.listings .search-bar form .search-input-container input {
+.home .search-bar form .search-input-container input {
   width: 100%;
   padding: 5px 10px;
   padding-left: 35px;
@@ -42,14 +42,14 @@
   background-color: #3b3b3b;
 }
 
-.listings .search-bar form .search-input-container .search-icon {
+.home .search-bar form .search-input-container .search-icon {
   position: absolute;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.listings .search-bar form button {
+.home .search-bar form button {
   padding: 5px 10px;
   background-color: #666;
   border: 0;
@@ -57,15 +57,15 @@
   font-size: 1rem;
 }
 
-.listings .search-bar form button:not(:disabled) {
+.home .search-bar form button:not(:disabled) {
   cursor: pointer;
 }
 
-.listings .search-bar form button:not(:disabled):hover {
+.home .search-bar form button:not(:disabled):hover {
   background-color: #6f6f6f;
 }
 
-.listings .listings-controls {
+.home .listings-controls {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -75,12 +75,12 @@
   font-size: 0.875rem;
 }
 
-.listings .listings-controls .control-group {
+.home .listings-controls .control-group {
 }
 
-.listings .listings-controls .filters-button,
-.listings .listings-controls .control-group select,
-.listings .search-bar form button {
+.home .listings-controls .filters-button,
+.home .listings-controls .control-group select,
+.home .search-bar form button {
   font-size: 1rem;
   color: white;
   background-color: #444;
@@ -88,23 +88,22 @@
   border-radius: 3px;
   padding: 3px 5px;
   cursor: pointer;
-
   transition: 0.1s ease background-color;
 }
 
-.listings .listings-controls .control-group select:hover,
-.listings .listings-controls .filters-button:hover,
-.listings .search-bar form button:hover {
+.home .listings-controls .control-group select:hover,
+.home .listings-controls .filters-button:hover,
+.home .search-bar form button:hover {
   background-color: #5f5f5f;
 }
 
-.listings > .sidebar-and-grid {
+.home > .sidebar-and-grid {
   display: flex;
   gap: 20px;
   height: 100%;
 }
 
-.listings .sidebar {
+.home .sidebar {
   position: fixed;
   left: 0;
   top: 0;
@@ -121,12 +120,12 @@
   max-width: 240px;
 }
 
-.listings .sidebar.over-nav {
+.home .sidebar.over-nav {
   z-index: 4;
   padding-top: 15px;
 }
 
-.listings .sidebar-toggle-button {
+.home .sidebar-toggle-button {
   background-color: var(--lightgreen);
   padding: 7px 15px;
   align-self: flex-start;
@@ -144,7 +143,7 @@
   /* position: absolute; */
 }
 
-.listings .close-sidebar-button {
+.home .close-sidebar-button {
   align-self: flex-start;
   fill: white;
   cursor: pointer;
@@ -159,11 +158,11 @@
   transition: 0.1s ease background-color;
 }
 
-.listings .close-sidebar-button:hover {
+.home .close-sidebar-button:hover {
   background-color: #6f6f6f;
 }
 
-.listings .sidebar .apply-button {
+.home .sidebar .apply-button {
   background-color: var(--lightgreen);
   padding: 7px 15px;
   align-self: flex-start;
@@ -181,18 +180,18 @@
   /* position: absolute; */
 }
 
-.listings .sidebar .apply-button:disabled {
+.home .sidebar .apply-button:disabled {
   color: grey;
   background-color: #444;
   cursor: not-allowed;
 }
 
-.listings .sidebar .apply-button:not(:disabled):hover {
+.home .sidebar .apply-button:not(:disabled):hover {
   filter: brightness(1.1);
 }
 
 /* * Filters */
-.listings .filters {
+.home .filters {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -215,35 +214,35 @@
   text-decoration: underline;
 }
 
-.listings .filters > .filter-items {
+.home .filters > .filter-items {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.listings .filters > .filter-items .filter-item {
+.home .filters > .filter-items .filter-item {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.listings .filters > .filter-items .filter-item label {
+.home .filters > .filter-items .filter-item label {
   font-size: 0.875rem;
 }
 
-.listings .filters > .filter-items .filter-item .min-max-price-inputs {
+.home .filters > .filter-items .filter-item .min-max-price-inputs {
   display: flex;
   gap: 10px;
   /* flex-direction: column; */
 }
 
-.listings .filters > .filter-items .filter-item .min-max-input-container {
+.home .filters > .filter-items .filter-item .min-max-input-container {
   display: flex;
   flex-direction: column;
   font-size: 0.875rem;
 }
 
-.listings
+.home
   .filters
   > .filter-items
   .filter-item
@@ -254,33 +253,28 @@
   cursor: pointer;
 }
 
-.listings .filters > .filter-items .filter-item > .checkbox-options > .checkbox-option {
+.home .filters > .filter-items .filter-item > .checkbox-options > .checkbox-option {
   display: flex;
   gap: 5px;
   font-size: 0.875rem;
   cursor: pointer !important;
 }
 
-.listings
-  .filters
-  > .filter-items
-  .filter-item
-  > .checkbox-options
-  > .checkbox-option:hover {
+.home .filters > .filter-items .filter-item > .checkbox-options > .checkbox-option:hover {
   border-color: #aaa;
 }
 
-.listings .filters > .filter-items .filter-item select {
+.home .filters > .filter-items .filter-item select {
   max-width: 100%;
 }
 
-.listings .filters > .filter-items .filter-item select:not(:disabled) {
+.home .filters > .filter-items .filter-item select:not(:disabled) {
   cursor: pointer;
 }
 
-.listings .filters > .filter-items .filter-item input[type="text"],
-.listings .filters > .filter-items .filter-item input[type="number"],
-.listings .filters > .filter-items .filter-item select {
+.home .filters > .filter-items .filter-item input[type="text"],
+.home .filters > .filter-items .filter-item input[type="number"],
+.home .filters > .filter-items .filter-item select {
   padding: 3px 5px;
   border-radius: 3px;
   border: 1px solid grey;
@@ -289,47 +283,41 @@
   color: white;
 }
 
-.listings .filters > .filter-items .filter-item .min-max-input-container {
+.home .filters > .filter-items .filter-item .min-max-input-container {
   width: 100%;
   overflow: hidden;
 }
 
-.listings .filters > .filter-items .filter-item .min-max-input-container input {
+.home .filters > .filter-items .filter-item .min-max-input-container input {
   max-width: 100px;
 }
 
-/* .listings .filters > .filter-items  .filter-item .min-max-input-container input.error {
+/* .home .filters > .filter-items  .filter-item .min-max-input-container input.error {
   border-color: #ff607d;
   background-color: #3B3B3B;
   outline-color: blue;
 } */
 
-.listings .filters > .filter-items .filter-item .min-max-input-container input:focus,
-.listings .filters > .filter-items .filter-item .min-max-input-container input:active {
+.home .filters > .filter-items .filter-item .min-max-input-container input:focus,
+.home .filters > .filter-items .filter-item .min-max-input-container input:active {
   outline: green;
 }
 
-.listings .filters .radio-options {
+.home .filters .radio-options {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
 
-.listings .filters > .filter-items .filter-item > .checkbox-options {
+.home .filters > .filter-items .filter-item > .checkbox-options {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.listings
-  .filters
-  > .filter-items
-  .filter-item
-  > .checkbox-options
-  > .checkbox-option
-  label {
+.home .filters > .filter-items .filter-item > .checkbox-options > .checkbox-option label {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -343,7 +331,7 @@
   cursor: pointer;
 }
 
-.listings
+.home
   .filters
   > .filter-items
   .filter-item
@@ -359,138 +347,20 @@
   color: var(--red);
 }
 
-/* * Grid */
-.listings .grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
-}
-
-.listings .grid .grid-item {
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-  position: relative;
-  height: 270px;
-}
-
-.listings .grid .grid-item:hover .image-container {
-  transform: translateY(-1px);
-  border: 2px solid var(--lightgreen);
-}
-
-.listings .grid .grid-item > .image-container {
-  max-width: 100%;
-  max-height: 200px;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #444;
-  padding: 5px;
-  border-radius: 3px;
-  border: grey 2px solid;
-  transition: transform 0.1s ease, background-color 0.1s ease;
-}
-
-.listings .grid .grid-item > .image-container > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 3px;
-}
-
-.listings .grid .grid-item > .image-container.cover {
-  border: 1px solid lightgrey;
-}
-
-.listings .grid .grid-item > .listing-card-info {
-  /* position: absolute; */
-  /* z-index: 2; */
-  /* bottom: -40px; */
-  /* left: 0; */
-  margin-top: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.listings .grid .grid-item > .listing-card-info .what-is-this,
-.listings .grid .grid-item > .listing-card-info .price {
-  font-size: 0.875rem;
-  text-decoration: none !important;
-}
-
-.listings .grid .grid-item > .listing-card-info .price {
-  border-top-right-radius: 3px;
-  font-weight: 600;
-}
-
-.listings .grid .grid-item:hover > .listing-card-info .what-is-this {
-  text-decoration: none !important;
-}
-
-.listings .view-toggle {
-  margin-bottom: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.listings .view-toggle button {
-  padding: 3px 5px;
-  font-size: 0.875rem;
-  border: 1px solid grey;
-  border-radius: 3px;
-  background-color: #555;
-  cursor: pointer;
-}
-
-.listings .view-toggle button.toggled {
-  border: 1px solid var(--lightgreen);
-}
-
-@media screen and (max-width: 1000px) {
-  .listings .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .listings .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media screen and (max-width: 625px) {
-  .listings .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .listings .listings-section {
+  .home .listings-section {
     margin-left: 0;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .listings .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .listings .grid-item {
-    height: 150px;
-  }
-
-  .listings .listings-section {
+  .home .listings-section {
     margin-left: 0;
   }
 
-  .listings-section .search-bar {
+  .home .listings-section .search-bar {
     position: fixed;
-    top: 38px;
+    top: 55px;
     left: 50%;
     width: calc(100% - 30px);
     transform: translateX(-50%);
@@ -501,9 +371,9 @@
     z-index: 3;
   }
 
-  .listings-section .listings-controls {
+  .home .listings-section .listings-controls {
     position: fixed;
-    top: 88px;
+    top: 106px;
     left: 50%;
     width: calc(100% - 30px);
     transform: translateX(-50%);
@@ -514,13 +384,7 @@
     border-bottom: #444 1px solid;
   }
 
-  .listings .grid {
-    margin-top: 88px;
-  }
-}
-
-@media screen and (max-width: 325px) {
-  .listings .grid {
-    grid-template-columns: 1fr;
+  .home .grid {
+    padding-top: 110px;
   }
 }

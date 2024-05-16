@@ -48,7 +48,7 @@ const RightSideMenu = () => {
     <div className="right-side-menu" ref={rightSideMenuRef}>
       {error && <p className="error">{error}</p>}
       <Link
-        to={`/user/${user?.id}`}
+        to={`/profile`}
         className="menu-item"
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >

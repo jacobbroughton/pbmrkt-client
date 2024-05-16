@@ -1,0 +1,24 @@
+.modal.seller-reviews {
+  max-width: 500px;
+  width: 400px;
+}
+
+.modal.seller-reviews ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.modal.seller-reviews ul li {
+  padding: 3px 0;
+}
+
+.modal.seller-reviews ul li .title {
+  font-weight: 500;
+}
+
+.modal.seller-reviews ul li .body {}
+
+.modal.seller-reviews ul li .username {
+  font-size: 0.875rem;
+} 

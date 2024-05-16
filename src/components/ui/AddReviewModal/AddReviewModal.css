@@ -1,0 +1,18 @@
+.modal.add-review {
+  max-width: 500px;
+  width: 100%;
+}
+
+.modal.add-review .form-group .stars {
+  display: flex;
+}
+
+.modal.add-review .form-group .stars .star-container {
+  padding: 3px 5px;
+  cursor: pointer;
+}
+
+.modal.add-review .form-group .stars .star-container svg {
+  width: 35px;
+  fill: yellow;
+}

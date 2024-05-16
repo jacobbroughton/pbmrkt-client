@@ -38,6 +38,7 @@ const Comment = ({
           {comment.eff_status && (comment.created_by_id == user.id) ? (
             <div className="controls">
               <button
+              className="button" 
                 onClick={() => {
                   setNewReplyBody("");
                   setCommentWithReplyWindowID(comment.id);
@@ -45,7 +46,7 @@ const Comment = ({
               >
                 Reply
               </button>
-              <button onClick={(e) => handleDeleteComment(e, comment.id)} type="button">
+              <button className="button"  onClick={(e) => handleDeleteComment(e, comment.id)} type="button">
                 Delete
               </button>
             </div>
@@ -53,7 +54,7 @@ const Comment = ({
             false
           )}
           {comment.reply_count >= 1 && (
-            <button onClick={(e) => handleRepliesClick(e, comment)}>
+            <button className="button"  onClick={(e) => handleRepliesClick(e, comment)}>
               {comment.reply_count} Replies
             </button>
           )}
@@ -74,7 +75,7 @@ const Comment = ({
                 value={newReplyBody}
               />
               <button type="submit">Submit</button>
-              <button onClick={() => setCommentWithReplyWindowID(null)}>X</button>
+              <button className="button"  onClick={() => setCommentWithReplyWindowID(null)}>X</button>
             </form>
           ) : (
             false

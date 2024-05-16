@@ -7,6 +7,7 @@ import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import useWindowSize from "../../../utils/useWindowSize";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import ListingGrid from "../ListingGrid/ListingGrid.jsx";
 
 function Listings() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -112,7 +113,7 @@ function Listings() {
         p_city: filters.saved.city || "",
       });
 
-      if (error) throw error.message
+      if (error) throw error.message;
 
       if (!data) throw "No listings available";
 
@@ -235,7 +236,7 @@ function Listings() {
 
     setFilters({ ...filters, saved: filters.draft });
     setFiltersUpdated(true);
-    if (windowSize.width <= 625) setSidebarToggled(false)
+    if (windowSize.width <= 625) setSidebarToggled(false);
     // getListings(searchValue);
   }
 
@@ -245,15 +246,14 @@ function Listings() {
   });
 
   function handleFiltersReset(e) {
-
     console.log({
       ...filters,
-      draft: initialFilters
-    })
+      draft: initialFilters,
+    });
     setFilters({
       ...filters,
-      draft: initialFilters
-    })
+      draft: initialFilters,
+    });
   }
 
   const applyButtonDisabled =
@@ -273,7 +273,7 @@ function Listings() {
     filters.draft.shippingOptions.filter((option) => option.checked).length == 0;
 
   return (
-    <div className="listings">
+    <div className="home">
       <div className="sidebar-and-grid">
         {/* {!sidebarToggled && (
           <button onClick={() => setSidebarToggled(true)} type="button" className='sidebar-toggle-button'>
@@ -293,7 +293,9 @@ function Listings() {
                   <DoubleArrow direction="left" />
                 </button>
               )}
-              <button onClick={handleFiltersReset} type='button' className='reset-button'>Reset</button>
+              <button onClick={handleFiltersReset} type="button" className="reset-button">
+                Reset
+              </button>
               <button
                 className="cta-button apply"
                 type="submit"
@@ -577,34 +579,35 @@ function Listings() {
           ) : !isInitialLoad && listings.length == 0 ? (
             <p>No listings available</p>
           ) : (
-            <div className="grid">
-              {listings?.map((listing) => (
-                <Link
-                  to={`/${listing.id}`}
-                  key={listing.id}
-                  // className="grid-item"
-                  title={listing.what_is_this}
-                >
-                  <div className="grid-item">
-                    <div className="image-container">
-                      {listing.path ? (
-                        <img
-                          src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
-                        />
-                      ) : (
-                        <img
-                          src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`}
-                        />
-                      )}
-                    </div>
-                    <div className="listing-card-info">
-                      <p className="price">${listing.price}</p>
-                      <p className="what-is-this">{listing.what_is_this}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            // <div className="grid">
+            //   {listings?.map((listing) => (
+            //     <Link
+            //       to={`/${listing.id}`}
+            //       key={listing.id}
+            //       // className="grid-item"
+            //       title={listing.what_is_this}
+            //     >
+            //       <div className="grid-item">
+            //         <div className="image-container">
+            //           {listing.path ? (
+            //             <img
+            //               src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
+            //             />
+            //           ) : (
+            //             <img
+            //               src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`}
+            //             />
+            //           )}
+            //         </div>
+            //         <div className="listing-card-info">
+            //           <p className="price">${listing.price}</p>
+            //           <p className="what-is-this">{listing.what_is_this}</p>
+            //         </div>
+            //       </div>
+            //     </Link>
+            //   ))}
+            // </div>
+            <ListingGrid listings={listings} />
           )}
         </div>
       </div>

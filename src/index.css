@@ -122,6 +122,7 @@ input:-webkit-autofill{
     -webkit-text-fill-color: yellow !important;
 }
 
+.modal.add-review form,
 .reset-password form,
 .update-password form,
 .register form,
@@ -131,6 +132,7 @@ input:-webkit-autofill{
   gap: 20px;
 }
 
+.modal.add-review form .form-block,
 .reset-password form .form-block,
 .update-password form .form-block,
 .register form .form-block,
@@ -143,6 +145,7 @@ input:-webkit-autofill{
   gap: 10px;
 }
 
+.modal.add-review form .form-group,
 .reset-password form .form-group,
 .update-password form .form-group,
 .register form .form-group,
@@ -153,6 +156,7 @@ input:-webkit-autofill{
   gap: 3px;
 }
 
+.modal.add-review form .form-group label,
 .reset-password form .form-group label,
 .update-password form .form-group label,
 .register form .form-group label,
@@ -164,6 +168,7 @@ input:-webkit-autofill{
   gap: 5px;
 }
 
+.modal.add-review form .form-group .input-and-visible-toggle,
 .reset-password form .form-group .input-and-visible-toggle,
 .update-password form .form-group .input-and-visible-toggle,
 .register form .form-group .input-and-visible-toggle,
@@ -172,6 +177,7 @@ input:-webkit-autofill{
   gap: 10px;
 }
 
+.modal.add-review form .form-group .input-and-visible-toggle button,
 .reset-password form .form-group .input-and-visible-toggle button,
 .update-password form .form-group .input-and-visible-toggle button,
 .register form .form-group .input-and-visible-toggle button,
@@ -185,6 +191,7 @@ input:-webkit-autofill{
   cursor: pointer;
 }
 
+.modal.add-review form .form-group .input-and-visible-toggle svg,
 .reset-password form .form-group .input-and-visible-toggle svg,
 .update-password form .form-group .input-and-visible-toggle svg,
 .register form .form-group .input-and-visible-toggle svg,
@@ -193,6 +200,8 @@ input:-webkit-autofill{
   width: 15px;
 }
 
+.modal.add-review form .form-group .input-and-visible-toggle input,
+.sell form .form-group .input-and-visible-toggle input,
 .reset-password form .form-group .input-and-visible-toggle input,
 .update-password form .form-group .input-and-visible-toggle input,
 .register form .form-group .input-and-visible-toggle input,
@@ -200,10 +209,14 @@ input:-webkit-autofill{
   width: 100%;
 }
 
+.modal.add-review form .form-group input,
+.sell form .form-group input,
 .reset-password form .form-group input,
 .update-password form .form-group input,
 .register form .form-group input,
-.login form .form-group input {
+.login form .form-group input,
+textarea {
+  font-family: inherit;
   padding: 3px 5px;
   border-radius: 3px;
   border: 1px solid grey;
@@ -212,6 +225,7 @@ input:-webkit-autofill{
   font-size: 1rem;
 }
 
+.modal.add-review form button[type="submit"],
 .reset-password form button[type="submit"],
 .update-password form button[type="submit"],
 .register form button[type="submit"],
@@ -231,6 +245,7 @@ a:hover {
   text-decoration: underline;
 }
 
+.modal.add-review form button[type="submit"]:disabled,
 .reset-password form button[type="submit"]:disabled,
 .update-password form button[type="submit"]:disabled,
 .register form button[type="submit"]:disabled,
@@ -274,4 +289,19 @@ a:hover {
 
 .cta-button.apply {
   background-color: var(--lightgreen);
+}
+
+.button {
+  font-size: 1rem;
+  color: white;
+  background-color: #444;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 3px 5px;
+  cursor: pointer;
+  transition: 0.1s ease background-color;
+}
+
+.button:hover {
+  background-color: #5f5f5f;
 }

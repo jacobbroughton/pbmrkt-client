@@ -1,15 +1,17 @@
 import { useParams } from "react-router-dom";
-import "./Profile.css";
+import "./UserProfile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
+import ListingGrid from "../ListingGrid/ListingGrid";
 
-const Profile = () => {
+const UserProfile = () => {
   // const { userID } = useParams();
+  const [listings, setListings] = useState();
   const [listingsLoading, setListingsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const user = useSelector(state => state.auth.session.user)
+  const user = useSelector((state) => state.auth.session.user);
 
   useEffect(() => {
     getProfile();
@@ -21,23 +23,14 @@ const Profile = () => {
 
   async function getProfile() {
     try {
+      const { data, error } = await supabase.rpc("get_user_profile_complex", {
+        p_user_id: user.id,
+      });
 
-      const {data: data1, error: error1} = await supabase.rpc('get_user_profile_complex', {
-        p_user_id: user.id
-      })
-
-      console.log(data1, error1)
-
-      // const { data: sellerProfileData, error: error2 } = await supabase.rpc("get_items", {
-      //   p_user_email: userID,
-      // });
-
-      // if (error2) throw error2.message;
-
-      // if (!sellerProfileData) throw "No seller profile data found";
+      if (error) throw error.message;
 
       // Get Items
-      const { data, error } = await supabase.rpc("get_items", {
+      const { data: data2, error: error2 } = await supabase.rpc("get_items", {
         p_search_value: "",
         p_brand: "",
         p_model: "",
@@ -76,14 +69,25 @@ const Profile = () => {
         p_city: "",
       });
 
-      if (!data) throw "No listings available";
-      console.log({ data, error });
+      if (error2) throw error2.message;
+      if (!data2) throw "No listings available";
+
+      setListings(data2);
+
+      console.log({ data2, error2 });
     } catch (error) {
       console.log(error);
     }
   }
 
   if (error) return <p>{error}</p>;
-  return <div>{user.username}</div>;
+  console.log(user)
+  return (
+    <div className="user-profile-page">
+      <h1>{user.username}</h1>
+      <p>Account created {new Date(user.created_at).toLocaleString()}</p>
+      <ListingGrid listings={listings} />
+    </div>
+  );
 };
-export default Profile;
+export default UserProfile;

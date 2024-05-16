@@ -179,6 +179,8 @@ const Item = () => {
       p_item_id: item.info.id,
     });
 
+    if (error) throw error.message;
+
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
     setMarkAsSoldLoading(false);
@@ -186,10 +188,13 @@ const Item = () => {
 
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
+    console.log(item);
     const { data, error } = await supabase.rpc("get_child_comments", {
       p_item_id: item.info.id,
       p_parent_comment_id: commentWithReplies.id,
     });
+
+    if (error) throw error.message;
 
     setLocalComments(
       localComments.map((comm) => {
@@ -242,9 +247,14 @@ const Item = () => {
           <div className="seller-controls">
             <p>Seller Controls</p>
             <div className="seller-buttons">
-              <button onClick={() => handleDelete()}>Delete Listing</button>
-              <button onClick={() => handleEditButtonClick()}>Edit</button>
+              <button className="button" onClick={() => handleDelete()}>
+                Delete Listing
+              </button>
+              <button className="button" onClick={() => handleEditButtonClick()}>
+                Edit
+              </button>
               <button
+                className="button"
                 onClick={() =>
                   handleStatusChange(
                     item.info.status == "Available" ? "Sold" : "Available"
@@ -330,7 +340,9 @@ const Item = () => {
               onChange={(e) => setNewCommentBody(e.target.value)}
               value={newCommentBody}
             />
-            <button type="submit">Submit</button>
+            <button type="submit" className="button">
+              Submit
+            </button>
           </form>
         ) : (
           <p>
@@ -338,18 +350,21 @@ const Item = () => {
             comment.
           </p>
         )}
-        <div className="horizontal-divider"></div>
-        {localComments.length ? (
-          <CommentsList
-            passedComments={localComments}
-            handleCommentSubmit={handleNewCommentSubmit}
-            handleRepliesClickFromRootLevel={handleRepliesClick}
-            handleDeleteComment={handleDeleteComment}
-            isRootLevel={true}
-            setRootLevelComments={setLocalComments}
-            setError={setError}
-            getComments={getComments}
-          />
+
+        {localComments?.length ? (
+          <>
+            <div className="horizontal-divider"></div>
+            <CommentsList
+              passedComments={localComments}
+              handleCommentSubmit={handleNewCommentSubmit}
+              handleRepliesClickFromRootLevel={handleRepliesClick}
+              handleDeleteComment={handleDeleteComment}
+              isRootLevel={true}
+              setRootLevelComments={setLocalComments}
+              setError={setError}
+              getComments={getComments}
+            />
+          </>
         ) : (
           <p>No comments, consider starting the conversation!</p>
         )}

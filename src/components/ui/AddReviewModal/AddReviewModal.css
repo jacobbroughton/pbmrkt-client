@@ -1,6 +1,8 @@
 .modal.add-review {
   max-width: 500px;
-  width: 100%;
+  width: calc(100% - 30px);
+  top: 100px;
+  transform: translateX(-50%);
 }
 
 .modal.add-review .form-group .stars {

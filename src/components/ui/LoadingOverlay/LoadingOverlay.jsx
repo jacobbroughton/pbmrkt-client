@@ -1,10 +1,10 @@
-import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import Spinner from "../Icons/Spinner/Spinner";
 import "./LoadingOverlay.css";
 
 const LoadingOverlay = ({ message }) => {
   return (
     <div className="loading-overlay">
-      <LoadingSpinner />
+      <Spinner />
       {message && <p>{message}</p>}
     </div>
   );

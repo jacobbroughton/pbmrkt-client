@@ -23,7 +23,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     try {
-      const { data, error } = await supabase.rpc("get_user_profile_complex", {
+      const { data, error } = await supabase.rpc("get_user_profile", {
         p_user_id: user.id,
       });
 
@@ -81,7 +81,7 @@ const UserProfile = () => {
   }
 
   if (error) return <p>{error}</p>;
-  console.log(user)
+
   return (
     <div className="user-profile-page">
       <h1>{user.username}</h1>

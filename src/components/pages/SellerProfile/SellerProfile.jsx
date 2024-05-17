@@ -33,18 +33,16 @@ const SellerProfile = () => {
     };
   }, []);
 
-  if (!listingsLoading) {
-    setListingsLoading(true);
-  }
+  // if (!listingsLoading) {
+  //   setListingsLoading(true);
+  // }
 
   async function getProfile() {
     try {
-      const { data: data1, error: error1 } = await supabase.rpc(
-        "get_user_profile_simple",
-        {
-          p_username: username,
-        }
-      );
+      const { data: data1, error: error1 } = await supabase.rpc("get_seller_profile", {
+        p_username: username,
+        p_viewer_id: user.id,
+      });
 
       if (error1) throw error1.message;
 
@@ -116,12 +114,15 @@ const SellerProfile = () => {
     } catch (error) {
       console.log(error);
     }
+    setListingsLoading(false);
     setProfileLoading(false);
   }
 
   console.log(reviews);
 
   if (error) return <p>{error}</p>;
+
+  if (listingsLoading) return <LoadingOverlay message="Fetching seller profile..." />;
 
   if (!seller) return "Seller not found";
 
@@ -137,19 +138,21 @@ const SellerProfile = () => {
         >
           {reviews.count} Reviews
         </button>
-        <button
-          className="button add-review-button"
-          onClick={() =>
-            dispatch(
-              toggleModal({
-                key: "addReviewModal",
-                value: !modals.addReviewModalToggled,
-              })
-            )
-          }
-        >
-          Leave a review
-        </button>
+        {!seller.review_given && (
+          <button
+            className="button add-review-button"
+            onClick={() =>
+              dispatch(
+                toggleModal({
+                  key: "addReviewModal",
+                  value: !modals.addReviewModalToggled,
+                })
+              )
+            }
+          >
+            Leave a review
+          </button>
+        )}
       </div>
       <ListingGrid listings={listings} />
       {modals.addReviewModalToggled && (

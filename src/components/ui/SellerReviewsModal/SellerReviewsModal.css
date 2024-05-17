@@ -1,6 +1,7 @@
 .modal.seller-reviews {
   max-width: 500px;
   width: 400px;
+  top: 100px;
 }
 
 .modal.seller-reviews ul {
@@ -11,6 +12,7 @@
 
 .modal.seller-reviews ul li {
   padding: 3px 0;
+  border-bottom: 1px solid grey;
 }
 
 .modal.seller-reviews ul li .title {

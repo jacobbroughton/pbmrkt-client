@@ -74,7 +74,7 @@ const AddReviewModal = ({ seller, reviews, setReviews }) => {
   return (
     <div className="add-review modal" ref={modalRef}>
       {error && <p className="error-text">{error}</p>}
-      <h2>Add Review</h2>
+      <h2>Give {seller.username} a review</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Rating</label>

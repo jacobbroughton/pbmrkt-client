@@ -219,6 +219,7 @@
   flex-direction: row;
   align-items: center;
   white-space: nowrap;
+  color: white;
   gap: 5px;
   background-color: #4f4f4f;
   border: 1px solid grey;

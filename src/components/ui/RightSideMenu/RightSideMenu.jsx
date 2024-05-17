@@ -60,7 +60,7 @@ const RightSideMenu = () => {
           </div>
         </div>
       </Link>
-      <button className="menu-item" onClick={handleLogout}>
+      <button className="menu-item logout" onClick={handleLogout}>
         <LogOutIcon />
         Logout
       </button>

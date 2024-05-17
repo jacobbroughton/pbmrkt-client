@@ -63,7 +63,7 @@ const SellerProfile = () => {
       console.log("reviews for seller", reviews);
 
       setReviews({
-        count: 0,
+        count: reviews.length,
         list: reviews,
       });
 

@@ -293,7 +293,7 @@ function Listings() {
                   <DoubleArrow direction="left" />
                 </button>
               )}
-              <button onClick={handleFiltersReset} type="button" className="reset-button">
+              <button onClick={handleFiltersReset} type="button" className="button reset">
                 Reset
               </button>
               <button

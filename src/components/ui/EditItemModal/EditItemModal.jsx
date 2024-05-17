@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 
 const EditItemModal = ({ item, setItem }) => {
@@ -41,7 +41,6 @@ const EditItemModal = ({ item, setItem }) => {
     ],
   });
 
-
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -66,7 +65,6 @@ const EditItemModal = ({ item, setItem }) => {
     dispatch(toggleModal({ key: "editItemModal", value: false }));
   }
 
-
   const submitDisabled =
     item.info.brand == brand &&
     item.info.model == model &&
@@ -80,7 +78,7 @@ const EditItemModal = ({ item, setItem }) => {
 
   return (
     <>
-      <div className="edit-item-modal">
+      <div className="modal edit-item">
         <form onSubmit={handleSubmit}>
           <div className="form-block">
             <h2>Item Details</h2>
@@ -294,7 +292,9 @@ const EditItemModal = ({ item, setItem }) => {
       </div>
       <div
         className="modal-overlay"
-        onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
+        onClick={() => {
+          dispatch(toggleModal({ key: "editItemModal", value: false }));
+        }}
       ></div>
     </>
   );

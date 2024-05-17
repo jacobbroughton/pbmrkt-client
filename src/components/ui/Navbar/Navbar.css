@@ -31,14 +31,18 @@ nav .nav-links a.sell-link {
   justify-content: center;
 }
 
-nav .nav-links a.sell-link  {
+nav .nav-links a.sell-link {
   color: white;
   font-weight: 600;
 }
 
-nav .nav-links a.sell-link svg  {
-width: 15px;;
-fill: white;
+nav .nav-links a.sell-link:hover {
+  text-decoration: none;
+}
+
+nav .nav-links a.sell-link svg {
+  width: 15px;
+  fill: white;
 }
 
 nav .nav-links .right-side-menu-button {

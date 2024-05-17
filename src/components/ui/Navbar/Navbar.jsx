@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
+import PlusIcon from "../Icons/PlusIcon";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -11,18 +12,23 @@ function Navbar() {
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
 
     dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
   }
 
   return (
     <nav>
-      <Link to="/" className='home-link'>PBMRKT</Link>
+      <Link to="/" className="home-link">
+        PBMRKT
+      </Link>
       <div className="nav-links">
         {auth.session?.user ? (
           <>
-            <Link to="/sell">Sell</Link>
+            <Link to="/sell" className='sell-link'>
+              {/* <PlusIcon /> */}
+              Sell
+            </Link>
 
             <button
               onClick={handleRightSideMenuToggle}

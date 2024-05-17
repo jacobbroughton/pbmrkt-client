@@ -22,6 +22,25 @@ nav .nav-links {
   gap: 10px;
 }
 
+nav .nav-links a.sell-link {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: var(--lightgreen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav .nav-links a.sell-link  {
+  color: white;
+  font-weight: 600;
+}
+
+nav .nav-links a.sell-link svg  {
+width: 15px;;
+fill: white;
+}
+
 nav .nav-links .right-side-menu-button {
   height: 35px;
   width: 35px;

@@ -13,12 +13,14 @@ const EditItemModal = ({ item, setItem }) => {
   const [details, setDetails] = useState(item.info.details);
   const [shipping, setShipping] = useState(item.info.shipping);
   const [trades, setTrades] = useState(item.info.trades);
+  const [shippingCost, setShippingCost] = useState(0);
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(
     item.info.buyer_pays_shipping
   );
   const [negotiable, setNegotiable] = useState(item.info.negotiable);
   const [whatIsThisItem, setWhatIsThisItem] = useState(item.info.what_is_this);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null)
 
   const [radioOptions, setRadioOptions] = useState({
     conditionOptions: [
@@ -42,8 +44,17 @@ const EditItemModal = ({ item, setItem }) => {
   });
 
   async function handleSubmit(e) {
+    try {
+
+    } catch (error) {
+      setError(error.toString())
+    }
     e.preventDefault();
     setLoading(true);
+
+    const priceIsNumber = price % 1 != 0 || Number.isInteger(price);
+
+    if (!priceIsNumber) throw "Invalid price given";
 
     const { data, error } = await supabase.rpc("edit_item", {
       p_item_id: item.info.id,
@@ -80,6 +91,9 @@ const EditItemModal = ({ item, setItem }) => {
     <>
       <div className="modal edit-item">
         <form onSubmit={handleSubmit}>
+          <button onClick={() => dispatch(toggleModal({key: "editItemModal", value: false}))} type="button" className='button close'>
+            Close
+          </button>
           <div className="form-block">
             <h2>Item Details</h2>
 
@@ -99,6 +113,55 @@ const EditItemModal = ({ item, setItem }) => {
                   value={price}
                   placeholder="Price"
                   required
+                />
+              </div>
+            </fieldset>
+
+            <fieldset className="prices">
+              <div className="form-group shipping">
+                <label>Shipping</label>
+                <div className="shipping-selector-and-input">
+                  <div className="shipping-selector">
+                    <button
+                      className={`shipping-toggle-button ${
+                        !buyerPaysShipping ? "selected" : ""
+                      }`}
+                      type="button"
+                      onClick={() => setBuyerPaysShipping(false)}
+                    >
+                      Free/Included
+                    </button>
+                    <button
+                      className={`shipping-toggle-button ${
+                        buyerPaysShipping ? "selected" : ""
+                      }`}
+                      type="button"
+                      onClick={() => setBuyerPaysShipping(true)}
+                    >
+                      Buyer Pays
+                    </button>
+                  </div>
+                  {/* <input
+                  onChange={(e) => setShippingCost(e.target.value)}
+                  value={shippingCost}
+                  placeholder="$0"
+                  required
+                  disabled={!buyerPaysShipping}
+                /> */}
+                </div>
+              </div>
+              <div
+                className={`form-group shipping-cost ${
+                  buyerPaysShipping ? "" : "disabled"
+                }`}
+              >
+                <label>Shipping Cost</label>
+                <input
+                  onChange={(e) => setShippingCost(e.target.value)}
+                  value={shippingCost}
+                  placeholder="$0"
+                  required
+                  disabled={!buyerPaysShipping}
                 />
               </div>
             </fieldset>
@@ -188,7 +251,8 @@ const EditItemModal = ({ item, setItem }) => {
                   ))}
                 </div>
               </div>
-
+            </fieldset>
+            <fieldset>
               <div className="form-group">
                 <label>Condition</label>
                 <div className="radio-options">
@@ -228,21 +292,6 @@ const EditItemModal = ({ item, setItem }) => {
                 </div>
               </div>
             </fieldset>
-            {/* {imagesUploading ? (
-            <p>Images uploading...</p>
-            ) : (
-              <div className="form-group">
-              <label>Photos</label>
-              <input
-              onChange={(e) => handleImageUpload(e)}
-              type="file"
-              multiple
-              accept=".jpg"
-              name="photos"
-              ref={imageInputRef}
-              />
-              </div>
-            )} */}
             <div className="horizontal-divider"></div>
             {loading ? (
               <p>Submitting...</p>
@@ -252,42 +301,6 @@ const EditItemModal = ({ item, setItem }) => {
               </button>
             )}
           </div>
-
-          {/* {photos.length != 0 && (
-          <div className="selling-item-images">
-            {photos?.map((image, index) => {
-              return (
-                <div
-                  className={`image-container ${image.id == newCoverPhotoId ? "cover" : ""}`}
-                  title={image.name}
-                >
-                  <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.id}/${generatedGroupId}/${image.name}`}
-                  />
-                  <button
-                    className="delete-button"
-                    type="button"
-                    onClick={(e) => handleImageDelete(image)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    type="button"
-                    className="cover-button"
-                    onClick={() => handleNewCoverImage(image)}
-                  >
-                    Cover
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {photos?.length >= 1 ? (
-          <button type="submit">Submit</button>
-        ) : (
-          <p>Please upload at least 1 photo of the item you're selling</p>
-        )} */}
         </form>
       </div>
       <div

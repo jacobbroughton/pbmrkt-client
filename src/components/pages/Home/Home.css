@@ -362,7 +362,7 @@
 
   .home .listings-section .search-bar {
     position: fixed;
-    top: 55px;
+    top: 49px;
     left: 50%;
     width: calc(100% - 30px);
     transform: translateX(-50%);
@@ -375,7 +375,7 @@
 
   .home .listings-section .listings-controls {
     position: fixed;
-    top: 106px;
+    top: 99px;
     left: 50%;
     width: calc(100% - 30px);
     transform: translateX(-50%);

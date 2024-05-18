@@ -7,6 +7,10 @@
 
 .home .listings-section {
   width: 100%;
+  /* margin-left: 241px; */
+}
+
+.home .listings-section.has-sidebar-margin {
   margin-left: 241px;
 }
 
@@ -40,6 +44,8 @@
   border-radius: 3px;
   border: grey 1px solid;
   background-color: #3b3b3b;
+  color: white;
+  
 }
 
 .home .search-bar form .search-input-container .search-icon {
@@ -107,6 +113,7 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 2;
   padding: 15px;
   height: 100%;
   max-height: 100%;

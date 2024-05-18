@@ -4,7 +4,7 @@ const modalsSlice = createSlice({
   name: "modals",
   initialState: {
     editItemModalToggled: false,
-    sidebarToggled: true,
+    filtersSidebarToggled: true,
     rightSideMenuToggled: false,
     verifyUserCheckedEmailModalToggled: false,
     addReviewModalToggled: false,

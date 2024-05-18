@@ -54,7 +54,7 @@ const Register = () => {
         },
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
       if (!data) throw "no data after signup";
 
       const user = data.user;
@@ -96,7 +96,7 @@ const Register = () => {
         p_username: newUsername,
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       setUsernameExists(data);
     } catch (error) {

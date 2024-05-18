@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import ListingGrid from "../ListingGrid/ListingGrid";
+import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 
 const UserProfile = () => {
   // const { userID } = useParams();
   const [listings, setListings] = useState();
-  const [listingsLoading, setListingsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const user = useSelector((state) => state.auth.session.user);
@@ -17,17 +18,20 @@ const UserProfile = () => {
     getProfile();
   }, []);
 
-  if (!listingsLoading) {
-    setListingsLoading(true);
-  }
+  // if (!loading) {
+  //   setLoading(true);
+  // }
 
   async function getProfile() {
     try {
+      setLoading(true)
       const { data, error } = await supabase.rpc("get_user_profile", {
         p_user_id: user.id,
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
+
+      console.log(data)
 
       // Get Items
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
@@ -78,12 +82,17 @@ const UserProfile = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setLoading(false)
   }
 
   if (error) return <p>{error}</p>;
 
+  if (loading) return <LoadingOverlay/>
+
   return (
     <div className="user-profile-page">
+      {error && <p className='error-text small-text'>{error}</p>}
       <h1>{user.username}</h1>
       <p>Account created {new Date(user.created_at).toLocaleString()}</p>
       <ListingGrid listings={listings} />

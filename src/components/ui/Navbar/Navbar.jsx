@@ -22,14 +22,14 @@ function Navbar() {
       <Link to="/" className="home-link">
         PBMRKT
       </Link>
+
       <div className="nav-links">
+        <Link to="/sell" className="sell-link">
+          {/* <PlusIcon /> */}
+          Sell
+        </Link>
         {auth.session?.user ? (
           <>
-            <Link to="/sell" className='sell-link'>
-              {/* <PlusIcon /> */}
-              Sell
-            </Link>
-
             <button
               onClick={handleRightSideMenuToggle}
               className="right-side-menu-button"

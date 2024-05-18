@@ -10,6 +10,12 @@
   box-shadow: -3px 3px 5px #18181877;
 }
 
+.right-side-menu .error-text {
+  margin: 5px;
+  width: 100%;
+  max-width: 200px;
+}
+
 .right-side-menu button .right-side-menu button {
   padding: 5px 10px;
   font-size: 1rem;

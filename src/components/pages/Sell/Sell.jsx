@@ -149,7 +149,7 @@ const Sell = () => {
         p_city: "Matthews",
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       if (!data) throw "Listed item id is undefined";
 
@@ -159,7 +159,7 @@ const Sell = () => {
           p_image_id: newCoverPhotoId,
         });
 
-        if (error) throw error.message;
+        if (error) { console.log(error); throw error.message; }
       }
 
       const imagePaths = photos.map(
@@ -236,7 +236,7 @@ const Sell = () => {
           setImagesUploading(false);
         }
 
-        if (error) throw error.message;
+        if (error) { console.log(error); throw error.message; }
 
         const { data: data22, error: error2 } = await supabase.rpc(
           "add_item_photo_temp",
@@ -265,7 +265,7 @@ const Sell = () => {
           offset: 0,
         });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       if (data !== null) {
         console.log(data);
@@ -368,7 +368,7 @@ const Sell = () => {
 
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       const { error: error2 } = await supabase.rpc("delete_temp_images", {
         p_user_id: user.id,

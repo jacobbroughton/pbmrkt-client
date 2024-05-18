@@ -105,7 +105,7 @@ const SellerProfile = () => {
         p_city: "",
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       if (!data) throw "No listings available";
 

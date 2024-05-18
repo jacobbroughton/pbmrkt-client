@@ -55,7 +55,7 @@ const Login = () => {
         password,
       });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       console.log("login", { data, error });
       navigate("/");

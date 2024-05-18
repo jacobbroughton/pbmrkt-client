@@ -11,7 +11,7 @@ import CommentsList from "../../ui/CommentsList/CommentsList";
 
 const Item = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.session?.user);
+  // const user = useSelector((state) => state.auth.session?.user);
   const modals = useSelector((state) => state.modals);
   const { session } = useSelector((state) => state.auth);
   // const { comments, newCommentBody } = useSelector((state) => state.comments);
@@ -33,7 +33,7 @@ const Item = () => {
       try {
         const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID });
 
-        if (error) throw error.message;
+        if (error) { console.log(error); throw error.message; }
         if (!data) throw "item not found";
 
         const { data: data19, error: error2 } = await supabase.rpc(
@@ -179,7 +179,7 @@ const Item = () => {
       p_item_id: item.info.id,
     });
 
-    if (error) throw error.message;
+    if (error) { console.log(error); throw error.message; }
 
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
@@ -194,7 +194,7 @@ const Item = () => {
       p_parent_comment_id: commentWithReplies.id,
     });
 
-    if (error) throw error.message;
+    if (error) { console.log(error); throw error.message; }
 
     setLocalComments(
       localComments.map((comm) => {
@@ -222,7 +222,7 @@ const Item = () => {
     // );
   }
 
-  const isAdmin = item?.info.created_by_id == user?.id;
+  const isAdmin = session && item?.info.created_by_id == session.user?.id;
 
   if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
   if (error) return <p>There was an error - {error.toString()}</p>;
@@ -333,7 +333,7 @@ const Item = () => {
       <div className="comments-section">
         <div className="horizontal-divider"></div>
         <h3>Comments</h3>
-        {user ? (
+        {session?.user ? (
           <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
             <textarea
               placeholder="Add a comment..."

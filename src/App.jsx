@@ -13,18 +13,20 @@ import UserProfile from "./components/pages/UserProfile/UserProfile.jsx";
 import SellerProfile from "./components/pages/SellerProfile/SellerProfile.jsx";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
+import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
 
 function App() {
   const dispatch = useDispatch();
 
   const { session } = useSelector((state) => state.auth);
   const [sessionLoading, setSessionLoading] = useState(true);
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     setSessionLoading(true);
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       try {
-        console.log("here", session.user.id);
+        if (!session) return;
 
         const { data: data, error: error } = await supabase.rpc(
           "get_user_profile_simple",
@@ -33,8 +35,7 @@ function App() {
           }
         );
 
-        if (error) throw error.message;
-        console.log(data, error);
+        if (error) { console.log(error); throw error.message; }
 
         const sbUserWithDBUser = {
           ...session.user,
@@ -48,7 +49,7 @@ function App() {
           })
         );
       } catch (error) {
-        console.error(error.toString())
+        setError(error.toString());
       }
     });
 
@@ -76,7 +77,7 @@ function App() {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  if (sessionLoading) return <main>Loading...</main>;
+  if (sessionLoading) return <LoadingOverlay message={'Loading...'}/>;
 
   const PrivateRoutes = () => {
     const userAuthenticated = session && !sessionLoading;
@@ -88,6 +89,7 @@ function App() {
     <>
       <Navbar />
       <main>
+        {error && <p className='error-text small-text'>{error}</p>}
         <Routes>
           <Route element={<Listings />} path="/" />
           <Route element={<Register />} path="/register" />

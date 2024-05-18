@@ -35,10 +35,14 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
-      dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-      const { data } = await supabase.auth.signOut();
 
+      const { data, error } = await supabase.auth.signOut();
+
+      if (error) throw error.message
+      
       if (!data) navigate("/login");
+
+      dispatch(toggleModal({ key: "rightSideMenu", value: false }));
     } catch (e) {
       setError(e.toString());
     }
@@ -46,7 +50,7 @@ const RightSideMenu = () => {
 
   return (
     <div className="right-side-menu" ref={rightSideMenuRef}>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-text small-text">{error}</p>}
       <Link
         to={`/profile`}
         className="menu-item"

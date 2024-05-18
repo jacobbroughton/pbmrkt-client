@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import "./ListingGrid.css";
 
-const ListingGrid = ({ listings }) => {
+const ListingGrid = ({ listings, accountForSidebar }) => {
   return (
-    <div className="grid">
+    <div className={`grid ${accountForSidebar ? 'accounts-for-sidebar' : ''}`}>
       {listings?.map((listing) => (
         <Link
           to={`/${listing.id}`}

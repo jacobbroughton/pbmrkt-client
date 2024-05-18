@@ -25,7 +25,7 @@ const ResetPassword = () => {
       });
       console.log({ data, error });
 
-      if (error) throw error.message;
+      if (error) { console.log(error); throw error.message; }
 
       setIsVerifying(true);
       // navigate("/update-password");

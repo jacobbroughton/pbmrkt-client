@@ -188,6 +188,18 @@
   padding: 5px 10px; */
 }
 
+.item .content .seller-info .profile-picture-container {
+  margin-right: 10px;
+}
+
+.item .content .seller-info .profile-picture-container .profile-picture {
+  background-color: #666;
+  border-radius: 100px;
+  width: 35px;
+  height: 35px;
+}
+
+
 .item .content .seller-info .heading {
   font-weight: 600;
   text-decoration: underline;

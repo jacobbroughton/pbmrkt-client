@@ -33,7 +33,11 @@ const Item = () => {
       try {
         const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID });
 
-        if (error) { console.log(error); throw error.message; }
+        if (error) {
+          console.log(data);
+          console.log(error);
+          throw error.message;
+        }
         if (!data) throw "item not found";
 
         const { data: data19, error: error2 } = await supabase.rpc(
@@ -179,7 +183,10 @@ const Item = () => {
       p_item_id: item.info.id,
     });
 
-    if (error) { console.log(error); throw error.message; }
+    if (error) {
+      console.log(error);
+      throw error.message;
+    }
 
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
@@ -194,7 +201,10 @@ const Item = () => {
       p_parent_comment_id: commentWithReplies.id,
     });
 
-    if (error) { console.log(error); throw error.message; }
+    if (error) {
+      console.log(error);
+      throw error.message;
+    }
 
     setLocalComments(
       localComments.map((comm) => {
@@ -222,12 +232,13 @@ const Item = () => {
     // );
   }
 
-  const isAdmin = session && item?.info.created_by_id == session.user?.id;
-
   if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
-  if (error) return <p>There was an error - {error.toString()}</p>;
   if (!item) return <p>item not found</p>;
-  if (!item.info.eff_status) return <p>This item was deleted.</p>;
+
+  const isAdmin = session && item.info?.created_by_id == session.user?.id;
+
+  if (error) return <p>There was an error - {error.toString()}</p>;
+  if (!item.info?.eff_status) return <p>This item was deleted.</p>;
   return (
     <div className="item">
       {deletedModalShowing && (
@@ -318,7 +329,12 @@ const Item = () => {
 
             <div className="seller-info">
               <p className="heading">Seller Info</p>
-              <p>Location: {item.info.location}</p>
+              <div className="profile-picture-container">
+                <div className="profile-picture">&nbsp;</div>
+              </div>
+              <p>
+                Location: {item.info.city}, {item.info.state}
+              </p>
               <p>
                 <Link to={`/user/${item.info.created_by_username}`}>
                   {item.info.created_by_username}

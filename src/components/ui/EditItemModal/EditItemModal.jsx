@@ -56,20 +56,25 @@ const EditItemModal = ({ item, setItem }) => {
 
     if (!priceIsNumber) throw "Invalid price given";
 
+    // p_brand, p_city, p_condition, p_details, p_item_id, p_model, p_negotiable, p_price, p_shipping, p_state, p_status, p_trades, p_what_is_this
+
     const { data, error } = await supabase.rpc("edit_item", {
       p_item_id: item.info.id,
       p_trades: trades,
       p_brand: brand,
       p_condition: condition,
       p_details: details,
-      p_location: "Matthews, NC",
+      p_state: "NC",
       p_model: model,
       p_price: price,
       p_status: "",
       p_what_is_this: whatIsThisItem,
       p_shipping: shipping,
       p_negotiable: negotiable,
+      p_city:  "Matthews",
     });
+
+    if (error) throw error.message
 
     setItem({ info: data[0], photos: item.photos });
     setLoading(false);
@@ -108,8 +113,9 @@ const EditItemModal = ({ item, setItem }) => {
               </div>
               <div className="form-group price">
                 <label>Price</label>
+                
                 <input
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => setPrice(parseFloat(e.target.value))}
                   value={price}
                   placeholder="Price"
                   required

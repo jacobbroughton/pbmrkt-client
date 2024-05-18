@@ -14,6 +14,7 @@ import { toggleModal } from "../../../redux/modals.js";
 import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import { setFiltersUpdated } from "../../../redux/filters.js";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
+import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -586,7 +587,7 @@ function Listings() {
               }
               className="filters-button"
             >
-              Filters
+              Filters <FilterIcon/>
             </button>
             {/* ) : (
               <span>&nbsp;</span>

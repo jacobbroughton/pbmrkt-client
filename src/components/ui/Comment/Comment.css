@@ -14,14 +14,41 @@
   border-bottom: 0;
 }
 
+.comment:not(.is-root-level) {
+  margin-top: 15px;
+}
+
 .comment .bars-and-content {
   display: flex;
+  padding: 5px 0;
+}
+
+.comment .bars-and-content .profile-picture-container {
+  margin-right: 10px;
+}
+
+.comment .bars-and-content .profile-picture-container .profile-picture {
+  background-color: #666;
+  border-radius: 100px;
+  width: 35px;
+  height: 35px;
+}
+
+.comment:not(.is-root-level) .bars-and-content .profile-picture-container .profile-picture {
+  width: 25px;
+  height: 25px;
 }
 
 .comment .bars-and-content .comment-contents {
   padding: 5px 10px;
   width: 100%;
   padding-left: 0;
+  color: white;
+}
+
+.comment .bars-and-content .comment-contents .comment-header {
+  display: flex;
+  gap: 10px;
 }
 
 .comment .depth-bar {
@@ -44,12 +71,42 @@
   font-size: 1rem;
 }
 
+.comment-form .buttons {
+  display: flex;
+  gap: 5px;
+}
+
 .comment .controls {
   display: flex;
   gap: 10px;
   margin-top: 5px;
 }
 
+.comment .controls button {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
 .comment .body {
   white-space: pre;
+}
+
+.comment .replies-button {
+  color: var(--lightgreen);
+  display: flex;
+  gap: 5px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background-color: transparent;
+  padding: 0;
+  margin-top: 10px;
+  border: 0;
+}
+
+.comment  .replies-button svg {
+  width: 15px;
+  fill: var(--lightgreen);
 }

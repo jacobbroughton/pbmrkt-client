@@ -95,6 +95,14 @@
   padding: 3px 5px;
   cursor: pointer;
   transition: 0.1s ease background-color;
+  align-items: center;
+  display: flex;
+  gap: 5px;
+}
+
+.home .listings-controls .filters-button svg {
+  width: 18px;
+  fill: #ddd;
 }
 
 .home .listings-controls .control-group select:hover,

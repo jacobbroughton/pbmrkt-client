@@ -88,6 +88,10 @@ textarea {
   font-size: 0.75rem;
 }
 
+.tiny-text.bold {
+  font-weight: 600;;
+}
+
 .auth-wrapper {
   color: white;
 }
@@ -110,16 +114,16 @@ textarea {
 /* Resets autocomplete colors */
 /* Change the white to any color */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #3b3b3b inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #3b3b3b inset !important;
 }
 /* Additionally, you can use this to change the text color: */
 
 /*Change text in autofill textbox*/
-input:-webkit-autofill{
-    -webkit-text-fill-color: yellow !important;
+input:-webkit-autofill {
+  -webkit-text-fill-color: yellow !important;
 }
 
 .modal.add-review form,
@@ -300,14 +304,22 @@ a:hover {
   padding: 3px 5px;
   cursor: pointer;
   transition: 0.1s ease background-color;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .button:hover {
   background-color: #5f5f5f;
 }
 
+.button svg {
+  width: 15px;
+  fill: white;
+}
+
 .skeleton {
-  background-color: #555;;
+  background-color: #555;
   animation: skeleton-blink infinite alternate linear 0.5s;
 }
 

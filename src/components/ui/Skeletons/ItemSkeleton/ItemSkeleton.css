@@ -11,14 +11,16 @@
   height: 196px;
   width: 100%;
   border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .item-skeleton-container .words-skeleton {
   height: 1rem;
-  width: 100%;
+  width: 95%;
   border-radius: 3px;
 }
 
 .item-skeleton-container .words-skeleton.short {
-  width: 70%;
+  max-width: 40px;
+  width: 100%;;
 }

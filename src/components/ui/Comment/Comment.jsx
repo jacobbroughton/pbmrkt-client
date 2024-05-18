@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import CommentsList from "../CommentsList/CommentsList";
 import "./Comment.css";
+import Chevron from "../Icons/Chevron";
+import SendIcon from "../Icons/SendIcon";
 
 const Comment = ({
   comment,
@@ -11,34 +13,55 @@ const Comment = ({
   handleRepliesClick,
   handleDeleteComment,
   newReplyBody,
-  // isRootLevel,
+  isRootLevel,
   setRootLevelComments,
   setError,
   getComments,
 }) => {
   const { session } = useSelector((state) => state.auth);
 
+  function timeAgo(date) {
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      week: 604800,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+      second: 1,
+    };
+
+    for (const [unit, value] of Object.entries(intervals)) {
+      const count = Math.floor(seconds / value);
+      if (count > 0) {
+        return `${count}${unit.charAt(0)} ago`;
+      }
+    }
+
+    return "just now";
+  }
+
   return (
     <div
       key={comment.id}
-      className="comment"
+      className={`comment ${isRootLevel ? "is-root-level" : ""}`}
       // style={{marginLeft: `${comment.depth * 15}px`}}
     >
       <div className="bars-and-content">
-        {[...new Array(comment.depth)].map((depthIndex) => (
+        {/* {[...new Array(comment.depth)].map((depthIndex) => (
           <div className="depth-bar" id={depthIndex}></div>
-        ))}
+        ))} */}
+        <div className="profile-picture-container">
+          <div className="profile-picture"></div>
+        </div>
         <div className="comment-contents">
-          <p className="tiny-text">
-            {comment.eff_status ? (
-              <span>
-                {comment.created_by_email} at{" "}
-                {new Date(comment.created_dttm).toLocaleString()}
-              </span>
-            ) : (
-              <span>DELETED</span>
-            )}
-          </p>
+          <div className="comment-header">
+            <p className="tiny-text bold">{comment.created_by_email}</p>{" "}
+            <p className="tiny-text">{timeAgo(new Date(comment.created_dttm))}</p>
+          </div>
+          <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
           {comment.eff_status && comment.created_by_id == session?.user.id ? (
             <div className="controls">
@@ -63,7 +86,11 @@ const Comment = ({
             false
           )}
           {comment.reply_count >= 1 && (
-            <button className="button" onClick={(e) => handleRepliesClick(e, comment)}>
+            <button
+              className="replies-button"
+              onClick={(e) => handleRepliesClick(e, comment)}
+            >
+              <Chevron />
               {comment.reply_count} Replies
             </button>
           )}
@@ -83,13 +110,17 @@ const Comment = ({
                 onChange={(e) => setNewReplyBody(e.target.value)}
                 value={newReplyBody}
               />
-              <button type="submit">Submit</button>
-              <button
-                className="button"
-                onClick={() => setCommentWithReplyWindowID(null)}
-              >
-                X
-              </button>
+              <div className="buttons">
+                <button
+                  className="button"
+                  onClick={() => setCommentWithReplyWindowID(null)}
+                >
+                  Cancel
+                </button>
+                <button className="button" type="submit">
+                  Submit <SendIcon />
+                </button>
+              </div>
             </form>
           ) : (
             false

@@ -307,7 +307,7 @@ a:hover {
 }
 
 .skeleton {
-  background-color: #666;;
+  background-color: #555;;
   animation: skeleton-blink infinite alternate linear 0.5s;
 }
 

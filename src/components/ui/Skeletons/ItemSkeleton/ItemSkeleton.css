@@ -1,4 +1,24 @@
-.item-skeleton {
+.item-skeleton-container {
   height: 270px;
   width: 100%;
+  max-height: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.item-skeleton-container .image-skeleton {
+  height: 196px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.item-skeleton-container .words-skeleton {
+  height: 1rem;
+  width: 100%;
+  border-radius: 3px;
+}
+
+.item-skeleton-container .words-skeleton.short {
+  width: 70%;
 }

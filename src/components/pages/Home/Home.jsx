@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import { setFiltersUpdated } from "../../../redux/filters.js";
+import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -604,38 +605,16 @@ function Listings() {
           {listingsError ? (
             <p>{listingsError}</p>
           ) : listingsLoading ? (
-            <p>Listings are loading...</p>
+            <div className="skeletons-grid">
+              <ItemSkeleton />
+              <ItemSkeleton />
+              <ItemSkeleton />
+              <ItemSkeleton />
+              <ItemSkeleton />
+            </div>
           ) : !isInitialLoad && listings.length == 0 ? (
             <p>No listings available</p>
           ) : (
-            // <div className="grid">
-            //   {listings?.map((listing) => (
-            //     <Link
-            //       to={`/${listing.id}`}
-            //       key={listing.id}
-            //       // className="grid-item"
-            //       title={listing.what_is_this}
-            //     >
-            //       <div className="grid-item">
-            //         <div className="image-container">
-            //           {listing.path ? (
-            //             <img
-            //               src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
-            //             />
-            //           ) : (
-            //             <img
-            //               src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`}
-            //             />
-            //           )}
-            //         </div>
-            //         <div className="listing-card-info">
-            //           <p className="price">${listing.price}</p>
-            //           <p className="what-is-this">{listing.what_is_this}</p>
-            //         </div>
-            //       </div>
-            //     </Link>
-            //   ))}
-            // </div>
             <ListingGrid
               listings={listings}
               accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}

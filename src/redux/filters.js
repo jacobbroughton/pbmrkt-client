@@ -8,7 +8,13 @@ const initialFilters = {
   city: "All",
   state: "All",
   priceOptions: [
-    {id: 0, value: "$0 - $50"},
+    { id: 0, value: "$0 - $50", checked: true },
+    { id: 1, value: "$50 - $100", checked: true },
+    { id: 2, value: "$100 - $250", checked: true },
+    { id: 3, value: "$250 - $500", checked: true },
+    { id: 4, value: "$500 - $1000", checked: true },
+    { id: 5, value: "$1000 - $1500", checked: true },
+    { id: 6, value: "$1500+", checked: true },
   ],
   conditionOptions: [
     { id: 0, value: "Brand New", checked: true },
@@ -48,8 +54,14 @@ const filtersSlice = createSlice({
         filtersUpdated: payload,
       };
     },
+    resetFilters: (state) => {
+      return {
+        ...state,
+        draft: initialFilters,
+      };
+    },
   },
 });
 
-export const { setFilters, setFiltersUpdated } = filtersSlice.actions;
+export const { setFilters, setFiltersUpdated, resetFilters } = filtersSlice.actions;
 export default filtersSlice.reducer;

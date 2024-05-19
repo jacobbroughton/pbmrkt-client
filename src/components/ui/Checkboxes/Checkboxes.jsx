@@ -1,17 +1,16 @@
-import { useSelector } from "react-redux";
 import Checkbox from "../Icons/Checkbox";
 import "./Checkboxes.css";
 
 const Checkboxes = ({ options, handleCheckboxOptionClick }) => {
   return (
     <div className="checkbox-options">
-      {options.map((conditionOption) => (
+      {options.map((option) => (
         <div
-          className={`checkbox-option ${conditionOption.checked ? "checked" : ""}`}
-          onClick={() => handleCheckboxOptionClick(conditionOption)}
+          className={`checkbox-option ${option.checked ? "checked" : ""}`}
+          onClick={() => handleCheckboxOptionClick(option)}
         >
-          <Checkbox checked={conditionOption.checked} />
-          <label>{conditionOption.value}</label>
+          <Checkbox checked={option.checked} />
+          <label>{option.value}</label>
         </div>
       ))}
     </div>

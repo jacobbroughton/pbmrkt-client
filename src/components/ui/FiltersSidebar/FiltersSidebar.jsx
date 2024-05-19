@@ -6,7 +6,7 @@ import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import { setFilters, setFiltersUpdated } from "../../../redux/filters.js";
+import { resetFilters, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
 import Checkbox from "../Icons/Checkbox.jsx";
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
@@ -19,33 +19,33 @@ const Sidebar = () => {
   const [sidebarToggled, setSidebarToggled] = useState(windowSize.width > 625);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
 
-  const initialFilters = {
-    brand: "",
-    model: "",
-    minPrice: 0,
-    maxPrice: null,
-    city: "All",
-    state: "All",
-    conditionOptions: [
-      { id: 0, value: "Brand New", checked: true },
-      { id: 1, value: "Like New", checked: true },
-      { id: 2, value: "Used", checked: true },
-      { id: 3, value: "Heavily Used", checked: true },
-      { id: 4, value: "Not Functional", checked: true },
-    ],
-    shippingOptions: [
-      { id: 0, value: "Willing to Ship", checked: true },
-      { id: 1, value: "Local Only", checked: true },
-    ],
-    tradeOptions: [
-      { id: 0, value: "Accepting Trades", checked: true },
-      { id: 1, value: "No Trades", checked: true },
-    ],
-    negotiableOptions: [
-      { id: 0, value: "Firm", checked: true },
-      { id: 1, value: "OBO/Negotiable", checked: true },
-    ],
-  };
+  // const initialFilters = {
+  //   brand: "",
+  //   model: "",
+  //   minPrice: 0,
+  //   maxPrice: null,
+  //   city: "All",
+  //   state: "All",
+  //   conditionOptions: [
+  //     { id: 0, value: "Brand New", checked: true },
+  //     { id: 1, value: "Like New", checked: true },
+  //     { id: 2, value: "Used", checked: true },
+  //     { id: 3, value: "Heavily Used", checked: true },
+  //     { id: 4, value: "Not Functional", checked: true },
+  //   ],
+  //   shippingOptions: [
+  //     { id: 0, value: "Willing to Ship", checked: true },
+  //     { id: 1, value: "Local Only", checked: true },
+  //   ],
+  //   tradeOptions: [
+  //     { id: 0, value: "Accepting Trades", checked: true },
+  //     { id: 1, value: "No Trades", checked: true },
+  //   ],
+  //   negotiableOptions: [
+  //     { id: 0, value: "Firm", checked: true },
+  //     { id: 1, value: "OBO/Negotiable", checked: true },
+  //   ],
+  // };
 
   // const [filters, setFilters] = useState({
   //   draft: initialFilters,
@@ -74,6 +74,23 @@ const Sidebar = () => {
         draft: {
           ...filters.draft,
           conditionOptions: filters.draft.conditionOptions.map((option) => ({
+            ...option,
+            ...(option.id == selectedOption.id && {
+              checked: !selectedOption.checked,
+            }),
+          })),
+        },
+      })
+    );
+  }
+
+  function handlePriceFilterSelect(selectedOption) {
+    dispatch(
+      setFilters({
+        ...filters,
+        draft: {
+          ...filters.draft,
+          priceOptions: filters.draft.priceOptions.map((option) => ({
             ...option,
             ...(option.id == selectedOption.id && {
               checked: !selectedOption.checked,
@@ -172,39 +189,35 @@ const Sidebar = () => {
     // getListings(searchValue);
   }
 
-  function handleFiltersReset() {
-    console.log({
-      ...filters,
-      draft: initialFilters,
-    });
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: initialFilters,
-      })
-    );
-  }
+  // function handleFiltersReset() {
+  //   dispatch(
+  //     setFilters({
+  //       ...filters,
+  //       draft: initialFilters,
+  //     })
+  //   );
+  // }
 
-  console.log(filters.draft.brand == filters.saved.brand);
-  console.log(filters.draft.modal == filters.saved.modal);
-  console.log(filters.draft.minPrice == filters.saved.minPrice);
-  console.log(filters.draft.maxPrice == filters.saved.maxPrice);
-  console.log(filters.draft.city == filters.saved.city);
-  console.log(filters.draft.state == filters.saved.state);
-  console.log(filters.draft.negotiableOptions == filters.saved.negotiableOptions);
-  console.log(filters.draft.tradeOptions == filters.saved.tradeOptions);
-  console.log(filters.draft.conditionOptions == filters.saved.conditionOptions);
-  console.log(filters.draft.shippingOptions == filters.saved.shippingOptions);
-  console.log(
-    filters.draft.negotiableOptions.filter((option) => option.checked).length == 0
-  );
-  console.log(filters.draft.tradeOptions.filter((option) => option.checked).length == 0);
-  console.log(
-    filters.draft.conditionOptions.filter((option) => option.checked).length == 0
-  );
-  console.log(
-    filters.draft.shippingOptions.filter((option) => option.checked).length == 0
-  );
+  // console.log(filters.draft.brand == filters.saved.brand);
+  // console.log(filters.draft.modal == filters.saved.modal);
+  // console.log(filters.draft.minPrice == filters.saved.minPrice);
+  // console.log(filters.draft.maxPrice == filters.saved.maxPrice);
+  // console.log(filters.draft.city == filters.saved.city);
+  // console.log(filters.draft.state == filters.saved.state);
+  // console.log(filters.draft.negotiableOptions == filters.saved.negotiableOptions);
+  // console.log(filters.draft.tradeOptions == filters.saved.tradeOptions);
+  // console.log(filters.draft.conditionOptions == filters.saved.conditionOptions);
+  // console.log(filters.draft.shippingOptions == filters.saved.shippingOptions);
+  // console.log(
+  //   filters.draft.negotiableOptions.filter((option) => option.checked).length == 0
+  // );
+  // console.log(filters.draft.tradeOptions.filter((option) => option.checked).length == 0);
+  // console.log(
+  //   filters.draft.conditionOptions.filter((option) => option.checked).length == 0
+  // );
+  // console.log(
+  //   filters.draft.shippingOptions.filter((option) => option.checked).length == 0
+  // );
 
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
@@ -236,7 +249,7 @@ const Sidebar = () => {
           </button>
         )}
         <div className="apply-and-reset">
-          <button onClick={handleFiltersReset} type="button" className="button reset">
+          <button onClick={() => dispatch(resetFilters())} type="button" className=" reset-button">
             <UndoIcon />
           </button>
           <button
@@ -307,7 +320,7 @@ const Sidebar = () => {
           </div>
 
           <div className="filter-item">
-            <div className="min-max-price-inputs">
+            {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
                 <label>Min. Price</label>
                 <input
@@ -346,7 +359,12 @@ const Sidebar = () => {
                   value={filters.draft.maxPrice}
                 />
               </div>
-            </div>
+            </div> */}
+            <label>By Price</label>
+            <Checkboxes
+              options={filters.draft.priceOptions}
+              handleCheckboxOptionClick={(option) => handlePriceFilterSelect(option)}
+            />
             {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
               <p className="filter-warning">Max must be equal or greater</p>
             ) : filters.draft.minPrice[0] == 0 ||
@@ -407,7 +425,7 @@ const Sidebar = () => {
                 </div>
               ))}
             </div> */}
-             <Checkboxes
+            <Checkboxes
               options={filters.draft.shippingOptions}
               handleCheckboxOptionClick={(option) => handleShippingFilterSelect(option)}
             />
@@ -437,7 +455,7 @@ const Sidebar = () => {
                 </div>
               ))}
             </div> */}
-             <Checkboxes
+            <Checkboxes
               options={filters.draft.tradeOptions}
               handleCheckboxOptionClick={(option) => handleTradesFilterSelect(option)}
             />

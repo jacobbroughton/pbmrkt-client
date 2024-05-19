@@ -97,7 +97,7 @@
   border-radius: 3px;
   border: 1px solid grey;
   padding: 3px 5px;
-  background-color: #3B3B3B;
+  background-color: #3b3b3b;
 }
 
 .item .details {
@@ -153,7 +153,7 @@
 .item .content .item-info {
   display: flex;
   flex-direction: column;
- align-items: flex-start;
+  align-items: flex-start;
 }
 
 .item .content .price {
@@ -170,11 +170,9 @@
   background-color: #4ad493;
 }
 
-
 .item .content .price-and-condition .price {
   background-color: var(--bg-primary);
 }
-
 
 .item .content .seller-is-item {
   display: flex;
@@ -182,25 +180,52 @@
   gap: 10px;
 }
 
-.item .content .seller-info {
+.item .content .seller-info-container {
   /* border: 1px solid #4ad493;
   border-radius: 3px;
   padding: 5px 10px; */
 }
 
-.item .content .seller-info .profile-picture-container {
+.item .content .seller-info-container .seller-info {
+  display: flex;
+  padding: 5px 0;
+  border: 1px solid var(--lightgreen);
+  border-radius: 5px;
+  padding: 10px 15px 10px 10px;
+  font-size: 0.875rem;
+}
+
+.item .content .seller-info-container .seller-info .user-link {
+  display: block;
+}
+
+.item .content .seller-info-container .seller-info .stars {
+  display: flex;
+  margin-left: -3px;
+}
+
+.item .content .seller-info-container .seller-info .stars .star-container {
+  padding: 3px;
+  cursor: pointer;
+}
+
+.item .content .seller-info-container .seller-info .stars .star-container svg {
+  width: 14px;
+  fill: yellow;
+}
+
+.item .content .seller-info-container .profile-picture-container {
   margin-right: 10px;
 }
 
-.item .content .seller-info .profile-picture-container .profile-picture {
+.item .content .seller-info-container .profile-picture-container .profile-picture {
   background-color: #666;
   border-radius: 100px;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 }
 
-
-.item .content .seller-info .heading {
+.item .content .seller-info-container .heading {
   font-weight: 600;
   text-decoration: underline;
 }
@@ -210,9 +235,9 @@
     flex-direction: column;
   }
 
-  .item .content .images-and-info{
+  .item .content .images-and-info {
     flex-direction: column;
-    max-width: none;;
+    max-width: none;
   }
 
   .item .content > .images-and-info > .item-images {
@@ -221,7 +246,7 @@
   }
 
   .item .content > .images-and-info > .item-images > .main-image-parent {
-    width: 100%;;
+    width: 100%;
     max-width: none;
   }
 }

@@ -1,0 +1,5 @@
+.modal-overlay {
+  background-color: #55555554;
+  position: fixed;
+  inset: 0;
+}

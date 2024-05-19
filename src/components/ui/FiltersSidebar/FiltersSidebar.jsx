@@ -214,7 +214,7 @@ const Sidebar = () => {
           Apply
         </button>
         <div className="filter-items">
-          <div className="filter-item">
+          {/* <div className="filter-item">
             <label>By Brand</label>
             <input
               placeholder="Planet Eclipse, Dye, Tippmann"
@@ -245,7 +245,7 @@ const Sidebar = () => {
               }
               value={filters.draft.model}
             />
-          </div>
+          </div> */}
           <div className="filter-item">
             <label>By State</label>
 

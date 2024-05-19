@@ -46,7 +46,7 @@ function Navbar() {
         {/* {!auth.user && <Link to="/login">Login</Link>} */}
         {/* {!auth.user && <Link to="/register">Register</Link>} */}
       </div>
-      {modals.rightSideMenuToggled && <RightSideMenu />}
+      {modals.rightSideMenuToggled && auth.session && <RightSideMenu />}
     </nav>
   );
 }

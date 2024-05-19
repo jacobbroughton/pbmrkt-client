@@ -8,6 +8,7 @@ import EditItemModal from "../../ui/EditItemModal/EditItemModal";
 import { toggleModal } from "../../../redux/modals";
 // import { setComments, setNewCommentBody } from "../../../redux/comments";
 import CommentsList from "../../ui/CommentsList/CommentsList";
+import Star from "../../ui/Icons/Star";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -327,19 +328,29 @@ const Item = () => {
 
             <div className="horizontal-divider"></div>
 
-            <div className="seller-info">
-              <p className="heading">Seller Info</p>
-              <div className="profile-picture-container">
-                <div className="profile-picture">&nbsp;</div>
+            <div className="seller-info-container">
+              {/* <p className="heading">Seller Info</p> */}
+              <div className="seller-info">
+                <div className="profile-picture-container">
+                  <div className="profile-picture">&nbsp;</div>
+                </div>
+                <div className="text">
+                  <p>
+                    {item.info.city}, {item.info.state}
+                  </p>
+                  <Link
+                    to={`/user/${item.info.created_by_username}`}
+                    className="user-link"
+                  >
+                    {item.info.created_by_username}
+                  </Link>
+                  <div className="stars">
+                    {[1, 2, 3, 4, 5].map(() => (
+                      <Star fillType={"full"} />
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p>
-                Location: {item.info.city}, {item.info.state}
-              </p>
-              <p>
-                <Link to={`/user/${item.info.created_by_username}`}>
-                  {item.info.created_by_username}
-                </Link>
-              </p>
             </div>
           </div>
         </div>

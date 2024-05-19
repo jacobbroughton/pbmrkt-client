@@ -5,7 +5,7 @@ import Star from "../Icons/Star";
 import "./AddReviewModal.css";
 import { supabase } from "../../../utils/supabase";
 
-const AddReviewModal = ({ seller, reviews, setReviews }) => {
+const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
   const { user } = useSelector((state) => state.auth.session);
@@ -64,6 +64,8 @@ const AddReviewModal = ({ seller, reviews, setReviews }) => {
         count: reviews.count + 1,
         list: [...data, ...reviews.list],
       });
+
+      setSeller({...seller, review_given: true})
 
       console.log(data);
     } catch (error) {

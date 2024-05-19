@@ -8,6 +8,7 @@ import ListingGrid from "../ListingGrid/ListingGrid";
 import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const SellerProfile = () => {
   const { username } = useParams();
@@ -23,7 +24,7 @@ const SellerProfile = () => {
   const modals = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.auth.session.user);
+  const { session } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getProfile();
@@ -41,7 +42,7 @@ const SellerProfile = () => {
     try {
       const { data: data1, error: error1 } = await supabase.rpc("get_seller_profile", {
         p_username: username,
-        p_viewer_id: user.id,
+        p_viewer_id: session?.user.id,
       });
 
       if (error1) throw error1.message;
@@ -101,11 +102,14 @@ const SellerProfile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: user.id,
+        p_seller_id: session.user.id,
         p_city: "",
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
       if (!data) throw "No listings available";
 
@@ -157,14 +161,20 @@ const SellerProfile = () => {
       <ListingGrid listings={listings} />
       {modals.addReviewModalToggled && (
         <>
-          <AddReviewModal seller={seller} setReviews={setReviews} reviews={reviews} />
+          <AddReviewModal
+            seller={seller}
+            setReviews={setReviews}
+            reviews={reviews}
+            setSeller={setSeller}
+          />
           <LoadingOverlay />
         </>
       )}
       {modals.sellerReviewsModalToggled && (
         <>
           <SellerReviewsModal seller={seller} setReviews={setReviews} reviews={reviews} />
-          <LoadingOverlay />
+          {/* <LoadingOverlay /> */}
+          <ModalOverlay zIndex={1} />
         </>
       )}
     </div>

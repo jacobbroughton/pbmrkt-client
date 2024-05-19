@@ -104,7 +104,7 @@ const SellerProfile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: session.user.id,
+        p_seller_id: fetchedSeller.auth_id,
         p_city: "",
       });
 

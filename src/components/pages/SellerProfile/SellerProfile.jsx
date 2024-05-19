@@ -9,6 +9,9 @@ import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
+import { setFlag } from "../../../redux/flags";
+import { determineStarFillArray } from "../../../utils/usefulFunctions";
+import Stars from "../../ui/Stars/Stars";
 
 const SellerProfile = () => {
   const { username } = useParams();
@@ -22,21 +25,18 @@ const SellerProfile = () => {
   const [profileLoading, setProfileLoading] = useState(true);
   const [error, setError] = useState(null);
   const modals = useSelector((state) => state.modals);
+  const flags = useSelector((state) => state.flags);
   const dispatch = useDispatch();
 
   const { session } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getProfile();
+    if (flags.sellerProfileNeedsUpdate) getProfile();
 
     return () => {
       dispatch(toggleModal({ key: "addReviewModal", value: false }));
     };
-  }, []);
-
-  // if (!listingsLoading) {
-  //   setListingsLoading(true);
-  // }
+  }, [flags.sellerProfileNeedsUpdate]);
 
   async function getProfile() {
     try {
@@ -115,6 +115,8 @@ const SellerProfile = () => {
 
       console.log({ data, error });
       setListings(data);
+
+      dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: false }));
     } catch (error) {
       console.log(error);
     }
@@ -133,6 +135,7 @@ const SellerProfile = () => {
   return (
     <div className="seller-profile-page">
       <h1>{seller.username}</h1>
+      <Stars rating={seller.rating} />
       <div className="reviews">
         <button
           className="button reviews-list-toggle-button"

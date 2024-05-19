@@ -9,6 +9,8 @@ import { toggleModal } from "../../../redux/modals";
 // import { setComments, setNewCommentBody } from "../../../redux/comments";
 import CommentsList from "../../ui/CommentsList/CommentsList";
 import Star from "../../ui/Icons/Star";
+import { determineStarFillArray } from "../../../utils/usefulFunctions";
+import Stars from "../../ui/Stars/Stars";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -240,6 +242,9 @@ const Item = () => {
 
   if (error) return <p>There was an error - {error.toString()}</p>;
   if (!item.info?.eff_status) return <p>This item was deleted.</p>;
+
+  let stars = determineStarFillArray(item.info.seller_rating);
+
   return (
     <div className="item">
       {deletedModalShowing && (
@@ -344,11 +349,12 @@ const Item = () => {
                   >
                     {item.info.created_by_username}
                   </Link>
-                  <div className="stars">
-                    {[1, 2, 3, 4, 5].map(() => (
-                      <Star fillType={"full"} />
-                    ))}
-                  </div>
+                  {/* <div className="stars">
+                    {stars.map((fillDesc) => {
+                      return <Star fillType={fillDesc} />;
+                    })}
+                  </div> */}
+                  <Stars rating={item.info.seller_rating} />
                 </div>
               </div>
             </div>

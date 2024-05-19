@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Star from "../Icons/Star";
 import "./AddReviewModal.css";
 import { supabase } from "../../../utils/supabase";
+import { setFlag } from "../../../redux/flags";
 
 const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
@@ -65,7 +66,9 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
         list: [...data, ...reviews.list],
       });
 
-      setSeller({...seller, review_given: true})
+      setSeller({ ...seller, review_given: true });
+
+      dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: true }));
 
       console.log(data);
     } catch (error) {
@@ -90,7 +93,13 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
               />
             ))}
           </div>
-          <input type="range" min="0" max="5" step="0.5" onChange={(e) => setRating(parseFloat(e.target.value))}/>
+          <input
+            type="range"
+            min="0"
+            max="5"
+            step="0.5"
+            onChange={(e) => setRating(parseFloat(e.target.value))}
+          />
         </div>
         <div className="form-group">
           <label>Title</label>
@@ -100,7 +109,11 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
           <label>Body</label>
           <textarea onChange={(e) => setBody(e.target.value)} placeholder="....." />
         </div>
-        <button className="button" type="submit" disabled={rating == 0 || title == '' || body == ''}>
+        <button
+          className="button"
+          type="submit"
+          disabled={rating == 0 || title == "" || body == ""}
+        >
           Submit
         </button>
       </form>

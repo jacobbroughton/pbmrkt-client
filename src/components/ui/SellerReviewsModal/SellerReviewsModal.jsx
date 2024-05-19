@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import "./SellerReviewsModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch } from "react-redux";
+import Stars from "../Stars/Stars";
 
 const SellerReviewsModal = ({ seller, reviews }) => {
   const modalRef = useRef(null);
@@ -40,6 +41,7 @@ const SellerReviewsModal = ({ seller, reviews }) => {
       <ul>
         {reviews.list?.map((review) => (
           <li>
+            <Stars rating={review.rating}/>
             <p className="title">{review.title}</p>
             <p className="body">{review.body}</p>
             <p className="username-and-date">

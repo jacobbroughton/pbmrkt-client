@@ -1,0 +1,14 @@
+.stars {
+  display: flex;
+  margin-left: -3px;
+}
+
+.stars .star-container {
+  padding: 3px;
+  cursor: pointer;
+}
+
+.stars .star-container svg {
+  width: 14px;
+  fill: yellow;
+}

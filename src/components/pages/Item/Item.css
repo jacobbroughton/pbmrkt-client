@@ -199,21 +199,6 @@
   display: block;
 }
 
-.item .content .seller-info-container .seller-info .stars {
-  display: flex;
-  margin-left: -3px;
-}
-
-.item .content .seller-info-container .seller-info .stars .star-container {
-  padding: 3px;
-  cursor: pointer;
-}
-
-.item .content .seller-info-container .seller-info .stars .star-container svg {
-  width: 14px;
-  fill: yellow;
-}
-
 .item .content .seller-info-container .profile-picture-container {
   margin-right: 10px;
 }

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import useWindowSize from "../../../utils/useWindowSize.js";
 import DoubleArrow from "../Icons/DoubleArrow.jsx";
+import UndoIcon from "../Icons/UndoIcon.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters.js";
+import Checkbox from "../Icons/Checkbox.jsx";
+import "./FiltersSidebar.css";
+import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -63,7 +67,7 @@ const Sidebar = () => {
     console.log(filters.draft);
   }, [filters.draft]);
 
-  function handleConditionFilterSelect(e, selectedOption) {
+  function handleConditionFilterSelect(selectedOption) {
     dispatch(
       setFilters({
         ...filters,
@@ -72,7 +76,7 @@ const Sidebar = () => {
           conditionOptions: filters.draft.conditionOptions.map((option) => ({
             ...option,
             ...(option.id == selectedOption.id && {
-              checked: e.target.checked,
+              checked: !selectedOption.checked,
             }),
           })),
         },
@@ -80,7 +84,7 @@ const Sidebar = () => {
     );
   }
 
-  function handleNegotiableFilterSelect(e, selectedOption) {
+  function handleNegotiableFilterSelect(selectedOption) {
     dispatch(
       setFilters({
         ...filters,
@@ -89,7 +93,8 @@ const Sidebar = () => {
           negotiableOptions: filters.draft.negotiableOptions.map((option) => ({
             ...option,
             ...(option.id == selectedOption.id && {
-              checked: e.target.checked,
+              // checked: e.target.checked,
+              checked: !selectedOption.checked,
             }),
           })),
         },
@@ -122,7 +127,7 @@ const Sidebar = () => {
     );
   }
 
-  function handleTradesFilterSelect(e, selectedOption) {
+  function handleTradesFilterSelect(selectedOption) {
     dispatch(
       setFilters({
         ...filters,
@@ -131,7 +136,8 @@ const Sidebar = () => {
           tradeOptions: filters.draft.tradeOptions.map((option) => ({
             ...option,
             ...(option.id == selectedOption.id && {
-              checked: e.target.checked,
+              // checked: e.target.checked,
+              checked: !selectedOption.checked,
             }),
           })),
         },
@@ -139,7 +145,7 @@ const Sidebar = () => {
     );
   }
 
-  function handleShippingFilterSelect(e, selectedOption) {
+  function handleShippingFilterSelect(selectedOption) {
     dispatch(
       setFilters({
         ...filters,
@@ -148,7 +154,8 @@ const Sidebar = () => {
           shippingOptions: filters.draft.shippingOptions.map((option) => ({
             ...option,
             ...(option.id == selectedOption.id && {
-              checked: e.target.checked,
+              // checked: e.target.checked,
+              checked: !selectedOption.checked,
             }),
           })),
         },
@@ -177,6 +184,27 @@ const Sidebar = () => {
       })
     );
   }
+
+  console.log(filters.draft.brand == filters.saved.brand);
+  console.log(filters.draft.modal == filters.saved.modal);
+  console.log(filters.draft.minPrice == filters.saved.minPrice);
+  console.log(filters.draft.maxPrice == filters.saved.maxPrice);
+  console.log(filters.draft.city == filters.saved.city);
+  console.log(filters.draft.state == filters.saved.state);
+  console.log(filters.draft.negotiableOptions == filters.saved.negotiableOptions);
+  console.log(filters.draft.tradeOptions == filters.saved.tradeOptions);
+  console.log(filters.draft.conditionOptions == filters.saved.conditionOptions);
+  console.log(filters.draft.shippingOptions == filters.saved.shippingOptions);
+  console.log(
+    filters.draft.negotiableOptions.filter((option) => option.checked).length == 0
+  );
+  console.log(filters.draft.tradeOptions.filter((option) => option.checked).length == 0);
+  console.log(
+    filters.draft.conditionOptions.filter((option) => option.checked).length == 0
+  );
+  console.log(
+    filters.draft.shippingOptions.filter((option) => option.checked).length == 0
+  );
 
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
@@ -207,12 +235,18 @@ const Sidebar = () => {
             <DoubleArrow direction="left" />
           </button>
         )}
-        <button onClick={handleFiltersReset} type="button" className="button reset">
-          Reset
-        </button>
-        <button className="cta-button apply" type="submit" disabled={applyButtonDisabled}>
-          Apply
-        </button>
+        <div className="apply-and-reset">
+          <button onClick={handleFiltersReset} type="button" className="button reset">
+            <UndoIcon />
+          </button>
+          <button
+            className="cta-button apply"
+            type="submit"
+            disabled={applyButtonDisabled}
+          >
+            Apply
+          </button>
+        </div>
         <div className="filter-items">
           {/* <div className="filter-item">
             <label>By Brand</label>
@@ -324,35 +358,33 @@ const Sidebar = () => {
           </div>
           <div className="filter-item">
             <label>By Condition</label>
-            <div className="checkbox-options">
+            {/* <div className="checkbox-options">
               {filters.draft.conditionOptions.map((conditionOption) => (
                 <div
                   className={`checkbox-option ${
                     conditionOption.checked ? "checked" : ""
                   }`}
+                  onClick={() =>
+                    handleConditionFilterSelect(
+                      null,
+                      conditionOption,
+                      filters.draft.conditionOptions
+                    )
+                  }
                 >
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={conditionOption.value}
-                      onChange={(e) =>
-                        handleConditionFilterSelect(
-                          e,
-                          conditionOption,
-                          filters.draft.conditionOptions
-                        )
-                      }
-                      checked={conditionOption.checked}
-                    />{" "}
-                    {conditionOption.value}
-                  </label>
+                  <Checkbox checked={conditionOption.checked} />
+                  <label>{conditionOption.value}</label>
                 </div>
               ))}
-            </div>
+            </div> */}
+            <Checkboxes
+              options={filters.draft.conditionOptions}
+              handleCheckboxOptionClick={(option) => handleConditionFilterSelect(option)}
+            />
           </div>
           <div className="filter-item">
             <label>By Shipping</label>
-            <div className="checkbox-options">
+            {/* <div className="checkbox-options">
               {filters.draft.shippingOptions.map((shippingOption) => (
                 <div
                   className={`checkbox-option ${shippingOption.checked ? "checked" : ""}`}
@@ -374,11 +406,15 @@ const Sidebar = () => {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
+             <Checkboxes
+              options={filters.draft.shippingOptions}
+              handleCheckboxOptionClick={(option) => handleShippingFilterSelect(option)}
+            />
           </div>
           <div className="filter-item">
             <label>By Trades</label>
-            <div className="checkbox-options">
+            {/* <div className="checkbox-options">
               {filters.draft.tradeOptions.map((tradeOption) => (
                 <div
                   className={`checkbox-option ${tradeOption.checked ? "checked" : ""}`}
@@ -400,11 +436,15 @@ const Sidebar = () => {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
+             <Checkboxes
+              options={filters.draft.tradeOptions}
+              handleCheckboxOptionClick={(option) => handleTradesFilterSelect(option)}
+            />
           </div>
           <div className="filter-item">
             <label>By Negotiatable</label>
-            <div className="checkbox-options">
+            {/* <div className="checkbox-options">
               {filters.draft.negotiableOptions.map((negotiableOption) => (
                 <div
                   className={`checkbox-option ${
@@ -427,7 +467,11 @@ const Sidebar = () => {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
+            <Checkboxes
+              options={filters.draft.negotiableOptions}
+              handleCheckboxOptionClick={(option) => handleNegotiableFilterSelect(option)}
+            />
           </div>
         </div>
       </form>

@@ -7,6 +7,9 @@ const initialFilters = {
   maxPrice: null,
   city: "All",
   state: "All",
+  priceOptions: [
+    {id: 0, value: "$0 - $50"},
+  ],
   conditionOptions: [
     { id: 0, value: "Brand New", checked: true },
     { id: 1, value: "Like New", checked: true },

@@ -1,0 +1,23 @@
+.checkbox-options {
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+}
+.checkbox-options > .checkbox-option {
+  display: flex;
+  font-size: 1rem;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+.checkbox-options > .checkbox-option label {
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.checkbox-options > .checkbox-option svg {
+  width: 17px;
+  fill: white;
+}

@@ -1,17 +1,12 @@
-// import { Link } from "react-router-dom";
 import "./Home.css";
 import SearchIcon from "../../ui/Icons/SearchIcon.jsx";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
-// import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import useWindowSize from "../../../utils/useWindowSize";
-// import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-// import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import ListingGrid from "../../ui/ListingGrid/ListingGrid.jsx";
 import Sidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import DoubleArrow from "../../ui/Icons/DoubleArrow.jsx";
 import { setFiltersUpdated } from "../../../redux/filters.js";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
@@ -27,23 +22,20 @@ function Listings() {
   const [draftSearchValue, setDraftSearchValue] = useState("");
   const [listingsError, setListingsError] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
-  // const [filtersUpdated, setFiltersUpdated] = useState(false);
   const windowSize = useWindowSize();
-  const [sidebarToggled, setSidebarToggled] = useState(windowSize.width > 625);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-
-  const [views, setViews] = useState([
-    {
-      id: 0,
-      label: "For Sale",
-      toggled: true,
-    },
-    {
-      id: 1,
-      label: "Looking To Buy",
-      toggled: false,
-    },
-  ]);
+  // const [views, setViews] = useState([
+  //   {
+  //     id: 0,
+  //     label: "For Sale",
+  //     toggled: true,
+  //   },
+  //   {
+  //     id: 1,
+  //     label: "Looking To Buy",
+  //     toggled: false,
+  //   },
+  // ]);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -128,15 +120,6 @@ function Listings() {
   return (
     <div className="home">
       <div className="sidebar-and-grid">
-        {/* {!modals.filtersSidebarToggled && (
-          <button
-            onClick={() => dispatch(toggleModal({ key: "filtersSidebar", value: true }))}
-            type="button"
-            className="sidebar-toggle-button"
-          >
-            <DoubleArrow direction="right" />
-          </button>
-        )} */}
         {modals.filtersSidebarToggled && <Sidebar />}
         <div
           className={`${
@@ -192,9 +175,6 @@ function Listings() {
             >
               Filters <FilterIcon />
             </button>
-            {/* ) : (
-              <span>&nbsp;</span>
-            )} */}
             <div className="control-group sort">
               <select onChange={(e) => setSort(e.target.value)} value={sort}>
                 <option>Alphabetically (A-Z)</option>
@@ -209,12 +189,16 @@ function Listings() {
           {listingsError ? (
             <p>{listingsError}</p>
           ) : listingsLoading ? (
-            <div className="skeletons-grid">
-              <ItemSkeleton />
-              <ItemSkeleton />
-              <ItemSkeleton />
-              <ItemSkeleton />
-              <ItemSkeleton />
+            <div
+              className={`${
+                windowSize.width > 225 && modals.filtersSidebarToggled
+                  ? "accounts-for-sidebar"
+                  : ""
+              } skeletons-grid`}
+            >
+              {[...new Array(listings.length || 5)].map(() => (
+                <ItemSkeleton />
+              ))}
             </div>
           ) : !isInitialLoad && listings.length == 0 ? (
             <p>No listings available</p>

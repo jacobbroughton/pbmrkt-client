@@ -142,12 +142,12 @@
   .skeletons-grid,
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    padding-top: 95px;
   }
 
   .skeletons-grid,
   .grid-item {
     height: 150px;
-    padding-top: 110px;
   }
 }
 

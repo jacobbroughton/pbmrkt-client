@@ -305,7 +305,7 @@ const Sidebar = () => {
                     dispatch(
                       setFilters({
                         ...filters,
-                        draft: { ...filters.draft, maxPrice: e.target.value || null },
+                        draft: { ...filters.draft, maxPrice: e.target.value },
                       })
                     )
                   }

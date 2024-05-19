@@ -3,6 +3,7 @@ import CommentsList from "../CommentsList/CommentsList";
 import "./Comment.css";
 import Chevron from "../Icons/Chevron";
 import SendIcon from "../Icons/SendIcon";
+import { getTimeAgo } from "../../../utils/usefulFunctions";
 
 const Comment = ({
   comment,
@@ -20,28 +21,7 @@ const Comment = ({
 }) => {
   const { session } = useSelector((state) => state.auth);
 
-  function timeAgo(date) {
-    const now = new Date();
-    const seconds = Math.floor((now - date) / 1000);
-    const intervals = {
-      year: 31536000,
-      month: 2592000,
-      week: 604800,
-      day: 86400,
-      hour: 3600,
-      minute: 60,
-      second: 1,
-    };
-
-    for (const [unit, value] of Object.entries(intervals)) {
-      const count = Math.floor(seconds / value);
-      if (count > 0) {
-        return `${count}${unit.charAt(0)} ago`;
-      }
-    }
-
-    return "just now";
-  }
+  
 
   return (
     <div
@@ -59,7 +39,7 @@ const Comment = ({
         <div className="comment-contents">
           <div className="comment-header">
             <p className="tiny-text bold">{comment.created_by_email}</p>{" "}
-            <p className="tiny-text">{timeAgo(new Date(comment.created_dttm))}</p>
+            <p className="tiny-text">{getTimeAgo(new Date(comment.created_dttm))}</p>
           </div>
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>

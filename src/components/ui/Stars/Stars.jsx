@@ -8,8 +8,8 @@ const Stars = ({rating}) => {
 
   return (
     <div className="stars">
-      {stars.map((fillDesc) => {
-        return <Star fillType={fillDesc} />;
+      {stars.map((fillDesc, i) => {
+        return <Star fillType={fillDesc} key={i} />;
       })}
     </div>
   );

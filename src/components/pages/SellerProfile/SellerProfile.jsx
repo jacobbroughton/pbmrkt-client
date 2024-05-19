@@ -10,7 +10,6 @@ import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import { setFlag } from "../../../redux/flags";
-import { determineStarFillArray } from "../../../utils/usefulFunctions";
 import Stars from "../../ui/Stars/Stars";
 
 const SellerProfile = () => {
@@ -32,14 +31,19 @@ const SellerProfile = () => {
 
   useEffect(() => {
     if (flags.sellerProfileNeedsUpdate) getProfile();
+  }, [flags.sellerProfileNeedsUpdate]);
+
+  useEffect(() => {
+    getProfile();
 
     return () => {
       dispatch(toggleModal({ key: "addReviewModal", value: false }));
     };
-  }, [flags.sellerProfileNeedsUpdate]);
+  }, []);
 
   async function getProfile() {
     try {
+      console.log("Making it here");
       const { data: data1, error: error1 } = await supabase.rpc("get_seller_profile", {
         p_username: username,
         p_viewer_id: session?.user.id,
@@ -58,8 +62,6 @@ const SellerProfile = () => {
       });
 
       if (error2) throw error2.message;
-
-      console.log("reviews for seller", reviews);
 
       setReviews({
         count: reviews.length,
@@ -113,18 +115,16 @@ const SellerProfile = () => {
 
       if (!data) throw "No listings available";
 
-      console.log({ data, error });
       setListings(data);
 
       dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: false }));
     } catch (error) {
       console.log(error);
+      setError(error);
     }
     setListingsLoading(false);
     setProfileLoading(false);
   }
-
-  console.log(reviews);
 
   if (error) return <p>{error}</p>;
 

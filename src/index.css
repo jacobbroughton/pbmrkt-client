@@ -89,7 +89,7 @@ textarea {
 }
 
 .tiny-text.bold {
-  font-weight: 600;;
+  font-weight: 600;
 }
 
 .auth-wrapper {
@@ -272,6 +272,7 @@ a:hover {
   gap: 5px;
   border: 1px solid grey;
   box-shadow: 3px 3px 15px #181818;
+  width: calc(100% - 30px);
 }
 
 .cta-button {
@@ -314,7 +315,7 @@ a:hover {
 }
 
 .button svg {
-  width: 15px;
+  width: 13px;
   fill: white;
 }
 

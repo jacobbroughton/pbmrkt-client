@@ -82,26 +82,30 @@ const CommentsList = ({
   }
   return (
     <div className="comments-list">
-      {localComments?.map((comment) => {
-        return (
-          <Comment
-            comment={comment}
-            commentWithReplyWindowID={commentWithReplyWindowID}
-            setCommentWithReplyWindowID={setCommentWithReplyWindowID}
-            handleCommentSubmit={(e) => handleReplySubmit(e, comment)}
-            setNewReplyBody={setNewReplyBody}
-            handleRepliesClick={
-              isRootLevel ? handleRepliesClickFromRootLevel : handleRepliesClick
-            }
-            handleDeleteComment={handleDeleteComment}
-            newReplyBody={newReplyBody}
-            isRootLevel={isRootLevel}
-            setRootLevelComments={setRootLevelComments}
-            getComments={getComments}
-            setError={setError}
-          />
-        );
-      })}
+      {localComments.length == 0 ? (
+        <p>No comments, consider starting the conversation!</p>
+      ) : (
+        localComments.map((comment) => {
+          return (
+            <Comment
+              comment={comment}
+              commentWithReplyWindowID={commentWithReplyWindowID}
+              setCommentWithReplyWindowID={setCommentWithReplyWindowID}
+              handleCommentSubmit={(e) => handleReplySubmit(e, comment)}
+              setNewReplyBody={setNewReplyBody}
+              handleRepliesClick={
+                isRootLevel ? handleRepliesClickFromRootLevel : handleRepliesClick
+              }
+              handleDeleteComment={handleDeleteComment}
+              newReplyBody={newReplyBody}
+              isRootLevel={isRootLevel}
+              setRootLevelComments={setRootLevelComments}
+              getComments={getComments}
+              setError={setError}
+            />
+          );
+        })
+      )}
     </div>
   );
 };

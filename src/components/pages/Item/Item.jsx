@@ -9,7 +9,7 @@ import { toggleModal } from "../../../redux/modals";
 // import { setComments, setNewCommentBody } from "../../../redux/comments";
 import CommentsList from "../../ui/CommentsList/CommentsList";
 import Star from "../../ui/Icons/Star";
-import { determineStarFillArray } from "../../../utils/usefulFunctions";
+import { determineStarFillArray, getTimeAgo } from "../../../utils/usefulFunctions";
 import Stars from "../../ui/Stars/Stars";
 
 const Item = () => {
@@ -305,6 +305,7 @@ const Item = () => {
             <div className="item-thumbnails">
               {item.photos.map((photo) => (
                 <img
+                  key={photo.id}
                   className={`item-thumbnail-image ${
                     photo.id === selectedPhoto?.id ? "selected" : ""
                   }`}
@@ -325,15 +326,34 @@ const Item = () => {
 
             <div className="horizontal-divider extra-top-margin"></div>
 
-            <p>{item.info.condition}</p>
-            <p>{item.info.status}</p>
-            <p>{item.info.shipping}</p>
-            <p>{item.info.negotiable}</p>
-            <p>{item.info.trades}</p>
-
-            <div className="horizontal-divider"></div>
-
-            <div className="seller-info-container">
+            <table className='specs'>
+              <tr>
+                <td>Availability</td>
+                <td>
+                  {item.info.status} as of{" "}
+                  {/* //whenever the user last visited the site */ getTimeAgo(new Date())}
+                </td>
+              </tr>
+              <tr>
+                <td>Condition</td>
+                <td>{item.info.condition}</td>
+              </tr>
+              <tr>
+                <td>Shipping</td>
+                <td>{item.info.shipping}</td>
+              </tr>
+              <tr>
+                <td>Negotiable</td>
+                <td>{item.info.negotiable}</td>
+              </tr>
+              <tr>
+                <td>Trades</td>
+                <td>{item.info.trades}</td>
+              </tr>
+            </table>
+          </div>
+        <p className="details">{item.info.details || "No details were provided"}</p>
+        <div className="seller-info-container">
               {/* <p className="heading">Seller Info</p> */}
               <div className="seller-info">
                 <div className="profile-picture-container">
@@ -358,10 +378,8 @@ const Item = () => {
                 </div>
               </div>
             </div>
-          </div>
         </div>
-        <div className="horizontal-divider"></div>
-        <p className="details">{item.info.details || "No details were provided"}</p>
+        {/* <div className="horizontal-divider"></div> */}
       </div>
       <div className="comments-section">
         <div className="horizontal-divider"></div>
@@ -384,23 +402,23 @@ const Item = () => {
           </p>
         )}
 
-        {localComments?.length ? (
-          <>
-            <div className="horizontal-divider"></div>
-            <CommentsList
-              passedComments={localComments}
-              handleCommentSubmit={handleNewCommentSubmit}
-              handleRepliesClickFromRootLevel={handleRepliesClick}
-              handleDeleteComment={handleDeleteComment}
-              isRootLevel={true}
-              setRootLevelComments={setLocalComments}
-              setError={setError}
-              getComments={getComments}
-            />
-          </>
-        ) : (
+        {/* {localComments?.length ? (
+          <> */}
+        <div className="horizontal-divider"></div>
+        <CommentsList
+          passedComments={localComments}
+          handleCommentSubmit={handleNewCommentSubmit}
+          handleRepliesClickFromRootLevel={handleRepliesClick}
+          handleDeleteComment={handleDeleteComment}
+          isRootLevel={true}
+          setRootLevelComments={setLocalComments}
+          setError={setError}
+          getComments={getComments}
+        />
+        {/* </> */}
+        {/* ) : (
           <p>No comments, consider starting the conversation!</p>
-        )}
+        )} */}
       </div>
       {modals.editItemModalToggled ? (
         <EditItemModal

@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
-  padding-bottom: 100px
+  padding-bottom: 100px;
 }
 
 .grid.accounts-for-sidebar {
@@ -146,6 +146,7 @@
   .skeletons-grid,
   .grid-item {
     height: 150px;
+    padding-top: 110px;
   }
 }
 

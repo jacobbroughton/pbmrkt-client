@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import ListingGrid from "../ListingGrid/ListingGrid";
+import ListingGrid from "../../ui/ListingGrid/ListingGrid";
 import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";

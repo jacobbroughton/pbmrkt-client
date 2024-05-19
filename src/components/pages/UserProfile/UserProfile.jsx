@@ -3,7 +3,7 @@ import "./UserProfile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
-import ListingGrid from "../ListingGrid/ListingGrid";
+import ListingGrid from "../../ui/ListingGrid/ListingGrid";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 
 const UserProfile = () => {

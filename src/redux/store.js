@@ -3,6 +3,7 @@ import authReducer from "./auth"
 import modalsReducer from "./modals"
 import filtersReducer from "./filters"
 import flagsReducer from "./flags"
+import searchReducer from "./search"
 // import commentsReducer from "./comments"
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
     auth: authReducer,
     modals: modalsReducer,
     filters: filtersReducer,
-    flags: flagsReducer
+    flags: flagsReducer,
+    search: searchReducer,
     // comments: commentsReducer,
   }
 })

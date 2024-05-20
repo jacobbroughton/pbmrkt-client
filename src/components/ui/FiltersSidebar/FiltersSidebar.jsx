@@ -238,9 +238,9 @@ const FiltersSidebar = () => {
             <label>By State</label>
 
             <select onChange={handleStateFilterSelect}>
-              <option>All</option>
+              <option selected={!filters.draft.state}>All</option>
               {states.map((state) => (
-                <option>{state}</option>
+                <option selected={state == filters.draft.state}>{state}</option>
               ))}
             </select>
           </div>
@@ -251,11 +251,10 @@ const FiltersSidebar = () => {
               className=""
               disabled={filters.draft.state == "All"}
               onChange={handleCityFilterSelect}
-              value={filters.draft.city}
             >
-              <option>All</option>
+              <option selected={!filters.draft.state}>All</option>
               {statesAndCities[filters.draft.state]?.map((city) => (
-                <option>{capitalizeWords(city)}</option>
+                <option selected={city == filters.draft.city} >{capitalizeWords(city)}</option>
               ))}
             </select>
           </div>

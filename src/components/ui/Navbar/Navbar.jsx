@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
 import PlusIcon from "../Icons/PlusIcon";
+import SearchBar from "../SearchBar/SearchBar";
+import { setDraftSearchValue } from "../../../redux/search";
 
 function Navbar() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
+  
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
@@ -17,13 +20,22 @@ function Navbar() {
     dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
   }
 
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    dispatch(setDraftSearchValue(draftSearchValue));
+
+    getListings(draftSearchValue);
+  }
+
   return (
     <nav>
       <Link to="/" className="home-link">
         PBMRKT
       </Link>
 
-      <div className="nav-links">
+
+      <div className="right-side">
+      <SearchBar handleSearchSubmit={handleSearchSubmit}/>
         <Link to="/sell" className="sell-link">
           {/* <PlusIcon /> */}
           Sell

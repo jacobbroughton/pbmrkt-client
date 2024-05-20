@@ -4,6 +4,7 @@ const flagsSlice = createSlice({
   name: "flags",
   initialState: {
     sellerProfileNeedsUpdate: true,
+    searchedListingsNeedsUpdate: true,
   },
   reducers: {
     setFlag: (state, { payload }) => {

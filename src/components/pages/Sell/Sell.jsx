@@ -69,12 +69,8 @@ const Sell = () => {
   const [price, setPrice] = useState(randomPrice);
   const [details, setDetails] = useState("");
   const [condition, setCondition] = useState(null);
-  const [shipping, setShipping] = useState(null);
-  const [trades, setTrades] = useState(null);
-  const [negotiable, setNegotiable] = useState(null);
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
-  const [location, setLocation] = useState("Matthews, NC");
   const [contactPhoneNumber, setContactPhoneNumber] = useState("7047708371");
   const [sellerName, setSellerName] = useState("Jacob Broughton");
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
@@ -151,7 +147,7 @@ const Sell = () => {
         p_negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
         p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_shipping_cost: shippingCost,
-        p_city: city,
+        p_city: city || null,
       });
 
       if (error) {
@@ -161,7 +157,7 @@ const Sell = () => {
 
       if (!data) throw "Listed item id is undefined";
 
-      if (newCoverPhotoId /* put selected new cover photo id here */) {
+      if (newCoverPhotoId) {
         const { data: data2, error } = await supabase.rpc("update_cover_photo", {
           p_item_id: data,
           p_image_id: newCoverPhotoId,
@@ -318,18 +314,11 @@ const Sell = () => {
     setModel(randomModel);
     setPrice(randomPrice);
     setDetails("");
-    setCondition(randomCondition);
-    setShipping(null);
-    setTrades(null);
-    setNegotiable(null);
-    // setBuyerPaysShipping(null);
-    // setLocation("Matthews, NC");
     setContactPhoneNumber("7047708371");
     setSellerName("Jacob Broughton");
     setGeneratedGroupId(uuidv4());
     setNewCoverPhotoId(null);
     setPhotos([]);
-    // setPhotoFiles(null);
     setSellError("");
     setListedItemID(false);
     setLoading(false);
@@ -360,6 +349,8 @@ const Sell = () => {
     const { data, error } = await supabase.rpc("delete_temp_image", {
       p_image_name: `temp/${session.user.id}/${generatedGroupId}/${image.name}`,
     });
+
+    if (error) throw error.message;
 
     const photosLeft = photos.filter((photo) => photo.id != image.id);
 

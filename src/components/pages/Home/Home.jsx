@@ -1,5 +1,4 @@
 import "./Home.css";
-import SearchIcon from "../../ui/Icons/SearchIcon.jsx";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
 import useWindowSize from "../../../utils/useWindowSize";
@@ -7,15 +6,17 @@ import ListingGrid from "../../ui/ListingGrid/ListingGrid.jsx";
 import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import { setFiltersUpdated } from "../../../redux/filters.js";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
+import { setFlag } from "../../../redux/flags.js";
 
 function Listings() {
   const dispatch = useDispatch();
   const modals = useSelector((state) => state.modals);
+  const flags = useSelector((state) => state.flags);
   const filters = useSelector((state) => state.filters);
+  const search = useSelector((state) => state.search);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
@@ -92,7 +93,9 @@ function Listings() {
       setListingsLoading(false);
 
       if (isInitialLoad) setIsInitialLoad(false);
-      if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
+      // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
+      if (flags.searchedListingsNeedsUpdate)
+        dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: false }));
     } catch (error) {
       setListingsError(error.toString());
     }
@@ -104,19 +107,23 @@ function Listings() {
   }, []);
 
   useEffect(() => {
-    getListings(searchValue);
+    getListings(search.savedSearchValue);
   }, [sort]);
 
+  // useEffect(() => {
+  //   if (filters.filtersUpdated) getListings(searchValue);
+  // }, [filters.filtersUpdated]);
+
   useEffect(() => {
-    if (filters.filtersUpdated) getListings(searchValue);
-  }, [filters.filtersUpdated]);
+    if (flags.searchedListingsNeedsUpdate) getListings(search.savedSearchValue);
+  }, [flags.searchedListingsNeedsUpdate]);
 
-  function handleSearchSubmit(e) {
-    e.preventDefault();
-    setSearchValue(draftSearchValue);
+  // function handleSearchSubmit(e) {
+  //   e.preventDefault();
+  //   setSearchValue(draftSearchValue);
 
-    getListings(draftSearchValue);
-  }
+  //   getListings(draftSearchValue);
+  // }
 
   return (
     <div className="home">
@@ -160,7 +167,7 @@ function Listings() {
               </button>
             ))}
           </div> */}
-          <div className="search-bar">
+          {/* <div className="search-bar">
             <form onSubmit={handleSearchSubmit}>
               <div className="search-input-container">
                 <SearchIcon />
@@ -172,7 +179,8 @@ function Listings() {
               </div>
               <button disabled={draftSearchValue === searchValue}>Search</button>
             </form>
-          </div>
+          </div> */}
+          {/* <SearchBar /> */}
           <div className="listings-controls">
             {/* {windowSize.width <= 625 ? ( */}
             <button

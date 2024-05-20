@@ -171,7 +171,7 @@ const SellerProfile = () => {
         </div>
       </div>
 
-      <ListingGrid listings={listings} />
+      {listings.length ? <ListingGrid listings={listings} /> : <p>No listings found for this user</p>}
       {modals.addReviewModalToggled && (
         <>
           <AddReviewModal

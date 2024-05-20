@@ -11,7 +11,7 @@ import { toggleModal } from "../../../redux/modals";
 const UserProfile = () => {
   // const { userID } = useParams();
   const dispatch = useDispatch();
-  const [listings, setListings] = useState();
+  const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState({
@@ -139,7 +139,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-      <ListingGrid listings={listings} />
+      {listings.length ? <ListingGrid listings={listings} /> : <p>No listings found</p>}
     </div>
   );
 };

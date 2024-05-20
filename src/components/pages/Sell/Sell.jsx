@@ -3,10 +3,13 @@ import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
+import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -104,8 +107,10 @@ const Sell = () => {
   const [draggingPhotos, setDraggingPhotos] = useState(false);
   const [numPhotosUploaded, setNumPhotosUploaded] = useState(0);
   const [batchFile, setBatchFile] = useState(null);
+  const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
 
-  const { user } = useSelector((state) => state.auth.session);
+  const { session } = useSelector((state) => state.auth);
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -134,22 +139,25 @@ const Sell = () => {
     try {
       const { data, error } = await supabase.rpc("add_item", {
         p_brand: brand,
-        p_created_by_id: user.id,
+        p_created_by_id: session.user.id,
         p_details: details,
-        p_state: "NC",
+        p_state: state,
         p_model: model,
         p_price: price,
         p_status: "Available",
         p_what_is_this: whatIsThisItem,
-        p_shipping: shipping,
-        p_trades: trades,
-        p_negotiable: negotiable,
-        p_condition: condition,
+        p_shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
+        p_trades: radioOptions.tradeOptions.find((op) => op.checked).value,
+        p_negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
+        p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_shipping_cost: shippingCost,
-        p_city: "Matthews",
+        p_city: city,
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
       if (!data) throw "Listed item id is undefined";
 
@@ -159,11 +167,14 @@ const Sell = () => {
           p_image_id: newCoverPhotoId,
         });
 
-        if (error) { console.log(error); throw error.message; }
+        if (error) {
+          console.log(error);
+          throw error.message;
+        }
       }
 
       const imagePaths = photos.map(
-        (photo) => `${user.id}/${generatedGroupId}/${photo.name}`
+        (photo) => `${session.user.id}/${generatedGroupId}/${photo.name}`
       );
 
       const { data: movedImagesFromTempTableData, error: error2 } = await supabase.rpc(
@@ -227,7 +238,7 @@ const Sell = () => {
         const file = imageFiles[i];
         const { data, error } = await supabase.storage
           .from("item_images")
-          .upload(`temp/${user.id}/${generatedGroupId}/${thisUploadUUID}`, file, {
+          .upload(`temp/${session.user.id}/${generatedGroupId}/${thisUploadUUID}`, file, {
             cacheControl: "3600",
             upsert: false,
           });
@@ -236,7 +247,10 @@ const Sell = () => {
           setImagesUploading(false);
         }
 
-        if (error) { console.log(error); throw error.message; }
+        if (error) {
+          console.log(error);
+          throw error.message;
+        }
 
         const { data: data22, error: error2 } = await supabase.rpc(
           "add_item_photo_temp",
@@ -246,7 +260,7 @@ const Sell = () => {
             p_full_path: data.fullPath,
             p_path: data.path,
             p_is_cover: i == 0 ? 1 : 0,
-            p_created_by_id: user.id,
+            p_created_by_id: session.user.id,
           }
         );
         if (error2) throw error2.message;
@@ -260,12 +274,15 @@ const Sell = () => {
 
       const { data, error } = await supabase.storage
         .from("item_images")
-        .list(`temp/${user.id}/${generatedGroupId}/`, {
+        .list(`temp/${session.user.id}/${generatedGroupId}/`, {
           limit: 100,
           offset: 0,
         });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
       if (data !== null) {
         console.log(data);
@@ -306,7 +323,7 @@ const Sell = () => {
     setTrades(null);
     setNegotiable(null);
     // setBuyerPaysShipping(null);
-    setLocation("Matthews, NC");
+    // setLocation("Matthews, NC");
     setContactPhoneNumber("7047708371");
     setSellerName("Jacob Broughton");
     setGeneratedGroupId(uuidv4());
@@ -341,7 +358,7 @@ const Sell = () => {
 
   async function handleImageDelete(image) {
     const { data, error } = await supabase.rpc("delete_temp_image", {
-      p_image_name: `temp/${user.id}/${generatedGroupId}/${image.name}`,
+      p_image_name: `temp/${session.user.id}/${generatedGroupId}/${image.name}`,
     });
 
     const photosLeft = photos.filter((photo) => photo.id != image.id);
@@ -361,17 +378,20 @@ const Sell = () => {
 
       console.log("photos - discard images", photos);
       const paths = photos.map(
-        (photo) => `temp/${user.id}/${generatedGroupId}/${photo.name}`
+        (photo) => `temp/${session.user.id}/${generatedGroupId}/${photo.name}`
       );
 
       console.log("paths", paths);
 
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
       const { error: error2 } = await supabase.rpc("delete_temp_images", {
-        p_user_id: user.id,
+        p_user_id: session.user.id,
         p_group_id: generatedGroupId,
       });
 
@@ -385,12 +405,50 @@ const Sell = () => {
     }
   }
 
+  // {
+  //   conditionOptions: [
+  //     { id: 0, value: "Brand New", checked: false },
+  //     { id: 1, value: "Like New", checked: false },
+  //     { id: 2, value: "Used", checked: false },
+  //     { id: 3, value: "Not Functional", checked: false },
+  //   ],
+  //   shippingOptions: [
+  //     { id: 0, value: "Willing to Ship", checked: false },
+  //     { id: 1, value: "Local Only", checked: false },
+  //   ],
+  //   tradeOptions: [
+  //     { id: 0, value: "Accepting Trades", checked: false },
+  //     { id: 1, value: "No Trades", checked: false },
+  //   ],
+  //   negotiableOptions: [
+  //     { id: 0, value: "Firm", checked: false },
+  //     { id: 1, value: "OBO/Negotiable", checked: false },
+  //   ],
+  // }
+
+  function handleRadioSelect(optionTypeKey, selectedOption) {
+    setRadioOptions({
+      ...radioOptions,
+      [optionTypeKey]: radioOptions[optionTypeKey].map((option) => ({
+        ...option,
+        checked: option.id == selectedOption.id,
+      })),
+    });
+  }
+
   const currentYear = new Date().getFullYear();
   const yearOptions = [];
 
   for (let i = currentYear + 2; i > currentYear + 2 - 100; i--) {
     yearOptions.push(i);
   }
+
+  const submitDisabled =
+    photos.length == 0 &&
+    (!radioOptions.conditionOptions.find((option) => option.checked) ||
+      !radioOptions.shippingOptions.find((option) => option.checked) ||
+      !radioOptions.tradeOptions.find((option) => option.checked) ||
+      !radioOptions.negotiableOptions.find((option) => option.checked));
 
   return (
     <div className="sell">
@@ -413,7 +471,7 @@ const Sell = () => {
                       <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
                     )}
                     <img
-                      src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.id}/${generatedGroupId}/${image.name}?width=73&height=73`}
+                      src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${session.user.id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                     />
                     <div className="image-overlay">
                       <div className="buttons">
@@ -481,7 +539,7 @@ const Sell = () => {
           <h2>Your Info</h2>
           <fieldset>
             <div className="form-group">
-              <label>Full Name</label>
+              <label>Full Name (First/Last)</label>
               <input
                 onChange={(e) => setSellerName(e.target.value)}
                 value={sellerName}
@@ -499,14 +557,41 @@ const Sell = () => {
               />
             </div>
           </fieldset>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Location</label>
             <input
               onChange={(e) => setLocation(e.target.value)}
               value={location}
               placeholder="Location"
             />
-          </div>
+          </div> */}
+          <fieldset>
+            <div className="form-group">
+              <label>State</label>
+
+              <select onChange={(e) => setState(e.target.value)}>
+                <option>All</option>
+                {states.map((state) => (
+                  <option>{state}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>City</label>
+
+              <select
+                className=""
+                disabled={state == "All"}
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+              >
+                <option>All</option>
+                {statesAndCities[state]?.map((city) => (
+                  <option>{capitalizeWords(city)}</option>
+                ))}
+              </select>
+            </div>
+          </fieldset>
         </div>
 
         <div className="form-block">
@@ -627,84 +712,46 @@ const Sell = () => {
           <fieldset className="radio-form-groups">
             <div className="form-group">
               <label>Shipping</label>
-              {/* <select onChange={(e) => setCondition(e.target.value)} value={condition}> */}
-              <div className="radio-options">
-                {radioOptions.shippingOptions.map((option) => (
-                  // <option value={condition}>{condition.value}</option>
-                  <div className="radio-option">
-                    <label>
-                      <input
-                        type="radio"
-                        value={option.value}
-                        checked={option.value == shipping}
-                        onChange={() => setShipping(option.value)}
-                      />{" "}
-                      {option.value}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              {/* </select> */}
+
+              <RadioOptions
+                options={radioOptions.shippingOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("shippingOptions", option)
+                }
+              />
             </div>
 
             <div className="form-group">
               <label>Trades</label>
-              <div className="radio-options">
-                {radioOptions.tradeOptions.map((option) => (
-                  // <option value={condition}>{condition.value}</option>
-                  <div className="radio-option">
-                    <label>
-                      <input
-                        type="radio"
-                        value={option.value}
-                        checked={option.value == trades}
-                        onChange={() => setTrades(option.value)}
-                      />{" "}
-                      {option.value}
-                    </label>
-                  </div>
-                ))}
-              </div>
+
+              <RadioOptions
+                options={radioOptions.tradeOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("tradeOptions", option)
+                }
+              />
             </div>
           </fieldset>
           <fieldset>
             <div className="form-group">
               <label>Condition</label>
-              <div className="radio-options">
-                {radioOptions.conditionOptions.map((option) => (
-                  // <option value={condition}>{condition.value}</option>
-                  <div className="radio-option">
-                    <label>
-                      <input
-                        type="radio"
-                        value={option.value}
-                        checked={option.value == condition}
-                        onChange={() => setCondition(option.value)}
-                      />{" "}
-                      {option.value}
-                    </label>
-                  </div>
-                ))}
-              </div>
+
+              <RadioOptions
+                options={radioOptions.conditionOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("conditionOptions", option)
+                }
+              />
             </div>
             <div className="form-group">
               <label>Negotiable</label>
-              <div className="radio-options">
-                {radioOptions.negotiableOptions.map((option) => (
-                  // <option value={negotiable}>{negotiable.value}</option>
-                  <div className="radio-option">
-                    <label>
-                      <input
-                        type="radio"
-                        value={option.value}
-                        checked={option.value == negotiable}
-                        onChange={() => setNegotiable(option.value)}
-                      />{" "}
-                      {option.value}
-                    </label>
-                  </div>
-                ))}
-              </div>
+
+              <RadioOptions
+                options={radioOptions.negotiableOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("negotiableOptions", option)
+                }
+              />
             </div>
           </fieldset>
         </div>
@@ -716,9 +763,10 @@ const Sell = () => {
           )}
           <button
             type="submit"
-            disabled={
-              photos.length == 0 || !condition || !trades || !shipping || !negotiable
-            }
+            // disabled={
+            //   photos.length == 0 || !condition || !trades || !shipping || !negotiable
+            // }
+            disabled={submitDisabled}
           >
             Submit
           </button>

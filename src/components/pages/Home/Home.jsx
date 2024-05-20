@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import { setFiltersUpdated } from "../../../redux/filters.js";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 
 function Listings() {
@@ -62,7 +63,7 @@ function Listings() {
         p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state || "",
+        p_state: filters.saved.state == "All" ? null : filters.saved.state,
         p_condition: filters.saved.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
@@ -77,7 +78,7 @@ function Listings() {
           .map((option) => option.value),
         p_sort: sort,
         p_seller_id: null,
-        p_city: filters.saved.city || "",
+        p_city: filters.saved.city == "All" ? null : filters.saved.city,
       });
 
       if (error) {
@@ -120,7 +121,19 @@ function Listings() {
   return (
     <div className="home">
       <div className="sidebar-and-grid">
-        {modals.filtersSidebarToggled && <FiltersSidebar />}
+        {modals.filtersSidebarToggled && (
+          <>
+            <FiltersSidebar />
+            {windowSize.width <= 625 && (
+              <ModalOverlay
+                zIndex={4}
+                onClick={() =>
+                  dispatch(toggleModal({ key: "filtersSidebar", value: false }))
+                }
+              />
+            )}
+          </>
+        )}
         <div
           className={`${
             windowSize.width > 625 && modals.filtersSidebarToggled

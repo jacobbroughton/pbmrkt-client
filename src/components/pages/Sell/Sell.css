@@ -278,7 +278,7 @@
   width: 100%;
 }
 
-.sell form .form-group .radio-options .radio-option label,
+/* .sell form .form-group .radio-options .radio-option label,
 .sell form .custom-photo-upload.secondary {
   width: 100%;
   display: flex;
@@ -295,7 +295,7 @@
 
 .sell form .form-group .radio-options .radio-option label:hover {
   border-color: #aaa;
-}
+} */
 
 .sell form .custom-photo-upload.secondary {
   align-self: flex-start;

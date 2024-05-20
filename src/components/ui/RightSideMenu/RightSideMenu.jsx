@@ -10,7 +10,7 @@ const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const rightSideMenuRef = useRef(null);
-  const user = useSelector((state) => state.auth.session?.user);
+  const {session} = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const RightSideMenu = () => {
           <div className="profile-picture"></div>
           <div className="info">
             <label>View Profile</label>
-            <p className="user-email">{user.username}</p>
+            <p className="user-email">{session?.user.username}</p>
           </div>
         </div>
       </Link>

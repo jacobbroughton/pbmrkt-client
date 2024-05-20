@@ -1,14 +1,15 @@
 import "./ModalOverlay.css";
 
-const ModalOverlay = ({ zIndex = 0 }) => {
+const ModalOverlay = ({ zIndex = 0, onClick }) => {
   return (
     <div
-      className='modal-overlay'
+      className="modal-overlay"
       style={{
         ...(zIndex && {
           zIndex,
         }),
       }}
+      onClick={onClick}
     ></div>
   );
 };

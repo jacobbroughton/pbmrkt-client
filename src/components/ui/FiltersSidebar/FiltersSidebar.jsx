@@ -152,7 +152,7 @@ const FiltersSidebar = () => {
 
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));
-    if (windowSize.width <= 625) toggleModal({ key: "filtersSidebar", value: false });
+    if (windowSize.width <= 625) dispatch(toggleModal({ key: "filtersSidebar", value: false }));
     // getListings(searchValue);
   }
 

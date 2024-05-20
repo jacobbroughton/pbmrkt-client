@@ -109,10 +109,11 @@
   font-size: 0.875rem;
   display: flex;
   gap: 5px;
+  align-items: center;
 }
 
 .item .comment-form button svg {
-  width: 15px;
+  width: 14px;
   fill: white;
 }
 

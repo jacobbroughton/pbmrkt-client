@@ -10,6 +10,14 @@ const Chevron = ({ direction }) => {
       rotateText = "rotate(180deg)";
       break;
     }
+    case "down": {
+      rotateText = "rotate(180deg)";
+      break;
+    }
+    case "up": {
+      rotateText = "rotate(0deg)";
+      break;
+    }
     default: {
       rotateText = "rotate(180deg)";
       break;

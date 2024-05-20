@@ -44,6 +44,7 @@ const CommentsList = ({
             ...comment,
             ...(comment.id == repliedComment.id && {
               replies: [...(comment.replies || []), data[0]],
+              reply_count: comment.reply_count ? comment.reply_count + 1 : 1,
             }),
           };
         })
@@ -65,14 +66,19 @@ const CommentsList = ({
     });
 
     const updatedComments = localComments.map((comm) => {
+
+
       return {
         ...comm,
         tier: comm.tier + 1,
         ...(comm.id == commentWithReplies.id && {
           replies: data,
+          repliesToggled: true,
         }),
       };
     });
+
+    console.log(updatedComments)
 
     if (isRootLevel) {
       setRootLevelComments(updatedComments);

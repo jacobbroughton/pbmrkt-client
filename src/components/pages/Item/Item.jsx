@@ -132,7 +132,9 @@ const Item = () => {
       });
 
       // setCommentWithReplyWindowID(null);
-      setLocalComments(data.map((comment) => ({ ...comment, replies: [] })));
+      setLocalComments(
+        data.map((comment) => ({ ...comment, replies: [], repliesToggled: false }))
+      );
       // dispatch(setComments(data.map((comment) => ({ ...comment, replies: [] }))));
     } catch (error) {
       console.log(error);
@@ -198,7 +200,6 @@ const Item = () => {
 
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
-    console.log(item);
     const { data, error } = await supabase.rpc("get_child_comments", {
       p_item_id: item.info.id,
       p_parent_comment_id: commentWithReplies.id,
@@ -216,6 +217,7 @@ const Item = () => {
           tier: 0,
           ...(comm.id == commentWithReplies.id && {
             replies: data,
+            repliesToggled: !comm.repliesToggled
           }),
         };
       })
@@ -326,7 +328,7 @@ const Item = () => {
 
             <div className="horizontal-divider extra-top-margin"></div>
 
-            <table className='specs'>
+            <table className="specs">
               <tr>
                 <td>Availability</td>
                 <td>
@@ -352,32 +354,29 @@ const Item = () => {
               </tr>
             </table>
           </div>
-        <p className="details">{item.info.details || "No details were provided"}</p>
-        <div className="seller-info-container">
-              {/* <p className="heading">Seller Info</p> */}
-              <div className="seller-info">
-                <div className="profile-picture-container">
-                  <div className="profile-picture">&nbsp;</div>
-                </div>
-                <div className="text">
-                  <p>
-                    {item.info.city}, {item.info.state}
-                  </p>
-                  <Link
-                    to={`/user/${item.info.created_by_username}`}
-                    className="user-link"
-                  >
-                    {item.info.created_by_username}
-                  </Link>
-                  {/* <div className="stars">
+          <p className="details">{item.info.details || "No details were provided"}</p>
+          <div className="seller-info-container">
+            {/* <p className="heading">Seller Info</p> */}
+            <div className="seller-info">
+              <div className="profile-picture-container">
+                <div className="profile-picture">&nbsp;</div>
+              </div>
+              <div className="text">
+                <p>
+                  {item.info.city}, {item.info.state}
+                </p>
+                <Link to={`/user/${item.info.created_by_username}`} className="user-link">
+                  {item.info.created_by_username}
+                </Link>
+                {/* <div className="stars">
                     {stars.map((fillDesc) => {
                       return <Star fillType={fillDesc} />;
                     })}
                   </div> */}
-                  <Stars rating={item.info.seller_rating} />
-                </div>
+                <Stars rating={item.info.seller_rating} />
               </div>
             </div>
+          </div>
         </div>
         {/* <div className="horizontal-divider"></div> */}
       </div>

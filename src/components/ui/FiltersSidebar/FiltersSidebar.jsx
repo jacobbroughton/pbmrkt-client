@@ -11,7 +11,7 @@ import Checkbox from "../Icons/Checkbox.jsx";
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 
-const Sidebar = () => {
+const FiltersSidebar = () => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
@@ -249,7 +249,11 @@ const Sidebar = () => {
           </button>
         )}
         <div className="apply-and-reset">
-          <button onClick={() => dispatch(resetFilters())} type="button" className=" reset-button">
+          <button
+            onClick={() => dispatch(resetFilters())}
+            type="button"
+            className=" reset-button"
+          >
             <UndoIcon />
           </button>
           <button
@@ -496,4 +500,4 @@ const Sidebar = () => {
     </aside>
   );
 };
-export default Sidebar;
+export default FiltersSidebar;

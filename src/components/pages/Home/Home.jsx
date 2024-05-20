@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
 import useWindowSize from "../../../utils/useWindowSize";
 import ListingGrid from "../../ui/ListingGrid/ListingGrid.jsx";
-import Sidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
+import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import { setFiltersUpdated } from "../../../redux/filters.js";
@@ -120,7 +120,7 @@ function Listings() {
   return (
     <div className="home">
       <div className="sidebar-and-grid">
-        {modals.filtersSidebarToggled && <Sidebar />}
+        {modals.filtersSidebarToggled && <FiltersSidebar />}
         <div
           className={`${
             windowSize.width > 625 && modals.filtersSidebarToggled

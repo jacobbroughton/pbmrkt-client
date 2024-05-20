@@ -21,8 +21,6 @@ const Comment = ({
 }) => {
   const { session } = useSelector((state) => state.auth);
 
-  
-
   return (
     <div
       key={comment.id}
@@ -38,12 +36,14 @@ const Comment = ({
         </div>
         <div className="comment-contents">
           <div className="comment-header">
-            <p className="tiny-text bold">{comment.created_by_email}</p>{" "}
+            <p className="tiny-text bold">{comment.username}</p>{" "}
             <p className="tiny-text">{getTimeAgo(new Date(comment.created_dttm))}</p>
           </div>
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
-          {comment.eff_status && comment.created_by_id == session?.user.id ? (
+          {comment.eff_status &&
+          comment.created_by_id == session?.user.id &&
+          comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button
                 className="button"
@@ -70,7 +70,7 @@ const Comment = ({
               className="replies-button"
               onClick={(e) => handleRepliesClick(e, comment)}
             >
-              <Chevron />
+              <Chevron direction={comment.repliesToggled ? "up" : "down"} /> a
               {comment.reply_count} Replies
             </button>
           )}
@@ -106,7 +106,7 @@ const Comment = ({
             false
           )}
 
-          {comment.replies?.length >= 1 && (
+          {comment.replies?.length >= 1 && comment.repliesToggled &&  (
             <div className="replies">
               <CommentsList
                 passedComments={comment.replies}

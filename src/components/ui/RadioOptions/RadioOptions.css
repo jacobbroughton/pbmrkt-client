@@ -1,10 +1,13 @@
-.checkbox-options {
+.radio-options {
   display: flex;
   padding: 5px;
   flex-direction: column;
+
+  flex-direction: column;
   gap: 5px;
+  width: 100%;
 }
-.checkbox-options > .checkbox-option {
+.radio-options > .radio-option {
   display: flex;
   font-size: 1rem;
   align-items: center;
@@ -13,12 +16,12 @@
   cursor: pointer;
 }
 
-.checkbox-options > .checkbox-option label {
+.radio-options > .radio-option label {
   font-size: 0.875rem;
   cursor: pointer;
 }
 
-.checkbox-options > .checkbox-option svg {
+.radio-options > .radio-option svg {
   width: 17px;
   fill: white;
 }

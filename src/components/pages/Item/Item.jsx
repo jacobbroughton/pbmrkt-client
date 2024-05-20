@@ -8,9 +8,10 @@ import EditItemModal from "../../ui/EditItemModal/EditItemModal";
 import { toggleModal } from "../../../redux/modals";
 // import { setComments, setNewCommentBody } from "../../../redux/comments";
 import CommentsList from "../../ui/CommentsList/CommentsList";
-import Star from "../../ui/Icons/Star";
+import Arrow from "../../ui/Icons/Arrow";
 import { determineStarFillArray, getTimeAgo } from "../../../utils/usefulFunctions";
 import Stars from "../../ui/Stars/Stars";
+import SendIcon from "../../ui/Icons/SendIcon";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -217,7 +218,7 @@ const Item = () => {
           tier: 0,
           ...(comm.id == commentWithReplies.id && {
             replies: data,
-            repliesToggled: !comm.repliesToggled
+            repliesToggled: !comm.repliesToggled,
           }),
         };
       })
@@ -244,8 +245,6 @@ const Item = () => {
 
   if (error) return <p>There was an error - {error.toString()}</p>;
   if (!item.info?.eff_status) return <p>This item was deleted.</p>;
-
-  let stars = determineStarFillArray(item.info.seller_rating);
 
   return (
     <div className="item">
@@ -324,6 +323,24 @@ const Item = () => {
             <p className="price">
               ${item.info.price}
               {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : ""}
+              {item.info.price != item.info.orig_price &&
+                (item.info.price > item.info.orig_price ? (
+                  <div className="price-change-display up">
+                    <p>
+                      Up ${item.info.price - item.info.orig_price} from $
+                      {item.info.orig_price}
+                    </p>
+                    <Arrow direction="up" />
+                  </div>
+                ) : (
+                  <div className="price-change-display down">
+                    <p>
+                      Down ${item.info.orig_price - item.info.price} from $
+                      {item.info.orig_price}
+                    </p>
+                    <Arrow direction="down" />
+                  </div>
+                ))}
             </p>
 
             <div className="horizontal-divider extra-top-margin"></div>
@@ -390,8 +407,8 @@ const Item = () => {
               onChange={(e) => setNewCommentBody(e.target.value)}
               value={newCommentBody}
             />
-            <button type="submit" className="button">
-              Submit
+            <button type="submit">
+              Submit <SendIcon />
             </button>
           </form>
         ) : (

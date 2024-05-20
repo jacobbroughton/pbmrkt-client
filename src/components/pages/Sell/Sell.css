@@ -369,7 +369,7 @@
 }
 
 .sell form .form-group select {
-  background-image: url("src/components/ui/Icons/Arrow.svg");
+  /* background-image: url("src/components/ui/Icons/Arrow.svg"); */
   background-repeat: no-repeat;
   background-position: 98% center;
   appearance: none;

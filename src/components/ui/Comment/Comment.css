@@ -2,9 +2,9 @@
   cursor: pointer;
 }
 
-.comment {
+/* .comment {
   border-bottom: #343434 1px solid;
-}
+} */
 
 .comment:hover .depth-bar:last-child {
   background-color: blue;
@@ -25,6 +25,7 @@
 
 .comment .bars-and-content .profile-picture-container {
   margin-right: 10px;
+  position: relative;
 }
 
 .comment .bars-and-content .profile-picture-container .profile-picture {
@@ -34,10 +35,40 @@
   height: 35px;
 }
 
-.comment:not(.is-root-level) .bars-and-content .profile-picture-container .profile-picture {
+.comment:not(.is-root-level)
+  .bars-and-content
+  .profile-picture-container
+  .profile-picture {
   width: 25px;
   height: 25px;
 }
+
+.comment .bars-and-content .profile-picture-container .thread-bar-target {
+  width: 15px;
+  cursor: pointer;
+  height: 100%;
+  background-color: transparent;
+  transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+}
+
+.comment .bars-and-content .profile-picture-container .thread-bar {
+  width: 2px;
+  pointer-events: none;
+  height: 100%;
+  background-color: #444;
+  transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+}
+
+.thread-bar-target:hover + .thread-bar {
+  background-color: #555 !important;
+}
+/* .comment .bars-and-content .profile-picture-container .thread-bar:hover {
+  background-color: #555;
+} */
 
 .comment .bars-and-content .comment-contents {
   padding: 5px 10px;
@@ -69,6 +100,7 @@
   font-family: Arial, Helvetica, sans-serif;
   width: 100%;
   font-size: 1rem;
+  padding: 6px;
 }
 
 .comment-form .buttons {
@@ -82,12 +114,27 @@
   margin-top: 5px;
 }
 
-.comment .controls button {
+.comment .comment-form .buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.comment .controls button,
+.comment .comment-form .buttons button {
   background-color: transparent;
   padding: 0;
   border: 0;
   font-weight: 600;
   font-size: 0.875rem;
+  display: flex;
+  gap: 5px;
+}
+
+.comment .controls button svg,
+.comment .comment-form .buttons button svg {
+  width: 15px;
+  fill: white;
 }
 
 .comment .body {
@@ -106,7 +153,7 @@
   border: 0;
 }
 
-.comment  .replies-button svg {
+.comment .replies-button svg {
   width: 15px;
   fill: var(--lightgreen);
 }

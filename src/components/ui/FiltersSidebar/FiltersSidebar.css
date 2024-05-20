@@ -127,12 +127,6 @@
   outline: green;
 }
 
-.filters .radio-options {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-}
 
 /* .filters > .filter-items .filter-item > .checkbox-options {
   width: 100%;

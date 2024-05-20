@@ -10,47 +10,13 @@ import { resetFilters, setFilters, setFiltersUpdated } from "../../../redux/filt
 import Checkbox from "../Icons/Checkbox.jsx";
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
+import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 
 const FiltersSidebar = () => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
-
-  const [sidebarToggled, setSidebarToggled] = useState(windowSize.width > 625);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-
-  // const initialFilters = {
-  //   brand: "",
-  //   model: "",
-  //   minPrice: 0,
-  //   maxPrice: null,
-  //   city: "All",
-  //   state: "All",
-  //   conditionOptions: [
-  //     { id: 0, value: "Brand New", checked: true },
-  //     { id: 1, value: "Like New", checked: true },
-  //     { id: 2, value: "Used", checked: true },
-  //     { id: 3, value: "Heavily Used", checked: true },
-  //     { id: 4, value: "Not Functional", checked: true },
-  //   ],
-  //   shippingOptions: [
-  //     { id: 0, value: "Willing to Ship", checked: true },
-  //     { id: 1, value: "Local Only", checked: true },
-  //   ],
-  //   tradeOptions: [
-  //     { id: 0, value: "Accepting Trades", checked: true },
-  //     { id: 1, value: "No Trades", checked: true },
-  //   ],
-  //   negotiableOptions: [
-  //     { id: 0, value: "Firm", checked: true },
-  //     { id: 1, value: "OBO/Negotiable", checked: true },
-  //   ],
-  // };
-
-  // const [filters, setFilters] = useState({
-  //   draft: initialFilters,
-  //   saved: initialFilters,
-  // });
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -85,16 +51,17 @@ const FiltersSidebar = () => {
   }
 
   function handlePriceFilterSelect(selectedOption) {
+    console.log(selectedOption)
     dispatch(
       setFilters({
         ...filters,
         draft: {
           ...filters.draft,
+          minPrice: selectedOption.minValue,
+          maxPrice: selectedOption.maxValue,
           priceOptions: filters.draft.priceOptions.map((option) => ({
             ...option,
-            ...(option.id == selectedOption.id && {
-              checked: !selectedOption.checked,
-            }),
+            checked: option.id == selectedOption.id,
           })),
         },
       })
@@ -188,36 +155,6 @@ const FiltersSidebar = () => {
     if (windowSize.width <= 625) toggleModal({ key: "filtersSidebar", value: false });
     // getListings(searchValue);
   }
-
-  // function handleFiltersReset() {
-  //   dispatch(
-  //     setFilters({
-  //       ...filters,
-  //       draft: initialFilters,
-  //     })
-  //   );
-  // }
-
-  // console.log(filters.draft.brand == filters.saved.brand);
-  // console.log(filters.draft.modal == filters.saved.modal);
-  // console.log(filters.draft.minPrice == filters.saved.minPrice);
-  // console.log(filters.draft.maxPrice == filters.saved.maxPrice);
-  // console.log(filters.draft.city == filters.saved.city);
-  // console.log(filters.draft.state == filters.saved.state);
-  // console.log(filters.draft.negotiableOptions == filters.saved.negotiableOptions);
-  // console.log(filters.draft.tradeOptions == filters.saved.tradeOptions);
-  // console.log(filters.draft.conditionOptions == filters.saved.conditionOptions);
-  // console.log(filters.draft.shippingOptions == filters.saved.shippingOptions);
-  // console.log(
-  //   filters.draft.negotiableOptions.filter((option) => option.checked).length == 0
-  // );
-  // console.log(filters.draft.tradeOptions.filter((option) => option.checked).length == 0);
-  // console.log(
-  //   filters.draft.conditionOptions.filter((option) => option.checked).length == 0
-  // );
-  // console.log(
-  //   filters.draft.shippingOptions.filter((option) => option.checked).length == 0
-  // );
 
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
@@ -365,10 +302,14 @@ const FiltersSidebar = () => {
               </div>
             </div> */}
             <label>By Price</label>
-            <Checkboxes
+            <RadioOptions
+              options={filters.draft.priceOptions}
+              handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
+            />
+            {/* <Checkboxes
               options={filters.draft.priceOptions}
               handleCheckboxOptionClick={(option) => handlePriceFilterSelect(option)}
-            />
+            /> */}
             {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
               <p className="filter-warning">Max must be equal or greater</p>
             ) : filters.draft.minPrice[0] == 0 ||

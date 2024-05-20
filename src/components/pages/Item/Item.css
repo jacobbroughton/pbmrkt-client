@@ -101,6 +101,21 @@
   background-color: #3b3b3b;
 }
 
+.item .comment-form button {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 5px;
+}
+
+.item .comment-form button svg {
+  width: 15px;
+  fill: white;
+}
+
 .item .details,
 .item .seller-info {
   border-top: 1px solid #333;
@@ -167,6 +182,29 @@
   color: white;
   padding: 3px;
   border-radius: 3px;
+}
+
+.item .content .price-change-display {
+  display: flex;
+  gap: 5px;
+  /* background-color: lightgrey;
+  padding: 3px 5px; */
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.item .content .price-change-display svg {
+  width: 12px;
+}
+
+.item .content .price-change-display.down {
+  color: var(--lightgreen);
+  fill: var(--lightgreen);
+}
+
+.item .content .price-change-display.up {
+  color: var(--red);
+  fill: var(--red);
 }
 
 .item .content table.specs {

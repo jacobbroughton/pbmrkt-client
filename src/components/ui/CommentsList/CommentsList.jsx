@@ -73,7 +73,7 @@ const CommentsList = ({
         tier: comm.tier + 1,
         ...(comm.id == commentWithReplies.id && {
           replies: data,
-          repliesToggled: true,
+          repliesToggled: !comm.repliesToggled,
         }),
       };
     });

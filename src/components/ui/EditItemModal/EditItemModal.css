@@ -541,8 +541,8 @@ d .modal.edit-item form button[type="submit"]:not(:disabled):hover {
 }
 
 .edit-item form .form-group select {
-  background-image: url("src/components/ui/Icons/Arrow.svg");
-  background-repeat: no-repeat;
+  /* background-image: url("src/components/ui/Icons/Arrow.svg"); */
+  /* background-repeat: no-repeat; */
   background-position: 98% center;
   appearance: none;
   -webkit-appearance: none;

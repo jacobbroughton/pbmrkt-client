@@ -33,11 +33,22 @@ const Comment = ({
         ))} */}
         <div className="profile-picture-container">
           <div className="profile-picture"></div>
+          {comment.reply_count >= 1 && comment.repliesToggled &&  (
+            <>
+              <div className="thread-bar-target" onClick={(e) => handleRepliesClick(e, comment)}></div>
+              <div className="thread-bar"></div>
+            </>
+          )}
         </div>
         <div className="comment-contents">
           <div className="comment-header">
             <p className="tiny-text bold">{comment.username}</p>{" "}
-            <p className="tiny-text">{getTimeAgo(new Date(comment.created_dttm))}</p>
+            <p
+              className="tiny-text"
+              title={new Date(comment.created_dttm).toLocaleString()}
+            >
+              {getTimeAgo(new Date(comment.created_dttm))}
+            </p>
           </div>
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
@@ -65,15 +76,6 @@ const Comment = ({
           ) : (
             false
           )}
-          {comment.reply_count >= 1 && (
-            <button
-              className="replies-button"
-              onClick={(e) => handleRepliesClick(e, comment)}
-            >
-              <Chevron direction={comment.repliesToggled ? "up" : "down"} /> a
-              {comment.reply_count} Replies
-            </button>
-          )}
 
           {commentWithReplyWindowID == comment.id ? (
             <form
@@ -92,12 +94,12 @@ const Comment = ({
               />
               <div className="buttons">
                 <button
-                  className="button"
+                  className="cancel"
                   onClick={() => setCommentWithReplyWindowID(null)}
                 >
                   Cancel
                 </button>
-                <button className="button" type="submit">
+                <button className="submit" type="submit">
                   Submit <SendIcon />
                 </button>
               </div>
@@ -106,7 +108,17 @@ const Comment = ({
             false
           )}
 
-          {comment.replies?.length >= 1 && comment.repliesToggled &&  (
+          {comment.reply_count >= 1 && (
+            <button
+              className="replies-button"
+              onClick={(e) => handleRepliesClick(e, comment)}
+            >
+              <Chevron direction={comment.repliesToggled ? "up" : "down"} />
+              {comment.reply_count} Replies
+            </button>
+          )}
+
+          {comment.replies?.length >= 1 && comment.repliesToggled && (
             <div className="replies">
               <CommentsList
                 passedComments={comment.replies}

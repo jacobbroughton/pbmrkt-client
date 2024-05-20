@@ -147,6 +147,9 @@
   .skeletons-grid,
   .grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home .grid {
     padding-top: 95px;
   }
 

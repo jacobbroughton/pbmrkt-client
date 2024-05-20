@@ -134,33 +134,43 @@ const SellerProfile = () => {
 
   return (
     <div className="seller-profile-page">
-      <h1>{seller.username}</h1>
-      <Stars rating={seller.rating} />
-      <div className="reviews">
-        <button
-          className="button reviews-list-toggle-button"
-          onClick={() =>
-            dispatch(toggleModal({ key: "sellerReviewsModal", value: true }))
-          }
-        >
-          {reviews.count} Reviews
-        </button>
-        {!seller.review_given && (
-          <button
-            className="button add-review-button"
-            onClick={() =>
-              dispatch(
-                toggleModal({
-                  key: "addReviewModal",
-                  value: !modals.addReviewModalToggled,
-                })
-              )
-            }
-          >
-            Leave a review
-          </button>
-        )}
+      <div className="picture-and-info">
+        <div className="profile-picture-container">
+          <div className="profile-picture">&nbsp;</div>
+        </div>
+        <div className="info">
+          <h1>{seller.username}</h1>
+          <p>Member since {new Date(seller.created_at).toLocaleDateString()}</p>
+          <div className="stars-and-reviews-button">
+            <Stars rating={seller.rating} />
+            <div className="buttons">
+              <button
+                onClick={() =>
+                  dispatch(toggleModal({ key: "sellerReviewsModal", value: true }))
+                }
+              >
+                {reviews.count} Reviews
+              </button>
+              {/* {!seller.review_given && (
+                <button
+                  className="button add-review-button"
+                  onClick={() =>
+                    dispatch(
+                      toggleModal({
+                        key: "addReviewModal",
+                        value: !modals.addReviewModalToggled,
+                      })
+                    )
+                  }
+                >
+                  Leave a review
+                </button>
+              )} */}
+            </div>
+          </div>
+        </div>
       </div>
+
       <ListingGrid listings={listings} />
       {modals.addReviewModalToggled && (
         <>

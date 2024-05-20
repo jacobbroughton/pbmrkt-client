@@ -2,15 +2,22 @@ import { useParams } from "react-router-dom";
 import "./UserProfile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ListingGrid from "../../ui/ListingGrid/ListingGrid";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import Stars from "../../ui/Stars/Stars";
+import { toggleModal } from "../../../redux/modals";
 
 const UserProfile = () => {
   // const { userID } = useParams();
+  const dispatch = useDispatch();
   const [listings, setListings] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reviews, setReviews] = useState({
+    count: 0,
+    list: [],
+  });
 
   const user = useSelector((state) => state.auth.session.user);
 
@@ -24,14 +31,17 @@ const UserProfile = () => {
 
   async function getProfile() {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data, error } = await supabase.rpc("get_user_profile", {
         p_user_id: user.id,
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
-      console.log(data)
+      console.log(data);
 
       // Get Items
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
@@ -83,18 +93,52 @@ const UserProfile = () => {
       console.log(error);
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   if (error) return <p>{error}</p>;
 
-  if (loading) return <LoadingOverlay/>
+  if (loading) return <LoadingOverlay />;
 
   return (
     <div className="user-profile-page">
-      {error && <p className='error-text small-text'>{error}</p>}
-      <h1>{user.username}</h1>
-      <p>Account created {new Date(user.created_at).toLocaleString()}</p>
+      {error && <p className="error-text small-text">{error}</p>}
+      <div className="picture-and-info">
+        <div className="profile-picture-container">
+          <div className="profile-picture">&nbsp;</div>
+        </div>
+        <div className="info">
+          <h1>{user.username}</h1>
+          <p>Member since {new Date(user.created_at).toLocaleDateString()}</p>
+          <div className="stars-and-reviews-button">
+            <Stars rating={user.rating} />
+            <div className="buttons">
+              <button
+                onClick={() =>
+                  dispatch(toggleModal({ key: "sellerReviewsModal", value: true }))
+                }
+              >
+                {reviews.count} Reviews
+              </button>
+              {/* {!seller.review_given && (
+                <button
+                  className="button add-review-button"
+                  onClick={() =>
+                    dispatch(
+                      toggleModal({
+                        key: "addReviewModal",
+                        value: !modals.addReviewModalToggled,
+                      })
+                    )
+                  }
+                >
+                  Leave a review
+                </button>
+              )} */}
+            </div>
+          </div>
+        </div>
+      </div>
       <ListingGrid listings={listings} />
     </div>
   );

@@ -435,8 +435,8 @@ const Sell = () => {
   }
 
   const submitDisabled =
-    photos.length == 0 &&
-    (!state || !city) &&
+    photos.length == 0 ||
+    (!state || !city) ||
     (!radioOptions.conditionOptions.find((option) => option.checked) ||
       !radioOptions.shippingOptions.find((option) => option.checked) ||
       !radioOptions.tradeOptions.find((option) => option.checked) ||

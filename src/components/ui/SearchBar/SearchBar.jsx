@@ -4,9 +4,11 @@ import SearchIcon from "../Icons/SearchIcon";
 import "./SearchBar.css";
 import { useState } from "react";
 import { setFlag } from "../../../redux/flags";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const search = useSelector((state) => state.search);
   const [error, setError] = useState();
 
@@ -16,6 +18,7 @@ const SearchBar = () => {
       if (search.draftSearchValue === search.savedSearchValue) return;
       dispatch(setSavedSearchValue(search.draftSearchValue));
       dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+      navigate('/')
     } catch (error) {
       console.log(error);
       setError(error.message.toString());

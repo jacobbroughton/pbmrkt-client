@@ -19,7 +19,7 @@ const UserProfile = () => {
     list: [],
   });
 
-  const user = useSelector((state) => state.auth.session.user);
+  const {session} = useSelector((state) => state.auth);
 
   useEffect(() => {
     getProfile();
@@ -33,7 +33,7 @@ const UserProfile = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_user_profile", {
-        p_user_id: user.id,
+        p_user_id: session.user.id,
       });
 
       if (error) {
@@ -79,7 +79,7 @@ const UserProfile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: user.id,
+        p_seller_id: session.user.id,
         p_city: "",
       });
 
@@ -108,10 +108,10 @@ const UserProfile = () => {
           <div className="profile-picture">&nbsp;</div>
         </div>
         <div className="info">
-          <h1>{user.username}</h1>
-          <p>Member since {new Date(user.created_at).toLocaleDateString()}</p>
+          <h1>{session.user.username}</h1>
+          <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
           <div className="stars-and-reviews-button">
-            <Stars rating={user.rating} />
+            <Stars rating={session.user.rating} />
             <div className="buttons">
               <button
                 onClick={() =>

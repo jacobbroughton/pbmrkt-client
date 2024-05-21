@@ -160,6 +160,7 @@ const Register = () => {
                 placeholder="Password"
                 type={passwordVisible ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
               <button onClick={() => setPasswordVisible(!passwordVisible)} type="button">
                 <EyeIcon closed={passwordVisible} />

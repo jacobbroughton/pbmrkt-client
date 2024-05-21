@@ -275,26 +275,6 @@ a:hover {
   width: calc(100% - 30px);
 }
 
-.cta-button {
-  background-color: var(--lightgreen);
-  padding: 7px 15px;
-  align-self: flex-start;
-  border-radius: 3px;
-  font-size: 1rem;
-  color: #212529;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.1s ease filter;
-  width: 100%;
-  color: white;
-  text-shadow: 1px 1px 3px #21252953;
-  font-weight: 600;
-  transition: color 0.1s ease, background-color 0.1s ease;
-}
-
-.cta-button.apply {
-  background-color: var(--lightgreen);
-}
 
 .button {
   font-size: 1rem;

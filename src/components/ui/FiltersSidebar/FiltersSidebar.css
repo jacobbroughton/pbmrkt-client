@@ -22,7 +22,6 @@
   padding-top: 15px;
 }
 
-
 .filters {
   overflow-y: auto;
   display: flex;
@@ -39,24 +38,60 @@
   gap: 10px;
 }
 
+.filters .apply-and-reset .apply-button {
+  background-color: var(--lightgreen);
+  padding: 7px 15px;
+  align-self: flex-start;
+  border-radius: 3px;
+  font-size: 1rem;
+  color: #212529;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+  width: 100%;
+  color: white;
+  text-shadow: 1px 1px 3px #21252953;
+  font-weight: 600;
+  transition: color 0.1s ease, background-color 0.1s ease;
+  /* position: absolute; */
+}
+
+.filters .apply-and-reset .apply-button:disabled {
+  color: grey;
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.filters .apply-and-reset .apply-button:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
 .filters .apply-and-reset .reset-button {
   background-color: transparent;
   border: 0;
   padding: 0;
+  display: flex;
   align-self: center;
   color: white;
   font-size: 1rem;
   cursor: pointer;
-
 }
 
-.filters .reset-button:hover {
+.filters .apply-and-reset  .reset-button:hover {
   text-decoration: underline;
+}
+
+.filters .apply-and-reset .reset-button:disabled {
+  cursor: not-allowed;
 }
 
 .filters .apply-and-reset .reset-button svg {
   width: 25px;
-  fill: white
+  fill: white;
+}
+
+.filters .apply-and-reset .reset-button:disabled svg {
+  fill: #aaa;
 }
 
 .filters > .filter-items {
@@ -150,7 +185,6 @@
 .filters > .filter-items .filter-item .min-max-input-container input:active {
   outline: green;
 }
-
 
 /* .filters > .filter-items .filter-item > .checkbox-options {
   width: 100%;

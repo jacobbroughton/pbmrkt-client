@@ -3,11 +3,12 @@ import "./RadioOptions.css";
 
 const RadioOptions = ({ options, handleRadioOptionClick }) => {
   return (
-    <div className="radio-options">
+    <div className="radio-options" >
       {options.map((option) => (
         <div
           className={`radio-option ${option.checked ? "checked" : ""}`}
           onClick={() => handleRadioOptionClick(option)}
+          key={option.id}
         >
           <RadioIcon checked={option.checked} />
           <label>{option.value}</label>

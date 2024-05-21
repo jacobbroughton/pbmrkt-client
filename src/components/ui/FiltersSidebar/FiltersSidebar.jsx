@@ -7,7 +7,6 @@ import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import { resetFilters, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
-import Checkbox from "../Icons/Checkbox.jsx";
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
@@ -29,10 +28,6 @@ const FiltersSidebar = () => {
     }
   }, [windowSize.width]);
 
-  useEffect(() => {
-    console.log(filters.draft);
-  }, [filters.draft]);
-
   function handleConditionFilterSelect(selectedOption) {
     dispatch(
       setFilters({
@@ -51,7 +46,6 @@ const FiltersSidebar = () => {
   }
 
   function handlePriceFilterSelect(selectedOption) {
-    console.log(selectedOption)
     dispatch(
       setFilters({
         ...filters,
@@ -152,7 +146,8 @@ const FiltersSidebar = () => {
 
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));
-    if (windowSize.width <= 625) dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+    if (windowSize.width <= 625)
+      dispatch(toggleModal({ key: "filtersSidebar", value: false }));
     // getListings(searchValue);
   }
 
@@ -190,14 +185,11 @@ const FiltersSidebar = () => {
             onClick={() => dispatch(resetFilters())}
             type="button"
             className=" reset-button"
+            disabled={applyButtonDisabled}
           >
             <UndoIcon />
           </button>
-          <button
-            className="cta-button apply"
-            type="submit"
-            disabled={applyButtonDisabled}
-          >
+          <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
             Apply
           </button>
         </div>
@@ -237,10 +229,12 @@ const FiltersSidebar = () => {
           <div className="filter-item">
             <label>By State</label>
 
-            <select onChange={handleStateFilterSelect}>
-              <option selected={!filters.draft.state}>All</option>
+            <select onChange={handleStateFilterSelect} value={filters.draft.state}>
+              <option>All</option>
               {states.map((state) => (
-                <option selected={state == filters.draft.state}>{state}</option>
+                <option key={state}>
+                  {state}
+                </option>
               ))}
             </select>
           </div>
@@ -251,10 +245,13 @@ const FiltersSidebar = () => {
               className=""
               disabled={filters.draft.state == "All"}
               onChange={handleCityFilterSelect}
+              value={filters.draft.city}
             >
-              <option selected={!filters.draft.state}>All</option>
+              <option>All</option>
               {statesAndCities[filters.draft.state]?.map((city) => (
-                <option selected={city == filters.draft.city} >{capitalizeWords(city)}</option>
+                <option  key={city}>
+                  {capitalizeWords(city)}
+                </option>
               ))}
             </select>
           </div>

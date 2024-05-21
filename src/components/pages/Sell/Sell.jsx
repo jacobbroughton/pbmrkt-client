@@ -436,6 +436,7 @@ const Sell = () => {
 
   const submitDisabled =
     photos.length == 0 &&
+    (!state || !city) &&
     (!radioOptions.conditionOptions.find((option) => option.checked) ||
       !radioOptions.shippingOptions.find((option) => option.checked) ||
       !radioOptions.tradeOptions.find((option) => option.checked) ||
@@ -529,7 +530,7 @@ const Sell = () => {
         <div className="form-block">
           <h2>Your Info</h2>
           <fieldset>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Full Name (First/Last)</label>
               <input
                 onChange={(e) => setSellerName(e.target.value)}
@@ -538,7 +539,7 @@ const Sell = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Contact Phone Number </label>
               <input
                 onChange={(e) => setContactPhoneNumber(e.target.value)}
@@ -548,7 +549,7 @@ const Sell = () => {
               />
             </div>
           </fieldset>
-          {/* <div className="form-group">
+          {/* <div className={`form-group`}>
             <label>Location</label>
             <input
               onChange={(e) => setLocation(e.target.value)}
@@ -557,24 +558,29 @@ const Sell = () => {
             />
           </div> */}
           <fieldset>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>State</label>
 
-              <select onChange={(e) => setState(e.target.value)}>
+              <select
+                onChange={(e) =>
+                  setState(e.target.value == "All" ? null : e.target.value)
+                }
+                value={state}
+              >
                 <option>All</option>
                 {states.map((state) => (
                   <option>{state}</option>
                 ))}
               </select>
             </div>
-            <div className="form-group">
+            <div className={`form-group ${!state ? "disabled" : ""}`}>
               <label>City</label>
 
               <select
                 className=""
-                disabled={state == "All"}
-                onChange={(e) => setCity(e.target.value)}
-                value={city}
+                disabled={!state}
+                onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
+                value={city || ""}
               >
                 <option>All</option>
                 {statesAndCities[state]?.map((city) => (
@@ -589,7 +595,7 @@ const Sell = () => {
           <h2>Item Details</h2>
 
           <fieldset>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>What is this item?</label>
               <input
                 onChange={(e) => setWhatIsThisItem(e.target.value)}
@@ -658,7 +664,7 @@ const Sell = () => {
           </fieldset>
 
           <fieldset>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Brand</label>
               <input
                 onChange={(e) => setBrand(e.target.value)}
@@ -668,7 +674,7 @@ const Sell = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Model</label>
               <input
                 onChange={(e) => setModel(e.target.value)}
@@ -681,7 +687,7 @@ const Sell = () => {
           {/* <fieldset>
 
 
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Condition</label>
               <select onChange={(e) => setCondition(e.target.value)} value={condition}>
                 {radioOptions.conditionOptions.map((condition) => (
@@ -691,7 +697,7 @@ const Sell = () => {
             </div>
           </fieldset> */}
 
-          <div className="form-group">
+          <div className={`form-group`}>
             <label>Details</label>
             <textarea
               onChange={(e) => setDetails(e.target.value)}
@@ -701,7 +707,7 @@ const Sell = () => {
           </div>
 
           <fieldset className="radio-form-groups">
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Shipping</label>
 
               <RadioOptions
@@ -712,7 +718,7 @@ const Sell = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Trades</label>
 
               <RadioOptions
@@ -724,7 +730,7 @@ const Sell = () => {
             </div>
           </fieldset>
           <fieldset>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Condition</label>
 
               <RadioOptions
@@ -734,7 +740,7 @@ const Sell = () => {
                 }
               />
             </div>
-            <div className="form-group">
+            <div className={`form-group`}>
               <label>Negotiable</label>
 
               <RadioOptions

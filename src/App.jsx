@@ -3,7 +3,7 @@ import Listings from "./components/pages/Home/Home";
 import Navbar from "./components/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSession } from "./redux/auth.js";
+import { setSession, setUser } from "./redux/auth.js";
 import Sell from "./components/pages/Sell/Sell.jsx";
 import Item from "./components/pages/Item/Item.jsx";
 import { supabase } from "./utils/supabase.js";
@@ -18,70 +18,115 @@ import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
 function App() {
   const dispatch = useDispatch();
 
-  const { session } = useSelector((state) => state.auth);
+  const { session, user } = useSelector((state) => state.auth);
   const [sessionLoading, setSessionLoading] = useState(true);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setSessionLoading(true);
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      try {
-        if (!session) return;
+  // function onAuthStateChange(callback) {
+  //   let currentSession = null;
+  //   return supabase.auth.onAuthStateChange((event, _session) => {
+  //     if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
+  //     console.log({ currentSession, _session });
+  //     // dispatch(setSession(_session));
+  //     // dispatch(setUser(_session.user));
+  //     // setSessionLoading(false);
+  //     getUser(_session)
+  //     callback(session);
+  //   });
+  // }
 
-        const { data: data, error: error } = await supabase.rpc(
-          "get_user_profile_simple",
-          {
-            p_username: session.user.user_metadata.username,
-          }
-        );
+  async function getUser(passedSession) {
+    try {
+      const { data: data, error: error } = await supabase.rpc("get_user_profile_simple", {
+        p_username: passedSession.user.user_metadata.username,
+      });
 
-        if (error) { console.log(error); throw error.message; }
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
 
-        const sbUserWithDBUser = {
-          ...session.user,
-          ...data[0],
-        };
+      const sbUserWithDBUser = {
+        ...passedSession.user,
+        ...data[0],
+      };
 
+      if (!session)
         dispatch(
           setSession({
-            ...session,
+            ...passedSession,
             user: sbUserWithDBUser,
           })
         );
-      } catch (error) {
-        setError(error.toString());
-      }
+
+      setSessionLoading(false);
+    } catch (error) {
+      setError(error.toString());
+    }
+  }
+
+  // useEffect(() => {
+  //   setSessionLoading(true);
+  //   supabase.auth.getSession().then(async ({ data: { _session } }) => {
+  //     if (!_session) return;
+
+  //     getUser();
+  //   });
+
+  //   const { data } = onAuthStateChange((_event, innerSession) => {
+  //     if (sessionLoading) setSessionLoading(false);
+
+  //     // if (_event === "INITIAL_SESSION") {
+  //     //   if (!session) dispatch(setSession(innerSession));
+  //     //   // handle initial session
+  //     // } else if (_event === "SIGNED_IN") {
+  //     //   // handle sign in event
+  //     // } else if (_event === "SIGNED_OUT") {
+  //     //   // handle sign out event
+  //     // } else if (_event === "PASSWORD_RECOVERY") {
+  //     //   // handle password recovery event
+  //     // } else if (_event === "TOKEN_REFRESHED") {
+  //     //   // handle token refreshed event
+  //     // } else if (_event === "USER_UPDATED") {
+  //     //   // handle user updated event
+  //     // }
+  //     // if (!user) getUser(innerSession)
+  //     // if (user?.id !== innerSession?.user?.id) dispatch(setSession(innerSession))
+  //   });
+
+  //   return () => data.subscription.unsubscribe();
+  // }, []);
+
+  const onAuthStateChange = (callback) => {
+    let currentSession;
+    return supabase.auth.onAuthStateChange((event, _session) => {
+      if (_session?.user?.id == currentSession?.user?.id) return;
+      currentSession = _session;
+      // dispatch(setSession(_session))
+      getUser(_session);
+      callback(event);
     });
+  };
 
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (sessionLoading) setSessionLoading(false);
+  useEffect(() => {
+    setTimeout(() => {
+      const {
+        data: { subscription },
+      } = onAuthStateChange((event, session) => {
+        console.log(event);
 
-      if (_event === "INITIAL_SESSION") {
-        // handle initial session
-      } else if (_event === "SIGNED_IN") {
-        // handle sign in event
-      } else if (_event === "SIGNED_OUT") {
-        // handle sign out event
-      } else if (_event === "PASSWORD_RECOVERY") {
-        // handle password recovery event
-      } else if (_event === "TOKEN_REFRESHED") {
-        // handle token refreshed event
-      } else if (_event === "USER_UPDATED") {
-        // handle user updated event
-      }
-
-      console.log(session);
-      dispatch(setSession(session));
-    });
-
-    return () => data.subscription.unsubscribe();
+        return () => {
+          subscription.unsubscribe();
+        };
+      });
+    }, 0);
   }, []);
 
-  if (sessionLoading) return <LoadingOverlay message={'Loading...'}/>;
+  if (sessionLoading) return <LoadingOverlay message={"Loading..."} />;
 
   const PrivateRoutes = () => {
+    console.log(session);
     const userAuthenticated = session && !sessionLoading;
-    console.log("userAuthenticated", userAuthenticated);
     return userAuthenticated ? <Outlet /> : <Navigate to="/login" />;
   };
 
@@ -89,7 +134,7 @@ function App() {
     <>
       <Navbar />
       <main>
-        {error && <p className='error-text small-text'>{error}</p>}
+        {error && <p className="error-text small-text">{error}</p>}
         <Routes>
           <Route element={<Listings />} path="/" />
           <Route element={<Register />} path="/register" />

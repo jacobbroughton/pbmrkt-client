@@ -217,8 +217,8 @@ function Listings() {
                   : ""
               } skeletons-grid`}
             >
-              {[...new Array(listings.length || 5)].map(() => (
-                <ItemSkeleton />
+              {[...new Array(listings.length || 5)].map((num, i) => (
+                <ItemSkeleton key={i} />
               ))}
             </div>
           ) : !isInitialLoad && listings.length == 0 ? (

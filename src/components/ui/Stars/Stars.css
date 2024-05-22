@@ -6,6 +6,8 @@
 .stars .star-container {
   padding: 3px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .stars .star-container svg {

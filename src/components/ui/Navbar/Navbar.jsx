@@ -11,7 +11,6 @@ function Navbar() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
-  
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
@@ -33,13 +32,13 @@ function Navbar() {
         PBMRKT
       </Link>
 
-
       <div className="right-side">
-      <SearchBar handleSearchSubmit={handleSearchSubmit}/>
+        <SearchBar handleSearchSubmit={handleSearchSubmit} />
         <Link to="/sell" className="sell-link">
           {/* <PlusIcon /> */}
           Sell
         </Link>
+
         {auth.session?.user ? (
           <>
             <button

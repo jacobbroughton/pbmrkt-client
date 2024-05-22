@@ -51,6 +51,7 @@ nav .right-side a.sell-link svg {
 nav .right-side .right-side-menu-button {
   height: 35px;
   width: 35px;
+  min-width: 35px;
   border-radius: 100px;
   display: flex;
   align-items: center;
@@ -76,7 +77,15 @@ nav .right-side .right-side-menu-button .profile-picture {
 }
 
 @media screen and (max-width: 500px) {
+
+  nav {
+    padding: 7px 10px
+  }
     .home-link {
       display: none;
+    }
+
+    nav .right-side a.sell-link {
+      display: none ;
     }
 }

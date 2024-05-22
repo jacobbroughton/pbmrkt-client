@@ -10,7 +10,7 @@ const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const rightSideMenuRef = useRef(null);
-  const {session} = useSelector((state) => state.auth);
+  const { session } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -35,11 +35,12 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
-
       const { data, error } = await supabase.auth.signOut();
 
-      if (error) throw error.message
-      
+      console.log(data, error);
+
+      if (error) throw error.message;
+
       if (!data) navigate("/login");
 
       dispatch(toggleModal({ key: "rightSideMenu", value: false }));
@@ -62,6 +63,15 @@ const RightSideMenu = () => {
             <label>View Profile</label>
             <p className="user-email">{session?.user.username}</p>
           </div>
+        </div>
+      </Link>
+      <Link
+        to={`/sell`}
+        className="menu-item sell"
+        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+      >
+        <div className="sell-link">
+            <label>Sell</label>
         </div>
       </Link>
       <button className="menu-item logout" onClick={handleLogout}>

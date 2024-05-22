@@ -79,6 +79,31 @@
   background-color: white;
 }
 
+.right-side-menu .menu-item.sell {
+  padding: 5px 10px;
+  border-radius: 3px;
+  width: calc(100% - 10px);
+  margin: 10px 5px;
+  background-color: var(--lightgreen);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-side-menu .menu-item.sell {
+  color: white;
+  font-weight: 600;
+}
+
+.right-side-menu .menu-item.sell:hover {
+  text-decoration: none;
+}
+
+.right-side-menu .menu-item.sell svg {
+  width: 15px;
+  fill: white;
+}
+
 .right-side-menu .profile-link .info {
   display: flex;
   flex-direction: column;
@@ -91,4 +116,10 @@
 .right-side-menu .profile-link .info .user-email {
   font-size: 0.875rem;
   color: #aaa;
+}
+
+@media screen and (max-width: 500px) {
+  .right-side-menu .menu-item.sell {
+    display: flex;
+  }
 }

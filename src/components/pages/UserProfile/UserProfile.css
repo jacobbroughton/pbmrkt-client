@@ -15,13 +15,16 @@
   /* max-width: 600px;
   align-self: center;
   width: 100%; */
+  flex-wrap: wrap;
 }
 
 .user-profile-page .profile-picture-container {
   width: 100px;
   height: 100px;
+  min-width: 100px;
   border-radius: 100px;
   overflow: hidden;
+  display: flex;
 }
 
 .user-profile-page .profile-picture-container .profile-picture {
@@ -34,16 +37,25 @@
   display: flex;
   gap: 10px;
 }
-/* 
-.user-profile-page .picture-and-info .info .buttons .stars-and-reviews-button {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
 
-.user-profile-page .picture-and-info .info .buttons button{
+.user-profile-page .picture-and-info .info .buttons button {
   background-color: transparent;
   border: 0;
   font-size: 1rem;
-  
+}
+
+.user-profile-page .picture-and-info .stars-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  gap: 3px
+}
+
+
+
+.user-profile-page .picture-and-info .stars-button:not(:disabled):hover span {
+ text-decoration: underline;
 }

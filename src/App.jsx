@@ -37,6 +37,7 @@ function App() {
 
   async function getUser(passedSession) {
     try {
+      if (!passedSession) throw "no session sent to getUser()";
       const { data: data, error: error } = await supabase.rpc("get_user_profile_simple", {
         p_username: passedSession.user.user_metadata.username,
       });
@@ -61,7 +62,9 @@ function App() {
 
       setSessionLoading(false);
     } catch (error) {
-      setError(error.toString());
+      console.log(error);
+      setError(error);
+      setSessionLoading(false);
     }
   }
 
@@ -100,10 +103,15 @@ function App() {
   const onAuthStateChange = (callback) => {
     let currentSession;
     return supabase.auth.onAuthStateChange((event, _session) => {
-      if (_session?.user?.id == currentSession?.user?.id) return;
+      console.log(event, _session);
+      if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
       currentSession = _session;
-      // dispatch(setSession(_session))
-      getUser(_session);
+      if (_session) {
+        getUser(_session);
+      } else {
+        setSessionLoading(false)
+      }
+
       callback(event);
     });
   };
@@ -113,7 +121,7 @@ function App() {
       const {
         data: { subscription },
       } = onAuthStateChange((event, session) => {
-        console.log(event);
+        // dispatch(setSession(session))
 
         return () => {
           subscription.unsubscribe();

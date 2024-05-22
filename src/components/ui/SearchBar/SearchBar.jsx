@@ -13,12 +13,12 @@ const SearchBar = () => {
   const [error, setError] = useState();
 
   function handleSearchSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     try {
       if (search.draftSearchValue === search.savedSearchValue) return;
       dispatch(setSavedSearchValue(search.draftSearchValue));
       dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
-      navigate('/')
+      navigate("/");
     } catch (error) {
       console.log(error);
       setError(error.message.toString());
@@ -36,7 +36,7 @@ const SearchBar = () => {
             onChange={(e) => dispatch(setDraftSearchValue(e.target.value))}
           />
         </div>
-        {error && <p className='error-text tiny text'>{error}</p>}
+        {error && <p className="error-text tiny text">{error}</p>}
         {/* <button disabled={search.draftSearchValue === search.savedSearchValue}>
           Search
         </button> */}

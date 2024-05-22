@@ -19,7 +19,7 @@ const UserProfile = () => {
     list: [],
   });
 
-  const {session} = useSelector((state) => state.auth);
+  const { session } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getProfile();
@@ -110,17 +110,15 @@ const UserProfile = () => {
         <div className="info">
           <h1>{session.user.username}</h1>
           <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
-          <div className="stars-and-reviews-button">
-            <Stars rating={session.user.rating} />
-            <div className="buttons">
-              <button
-                onClick={() =>
-                  dispatch(toggleModal({ key: "sellerReviewsModal", value: true }))
-                }
-              >
-                {reviews.count} Reviews
-              </button>
-              {/* {!seller.review_given && (
+          <button
+            className="stars-button"
+            onClick={() =>
+              dispatch(toggleModal({ key: "userReviewsModal", value: true }))
+            }
+          >
+            <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
+          </button>
+          {/* {!seller.review_given && (
                 <button
                   className="button add-review-button"
                   onClick={() =>
@@ -135,8 +133,6 @@ const UserProfile = () => {
                   Leave a review
                 </button>
               )} */}
-            </div>
-          </div>
         </div>
       </div>
       {listings.length ? <ListingGrid listings={listings} /> : <p>No listings found</p>}

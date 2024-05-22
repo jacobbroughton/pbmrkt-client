@@ -66,6 +66,15 @@ const RightSideMenu = () => {
         </div>
       </Link>
       <Link
+        to={`/`}
+        className="menu-item"
+        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+      >
+        <div className="sell-link">
+            <label>Home</label>
+        </div>
+      </Link>
+      <Link
         to={`/sell`}
         className="menu-item sell"
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}

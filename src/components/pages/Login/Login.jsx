@@ -112,6 +112,7 @@ const Login = () => {
                   <button
                     onClick={() => setPasswordVisible(!passwordVisible)}
                     type="button"
+                    className="button"
                   >
                     <EyeIcon closed={passwordVisible} />
                   </button>

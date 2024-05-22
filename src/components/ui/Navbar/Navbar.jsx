@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
-import PlusIcon from "../Icons/PlusIcon";
+import HomeIcon from "../Icons/HomeIcon";
 import SearchBar from "../SearchBar/SearchBar";
 import { setDraftSearchValue } from "../../../redux/search";
 
@@ -28,8 +28,10 @@ function Navbar() {
 
   return (
     <nav>
+      
       <Link to="/" className="home-link">
-        PBMRKT
+        <p>PBMRKT</p>
+        <HomeIcon/>
       </Link>
 
       <div className="right-side">
@@ -50,7 +52,7 @@ function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
+            <Link to="/login" className='login-link'>Login</Link>
             {/* <Link to="/register">Register</Link> */}
           </>
         )}

@@ -17,6 +17,30 @@ nav .home-link {
   font-weight: 600;
 }
 
+nav .home-link svg {
+  display: none;
+  fill: white;
+  width: 30px;
+}
+
+nav .login-link {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: var(--lightgreen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav .login-link {
+  color: white;
+  font-weight: 600;
+}
+
+nav .login-link:hover {
+  text-decoration: none;
+}
+
 nav .right-side {
   display: flex;
   align-items: center;
@@ -77,15 +101,19 @@ nav .right-side .right-side-menu-button .profile-picture {
 }
 
 @media screen and (max-width: 500px) {
-
   nav {
-    padding: 7px 10px
+    padding: 7px 10px;
+    gap: 10px;
   }
-    .home-link {
-      display: none;
-    }
+  .home-link p {
+    display: none;
+  }
 
-    nav .right-side a.sell-link {
-      display: none ;
-    }
+  nav .home-link svg {
+    display: block;
+  }
+
+  nav .right-side a.sell-link {
+    display: none;
+  }
 }

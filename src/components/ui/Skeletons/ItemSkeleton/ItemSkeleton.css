@@ -10,8 +10,8 @@
 .item-skeleton-container .image-skeleton {
   height: 196px;
   width: 100%;
-  border-radius: 5px;
-  margin-bottom: 5px;
+  border-radius: 3px;
+  margin-bottom: 3px;
 }
 
 .item-skeleton-container .words-skeleton {

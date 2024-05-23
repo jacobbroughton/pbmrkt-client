@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./UserProfile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
@@ -7,6 +7,9 @@ import ListingGrid from "../../ui/ListingGrid/ListingGrid";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import Stars from "../../ui/Stars/Stars";
 import { toggleModal } from "../../../redux/modals";
+import { v4 as uuidv4 } from "uuid";
+import EditIcon from "../../ui/Icons/EditIcon";
+import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
 
 const UserProfile = () => {
   // const { userID } = useParams();
@@ -18,6 +21,9 @@ const UserProfile = () => {
     count: 0,
     list: [],
   });
+  const [profilePictureUpdateButtonShowing, setProfilePictureUpdateButtonShowing] =
+    useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const { session } = useSelector((state) => state.auth);
 
@@ -25,14 +31,10 @@ const UserProfile = () => {
     getProfile();
   }, []);
 
-  // if (!loading) {
-  //   setLoading(true);
-  // }
-
   async function getProfile() {
     try {
       setLoading(true);
-      const { data, error } = await supabase.rpc("get_user_profile", {
+      const { data, error } = await supabase.rpc("get_user_profile_complex", {
         p_user_id: session.user.id,
       });
 
@@ -42,6 +44,7 @@ const UserProfile = () => {
       }
 
       console.log(data);
+      setProfilePicture(data[0].profile_picture_path)
 
       // Get Items
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
@@ -96,6 +99,43 @@ const UserProfile = () => {
     setLoading(false);
   }
 
+  async function uploadProfilePicture(e) {
+    try {
+      console.log(e.target.files);
+
+      const thisUploadUUID = uuidv4();
+      const file = e.target.files[0];
+      const { data, error } = await supabase.storage
+        .from("profile_pictures")
+        .upload(`${session.user.id}/${thisUploadUUID}`, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      console.log({ data, error });
+
+      if (error) {
+        console.log(error);
+        throw error.message;
+      }
+
+      const { data: data2, error: error2 } = await supabase.rpc("add_profile_image", {
+        p_generated_id: data.id,
+        p_full_path: data.fullPath,
+        p_path: data.path,
+        p_user_id: session.user.id,
+      });
+      if (error2) throw error2.message;
+
+      console.log("add profile image", data2);
+
+      setProfilePicture(data2[0].full_path);
+    } catch (error) {
+      console.log(error);
+      setError(error.toString());
+    }
+  }
+
   if (error) return <p>{error}</p>;
 
   if (loading) return <LoadingOverlay />;
@@ -104,8 +144,21 @@ const UserProfile = () => {
     <div className="user-profile-page">
       {error && <p className="error-text small-text">{error}</p>}
       <div className="picture-and-info">
-        <div className="profile-picture-container">
-          <div className="profile-picture">&nbsp;</div>
+        <div
+          className="profile-picture-container"
+          onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
+          onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
+        >
+          <img className="profile-picture" src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${profilePicture}`}/>
+          <label htmlFor="change-profile-picture">
+            <input
+              type="file"
+              className=""
+              id="change-profile-picture"
+              onChange={uploadProfilePicture}
+            />
+            <EditIcon />
+          </label>
         </div>
         <div className="info">
           <h1>{session.user.username}</h1>
@@ -135,7 +188,27 @@ const UserProfile = () => {
               )} */}
         </div>
       </div>
-      {listings.length ? <ListingGrid listings={listings} /> : <p>No listings found</p>}
+      {listings.length ? (
+        <ListingGrid listings={listings} />
+      ) : (
+        <div className="skeletons-grid">
+          <div className="overlay-content">
+            <p>You haven't created any listings yet!</p>
+            <Link to="/sell">Sell something</Link>
+          </div>
+          <div className="gradient-overlay"></div>
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+        </div>
+      )}
     </div>
   );
 };

@@ -16,6 +16,13 @@
   align-self: center;
   width: 100%; */
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #444;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid grey;
 }
 
 .user-profile-page .profile-picture-container {
@@ -23,14 +30,40 @@
   height: 100px;
   min-width: 100px;
   border-radius: 100px;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
+  position: relative;
 }
 
 .user-profile-page .profile-picture-container .profile-picture {
   background-color: white;
   height: 100%;
   width: 100%;
+  border-radius: 100px;
+}
+
+.user-profile-page .profile-picture-container label {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 3;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.user-profile-page .profile-picture-container label input[type="file"] {
+  display: none;
+}
+
+.user-profile-page .profile-picture-container label svg {
+  width: 15px;
+  fill: black;
 }
 
 .user-profile-page .picture-and-info .info .buttons {
@@ -44,18 +77,56 @@
   font-size: 1rem;
 }
 
-.user-profile-page .picture-and-info .stars-button {
+.user-profile-page .picture-and-info .info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.user-profile-page .picture-and-info .info .stars-button {
   display: flex;
   align-items: center;
   background-color: transparent;
   padding: 0;
   border: 0;
   cursor: pointer;
-  gap: 3px
+  gap: 3px;
+  font-size: 1rem;
 }
 
+.user-profile-page .picture-and-info .info .stars-button:not(:disabled):hover span {
+  text-decoration: underline;
+}
 
+.user-profile-page .skeletons-grid {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-top: 20px;
+}
 
-.user-profile-page .picture-and-info .stars-button:not(:disabled):hover span {
- text-decoration: underline;
+.user-profile-page .skeletons-grid .overlay-content {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 50px;
+  z-index: 3;
+  width: calc(100% - 30px);
+  max-width: 350px;
+}
+
+.user-profile-page .skeletons-grid .overlay-content p {
+  font-size: 1.25rem;
+}
+
+.user-profile-page .skeletons-grid .overlay-content a {
+
+}
+
+.user-profile-page .skeletons-grid .gradient-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top, black 0%, transparent 100%);
 }

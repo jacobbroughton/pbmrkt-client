@@ -275,7 +275,6 @@ a:hover {
   width: calc(100% - 30px);
 }
 
-
 .button {
   font-size: 1rem;
   color: white;
@@ -301,6 +300,9 @@ a:hover {
 
 .skeleton {
   background-color: #555;
+}
+
+.skeleton.blinking {
   animation: skeleton-blink infinite alternate linear 0.5s;
 }
 

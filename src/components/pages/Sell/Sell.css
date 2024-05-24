@@ -195,6 +195,10 @@
   max-width: 100px;
 }
 
+.sell form .form-group.disabled {
+  cursor: not-allowed;
+}
+
 .sell form .form-group.disabled label {
   color: grey;
 }
@@ -338,9 +342,14 @@
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
 }
 
+.sell form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
+  color: grey;
+  cursor: not-allowed;
+}
+
 .sell form .form-group input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .sell form .form-group textarea:not(:disabled):hover,
-.sell form .form-group selepct:not(:disabled):hover,
+.sell form .form-group select:not(:disabled):hover,
 .sell form .custom-photo-upload:not(:disabled):hover,
 .sell form .form-block .reset-images-button:not(:disabled):hover,
 .sell
@@ -349,6 +358,10 @@
   .shipping-selector
   .shipping-toggle-button:not(.selected):hover {
   border-color: #aaa;
+}
+
+.sell form .form-group select:not(:disabled) {
+  cursor: pointer;
 }
 
 .sell form .form-group input[type="file"] {

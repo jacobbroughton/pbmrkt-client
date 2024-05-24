@@ -30,7 +30,7 @@ function Navbar() {
     <nav>
       
       <Link to="/" className="home-link">
-        <p>PBMRKT</p>
+        <p>core_pb</p>
         <HomeIcon/>
       </Link>
 

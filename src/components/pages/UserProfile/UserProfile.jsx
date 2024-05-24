@@ -154,6 +154,7 @@ const UserProfile = () => {
             <input
               type="file"
               className=""
+              title="Edit profile picture"
               id="change-profile-picture"
               onChange={uploadProfilePicture}
             />

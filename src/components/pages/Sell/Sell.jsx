@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
@@ -108,6 +108,36 @@ const Sell = () => {
 
   const { session } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    getDefaultSelections();
+  }, []);
+
+  async function getDefaultSelections() {
+    try {
+      const { data, error } = await supabase.rpc("get_default_seller_inputs", {
+        p_user_id: session.user.id,
+      });
+
+      if (error) throw error.message;
+
+      if (!data[0]) return;
+
+      const { state: defaultState, city: defaultCity } = data[0];
+
+      if (defaultState) setState(defaultState);
+      if (defaultState && defaultCity) setCity(capitalizeWords(defaultCity));
+
+      console.log("get_default_seller_inputs", data);
+    } catch (error) {
+      console.log(error);
+      setSellError(error.toString());
+    }
+  }
+
+  useEffect(() => {
+console.log({city, state})
+  }, [city, state])
+
   function handleDragEnter(e) {
     e.preventDefault();
     setDraggingPhotos(true);
@@ -155,7 +185,7 @@ const Sell = () => {
         throw error.message;
       }
 
-      if (!data) throw "Listed item id is undefined";
+      if (!data) throw "no response from 'add_item'";
 
       if (newCoverPhotoId) {
         const { data: data2, error } = await supabase.rpc("update_cover_photo", {
@@ -436,17 +466,18 @@ const Sell = () => {
 
   const submitDisabled =
     photos.length == 0 ||
-    (!state || !city) ||
-    (!radioOptions.conditionOptions.find((option) => option.checked) ||
-      !radioOptions.shippingOptions.find((option) => option.checked) ||
-      !radioOptions.tradeOptions.find((option) => option.checked) ||
-      !radioOptions.negotiableOptions.find((option) => option.checked));
+    !state ||
+    !city ||
+    !radioOptions.conditionOptions.find((option) => option.checked) ||
+    !radioOptions.shippingOptions.find((option) => option.checked) ||
+    !radioOptions.tradeOptions.find((option) => option.checked) ||
+    !radioOptions.negotiableOptions.find((option) => option.checked);
 
   return (
     <div className="sell">
       {sellError && <div className="error-text">{sellError}</div>}
       <h1>Create a new listing</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <div className="form-block">
           {photos.length != 0 && (
             <div className="selling-item-images">
@@ -560,16 +591,17 @@ const Sell = () => {
           <fieldset>
             <div className={`form-group`}>
               <label>State</label>
-
               <select
                 onChange={(e) =>
                   setState(e.target.value == "All" ? null : e.target.value)
                 }
                 value={state}
               >
-                <option>All</option>
-                {states.map((state) => (
-                  <option>{state}</option>
+                {/* <option>All</option> */}
+                {states.map((childState) => (
+                  <option value={childState} key={childState}>
+                    {childState}
+                  </option>
                 ))}
               </select>
             </div>
@@ -577,14 +609,13 @@ const Sell = () => {
               <label>City</label>
 
               <select
-                className=""
                 disabled={!state}
                 onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
-                value={city || ""}
+                value={city?.toUpperCase()}
               >
-                <option>All</option>
-                {statesAndCities[state]?.map((city) => (
-                  <option>{capitalizeWords(city)}</option>
+                {/* <option>All</option> */}
+                {statesAndCities[state]?.map((innerCity) => (
+                  <option value={innerCity}>{capitalizeWords(innerCity)}</option>
                 ))}
               </select>
             </div>
@@ -651,6 +682,11 @@ const Sell = () => {
               className={`form-group shipping-cost ${
                 buyerPaysShipping ? "" : "disabled"
               }`}
+              title={
+                buyerPaysShipping
+                  ? "Toggle 'buyer pays shipping' for this to be interactive"
+                  : ""
+              }
             >
               <label>Shipping Cost</label>
               <input

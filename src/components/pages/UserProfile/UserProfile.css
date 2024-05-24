@@ -101,6 +101,10 @@
   font-size: 1rem;
 }
 
+.user-profile-page .picture-and-info .info .stars-button span {
+  color: white;
+}
+
 .user-profile-page .picture-and-info .info .stars-button:not(:disabled):hover span {
   text-decoration: underline;
 }

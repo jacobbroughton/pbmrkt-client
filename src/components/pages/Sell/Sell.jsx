@@ -398,7 +398,6 @@ const Sell = () => {
       e.preventDefault();
       // todo - need to delete from tables as well
 
-      console.log("photos - discard images", photos);
       const paths = photos.map(
         (photo) => `temp/${session.user.id}/${generatedGroupId}/${photo.name}`
       );
@@ -561,10 +560,10 @@ const Sell = () => {
 
         <div className="form-block">
           <h2>Your Info</h2>
-          <div className="auto-completed-span legend">
+          {/* <div className="auto-completed-span legend">
             <MagicWand />
             = Generated from the last listing you created
-          </div>
+          </div> */}
           <fieldset>
             <div className={`form-group`}>
               <label>Full Name (First/Last)</label>

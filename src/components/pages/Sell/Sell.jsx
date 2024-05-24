@@ -10,6 +10,7 @@ import StarIcon from "../../ui/Icons/StarIcon";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
+import MagicWand from "../../ui/Icons/MagicWand.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -135,8 +136,8 @@ const Sell = () => {
   }
 
   useEffect(() => {
-console.log({city, state})
-  }, [city, state])
+    console.log({ city, state });
+  }, [city, state]);
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -560,6 +561,10 @@ console.log({city, state})
 
         <div className="form-block">
           <h2>Your Info</h2>
+          <div className="auto-completed-span legend">
+            <MagicWand />
+            = Generated from the last listing you created
+          </div>
           <fieldset>
             <div className={`form-group`}>
               <label>Full Name (First/Last)</label>
@@ -590,7 +595,14 @@ console.log({city, state})
           </div> */}
           <fieldset>
             <div className={`form-group`}>
-              <label>State</label>
+              <label>
+                State
+                {state && (
+                  <span className="auto-completed-span">
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
               <select
                 onChange={(e) =>
                   setState(e.target.value == "All" ? null : e.target.value)
@@ -606,7 +618,14 @@ console.log({city, state})
               </select>
             </div>
             <div className={`form-group ${!state ? "disabled" : ""}`}>
-              <label>City</label>
+            <label>
+                City
+                {city && (
+                  <span className="auto-completed-span">
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
 
               <select
                 disabled={!state}

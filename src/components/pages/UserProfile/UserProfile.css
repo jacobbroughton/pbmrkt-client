@@ -17,12 +17,12 @@
   width: 100%; */
   flex-wrap: wrap;
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  background-color: #444;
+  background-color: #333;
   border-radius: 5px;
   padding: 15px;
-  border: 1px solid grey;
+  border: 1px solid #444;
 }
 
 .user-profile-page .profile-picture-container {
@@ -46,14 +46,14 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: orange;
+  /* background-color: orange; */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 5px;
   border-radius: 5px;
   z-index: 3;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
   cursor: pointer;
 }
 
@@ -62,8 +62,15 @@
 }
 
 .user-profile-page .profile-picture-container label svg {
-  width: 15px;
-  fill: black;
+  width: 20px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
+  fill: white;
+  transition: fill 0.1s ease, filter 0.1s ease;
+}
+
+.user-profile-page .profile-picture-container label:hover svg {
+  filter: none;
+  fill: #eee
 }
 
 .user-profile-page .picture-and-info .info .buttons {
@@ -128,5 +135,7 @@
   position: absolute;
   inset: 0;
   z-index: 2;
+  border: #444 1px solid;
   background: linear-gradient(to top, black 0%, transparent 100%);
+  border-radius: 5px;
 }

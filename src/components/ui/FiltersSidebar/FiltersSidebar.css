@@ -91,7 +91,7 @@
 }
 
 .filters .apply-and-reset .reset-button:disabled svg {
-  fill: #aaa;
+  fill: #ccc
 }
 
 .filters > .filter-items {

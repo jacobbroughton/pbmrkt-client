@@ -10,6 +10,7 @@ import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 import { setFlag } from "../../../redux/flags.js";
+import { setFiltersUpdated } from "../../../redux/filters.js";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -96,6 +97,7 @@ function Listings() {
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
       if (flags.searchedListingsNeedsUpdate)
         dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: false }));
+      dispatch(setFiltersUpdated(false))
     } catch (error) {
       setListingsError(error.toString());
     }
@@ -110,9 +112,10 @@ function Listings() {
     getListings(search.savedSearchValue);
   }, [sort]);
 
-  // useEffect(() => {
-  //   if (filters.filtersUpdated) getListings(searchValue);
-  // }, [filters.filtersUpdated]);
+  useEffect(() => {
+    console.log("Hello from useeffect")
+    if (filters.filtersUpdated) getListings(searchValue);
+  }, [filters.filtersUpdated]);
 
   useEffect(() => {
     if (flags.searchedListingsNeedsUpdate) getListings(search.savedSearchValue);

@@ -90,7 +90,6 @@
   display: flex;
 }
 
-
 .sell form fieldset {
   border: 0;
   display: flex;
@@ -120,6 +119,33 @@
 
 .sell form .form-group:first-child {
   flex-grow: 0;
+}
+
+.sell form .form-group label {
+  display: flex;
+  gap: 5px;
+}
+
+.sell form  .auto-completed-span {
+  background-color: yellow;
+  color: black;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  /* align-self: flex-start; */
+  gap: 5px;
+
+}
+
+.sell form  .auto-completed-span.legend {
+  align-self: flex-start;
+}
+
+.sell form .auto-completed-span svg {
+  fill: black;
+  width: 12px;
 }
 
 .sell form .form-group .price-and-shipping-input {
@@ -448,18 +474,17 @@
 }
 
 .sell form .image-skeletons .image-skeleton {
-  animation: brightenAnimation 0.5s infinite alternate; 
+  animation: brightenAnimation 0.5s infinite alternate;
 }
 
 @keyframes brightenAnimation {
   0% {
-      filter: brightness(1); /* Original brightness */
+    filter: brightness(1); /* Original brightness */
   }
   100% {
-      filter: brightness(1.5); /* Brighter */
+    filter: brightness(1.5); /* Brighter */
   }
 }
-
 
 .sell form .selling-item-images .image-container.cover {
   border: 2px solid var(--lightgreen);
@@ -533,13 +558,12 @@
 }
 
 @media screen and (max-width: 400px) {
-
   .sell form .form-block {
     /* gap: 10px; */
   }
 
-  .sell form .form-block  fieldset {
-    gap: 15px
+  .sell form .form-block fieldset {
+    gap: 15px;
   }
 
   .sell form .shipping-selector {
@@ -561,12 +585,11 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
-  
+
   .sell form .form-group.shipping .shipping-selector .shipping-toggle-button:last-child {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
   }
-  
 }

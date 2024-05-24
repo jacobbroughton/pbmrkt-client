@@ -26,7 +26,7 @@
   cursor: pointer;
   text-decoration: none;
   position: relative;
-  height: 270px;
+  height: 290px;
 }
 
 .grid .grid-item:hover .image-container {
@@ -86,6 +86,34 @@
 
 .grid .grid-item:hover > .listing-card-info .what-is-this {
   text-decoration: none !important;
+}
+
+.grid .grid-item > .listing-card-info > .profile {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 3px;
+}
+
+
+.grid .grid-item > .listing-card-info > .profile >.profile-picture-container {
+  position: relative;
+}
+
+.grid .grid-item > .listing-card-info > .profile > .profile-picture-container > .profile-picture {
+  background-color: #666;
+  border-radius: 100px;
+  width: 23px;
+  height: 23px;
+}
+
+.comment:not(.is-root-level)
+  .bars-and-content
+  .profile-picture-container
+  .profile-picture {
+  width: 25px;
+  min-width: 25px;
+  height: 25px;
 }
 
 .view-toggle {

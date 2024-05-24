@@ -3,13 +3,9 @@ import "./ListingGrid.css";
 
 const ListingGrid = ({ listings, accountForSidebar }) => {
   return (
-    <div className={`grid ${accountForSidebar ? 'accounts-for-sidebar' : ''}`}>
+    <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => (
-        <Link
-          to={`/${listing.id}`}
-          key={listing.id}
-          title={listing.what_is_this}
-        >
+        <Link to={`/${listing.id}`} key={listing.id} title={listing.what_is_this}>
           <div className="grid-item">
             <div className="image-container">
               {listing.path ? (
@@ -25,6 +21,12 @@ const ListingGrid = ({ listings, accountForSidebar }) => {
             <div className="listing-card-info">
               <p className="price">${listing.price}</p>
               <p className="what-is-this">{listing.what_is_this}</p>
+              <div className="profile">
+                <div className="profile-picture-container">
+                  <div className="profile-picture">&nbsp;</div>
+                </div>
+                <p className="small-text">{listing.username}</p>
+              </div>
             </div>
           </div>
         </Link>

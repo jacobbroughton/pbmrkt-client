@@ -219,6 +219,7 @@ const Item = () => {
           ...(comm.id == commentWithReplies.id && {
             replies: data,
             repliesToggled: !comm.repliesToggled,
+            reply_count: data.length
           }),
         };
       })

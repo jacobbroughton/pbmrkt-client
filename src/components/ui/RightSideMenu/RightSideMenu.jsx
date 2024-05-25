@@ -10,7 +10,7 @@ const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const rightSideMenuRef = useRef(null);
-  const { session } = useSelector((state) => state.auth);
+  const { session, user } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const RightSideMenu = () => {
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <div className="profile-link">
-          <div className="profile-picture"></div>
+          <img className="profile-picture" src={user.profile_picture_url} />
           <div className="info">
             <label>View Profile</label>
             <p className="user-email">{session?.user.username}</p>
@@ -71,7 +71,7 @@ const RightSideMenu = () => {
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <div className="sell-link">
-            <label>Home</label>
+          <label>Home</label>
         </div>
       </Link>
       <Link
@@ -80,7 +80,7 @@ const RightSideMenu = () => {
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <div className="sell-link">
-            <label>Sell</label>
+          <label>Sell</label>
         </div>
       </Link>
       <button className="menu-item logout" onClick={handleLogout}>

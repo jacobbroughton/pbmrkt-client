@@ -128,7 +128,7 @@
   gap: 5px;
 }
 
-.sell form  .auto-completed-span {
+.sell form .auto-completed-span {
   /* background-color: yellow; */
   display: flex;
   align-items: center;
@@ -136,7 +136,7 @@
   margin-left: 5px;
 }
 
-.sell form  .auto-completed-span.legend {
+.sell form .auto-completed-span.legend {
   align-self: flex-start;
 }
 
@@ -348,7 +348,13 @@
 }
 
 .sell form .form-group textarea {
+  --padding: 10px;
   min-height: 100px;
+  min-height: calc(2lh + 2 * var(--padding));
+  max-height: calc(4lh + 2 * var(--padding));
+  field-sizing: content;
+  line-height: 1.5;
+  padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
 }
 
 .sell form .form-group input:not([type="radio"]):not([type="file"]),

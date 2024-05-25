@@ -51,15 +51,20 @@ function Listings() {
     }
   }, [windowSize.width]);
 
+  useEffect(() => {
+    const { data, error } = supabase.storage.from("profile_pictures");
+    // .getPublicUrl(fileName)
+
+    console.log(data, error);
+  }, []);
+
   async function getListings(searchValue = "") {
     try {
       if (!listingsLoading) {
         setListingsLoading(true);
       }
 
-      console.log(filters);
-
-      const { data, error } = await supabase.rpc("get_items", {
+      let { data, error } = await supabase.rpc("get_items", {
         p_search_value: searchValue,
         p_brand: filters.saved.brand,
         p_model: filters.saved.model,
@@ -90,6 +95,31 @@ function Listings() {
 
       if (!data) throw "No listings available";
 
+      // data.forEach((item) => {
+      //   console.log(item);
+      //   const { data, error } = supabase.storage
+      //     .from("profile_pictures")
+      //     .getPublicUrl(item.path);
+
+      //   data.profile_picture = data.publicUrl;
+      // });
+
+      data = data.map((item) => {
+        console.log(item);
+        const { data, error } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(item.profile_picture_path);
+
+        if (error) throw error.message
+
+        return {
+          ...item,
+          profile_picture: data.publicUrl,
+        };
+        // data.profile_picture = data.publicUrl;
+      });
+
+      console.log(data);
       setListings(data);
       setListingsLoading(false);
 
@@ -97,7 +127,7 @@ function Listings() {
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
       if (flags.searchedListingsNeedsUpdate)
         dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: false }));
-      dispatch(setFiltersUpdated(false))
+      dispatch(setFiltersUpdated(false));
     } catch (error) {
       setListingsError(error.toString());
     }
@@ -113,7 +143,6 @@ function Listings() {
   }, [sort]);
 
   useEffect(() => {
-    console.log("Hello from useeffect")
     if (filters.filtersUpdated) getListings(searchValue);
   }, [filters.filtersUpdated]);
 

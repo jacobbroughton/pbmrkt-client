@@ -44,17 +44,28 @@ const Item = () => {
         }
         if (!data) throw "item not found";
 
-        const { data: data19, error: error2 } = await supabase.rpc(
+        const { data: data2, error: error2 } = await supabase.rpc(
           "get_item_photo_metadata",
           { p_item_id: itemID }
         );
 
         if (error2) throw error2.message;
 
-        console.log(data);
+        console.log(data[0]);
 
-        setItem({ photos: data19, info: data[0] });
-        setSelectedPhoto(data19[0]);
+        const { data: data3, error: error3 } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(data[0].profile_picture_path);
+
+        if (error3) throw error.message;
+
+        console.log(data3);
+
+        setItem({
+          photos: data2,
+          info: { ...data[0], profile_picture: data3?.publicUrl },
+        });
+        setSelectedPhoto(data2[0]);
       } catch (error) {
         setError(error);
       }
@@ -219,7 +230,7 @@ const Item = () => {
           ...(comm.id == commentWithReplies.id && {
             replies: data,
             repliesToggled: !comm.repliesToggled,
-            reply_count: data.length
+            reply_count: data.length,
           }),
         };
       })
@@ -377,7 +388,8 @@ const Item = () => {
             {/* <p className="heading">Seller Info</p> */}
             <div className="seller-info">
               <div className="profile-picture-container">
-                <div className="profile-picture">&nbsp;</div>
+                {/* <div className="profile-picture">&nbsp;</div> */}
+                <img className="profile-picture" src={item.info.profile_picture} />
               </div>
               <div className="text">
                 <p>

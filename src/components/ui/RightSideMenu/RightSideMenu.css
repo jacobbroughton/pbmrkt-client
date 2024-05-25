@@ -74,9 +74,9 @@
   border: 0;
   cursor: pointer;
   /* margin-left: 5px; */
-  padding: 3px;
+  /* padding: 3px; */
   transition: 0.1s ease background-color;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .right-side-menu .menu-item.sell {

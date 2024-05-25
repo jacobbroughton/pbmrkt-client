@@ -9,7 +9,7 @@ import { setDraftSearchValue } from "../../../redux/search";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const { session, user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
 
   function handleRightSideMenuToggle(e) {
@@ -28,10 +28,9 @@ function Navbar() {
 
   return (
     <nav>
-      
       <Link to="/" className="home-link">
         <p>core_pb</p>
-        <HomeIcon/>
+        <HomeIcon />
       </Link>
 
       <div className="right-side">
@@ -41,25 +40,27 @@ function Navbar() {
           Sell
         </Link>
 
-        {auth.session?.user ? (
+        {session?.user ? (
           <>
             <button
               onClick={handleRightSideMenuToggle}
               className="right-side-menu-button"
             >
-              <div className="profile-picture"></div>
+              <img className="profile-picture" src={user.profile_picture_url} />
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className='login-link'>Login</Link>
+            <Link to="/login" className="login-link">
+              Login
+            </Link>
             {/* <Link to="/register">Register</Link> */}
           </>
         )}
-        {/* {!auth.user && <Link to="/login">Login</Link>} */}
-        {/* {!auth.user && <Link to="/register">Register</Link>} */}
+        {/* {!user && <Link to="/login">Login</Link>} */}
+        {/* {!user && <Link to="/register">Register</Link>} */}
       </div>
-      {modals.rightSideMenuToggled && auth.session && <RightSideMenu />}
+      {modals.rightSideMenuToggled && session && <RightSideMenu />}
     </nav>
   );
 }

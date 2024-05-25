@@ -47,18 +47,31 @@ function App() {
         throw error.message;
       }
 
-      const sbUserWithDBUser = {
+      console.log(data);
+
+      const { data: data2, error: error2 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data[0].profile_picture_path);
+
+      if (error2) throw error2.message;
+
+      console.log(data2);
+
+      let newUser = {
         ...passedSession.user,
         ...data[0],
+        profile_picture_url: data2.publicUrl,
       };
 
-      if (!session)
+      if (!session) {
+        dispatch(setUser(newUser));
         dispatch(
           setSession({
             ...passedSession,
-            user: sbUserWithDBUser,
+            user: newUser,
           })
         );
+      }
 
       setSessionLoading(false);
     } catch (error) {
@@ -103,13 +116,12 @@ function App() {
   const onAuthStateChange = (callback) => {
     let currentSession;
     return supabase.auth.onAuthStateChange((event, _session) => {
-      console.log(event, _session);
       if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
       currentSession = _session;
       if (_session) {
         getUser(_session);
       } else {
-        setSessionLoading(false)
+        setSessionLoading(false);
       }
 
       callback(event);

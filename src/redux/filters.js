@@ -45,6 +45,7 @@ const initialFilters = {
 const filtersSlice = createSlice({
   name: "filters",
   initialState: {
+    initial: initialFilters,
     draft: initialFilters,
     saved: initialFilters,
     filtersUpdated: false,
@@ -63,6 +64,7 @@ const filtersSlice = createSlice({
       return {
         ...state,
         draft: initialFilters,
+        saved: initialFilters
       };
     },
   },

@@ -10,6 +10,7 @@ import { resetFilters, setFilters, setFiltersUpdated } from "../../../redux/filt
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
+import { setFlag } from "../../../redux/flags.js";
 
 const FiltersSidebar = () => {
   const dispatch = useDispatch();
@@ -144,13 +145,28 @@ const FiltersSidebar = () => {
   function handleFiltersApply(e) {
     e.preventDefault();
 
-
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));
     if (windowSize.width <= 625)
       dispatch(toggleModal({ key: "filtersSidebar", value: false }));
     // getListings(searchValue);
   }
+
+  const resetButtonHidden =
+    (filters.saved.brand == filters.initial.brand &&
+      filters.saved.model == filters.initial.model &&
+      filters.saved.minPrice == filters.initial.minPrice &&
+      filters.saved.maxPrice == filters.initial.maxPrice &&
+      filters.saved.city == filters.initial.city &&
+      filters.saved.state == filters.initial.state &&
+      filters.saved.negotiableOptions == filters.initial.negotiableOptions &&
+      filters.saved.tradeOptions == filters.initial.tradeOptions &&
+      filters.saved.conditionOptions == filters.initial.conditionOptions &&
+      filters.saved.shippingOptions == filters.initial.shippingOptions) ||
+    filters.saved.negotiableOptions.filter((option) => option.checked).length == 0 ||
+    filters.saved.tradeOptions.filter((option) => option.checked).length == 0 ||
+    filters.saved.conditionOptions.filter((option) => option.checked).length == 0 ||
+    filters.saved.shippingOptions.filter((option) => option.checked).length == 0;
 
   const applyButtonDisabled =
     (filters.draft.brand == filters.saved.brand &&
@@ -182,14 +198,19 @@ const FiltersSidebar = () => {
           </button>
         )}
         <div className="apply-and-reset">
-          <button
-            onClick={() => dispatch(resetFilters())}
-            type="button"
-            className=" reset-button"
-            disabled={applyButtonDisabled}
-          >
-            <UndoIcon />
-          </button>
+          {!resetButtonHidden && (
+            <button
+              onClick={() => {
+                dispatch(resetFilters());
+                dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+                dispatch(toggleModal({key: 'filtersSidebar', value: false}))
+              }}
+              type="button"
+              className=" reset-button"
+            >
+              <UndoIcon />
+            </button>
+          )}
           <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
             Apply
           </button>
@@ -233,9 +254,7 @@ const FiltersSidebar = () => {
             <select onChange={handleStateFilterSelect} value={filters.draft.state}>
               <option>All</option>
               {states.map((state) => (
-                <option key={state}>
-                  {state}
-                </option>
+                <option key={state}>{state}</option>
               ))}
             </select>
           </div>
@@ -250,9 +269,7 @@ const FiltersSidebar = () => {
             >
               <option>All</option>
               {statesAndCities[filters.draft.state]?.map((city) => (
-                <option  key={city}>
-                  {capitalizeWords(city)}
-                </option>
+                <option key={city}>{capitalizeWords(city)}</option>
               ))}
             </select>
           </div>

@@ -1,7 +1,7 @@
 .item-skeleton-container {
-  height: 290px;
+  height: 295px;
   width: 100%;
-  max-height: 290px;
+  max-height: 295px;
   display: flex;
   flex-direction: column;
   gap: 5px;

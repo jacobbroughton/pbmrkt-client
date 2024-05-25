@@ -26,7 +26,7 @@
   cursor: pointer;
   text-decoration: none;
   position: relative;
-  height: 290px;
+  height: 295px;
 }
 
 .grid .grid-item:hover .image-container {
@@ -171,14 +171,10 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 530px) {
   .skeletons-grid,
   .grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .home .grid {
-    /* padding-top: 95px; */
   }
 
   .skeletons-grid.accounts-for-sidebar,

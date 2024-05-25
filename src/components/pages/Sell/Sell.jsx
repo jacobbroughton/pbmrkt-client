@@ -127,14 +127,11 @@ const Sell = () => {
 
       if (defaultState) setState(defaultState);
       if (defaultState && defaultCity) setCity(capitalizeWords(defaultCity));
-
     } catch (error) {
       console.error(error);
       setSellError(error.toString());
     }
   }
-
-
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -395,7 +392,6 @@ const Sell = () => {
         (photo) => `temp/${session.user.id}/${generatedGroupId}/${photo.name}`
       );
 
-
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
 
       if (error) {
@@ -589,7 +585,10 @@ const Sell = () => {
               <label>
                 State
                 {state && (
-                  <span className="auto-completed-span">
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
                     <MagicWand />
                   </span>
                 )}
@@ -609,10 +608,13 @@ const Sell = () => {
               </select>
             </div>
             <div className={`form-group ${!state ? "disabled" : ""}`}>
-            <label>
+              <label>
                 City
                 {city && (
-                  <span className="auto-completed-span">
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
                     <MagicWand />
                   </span>
                 )}

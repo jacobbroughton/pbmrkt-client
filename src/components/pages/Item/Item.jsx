@@ -43,13 +43,28 @@ const Item = () => {
         }
         if (!data) throw "item not found";
 
-        const { data: data2, error: error2 } = await supabase.rpc(
+        let { data: data2, error: error2 } = await supabase.rpc(
           "get_item_photo_metadata",
           { p_item_id: itemID }
         );
 
         if (error2) throw error2.message;
 
+        data2 = data2.map(img => {
+
+          const { data, error } = supabase.storage
+          .from("item_images")
+          .getPublicUrl(img.path);
+
+          if (error) throw error.message
+
+          return {
+            ...img,
+            url: data.publicUrl
+          }
+        })
+
+        console.log(data2);
 
         const { data: data3, error: error3 } = supabase.storage
           .from("profile_pictures")
@@ -57,10 +72,9 @@ const Item = () => {
 
         if (error3) throw error.message;
 
-
         setItem({
           photos: data2,
-          info: { ...data[0], profile_picture: data3?.publicUrl },
+          info: { ...data[0], profile_picture_url: data3?.publicUrl },
         });
         setSelectedPhoto(data2[0]);
       } catch (error) {
@@ -86,8 +100,6 @@ const Item = () => {
     }
     setLoading(false);
   }
-
-
 
   async function handleNewCommentSubmit(e) {
     e.preventDefault();
@@ -281,7 +293,8 @@ const Item = () => {
               {selectedPhoto ? (
                 <img
                   className="item-main-image"
-                  src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${selectedPhoto?.path}`}
+                  // src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${selectedPhoto?.path}`}
+                  src={selectedPhoto.url}
                 />
               ) : (
                 <div className="main-image-placeholder"></div>
@@ -295,7 +308,8 @@ const Item = () => {
                     photo.id === selectedPhoto?.id ? "selected" : ""
                   }`}
                   onClick={() => setSelectedPhoto(photo)}
-                  src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${photo.path}`}
+                  // src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${photo.path}`}
+                  src={photo.url}
                 />
               ))}
             </div>
@@ -361,7 +375,7 @@ const Item = () => {
             <div className="seller-info">
               <div className="profile-picture-container">
                 {/* <div className="profile-picture">&nbsp;</div> */}
-                <img className="profile-picture" src={item.info.profile_picture} />
+                <img className="profile-picture" src={item.info.profile_picture_url} />
               </div>
               <div className="text">
                 <p>

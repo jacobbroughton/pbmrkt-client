@@ -134,6 +134,7 @@
   align-items: center;
   /* align-self: flex-start; */
   margin-left: 5px;
+  cursor: help;
 }
 
 .sell form .auto-completed-span.legend {

@@ -144,7 +144,6 @@ const FiltersSidebar = () => {
   function handleFiltersApply(e) {
     e.preventDefault();
 
-    console.log(filters.draft)
 
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));

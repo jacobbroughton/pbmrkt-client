@@ -23,7 +23,6 @@ export function SupabaseProvider({ children }: { children}) {
     const {
       data: { subscription },
     } = onAuthStateChange((event) => {
-      console.log(event);
       switch (event) {
         case "SIGNED_OUT":
           navigate("auth/login")

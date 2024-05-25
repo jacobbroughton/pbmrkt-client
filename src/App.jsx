@@ -22,19 +22,6 @@ function App() {
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // function onAuthStateChange(callback) {
-  //   let currentSession = null;
-  //   return supabase.auth.onAuthStateChange((event, _session) => {
-  //     if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
-  //     console.log({ currentSession, _session });
-  //     // dispatch(setSession(_session));
-  //     // dispatch(setUser(_session.user));
-  //     // setSessionLoading(false);
-  //     getUser(_session)
-  //     callback(session);
-  //   });
-  // }
-
   async function getUser(passedSession) {
     try {
       if (!passedSession) throw "no session sent to getUser()";
@@ -43,11 +30,10 @@ function App() {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
-      console.log(data);
 
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
@@ -55,7 +41,6 @@ function App() {
 
       if (error2) throw error2.message;
 
-      console.log(data2);
 
       let newUser = {
         ...passedSession.user,
@@ -75,7 +60,7 @@ function App() {
 
       setSessionLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
       setSessionLoading(false);
     }
@@ -145,7 +130,6 @@ function App() {
   if (sessionLoading) return <LoadingOverlay message={"Loading..."} />;
 
   const PrivateRoutes = () => {
-    console.log(session);
     const userAuthenticated = session && !sessionLoading;
     return userAuthenticated ? <Outlet /> : <Navigate to="/login" />;
   };

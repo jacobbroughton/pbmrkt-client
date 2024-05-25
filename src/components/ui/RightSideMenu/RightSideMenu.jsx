@@ -37,15 +37,14 @@ const RightSideMenu = () => {
     try {
       const { data, error } = await supabase.auth.signOut();
 
-      console.log(data, error);
-
       if (error) throw error.message;
 
       if (!data) navigate("/login");
 
       dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-    } catch (e) {
-      setError(e.toString());
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
     }
   }
 

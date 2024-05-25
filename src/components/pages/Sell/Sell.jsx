@@ -128,16 +128,13 @@ const Sell = () => {
       if (defaultState) setState(defaultState);
       if (defaultState && defaultCity) setCity(capitalizeWords(defaultCity));
 
-      console.log("get_default_seller_inputs", data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setSellError(error.toString());
     }
   }
 
-  useEffect(() => {
-    console.log({ city, state });
-  }, [city, state]);
+
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -182,7 +179,7 @@ const Sell = () => {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
@@ -195,7 +192,7 @@ const Sell = () => {
         });
 
         if (error) {
-          console.log(error);
+          console.error(error);
           throw error.message;
         }
       }
@@ -219,9 +216,9 @@ const Sell = () => {
       });
       setListedItemID(data);
       navigate(`/${data}`);
-    } catch (e) {
-      console.log(e);
-      setSellError(e.toString());
+    } catch (error) {
+      console.error(error);
+      setSellError(error.toString());
       setLoading(false);
     }
   }
@@ -229,7 +226,6 @@ const Sell = () => {
   // async function handleBatchFileUploadDrop(file) {
   //   try {
   //     const newFile = await (await fetch(file.name)).arrayBuffer();
-  //     console.log(newFile)
   //     if (!file) throw "No batch file provided";
 
   //     const reader = new FileReader();
@@ -238,7 +234,6 @@ const Sell = () => {
   //       const data = e.target.result;
   //       const workbook = read(data);
 
-  //       console.log(workbook);
   //     };
 
   //     // const workbook = read(file.name);
@@ -275,7 +270,7 @@ const Sell = () => {
         }
 
         if (error) {
-          console.log(error);
+          console.error(error);
           throw error.message;
         }
 
@@ -292,7 +287,6 @@ const Sell = () => {
         );
         if (error2) throw error2.message;
 
-        console.log("add item photo temp", data22);
         tempImages.push(data22[0]);
 
         index += 1;
@@ -307,12 +301,11 @@ const Sell = () => {
         });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
       if (data !== null) {
-        console.log(data);
         setNewCoverPhotoId(data[0].id);
         setPhotos(
           data.map((photo, i) => ({
@@ -402,12 +395,11 @@ const Sell = () => {
         (photo) => `temp/${session.user.id}/${generatedGroupId}/${photo.name}`
       );
 
-      console.log("paths", paths);
 
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 

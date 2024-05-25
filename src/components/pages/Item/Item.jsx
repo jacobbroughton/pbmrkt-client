@@ -38,8 +38,7 @@ const Item = () => {
         const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID });
 
         if (error) {
-          console.log(data);
-          console.log(error);
+          console.error(error);
           throw error.message;
         }
         if (!data) throw "item not found";
@@ -51,7 +50,6 @@ const Item = () => {
 
         if (error2) throw error2.message;
 
-        console.log(data[0]);
 
         const { data: data3, error: error3 } = supabase.storage
           .from("profile_pictures")
@@ -59,7 +57,6 @@ const Item = () => {
 
         if (error3) throw error.message;
 
-        console.log(data3);
 
         setItem({
           photos: data2,
@@ -90,31 +87,7 @@ const Item = () => {
     setLoading(false);
   }
 
-  // async function handleReplySubmit(e, replyParentID) {
-  //   e.preventDefault();
 
-  //   try {
-  //     const { data, error } = await supabase.rpc("add_comment", {
-  //       p_body: replyParentID ? newReplyBody : newCommentBody,
-  //       p_created_by_id: session.user.id,
-  //       p_item_id: itemID,
-  //       p_parent_id: replyParentID,
-  //     });
-  //     if (error) console.error(error);
-  //     else console.log(data);
-
-  //     console.log(data);
-
-  //     // setCommentWithReplyWindowID(null);
-  //     getComments();
-
-  //     dispatch(setNewCommentBody(""));
-  //     // setNewReplyBody("");
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError(error);
-  //   }
-  // }
 
   async function handleNewCommentSubmit(e) {
     e.preventDefault();
@@ -127,12 +100,11 @@ const Item = () => {
         p_parent_id: null,
       });
       if (error) console.error(error);
-      else console.log("added comment", data);
 
       getComments();
       setNewCommentBody("");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
   }
@@ -149,7 +121,7 @@ const Item = () => {
       );
       // dispatch(setComments(data.map((comment) => ({ ...comment, replies: [] }))));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
   }
@@ -184,7 +156,7 @@ const Item = () => {
       //   )
       // );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
   }
@@ -201,7 +173,7 @@ const Item = () => {
     });
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw error.message;
     }
 
@@ -218,7 +190,7 @@ const Item = () => {
     });
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw error.message;
     }
 

@@ -55,7 +55,7 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
@@ -70,8 +70,8 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
 
       dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: true }));
 
-      console.log(data);
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
   }

@@ -51,13 +51,6 @@ function Listings() {
     }
   }, [windowSize.width]);
 
-  useEffect(() => {
-    const { data, error } = supabase.storage.from("profile_pictures");
-    // .getPublicUrl(fileName)
-
-    console.log(data, error);
-  }, []);
-
   async function getListings(searchValue = "") {
     try {
       if (!listingsLoading) {
@@ -89,37 +82,25 @@ function Listings() {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
       if (!data) throw "No listings available";
 
-      // data.forEach((item) => {
-      //   console.log(item);
-      //   const { data, error } = supabase.storage
-      //     .from("profile_pictures")
-      //     .getPublicUrl(item.path);
-
-      //   data.profile_picture = data.publicUrl;
-      // });
-
       data = data.map((item) => {
-        console.log(item);
         const { data, error } = supabase.storage
           .from("profile_pictures")
           .getPublicUrl(item.profile_picture_path);
 
-        if (error) throw error.message
+        if (error) throw error.message;
 
         return {
           ...item,
           profile_picture: data.publicUrl,
         };
-        // data.profile_picture = data.publicUrl;
       });
 
-      console.log(data);
       setListings(data);
       setListingsLoading(false);
 

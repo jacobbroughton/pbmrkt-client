@@ -21,7 +21,6 @@ const Comment = ({
 }) => {
   const { session } = useSelector((state) => state.auth);
 
-  console.log(comment);
 
   return (
     <div
@@ -34,7 +33,7 @@ const Comment = ({
           <div className="depth-bar" id={depthIndex}></div>
         ))} */}
         <div className="profile-picture-container">
-          <div className="profile-picture"></div>
+          <img className="profile-picture" src={comment.profile_picture_url} />
           {comment.reply_count >= 1 && comment.repliesToggled && (
             <>
               <div
@@ -119,7 +118,7 @@ const Comment = ({
               onClick={(e) => handleRepliesClick(e, comment)}
             >
               <Chevron direction={comment.repliesToggled ? "up" : "down"} />
-              {comment.reply_count} Repl{comment.reply_count > 1 ? 'ies' : 'y'}
+              {comment.reply_count} Repl{comment.reply_count > 1 ? "ies" : "y"}
             </button>
           )}
 

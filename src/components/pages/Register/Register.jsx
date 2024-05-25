@@ -54,12 +54,11 @@ const Register = () => {
         },
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) { console.error(error); throw error.message; }
       if (!data) throw "no data after signup";
 
       const user = data.user;
 
-      console.log("after supabase sign up", data);
 
       // TODO - Add user to local database
       const { error: error2 } = await supabase.rpc("add_user", {
@@ -96,7 +95,7 @@ const Register = () => {
         p_username: newUsername,
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) { console.error(error); throw error.message; }
 
       setUsernameExists(data);
     } catch (error) {

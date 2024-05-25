@@ -20,12 +20,11 @@ const ResetPassword = () => {
       e.preventDefault();
       setLoading(true);
 
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: "http://localhost:3000/update-password",
       });
-      console.log({ data, error });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) { console.error(error); throw error.message; }
 
       setIsVerifying(true);
       // navigate("/update-password");

@@ -32,10 +32,7 @@ const CommentsList = ({
         p_item_id: repliedComment.item_id,
         p_parent_id: repliedComment.id,
       });
-      if (error) console.error(error);
-      else console.log(data);
-
-      console.log(data);
+      if (error) throw error.message;
 
       setCommentWithReplyWindowID(null);
       setLocalComments(
@@ -52,38 +49,39 @@ const CommentsList = ({
 
       setNewReplyBody("");
     } catch (error) {
-      console.log(error);
-      setError(error);
+      console.error(error);
+      setError(error.toString());
     }
   }
 
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
+    try {
+      const { data, error } = await supabase.rpc("get_child_comments", {
+        p_item_id: commentWithReplies.item_id,
+        p_parent_comment_id: commentWithReplies.id,
+      });
 
-    const { data, error } = await supabase.rpc("get_child_comments", {
-      p_item_id: commentWithReplies.item_id,
-      p_parent_comment_id: commentWithReplies.id,
-    });
+      if (error) throw error.message;
 
-    const updatedComments = localComments.map((comm) => {
+      const updatedComments = localComments.map((comm) => {
+        return {
+          ...comm,
+          tier: comm.tier + 1,
+          ...(comm.id == commentWithReplies.id && {
+            replies: data,
+            repliesToggled: !comm.repliesToggled,
+          }),
+        };
+      });
 
-
-      return {
-        ...comm,
-        tier: comm.tier + 1,
-        ...(comm.id == commentWithReplies.id && {
-          replies: data,
-          repliesToggled: !comm.repliesToggled,
-        }),
-      };
-    });
-
-    console.log(updatedComments)
-
-    if (isRootLevel) {
-      setRootLevelComments(updatedComments);
-    } else {
-      setLocalComments(updatedComments);
+      if (isRootLevel) {
+        setRootLevelComments(updatedComments);
+      } else {
+        setLocalComments(updatedComments);
+      }
+    } catch (error) {
+      setError(error.toString());
     }
   }
   return (

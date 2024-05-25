@@ -47,7 +47,6 @@ const Login = () => {
 
       // if (!data) throw "There was a problem parsing login response";
 
-      // console.log("login ->", data);
       // dispatch(setUser(data.user));
 
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -55,9 +54,8 @@ const Login = () => {
         password,
       });
 
-      if (error) { console.log(error); throw error.message; }
+      if (error) { console.error(error); throw error.message; }
 
-      console.log("login", { data, error });
       navigate("/");
       // dispatch(setUser(data.user));
     } catch (e) {

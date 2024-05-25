@@ -20,7 +20,7 @@ const SearchBar = () => {
       dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.message.toString());
     }
   }

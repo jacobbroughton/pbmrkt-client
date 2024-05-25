@@ -39,12 +39,11 @@ const UserProfile = () => {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
-      console.log(data);
-      setProfilePicture(data[0].profile_picture_path)
+      setProfilePicture(data[0].profile_picture_path);
 
       // Get Items
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
@@ -90,10 +89,9 @@ const UserProfile = () => {
       if (!data2) throw "No listings available";
 
       setListings(data2);
-
-      console.log({ data2, error2 });
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setError(error.toString());
     }
 
     setLoading(false);
@@ -101,8 +99,6 @@ const UserProfile = () => {
 
   async function uploadProfilePicture(e) {
     try {
-      console.log(e.target.files);
-
       const thisUploadUUID = uuidv4();
       const file = e.target.files[0];
       const { data, error } = await supabase.storage
@@ -112,10 +108,8 @@ const UserProfile = () => {
           upsert: false,
         });
 
-      console.log({ data, error });
-
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
@@ -127,11 +121,9 @@ const UserProfile = () => {
       });
       if (error2) throw error2.message;
 
-      console.log("add profile image", data2);
-
       setProfilePicture(data2[0].full_path);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.toString());
     }
   }
@@ -149,7 +141,10 @@ const UserProfile = () => {
           onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
           onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
         >
-          <img className="profile-picture" src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${profilePicture}`}/>
+          <img
+            className="profile-picture"
+            src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${profilePicture}`}
+          />
           <label htmlFor="change-profile-picture">
             <input
               type="file"

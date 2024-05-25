@@ -11,6 +11,7 @@ import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import { setFlag } from "../../../redux/flags";
 import Stars from "../../ui/Stars/Stars";
+import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
 
 const SellerProfile = () => {
   const { username } = useParams();
@@ -43,7 +44,6 @@ const SellerProfile = () => {
 
   async function getProfile() {
     try {
-      console.log("Making it here");
       const { data: data1, error: error1 } = await supabase.rpc("get_seller_profile", {
         p_username: username,
         p_viewer_id: session?.user.id,
@@ -53,19 +53,26 @@ const SellerProfile = () => {
 
       if (!data1[0]) throw "Seller not found";
 
-      const fetchedSeller = data1[0];
+      let fetchedSeller = data1[0];
 
-      setSeller(fetchedSeller);
+      const { data: data2, error: error2 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(fetchedSeller.profile_picture_path);
 
-      const { data: reviews, error: error2 } = await supabase.rpc("get_seller_reviews", {
+      if (error2) throw error2.message
+
+
+      setSeller({ ...fetchedSeller, profile_picture_url: data2.publicUrl });
+
+      const { data: data3, error: error3 } = await supabase.rpc("get_seller_reviews", {
         p_reviewee_id: fetchedSeller.auth_id,
       });
 
-      if (error2) throw error2.message;
+      if (error3) throw error3.message;
 
       setReviews({
-        count: reviews.length,
-        list: reviews,
+        count: data3.length,
+        list: data3,
       });
 
       // Get Items
@@ -109,7 +116,7 @@ const SellerProfile = () => {
       });
 
       if (error) {
-        console.log(error);
+        console.error(error);
         throw error.message;
       }
 
@@ -119,12 +126,16 @@ const SellerProfile = () => {
 
       dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: false }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
     setListingsLoading(false);
     setProfileLoading(false);
   }
+
+  useEffect(() => {
+    console.log(seller)
+  }, [seller])
 
   if (error) return <p>{error}</p>;
 
@@ -134,7 +145,7 @@ const SellerProfile = () => {
 
   return (
     <div className="seller-profile-page">
-      <div className="picture-and-info">
+      {/* <div className="picture-and-info">
         <div className="profile-picture-container">
           <div className="profile-picture">&nbsp;</div>
         </div>
@@ -150,9 +161,59 @@ const SellerProfile = () => {
             <Stars rating={session.user.rating} /> ({reviews.count})
           </button>
         </div>
+      </div> */}
+      <div className="picture-and-info">
+        <div className="profile-picture-container">
+          <img className="profile-picture" src={seller.profile_picture_url} />
+        </div>
+        <div className="info">
+          <h1>{session.user.username}</h1>
+          <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
+          <button
+            className="stars-button"
+            onClick={() =>
+              dispatch(toggleModal({ key: "userReviewsModal", value: true }))
+            }
+          >
+            <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
+          </button>
+          {/* {!seller.review_given && (
+                <button
+                  className="button add-review-button"
+                  onClick={() =>
+                    dispatch(
+                      toggleModal({
+                        key: "addReviewModal",
+                        value: !modals.addReviewModalToggled,
+                      })
+                    )
+                  }
+                >
+                  Leave a review
+                </button>
+              )} */}
+        </div>
       </div>
-
-      {listings.length ? <ListingGrid listings={listings} /> : <p>No listings found for this user</p>}
+      {listings.length ? (
+        <ListingGrid listings={listings} />
+      ) : (
+        <div className="skeletons-grid">
+          <div className="overlay-content">
+            <p>{seller?.username} hasn't created any listings yet</p>
+          </div>
+          <div className="gradient-overlay"></div>
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+          <ItemSkeleton blinking={false} />
+        </div>
+      )}
       {modals.addReviewModalToggled && (
         <>
           <AddReviewModal

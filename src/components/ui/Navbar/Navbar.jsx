@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
+import { resetFilters } from "../../../redux/filters";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
 import HomeIcon from "../Icons/HomeIcon";
 import SearchBar from "../SearchBar/SearchBar";
 import { setDraftSearchValue } from "../../../redux/search";
+import { setFlag } from "../../../redux/flags";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -28,7 +30,14 @@ function Navbar() {
 
   return (
     <nav>
-      <Link to="/" className="home-link">
+      <Link
+        to="/"
+        className="home-link"
+        onClick={() => {
+          dispatch(resetFilters());
+          dispatch(setFlag({key: 'searchedListingsNeedsUpdate', value: true}))
+        }}
+      >
         <p>core_pb</p>
         <HomeIcon />
       </Link>

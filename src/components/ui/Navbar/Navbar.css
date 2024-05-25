@@ -103,7 +103,7 @@ nav .right-side .right-side-menu-button .profile-picture {
 @media screen and (max-width: 500px) {
   nav {
     padding: 7px 15px;
-    gap: 10px;
+    gap: 15px;
   }
   .home-link p {
     display: none;

@@ -2,13 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
 import SearchIcon from "../Icons/SearchIcon";
 import "./SearchBar.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { setFlag } from "../../../redux/flags";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const searchRef = useRef(null);
   const search = useSelector((state) => state.search);
   const [error, setError] = useState();
 
@@ -19,6 +20,7 @@ const SearchBar = () => {
       dispatch(setSavedSearchValue(search.draftSearchValue));
       dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
       navigate("/");
+      searchRef.current?.blur()
     } catch (error) {
       console.error(error);
       setError(error.message.toString());
@@ -34,6 +36,7 @@ const SearchBar = () => {
             placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
             value={search.draftSearchValue}
             onChange={(e) => dispatch(setDraftSearchValue(e.target.value))}
+            ref={searchRef}
           />
         </div>
         {error && <p className="error-text tiny text">{error}</p>}

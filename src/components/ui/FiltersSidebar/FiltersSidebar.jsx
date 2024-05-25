@@ -203,7 +203,9 @@ const FiltersSidebar = () => {
               onClick={() => {
                 dispatch(resetFilters());
                 dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
-                dispatch(toggleModal({key: 'filtersSidebar', value: false}))
+                if (windowSize.width <= 625) {
+                  dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+                }
               }}
               type="button"
               className=" reset-button"

@@ -129,6 +129,7 @@
   font-weight: 600;
   font-size: 0.875rem;
   display: flex;
+  color: white;
   gap: 5px;
   align-items: center;
 }

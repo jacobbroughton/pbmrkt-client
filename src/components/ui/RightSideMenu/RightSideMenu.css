@@ -31,17 +31,18 @@
   padding: 10px 15px;
   cursor: pointer;
   gap: 10px;
+  color: white;
 }
 
-.right-side-menu .menu-item.logout {
-  color: white;
+.right-side-menu .menu-item.logout,
+.right-side-menu .menu-item a {
+  color: white ;
 }
 
 .right-side-menu button.menu-item {
   background-color: transparent;
   border: 0;
   font-size: 1rem;
-  
 }
 
 .right-side-menu .menu-item:hover {
@@ -53,7 +54,7 @@
   background-color: #6f6f6f;
 }
 
-.right-side-menu button.menu-item svg {
+.right-side-menu .menu-item svg {
   fill: white;
   width: 20px;
 }
@@ -111,6 +112,7 @@
 
 .right-side-menu .profile-link .info label {
   cursor: pointer;
+  color: var(--lightgreen);
 }
 
 .right-side-menu .profile-link .info .user-email {

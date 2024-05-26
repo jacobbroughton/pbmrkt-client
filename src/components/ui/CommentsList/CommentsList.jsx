@@ -62,6 +62,20 @@ const CommentsList = ({
         p_parent_comment_id: commentWithReplies.id,
       });
 
+      const replies = data.map((comment) => {
+        console.log(comment.profile_picture_path)
+        const { data: data2, error: error2 } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
+
+        if (error2) throw error.message;
+
+        return {
+          ...comment,
+          profile_picture_url: data2.publicUrl,
+        };
+      });
+
       if (error) throw error.message;
 
       const updatedComments = localComments.map((comm) => {
@@ -69,7 +83,7 @@ const CommentsList = ({
           ...comm,
           tier: comm.tier + 1,
           ...(comm.id == commentWithReplies.id && {
-            replies: data,
+            replies: replies,
             repliesToggled: !comm.repliesToggled,
           }),
         };
@@ -86,7 +100,7 @@ const CommentsList = ({
   }
   return (
     <div className="comments-list">
-      {localComments.length == 0 ? (
+      {localComments?.length == 0 ? (
         <p>No comments, consider starting the conversation!</p>
       ) : (
         localComments.map((comment) => {

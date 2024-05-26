@@ -5,7 +5,7 @@
 
 .stars .star-container {
   padding: 3px;
-  cursor: pointer;
+  /* cursor: pointer; */
   display: flex;
   align-items: center;
 }

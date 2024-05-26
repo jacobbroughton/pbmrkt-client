@@ -114,6 +114,9 @@
 
 .item .comment-form button svg {
   width: 14px;
+}
+
+.item .comment-form button:not(:disabled) svg {
   fill: white;
 }
 
@@ -288,6 +291,7 @@
 
 .item .content .seller-info-container .profile-picture-container {
   margin-right: 10px;
+  margin-top: 3px;
 }
 
 .item .content .seller-info-container .profile-picture-container .profile-picture {

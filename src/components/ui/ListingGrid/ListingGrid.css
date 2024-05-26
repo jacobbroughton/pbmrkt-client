@@ -98,6 +98,9 @@
 
 .grid .grid-item > .listing-card-info > .profile >.profile-picture-container {
   position: relative;
+  width: 23px;
+  height: 23px;
+
 }
 
 .grid .grid-item > .listing-card-info > .profile > .profile-picture-container > .profile-picture {

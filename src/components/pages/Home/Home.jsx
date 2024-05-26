@@ -91,7 +91,7 @@ function Listings() {
       data = data.map((item) => {
         const { data, error } = supabase.storage
           .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path);
+          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
 
         if (error) throw error.message;
 

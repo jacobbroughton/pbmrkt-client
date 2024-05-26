@@ -15,6 +15,7 @@ nav {
 
 nav .home-link {
   font-weight: 600;
+  white-space: nowrap;
 }
 
 nav .home-link svg {

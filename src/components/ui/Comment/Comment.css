@@ -129,14 +129,21 @@
   font-weight: 600;
   font-size: 0.875rem;
   display: flex;
-  color: white;
   gap: 5px;
   align-items: center;
 }
 
+.comment .controls button:not(:disabled),
+.comment .comment-form .buttons button:not(:disabled) {
+  color: white;
+}
 .comment .controls button svg,
 .comment .comment-form .buttons button svg {
   width: 14px;
+}
+
+.comment .controls button:not(:disabled) svg,
+.comment .comment-form .buttons button:not(:disabled) svg {
   fill: white;
 }
 

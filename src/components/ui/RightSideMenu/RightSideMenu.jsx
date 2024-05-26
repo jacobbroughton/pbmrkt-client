@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./RightSideMenu.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
+import { setUser } from "../../../redux/auth";
 import { supabase } from "../../../utils/supabase";
 import LogOutIcon from "../Icons/LogOutIcon";
 import { useEffect, useRef, useState } from "react";
@@ -70,8 +71,8 @@ const RightSideMenu = () => {
         className="menu-item"
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
-        <HomeIcon/>
-          <label>Home</label>
+        <HomeIcon />
+        <label>Home</label>
       </Link>
       <Link
         to={`/sell`}

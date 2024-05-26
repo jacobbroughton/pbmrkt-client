@@ -254,7 +254,7 @@ const FiltersSidebar = () => {
             <label>By State</label>
 
             <select onChange={handleStateFilterSelect} value={filters.draft.state}>
-              <option>All</option>
+              {/* <option>All</option> */}
               {states.map((state) => (
                 <option key={state}>{state}</option>
               ))}
@@ -269,7 +269,7 @@ const FiltersSidebar = () => {
               onChange={handleCityFilterSelect}
               value={filters.draft.city}
             >
-              <option>All</option>
+              {/* <option>All</option> */}
               {statesAndCities[filters.draft.state]?.map((city) => (
                 <option key={city}>{capitalizeWords(city)}</option>
               ))}

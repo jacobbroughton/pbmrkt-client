@@ -17,6 +17,10 @@
   cursor: pointer;
 }
 
+.item .comments-section .comment-form button[type='submit']:disabled {
+  fill: grey !important;
+}
+
 .item .comments-section  h3 {
   margin-bottom: 10px;
   }

@@ -70,7 +70,7 @@
 
 .user-profile-page .profile-picture-container label:hover svg {
   filter: none;
-  fill: #eee
+  fill: #eee;
 }
 
 .user-profile-page .picture-and-info .info .buttons {
@@ -96,9 +96,12 @@
   background-color: transparent;
   padding: 0;
   border: 0;
-  cursor: pointer;
   gap: 3px;
   font-size: 1rem;
+}
+
+.user-profile-page .picture-and-info .info .stars-button:not(:disabled) {
+  cursor: pointer;
 }
 
 .user-profile-page .picture-and-info .info .stars-button span {
@@ -133,7 +136,6 @@
 }
 
 .user-profile-page .skeletons-grid .overlay-content a {
-
 }
 
 .user-profile-page .skeletons-grid .gradient-overlay {

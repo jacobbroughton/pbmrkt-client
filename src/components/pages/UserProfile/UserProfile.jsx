@@ -17,12 +17,13 @@ const UserProfile = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [localUser, setLocalUser] = useState(null);
   const [reviews, setReviews] = useState({
     count: 0,
     list: [],
   });
-  const [profilePictureUpdateButtonShowing, setProfilePictureUpdateButtonShowing] =
-    useState(false);
+  // const [profilePictureUpdateButtonShowing, setProfilePictureUpdateButtonShowing] =
+  // useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
 
   const { session } = useSelector((state) => state.auth);
@@ -43,9 +44,16 @@ const UserProfile = () => {
         throw error.message;
       }
 
-      setProfilePicture(data[0].profile_picture_path);
+      const { data: data3, error: error3 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
-      // Get Items
+      if (error3) throw error3.message;
+
+      data[0].profile_picture_url = data3.publicUrl;
+
+      setLocalUser(data);
+
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
         p_search_value: "",
         p_brand: "",
@@ -138,13 +146,10 @@ const UserProfile = () => {
       <div className="picture-and-info">
         <div
           className="profile-picture-container"
-          onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
-          onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
+          // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
+          // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
         >
-          <img
-            className="profile-picture"
-            src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${profilePicture}`}
-          />
+          <img className="profile-picture" src={localUser.profile_picture_url} />
           <label htmlFor="change-profile-picture">
             <input
               type="file"
@@ -164,6 +169,7 @@ const UserProfile = () => {
             onClick={() =>
               dispatch(toggleModal({ key: "userReviewsModal", value: true }))
             }
+            disabled={reviews.count == 0}
           >
             <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
           </button>

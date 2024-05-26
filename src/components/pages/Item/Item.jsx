@@ -50,25 +50,24 @@ const Item = () => {
 
         if (error2) throw error2.message;
 
-        data2 = data2.map(img => {
-
+        data2 = data2.map((img) => {
           const { data, error } = supabase.storage
-          .from("item_images")
-          .getPublicUrl(img.path);
+            .from("item_images")
+            .getPublicUrl(img.path);
 
-          if (error) throw error.message
+          if (error) throw error.message;
 
           return {
             ...img,
-            url: data.publicUrl
-          }
-        })
+            url: data.publicUrl,
+          };
+        });
 
         console.log(data2);
 
         const { data: data3, error: error3 } = supabase.storage
           .from("profile_pictures")
-          .getPublicUrl(data[0].profile_picture_path);
+          .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
         if (error3) throw error.message;
 
@@ -90,12 +89,15 @@ const Item = () => {
   async function handleDelete() {
     setLoading(true);
     try {
-      const { data, error } = await supabase.rpc("delete_item", {
+      const { error } = await supabase.rpc("delete_item", {
         p_item_id: item.info.id,
       });
 
+      if (error) throw error.message;
+
       setDeletedModalShowing(true);
     } catch (error) {
+      console.error(error);
       setError(error);
     }
     setLoading(false);
@@ -105,13 +107,15 @@ const Item = () => {
     e.preventDefault();
 
     try {
+      if (!newCommentBody) throw "Cannot add comment, body empty";
+
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newCommentBody,
         p_created_by_id: session.user.id,
         p_item_id: itemID,
         p_parent_id: null,
       });
-      if (error) console.error(error);
+      if (error) throw error.message;
 
       getComments();
       setNewCommentBody("");
@@ -127,11 +131,22 @@ const Item = () => {
         p_item_id: itemID,
       });
 
-      // setCommentWithReplyWindowID(null);
-      setLocalComments(
-        data.map((comment) => ({ ...comment, replies: [], repliesToggled: false }))
-      );
-      // dispatch(setComments(data.map((comment) => ({ ...comment, replies: [] }))));
+      const comments = data.map((comment) => {
+        const { data: data2, error: error2 } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
+
+        if (error2) throw error.message;
+
+        return {
+          ...comment,
+          replies: [],
+          repliesToggled: false,
+          profile_picture_url: data2.publicUrl,
+        };
+      });
+
+      setLocalComments(comments);
     } catch (error) {
       console.error(error);
       setError(error);
@@ -205,6 +220,18 @@ const Item = () => {
       console.error(error);
       throw error.message;
     }
+    const replies = data.map((comment) => {
+      const { data: data2, error: error2 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
+
+      if (error2) throw error.message;
+
+      return {
+        ...comment,
+        profile_picture_url: data2.publicUrl,
+      };
+    });
 
     setLocalComments(
       localComments.map((comm) => {
@@ -212,9 +239,9 @@ const Item = () => {
           ...comm,
           tier: 0,
           ...(comm.id == commentWithReplies.id && {
-            replies: data,
+            replies: replies,
             repliesToggled: !comm.repliesToggled,
-            reply_count: data.length,
+            reply_count: replies.length,
           }),
         };
       })
@@ -239,7 +266,7 @@ const Item = () => {
 
   const isAdmin = session && item.info?.created_by_id == session.user?.id;
 
-  if (error) return <p>There was an error - {error.toString()}</p>;
+  if (error) return <p className="error-text">{error.toString()}</p>;
   if (!item.info?.eff_status) return <p>This item was deleted.</p>;
 
   return (
@@ -248,7 +275,7 @@ const Item = () => {
         <>
           <div className="deleted-modal">
             <h3>This item was deleted</h3>
-            <div className="links">
+            <div c lassName="links">
               <Link to="/">Return home</Link>
               <Link to="/sell">Create a new listing</Link>
             </div>
@@ -291,11 +318,7 @@ const Item = () => {
           <div className="item-images">
             <div className="main-image-parent">
               {selectedPhoto ? (
-                <img
-                  className="item-main-image"
-                  // src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${selectedPhoto?.path}`}
-                  src={selectedPhoto.url}
-                />
+                <img className="item-main-image" src={selectedPhoto.url} />
               ) : (
                 <div className="main-image-placeholder"></div>
               )}
@@ -344,29 +367,35 @@ const Item = () => {
             <div className="horizontal-divider extra-top-margin"></div>
 
             <table className="specs">
-              <tr>
-                <td>Availability</td>
-                <td>
-                  {item.info.status} as of{" "}
-                  {/* //whenever the user last visited the site */ getTimeAgo(new Date())}
-                </td>
-              </tr>
-              <tr>
-                <td>Condition</td>
-                <td>{item.info.condition}</td>
-              </tr>
-              <tr>
-                <td>Shipping</td>
-                <td>{item.info.shipping}</td>
-              </tr>
-              <tr>
-                <td>Negotiable</td>
-                <td>{item.info.negotiable}</td>
-              </tr>
-              <tr>
-                <td>Trades</td>
-                <td>{item.info.trades}</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Availability</td>
+                  <td>
+                    {item.info.status} as of{" "}
+                    {
+                      /* //whenever the user last visited the site */ getTimeAgo(
+                        new Date()
+                      )
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>Condition</td>
+                  <td>{item.info.condition}</td>
+                </tr>
+                <tr>
+                  <td>Shipping</td>
+                  <td>{item.info.shipping}</td>
+                </tr>
+                <tr>
+                  <td>Negotiable</td>
+                  <td>{item.info.negotiable}</td>
+                </tr>
+                <tr>
+                  <td>Trades</td>
+                  <td>{item.info.trades}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
           <p className="details">{item.info.details || "No details were provided"}</p>
@@ -378,12 +407,12 @@ const Item = () => {
                 <img className="profile-picture" src={item.info.profile_picture_url} />
               </div>
               <div className="text">
-                <p>
-                  {item.info.city}, {item.info.state}
-                </p>
                 <Link to={`/user/${item.info.created_by_username}`} className="user-link">
                   {item.info.created_by_username}
                 </Link>
+                <p>
+                  {item.info.city}, {item.info.state}
+                </p>
                 {/* <div className="stars">
                     {stars.map((fillDesc) => {
                       return <Star fillType={fillDesc} />;
@@ -406,7 +435,7 @@ const Item = () => {
               onChange={(e) => setNewCommentBody(e.target.value)}
               value={newCommentBody}
             />
-            <button type="submit">
+            <button type="submit" disabled={!newCommentBody}>
               Submit <SendIcon />
             </button>
           </form>

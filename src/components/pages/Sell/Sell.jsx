@@ -38,28 +38,13 @@ const modelArr = [
   "CZR",
 ];
 
-const conditionOptions = [
-  "Brand New, Never Used",
-  "Like New",
-  "Used",
-  "Used, Needs Work",
-  "Inoperable",
-];
-
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
-// const frameSizeArr = ["XL", "L", "M", "S", "XS"];
-// const wheelSizeArr = ['20"', '24"', '26"', '27.5"', '29"', "650b"];
 const conditionArr = ["New", "Used"];
 
-// const randomYear = yearArr[Math.floor(Math.random() * yearArr.length)];
 const randomBrand = brandArr[Math.floor(Math.random() * brandArr.length)];
 const randomModel = modelArr[Math.floor(Math.random() * modelArr.length)];
 const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
-// const randomWheelSize = wheelSizeArr[Math.floor(Math.random() * wheelSizeArr.length)];
-// const randomFrameSize = frameSizeArr[Math.floor(Math.random() * frameSizeArr.length)];
 const randomCondition = conditionArr[Math.floor(Math.random() * conditionArr.length)];
-// const randomFrontTravel = Math.floor(Math.random() * (200 - 1 + 1)) + 1;
-// const randomRearTravel = Math.floor(Math.random() * (200 - 1 + 1)) + 1;
 
 const Sell = () => {
   const navigate = useNavigate();
@@ -69,7 +54,6 @@ const Sell = () => {
   const [model, setModel] = useState(randomModel);
   const [price, setPrice] = useState(randomPrice);
   const [details, setDetails] = useState("");
-  const [condition, setCondition] = useState(null);
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
   const [contactPhoneNumber, setContactPhoneNumber] = useState("7047708371");
@@ -106,6 +90,13 @@ const Sell = () => {
   const [batchFile, setBatchFile] = useState(null);
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
+  const [generatedFilters, setGeneratedFilters] = useState({
+    city: false,
+    state: false,
+    shipping: false,
+    trades: false,
+    negotiable: false,
+  });
 
   const { session } = useSelector((state) => state.auth);
 
@@ -123,10 +114,71 @@ const Sell = () => {
 
       if (!data[0]) return;
 
-      const { state: defaultState, city: defaultCity } = data[0];
+      const {
+        state: defaultState,
+        city: defaultCity,
+        trades: defaultTrades,
+        shipping: defaultShipping,
+        negotiable: defaultNegotiable,
+      } = data[0];
 
-      if (defaultState) setState(defaultState);
-      if (defaultState && defaultCity) setCity(capitalizeWords(defaultCity));
+      let localGeneratedFilters = { ...generatedFilters };
+      let localRadioOptions = { ...radioOptions };
+
+      if (defaultState) {
+        localGeneratedFilters.state = true;
+        setState(defaultState);
+      }
+      if (defaultState && defaultCity) {
+        localGeneratedFilters.city = true;
+        setCity(capitalizeWords(defaultCity));
+      }
+
+      if (defaultTrades) {
+        localGeneratedFilters.trades = true;
+        const correspondingTradesOption = radioOptions.tradeOptions.find(
+          (op) => op.value == defaultTrades
+        );
+        localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
+          return {
+            ...op,
+            checked: op.value == correspondingTradesOption.value,
+          };
+        });
+      }
+
+      if (defaultShipping) {
+        localGeneratedFilters.shipping = true;
+        const correspondingShippingOption = radioOptions.shippingOptions.find(
+          (op) => op.value == defaultShipping
+        );
+        localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
+          (op) => {
+            return {
+              ...op,
+              checked: op.value == correspondingShippingOption.value,
+            };
+          }
+        );
+      }
+
+      if (defaultNegotiable) {
+        localGeneratedFilters.negotiable = true;
+        const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
+          (op) => op.value == defaultNegotiable
+        );
+        localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
+          (op) => {
+            return {
+              ...op,
+              checked: op.value == correspondingNegotiableOption.value,
+            };
+          }
+        );
+      }
+
+      setRadioOptions(localRadioOptions);
+      setGeneratedFilters(localGeneratedFilters);
     } catch (error) {
       console.error(error);
       setSellError(error.toString());
@@ -436,6 +488,7 @@ const Sell = () => {
   // }
 
   function handleRadioSelect(optionTypeKey, selectedOption) {
+    console.log(radioOptions);
     setRadioOptions({
       ...radioOptions,
       [optionTypeKey]: radioOptions[optionTypeKey].map((option) => ({
@@ -584,7 +637,7 @@ const Sell = () => {
             <div className={`form-group`}>
               <label>
                 State
-                {state && (
+                {state && generatedFilters.state && (
                   <span
                     className="auto-completed-span"
                     title="This has been automatically filled out based on your last listing"
@@ -610,7 +663,7 @@ const Sell = () => {
             <div className={`form-group ${!state ? "disabled" : ""}`}>
               <label>
                 City
-                {city && (
+                {city && generatedFilters.city && (
                   <span
                     className="auto-completed-span"
                     title="This has been automatically filled out based on your last listing"
@@ -756,7 +809,17 @@ const Sell = () => {
 
           <fieldset className="radio-form-groups">
             <div className={`form-group`}>
-              <label>Shipping</label>
+              <label>
+                Shipping{" "}
+                {generatedFilters.shipping && (
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
 
               <RadioOptions
                 options={radioOptions.shippingOptions}
@@ -767,7 +830,17 @@ const Sell = () => {
             </div>
 
             <div className={`form-group`}>
-              <label>Trades</label>
+              <label>
+                Trades{" "}
+                {generatedFilters.trades && (
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
 
               <RadioOptions
                 options={radioOptions.tradeOptions}
@@ -789,7 +862,17 @@ const Sell = () => {
               />
             </div>
             <div className={`form-group`}>
-              <label>Negotiable</label>
+              <label>
+                Negotiable{" "}
+                {generatedFilters.negotiable && (
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
 
               <RadioOptions
                 options={radioOptions.negotiableOptions}

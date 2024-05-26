@@ -25,7 +25,7 @@ const ListingGrid = ({ listings, accountForSidebar }) => {
                 <div className="profile-picture-container">
                   {/* <div className="profile-picture">&nbsp;</div> */}
                   {}
-                  <img className="profile-picture" src={listing.profile_picture}/>
+                  <img className="profile-picture" src={listing.profile_picture} />
                 </div>
                 <p className="small-text">{listing.username}</p>
               </div>

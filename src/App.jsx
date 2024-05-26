@@ -34,13 +34,11 @@ function App() {
         throw error.message;
       }
 
-
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path);
+        .getPublicUrl(data[0].profile_picture_path ||  "placeholders/user-placeholder");
 
       if (error2) throw error2.message;
-
 
       let newUser = {
         ...passedSession.user,
@@ -118,8 +116,12 @@ function App() {
       const {
         data: { subscription },
       } = onAuthStateChange((event, session) => {
-        // dispatch(setSession(session))
+        if (event == "SIGNED_OUT") {
+          dispatch(setSession(null));
+          dispatch(setUser(null))
+        }
 
+        console.log(event);
         return () => {
           subscription.unsubscribe();
         };

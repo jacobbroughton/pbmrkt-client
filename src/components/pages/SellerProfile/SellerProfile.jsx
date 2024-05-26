@@ -57,7 +57,7 @@ const SellerProfile = () => {
 
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
-        .getPublicUrl(fetchedSeller.profile_picture_path);
+        .getPublicUrl(fetchedSeller.profile_picture_path ||  "placeholders/user-placeholder");
 
       if (error2) throw error2.message
 

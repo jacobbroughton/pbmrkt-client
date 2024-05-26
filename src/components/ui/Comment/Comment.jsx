@@ -103,7 +103,7 @@ const Comment = ({
                 >
                   Cancel
                 </button>
-                <button className="submit" type="submit">
+                <button className="submit" type="submit" disabled={!newReplyBody}>
                   Submit <SendIcon />
                 </button>
               </div>

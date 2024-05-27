@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ResetPassword.css";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,12 @@ const ResetPassword = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    return () => {
+      dispatch(toggleModal({ key: "validateResetPasswordModal", value: false }));
+    };
+  }, []);
+
   async function handleRequestEmail(e) {
     try {
       e.preventDefault();
@@ -24,7 +31,10 @@ const ResetPassword = () => {
         redirectTo: "http://localhost:3000/update-password",
       });
 
-      if (error) { console.error(error); throw error.message; }
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
 
       setIsVerifying(true);
       // navigate("/update-password");
@@ -36,6 +46,7 @@ const ResetPassword = () => {
   }
 
   async function handleValidated() {
+    dispatch(toggleModal({ key: "validateResetPasswordModal", value: false }));
     navigate("/update-password");
   }
 
@@ -61,13 +72,20 @@ const ResetPassword = () => {
           Send Email
         </button>
       </form>
-      {isVerifying && (
-        <div className="is-verifying-modal">
-          <p>You should have gotten an email requesting to validate</p>
-          <button onClick={handleValidated} type="button">
-            Verify
-          </button>
-        </div>
+      {!modals.validateResetPasswordModal && (
+        <>
+          <div className="modal is-verifying-modal">
+            <p className="large-text ">Check your email</p>
+            <p className="small-text">
+              An email was just sent to you containing a verification button. Click
+              'validate' and return here or continue through the email.
+            </p>
+            <button onClick={handleValidated} type="button" className="button">
+              Verify
+            </button>
+          </div>
+          <ModalOverlay zIndex={4} />
+        </>
       )}
       {loading && <LoadingOverlay message="Resetting your password..." />}
     </div>

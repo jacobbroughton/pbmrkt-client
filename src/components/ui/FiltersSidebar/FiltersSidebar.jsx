@@ -260,7 +260,7 @@ const FiltersSidebar = () => {
               ))}
             </select>
           </div>
-          <div className="filter-item">
+          <div className="filter-item" disabled={!filters.draft.state}>
             <label>By City</label>
 
             <select

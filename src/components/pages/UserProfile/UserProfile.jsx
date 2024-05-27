@@ -52,7 +52,7 @@ const UserProfile = () => {
 
       data[0].profile_picture_url = data3.publicUrl;
 
-      setLocalUser(data);
+      setLocalUser(data[0]);
 
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
         p_search_value: "",
@@ -162,8 +162,8 @@ const UserProfile = () => {
           </label>
         </div>
         <div className="info">
-          <h1>{session.user.username}</h1>
-          <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
+          <h1>{localUser.username}</h1>
+          <p>Member since {new Date(localUser.created_at).toLocaleDateString()}</p>
           <button
             className="stars-button"
             onClick={() =>
@@ -171,7 +171,7 @@ const UserProfile = () => {
             }
             disabled={reviews.count == 0}
           >
-            <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
+            <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
           </button>
           {/* {!seller.review_given && (
                 <button

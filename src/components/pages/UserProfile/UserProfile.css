@@ -68,10 +68,10 @@
   transition: fill 0.1s ease, filter 0.1s ease;
 }
 
-.user-profile-page .profile-picture-container label:hover svg {
+/* .user-profile-page .profile-picture-container label:hover svg {
   filter: none;
   fill: #eee;
-}
+} */
 
 .user-profile-page .picture-and-info .info .buttons {
   display: flex;

@@ -106,6 +106,15 @@
   gap: 2px;
 }
 
+.filters > .filter-items .filter-item:disabled label {
+  color: grey;
+}
+
+.filters > .filter-items .filter-item:disabled input {
+  border-color: grey;
+  color: grey;
+}
+
 .filters > .filter-items .filter-item > label {
   font-size: 1rem;
   font-weight: 600;

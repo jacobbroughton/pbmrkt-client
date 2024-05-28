@@ -99,6 +99,7 @@ nav .right-side .right-side-menu-button .profile-picture {
   border-radius: 100px;
   border: white solid 1px;
   background-color: white;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 500px) {

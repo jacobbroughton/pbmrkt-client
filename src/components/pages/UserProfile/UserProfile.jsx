@@ -10,10 +10,12 @@ import { toggleModal } from "../../../redux/modals";
 import { v4 as uuidv4 } from "uuid";
 import EditIcon from "../../ui/Icons/EditIcon";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
+import {setUser, setUserProfilePicture} from "../../../redux/auth"
 
 const UserProfile = () => {
   // const { userID } = useParams();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -125,7 +127,7 @@ const UserProfile = () => {
         throw error.message;
       }
 
-      console.log(data)
+      console.log(data);
 
       if (!data.path) throw "New profile picture path not found";
 
@@ -149,6 +151,10 @@ const UserProfile = () => {
         ...localUser,
         profile_picture_url: newProfilePictureUrl,
       });
+
+      // dispatch(
+      //   setUserProfilePicture(newProfilePictureUrl)
+      // );
 
       // setProfilePicture(data2[0].full_path);
     } catch (error) {

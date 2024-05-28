@@ -33,6 +33,7 @@
   border-radius: 100px;
   width: 35px;
   height: 35px;
+  object-fit: cover;
 }
 
 .comment:not(.is-root-level)
@@ -42,6 +43,7 @@
   width: 25px;
   min-width: 25px;
   height: 25px;
+  object-fit: cover;
 }
 
 .comment .bars-and-content .profile-picture-container .thread-bar-target {

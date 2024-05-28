@@ -24,7 +24,7 @@ const UserProfile = () => {
   });
   // const [profilePictureUpdateButtonShowing, setProfilePictureUpdateButtonShowing] =
   // useState(false);
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
 
   const { session } = useSelector((state) => state.auth);
 
@@ -43,6 +43,8 @@ const UserProfile = () => {
         console.error(error);
         throw error.message;
       }
+
+      console.log(data[0]);
 
       const { data: data3, error: error3 } = supabase.storage
         .from("profile_pictures")
@@ -107,6 +109,8 @@ const UserProfile = () => {
 
   async function uploadProfilePicture(e) {
     try {
+      setNewProfilePictureLoading(true);
+
       const thisUploadUUID = uuidv4();
       const file = e.target.files[0];
       const { data, error } = await supabase.storage
@@ -121,19 +125,38 @@ const UserProfile = () => {
         throw error.message;
       }
 
-      const { data: data2, error: error2 } = await supabase.rpc("add_profile_image", {
+      console.log(data)
+
+      if (!data.path) throw "New profile picture path not found";
+
+      const { data: data2, error: error2 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data.path);
+
+      if (error2) throw error2.message;
+
+      let newProfilePictureUrl = data2.publicUrl;
+
+      const { data: data3, error: error3 } = await supabase.rpc("add_profile_image", {
         p_generated_id: data.id,
         p_full_path: data.fullPath,
         p_path: data.path,
         p_user_id: session.user.id,
       });
-      if (error2) throw error2.message;
+      if (error3) throw error3.message;
 
-      setProfilePicture(data2[0].full_path);
+      setLocalUser({
+        ...localUser,
+        profile_picture_url: newProfilePictureUrl,
+      });
+
+      // setProfilePicture(data2[0].full_path);
     } catch (error) {
       console.error(error);
       setError(error.toString());
     }
+
+    setNewProfilePictureLoading(false);
   }
 
   if (error) return <p>{error}</p>;
@@ -158,7 +181,7 @@ const UserProfile = () => {
               id="change-profile-picture"
               onChange={uploadProfilePicture}
             />
-            <EditIcon />
+            {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
           </label>
         </div>
         <div className="info">

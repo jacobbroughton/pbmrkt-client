@@ -207,7 +207,7 @@ function Listings() {
               }
               className="filters-button"
             >
-              Filters <FilterIcon />
+              <FilterIcon />
             </button>
             <div className="control-group sort">
               <select onChange={(e) => setSort(e.target.value)} value={sort}>

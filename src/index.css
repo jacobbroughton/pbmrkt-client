@@ -78,6 +78,17 @@ textarea {
 
 .small-text {
   font-size: 0.875rem;
+  display: flex;
+  gap: 5px;
+}
+
+.small-text.disabled {
+  color: grey;
+}
+
+.small-text.disabled svg {
+  fill: grey;
+  width: 0.875rem;
 }
 
 .error-text {

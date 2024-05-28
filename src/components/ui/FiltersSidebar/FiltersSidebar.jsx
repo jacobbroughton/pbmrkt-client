@@ -6,11 +6,17 @@ import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import { resetFilters, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
+import {
+  resetFilter,
+  resetFilters,
+  setFilters,
+  setFiltersUpdated,
+} from "../../../redux/filters.js";
 import "./FiltersSidebar.css";
 import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
+import WarningCircle from "../Icons/WarningCircle.jsx";
 
 const FiltersSidebar = () => {
   const dispatch = useDispatch();
@@ -152,6 +158,8 @@ const FiltersSidebar = () => {
     // getListings(searchValue);
   }
 
+  function handleReset() {}
+
   const resetButtonHidden =
     (filters.saved.brand == filters.initial.brand &&
       filters.saved.model == filters.initial.model &&
@@ -218,64 +226,6 @@ const FiltersSidebar = () => {
           </button>
         </div>
         <div className="filter-items">
-          {/* <div className="filter-item">
-            <label>By Brand</label>
-            <input
-              placeholder="Planet Eclipse, Dye, Tippmann"
-              type="text"
-              onChange={(e) =>
-                dispatch(
-                  setFilters({
-                    ...filters,
-                    draft: { ...filters.draft, brand: e.target.value },
-                  })
-                )
-              }
-              value={filters.draft.brand}
-            />
-          </div>
-          <div className="filter-item">
-            <label>By Model</label>
-            <input
-              placeholder="CS1, Drone, Intimidator"
-              type="text"
-              onChange={(e) =>
-                dispatch(
-                  setFilters({
-                    ...filters,
-                    draft: { ...filters.draft, model: e.target.value },
-                  })
-                )
-              }
-              value={filters.draft.model}
-            />
-          </div> */}
-          <div className="filter-item">
-            <label>By State</label>
-
-            <select onChange={handleStateFilterSelect} value={filters.draft.state}>
-              {/* <option>All</option> */}
-              {states.map((state) => (
-                <option key={state}>{state}</option>
-              ))}
-            </select>
-          </div>
-          <div className="filter-item" disabled={!filters.draft.state}>
-            <label>By City</label>
-
-            <select
-              className=""
-              disabled={filters.draft.state == "All"}
-              onChange={handleCityFilterSelect}
-              value={filters.draft.city}
-            >
-              {/* <option>All</option> */}
-              {statesAndCities[filters.draft.state]?.map((city) => (
-                <option key={city}>{capitalizeWords(city)}</option>
-              ))}
-            </select>
-          </div>
-
           <div className="filter-item">
             {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
@@ -317,7 +267,17 @@ const FiltersSidebar = () => {
                 />
               </div>
             </div> */}
-            <label>By Price</label>
+            <div className="label-and-reset">
+              <label>By Price</label>
+              {!filters.draft.priceOptions.find(op => op.id == 0).checked && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("priceOptions"))}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
             <RadioOptions
               options={filters.draft.priceOptions}
               handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
@@ -336,117 +296,125 @@ const FiltersSidebar = () => {
             )}
           </div>
           <div className="filter-item">
-            <label>By Condition</label>
-            {/* <div className="checkbox-options">
-              {filters.draft.conditionOptions.map((conditionOption) => (
-                <div
-                  className={`checkbox-option ${
-                    conditionOption.checked ? "checked" : ""
-                  }`}
-                  onClick={() =>
-                    handleConditionFilterSelect(
-                      null,
-                      conditionOption,
-                      filters.draft.conditionOptions
-                    )
-                  }
+            <div className="label-and-reset">
+              <label>By State</label>
+              {filters.draft.state != "All" && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("state"))}
                 >
-                  <Checkbox checked={conditionOption.checked} />
-                  <label>{conditionOption.value}</label>
-                </div>
+                  Reset
+                </button>
+              )}
+            </div>
+
+            <select onChange={handleStateFilterSelect} value={filters.draft.state}>
+              <option>All</option>
+              {states.map((state) => (
+                <option key={state}>{state}</option>
               ))}
-            </div> */}
+            </select>
+          </div>
+          <div
+            className={`filter-item ${filters.draft.state == "All" ? "disabled" : ""}`}
+          >
+            <div className="label-and-reset">
+              <label>By City</label>
+              {filters.draft.city != 'All' && filters.draft.state != "All" && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("city"))}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+
+            {filters.draft.state == "All" ? (
+              <p className="small-text disabled">
+                <WarningCircle /> Select a state first
+              </p>
+            ) : (
+              <select
+                className=""
+                disabled={filters.draft.state == "All"}
+                onChange={handleCityFilterSelect}
+                value={filters.draft.city}
+              >
+                <option>All</option>
+                {statesAndCities[filters.draft.state]?.map((city) => (
+                  <option key={city}>{capitalizeWords(city)}</option>
+                ))}
+              </select>
+            )}
+          </div>
+          <div className="filter-item">
+            <div className="label-and-reset">
+              <label>By Condition</label>
+              {filters.draft.conditionOptions.find((op) => !op.checked) && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("conditionOptions"))}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
             <Checkboxes
               options={filters.draft.conditionOptions}
               handleCheckboxOptionClick={(option) => handleConditionFilterSelect(option)}
             />
           </div>
           <div className="filter-item">
-            <label>By Shipping</label>
-            {/* <div className="checkbox-options">
-              {filters.draft.shippingOptions.map((shippingOption) => (
-                <div
-                  className={`checkbox-option ${shippingOption.checked ? "checked" : ""}`}
+            <div className="label-and-reset">
+              <label>By Shipping</label>
+              {filters.draft.shippingOptions.find((op) => !op.checked) && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("shippingOptions"))}
                 >
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={shippingOption.value}
-                      onChange={(e) =>
-                        handleShippingFilterSelect(
-                          e,
-                          shippingOption,
-                          filters.draft.shippingOptions
-                        )
-                      }
-                      checked={shippingOption.checked}
-                    />{" "}
-                    {shippingOption.value}
-                  </label>
-                </div>
-              ))}
-            </div> */}
+                  Reset
+                </button>
+              )}
+            </div>
+
             <Checkboxes
               options={filters.draft.shippingOptions}
               handleCheckboxOptionClick={(option) => handleShippingFilterSelect(option)}
             />
           </div>
+
           <div className="filter-item">
-            <label>By Trades</label>
-            {/* <div className="checkbox-options">
-              {filters.draft.tradeOptions.map((tradeOption) => (
-                <div
-                  className={`checkbox-option ${tradeOption.checked ? "checked" : ""}`}
+            <div className="label-and-reset">
+              <label>By Trades</label>
+              {filters.draft.tradeOptions.find((op) => !op.checked) && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("tradeOptions"))}
                 >
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={tradeOption.value}
-                      checked={tradeOption.checked}
-                      onChange={(e) =>
-                        handleTradesFilterSelect(
-                          e,
-                          tradeOption,
-                          filters.draft.tradeOptions
-                        )
-                      }
-                    />{" "}
-                    {tradeOption.value}
-                  </label>
-                </div>
-              ))}
-            </div> */}
+                  Reset
+                </button>
+              )}
+            </div>
+
             <Checkboxes
               options={filters.draft.tradeOptions}
               handleCheckboxOptionClick={(option) => handleTradesFilterSelect(option)}
             />
           </div>
           <div className="filter-item">
-            <label>By Negotiatable</label>
-            {/* <div className="checkbox-options">
-              {filters.draft.negotiableOptions.map((negotiableOption) => (
-                <div
-                  className={`checkbox-option ${
-                    negotiableOption.checked ? "checked" : ""
-                  }`}
+            <div className="label-and-reset">
+              <label>By Negotiable</label>
+              {filters.draft.negotiableOptions.find((op) => !op.checked) && (
+                <button
+                  className="reset-button"
+                  onClick={() => dispatch(resetFilter("negotiableOptions"))}
                 >
-                  <label>
-                    <input
-                      type="checkbox"
-                      onChange={(e) =>
-                        handleNegotiableFilterSelect(
-                          e,
-                          negotiableOption,
-                          filters.draft.negotiableOptions
-                        )
-                      }
-                      checked={negotiableOption.checked}
-                    />{" "}
-                    {negotiableOption.value}
-                  </label>
-                </div>
-              ))}
-            </div> */}
+                  Reset
+                </button>
+              )}
+            </div>
+
             <Checkboxes
               options={filters.draft.negotiableOptions}
               handleCheckboxOptionClick={(option) => handleNegotiableFilterSelect(option)}

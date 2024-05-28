@@ -75,7 +75,7 @@
   cursor: pointer;
 }
 
-.filters .apply-and-reset  .reset-button:hover {
+.filters .apply-and-reset .reset-button:hover {
   text-decoration: underline;
 }
 
@@ -89,12 +89,13 @@
 }
 
 .filters .apply-and-reset .reset-button:disabled svg {
-  fill: #ccc
+  fill: #ccc;
 }
 
 .filters > .filter-items {
   display: flex;
   flex-direction: column;
+
   /* gap: 10px; */
 }
 
@@ -102,15 +103,32 @@
   border-top: 1px solid #666;
   display: flex;
   flex-direction: column;
+  
   padding: 15px 0;
   gap: 2px;
 }
 
-.filters > .filter-items .filter-item:disabled label {
+.filters > .filter-items .filter-item .label-and-reset {
+  display: flex;
+  justify-content: flex-start;
+  gap:8px;
+}
+
+.filters > .filter-items .filter-item .label-and-reset button {
+  background-color: transparent;
+  padding: 0;
+  color: plum;
+  font-size: 0.875rem;
+  border: 0;
+  display: flex;
+  align-self: center;
+}
+
+.filters > .filter-items .filter-item.disabled label {
   color: grey;
 }
 
-.filters > .filter-items .filter-item:disabled input {
+.filters > .filter-items .filter-item.disabled input {
   border-color: grey;
   color: grey;
 }

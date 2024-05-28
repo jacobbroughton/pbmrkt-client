@@ -60,15 +60,27 @@ const filtersSlice = createSlice({
         filtersUpdated: payload,
       };
     },
+    resetFilter: (state, { payload }) => {
+      const filterKey = payload;
+
+      return {
+        ...state,
+        draft: {
+          ...state.draft,
+          [filterKey]: initialFilters[filterKey],
+        },
+      };
+    },
     resetFilters: (state) => {
       return {
         ...state,
         draft: initialFilters,
-        saved: initialFilters
+        saved: initialFilters,
       };
     },
   },
 });
 
-export const { setFilters, setFiltersUpdated, resetFilters } = filtersSlice.actions;
+export const { setFilters, setFiltersUpdated, resetFilters, resetFilter } =
+  filtersSlice.actions;
 export default filtersSlice.reducer;

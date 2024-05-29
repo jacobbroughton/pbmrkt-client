@@ -13,13 +13,38 @@ nav {
   border-bottom: #444 1px solid;
 }
 
+nav .home-link-and-filter-button {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+nav .home-link-and-filter-button svg {
+  width: 30px;
+  fill: white;
+}
+
 nav .home-link {
   font-weight: 600;
   white-space: nowrap;
+  display: flex;
+}
+
+nav .home-link-and-filter-button button {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+nav .home-link-and-filter-button button:hover svg {
+  fill: yellow;
 }
 
 nav .home-link svg {
-  display: none;
+  /* display: none; */
   fill: white;
   width: 30px;
 }
@@ -107,7 +132,7 @@ nav .right-side .right-side-menu-button .profile-picture {
     padding: 10px 15px;
     gap: 15px;
   }
-  .home-link p {
+  nav .home-link {
     display: none;
   }
 

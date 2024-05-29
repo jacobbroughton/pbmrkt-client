@@ -216,7 +216,7 @@ const FiltersSidebar = () => {
                 }
               }}
               type="button"
-              className=" reset-button"
+              className="reset-button"
             >
               <UndoIcon />
             </button>

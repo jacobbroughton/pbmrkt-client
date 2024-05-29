@@ -5,14 +5,18 @@ import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
 import HomeIcon from "../Icons/HomeIcon";
+import FilterIcon from "../Icons/FilterIcon";
 import SearchBar from "../SearchBar/SearchBar";
 import { setDraftSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
+import useWindowSize from "../../../utils/useWindowSize";
 
 function Navbar() {
   const dispatch = useDispatch();
   const { session, user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
+
+  const windowSize = useWindowSize()
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
@@ -30,17 +34,31 @@ function Navbar() {
 
   return (
     <nav>
-      <Link
-        to="/"
-        className="home-link"
-        onClick={() => {
-          dispatch(resetFilters());
-          dispatch(setFlag({key: 'searchedListingsNeedsUpdate', value: true}))
-        }}
-      >
-        <p>Core PB</p>
-        <HomeIcon />
-      </Link>
+      <div className="home-link-and-filter-button">
+        <button
+          onClick={() =>
+            dispatch(
+              toggleModal({
+                key: "filtersSidebar",
+                value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+              })
+            )
+          }
+        >
+          <FilterIcon />
+        </button>
+        <Link
+          to="/"
+          className="home-link"
+          onClick={() => {
+            dispatch(resetFilters());
+            dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+          }}
+        >
+          <p>Core PB</p>
+          {/* <HomeIcon /> */}
+        </Link>
+      </div>
 
       <div className="right-side">
         <SearchBar handleSearchSubmit={handleSearchSubmit} />

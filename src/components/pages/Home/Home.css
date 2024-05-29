@@ -34,16 +34,17 @@
   margin-top: -15px
 }
 
+
 .home .listings-controls .filters-button,
 .home .listings-controls .control-group select {
   font-size: 1rem;
   color: white;
-  /* background-color: #444;
-  border: 1px solid grey; */
   border: 0;
   background-color: transparent;
   border-radius: 3px;
-  /* padding: 3px 5px; */
+  background-color: #444;
+  border: 1px solid grey;
+  padding: 3px 5px;
   padding: 0;
   cursor: pointer;
   transition: 0.1s ease background-color;
@@ -62,6 +63,27 @@
   /* background-color: #5f5f5f; */
   color: yellow;
   fill: yellow;
+}
+
+.home .listings-controls .control-group.sort {
+  display: flex;
+  font-size: 1rem;
+  gap: 10px;
+  /* align-self: flex-end; */
+  width: 100%;
+  justify-content: flex-end;
+}
+
+
+.home .listings-controls .control-group.sort select {
+  background-color: #444;
+  border: 1px solid grey;
+  padding: 3px 5px;
+}
+
+.home .listings-controls .control-group.sort p {
+  font-weight: 600;
+
 }
 
 .home > .sidebar-and-grid {

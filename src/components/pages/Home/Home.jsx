@@ -196,7 +196,7 @@ function Listings() {
           {/* <SearchBar /> */}
           <div className="listings-controls">
             {/* {windowSize.width <= 625 ? ( */}
-            <button
+            {/* <button
               onClick={() =>
                 dispatch(
                   toggleModal({
@@ -208,9 +208,10 @@ function Listings() {
               className="filters-button"
             >
               <FilterIcon />
-            </button>
+            </button> */}
             <div className="control-group sort">
-              <select onChange={(e) => setSort(e.target.value)} value={sort}>
+              <p>Sort By:</p>
+              <select onChange={(e) => setSort(e.target.value)} value={sort} id="select">
                 <option>Alphabetically (A-Z)</option>
                 <option>Alphabetically (Z-A)</option>
                 <option>Price (Low-High)</option>

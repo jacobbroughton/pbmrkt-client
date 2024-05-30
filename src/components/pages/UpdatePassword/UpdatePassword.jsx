@@ -30,7 +30,7 @@ const UpdatePassword = () => {
     <div className="reset-password">
       {error && <div className="error-text">{error}</div>}
       <h1>Reset Password</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="standard">
         <p>
           Need to create an account? <Link to="/register">Register here</Link>
         </p>

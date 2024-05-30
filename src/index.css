@@ -137,21 +137,13 @@ input:-webkit-autofill {
   -webkit-text-fill-color: yellow !important;
 }
 
-.modal.add-review form,
-.reset-password form,
-.update-password form,
-.register form,
-.login form {
+form.standard {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.modal.add-review form .form-block,
-.reset-password form .form-block,
-.update-password form .form-block,
-.register form .form-block,
-.login form .form-block {
+form.standard .form-block {
   background-color: #444;
   padding: 10px;
   border-radius: 3px;
@@ -160,22 +152,19 @@ input:-webkit-autofill {
   gap: 10px;
 }
 
-.modal.add-review form .form-group,
+/* .modal.add-review form .form-group,
 .reset-password form .form-group,
 .update-password form .form-group,
 .register form .form-group,
-.login form .form-group {
+.login form .form-group { */
+form.standard .form-group {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
 
-.modal.add-review form .form-group label,
-.reset-password form .form-group label,
-.update-password form .form-group label,
-.register form .form-group label,
-.login form .form-group label {
+form .form-group label {
   font-size: 0.875rem;
   display: flex;
   align-items: center;
@@ -183,20 +172,12 @@ input:-webkit-autofill {
   gap: 5px;
 }
 
-.modal.add-review form .form-group .input-and-visible-toggle,
-.reset-password form .form-group .input-and-visible-toggle,
-.update-password form .form-group .input-and-visible-toggle,
-.register form .form-group .input-and-visible-toggle,
-.login form .form-group .input-and-visible-toggle {
+form .form-group .input-and-visible-toggle {
   display: flex;
   gap: 10px;
 }
 
-.modal.add-review form .form-group .input-and-visible-toggle button,
-.reset-password form .form-group .input-and-visible-toggle button,
-.update-password form .form-group .input-and-visible-toggle button,
-.register form .form-group .input-and-visible-toggle button,
-.login form .form-group .input-and-visible-toggle button {
+form .form-group .input-and-visible-toggle button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,31 +187,17 @@ input:-webkit-autofill {
   cursor: pointer;
 }
 
-.modal.add-review form .form-group .input-and-visible-toggle svg,
-.reset-password form .form-group .input-and-visible-toggle svg,
-.update-password form .form-group .input-and-visible-toggle svg,
-.register form .form-group .input-and-visible-toggle svg,
-.login form .form-group .input-and-visible-toggle svg {
+form .form-group .input-and-visible-toggle svg {
   fill: white;
   width: 17px;
 }
 
-.modal.add-review form .form-group .input-and-visible-toggle input,
-.sell form .form-group .input-and-visible-toggle input,
-.reset-password form .form-group .input-and-visible-toggle input,
-.update-password form .form-group .input-and-visible-toggle input,
-.register form .form-group .input-and-visible-toggle input,
-.login form .form-group .input-and-visible-toggle input {
+form .form-group .input-and-visible-toggle input {
   width: 100%;
 }
 
-.modal.add-review form .form-group input,
-.sell form .form-group input,
-.reset-password form .form-group input,
-.update-password form .form-group input,
-.register form .form-group input,
-.login form .form-group input,
-textarea {
+form.standard input,
+form.standard textarea {
   font-family: inherit;
   padding: 3px 5px;
   border-radius: 3px;
@@ -240,11 +207,7 @@ textarea {
   font-size: 1rem;
 }
 
-.modal.add-review form button[type="submit"],
-.reset-password form button[type="submit"],
-.update-password form button[type="submit"],
-.register form button[type="submit"],
-.login form button[type="submit"] {
+form.standard button[type="submit"] {
   align-self: flex-start;
   font-size: 1rem;
   color: white;
@@ -260,11 +223,7 @@ a:hover {
   text-decoration: underline;
 }
 
-.modal.add-review form button[type="submit"]:disabled,
-.reset-password form button[type="submit"]:disabled,
-.update-password form button[type="submit"]:disabled,
-.register form button[type="submit"]:disabled,
-.login form button[type="submit"]:disabled {
+form.standard button[type="submit"]:disabled {
   color: #aaa;
   cursor: disabled;
 }

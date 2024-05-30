@@ -23,7 +23,9 @@
   border-radius: 5px;
   padding: 15px;
   border: 1px solid #444;
+  position: relative;
 }
+
 
 .seller-profile-page .profile-picture-container {
   width: 100px;

@@ -4,6 +4,7 @@ import "./Comment.css";
 import Chevron from "../Icons/Chevron";
 import SendIcon from "../Icons/SendIcon";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
+import { Link } from "react-router-dom";
 
 const Comment = ({
   comment,
@@ -46,7 +47,7 @@ const Comment = ({
         </div>
         <div className="comment-contents">
           <div className="comment-header">
-            <p className="tiny-text bold">{comment.username}</p>{" "}
+            <Link className="tiny-text bold"  to={`/user/${comment.username}`}>{comment.username}</Link>{" "}
             <p
               className="tiny-text"
               title={new Date(comment.created_dttm).toLocaleString()}

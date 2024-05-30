@@ -128,7 +128,7 @@ const Register = () => {
     <div className="register">
       {registerError && <div className="error-text">{registerError}</div>}
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="standard">
         <p>
           Have an account already? <Link to="/login">Sign in</Link>
         </p>

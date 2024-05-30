@@ -76,7 +76,7 @@ const Login = () => {
     <div className="login">
       {loginError && <div className="error-text">{loginError}</div>}
       <h1>{isResetPasswordView ? "Reset Password" : "Login"}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="standard">
         <p>
           Need to create an account? <Link to="/register">Register here</Link>
         </p>

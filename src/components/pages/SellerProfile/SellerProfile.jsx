@@ -167,7 +167,7 @@ const SellerProfile = () => {
           <img className="profile-picture" src={seller.profile_picture_url} />
         </div>
         <div className="info">
-          <h1>{session.user.username}</h1>
+          <h1>{seller.username}</h1>
           <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
           <button
             className="stars-button"

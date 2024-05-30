@@ -10,12 +10,15 @@ import { toggleModal } from "../../../redux/modals";
 import { v4 as uuidv4 } from "uuid";
 import EditIcon from "../../ui/Icons/EditIcon";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
-import {setUser, setUserProfilePicture} from "../../../redux/auth"
+import ThreeDots from "../../ui/Icons/ThreeDots";
+import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const UserProfile = () => {
   // const { userID } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const modals = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -202,22 +205,15 @@ const UserProfile = () => {
           >
             <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
           </button>
-          {/* {!seller.review_given && (
-                <button
-                  className="button add-review-button"
-                  onClick={() =>
-                    dispatch(
-                      toggleModal({
-                        key: "addReviewModal",
-                        value: !modals.addReviewModalToggled,
-                      })
-                    )
-                  }
-                >
-                  Leave a review
-                </button>
-              )} */}
         </div>
+        <button
+          className="edit-button"
+          onClick={() =>
+            dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+          }
+        >
+          <ThreeDots />
+        </button>
       </div>
       {listings.length ? (
         <ListingGrid listings={listings} />
@@ -239,6 +235,13 @@ const UserProfile = () => {
           <ItemSkeleton blinking={false} />
           <ItemSkeleton blinking={false} />
         </div>
+      )}
+
+      {modals.editUserProfileModalToggled && (
+        <>
+          <EditUserProfileModal />
+          <ModalOverlay zIndex={3}/>
+        </>
       )}
     </div>
   );

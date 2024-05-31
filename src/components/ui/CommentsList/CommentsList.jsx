@@ -63,7 +63,7 @@ const CommentsList = ({
       });
 
       const replies = data.map((comment) => {
-        console.log(comment.profile_picture_path)
+        console.log(comment.profile_picture_path);
         const { data: data2, error: error2 } = supabase.storage
           .from("profile_pictures")
           .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
@@ -100,7 +100,7 @@ const CommentsList = ({
   }
   return (
     <div className="comments-list">
-      {localComments?.length == 0 ? (
+      {!localComments || localComments?.length == 0 ? (
         <p>No comments, consider starting the conversation!</p>
       ) : (
         localComments.map((comment) => {

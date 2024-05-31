@@ -1,0 +1,57 @@
+.price-change-modal {
+  max-width: 450px;
+  max-height: 500px;
+  z-index: 5 !important;
+  gap: 0 !important
+}
+
+.price-change-modal > .header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: grey 1px solid;
+  padding-bottom: 15px;
+  padding: 10px 5px;
+}
+
+.price-change-modal > .metadata {
+  padding: 10px 5px;
+  border-bottom: grey 1px solid;
+  font-style: italic;
+}
+
+.price-change-modal > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.price-change-modal > ul > li {
+  padding: 10px 5px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.price-change-modal > ul > li > .price-change-and-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-change-modal > ul > li > .price-change-and-icon > svg {
+  width: 13px;
+  fill: grey;
+}
+
+.price-change-modal > ul > li.up > .price-change-and-icon {
+}
+
+.price-change-modal > ul > li.up > .price-change-and-icon > svg {
+  fill: lightgreen;
+}
+
+.price-change-modal > ul > li.down > .price-change-and-icon > svg {
+  fill: var(--red);
+}

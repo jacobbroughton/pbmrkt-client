@@ -57,10 +57,11 @@ const SellerProfile = () => {
 
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
-        .getPublicUrl(fetchedSeller.profile_picture_path ||  "placeholders/user-placeholder");
+        .getPublicUrl(
+          fetchedSeller.profile_picture_path || "placeholders/user-placeholder"
+        );
 
-      if (error2) throw error2.message
-
+      if (error2) throw error2.message;
 
       setSeller({ ...fetchedSeller, profile_picture_url: data2.publicUrl });
 
@@ -134,8 +135,8 @@ const SellerProfile = () => {
   }
 
   useEffect(() => {
-    console.log(seller)
-  }, [seller])
+    console.log(seller);
+  }, [seller]);
 
   if (error) return <p>{error}</p>;
 
@@ -145,23 +146,6 @@ const SellerProfile = () => {
 
   return (
     <div className="seller-profile-page">
-      {/* <div className="picture-and-info">
-        <div className="profile-picture-container">
-          <div className="profile-picture">&nbsp;</div>
-        </div>
-        <div className="info">
-          <h1>{seller.username}</h1>
-          <p>Member since {new Date(seller.created_at).toLocaleDateString()}</p>
-          <button
-            className="stars-button"
-            onClick={() =>
-              dispatch(toggleModal({ key: "sellerReviewsModal", value: true }))
-            }
-          >
-            <Stars rating={session.user.rating} /> ({reviews.count})
-          </button>
-        </div>
-      </div> */}
       <div className="picture-and-info">
         <div className="profile-picture-container">
           <img className="profile-picture" src={seller.profile_picture_url} />
@@ -177,21 +161,6 @@ const SellerProfile = () => {
           >
             <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
           </button>
-          {/* {!seller.review_given && (
-                <button
-                  className="button add-review-button"
-                  onClick={() =>
-                    dispatch(
-                      toggleModal({
-                        key: "addReviewModal",
-                        value: !modals.addReviewModalToggled,
-                      })
-                    )
-                  }
-                >
-                  Leave a review
-                </button>
-              )} */}
         </div>
       </div>
       {listings.length ? (
@@ -228,7 +197,6 @@ const SellerProfile = () => {
       {modals.sellerReviewsModalToggled && (
         <>
           <SellerReviewsModal seller={seller} setReviews={setReviews} reviews={reviews} />
-          {/* <LoadingOverlay /> */}
           <ModalOverlay zIndex={1} />
         </>
       )}

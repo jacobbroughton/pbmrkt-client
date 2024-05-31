@@ -45,3 +45,13 @@ export function getTimeAgo(date) {
 
   return "just now";
 }
+
+export function formatDollars(dollars) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: "USD",
+    minimumFractionDigits: 2
+  })
+
+  return formatter.format(dollars)
+}

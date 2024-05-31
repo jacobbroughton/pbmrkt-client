@@ -514,6 +514,9 @@ const Sell = () => {
     !radioOptions.tradeOptions.find((option) => option.checked) ||
     !radioOptions.negotiableOptions.find((option) => option.checked);
 
+  const imagesStillUploading = imagesUploading && !numPhotosUploaded;
+  const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;
+
   return (
     <div className="sell">
       {sellError && <div className="error-text">{sellError}</div>}
@@ -555,9 +558,9 @@ const Sell = () => {
           )}
           {photos.length == 0 ? (
             <div className="image-input-and-prompt">
-              {imagesUploading && !numPhotosUploaded ? (
+              {imagesStillUploading ? (
                 <p className="images-uploading">Uploading...</p>
-              ) : imagesUploading && numPhotosUploaded ? (
+              ) : imageSkeletonsShowing ? (
                 <div className="image-skeletons">
                   {Array.from(Array(numPhotosUploaded)).map((item, i) => (
                     <div key={i} className="image-skeleton">
@@ -593,18 +596,11 @@ const Sell = () => {
               <TrashIcon /> Discard & Upload New Images
             </button>
           )}
-          {/* <input
-            type="file"
-            onDrop={(e) => handleBatchFileUploadDrop(e.dataTransfer.files[0])}
-          /> */}
         </div>
 
         <div className="form-block">
           <h2>Your Info</h2>
-          {/* <div className="auto-completed-span legend">
-            <MagicWand />
-            = Generated from the last listing you created
-          </div> */}
+
           <fieldset>
             <div className={`form-group`}>
               <label>Full Name (First/Last)</label>
@@ -625,14 +621,7 @@ const Sell = () => {
               />
             </div>
           </fieldset>
-          {/* <div className={`form-group`}>
-            <label>Location</label>
-            <input
-              onChange={(e) => setLocation(e.target.value)}
-              value={location}
-              placeholder="Location"
-            />
-          </div> */}
+
           <fieldset>
             <div className={`form-group`}>
               <label>
@@ -652,7 +641,6 @@ const Sell = () => {
                 }
                 value={state}
               >
-                {/* <option>All</option> */}
                 {states.map((childState) => (
                   <option value={childState} key={childState}>
                     {childState}
@@ -678,7 +666,6 @@ const Sell = () => {
                 onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
                 value={city?.toUpperCase()}
               >
-                {/* <option>All</option> */}
                 {statesAndCities[state]?.map((innerCity) => (
                   <option value={innerCity}>{capitalizeWords(innerCity)}</option>
                 ))}
@@ -734,13 +721,6 @@ const Sell = () => {
                     Buyer Pays
                   </button>
                 </div>
-                {/* <input
-                  onChange={(e) => setShippingCost(e.target.value)}
-                  value={shippingCost}
-                  placeholder="$0"
-                  required
-                  disabled={!buyerPaysShipping}
-                /> */}
               </div>
             </div>
             <div
@@ -785,18 +765,6 @@ const Sell = () => {
               />
             </div>
           </fieldset>
-          {/* <fieldset>
-
-
-            <div className={`form-group`}>
-              <label>Condition</label>
-              <select onChange={(e) => setCondition(e.target.value)} value={condition}>
-                {radioOptions.conditionOptions.map((condition) => (
-                  <option value={condition}>{condition.value}</option>
-                ))}
-              </select>
-            </div>
-          </fieldset> */}
 
           <div className={`form-group`}>
             <label>Details</label>
@@ -889,13 +857,7 @@ const Sell = () => {
               Please upload at least 1 photo of the item you're selling
             </p>
           )}
-          <button
-            type="submit"
-            // disabled={
-            //   photos.length == 0 || !condition || !trades || !shipping || !negotiable
-            // }
-            disabled={submitDisabled}
-          >
+          <button type="submit" disabled={submitDisabled}>
             Submit
           </button>
         </div>

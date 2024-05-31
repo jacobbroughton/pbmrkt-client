@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import "./Item.css";
-import { useDispatch, useSelector } from "react-redux";
-import { supabase } from "../../../utils/supabase";
 import EditItemModal from "../../ui/EditItemModal/EditItemModal";
-import { toggleModal } from "../../../redux/modals";
-// import { setComments, setNewCommentBody } from "../../../redux/comments";
 import CommentsList from "../../ui/CommentsList/CommentsList";
-import Arrow from "../../ui/Icons/Arrow";
-import { determineStarFillArray, getTimeAgo } from "../../../utils/usefulFunctions";
 import Stars from "../../ui/Stars/Stars";
 import SendIcon from "../../ui/Icons/SendIcon";
+import PriceChangeHistoryModal from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
+import ChartIcon from "../../ui/Icons/ChartIcon";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { supabase } from "../../../utils/supabase";
+import { toggleModal } from "../../../redux/modals";
+import { getTimeAgo } from "../../../utils/usefulFunctions";
+import "./Item.css";
 
 const Item = () => {
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state.auth.session?.user);
   const modals = useSelector((state) => state.modals);
   const { session } = useSelector((state) => state.auth);
-  // const { comments, newCommentBody } = useSelector((state) => state.comments);
   const { itemID } = useParams();
   const [item, setItem] = useState(null);
   const [error, setError] = useState("");
@@ -26,10 +24,9 @@ const Item = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(true);
   const [deletedModalShowing, setDeletedModalShowing] = useState(false);
   const [newCommentBody, setNewCommentBody] = useState("");
-  // const [newReplyBody, setNewReplyBody] = useState("");
-  // const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
   const [localComments, setLocalComments] = useState(null);
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
+  const [priceChangeHistory, setPriceChangeHistory] = useState(null);
 
   useEffect(() => {
     async function getItem() {
@@ -42,6 +39,8 @@ const Item = () => {
           throw error.message;
         }
         if (!data) throw "item not found";
+
+        getPriceChangeHistory(itemID);
 
         let { data: data2, error: error2 } = await supabase.rpc(
           "get_item_photo_metadata",
@@ -62,8 +61,6 @@ const Item = () => {
             url: data.publicUrl,
           };
         });
-
-        console.log(data2);
 
         const { data: data3, error: error3 } = supabase.storage
           .from("profile_pictures")
@@ -125,6 +122,21 @@ const Item = () => {
     }
   }
 
+  async function getPriceChangeHistory(itemId) {
+    try {
+      const { data, error } = await supabase.rpc("get_price_change_history", {
+        p_item_id: itemId,
+      });
+
+      if (error) throw error.message;
+
+      setPriceChangeHistory(data);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
   async function getComments() {
     try {
       const { data, error } = await supabase.rpc("get_comments_experimental", {
@@ -170,18 +182,6 @@ const Item = () => {
           };
         })
       );
-      // dispatch(
-      //   setComments(
-      //     comments.map((comment) => {
-      //       return {
-      //         ...comment,
-      //         ...(comment.id == commentId && {
-      //           eff_status: 0,
-      //         }),
-      //       };
-      //     })
-      //   )
-      // );
     } catch (error) {
       console.error(error);
       setError(error);
@@ -246,19 +246,6 @@ const Item = () => {
         };
       })
     );
-    // dispatch(
-    //   setComments(
-    //     comments.map((comm) => {
-    //       return {
-    //         ...comm,
-    //         tier: 0,
-    //         ...(comm.id == commentWithReplies.id && {
-    //           replies: data,
-    //         }),
-    //       };
-    //     })
-    //   )
-    // );
   }
 
   if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
@@ -306,7 +293,6 @@ const Item = () => {
                 {markAsSoldLoading ? "..." : ""}
               </button>
             </div>
-            {/* <div className="horizontal-divider"></div> */}
           </div>
         </>
       ) : (
@@ -323,28 +309,38 @@ const Item = () => {
                 <div className="main-image-placeholder"></div>
               )}
             </div>
-            <div className="item-thumbnails">
-              {item.photos.map((photo) => (
-                <img
-                  key={photo.id}
-                  className={`item-thumbnail-image ${
-                    photo.id === selectedPhoto?.id ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedPhoto(photo)}
-                  // src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${photo.path}`}
-                  src={photo.url}
-                />
-              ))}
-            </div>
+            {item.photos > 1 && (
+              <div className="item-thumbnails">
+                {item.photos.map((photo) => (
+                  <img
+                    key={photo.id}
+                    className={`item-thumbnail-image ${
+                      photo.id === selectedPhoto?.id ? "selected" : ""
+                    }`}
+                    onClick={() => setSelectedPhoto(photo)}
+                    src={photo.url}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="item-info">
             <h1>{item.info.what_is_this}</h1>
-
-            <p className="price">
-              ${item.info.price}
-              {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : ""}
-              {item.info.price != item.info.orig_price &&
+            <div className="price-and-toggle">
+              <p>
+                ${item.info.price}
+                {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : ""}
+              </p>
+              <button
+                className="button price-change-modal-toggle"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                }
+              >
+                Price History
+                <ChartIcon />
+                {/* {item.info.price != item.info.orig_price &&
                 (item.info.price > item.info.orig_price ? (
                   <div className="price-change-display up">
                     <p>
@@ -354,18 +350,18 @@ const Item = () => {
                     <Arrow direction="up" />
                   </div>
                 ) : (
-                  <div className="price-change-display down">
-                    <p>
+                  <span className="price-change-display down">
+                    <span>
                       Down ${item.info.orig_price - item.info.price} from $
                       {item.info.orig_price}
-                    </p>
+                    </span>
                     <Arrow direction="down" />
-                  </div>
-                ))}
-            </p>
+                  </span>
+                ))} */}
+              </button>
+            </div>
 
             <div className="horizontal-divider extra-top-margin"></div>
-
             <table className="specs">
               <tbody>
                 <tr>
@@ -373,7 +369,7 @@ const Item = () => {
                   <td>
                     {item.info.status} as of{" "}
                     {
-                      /* //whenever the user last visited the site */ getTimeAgo(
+                      /* // TODO - whenever the user last visited the site */ getTimeAgo(
                         new Date()
                       )
                     }
@@ -400,10 +396,8 @@ const Item = () => {
           </div>
           <p className="details">{item.info.details || "No details were provided"}</p>
           <div className="seller-info-container">
-            {/* <p className="heading">Seller Info</p> */}
             <div className="seller-info">
               <div className="profile-picture-container">
-                {/* <div className="profile-picture">&nbsp;</div> */}
                 <img className="profile-picture" src={item.info.profile_picture_url} />
               </div>
               <div className="text">
@@ -413,17 +407,12 @@ const Item = () => {
                 <p>
                   {item.info.city}, {item.info.state}
                 </p>
-                {/* <div className="stars">
-                    {stars.map((fillDesc) => {
-                      return <Star fillType={fillDesc} />;
-                    })}
-                  </div> */}
+
                 <Stars rating={item.info.seller_rating} />
               </div>
             </div>
           </div>
         </div>
-        {/* <div className="horizontal-divider"></div> */}
       </div>
       <div className="comments-section">
         <div className="horizontal-divider"></div>
@@ -446,8 +435,6 @@ const Item = () => {
           </p>
         )}
 
-        {/* {localComments?.length ? (
-          <> */}
         <div className="horizontal-divider"></div>
         <CommentsList
           passedComments={localComments}
@@ -459,10 +446,6 @@ const Item = () => {
           setError={setError}
           getComments={getComments}
         />
-        {/* </> */}
-        {/* ) : (
-          <p>No comments, consider starting the conversation!</p>
-        )} */}
       </div>
       {modals.editItemModalToggled ? (
         <EditItemModal
@@ -471,6 +454,11 @@ const Item = () => {
             setItem(newItem);
           }}
         />
+      ) : (
+        false
+      )}
+      {modals.priceChangeModalToggled ? (
+        <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
       ) : (
         false
       )}

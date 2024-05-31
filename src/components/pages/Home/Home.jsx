@@ -161,54 +161,7 @@ function Listings() {
               : ""
           } listings-section`}
         >
-          {/* <div className="view-toggle">
-            {views.map((view) => (
-              <button
-                onClick={() =>
-                  setViews(
-                    views.map((innerView) => ({
-                      ...innerView,
-                      ...(view.id == innerView.id && {
-                        toggled: !innerView.toggled,
-                      }),
-                    }))
-                  )
-                }
-                className={`${view.toggled ? "toggled" : ""}`}
-              >
-                {view.label}
-              </button>
-            ))}
-          </div> */}
-          {/* <div className="search-bar">
-            <form onSubmit={handleSearchSubmit}>
-              <div className="search-input-container">
-                <SearchIcon />
-                <input
-                  placeholder="Search"
-                  value={draftSearchValue}
-                  onChange={(e) => setDraftSearchValue(e.target.value)}
-                />
-              </div>
-              <button disabled={draftSearchValue === searchValue}>Search</button>
-            </form>
-          </div> */}
-          {/* <SearchBar /> */}
           <div className="listings-controls">
-            {/* {windowSize.width <= 625 ? ( */}
-            {/* <button
-              onClick={() =>
-                dispatch(
-                  toggleModal({
-                    key: "filtersSidebar",
-                    value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
-                  })
-                )
-              }
-              className="filters-button"
-            >
-              <FilterIcon />
-            </button> */}
             <div className="control-group sort">
               <p>Sort By:</p>
               <select onChange={(e) => setSort(e.target.value)} value={sort} id="select">

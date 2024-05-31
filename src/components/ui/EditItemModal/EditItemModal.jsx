@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { supabase } from "../../../utils/supabase";
 
 const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
+  const {user} = useSelector(state => state.auth)
   const [brand, setBrand] = useState(item.info.brand);
   const [model, setModel] = useState(item.info.model);
   const [price, setPrice] = useState(item.info.price);
@@ -13,14 +14,14 @@ const EditItemModal = ({ item, setItem }) => {
   const [details, setDetails] = useState(item.info.details);
   const [shipping, setShipping] = useState(item.info.shipping);
   const [trades, setTrades] = useState(item.info.trades);
-  const [shippingCost, setShippingCost] = useState(0);
+  const [shippingCost, setShippingCost] = useState(item.info.shipping_cost);
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(
-    item.info.buyer_pays_shipping
+    item.info.shipping_cost > 0
   );
   const [negotiable, setNegotiable] = useState(item.info.negotiable);
   const [whatIsThisItem, setWhatIsThisItem] = useState(item.info.what_is_this);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   const [radioOptions, setRadioOptions] = useState({
     conditionOptions: [
@@ -45,58 +46,81 @@ const EditItemModal = ({ item, setItem }) => {
 
   async function handleSubmit(e) {
     try {
+      e.preventDefault();
+      setLoading(true);
 
+      const priceIsNumber = price % 1 != 0 || Number.isInteger(price);
+
+      if (!priceIsNumber) throw "Invalid price given";
+
+      const { data, error } = await supabase.rpc("edit_item", {
+        p_item_id: item.info.id,
+        p_trades: trades,
+        p_brand: brand,
+        p_condition: condition,
+        p_details: details,
+        p_state: "NC",
+        p_model: model,
+        p_price: price,
+        p_shipping_cost: shippingCost, // TODO - Add this to supabase function
+        p_status: "Available",
+        p_what_is_this: whatIsThisItem,
+        p_shipping: shipping,
+        p_negotiable: negotiable,
+        p_city: "Matthews",
+      });
+
+      if (error) throw error.message;
+
+      if (item.info.price != price) {
+        // TODO - Add price change here
+        const { data, error } = await supabase.rpc("add_price_change", {
+          p_item_id: item.info.id,
+          p_prev_price: item.info.price,
+          p_new_price: price,
+          p_prev_shipping_price: item.info.shipping_cost,
+          p_new_shipping_price: shippingCost,
+          p_user_id: user.auth_id
+        });
+
+        if (error) throw error.message
+
+        console.log(data)
+      }
+
+      console.log(data[0])
+
+      setItem({ info: data[0], photos: item.photos });
+      setLoading(false);
+      dispatch(toggleModal({ key: "editItemModal", value: false }));
     } catch (error) {
-      setError(error.toString())
+      console.error(error);
+      setError(error.toString());
     }
-    e.preventDefault();
-    setLoading(true);
-
-    const priceIsNumber = price % 1 != 0 || Number.isInteger(price);
-
-    if (!priceIsNumber) throw "Invalid price given";
-
-    // p_brand, p_city, p_condition, p_details, p_item_id, p_model, p_negotiable, p_price, p_shipping, p_state, p_status, p_trades, p_what_is_this
-
-    const { data, error } = await supabase.rpc("edit_item", {
-      p_item_id: item.info.id,
-      p_trades: trades,
-      p_brand: brand,
-      p_condition: condition,
-      p_details: details,
-      p_state: "NC",
-      p_model: model,
-      p_price: price,
-      p_status: "",
-      p_what_is_this: whatIsThisItem,
-      p_shipping: shipping,
-      p_negotiable: negotiable,
-      p_city:  "Matthews",
-    });
-
-    if (error) throw error.message
-
-    setItem({ info: data[0], photos: item.photos });
-    setLoading(false);
-    dispatch(toggleModal({ key: "editItemModal", value: false }));
   }
 
   const submitDisabled =
     item.info.brand == brand &&
     item.info.model == model &&
     item.info.price == price &&
+    item.info.shipping_cost == shippingCost &&
     item.info.condition == condition &&
     item.info.details == details &&
-    item.info.willing_to_ship == shipping &&
-    item.info.acceptingTrades == trades &&
+    item.info.shipping == shipping &&
+    item.info.trades == trades &&
     item.info.negotiable == negotiable &&
     item.info.what_is_this == whatIsThisItem;
 
   return (
     <>
       <div className="modal edit-item">
+        {error && <p className="small-text error-text">{error.toString()}</p>}
         <form onSubmit={handleSubmit}>
-          <button onClick={() => dispatch(toggleModal({key: "editItemModal", value: false}))} type="button" className='button close'>
+          <button
+            onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
+            type="button"
+            className="button close"
+          >
             Close
           </button>
           <div className="form-block">
@@ -113,9 +137,9 @@ const EditItemModal = ({ item, setItem }) => {
               </div>
               <div className="form-group price">
                 <label>Price</label>
-                
+
                 <input
-                  onChange={(e) => setPrice(parseFloat(e.target.value))}
+                  onChange={(e) => setPrice(parseFloat(e.target.value || 0))}
                   value={price}
                   placeholder="Price"
                   required

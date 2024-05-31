@@ -54,11 +54,13 @@ const Register = () => {
         },
       });
 
-      if (error) { console.error(error); throw error.message; }
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
       if (!data) throw "no data after signup";
 
       const user = data.user;
-
 
       // TODO - Add user to local database
       const { error: error2 } = await supabase.rpc("add_user", {
@@ -78,7 +80,6 @@ const Register = () => {
       setRegisterError(e.toString());
       setLoading(false);
     }
-
   }
 
   async function confirmUserCheckedTheirEmail() {
@@ -95,7 +96,10 @@ const Register = () => {
         p_username: newUsername,
       });
 
-      if (error) { console.error(error); throw error.message; }
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
 
       setUsernameExists(data);
     } catch (error) {
@@ -161,7 +165,11 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
-              <button onClick={() => setPasswordVisible(!passwordVisible)} type="button" className="button">
+              <button
+                onClick={() => setPasswordVisible(!passwordVisible)}
+                type="button"
+                className="button"
+              >
                 <EyeIcon closed={passwordVisible} />
               </button>
             </div>
@@ -170,9 +178,7 @@ const Register = () => {
 
         <div className="form-block">
           <div className="form-group">
-            <label htmlFor="username">
-              Username {/* <p className="info-icon-span" title="">?</p> */}
-            </label>
+            <label htmlFor="username">Username</label>
             <input
               placeholder="Username"
               onChange={(e) => {
@@ -217,8 +223,8 @@ const Register = () => {
         <div className="modal confirm-email">
           <p className="large-text ">Check your email</p>
           <p className="small-text">
-            An email was just sent to you containing a confirmation link. Click 'confirm my email' and return here
-            or continue through the email.
+            An email was just sent to you containing a confirmation link. Click 'confirm
+            my email' and return here or continue through the email.
           </p>
           <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
             I have confirmed my email

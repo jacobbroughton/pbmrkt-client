@@ -15,6 +15,8 @@ const Arrow = ({ direction }) => {
       break;
     }
     case "up": {
+      rotateText = "rotate(180deg)";
+
       break;
     }
     default: {

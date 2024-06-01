@@ -11,6 +11,7 @@ import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import { setFiltersUpdated } from "../../../redux/filters.js";
+import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -177,19 +178,35 @@ function Listings() {
           {listingsError ? (
             <p>{listingsError}</p>
           ) : listingsLoading ? (
-            <div
-              className={`${
-                windowSize.width > 225 && modals.filtersSidebarToggled
-                  ? "accounts-for-sidebar"
-                  : ""
-              } skeletons-grid`}
-            >
-              {[...new Array(listings.length || 5)].map((num, i) => (
-                <ItemSkeleton key={i} />
-              ))}
-            </div>
-          ) : !isInitialLoad && listings.length == 0 ? (
-            <p>No listings available</p>
+            // <div
+            //   className={`${
+            //     windowSize.width > 225 && modals.filtersSidebarToggled
+            //       ? "accounts-for-sidebar"
+            //       : ""
+            //   } skeletons-grid`}
+            // >
+            // {[...new Array(listings.length || 5)].map((num, i) => (
+            //   <ItemSkeleton key={i} blinking={false}/>
+            // ))}
+            <SkeletonsListingGrid
+              accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
+              hasOverlay={false}
+              numSkeletons={25}
+              blinking={true}
+              heightPx={null}
+              
+            />
+          ) : // </div>
+          !isInitialLoad && listings.length == 0 ? (
+            <SkeletonsListingGrid
+              message={"No listings have been created yet"}
+              link={{ url: "/sell", label: "Sell something" }}
+              accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
+              hasOverlay={true}
+              numSkeletons={25}
+              blinking={true}
+              heightPx={400}
+            />
           ) : (
             <ListingGrid
               listings={listings}

@@ -142,6 +142,7 @@
   flex-direction: column;
   gap: 5px;
   border: 1px solid #aaa;
+  max-width: 400px;
 }
 
 .item .deleted-modal .links {

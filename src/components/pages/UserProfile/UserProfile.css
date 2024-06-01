@@ -115,40 +115,6 @@
   text-decoration: underline;
 }
 
-.user-profile-page .skeletons-grid {
-  position: relative;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 5px;
-  margin-top: 20px;
-  padding: 15px;
-}
-
-.user-profile-page .skeletons-grid .overlay-content {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 50px;
-  z-index: 3;
-  width: calc(100% - 30px);
-  max-width: 350px;
-}
-
-.user-profile-page .skeletons-grid .overlay-content p {
-  font-size: 1.25rem;
-}
-
-.user-profile-page .skeletons-grid .overlay-content a {
-}
-
-.user-profile-page .skeletons-grid .gradient-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border: #444 1px solid;
-  background: linear-gradient(to top, black 0%, transparent 100%);
-  border-radius: 5px;
-}
 
 .user-profile-page .picture-and-info .edit-button {
   position: absolute;

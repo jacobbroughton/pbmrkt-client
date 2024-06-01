@@ -1,5 +1,4 @@
 /* * Grid */
-.skeletons-grid,
 .grid {
   width: 100%;
   display: grid;
@@ -8,8 +7,7 @@
   padding-bottom: 100px;
 }
 
-.grid.accounts-for-sidebar,
-.skeletons-grid.accounts-for-sidebar {
+.grid.accounts-for-sidebar {
   grid-template-columns: repeat(4, 1fr);
 }
 
@@ -95,15 +93,18 @@
   margin-top: 3px;
 }
 
-
-.grid .grid-item > .listing-card-info > .profile >.profile-picture-container {
+.grid .grid-item > .listing-card-info > .profile > .profile-picture-container {
   position: relative;
   width: 23px;
   height: 23px;
-
 }
 
-.grid .grid-item > .listing-card-info > .profile > .profile-picture-container > .profile-picture {
+.grid
+  .grid-item
+  > .listing-card-info
+  > .profile
+  > .profile-picture-container
+  > .profile-picture {
   background-color: #666;
   border-radius: 100px;
   width: 23px;
@@ -141,60 +142,50 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .skeletons-grid,
   .grid {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .skeletons-grid.accounts-for-sidebar,
   .grid.accounts-for-sidebar {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 750px) {
-  .skeletons-grid,
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .skeletons-grid.accounts-for-sidebar,
   .grid.accounts-for-sidebar {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 625px) {
-  .skeletons-grid,
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .skeletons-grid.accounts-for-sidebar,
   .grid.accounts-for-sidebar {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 530px) {
-  .skeletons-grid,
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .skeletons-grid.accounts-for-sidebar,
   .grid.accounts-for-sidebar {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .skeletons-grid,
   .grid-item {
     height: 150px;
   }
 }
 
 @media screen and (max-width: 325px) {
-  .skeletons-grid,
   .grid {
     grid-template-columns: 1fr;
   }

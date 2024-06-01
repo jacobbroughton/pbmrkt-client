@@ -13,6 +13,7 @@ import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
 import ThreeDots from "../../ui/Icons/ThreeDots";
 import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
+import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
 
 const UserProfile = () => {
   // const { userID } = useParams();
@@ -218,29 +219,36 @@ const UserProfile = () => {
       {listings.length ? (
         <ListingGrid listings={listings} />
       ) : (
-        <div className="skeletons-grid">
-          <div className="overlay-content">
-            <p>You haven't created any listings yet!</p>
-            <Link to="/sell">Sell something</Link>
-          </div>
-          <div className="gradient-overlay"></div>
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-          <ItemSkeleton blinking={false} />
-        </div>
+        // <div className="skeletons-grid">
+        //   <div className="overlay-content">
+        //     <p>You haven't created any listings yet!</p>
+        //     <Link to="/sell">Sell something</Link>
+        //   </div>
+        //   <div className="gradient-overlay"></div>
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        //   <ItemSkeleton blinking={false} />
+        // </div>
+        <SkeletonsListingGrid
+          message={"You haven't created any listings yet!"}
+          link={{ url: "/sell", label: "Sell something" }}
+          blinking={false}
+          hasOverlay={true}
+          numSkeletons={10}
+        />
       )}
 
       {modals.editUserProfileModalToggled && (
         <>
           <EditUserProfileModal />
-          <ModalOverlay zIndex={3}/>
+          <ModalOverlay zIndex={3} />
         </>
       )}
     </div>

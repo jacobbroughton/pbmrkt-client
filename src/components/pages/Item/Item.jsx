@@ -260,9 +260,9 @@ const Item = () => {
     <div className="item">
       {deletedModalShowing && (
         <>
-          <div className="deleted-modal">
+          <div className="modal deleted-modal">
             <h3>This item was deleted</h3>
-            <div c lassName="links">
+            <div className="links">
               <Link to="/">Return home</Link>
               <Link to="/sell">Create a new listing</Link>
             </div>

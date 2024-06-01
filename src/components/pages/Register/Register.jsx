@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./Register.css";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { setSession } from "../../../redux/auth";
 import EyeIcon from "../../ui/Icons/EyeIcon";
+import Chevron from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 
 const Register = () => {
@@ -15,8 +17,11 @@ const Register = () => {
   const modals = useSelector((state) => state.modals);
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [bio, setBio] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [registerError, setRegisterError] = useState("");
@@ -26,6 +31,7 @@ const Register = () => {
   const [usernameHasBeenInteracted, setUsernameHasBeenInteracted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [optionalFieldsShowing, setOptionalFieldsShowing] = useState(false);
 
   useEffect(() => {
     const debounceFn = setTimeout(() => {
@@ -68,6 +74,11 @@ const Register = () => {
         p_email: user.email,
         p_username: username,
         p_phone_number: phoneNumber,
+        p_first_name: firstName,
+        p_last_name: lastName,
+        p_state: state,
+        p_city: city,
+        p_bio: bio,
       });
 
       if (error2) throw error2.message;
@@ -111,8 +122,19 @@ const Register = () => {
 
   async function handleConfirmationEmailResend() {
     try {
-      const { data, error } = await supabase.auth.resend();
+      console
+      const { data, error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: `https://pbmrkt.onrender.com/`
+        }
+      });
+      if (error) throw error.message
+
+      console.log('resend email', data)
     } catch (error) {
+      console.error(error)
       setRegisterError(error.toString());
     }
   }
@@ -214,28 +236,77 @@ const Register = () => {
             />
           </div>
         </div>
+        <div className="form-block optional-fields">
+          <button
+            type="button"
+            className={`optional-fields-toggle ${optionalFieldsShowing ? "toggled" : ""}`}
+            onClick={() => setOptionalFieldsShowing(!optionalFieldsShowing)}
+          >
+            <div className="optional-fields-instructions">
+              <p>{optionalFieldsShowing ? "Hide" : "Show"} Optional Fields </p>
+              <p>You can fill these out later from your profile.</p>
+            </div>
+
+            <Chevron direction={optionalFieldsShowing ? "up" : "down"} />
+          </button>
+          {optionalFieldsShowing && (
+            <div className="form-groups-parent">
+              <div className="form-group">
+                <label htmlFor="first-name">First Name (Optional)</label>
+                <input
+                  placeholder="First Name"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstName}
+                  id="first-name"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="last-name">Last Name (Optional)</label>
+                <input
+                  placeholder="Last Name"
+                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastName}
+                  id="last-name"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="last-name">About You (Optional)</label>
+                <textarea
+                  placeholder="About You"
+                  onChange={(e) => setBio(e.target.value)}
+                  value={bio}
+                  id="bio"
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
         <button type="submit" disabled={submitDisabled}>
           Submit
         </button>
       </form>
       {modals.verifyUserCheckedEmailModalToggled && (
-        <div className="modal confirm-email">
-          <p className="large-text ">Check your email</p>
-          <p className="small-text">
-            An email was just sent to you containing a confirmation link. Click 'confirm
-            my email' and return here or continue through the email.
-          </p>
-          <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
-            I have confirmed my email
-          </button>
-          <div className="resend-email-container">
-            <p className="small-text">Didn't get an email?</p>
-            <button onClick={handleConfirmationEmailResend}>Resend email</button>
+        <>
+          <div className="modal confirm-email">
+            <p className="large-text ">Check your email</p>
+            <p className="small-text">
+              An email was just sent to you containing a confirmation link. Click 'confirm
+              my email' and return here or continue through the email.
+            </p>
+            <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
+              I have confirmed my email
+            </button>
+            <div className="resend-email-container">
+              <p className="small-text">Didn't get an email?</p>
+              <button onClick={handleConfirmationEmailResend}>Resend email</button>
+            </div>
           </div>
-        </div>
+          <ModalOverlay zIndex={4}/>
+        </>
       )}
-      {(loading || modals.verifyUserCheckedEmailModalToggled) && (
+
+      {loading && (
         <LoadingOverlay
           message={
             modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"

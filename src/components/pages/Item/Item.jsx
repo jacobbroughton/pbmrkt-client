@@ -330,35 +330,19 @@ const Item = () => {
             <div className="price-and-toggle">
               <p>
                 ${item.info.price}
-                {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : ""}
+                {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : "+ Free Shipping"}
               </p>
-              <button
-                className="button price-change-modal-toggle"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "priceChangeModal", value: true }))
-                }
-              >
-                Price History
-                <ChartIcon />
-                {/* {item.info.price != item.info.orig_price &&
-                (item.info.price > item.info.orig_price ? (
-                  <div className="price-change-display up">
-                    <p>
-                      Up ${item.info.price - item.info.orig_price} from $
-                      {item.info.orig_price}
-                    </p>
-                    <Arrow direction="up" />
-                  </div>
-                ) : (
-                  <span className="price-change-display down">
-                    <span>
-                      Down ${item.info.orig_price - item.info.price} from $
-                      {item.info.orig_price}
-                    </span>
-                    <Arrow direction="down" />
-                  </span>
-                ))} */}
-              </button>
+              {priceChangeHistory?.length >= 1 && (
+                <button
+                  className="button price-change-modal-toggle"
+                  onClick={() =>
+                    dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                  }
+                >
+                  Price History
+                  <ChartIcon />
+                </button>
+              )}
             </div>
 
             <div className="horizontal-divider extra-top-margin"></div>

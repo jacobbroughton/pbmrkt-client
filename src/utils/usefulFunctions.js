@@ -47,11 +47,22 @@ export function getTimeAgo(date) {
 }
 
 export function formatDollars(dollars) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2
-  })
+    minimumFractionDigits: 2,
+  });
 
-  return formatter.format(dollars)
+  return formatter.format(dollars);
 }
+
+import { matchRoutes, useLocation } from "react-router-dom";
+
+const routes = [{ path: "/members/:id" }];
+
+export const useCurrentPath = () => {
+  const location = useLocation();
+  const [{ route }] = matchRoutes(routes, location);
+
+  return route.path;
+};

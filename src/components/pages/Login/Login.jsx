@@ -32,9 +32,23 @@ const Login = () => {
 
       console.log("Signed in", data);
 
+      // TODO - Check for user in tbl_user, decline with support message
+      const { data: data2, error: error2 } = await supabase.rpc(
+        "check_for_user_in_local_db",
+        {
+          p_user_id: data.user.id,
+        }
+      );
+
+      if (error2) throw error2.message;
+
+      if (data2 == 0)
+        throw "There was a problem finding the user account you are trying to access.";
+
       navigate("/");
-    } catch (e) {
-      setLoginError(e.toString());
+    } catch (error) {
+      console.error(error);
+      setLoginError(error.toString());
     }
     setLoading(false);
   }
@@ -42,6 +56,7 @@ const Login = () => {
   return (
     <div className="login">
       {loginError && <div className="error-text">{loginError}</div>}
+      <h1>Login</h1>
       <form onSubmit={handleSubmit} className="standard">
         <p>
           Need to create an account? <Link to="/register">Register here</Link>

@@ -34,6 +34,11 @@ function App() {
         throw error.message;
       }
 
+      if (!data[0]) {
+        setSessionLoading(false);
+        return
+      }
+
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
         .getPublicUrl(data[0].profile_picture_path ||  "placeholders/user-placeholder");

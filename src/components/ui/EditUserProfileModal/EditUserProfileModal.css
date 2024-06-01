@@ -1,6 +1,7 @@
-.modal.edit-user-profile-modal{
+.modal.edit-user-profile-modal {
   z-index: 5;
-  max-width: 400px;
+  width: 100%;;
+  max-width: 500px;
   padding: 0;
 }
 
@@ -12,10 +13,70 @@
   padding: 15px;
 }
 
-.edit-user-profile-modal form {
-  padding: 15px;;
+.edit-user-profile-modal > form {
+  padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  /* padding-top: 0; */
+}
+
+.edit-user-profile-modal > form > .form-groups {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-user-profile-modal > form > .form-groups > .form-group {
+  width: 100%;
+}
+
+.edit-user-profile-modal > form .form-group textarea {
+  --padding: 10px;
+  min-height: 100px;
+  min-height: calc(2lh + 2 * var(--padding));
+  max-height: calc(4lh + 2 * var(--padding));
+  field-sizing: content;
+  line-height: 1.5;
+  padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
+}
+
+.edit-user-profile-modal > form .form-group input:not([type="radio"]):not([type="file"]),
+.edit-user-profile-modal > form .form-group textarea,
+.edit-user-profile-modal > form .form-group select {
+  width: 100%;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #3b3b3b;
+  border: 1px solid grey;
+  color: white;
+  border-radius: 3px;
+  /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
+}
+
+.edit-user-profile-modal
+  > form
+  .form-group.disabled
+  input:not([type="radio"]):not([type="file"]) {
+  color: grey;
+  cursor: not-allowed;
+}
+
+.edit-user-profile-modal
+  > form
+  .form-group
+  input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
+.edit-user-profile-modal > form .form-group textarea:not(:disabled):hover,
+.edit-user-profile-modal > form .form-group select:not(:disabled):hover,
+.edit-user-profile-modal > form .custom-photo-upload:not(:disabled):hover,
+.edit-user-profile-modal > form .form-block .reset-images-button:not(:disabled):hover,
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector
+  .shipping-toggle-button:not(.selected):hover {
+  border-color: #aaa;
+}
+
+.edit-user-profile-modal > form .form-group select:not(:disabled) {
+  cursor: pointer;
 }

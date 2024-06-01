@@ -72,7 +72,7 @@ const ResetPassword = () => {
           Send Email
         </button>
       </form>
-      {!modals.validateResetPasswordModal && (
+      {modals.validateResetPasswordModal && (
         <>
           <div className="modal is-verifying-modal">
             <p className="large-text ">Check your email</p>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
@@ -10,9 +10,11 @@ import SearchBar from "../SearchBar/SearchBar";
 import { setDraftSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
 import useWindowSize from "../../../utils/useWindowSize";
+import { useCurrentPath } from "../../../utils/usefulFunctions";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const location = useLocation()
   const { session, user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
 
@@ -32,10 +34,11 @@ function Navbar() {
     getListings(draftSearchValue);
   }
 
+
   return (
     <nav>
       <div className="home-link-and-filter-button">
-        <button
+        {location.pathname == '/' && <button
           onClick={() =>
             dispatch(
               toggleModal({
@@ -46,7 +49,7 @@ function Navbar() {
           }
         >
           <FilterIcon />
-        </button>
+        </button>}
         <Link
           to="/"
           className="home-link"
@@ -62,7 +65,7 @@ function Navbar() {
 
       <div className="right-side">
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
-        <Link to="/sell" className="sell-link">
+        <Link to="/sell" className="sell-link" style={{}}>
           {/* <PlusIcon /> */}
           Sell
         </Link>

@@ -157,6 +157,10 @@ form.standard .form-block {
 .update-password form .form-group,
 .register form .form-group,
 .login form .form-group { */
+
+form.standard .form-groups  {
+  display: flex;
+}
 form.standard .form-group {
   width: 100%;
   display: flex;

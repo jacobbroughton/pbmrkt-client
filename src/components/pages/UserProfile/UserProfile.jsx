@@ -42,7 +42,7 @@ const UserProfile = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_user_profile_complex", {
-        p_user_id: session.user.id,
+        p_user_id: user.auth_id,
       });
 
       if (error) {
@@ -97,7 +97,7 @@ const UserProfile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: session.user.id,
+        p_seller_id: user.auth_id,
         p_city: "",
       });
 
@@ -206,6 +206,11 @@ const UserProfile = () => {
           >
             <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
           </button>
+          <p>{localUser.bio}</p>
+          <p>{localUser.first_name}</p>
+          <p>{localUser.last_name}</p>
+          <p>{localUser.city}</p>
+          <p>{localUser.state}</p>
         </div>
         <button
           className="edit-button"
@@ -248,7 +253,12 @@ const UserProfile = () => {
       {modals.editUserProfileModalToggled && (
         <>
           <EditUserProfileModal />
-          <ModalOverlay zIndex={3} />
+          <ModalOverlay
+            zIndex={3}
+            onClick={() =>
+              dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
+            }
+          />
         </>
       )}
     </div>

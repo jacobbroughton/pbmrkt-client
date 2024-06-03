@@ -48,6 +48,7 @@ const randomCondition = conditionArr[Math.floor(Math.random() * conditionArr.len
 
 const Sell = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(randomBrand);
@@ -107,7 +108,7 @@ const Sell = () => {
   async function getDefaultSelections() {
     try {
       const { data, error } = await supabase.rpc("get_default_seller_inputs", {
-        p_user_id: session.user.id,
+        p_user_id: user.auth_id,
       });
 
       if (error) throw error.message;

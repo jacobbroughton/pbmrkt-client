@@ -18,7 +18,7 @@ import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import WarningCircle from "../Icons/WarningCircle.jsx";
 
-const FiltersSidebar = () => {
+const FiltersSidebar = ({ allFiltersDisabled }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
@@ -35,117 +35,111 @@ const FiltersSidebar = () => {
     }
   }, [windowSize.width]);
 
-  function handleConditionFilterSelect(selectedOption) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          conditionOptions: filters.draft.conditionOptions.map((option) => ({
-            ...option,
-            ...(option.id == selectedOption.id && {
-              checked: !selectedOption.checked,
-            }),
-          })),
-        },
-      })
-    );
-  }
-
   function handlePriceFilterSelect(selectedOption) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          minPrice: selectedOption.minValue,
-          maxPrice: selectedOption.maxValue,
-          priceOptions: filters.draft.priceOptions.map((option) => ({
-            ...option,
-            checked: option.id == selectedOption.id,
-          })),
-        },
-      })
-    );
-  }
+    const newDraft = {
+      ...filters.draft,
+      minPrice: selectedOption.minValue,
+      maxPrice: selectedOption.maxValue,
+      priceOptions: filters.draft.priceOptions.map((option) => ({
+        ...option,
+        checked: option.id == selectedOption.id,
+      })),
+    };
 
-  function handleNegotiableFilterSelect(selectedOption) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          negotiableOptions: filters.draft.negotiableOptions.map((option) => ({
-            ...option,
-            ...(option.id == selectedOption.id && {
-              // checked: e.target.checked,
-              checked: !selectedOption.checked,
-            }),
-          })),
-        },
-      })
-    );
+    // dispatch(
+    //   setFilters({
+    //     ...filters,
+    //     draft: newDraft,
+    //   })
+    // );
+
+    // test below
+    dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
+    dispatch(setFiltersUpdated(true));
+    // test above
   }
 
   function handleStateFilterSelect(e) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          state: e.target.value,
-          city: "All",
-        },
-      })
-    );
+    if (allFiltersDisabled) return;
+
+    const newDraft = {
+      ...filters.draft,
+      state: e.target.value,
+      city: "All",
+    };
+
+    // dispatch(
+    //   setFilters({
+    //     ...filters,
+    //     draft: {
+    //       ...filters.draft,
+    //       state: e.target.value,
+    //       city: "All",
+    //     },
+    //   })
+    // );
+
+    dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
+    dispatch(setFiltersUpdated(true));
   }
 
   function handleCityFilterSelect(e) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          city: e.target.value,
-        },
-      })
-    );
+    if (allFiltersDisabled) return;
+
+    const newDraft = {
+      ...filters,
+      draft: {
+        ...filters.draft,
+        city: e.target.value,
+      },
+    };
+
+    // dispatch(
+    //   setFilters({
+    //     ...filters,
+    //     draft: {
+    //       ...filters.draft,
+    //       city: e.target.value,
+    //     },
+    //   })
+    // );
+
+    dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
+    dispatch(setFiltersUpdated(true));
   }
 
-  function handleTradesFilterSelect(selectedOption) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          tradeOptions: filters.draft.tradeOptions.map((option) => ({
-            ...option,
-            ...(option.id == selectedOption.id && {
-              // checked: e.target.checked,
-              checked: !selectedOption.checked,
-            }),
-          })),
-        },
-      })
-    );
-  }
+  function handleRadioFilterSelect(filterTypeKey, selectedOption) {
+    if (allFiltersDisabled) return;
 
-  function handleShippingFilterSelect(selectedOption) {
-    dispatch(
-      setFilters({
-        ...filters,
-        draft: {
-          ...filters.draft,
-          shippingOptions: filters.draft.shippingOptions.map((option) => ({
-            ...option,
-            ...(option.id == selectedOption.id && {
-              // checked: e.target.checked,
-              checked: !selectedOption.checked,
-            }),
-          })),
-        },
-      })
-    );
+    const newDraft = {
+      ...filters.draft,
+      [filterTypeKey]: filters.draft[filterTypeKey]?.map((option) => ({
+        ...option,
+        ...(option.id == selectedOption.id && {
+          // checked: e.target.checked,
+          checked: !selectedOption.checked,
+        }),
+      })),
+    };
+
+    // dispatch(
+    //   setFilters({
+    //     ...filters,
+    //     draft: {
+    //       ...filters.draft,
+    //       [filterTypeKey]: filters.draft[filterTypeKey]?.map((option) => ({
+    //         ...option,
+    //         ...(option.id == selectedOption.id && {
+    //           // checked: e.target.checked,
+    //           checked: !selectedOption.checked,
+    //         }),
+    //       })),
+    //     },
+    //   })
+    // );
+
+    dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
+    dispatch(setFiltersUpdated(true));
   }
 
   function handleFiltersApply(e) {
@@ -155,12 +149,9 @@ const FiltersSidebar = () => {
     dispatch(setFiltersUpdated(true));
     if (windowSize.width <= 625)
       dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-    // getListings(searchValue);
   }
 
-  function handleReset() {}
-
-  const resetButtonHidden =
+  const resetButtonDisabled =
     (filters.saved.brand == filters.initial.brand &&
       filters.saved.model == filters.initial.model &&
       filters.saved.minPrice == filters.initial.minPrice &&
@@ -176,21 +167,21 @@ const FiltersSidebar = () => {
     filters.saved.conditionOptions.filter((option) => option.checked).length == 0 ||
     filters.saved.shippingOptions.filter((option) => option.checked).length == 0;
 
-  const applyButtonDisabled =
-    (filters.draft.brand == filters.saved.brand &&
-      filters.draft.model == filters.saved.model &&
-      filters.draft.minPrice == filters.saved.minPrice &&
-      filters.draft.maxPrice == filters.saved.maxPrice &&
-      filters.draft.city == filters.saved.city &&
-      filters.draft.state == filters.saved.state &&
-      filters.draft.negotiableOptions == filters.saved.negotiableOptions &&
-      filters.draft.tradeOptions == filters.saved.tradeOptions &&
-      filters.draft.conditionOptions == filters.saved.conditionOptions &&
-      filters.draft.shippingOptions == filters.saved.shippingOptions) ||
-    filters.draft.negotiableOptions.filter((option) => option.checked).length == 0 ||
-    filters.draft.tradeOptions.filter((option) => option.checked).length == 0 ||
-    filters.draft.conditionOptions.filter((option) => option.checked).length == 0 ||
-    filters.draft.shippingOptions.filter((option) => option.checked).length == 0;
+  // const applyButtonDisabled =
+  //   (filters.draft.brand == filters.saved.brand &&
+  //     filters.draft.model == filters.saved.model &&
+  //     filters.draft.minPrice == filters.saved.minPrice &&
+  //     filters.draft.maxPrice == filters.saved.maxPrice &&
+  //     filters.draft.city == filters.saved.city &&
+  //     filters.draft.state == filters.saved.state &&
+  //     filters.draft.negotiableOptions == filters.saved.negotiableOptions &&
+  //     filters.draft.tradeOptions == filters.saved.tradeOptions &&
+  //     filters.draft.conditionOptions == filters.saved.conditionOptions &&
+  //     filters.draft.shippingOptions == filters.saved.shippingOptions) ||
+  //   filters.draft.negotiableOptions.filter((option) => option.checked).length == 0 ||
+  //   filters.draft.tradeOptions.filter((option) => option.checked).length == 0 ||
+  //   filters.draft.conditionOptions.filter((option) => option.checked).length == 0 ||
+  //   filters.draft.shippingOptions.filter((option) => option.checked).length == 0;
 
   return (
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
@@ -206,27 +197,29 @@ const FiltersSidebar = () => {
           </button>
         )}
         <div className="apply-and-reset">
-          {!resetButtonHidden && (
-            <button
-              onClick={() => {
-                dispatch(resetFilters());
-                dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
-                if (windowSize.width <= 625) {
-                  dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-                }
-              }}
-              type="button"
-              className="reset-button"
-            >
-              <UndoIcon />
-            </button>
-          )}
-          <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
-            Apply
+          {/* {!resetButtonHidden && ( */}
+          <button
+            onClick={() => {
+              if (resetButtonDisabled) return;
+              dispatch(resetFilters());
+              dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+              if (windowSize.width <= 625) {
+                dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+              }
+            }}
+            type="button"
+            className={`reset-button`}
+            disabled={resetButtonDisabled}
+          >
+            <UndoIcon />
           </button>
+          {/* )} */}
+          {/* <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
+            Apply
+          </button> */}
         </div>
         <div className="filter-items">
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
                 <label>Min. Price</label>
@@ -269,7 +262,7 @@ const FiltersSidebar = () => {
             </div> */}
             <div className="label-and-reset">
               <label>By Price</label>
-              {!filters.draft.priceOptions.find(op => op.id == 0).checked && (
+              {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
                 <button
                   className="reset-button"
                   onClick={() => dispatch(resetFilter("priceOptions"))}
@@ -281,6 +274,7 @@ const FiltersSidebar = () => {
             <RadioOptions
               options={filters.draft.priceOptions}
               handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
+              disabled={allFiltersDisabled}
             />
             {/* <Checkboxes
               options={filters.draft.priceOptions}
@@ -295,7 +289,7 @@ const FiltersSidebar = () => {
               false
             )}
           </div>
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By State</label>
               {filters.draft.state != "All" && (
@@ -308,7 +302,11 @@ const FiltersSidebar = () => {
               )}
             </div>
 
-            <select onChange={handleStateFilterSelect} value={filters.draft.state}>
+            <select
+              onChange={handleStateFilterSelect}
+              value={filters.draft.state}
+              disabled={allFiltersDisabled}
+            >
               <option>All</option>
               {states.map((state) => (
                 <option key={state}>{state}</option>
@@ -316,11 +314,13 @@ const FiltersSidebar = () => {
             </select>
           </div>
           <div
-            className={`filter-item ${filters.draft.state == "All" ? "disabled" : ""}`}
+            className={`filter-item ${
+              allFiltersDisabled || filters.draft.state == "All" ? "disabled" : ""
+            }`}
           >
             <div className="label-and-reset">
               <label>By City</label>
-              {filters.draft.city != 'All' && filters.draft.state != "All" && (
+              {filters.draft.city != "All" && filters.draft.state != "All" && (
                 <button
                   className="reset-button"
                   onClick={() => dispatch(resetFilter("city"))}
@@ -337,7 +337,7 @@ const FiltersSidebar = () => {
             ) : (
               <select
                 className=""
-                disabled={filters.draft.state == "All"}
+                disabled={allFiltersDisabled || filters.draft.state == "All"}
                 onChange={handleCityFilterSelect}
                 value={filters.draft.city}
               >
@@ -348,7 +348,7 @@ const FiltersSidebar = () => {
               </select>
             )}
           </div>
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Condition</label>
               {filters.draft.conditionOptions.find((op) => !op.checked) && (
@@ -362,10 +362,13 @@ const FiltersSidebar = () => {
             </div>
             <Checkboxes
               options={filters.draft.conditionOptions}
-              handleCheckboxOptionClick={(option) => handleConditionFilterSelect(option)}
+              handleCheckboxOptionClick={(option) =>
+                handleRadioFilterSelect("conditionOptions", option)
+              }
+              disabled={allFiltersDisabled}
             />
           </div>
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Shipping</label>
               {filters.draft.shippingOptions.find((op) => !op.checked) && (
@@ -380,11 +383,14 @@ const FiltersSidebar = () => {
 
             <Checkboxes
               options={filters.draft.shippingOptions}
-              handleCheckboxOptionClick={(option) => handleShippingFilterSelect(option)}
+              handleCheckboxOptionClick={(option) =>
+                handleRadioFilterSelect("shippingOptions", option)
+              }
+              disabled={allFiltersDisabled}
             />
           </div>
 
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Trades</label>
               {filters.draft.tradeOptions.find((op) => !op.checked) && (
@@ -399,10 +405,13 @@ const FiltersSidebar = () => {
 
             <Checkboxes
               options={filters.draft.tradeOptions}
-              handleCheckboxOptionClick={(option) => handleTradesFilterSelect(option)}
+              handleCheckboxOptionClick={(option) =>
+                handleRadioFilterSelect("tradeOptions", option)
+              }
+              disabled={allFiltersDisabled}
             />
           </div>
-          <div className="filter-item">
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Negotiable</label>
               {filters.draft.negotiableOptions.find((op) => !op.checked) && (
@@ -417,7 +426,10 @@ const FiltersSidebar = () => {
 
             <Checkboxes
               options={filters.draft.negotiableOptions}
-              handleCheckboxOptionClick={(option) => handleNegotiableFilterSelect(option)}
+              handleCheckboxOptionClick={(option) =>
+                handleRadioFilterSelect("negotiableOptions", option)
+              }
+              disabled={allFiltersDisabled}
             />
           </div>
         </div>

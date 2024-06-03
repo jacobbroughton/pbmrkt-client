@@ -24,173 +24,7 @@
  gap: 10px;
  overflow-y: scroll;
 }
-/* 
-.modal.edit-item form {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  max-width: 600px;
-  width: 100%;
-}
 
-.modal.edit-item form .form-block {
-  width: 100%;
-  background-color: #444;
-  padding: 10px;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.modal.edit-item form fieldset {
-  border: 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.modal.edit-item form fieldset.radio-form-groups {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.modal.edit-item form .form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  width: 100%;
-}
-
-.modal.edit-item form .form-group:first-child {
-  flex-grow: 0;
-}
-.modal.edit-item form .form-group.year,
-.modal.edit-item form .form-group.price {
-  max-width: 100px;
-}
-
-.modal.edit-item form .form-group .radio-options {
-  display: flex;
-  flex-direction: column;
-}
-
-.modal.edit-item form .form-group .radio-options .radio-option label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  white-space: nowrap;
-  gap: 5px;
-}
-
-.modal.edit-item form label {
-  font-size: 0.875rem;
-}
-
-.modal.edit-item form .form-group input:not([type="radio"]),
-.modal.edit-item form .form-group textarea,
-.modal.edit-item form .form-group select {
-  width: 100%;
-  padding: 5px 10px;
-  font-family: inherit;
-  font-size: 1rem;
-  background-color: #3b3b3b;
-  border: 1px solid grey;
-  border-radius: 3px;
-}
-
-.modal.edit-item form .form-group input[type="file"] {
-  padding: 0;
-}
-
-.modal.edit-item form .form-group select {
-  position: pointer;
-}
-
-.modal.edit-item form .form-group select {
-  background-image: url("src/components/ui/Icons/Arrow.svg");
-  background-repeat: no-repeat;
-  background-position: 98% center;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.modal.edit-item form button[type="submit"] {
-  background-color: var(--lightgreen);
-  padding: 7px 15px;
-  align-self: flex-start;
-  border-radius: 3px;
-  font-size: 1rem;
-  color: #212529;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.1s ease filter;
-}
-d .modal.edit-item form button[type="submit"]:not(:disabled):hover {
-  filter: brightness(1.1);
-}
-
-.modal.edit-item form button[type="submit"]:disabled {
-  color: grey;
-  background-color: #444;
-  cursor: not-allowed;
-}
-
-.modal.edit-item form .selling-item-images {
-  display: flex;
-  flex-direction: row;
-  gap: 3px;
-  flex-wrap: wrap;
-  flex-grow: 0;
-}
-
-.modal.edit-item form .selling-item-images .image-container {
-  height: 75px;
-  width: 75px;
-  border: 1px solid transparent;
-  transition: 0.05s ease border;
-  border-radius: 3px;
-  position: relative;
-  overflow: hidden;
-}
-
-.modal.edit-item form .selling-item-images .image-container.cover {
-  border: 1px solid lightgrey;
-}
-
-.modal.edit-item form .selling-item-images .image-container img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.modal.edit-item form .selling-item-images .image-container .delete-button {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  border: 1px solid var(--lightgreen);
-}
-
-.modal.edit-item form .selling-item-images .image-container .delete-button:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.modal.edit-item form .selling-item-images .image-container .cover-button {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  border: 1px solid var(--lightgreen);
-}
-
-.modal.edit-item form .selling-item-images .image-container .cover-button:hover {
-  text-decoration: underline;
-  cursor: pointer;
-} */
 
 .edit-item form {
   display: flex;
@@ -259,12 +93,7 @@ d .modal.edit-item form button[type="submit"]:not(:disabled):hover {
   /* flex-direction: column; */
 }
 
-/* .edit-item form fieldset.radio-form-groups {
-  display: flex;
-  grid-template-columns: repeat(4, 1fr);
-  width: 100%;
-  flex-wrap: wrap;
-} */
+
 
 .edit-item form .form-group {
   display: flex;
@@ -306,22 +135,9 @@ d .modal.edit-item form button[type="submit"]:not(:disabled):hover {
   padding: 3px 5px;
   cursor: pointer;
   border-radius: 3px;
-  /* height: 100%; */
   background-color: #4f4f4f;
   width: 100%;
-  /* background-color: var(--lightgreen);
-  padding: 3px 5px;
-  border-radius: 3px;
-  font-size: 0.875rem;
-  color: #212529;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.1s ease filter;
-  color: white;
-  text-shadow: 1px 1px 3px #21252963;
-  font-weight: 600;
-  transition: color 0.1s ease, background-color 0.1s ease; */
-  /* position: absolute; */
+
 }
 
 .edit-item form .custom-photo-upload p:first-child {

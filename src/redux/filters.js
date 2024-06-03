@@ -63,11 +63,16 @@ const filtersSlice = createSlice({
     resetFilter: (state, { payload }) => {
       const filterKey = payload;
 
-
       if (filterKey == "priceOptions") {
         return {
           ...state,
           draft: {
+            ...state.draft,
+            priceOptions: initialFilters.priceOptions,
+            minPrice: initialFilters.minPrice,
+            maxPrice: initialFilters.maxPrice,
+          },
+          saved:  {
             ...state.draft,
             priceOptions: initialFilters.priceOptions,
             minPrice: initialFilters.minPrice,
@@ -80,6 +85,10 @@ const filtersSlice = createSlice({
         ...state,
         draft: {
           ...state.draft,
+          [filterKey]: initialFilters[filterKey],
+        },
+        saved: {
+          ...state.saved,
           [filterKey]: initialFilters[filterKey],
         },
       };

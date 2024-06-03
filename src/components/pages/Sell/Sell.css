@@ -100,15 +100,9 @@
 }
 
 .sell form fieldset.prices {
-  /* flex-direction: column; */
 }
 
-/* .sell form fieldset.radio-form-groups {
-  display: flex;
-  grid-template-columns: repeat(4, 1fr);
-  width: 100%;
-  flex-wrap: wrap;
-} */
+
 
 .sell form .form-group {
   display: flex;

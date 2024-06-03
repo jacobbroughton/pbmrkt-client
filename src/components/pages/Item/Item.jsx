@@ -12,11 +12,12 @@ import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import "./Item.css";
+import XIcon from "../../ui/Icons/XIcon";
 
 const Item = () => {
   const dispatch = useDispatch();
   const modals = useSelector((state) => state.modals);
-  const { session } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const { itemID } = useParams();
   const [item, setItem] = useState(null);
   const [error, setError] = useState("");
@@ -108,7 +109,7 @@ const Item = () => {
 
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newCommentBody,
-        p_created_by_id: session.user.id,
+        p_created_by_id: user.auth_id,
         p_item_id: itemID,
         p_parent_id: null,
       });
@@ -251,7 +252,7 @@ const Item = () => {
   if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
   if (!item) return <p>item not found</p>;
 
-  const isAdmin = session && item.info?.created_by_id == session.user?.id;
+  const isAdmin = user && item.info?.created_by_id == user?.auth_id;
 
   if (error) return <p className="error-text">{error.toString()}</p>;
   if (!item.info?.eff_status) return <p>This item was deleted.</p>;
@@ -330,7 +331,9 @@ const Item = () => {
             <div className="price-and-toggle">
               <p>
                 ${item.info.price}
-                {item.info.shipping_cost ? ` + $${item.info.shipping_cost} shipping` : "+ Free Shipping"}
+                {item.info.shipping_cost
+                  ? ` + $${item.info.shipping_cost} shipping`
+                  : "+ Free Shipping"}
               </p>
               {priceChangeHistory?.length >= 1 && (
                 <button
@@ -401,7 +404,7 @@ const Item = () => {
       <div className="comments-section">
         <div className="horizontal-divider"></div>
         <h3>Comments</h3>
-        {session?.user ? (
+        {user ? (
           <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
             <textarea
               placeholder="Add a comment..."

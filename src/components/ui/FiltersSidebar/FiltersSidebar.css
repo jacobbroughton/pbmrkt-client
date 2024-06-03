@@ -89,7 +89,7 @@
 }
 
 .filters .apply-and-reset .reset-button:disabled svg {
-  fill: #ccc;
+  fill: grey;
 }
 
 .filters > .filter-items {
@@ -192,6 +192,10 @@
   background-color: #3b3b3b;
   font-size: 1rem;
   color: white;
+}
+
+.filters > .filter-items .filter-item.disabled select {
+  color: grey;
 }
 
 .filters > .filter-items .filter-item .min-max-input-container {

@@ -25,3 +25,12 @@
   width: 17px;
   fill: #ccc
 }
+
+.radio-options.disabled > .radio-option label {
+  color: grey;
+}
+
+
+.radio-options.disabled > .radio-option svg {
+  fill: grey;
+}

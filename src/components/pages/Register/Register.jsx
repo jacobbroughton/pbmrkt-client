@@ -10,6 +10,8 @@ import { setSession } from "../../../redux/auth";
 import EyeIcon from "../../ui/Icons/EyeIcon";
 import Chevron from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -122,19 +124,19 @@ const Register = () => {
 
   async function handleConfirmationEmailResend() {
     try {
-      console
+      console;
       const { data, error } = await supabase.auth.resend({
-        type: 'signup',
+        type: "signup",
         email,
         options: {
-          emailRedirectTo: `https://pbmrkt.onrender.com/`
-        }
+          emailRedirectTo: `https://pbmrkt.onrender.com/`,
+        },
       });
-      if (error) throw error.message
+      if (error) throw error.message;
 
-      console.log('resend email', data)
+      console.log("resend email", data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setRegisterError(error.toString());
     }
   }
@@ -278,6 +280,37 @@ const Register = () => {
                   id="bio"
                 />
               </div>
+              <div className="form-groups">
+                <div className="form-group">
+                  <label htmlFor="email">State</label>
+                  <select
+                    onChange={(e) =>
+                      setState(e.target.value == "All" ? null : e.target.value)
+                    }
+                    value={state}
+                  >
+                    {states.map((childState) => (
+                      <option value={childState} key={childState}>
+                        {childState}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">City</label>
+                  <select
+                    disabled={!state}
+                    onChange={(e) =>
+                      setCity(e.target.value == "All" ? null : e.target.value)
+                    }
+                    value={city?.toUpperCase()}
+                  >
+                    {statesAndCities[state]?.map((innerCity) => (
+                      <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -302,7 +335,7 @@ const Register = () => {
               <button onClick={handleConfirmationEmailResend}>Resend email</button>
             </div>
           </div>
-          <ModalOverlay zIndex={4}/>
+          <ModalOverlay zIndex={4} />
         </>
       )}
 

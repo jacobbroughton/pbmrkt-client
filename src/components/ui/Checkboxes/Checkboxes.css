@@ -20,5 +20,13 @@
 
 .checkbox-options > .checkbox-option svg {
   width: 17px;
-  fill: #ccc
+  fill: #ccc;
+}
+
+.checkbox-options.disabled > .checkbox-option svg {
+  fill: grey;
+}
+
+.checkbox-options.disabled > .checkbox-option label {
+  color: grey;
 }

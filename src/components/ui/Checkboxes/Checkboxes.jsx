@@ -1,9 +1,9 @@
 import Checkbox from "../Icons/Checkbox";
 import "./Checkboxes.css";
 
-const Checkboxes = ({ options, handleCheckboxOptionClick }) => {
+const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
   return (
-    <div className="checkbox-options">
+    <div className={`checkbox-options ${disabled ? "disabled" : ""}`}>
       {options.map((option) => (
         <div
           className={`checkbox-option ${option.checked ? "checked" : ""}`}

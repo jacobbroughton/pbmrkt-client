@@ -6,11 +6,10 @@ import ListingGrid from "../../ui/ListingGrid/ListingGrid.jsx";
 import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton.jsx";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
+import XIcon from "../../ui/Icons/XIcon.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import { setFiltersUpdated } from "../../../redux/filters.js";
+import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 
 function Listings() {
@@ -23,7 +22,6 @@ function Listings() {
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
-  const [draftSearchValue, setDraftSearchValue] = useState("");
   const [listingsError, setListingsError] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
@@ -125,7 +123,8 @@ function Listings() {
   }, [sort]);
 
   useEffect(() => {
-    if (filters.filtersUpdated) getListings(searchValue);
+    // if (filters.filtersUpdated) getListings(searchValue);
+    if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
 
   useEffect(() => {
@@ -139,12 +138,58 @@ function Listings() {
   //   getListings(draftSearchValue);
   // }
 
+  const numChecked = {
+    conditionOptions: filters.saved.conditionOptions.filter((op) => op.checked).length,
+    shippingOptions: filters.saved.shippingOptions.filter((op) => op.checked).length,
+    tradeOptions: filters.saved.tradeOptions.filter((op) => op.checked).length,
+    negotiableOptions: filters.saved.negotiableOptions.filter((op) => op.checked).length,
+  };
+
+  let filterTags = [
+    {
+      label: filters.saved.priceOptions.find((op) => op.checked).value,
+      onDeleteClick: () => {
+        dispatch(resetFilter("priceOptions"));
+      },
+      active: !filters.saved.priceOptions.find((op) => op.id == 0).checked,
+    },
+    {
+      label: `Condition (${numChecked.conditionOptions}/${filters.saved.conditionOptions.length})`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("conditionOptions"));
+      },
+      active: numChecked.conditionOptions !== filters.saved.conditionOptions.length,
+    },
+    {
+      label: `Shipping (${numChecked.shippingOptions}/${filters.saved.shippingOptions.length})`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("shippingOptions"));
+      },
+      active: numChecked.shippingOptions !== filters.saved.shippingOptions.length,
+    },
+    {
+      label: `Trades (${numChecked.tradeOptions}/${filters.saved.tradeOptions.length})`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("tradeOptions"));
+      },
+      active: numChecked.tradeOptions !== filters.saved.tradeOptions.length,
+    },
+    {
+      label: `Negotiable (${numChecked.negotiableOptions}/${filters.saved.negotiableOptions.length})`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("negotiableOptions"));
+      },
+      active: numChecked.negotiableOptions !== filters.saved.negotiableOptions.length,
+    },
+  ];
+
   return (
     <div className="home">
       <div className="sidebar-and-grid">
         {modals.filtersSidebarToggled && (
           <>
-            <FiltersSidebar />
+            {/* <FiltersSidebar allFiltersDisabled={listings.length == 0} /> */}
+            <FiltersSidebar allFiltersDisabled={false} />
             {windowSize.width <= 625 && (
               <ModalOverlay
                 zIndex={4}
@@ -175,6 +220,25 @@ function Listings() {
               </select>
             </div>
           </div>
+          {filterTags.filter(filter => filter.active).length >= 1 && (
+            <div className="filter-tags-parent">
+              <p>Results are currently filtered by:</p>
+              <div className="filter-tags">
+                {filterTags
+                  .filter((filter) => filter.active)
+                  .map((filter) => {
+                    return (
+                      <div className="filter-tag">
+                        {filter.label}
+                        <button onClick={filter.onDeleteClick}>
+                          <XIcon />
+                        </button>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
           {listingsError ? (
             <p>{listingsError}</p>
           ) : listingsLoading ? (
@@ -194,18 +258,17 @@ function Listings() {
               numSkeletons={25}
               blinking={true}
               heightPx={null}
-              
             />
           ) : // </div>
-          !isInitialLoad && listings.length == 0 ? (
+          !isInitialLoad && listings.length === 0 ? (
             <SkeletonsListingGrid
-              message={"No listings have been created yet"}
+              message={"No listings found, try adjusting your search or filters."}
               link={{ url: "/sell", label: "Sell something" }}
               accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
               hasOverlay={true}
-              numSkeletons={25}
+              numSkeletons={20}
               blinking={true}
-              heightPx={400}
+              heightPx={null}
             />
           ) : (
             <ListingGrid

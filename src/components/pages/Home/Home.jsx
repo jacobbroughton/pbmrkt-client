@@ -21,6 +21,7 @@ function Listings() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
+  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [listingsError, setListingsError] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
@@ -52,7 +53,7 @@ function Listings() {
 
   async function getListings(searchValue = "") {
     try {
-      if (!listingsLoading) {
+      if (!listingsInitiallyLoading && listingsLoading) {
         setListingsLoading(true);
       }
 
@@ -109,8 +110,11 @@ function Listings() {
         dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: false }));
       dispatch(setFiltersUpdated(false));
     } catch (error) {
+      console.error(error);
       setListingsError(error.toString());
     }
+
+    setListingsInitiallyLoading(false);
   }
 
   useEffect(() => {
@@ -150,6 +154,7 @@ function Listings() {
       label: filters.saved.priceOptions.find((op) => op.checked).value,
       onDeleteClick: () => {
         dispatch(resetFilter("priceOptions"));
+        setFiltersUpdated(true);
       },
       active: !filters.saved.priceOptions.find((op) => op.id == 0).checked,
     },
@@ -157,6 +162,7 @@ function Listings() {
       label: `Condition (${numChecked.conditionOptions}/${filters.saved.conditionOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("conditionOptions"));
+        setFiltersUpdated(true);
       },
       active: numChecked.conditionOptions !== filters.saved.conditionOptions.length,
     },
@@ -164,6 +170,7 @@ function Listings() {
       label: `Shipping (${numChecked.shippingOptions}/${filters.saved.shippingOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("shippingOptions"));
+        setFiltersUpdated(true);
       },
       active: numChecked.shippingOptions !== filters.saved.shippingOptions.length,
     },
@@ -171,6 +178,7 @@ function Listings() {
       label: `Trades (${numChecked.tradeOptions}/${filters.saved.tradeOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("tradeOptions"));
+        setFiltersUpdated(true);
       },
       active: numChecked.tradeOptions !== filters.saved.tradeOptions.length,
     },
@@ -178,6 +186,7 @@ function Listings() {
       label: `Negotiable (${numChecked.negotiableOptions}/${filters.saved.negotiableOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("negotiableOptions"));
+        setFiltersUpdated(true);
       },
       active: numChecked.negotiableOptions !== filters.saved.negotiableOptions.length,
     },
@@ -220,7 +229,7 @@ function Listings() {
               </select>
             </div>
           </div>
-          {filterTags.filter(filter => filter.active).length >= 1 && (
+          {filterTags.filter((filter) => filter.active).length >= 1 && (
             <div className="filter-tags-parent">
               <p>Results are currently filtered by:</p>
               <div className="filter-tags">
@@ -241,26 +250,11 @@ function Listings() {
           )}
           {listingsError ? (
             <p>{listingsError}</p>
-          ) : listingsLoading ? (
-            // <div
-            //   className={`${
-            //     windowSize.width > 225 && modals.filtersSidebarToggled
-            //       ? "accounts-for-sidebar"
-            //       : ""
-            //   } skeletons-grid`}
-            // >
-            // {[...new Array(listings.length || 5)].map((num, i) => (
-            //   <ItemSkeleton key={i} blinking={false}/>
-            // ))}
-            <SkeletonsListingGrid
-              accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
-              hasOverlay={false}
-              numSkeletons={25}
-              blinking={true}
-              heightPx={null}
-            />
-          ) : // </div>
-          !isInitialLoad && listings.length === 0 ? (
+          ) : listingsInitiallyLoading && listingsLoading ? (
+            <p>loading initially</p>
+          ) : !listingsInitiallyLoading && listingsLoading ? (
+            <p>Loading subsequently</p>
+          ) : !isInitialLoad && listings.length === 0 ? (
             <SkeletonsListingGrid
               message={"No listings found, try adjusting your search or filters."}
               link={{ url: "/sell", label: "Sell something" }}
@@ -271,10 +265,12 @@ function Listings() {
               heightPx={null}
             />
           ) : (
-            <ListingGrid
-              listings={listings}
-              accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
-            />
+            <>
+              <ListingGrid
+                listings={listings}
+                accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
+              />
+            </>
           )}
         </div>
       </div>

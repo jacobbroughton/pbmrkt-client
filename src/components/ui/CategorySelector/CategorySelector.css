@@ -1,0 +1,112 @@
+.category-selector {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid grey;
+  border-radius: 3px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.category-selector .categories-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.category-selector .categories-list-container.is-nested {
+  /* border-left: 1px solid grey; */
+  /* margin-left: 10px; */
+  padding-left: 5px;
+  margin-top: 5px;
+}
+
+.category-selector .categories-list-container .list-and-nest-bar {
+  width: 100%;
+  display: flex;
+}
+
+.category-selector .categories-list-container .list-and-nest-bar .categories-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.categories-list-container
+  button.category-button:hover:not(:has(div:hover))
+  .categories-list-container.is-nested:first-child
+  .nest-bar {
+  background-color: yellow;
+}
+
+.categories-list-container .nest-bar {
+  width: 2px;
+  border: 0;
+  background-color: #555;
+  margin-right: 5px;
+  height: 100%;
+}
+
+.category-selector .categories-list-container button.category-button {
+  padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid grey;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  cursor: pointer;
+  font-size: 1rem;;
+}
+
+.category-selector
+  .categories-list-container
+  button.category-button:hover:not(:has(button:hover)) {
+  color: yellow;
+  background-color: #555;
+}
+
+.category-selector
+  .categories-list-container
+  button.category-button:hover:not(:has(button:hover))
+  > .categories-list-container
+  > .list-and-nest-bar
+  > .nest-bar {
+  background-color: yellow;
+}
+
+/* .category-selector .categories-list-container button.category-button:last-child {
+  border-bottom: 0;
+} */
+
+.category-selector .categories-list-container button.category-button .label-and-arrow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.category-selector .categories-list-container button.category-button svg.caret {
+  width: 7px;
+  fill: grey;
+}
+
+.category-selector .categories-list-container button.category-button svg.radio-icon {
+  width: 8px;
+  fill: grey;
+  margin-left: auto;
+}
+
+.category-selector .categories-list-container button.category-button svg.radio-icon.checked {
+  fill: var(--lightgreen);
+}
+
+.category-selector
+  .categories-list-container
+  button.category-button:hover:not(:has(button:hover))
+  svg:not(.checked) {
+  fill: yellow;
+}
+
+/* .category-selector .categories-list-container button.category-button:last-child {
+  border-bottom: 1px solid grey;
+} */

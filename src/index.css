@@ -169,6 +169,7 @@ form.standard .form-group {
 }
 
 form .form-group label {
+  word-wrap: break-word;
   font-size: 0.875rem;
   display: flex;
   align-items: center;

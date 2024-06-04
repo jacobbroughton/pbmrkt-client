@@ -120,6 +120,7 @@
 .sell form .form-group label {
   display: flex;
   gap: 5px;
+  white-space: wrap;
 }
 
 .sell form .auto-completed-span {
@@ -344,10 +345,11 @@
 
 .sell form .form-group textarea {
   --padding: 10px;
-  min-height: 100px;
-  min-height: calc(2lh + 2 * var(--padding));
-  max-height: calc(4lh + 2 * var(--padding));
-  field-sizing: content;
+  min-height: 150px;
+  min-height: calc(3lh + 2 * var(--padding));
+  /* max-height: calc(5lh + 2 * var(--padding)); */
+  max-height: calc(10lh + 2 * var(--padding));
+  /* field-sizing: content; */
   line-height: 1.5;
   padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
 }

@@ -11,6 +11,7 @@ import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 import MagicWand from "../../ui/Icons/MagicWand.jsx";
+import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -98,6 +99,7 @@ const Sell = () => {
     trades: false,
     negotiable: false,
   });
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { session } = useSelector((state) => state.auth);
 
@@ -213,7 +215,7 @@ const Sell = () => {
     try {
       const { data, error } = await supabase.rpc("add_item", {
         p_brand: brand,
-        p_created_by_id: session.user.id,
+        p_created_by_id: user.auth_id,
         p_details: details,
         p_state: state,
         p_model: model,
@@ -248,7 +250,7 @@ const Sell = () => {
       }
 
       const imagePaths = photos.map(
-        (photo) => `${session.user.id}/${generatedGroupId}/${photo.name}`
+        (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
       const { data: movedImagesFromTempTableData, error: error2 } = await supabase.rpc(
@@ -310,14 +312,10 @@ const Sell = () => {
         const file = imageFiles[i];
         const { data, error } = await supabase.storage
           .from("item_images")
-          .upload(`temp/${session.user.id}/${generatedGroupId}/${thisUploadUUID}`, file, {
+          .upload(`temp/${user.auth_id}/${generatedGroupId}/${thisUploadUUID}`, file, {
             cacheControl: "3600",
             upsert: false,
           });
-
-        if (i == imageFiles.length - 1) {
-          setImagesUploading(false);
-        }
 
         if (error) {
           console.error(error);
@@ -332,12 +330,17 @@ const Sell = () => {
             p_full_path: data.fullPath,
             p_path: data.path,
             p_is_cover: i == 0 ? 1 : 0,
-            p_created_by_id: session.user.id,
+            p_created_by_id: user.auth_id,
           }
         );
         if (error2) throw error2.message;
 
         tempImages.push(data22[0]);
+
+        if (i == imageFiles.length - 1) {
+          console.log("now");
+          setImagesUploading(false);
+        }
 
         index += 1;
         setNumPhotosUploaded(index);
@@ -345,7 +348,7 @@ const Sell = () => {
 
       const { data, error } = await supabase.storage
         .from("item_images")
-        .list(`temp/${session.user.id}/${generatedGroupId}/`, {
+        .list(`temp/${user.auth_id}/${generatedGroupId}/`, {
           limit: 100,
           offset: 0,
         });
@@ -421,7 +424,7 @@ const Sell = () => {
 
   async function handleImageDelete(image) {
     const { data, error } = await supabase.rpc("delete_temp_image", {
-      p_image_name: `temp/${session.user.id}/${generatedGroupId}/${image.name}`,
+      p_image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
     });
 
     if (error) throw error.message;
@@ -442,7 +445,7 @@ const Sell = () => {
       // todo - need to delete from tables as well
 
       const paths = photos.map(
-        (photo) => `temp/${session.user.id}/${generatedGroupId}/${photo.name}`
+        (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
       const { data, error } = await supabase.storage.from("item_images").remove(paths);
@@ -453,7 +456,7 @@ const Sell = () => {
       }
 
       const { error: error2 } = await supabase.rpc("delete_temp_images", {
-        p_user_id: session.user.id,
+        p_user_id: user.auth_id,
         p_group_id: generatedGroupId,
       });
 
@@ -539,7 +542,7 @@ const Sell = () => {
                       <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
                     )}
                     <img
-                      src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${session.user.id}/${generatedGroupId}/${image.name}?width=73&height=73`}
+                      src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                     />
                     <div className="image-overlay">
                       <div className="buttons">
@@ -730,8 +733,8 @@ const Sell = () => {
               }`}
               title={
                 buyerPaysShipping
-                  ? "Toggle 'buyer pays shipping' for this to be interactive"
-                  : ""
+                  ? "Adjust the cost of shipping for this item"
+                  : "Toggle 'buyer pays shipping' for this to be interactive"
               }
             >
               <label>Shipping Cost</label>
@@ -745,6 +748,17 @@ const Sell = () => {
             </div>
           </fieldset>
 
+          <fieldset>
+            <div className={`form-group`}>
+              <label>
+                Please find the most accurate applicable category for this item
+              </label>
+              <CategorySelector
+                setSelectedCategory={setSelectedCategory}
+                selectedCategory={selectedCategory}
+              />
+            </div>
+          </fieldset>
           <fieldset>
             <div className={`form-group`}>
               <label>Brand</label>

@@ -265,7 +265,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("priceOptions"))}
+                  onClick={() => {
+                    dispatch(resetFilter("priceOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -295,7 +298,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.state != "All" && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("state"))}
+                  onClick={() => {
+                    dispatch(resetFilter("state"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -323,7 +329,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.city != "All" && filters.draft.state != "All" && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("city"))}
+                  onClick={() => {
+                    dispatch(resetFilter("city"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -354,7 +363,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.conditionOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("conditionOptions"))}
+                  onClick={() => {
+                    dispatch(resetFilter("conditionOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -374,7 +386,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.shippingOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("shippingOptions"))}
+                  onClick={() => {
+                    dispatch(resetFilter("shippingOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -396,7 +411,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.tradeOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("tradeOptions"))}
+                  onClick={() => {
+                    dispatch(resetFilter("tradeOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>
@@ -417,7 +435,10 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               {filters.draft.negotiableOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
-                  onClick={() => dispatch(resetFilter("negotiableOptions"))}
+                  onClick={() => {
+                    dispatch(resetFilter("negotiableOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
                 >
                   Reset
                 </button>

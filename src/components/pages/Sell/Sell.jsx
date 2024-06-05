@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
-import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import {
+  capitalizeWords,
+  nestItemCategories,
+  toggleCategoryFolder,
+} from "../../../utils/usefulFunctions.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 import MagicWand from "../../ui/Icons/MagicWand.jsx";
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
+import { categories as initialCategories } from "../../../utils/categories.js";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -99,13 +104,32 @@ const Sell = () => {
     trades: false,
     negotiable: false,
   });
+  const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { session } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getDefaultSelections();
+    getItemCategories();
   }, []);
+
+  async function getItemCategories() {
+    try {
+      const { data, error } = await supabase.rpc("get_item_categories");
+
+      if (error) throw error.message;
+
+      console.log("categories", data);
+
+      const nestedItemCategories = nestItemCategories(data);
+
+      setCategories(nestedItemCategories);
+    } catch (error) {
+      console.error(error);
+      setSellError(error);
+    }
+  }
 
   async function getDefaultSelections() {
     try {
@@ -228,6 +252,7 @@ const Sell = () => {
         p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_shipping_cost: shippingCost,
         p_city: city || null,
+        p_category_id: selectedCategory.id
       });
 
       if (error) {
@@ -510,6 +535,7 @@ const Sell = () => {
   }
 
   const submitDisabled =
+  !selectedCategory ||
     photos.length == 0 ||
     !state ||
     !city ||
@@ -750,12 +776,18 @@ const Sell = () => {
 
           <fieldset>
             <div className={`form-group`}>
-              <label>
-                Please find the most accurate applicable category for this item
-              </label>
+              <label>Please find the most accurate category for this item</label>
+              {/* <p>{selectedCategory?.label}</p> */}
               <CategorySelector
+                categories={categories}
                 setSelectedCategory={setSelectedCategory}
                 selectedCategory={selectedCategory}
+                handleCategoryClick={(category) => {
+                  if (category.is_folder) {
+                    console.log("folder", category);
+                    setCategories(toggleCategoryFolder(category, categories));
+                  }
+                }}
               />
             </div>
           </fieldset>

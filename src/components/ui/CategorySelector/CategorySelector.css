@@ -56,6 +56,7 @@
   border: 0;
   cursor: pointer;
   font-size: 1rem;;
+  color: white;
 }
 
 .category-selector
@@ -64,6 +65,14 @@
   color: yellow;
   background-color: #555;
 }
+
+
+.category-selector
+  .categories-list-container
+  button.category-button.is-folder:hover:not(:has(button:hover)) {
+  background-color: transparent;
+}
+
 
 .category-selector
   .categories-list-container
@@ -91,18 +100,18 @@
 }
 
 .category-selector .categories-list-container button.category-button svg.radio-icon {
-  width: 8px;
+  width: 12px;
   fill: grey;
   margin-left: auto;
 }
 
 .category-selector .categories-list-container button.category-button svg.radio-icon.checked {
-  fill: var(--lightgreen);
+  fill: yellow;
 }
 
 .category-selector
   .categories-list-container
-  button.category-button:hover:not(:has(button:hover))
+  button.category-button:hover:not(:has(button:hover)) >.label-and-arrow > 
   svg:not(.checked) {
   fill: yellow;
 }

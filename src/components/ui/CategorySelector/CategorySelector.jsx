@@ -1,50 +1,66 @@
 import { useState } from "react";
-import { categories } from "../../../utils/categories.js";
+import { categories as initialCategories } from "../../../utils/categories.js";
 import "./CategorySelector.css";
 import Caret from "../Icons/Caret.jsx";
 import RadioIcon from "../Icons/RadioIcon.jsx";
 
-const CategorySelector = ({ selectedCategory, setSelectedCategory }) => {
+const CategorySelector = ({
+  categories,
+  setCategories,
+  selectedCategory,
+  setSelectedCategory,
+  handleCategoryClick,
+}) => {
+  // const [categories, setCategories] = useState(initialCategories);
   return (
     <div className="category-selector">
       <CategoriesList
         categories={categories}
+        setCategories={setCategories}
         isNested={false}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        handleCategoryClick={handleCategoryClick}
       />
     </div>
   );
 };
 
-const CategoryButton = ({ category, selectedCategory, setSelectedCategory }) => {
+const CategoryButton = ({
+  category,
+  handleCategoryClick,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   const [listToggled, setListToggled] = useState(false);
 
-
-  console.log(category.label, selectedCategory)
   return (
     <button
-      className="category-button"
+      className={`category-button ${category.is_folder ? "is-folder" : ""}`}
       type="button"
       onClick={(e) => {
         e.stopPropagation();
         setListToggled(!listToggled);
-        console.log(category);
-        setSelectedCategory(category);
+        handleCategoryClick(category);
+
+        if (!category.isFolder) setSelectedCategory(category);
       }}
     >
       <div className="label-and-arrow">
-        <span>{category.isIndex ? "..." : category.label}</span>
+        <span>{category.isIndex ? "..." : category.value}</span>
 
-        {category.children.length >= 1 ? (
-          <Caret direction={listToggled ? "down" : "right"} />
-        ) : <RadioIcon checked={category.label == selectedCategory?.label}/>}
-        
+        {category.is_folder ? (
+          <Caret direction={category.toggled ? "down" : "right"} />
+        ) : (
+          <RadioIcon checked={category.id == selectedCategory?.id} />
+          // <RadioIcon checked={category.toggled} />
+        )}
       </div>
 
-      {category.children.length >= 1 && listToggled && (
+      {category.children?.length >= 1 && category.toggled && (
         <CategoriesList
           categories={category.children}
+          handleCategoryClick={handleCategoryClick}
           isNested={true}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -54,7 +70,13 @@ const CategoryButton = ({ category, selectedCategory, setSelectedCategory }) => 
   );
 };
 
-const CategoriesList = ({ categories, isNested, selectedCategory, setSelectedCategory }) => {
+const CategoriesList = ({
+  categories,
+  isNested,
+  selectedCategory,
+  setSelectedCategory,
+  handleCategoryClick,
+}) => {
   return (
     <div className={`categories-list-container ${isNested ? "is-nested" : ""}`}>
       <div className="list-and-nest-bar">
@@ -65,6 +87,7 @@ const CategoriesList = ({ categories, isNested, selectedCategory, setSelectedCat
               category={category}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
+              handleCategoryClick={handleCategoryClick}
             />
           ))}
         </div>

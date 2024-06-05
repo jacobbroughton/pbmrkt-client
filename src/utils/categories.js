@@ -1,148 +1,161 @@
 export const categories = [
   {
     label: "Guns",
+    toggled: false,
     children: [
-      {
-        label: "Index",
-        isIndex: true,
+      { 
+        label: "Guns",
+        toggled: false,
         children: [],
       },
       {
         label: "Spare Parts/Maintainance",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Hoppers",
+    toggled: false,
     children: [
       {
-        label: "Index",
-        isIndex: true,
+        label: "Hoppers",
+        toggled: false,
         children: [],
       },
       {
         label: "Parts & Accessories",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Tanks",
+    toggled: false,
     children: [
       {
         label: "Compressed Air Tanks",
+        toggled: false,
         children: [
           {
-            label: "Index",
-            isIndex: true,
+            label: "Complete Tanks",
+            toggled: false,
             children: [],
           },
           {
             label: "Bottles",
+            toggled: false,
             children: [],
           },
           {
             label: "Regulators",
+            toggled: false,
             children: [],
           },
           {
             label: "Accessories",
+            toggled: false,
             children: [],
           },
         ],
       },
       {
-        label: "C02 Tanks & Accessories",
+        label: "CO2 Tanks & Accessories",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Masks",
+    toggled: false,
     children: [
       {
-        label: "Index",
-        isIndex: true,
+        label: "Complete Masks",
+        toggled: false,
         children: [],
       },
       {
         label: "Lenses",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Frames",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Straps",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Visors",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Bottoms",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Ears",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Other",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Barrels",
+    toggled: false,
     children: [
       {
-        label: "Index",
-        isIndex: true,
+        label: "Barrels",
+        toggled: false,
         children: [],
       },
       {
         label: "Barrel Kits",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Barrel Swabs",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Other",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Clothing | Apparel",
+    toggled: false,
     children: [
       {
         label: "Paintball Clothing",
+        toggled: false,
         children: [
           {
             label: "Pants",
+            toggled: false,
             children: [],
           },
           {
             label: "Jerseys",
+            toggled: false,
             children: [],
           },
           {
@@ -150,45 +163,55 @@ export const categories = [
             children: [
               {
                 label: "Headbands",
+                toggled: false,
                 children: [],
               },
               {
                 label: "Head Wraps",
+                toggled: false,
                 children: [],
               },
               {
                 label: "Padded Beanie/Hat",
+                toggled: false,
                 children: [],
               },
             ],
           },
           {
             label: "Gloves",
+            toggled: false,
             children: [],
           },
           {
             label: "Other",
+            toggled: false,
             children: [],
           },
         ],
       },
       {
         label: "Casual Clothing",
+        toggled: false,
         children: [
           {
             label: "Shirts",
+            toggled: false,
             children: [],
           },
           {
             label: "Pants",
+            toggled: false,
             children: [],
           },
           {
             label: "Headwear",
+            toggled: false,
             children: [],
           },
           {
             label: "Other",
+            toggled: false,
             children: [],
           },
         ],
@@ -197,123 +220,138 @@ export const categories = [
   },
   {
     label: "Pod Packs & Pods",
+    toggled: false,
     children: [
       {
         label: "Pod Packs",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Pods",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Pod Swabs",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Pod Bags",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Other",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Protective Gear",
+    toggled: false,
     children: [
       {
         label: "Chest Protection",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Neck Protection",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Elbow/Arm Pads",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Knee Pads",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Slide Shorts",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Gloves",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
       {
         label: "Other",
+        toggled: false,
         children: [],
-        isIndex: false,
       },
     ],
   },
   {
     label: "Gear Bags & Cases",
+    toggled: false,
     children: [
       {
         label: "Gear Bags",
+        toggled: false,
         children: [
           {
             label: "Backpacks",
+            toggled: false,
             children: [],
           },
           {
             label: "Roller Bags",
+            toggled: false,
             children: [],
           },
           {
             label: "Duffel Bags",
+            toggled: false,
             children: [],
           },
           {
             label: "Other",
+            toggled: false,
             children: [],
           },
         ],
       },
       {
         label: "Cases",
+        toggled: false,
         children: [
           {
             label: "Gun Case",
+            toggled: false,
             children: [],
           },
           {
             label: "Mask Case",
+            toggled: false,
             children: [],
           },
           {
             label: "Tank Case",
+            toggled: false,
             children: [],
           },
           {
             label: "Hopper/Loader Case",
+            toggled: false,
             children: [],
           },
           {
             label: "Barrel Case/Wrap",
+            toggled: false,
             children: [],
           },
           {
             label: "Other",
+            toggled: false,
             children: [],
           },
         ],

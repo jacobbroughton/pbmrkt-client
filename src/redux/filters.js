@@ -100,6 +100,7 @@ const filtersSlice = createSlice({
         ...state,
         draft: initialFilters,
         saved: initialFilters,
+        filtersUpdated: false
       };
     },
   },

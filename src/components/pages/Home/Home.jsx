@@ -154,7 +154,7 @@ function Listings() {
       label: filters.saved.priceOptions.find((op) => op.checked).value,
       onDeleteClick: () => {
         dispatch(resetFilter("priceOptions"));
-        setFiltersUpdated(true);
+        dispatch(setFiltersUpdated(true));
       },
       active: !filters.saved.priceOptions.find((op) => op.id == 0).checked,
     },
@@ -162,7 +162,7 @@ function Listings() {
       label: `Condition (${numChecked.conditionOptions}/${filters.saved.conditionOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("conditionOptions"));
-        setFiltersUpdated(true);
+        dispatch(setFiltersUpdated(true));
       },
       active: numChecked.conditionOptions !== filters.saved.conditionOptions.length,
     },
@@ -170,7 +170,7 @@ function Listings() {
       label: `Shipping (${numChecked.shippingOptions}/${filters.saved.shippingOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("shippingOptions"));
-        setFiltersUpdated(true);
+        dispatch(setFiltersUpdated(true));
       },
       active: numChecked.shippingOptions !== filters.saved.shippingOptions.length,
     },
@@ -178,7 +178,7 @@ function Listings() {
       label: `Trades (${numChecked.tradeOptions}/${filters.saved.tradeOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("tradeOptions"));
-        setFiltersUpdated(true);
+        dispatch(setFiltersUpdated(true));
       },
       active: numChecked.tradeOptions !== filters.saved.tradeOptions.length,
     },
@@ -186,7 +186,7 @@ function Listings() {
       label: `Negotiable (${numChecked.negotiableOptions}/${filters.saved.negotiableOptions.length})`,
       onDeleteClick: () => {
         dispatch(resetFilter("negotiableOptions"));
-        setFiltersUpdated(true);
+        dispatch(setFiltersUpdated(true));
       },
       active: numChecked.negotiableOptions !== filters.saved.negotiableOptions.length,
     },

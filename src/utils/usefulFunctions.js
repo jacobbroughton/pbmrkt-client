@@ -66,3 +66,34 @@ export const useCurrentPath = () => {
 
   return route.path;
 };
+
+export function nestItemCategories(flatCategories) {
+  function nest(parentId) {
+    const children = flatCategories.filter((cat) => cat.parent_id == parentId);
+
+    return children.map((child) => ({
+      ...child,
+      children: nest(child.id),
+      toggled: child.is_folder,
+      checked: false,
+    }));
+  }
+
+  return nest(null);
+}
+
+export function toggleCategoryFolder(clickedFolder, nestedCategories) {
+  let categories = [...nestedCategories];
+
+  function searchCategories(categoriesToSearch) {
+    return categoriesToSearch.map((cat) => {
+      return {
+        ...cat,
+        toggled: cat.id == clickedFolder.id ? !cat.toggled : cat.toggled,
+        children: searchCategories(cat.children),
+      };
+    });
+  }
+
+  return searchCategories(categories);
+}

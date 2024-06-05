@@ -231,12 +231,24 @@ function Listings() {
             </div>
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
-           <FilterTags filterTags={filterTags}/>
+            <FilterTags filterTags={filterTags} />
           )}
           {listingsError ? (
             <p>{listingsError}</p>
           ) : listingsInitiallyLoading && listingsLoading ? (
-            <p>loading initially</p>
+            <p>
+              <SkeletonsListingGrid
+                // message={"Loading listings..."}
+                // link={{ url: "/sell", label: "Sell something" }}
+                accountsForSidebar={
+                  windowSize.width > 225 && modals.filtersSidebarToggled
+                }
+                hasOverlay={false}
+                numSkeletons={20}
+                blinking={true}
+                heightPx={null}
+              />
+            </p>
           ) : !listingsInitiallyLoading && listingsLoading ? (
             <p>Loading subsequently</p>
           ) : !isInitialLoad && listings.length === 0 ? (

@@ -11,6 +11,7 @@ import XIcon from "../../ui/Icons/XIcon.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
+import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -230,23 +231,7 @@ function Listings() {
             </div>
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
-            <div className="filter-tags-parent">
-              <p>Results are currently filtered by:</p>
-              <div className="filter-tags">
-                {filterTags
-                  .filter((filter) => filter.active)
-                  .map((filter) => {
-                    return (
-                      <div className="filter-tag">
-                        {filter.label}
-                        <button onClick={filter.onDeleteClick}>
-                          <XIcon />
-                        </button>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
+           <FilterTags filterTags={filterTags}/>
           )}
           {listingsError ? (
             <p>{listingsError}</p>

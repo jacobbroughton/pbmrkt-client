@@ -3,6 +3,7 @@ import { categories as initialCategories } from "../../../utils/categories.js";
 import "./CategorySelector.css";
 import Caret from "../Icons/Caret.jsx";
 import RadioIcon from "../Icons/RadioIcon.jsx";
+import { collapseAllCategoryFolders, expandAllCategoryFolders } from "../../../utils/usefulFunctions.js";
 
 const CategorySelector = ({
   categories,
@@ -14,6 +15,20 @@ const CategorySelector = ({
   // const [categories, setCategories] = useState(initialCategories);
   return (
     <div className="category-selector">
+      <div className="category-list-buttons">
+        <button
+          type="button"
+          onClick={() => setCategories(collapseAllCategoryFolders(categories))}
+        >
+          Collapse All
+        </button>
+        <button
+          type="button"
+          onClick={() => setCategories(expandAllCategoryFolders(categories))}
+        >
+          Expand All
+        </button>
+      </div>
       <CategoriesList
         categories={categories}
         setCategories={setCategories}

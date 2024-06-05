@@ -1,0 +1,48 @@
+
+.filter-tags-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-tags-parent > p {
+  font-size: 0.875rem;
+}
+
+.filter-tags-parent .filter-tags {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.filter-tags-parent .filter-tags .filter-tag {
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  padding: 2px 7px;
+  border-left: 2px solid var(--lightgreen);
+  border-radius: 5px 100px 100px 5px;
+  font-size: 0.875rem;
+}
+
+.filter-tags-parent .filter-tags .filter-tag button {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  display: flex;
+  cursor: pointer;
+}
+
+.filter-tags-parent .filter-tags .filter-tag button svg {
+  fill: grey;
+  width: 13px;
+}
+
+.filter-tags-parent .filter-tags .filter-tag button:hover svg {
+  fill: #aaa;
+}

@@ -9,6 +9,8 @@ import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
 import {
   capitalizeWords,
+  collapseAllCategoryFolders,
+  expandAllCategoryFolders,
   nestItemCategories,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
@@ -252,7 +254,7 @@ const Sell = () => {
         p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_shipping_cost: shippingCost,
         p_city: city || null,
-        p_category_id: selectedCategory.id
+        p_category_id: selectedCategory.id,
       });
 
       if (error) {
@@ -535,7 +537,7 @@ const Sell = () => {
   }
 
   const submitDisabled =
-  !selectedCategory ||
+    !selectedCategory ||
     photos.length == 0 ||
     !state ||
     !city ||
@@ -777,9 +779,11 @@ const Sell = () => {
           <fieldset>
             <div className={`form-group`}>
               <label>Please find the most accurate category for this item</label>
+    
               {/* <p>{selectedCategory?.label}</p> */}
               <CategorySelector
                 categories={categories}
+                setCategories={setCategories}
                 setSelectedCategory={setSelectedCategory}
                 selectedCategory={selectedCategory}
                 handleCategoryClick={(category) => {

@@ -49,7 +49,7 @@
   transition: 0.1s ease background-color;
   align-items: center;
   display: flex;
-  gap: 5px;
+  gap: 3px;
 }
 
 .home .listings-controls .control-group select label {
@@ -57,7 +57,12 @@
   width: 100%;
 }
 
-.home .listings-controls .filters-button svg {
+.home .listings-controls .filters-button svg:nth-child(1) {
+  width: 10px;
+  fill: #ddd;
+}
+
+.home .listings-controls .filters-button svg:nth-child(2) {
   width: 28px;
   fill: #ddd;
 }

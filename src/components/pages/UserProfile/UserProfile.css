@@ -162,6 +162,7 @@
   border: 1px solid grey;
   background-color: #555;
   margin-top: 10px;
+  color: white;
   cursor: pointer;
   transition: background-color 0.05s ease;
 }

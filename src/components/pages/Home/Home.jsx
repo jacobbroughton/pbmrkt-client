@@ -7,7 +7,7 @@ import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import XIcon from "../../ui/Icons/XIcon.jsx";
+import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
@@ -248,6 +248,11 @@ function Listings() {
                   )
                 }
               >
+                {!modals.filtersSidebarToggled ? (
+                  <Caret direction={"right"} />
+                ) : (
+                  <Caret direction={"left"} />
+                )}{" "}
                 <FilterIcon />
               </button>
             )}

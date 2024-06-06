@@ -42,7 +42,7 @@
 .sell form {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
   max-width: 600px;
   width: 100%;
 }
@@ -214,6 +214,29 @@
   max-width: 100px;
 }
 
+.sell form .form-group.price input,
+.sell form .form-group.shipping input {
+  position: relative;
+}
+
+
+.sell form .form-group.price input::before,
+.sell form .form-group.shipping input::before {
+  content: '$';
+  z-index: 2;
+  color: green;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sell form .form-group.price input::before {
+  content: '$';
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .sell form .form-group.disabled {
   cursor: not-allowed;
 }
@@ -346,7 +369,7 @@
 .sell form .form-group textarea {
   --padding: 10px;
   min-height: 150px;
-  min-height: calc(3lh + 2 * var(--padding));
+  min-height: calc(4lh + 2 * var(--padding));
   /* max-height: calc(5lh + 2 * var(--padding)); */
   max-height: calc(10lh + 2 * var(--padding));
   /* field-sizing: content; */

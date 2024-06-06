@@ -7,6 +7,7 @@ import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
+import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
@@ -55,9 +56,9 @@ function Listings() {
 
   async function getListings(searchValue = "") {
     try {
-      if (!listingsInitiallyLoading && listingsLoading) {
-        setListingsLoading(true);
-      }
+      // if (!listingsInitiallyLoading && listingsLoading) {
+      setListingsLoading(true);
+      // }
 
       let { data, error } = await supabase.rpc("get_items", {
         p_search_value: searchValue,
@@ -104,7 +105,6 @@ function Listings() {
       });
 
       setListings(data);
-      setListingsLoading(false);
 
       if (isInitialLoad) setIsInitialLoad(false);
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
@@ -116,6 +116,7 @@ function Listings() {
       setListingsError(error.toString());
     }
 
+    setListingsLoading(false);
     setListingsInitiallyLoading(false);
   }
 
@@ -292,24 +293,29 @@ function Listings() {
                 heightPx={null}
               />
             </p>
-          ) : !listingsInitiallyLoading && listingsLoading ? (
-            <p>Loading subsequently</p>
           ) : !isInitialLoad && listings.length === 0 ? (
-            <SkeletonsListingGrid
-              message={"No listings found, try adjusting your search or filters."}
-              link={{ url: "/sell", label: "Sell something" }}
-              accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
-              hasOverlay={true}
-              numSkeletons={20}
-              blinking={false}
-              heightPx={null}
-            />
+            <>
+              <SkeletonsListingGrid
+                message={"No listings found, try adjusting your search or filters."}
+                link={{ url: "/sell", label: "Sell something" }}
+                accountsForSidebar={
+                  windowSize.width > 225 && modals.filtersSidebarToggled
+                }
+                hasOverlay={true}
+                numSkeletons={20}
+                blinking={false}
+                heightPx={null}
+              />
+              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay zIndex={3}/>})
+
+            </>
           ) : (
             <>
               <ListingGrid
                 listings={listings}
                 accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
               />
+              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />})
             </>
           )}
         </div>

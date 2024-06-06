@@ -26,15 +26,15 @@ const CategorySelector = ({
         <div>
           <button
             type="button"
-            onClick={() => setCategories(collapseAllCategoryFolders(categories))}
-          >
-            Collapse All
-          </button>
-          <button
-            type="button"
             onClick={() => setCategories(expandAllCategoryFolders(categories))}
           >
             Expand All
+          </button>
+          <button
+            type="button"
+            onClick={() => setCategories(collapseAllCategoryFolders(categories))}
+          >
+            Collapse All
           </button>
         </div>
       </div>
@@ -56,7 +56,6 @@ const CategoryButton = ({
   selectedCategory,
   setSelectedCategory,
 }) => {
-
   return (
     <button
       className={`category-button ${category.is_folder ? "is-folder" : ""}`}

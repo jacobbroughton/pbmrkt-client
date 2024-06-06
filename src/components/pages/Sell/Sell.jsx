@@ -369,10 +369,7 @@ const Sell = () => {
 
         tempImages.push(data22[0]);
 
-        // if (i == imageFiles.length - 1) {
-        //   console.log("now");
-        //   setImagesUploading(false);
-        // }
+  
 
         index += 1;
         setNumPhotosUploaded(index);
@@ -398,8 +395,6 @@ const Sell = () => {
         }))
       );
 
-      // if (i == imageFiles.length - 1) {
-      //   console.log("now");
       setImagesUploading(false);
       // }
     } catch (error) {
@@ -572,7 +567,6 @@ const Sell = () => {
                     className={`image-container ${
                       image.id == newCoverPhotoId ? "cover" : ""
                     }`}
-                    // title={image.name}
                     onClick={() => handleNewCoverImage(image)}
                   >
                     {image.is_cover && (
@@ -581,7 +575,7 @@ const Sell = () => {
                     <img
                       src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                     />
-                    <div className="image-overlay">
+                    {/* <div className="image-overlay">
                       <div className="buttons">
                         <button
                           className="delete-button"
@@ -591,7 +585,7 @@ const Sell = () => {
                           Delete
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
@@ -648,7 +642,7 @@ const Sell = () => {
           )}
         </div>
 
-        <div className="form-block">
+        {/* <div className="form-block">
           <h2>Your Info</h2>
 
           <fieldset>
@@ -722,7 +716,7 @@ const Sell = () => {
               </select>
             </div>
           </fieldset>
-        </div>
+        </div> */}
 
         <div className="form-block">
           <h2>Item Details</h2>
@@ -737,7 +731,7 @@ const Sell = () => {
               />
             </div>
             <div className="form-group price">
-              <label>Price</label>
+              <label>Price ($)</label>
               <input
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
@@ -783,7 +777,7 @@ const Sell = () => {
                   : "Toggle 'buyer pays shipping' for this to be interactive"
               }
             >
-              <label>Shipping Cost</label>
+              <label>Shipping Cost ($)</label>
               <input
                 onChange={(e) => setShippingCost(e.target.value)}
                 value={shippingCost}

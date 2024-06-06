@@ -38,7 +38,7 @@ function Navbar() {
   return (
     <nav>
       <div className="home-link-and-filter-button">
-        {location.pathname == '/' && <button
+        {/* {location.pathname == '/' && <button
           onClick={() =>
             dispatch(
               toggleModal({
@@ -49,7 +49,7 @@ function Navbar() {
           }
         >
           <FilterIcon />
-        </button>}
+        </button>} */}
         <Link
           to="/"
           className="home-link"

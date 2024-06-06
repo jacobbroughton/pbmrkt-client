@@ -9,16 +9,8 @@
 .user-profile-page .picture-and-info {
   display: flex;
   gap: 20px;
-  align-items: center;
-  /* background-color: #555;
-  border-radius: 5px;
-  padding: 15px; */
-  /* max-width: 600px;
-  align-self: center;
-  width: 100%; */
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 600px;
+  /* width: 100%; */
+  /* max-width: 600px; */
   margin: 0 auto;
   background-color: #333;
   border-radius: 5px;
@@ -27,11 +19,70 @@
   position: relative;
 }
 
+.user-profile-page .info-section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 15px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.user-profile-page .picture-and-info {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-profile-page .user-info-containers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  height: fit-content;
+}
+
+.user-profile-page .user-info-container {
+  display: flex;
+  gap: 20px;
+  margin: 0 auto;
+  position: relative;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0px;
+  width: 100%;
+}
+
+.user-profile-page .user-info-containers {
+  background-color: #333;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid #444;
+  /* width: 100%; */
+  /* max-width: 400px; */
+}
+
+.user-profile-page .user-info-container.bio {
+  background-color: #333;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid #444;
+}
+
+.user-profile-page .user-info-container label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: grey;
+}
+
+.user-profile-page .user-info-container p {
+  white-space: pre-wrap;
+}
+
 .user-profile-page .profile-picture-container {
-  width: 100px;
-  height: 100px;
-  min-width: 100px;
-  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+  min-width: 200px;
+  border-radius: 500px;
   /* overflow: hidden; */
   display: flex;
   position: relative;
@@ -93,7 +144,35 @@
   gap: 3px;
 }
 
-.user-profile-page .picture-and-info .info .stars-button {
+.user-profile-page .picture-and-info .info .name {
+  font-weight: 600;
+}
+
+.user-profile-page .picture-and-info .info .username {
+  font-weight: 500;
+  color: grey;
+}
+
+.user-profile-page .picture-and-info .info .member-since {
+  font-size: 0.875rem;
+}
+
+.user-profile-page .picture-and-info .info .edit-profile-button {
+  padding: 5px;
+  font-size: 0.875rem;
+  border-radius: 3px;
+  border: 1px solid grey;
+  background-color: #555;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.05s ease;
+}
+
+.user-profile-page .picture-and-info .info .edit-profile-button:hover {
+  background-color: #5a5a5a;
+}
+
+.user-profile-page .stars-button {
   display: flex;
   align-items: center;
   background-color: transparent;
@@ -103,18 +182,17 @@
   font-size: 1rem;
 }
 
-.user-profile-page .picture-and-info .info .stars-button:not(:disabled) {
+.user-profile-page .stars-button:not(:disabled) {
   cursor: pointer;
 }
 
-.user-profile-page .picture-and-info .info .stars-button span {
+.user-profile-page .stars-button span {
   color: white;
 }
 
-.user-profile-page .picture-and-info .info .stars-button:not(:disabled):hover span {
+.user-profile-page .stars-button:not(:disabled):hover span {
   text-decoration: underline;
 }
-
 
 .user-profile-page .picture-and-info .edit-button {
   position: absolute;
@@ -135,4 +213,11 @@
 
 .user-profile-page .picture-and-info .edit-button:hover svg {
   fill: yellow;
+}
+
+@media screen and (max-width: 475px) {
+  .user-profile-page .picture-and-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

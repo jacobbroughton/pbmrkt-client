@@ -17,6 +17,7 @@ import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import WarningCircle from "../Icons/WarningCircle.jsx";
+import "./FiltersSidebar.css"
 
 const FiltersSidebar = ({ allFiltersDisabled }) => {
   const dispatch = useDispatch();
@@ -68,17 +69,6 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
       city: "All",
     };
 
-    // dispatch(
-    //   setFilters({
-    //     ...filters,
-    //     draft: {
-    //       ...filters.draft,
-    //       state: e.target.value,
-    //       city: "All",
-    //     },
-    //   })
-    // );
-
     dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
     dispatch(setFiltersUpdated(true));
   }
@@ -87,22 +77,9 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
     if (allFiltersDisabled) return;
 
     const newDraft = {
-      ...filters,
-      draft: {
-        ...filters.draft,
-        city: e.target.value,
-      },
+      ...filters.draft,
+      city: e.target.value,
     };
-
-    // dispatch(
-    //   setFilters({
-    //     ...filters,
-    //     draft: {
-    //       ...filters.draft,
-    //       city: e.target.value,
-    //     },
-    //   })
-    // );
 
     dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
     dispatch(setFiltersUpdated(true));
@@ -187,25 +164,27 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
       {" "}
       <form className="filters" onSubmit={handleFiltersApply}>
-        {windowSize.width <= 625 && (
-          <button
-            onClick={() => dispatch(toggleModal({ key: "filtersSidebar", value: false }))}
-            type="button"
-            className="close-sidebar-button"
-          >
-            <DoubleArrow direction="left" />
-          </button>
-        )}
         <div className="apply-and-reset">
+          {windowSize.width <= 625 && (
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "filtersSidebar", value: false }))
+              }
+              type="button"
+              className="close-sidebar-button"
+            >
+              <DoubleArrow direction="left" />
+            </button>
+          )}
           {/* {!resetButtonHidden && ( */}
           <button
             onClick={() => {
               if (resetButtonDisabled) return;
               dispatch(resetFilters());
               dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
-              if (windowSize.width <= 625) {
-                dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-              }
+              // if (windowSize.width <= 625) {
+              //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+              // }
             }}
             type="button"
             className={`reset-button`}

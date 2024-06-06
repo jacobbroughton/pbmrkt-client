@@ -12,6 +12,7 @@ import { setFlag } from "../../../redux/flags.js";
 import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
+import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -152,6 +153,22 @@ function Listings() {
 
   let filterTags = [
     {
+      label: `State: ${filters.saved.state}`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("state"));
+        dispatch(setFiltersUpdated(true));
+      },
+      active: filters.saved.state != "All",
+    },
+    {
+      label: `City: ${filters.saved.city}`,
+      onDeleteClick: () => {
+        dispatch(resetFilter("city"));
+        dispatch(setFiltersUpdated(true));
+      },
+      active: filters.saved.city != "All",
+    },
+    {
       label: filters.saved.priceOptions.find((op) => op.checked).value,
       onDeleteClick: () => {
         dispatch(resetFilter("priceOptions"));
@@ -218,9 +235,30 @@ function Listings() {
           } listings-section`}
         >
           <div className="listings-controls">
+            {location.pathname == "/" && (
+              <button
+                className="filters-button"
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      key: "filtersSidebar",
+                      value:
+                        windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+                    })
+                  )
+                }
+              >
+                <FilterIcon />
+              </button>
+            )}
             <div className="control-group sort">
               <p>Sort By:</p>
-              <select onChange={(e) => setSort(e.target.value)} value={sort} id="select">
+
+              <select
+                id="sort-select"
+                onChange={(e) => setSort(e.target.value)}
+                value={sort}
+              >
                 <option>Alphabetically (A-Z)</option>
                 <option>Alphabetically (Z-A)</option>
                 <option>Price (Low-High)</option>
@@ -258,7 +296,7 @@ function Listings() {
               accountsForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
               hasOverlay={true}
               numSkeletons={20}
-              blinking={true}
+              blinking={false}
               heightPx={null}
             />
           ) : (

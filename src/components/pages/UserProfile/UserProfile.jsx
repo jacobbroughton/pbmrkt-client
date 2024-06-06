@@ -14,6 +14,7 @@ import ThreeDots from "../../ui/Icons/ThreeDots";
 import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
+import { getTimeAgo } from "../../../utils/usefulFunctions";
 
 const UserProfile = () => {
   // const { userID } = useParams();
@@ -176,50 +177,86 @@ const UserProfile = () => {
   return (
     <div className="user-profile-page">
       {error && <p className="error-text small-text">{error}</p>}
-      <div className="picture-and-info">
-        <div
-          className="profile-picture-container"
-          // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
-          // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
-        >
-          <img className="profile-picture" src={localUser.profile_picture_url} />
-          <label htmlFor="change-profile-picture">
-            <input
-              type="file"
-              className=""
-              title="Edit profile picture"
-              id="change-profile-picture"
-              onChange={uploadProfilePicture}
-            />
-            {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
-          </label>
-        </div>
-        <div className="info">
-          <h1>{localUser.username}</h1>
-          <p>Member since {new Date(localUser.created_at).toLocaleDateString()}</p>
-          <button
-            className="stars-button"
-            onClick={() =>
-              dispatch(toggleModal({ key: "userReviewsModal", value: true }))
-            }
-            disabled={reviews.count == 0}
+      <div className="info-section">
+        <div className="picture-and-info">
+          <div
+            className="profile-picture-container"
+            // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
+            // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
           >
-            <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
-          </button>
-          <p>{localUser.bio}</p>
-          <p>{localUser.first_name}</p>
-          <p>{localUser.last_name}</p>
-          <p>{localUser.city}</p>
-          <p>{localUser.state}</p>
+            <img className="profile-picture" src={localUser.profile_picture_url} />
+            <label htmlFor="change-profile-picture">
+              <input
+                type="file"
+                className=""
+                title="Edit profile picture"
+                id="change-profile-picture"
+                onChange={uploadProfilePicture}
+              />
+              {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+            </label>
+          </div>
+          <div className="info">
+            <h2 className="name">
+              {localUser.first_name} {localUser.last_name}
+            </h2>
+            <h3 className="username">{localUser.username}</h3>
+            <p className="member-since" title="">
+              Joined {getTimeAgo(new Date(localUser.created_at))} |{" "}
+              {new Date(localUser.created_at).toLocaleDateString()}
+            </p>
+            <button
+              className="edit-profile-button"
+              onClick={() =>
+                dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+              }
+            >
+              Edit Profile
+            </button>
+
+            {/* <button
+              className="stars-button"
+              onClick={() =>
+                dispatch(toggleModal({ key: "userReviewsModal", value: true }))
+              }
+              disabled={reviews.count == 0}
+            >
+              <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
+            </button> */}
+          </div>
+          {/* <button
+            className="edit-button"
+            onClick={() =>
+              dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+            }
+          >
+            <ThreeDots />
+          </button> */}
         </div>
-        <button
-          className="edit-button"
-          onClick={() =>
-            dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-          }
-        >
-          <ThreeDots />
-        </button>
+        <div className="user-info-containers">
+          <div className="user-info-container">
+            <label>Location</label>
+            <p>
+              {localUser.city}, {localUser.state}
+            </p>
+          </div>
+          <div className="user-info-container">
+            <label>Buyer Reviews</label>
+            <button
+              className="stars-button"
+              onClick={() =>
+                dispatch(toggleModal({ key: "userReviewsModal", value: true }))
+              }
+              disabled={reviews.count == 0}
+            >
+              <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
+            </button>
+          </div>
+          <div className="user-info-container ">
+            <label>Bio</label>
+            <p>{localUser.bio}</p>
+          </div>
+        </div>
       </div>
       {listings.length ? (
         <ListingGrid listings={listings} />

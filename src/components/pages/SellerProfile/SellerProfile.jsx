@@ -28,7 +28,7 @@ const SellerProfile = () => {
   const flags = useSelector((state) => state.flags);
   const dispatch = useDispatch();
 
-  const { session } = useSelector((state) => state.auth);
+  const {session, user} = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (flags.sellerProfileNeedsUpdate) getProfile();
@@ -46,7 +46,7 @@ const SellerProfile = () => {
     try {
       const { data: data1, error: error1 } = await supabase.rpc("get_seller_profile", {
         p_username: username,
-        p_viewer_id: session?.user.id,
+        p_viewer_id: user.auth_id,
       });
 
       if (error1) throw error1.message;
@@ -152,14 +152,14 @@ const SellerProfile = () => {
         </div>
         <div className="info">
           <h1>{seller.username}</h1>
-          <p>Member since {new Date(session.user.created_at).toLocaleDateString()}</p>
+          <p>Member since {new Date(seller.created_at).toLocaleDateString()}</p>
           <button
             className="stars-button"
             onClick={() =>
               dispatch(toggleModal({ key: "userReviewsModal", value: true }))
             }
           >
-            <Stars rating={session.user.rating} /> <span>({reviews.count})</span>
+            <Stars rating={seller.rating} /> <span>({reviews.count})</span>
           </button>
         </div>
       </div>

@@ -33,6 +33,7 @@
 
 .filters .apply-and-reset {
   display: flex;
+  justify-content: space-between;
   gap: 10px;
 }
 
@@ -64,6 +65,32 @@
   filter: brightness(1.1);
 }
 
+.filters .apply-and-reset .close-sidebar-button {
+  align-self: flex-start;
+  fill: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  color: white;
+  /* background-color: #444; */
+  /* border: 1px solid grey; */
+  border: 0;
+  background-color: transparent;
+  border-radius: 3px;
+  /* padding: 7px 15px; */
+  cursor: pointer;
+  transition: 0.1s ease background-color;
+}
+
+.home .close-sidebar-button:hover svg {
+  /* background-color: #6f6f6f; */
+  fill: yellow;
+}
+
+.home .close-sidebar-button svg {
+  width: 25px;
+}
+
 .filters .apply-and-reset .reset-button {
   background-color: transparent;
   border: 0;
@@ -90,6 +117,10 @@
 
 .filters .apply-and-reset .reset-button:disabled svg {
   fill: grey;
+}
+
+.filters .apply-and-reset .reset-button:not(:disabled):hover svg {
+  fill: yellow;
 }
 
 .filters > .filter-items {

@@ -35,16 +35,15 @@
   /* margin-top: -15px; */
 }
 
-.home .listings-controls .filters-button,
-.home .listings-controls .control-group select {
+.home .listings-controls .filters-button {
   font-size: 1rem;
   color: white;
   border: 0;
   background-color: transparent;
   border-radius: 3px;
-  background-color: #444;
-  border: 1px solid grey;
-  padding: 3px 5px;
+  /* background-color: #444; */
+  /* border: 1px solid grey; */
+  /* padding: 3px 5px; */
   padding: 0;
   cursor: pointer;
   transition: 0.1s ease background-color;
@@ -53,8 +52,13 @@
   gap: 5px;
 }
 
+.home .listings-controls .control-group select label {
+  background-color: lightblue;
+  width: 100%;
+}
+
 .home .listings-controls .filters-button svg {
-  width: 18px;
+  width: 28px;
   fill: #ddd;
 }
 
@@ -110,27 +114,6 @@
   /* position: absolute; */
 }
 
-.home .close-sidebar-button {
-  align-self: flex-start;
-  fill: white;
-  cursor: pointer;
-  display: flex;
-  font-size: 1rem;
-  color: white;
-  /* background-color: #444; */
-  /* border: 1px solid grey; */
-  border: 0;
-  background-color: transparent;
-  border-radius: 3px;
-  /* padding: 7px 15px; */
-  cursor: pointer;
-  transition: 0.1s ease background-color;
-}
-
-.home .close-sidebar-button:hover svg {
-  /* background-color: #6f6f6f; */
-  fill: yellow;
-}
 
 @media screen and (max-width: 625px) {
   .home .listings-section {
@@ -148,3 +131,4 @@
     top: 56px;
   }
 }
+

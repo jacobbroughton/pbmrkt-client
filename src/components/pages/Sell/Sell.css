@@ -124,7 +124,7 @@
 }
 
 .sell form .auto-completed-span {
-  /* background-color: yellow; */
+  /* background-color: var(--yellow); */
   display: flex;
   align-items: center;
   /* align-self: flex-start; */

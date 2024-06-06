@@ -65,8 +65,8 @@
 .home .listings-controls .control-group select:hover,
 .home .listings-controls .filters-button:hover svg {
   /* background-color: #5f5f5f; */
-  color: yellow;
-  fill: yellow;
+  color: var(--yellow);
+  fill: var(--yellow);
 }
 
 .home .listings-controls .control-group.sort {

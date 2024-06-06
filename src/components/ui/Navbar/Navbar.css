@@ -40,7 +40,7 @@ nav .home-link-and-filter-button button {
 }
 
 nav .home-link-and-filter-button button:hover svg {
-  fill: yellow;
+  fill: var(--yellow);
 }
 
 nav .home-link svg {

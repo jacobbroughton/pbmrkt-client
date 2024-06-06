@@ -3,6 +3,7 @@ import EditItemModal from "../../ui/EditItemModal/EditItemModal";
 import CommentsList from "../../ui/CommentsList/CommentsList";
 import Stars from "../../ui/Stars/Stars";
 import SendIcon from "../../ui/Icons/SendIcon";
+import CheckIcon from "../../ui/Icons/CheckIcon";
 import PriceChangeHistoryModal from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
 import ChartIcon from "../../ui/Icons/ChartIcon";
 import { useEffect, useState } from "react";
@@ -302,6 +303,7 @@ const Item = () => {
 
       <div className="content">
         <div className="images-and-info">
+          {/* Images */}
           <div className="item-images">
             <div className="main-image-parent">
               {selectedPhoto ? (
@@ -325,8 +327,7 @@ const Item = () => {
               </div>
             )}
           </div>
-
-          <div className="item-info">
+          <div className="primary-info">
             <h1>{item.info.what_is_this}</h1>
             <div className="price-and-toggle">
               <p>
@@ -347,41 +348,45 @@ const Item = () => {
                 </button>
               )}
             </div>
-
-            <div className="horizontal-divider extra-top-margin"></div>
-            <table className="specs">
-              <tbody>
-                <tr>
-                  <td>Availability</td>
-                  <td>
-                    {item.info.status} as of{" "}
-                    {
-                      /* // TODO - whenever the user last visited the site */ getTimeAgo(
-                        new Date()
-                      )
-                    }
-                  </td>
-                </tr>
-                <tr>
-                  <td>Condition</td>
-                  <td>{item.info.condition}</td>
-                </tr>
-                <tr>
-                  <td>Shipping</td>
-                  <td>{item.info.shipping}</td>
-                </tr>
-                <tr>
-                  <td>Negotiable</td>
-                  <td>{item.info.negotiable}</td>
-                </tr>
-                <tr>
-                  <td>Trades</td>
-                  <td>{item.info.trades}</td>
-                </tr>
-              </tbody>
-            </table>
+            <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+              {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+              {item.info.status} as of {getTimeAgo(new Date())}
+            </p>
           </div>
-          <p className="details">{item.info.details || "No details were provided"}</p>
+          {/* Metadata */}
+          <table className="metadata">
+            <tbody>
+              <tr>
+                <td>Condition</td>
+                <td>{item.info.condition}</td>
+              </tr>
+              <tr>
+                <td>Shipping</td>
+                <td>{item.info.shipping}</td>
+              </tr>
+              <tr>
+                <td>Negotiable</td>
+                <td>{item.info.negotiable}</td>
+              </tr>
+              <tr>
+                <td>Trades</td>
+                <td>{item.info.trades}</td>
+              </tr>
+            </tbody>
+          </table>
+          {/* <div className="horizontal-divider"></div> */}
+          {item.info.details ? (
+            <p className="details">{item.info.details}</p>
+          ) : (
+            <div className="no-details-warning">
+              <p>No details were provided</p>
+              <p>
+                Please make sure to request more info from the seller prior to purchasing,
+                so there are no surprises.
+              </p>
+            </div>
+          )}
+
           <div className="seller-info-container">
             <div className="seller-info">
               <div className="profile-picture-container">

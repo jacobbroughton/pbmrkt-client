@@ -16,5 +16,5 @@
 
 .modal.add-review .form-group .stars .star-container svg {
   width: 35px;
-  fill: yellow;
+  fill: var(--yellow);
 }

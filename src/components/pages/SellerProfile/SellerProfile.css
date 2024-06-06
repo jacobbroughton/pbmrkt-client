@@ -24,6 +24,7 @@
   padding: 15px;
   border: 1px solid #444;
   position: relative;
+  height: fit-content;
 }
 
 

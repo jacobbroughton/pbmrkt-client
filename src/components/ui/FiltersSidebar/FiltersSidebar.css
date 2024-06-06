@@ -84,7 +84,7 @@
 
 .home .close-sidebar-button:hover svg {
   /* background-color: #6f6f6f; */
-  fill: yellow;
+  fill: var(--yellow);
 }
 
 .home .close-sidebar-button svg {
@@ -120,7 +120,7 @@
 }
 
 .filters .apply-and-reset .reset-button:not(:disabled):hover svg {
-  fill: yellow;
+  fill: var(--yellow);
 }
 
 .filters > .filter-items {

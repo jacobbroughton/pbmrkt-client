@@ -22,6 +22,7 @@ main {
   --bg-primary: #242424;
   --lightgreen: #4ad493;
   --red: #ff607d;
+  --yellow: yellow;
 
   color: var(--text-color);
   background-color: var(--bg-primary);
@@ -134,7 +135,7 @@ input:-webkit-autofill:active {
 
 /*Change text in autofill textbox*/
 input:-webkit-autofill {
-  -webkit-text-fill-color: yellow !important;
+  -webkit-text-fill-color: var(--yellow) !important;
 }
 
 form.standard {

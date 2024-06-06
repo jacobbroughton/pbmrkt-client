@@ -252,9 +252,9 @@ const UserProfile = () => {
               <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
             </button>
           </div>
-          <div className="user-info-container ">
+          <div className="user-info-container bio ">
             <label>Bio</label>
-            <p>{localUser.bio}</p>
+            <p>{localUser.bio?.trim()}</p>
           </div>
         </div>
       </div>

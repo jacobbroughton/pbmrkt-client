@@ -176,10 +176,11 @@
   margin-top: 15px;
 }
 
-.item .content .item-info {
+.item .content .primary-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* padding-bottom: 20px; */
 }
 
 /* .item .content .price-change-modal-toggle {
@@ -191,6 +192,25 @@
   border: 1px;
   font-size: 1rem;
 } */
+
+.item .content .status-as-of {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.item .content .status-as-of svg {
+  width: 15px;
+}
+
+.item .content .status-as-of.available svg {
+  fill: var(--lightgreen);
+}
+
+.item .content .status-as-of.sold svg {
+  fill: var(--red);
+}
 
 .item .content .price-and-toggle {
   display: flex;
@@ -218,37 +238,37 @@
   fill: var(--red);
 }
 
-.item .content table.specs {
+.item .content table.metadata {
   border-collapse: collapse;
   border-spacing: 0;
-  margin: 15px 0 0 0;
+  /* margin: 15px 0 0 0; */
   padding: 0;
   width: 100%;
 }
 
-.item .content table.specs tr td {
+.item .content table.metadata tr td {
   padding: 3px 5px;
 }
 
 /* first row, first column */
-.item .content table.specs tr:first-child td:first-child {
+.item .content table.metadata tr:first-child td:first-child {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
 /* last row, first column */
-.item .content table.specs tr:last-child td:first-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+.item .content table.metadata tr:last-child td:first-child {
+  /* border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px; */
 }
 
 /* all rows besides last one */
-.item .content table.specs tr:not(:last-child) td {
+.item .content table.metadata tr:not(:last-child) td {
   border-bottom: 1px solid #555;
 }
 
 /* all rows, first column */
-.item .content table.specs tr td:first-child {
+.item .content table.metadata tr td:first-child {
   max-width: 150px;
   width: 100px;
   /* border-right: 1px solid #666; */
@@ -258,7 +278,7 @@
   /* border-bottom: #666 1px solid; */
 }
 
-.item .content table.specs tr td:nth-child(2) {
+.item .content table.metadata tr td:nth-child(2) {
   padding-left: 15px;
 }
 
@@ -276,6 +296,27 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.item .content .no-details-warning {
+  /* border: 1px solid grey; */
+  padding-left: 10px;
+  /* border-radius: 3px; */
+  max-width: 300px;
+  border-left: var(--yellow) 2px solid;
+}
+
+/* No details were provided */
+.item .content .no-details-warning p:first-child {
+  font-size: 1rem;
+  /* border-left: 3px solid var(--yellow); */
+  /* padding-left: 5px; */
+  font-weight: 500;
+}
+
+/* No details Advice */
+.item .content .no-details-warning p:nth-child(2) {
+  font-size: 0.875rem;
 }
 
 .item .content .seller-info-container {

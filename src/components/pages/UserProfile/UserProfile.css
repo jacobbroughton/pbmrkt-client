@@ -17,6 +17,7 @@
   padding: 15px;
   border: 1px solid #444;
   position: relative;
+  height: fit-content;
 }
 
 .user-profile-page .info-section {
@@ -62,10 +63,7 @@
 }
 
 .user-profile-page .user-info-container.bio {
-  background-color: #333;
-  border-radius: 5px;
-  padding: 15px;
-  border: 1px solid #444;
+  overflow-y: auto;
 }
 
 .user-profile-page .user-info-container label {
@@ -180,6 +178,7 @@
   border: 0;
   gap: 3px;
   font-size: 1rem;
+  /* margin-top: 10px */
 }
 
 .user-profile-page .stars-button:not(:disabled) {
@@ -193,6 +192,10 @@
 .user-profile-page .stars-button:not(:disabled):hover span {
   text-decoration: underline;
 }
+
+/* .user-profile-page .stars-button svg {
+  width:
+} */
 
 .user-profile-page .picture-and-info .edit-button {
   position: absolute;
@@ -212,7 +215,37 @@
 }
 
 .user-profile-page .picture-and-info .edit-button:hover svg {
-  fill: yellow;
+  fill: var(--yellow);
+}
+
+@media screen and (max-width: 600px) {
+  .user-profile-page .info-section .picture-and-info {
+    width: auto;
+  }
+
+  .user-profile-page .profile-picture-container {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    min-width: 150px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .user-profile-page .info-section {
+    flex-direction: column ;
+  }
+
+  .user-profile-page .info-section .picture-and-info {
+    width: 100%
+  }
+
+  .user-profile-page .profile-picture-container {
+    width: 125px;
+    height: 125px;
+    max-width: 125px;
+    min-width: 125px;
+  }
 }
 
 @media screen and (max-width: 475px) {

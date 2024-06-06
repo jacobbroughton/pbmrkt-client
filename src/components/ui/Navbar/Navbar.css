@@ -133,9 +133,9 @@ nav .right-side .right-side-menu-button .profile-picture {
     padding: 10px 15px;
     gap: 15px;
   }
-  nav .home-link {
+  /* nav .home-link {
     display: none;
-  }
+  } */
 
   nav .home-link svg {
     display: block;

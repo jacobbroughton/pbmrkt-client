@@ -78,6 +78,7 @@ const Sell = () => {
   const [sellError, setSellError] = useState("");
   const [listedItemID, setListedItemID] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [whatIsThisItem, setWhatIsThisItem] = useState(randomBrand + " " + randomModel);
   const [radioOptions, setRadioOptions] = useState({
     conditionOptions: [
@@ -245,6 +246,8 @@ const Sell = () => {
     e.preventDefault();
 
     try {
+      setSubmitLoading(true);
+
       const { data, error } = await supabase.rpc("add_item", {
         p_brand: brand,
         p_created_by_id: user.auth_id,
@@ -299,6 +302,7 @@ const Sell = () => {
           .move(`temp/${path}`, `saved/${path}`);
         if (error2) throw error2.message;
       });
+      setSubmitLoading(true);
       setListedItemID(data);
       navigate(`/${data}`);
     } catch (error) {
@@ -541,6 +545,7 @@ const Sell = () => {
   }
 
   const submitDisabled =
+  submitLoading || 
     !selectedCategory ||
     photos.length == 0 ||
     !state ||
@@ -968,7 +973,7 @@ const Sell = () => {
             </p>
           )}
           <button type="submit" disabled={submitDisabled}>
-            Submit
+            {submitLoading ? "Submitting" : "Submit"}
           </button>
         </div>
       </form>

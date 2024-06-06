@@ -58,8 +58,8 @@ function Navbar() {
             dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
           }}
         >
-          <p>Core PB</p>
-          {/* <HomeIcon /> */}
+          {/* <p>Core PB</p> */}
+          <HomeIcon />
         </Link>
       </div>
 

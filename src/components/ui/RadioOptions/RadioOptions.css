@@ -22,8 +22,13 @@
 }
 
 .radio-options > .radio-option svg {
-  width: 17px;
-  fill: #ccc
+  width: 14px;
+  fill: grey;
+}
+
+.radio-options > .radio-option svg.checked {
+  width: 14px;
+  fill: yellow;
 }
 
 .radio-options.disabled > .radio-option label {

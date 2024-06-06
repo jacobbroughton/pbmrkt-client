@@ -251,6 +251,13 @@ form.standard button[type="submit"]:disabled {
   width: calc(100% - 30px);
 }
 
+.modal .heading {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .button {
   font-size: 1rem;
   color: white;

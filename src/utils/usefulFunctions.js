@@ -68,15 +68,31 @@ export const useCurrentPath = () => {
 };
 
 export function nestItemCategories(flatCategories) {
+  let pathArr = [];
+  let lastParentId = null;
+
   function nest(parentId) {
+    let self = null;
+
+    console.log(parentId, lastParentId)
+    if (parentId && parentId == lastParentId) {
+      self = flatCategories.find((cat) => cat.id == parentId);
+      pathArr.push(self.value);
+    }
+
     const children = flatCategories.filter((cat) => cat.parent_id == parentId);
 
-    return children.map((child) => ({
-      ...child,
-      children: nest(child.id),
-      toggled: child.is_folder,
-      checked: false,
-    }));
+    lastParentId = parentId;
+
+    return children.map((child) => {
+      return {
+        ...child,
+        children: nest(child.id),
+        // toggled: child.is_folder,
+        toggled: false,
+        checked: false,
+      };
+    });
   }
 
   return nest(null);
@@ -90,6 +106,24 @@ export function toggleCategoryFolder(clickedFolder, nestedCategories) {
       return {
         ...cat,
         toggled: cat.id == clickedFolder.id ? !cat.toggled : cat.toggled,
+        children: searchCategories(cat.children),
+      };
+    });
+  }
+
+  return searchCategories(categories);
+}
+
+export function setCategoryChecked(clickedCategory, nestedCategories) {
+  let categories = [...nestedCategories];
+
+  function searchCategories(categoriesToSearch) {
+    return categoriesToSearch.map((cat) => {
+      return {
+        ...cat,
+        ...(!cat.is_folder && {
+          checked: cat.id == clickedCategory.id ? !cat.checked : false,
+        }),
         children: searchCategories(cat.children),
       };
     });

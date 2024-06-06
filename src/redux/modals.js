@@ -10,6 +10,7 @@ const modalsSlice = createSlice({
     addReviewModalToggled: false,
     sellerReviewsModalToggled: false,
     priceChangeModalToggled: false,
+    categorySelectorModalToggled: false,
   },
   reducers: {
     toggleModal: (state, { payload }) => {

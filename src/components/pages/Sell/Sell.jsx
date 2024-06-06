@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
@@ -12,6 +13,7 @@ import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
   nestItemCategories,
+  setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
@@ -19,6 +21,7 @@ import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 import MagicWand from "../../ui/Icons/MagicWand.jsx";
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import { categories as initialCategories } from "../../../utils/categories.js";
+import { toggleModal } from "../../../redux/modals.js";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -56,7 +59,9 @@ const randomCondition = conditionArr[Math.floor(Math.random() * conditionArr.len
 
 const Sell = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const modals = useSelector((state) => state.modals);
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(randomBrand);
@@ -108,6 +113,7 @@ const Sell = () => {
   });
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
 
   const { session } = useSelector((state) => state.auth);
 
@@ -329,11 +335,6 @@ const Sell = () => {
 
       setImagesUploading(true);
 
-      if (numPhotosUploaded == 0) {
-        index += 1;
-        setNumPhotosUploaded(index);
-      }
-
       for (let i = 0; i < imageFiles.length; i++) {
         const thisUploadUUID = uuidv4();
         const file = imageFiles[i];
@@ -364,10 +365,10 @@ const Sell = () => {
 
         tempImages.push(data22[0]);
 
-        if (i == imageFiles.length - 1) {
-          console.log("now");
-          setImagesUploading(false);
-        }
+        // if (i == imageFiles.length - 1) {
+        //   console.log("now");
+        //   setImagesUploading(false);
+        // }
 
         index += 1;
         setNumPhotosUploaded(index);
@@ -385,17 +386,18 @@ const Sell = () => {
         throw error.message;
       }
 
-      if (data !== null) {
-        setNewCoverPhotoId(data[0].id);
-        setPhotos(
-          data.map((photo, i) => ({
-            ...photo,
-            is_cover: i == 0,
-          }))
-        );
-      } else {
-        alert("error uploading images");
-      }
+      setNewCoverPhotoId(data[0].id);
+      setPhotos(
+        data.map((photo, i) => ({
+          ...photo,
+          is_cover: i == 0,
+        }))
+      );
+
+      // if (i == imageFiles.length - 1) {
+      //   console.log("now");
+      setImagesUploading(false);
+      // }
     } catch (error) {
       console.error(error);
       setSellError(error.toString());
@@ -470,6 +472,7 @@ const Sell = () => {
     try {
       e.preventDefault();
       // todo - need to delete from tables as well
+      setDiscardImagesLoading(true);
 
       const paths = photos.map(
         (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
@@ -491,6 +494,7 @@ const Sell = () => {
 
       setPhotos([]);
       setNumPhotosUploaded(0);
+      setDiscardImagesLoading(false);
     } catch (error) {
       console.error(error);
       setSellError(error.toString());
@@ -591,7 +595,9 @@ const Sell = () => {
           {photos.length == 0 ? (
             <div className="image-input-and-prompt">
               {imagesStillUploading ? (
-                <p className="images-uploading">Uploading...</p>
+                <div className="image-skeletons">
+                  <div className="image-skeleton">&nbsp;</div>
+                </div>
               ) : imageSkeletonsShowing ? (
                 <div className="image-skeletons">
                   {Array.from(Array(numPhotosUploaded)).map((item, i) => (
@@ -624,8 +630,15 @@ const Sell = () => {
               )}
             </div>
           ) : (
-            <button onClick={handleDiscardImages} className="reset-images-button">
-              <TrashIcon /> Discard & Upload New Images
+            <button
+              onClick={handleDiscardImages}
+              className="reset-images-button"
+              disabled={discardImagesLoading}
+            >
+              <TrashIcon />{" "}
+              {discardImagesLoading
+                ? "Discarding Images..."
+                : "Discard & Upload New Images"}
             </button>
           )}
         </div>
@@ -778,9 +791,40 @@ const Sell = () => {
 
           <fieldset>
             <div className={`form-group`}>
-              <label>Please find the most accurate category for this item</label>
-    
-              {/* <p>{selectedCategory?.label}</p> */}
+              <label>Select the most accurate category for this item</label>
+              {/* <button
+                type="button"
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      key: "categorySelectorModal",
+                      value: !modals.categorySelectorModalToggled,
+                    })
+                  )
+                }
+              >
+                Toggle modal
+              </button>
+              <p>{selectedCategory?.label}</p> */}
+              {/* {modals.categorySelectorModalToggled && ( */}
+              {/* <> */}
+              {/* <div className="modal category-selector-modal">
+                <div className="heading">
+                  <h1>Select a Category</h1>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      dispatch(
+                        toggleModal({
+                          key: "categorySelectorModal",
+                          value: false,
+                        })
+                      )
+                    }
+                  >
+                    Close
+                  </button> */}
+              {/* </div> */}
               <CategorySelector
                 categories={categories}
                 setCategories={setCategories}
@@ -790,9 +834,24 @@ const Sell = () => {
                   if (category.is_folder) {
                     console.log("folder", category);
                     setCategories(toggleCategoryFolder(category, categories));
+                  } else {
+                    setCategories(setCategoryChecked(category, categories));
                   }
                 }}
               />
+              {/* </div>
+              <ModalOverlay
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      key: "categorySelectorModal",
+                      value: false,
+                    })
+                  )
+                }
+              /> */}
+              {/* </> */}
+              {/* )} */}
             </div>
           </fieldset>
           <fieldset>

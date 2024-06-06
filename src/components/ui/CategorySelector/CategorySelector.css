@@ -12,12 +12,24 @@
 .category-selector .category-list-buttons {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 10px;
   position: sticky;
   top: 0;
   background-color: #555;
+  padding: 3px;
   z-index: 2;
+}
+
+.category-selector .category-list-buttons .selected-category {
+  align-self: flex-start;
+  border-left: 3px solid var(--lightgreen);
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.category-selector .category-list-buttons .selected-category.red {
+  border-left-color: var(--red);
 }
 
 .category-selector .category-list-buttons button {
@@ -25,6 +37,9 @@
   border: 0;
   padding: 3px 5px;
   cursor: pointer;
+  font-size: 0.875rem;
+  color: white;
+  
 }
 
 .category-selector .category-list-buttons button:hover {
@@ -80,6 +95,7 @@
   cursor: pointer;
   font-size: 1rem;
   color: white;
+  border-radius: 2px;
 }
 
 .category-selector

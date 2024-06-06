@@ -3,7 +3,10 @@ import { categories as initialCategories } from "../../../utils/categories.js";
 import "./CategorySelector.css";
 import Caret from "../Icons/Caret.jsx";
 import RadioIcon from "../Icons/RadioIcon.jsx";
-import { collapseAllCategoryFolders, expandAllCategoryFolders } from "../../../utils/usefulFunctions.js";
+import {
+  collapseAllCategoryFolders,
+  expandAllCategoryFolders,
+} from "../../../utils/usefulFunctions.js";
 
 const CategorySelector = ({
   categories,
@@ -16,18 +19,24 @@ const CategorySelector = ({
   return (
     <div className="category-selector">
       <div className="category-list-buttons">
-        <button
-          type="button"
-          onClick={() => setCategories(collapseAllCategoryFolders(categories))}
-        >
-          Collapse All
-        </button>
-        <button
-          type="button"
-          onClick={() => setCategories(expandAllCategoryFolders(categories))}
-        >
-          Expand All
-        </button>
+        <p className={`selected-category ${selectedCategory ? "" : "red"}`}>
+          {/* {selectedCategory?.path || "Select a Category"} */}
+        </p>
+
+        <div>
+          <button
+            type="button"
+            onClick={() => setCategories(collapseAllCategoryFolders(categories))}
+          >
+            Collapse All
+          </button>
+          <button
+            type="button"
+            onClick={() => setCategories(expandAllCategoryFolders(categories))}
+          >
+            Expand All
+          </button>
+        </div>
       </div>
       <CategoriesList
         categories={categories}
@@ -47,7 +56,6 @@ const CategoryButton = ({
   selectedCategory,
   setSelectedCategory,
 }) => {
-  const [listToggled, setListToggled] = useState(false);
 
   return (
     <button
@@ -55,20 +63,18 @@ const CategoryButton = ({
       type="button"
       onClick={(e) => {
         e.stopPropagation();
-        setListToggled(!listToggled);
         handleCategoryClick(category);
 
-        if (!category.isFolder) setSelectedCategory(category);
+        if (!category.is_folder) setSelectedCategory(category);
       }}
     >
       <div className="label-and-arrow">
         <span>{category.isIndex ? "..." : category.value}</span>
-
         {category.is_folder ? (
           <Caret direction={category.toggled ? "down" : "right"} />
         ) : (
-          <RadioIcon checked={category.id == selectedCategory?.id} />
-          // <RadioIcon checked={category.toggled} />
+          // <RadioIcon checked={category.id == selectedCategory?.id} />
+          <RadioIcon checked={category.checked} />
         )}
       </div>
 

@@ -9,6 +9,15 @@
   position: relative;
 }
 
+.category-selector.for-modal {
+  border: 0;
+}
+
+.category-selector.for-modal .category-list-buttons {
+  border: 0;
+  justify-content: flex-start;
+}
+
 .category-selector .category-list-buttons {
   display: flex;
   align-items: center;
@@ -16,9 +25,10 @@
   gap: 10px;
   position: sticky;
   top: 0;
-  background-color: #555;
+  background-color: #444;
   padding: 3px;
   z-index: 2;
+  margin-bottom: 5px;
 }
 
 .category-selector .category-list-buttons .selected-category {
@@ -39,7 +49,6 @@
   cursor: pointer;
   font-size: 0.875rem;
   color: white;
-  
 }
 
 .category-selector .category-list-buttons button:hover {
@@ -124,7 +133,6 @@
   border-bottom: 0;
 } */
 
-
 .category-selector .categories-list-container button.category-button .label-and-arrow {
   display: flex;
   justify-content: flex-start;
@@ -133,7 +141,10 @@
   white-space: nowrap;
 }
 
-.category-selector .categories-list-container button.category-button:not(.is-folder) .label-and-arrow {
+.category-selector
+  .categories-list-container
+  button.category-button:not(.is-folder)
+  .label-and-arrow {
   gap: 100px;
 }
 

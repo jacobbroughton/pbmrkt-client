@@ -188,7 +188,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             onClick={() => {
               if (resetButtonDisabled) return;
               dispatch(resetFilters());
-              dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
               // if (windowSize.width <= 625) {
               //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
               // }
@@ -196,6 +196,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             type="button"
             className={`reset-button`}
             disabled={resetButtonDisabled}
+            title='Reset all of your filters back to their original state'
           >
             <UndoIcon />
           </button>
@@ -208,16 +209,18 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Category</label>
-              {filters.draft.category && <button
-                type="button"
-                className="reset-button"
-                onClick={() => {
-                  dispatch(resetFilter("category"));
-                  dispatch(setFiltersUpdated(true))
-                }}
-              >
-                Reset
-              </button>}
+              {filters.draft.category && (
+                <button
+                  type="button"
+                  className="reset-button"
+                  onClick={() => {
+                    dispatch(resetFilter("category"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
+                >
+                  Reset
+                </button>
+              )}
             </div>
             <button
               onClick={() =>
@@ -225,6 +228,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               }
               className="button select-category-modal-toggle"
               type="button"
+              title={`Click this to open a menu and select an item category to filter your results on`}
             >
               {filters.draft.category?.value ?? "Select a Category"} <EditIcon />{" "}
             </button>
@@ -307,6 +311,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               <label>By State</label>
               {filters.draft.state != "All" && (
                 <button
+                  title="Reset the state filter"
                   className="reset-button"
                   onClick={() => {
                     dispatch(resetFilter("state"));
@@ -319,6 +324,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             </div>
 
             <select
+              title="Select a state to filter your results on"
               onChange={handleStateFilterSelect}
               value={filters.draft.state}
               disabled={allFiltersDisabled}
@@ -339,6 +345,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               <label>By City</label>
               {filters.draft.city != "All" && filters.draft.state != "All" && (
                 <button
+                  title="Reset the city filter"
                   className="reset-button"
                   onClick={() => {
                     dispatch(resetFilter("city"));
@@ -351,11 +358,15 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             </div>
 
             {filters.draft.state == "All" ? (
-              <p className="small-text disabled">
+              <p
+                className="small-text disabled"
+                title={"Selecting a city is disabled if no state is selected"}
+              >
                 <WarningCircle /> Select a state first
               </p>
             ) : (
               <select
+                title={`Select a city`}
                 className=""
                 disabled={allFiltersDisabled || filters.draft.state == "All"}
                 onChange={handleCityFilterSelect}

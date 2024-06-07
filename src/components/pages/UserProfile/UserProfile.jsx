@@ -235,12 +235,6 @@ const UserProfile = () => {
         </div>
         <div className="user-info-containers">
           <div className="user-info-container">
-            <label>Location</label>
-            <p>
-              {localUser.city}, {localUser.state}
-            </p>
-          </div>
-          <div className="user-info-container">
             <label>Buyer Reviews</label>
             <button
               className="stars-button"
@@ -251,6 +245,12 @@ const UserProfile = () => {
             >
               <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
             </button>
+          </div>
+          <div className="user-info-container">
+            <label>Location</label>
+            <p>
+              {localUser.city}, {localUser.state}
+            </p>
           </div>
           <div className="user-info-container bio ">
             <label>Bio</label>

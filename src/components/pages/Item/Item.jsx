@@ -15,6 +15,8 @@ import { getTimeAgo } from "../../../utils/usefulFunctions";
 import "./Item.css";
 import XIcon from "../../ui/Icons/XIcon";
 import ThreeDots from "../../ui/Icons/ThreeDots";
+import WarningCircle from "../../ui/Icons/WarningCircle";
+import WarningTriangle from "../../ui/Icons/WarningTriangle";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -335,6 +337,7 @@ const Item = () => {
           {/* Images */}
           <div className="primary-info">
             <button
+            title='Modify the properties of this item'
               type="button"
               className="edit-item-menu-toggle"
               onClick={() =>
@@ -355,7 +358,7 @@ const Item = () => {
                 ${item.info.price}
                 {item.info.shipping_cost
                   ? ` + $${item.info.shipping_cost} shipping`
-                  : "+ Free Shipping"}
+                  : " + Free Shipping"}
               </p>
               {priceChangeHistory?.length >= 1 && (
                 <button
@@ -380,10 +383,12 @@ const Item = () => {
             <p className="details">{item.info.details}</p>
           ) : (
             <div className="no-details-warning">
-              <p>No details were provided</p>
               <p>
-                Please make sure to request more info from the seller prior to purchasing,
-                so there are no surprises.
+                <WarningTriangle /> No details were provided
+              </p>
+              <p>
+                Make sure to request more info from the seller prior to purchasing, so
+                there are no surprises.
               </p>
             </div>
           )}

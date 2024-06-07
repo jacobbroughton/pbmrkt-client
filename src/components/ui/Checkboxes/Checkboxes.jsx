@@ -9,6 +9,7 @@ const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
           className={`checkbox-option ${option.checked ? "checked" : ""}`}
           onClick={() => handleCheckboxOptionClick(option)}
           key={option.id}
+          title={`${option.checked ? 'Uncheck' : 'Check'} "${option.value}"`}
         >
           <Checkbox checked={option.checked} />
           <label>{option.value}</label>

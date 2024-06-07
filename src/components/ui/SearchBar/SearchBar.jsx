@@ -18,7 +18,7 @@ const SearchBar = () => {
     try {
       if (search.draftSearchValue === search.savedSearchValue) return;
       dispatch(setSavedSearchValue(search.draftSearchValue));
-      dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+      dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       navigate("/");
       searchRef.current?.blur()
     } catch (error) {

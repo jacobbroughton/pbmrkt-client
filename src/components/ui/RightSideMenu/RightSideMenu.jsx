@@ -7,6 +7,8 @@ import { supabase } from "../../../utils/supabase";
 import LogOutIcon from "../Icons/LogOutIcon";
 import { useEffect, useRef, useState } from "react";
 import HomeIcon from "../Icons/HomeIcon";
+import DollarSignIcon from "../Icons/DollarSignIcon";
+import DollarBillIcon from "../Icons/DollarBillIcon";
 
 const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -76,12 +78,11 @@ const RightSideMenu = () => {
       </Link>
       <Link
         to={`/sell`}
-        className="menu-item sell"
+        className="menu-item"
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
-        <div className="sell-link">
+        <DollarBillIcon/>
           <label>Sell</label>
-        </div>
       </Link>
       <button className="menu-item logout" onClick={handleLogout}>
         <LogOutIcon />

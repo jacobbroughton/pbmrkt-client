@@ -14,14 +14,15 @@ const CategorySelector = ({
   selectedCategory,
   setSelectedCategory,
   handleCategoryClick,
+  forModal,
 }) => {
   // const [categories, setCategories] = useState(initialCategories);
   return (
-    <div className={`category-selector`}>
+    <div className={`category-selector ${forModal ? "for-modal" : ""}`}>
       <div className="category-list-buttons">
-        <p className={`selected-category ${selectedCategory ? "" : "red"}`}>
-          {/* {selectedCategory?.path || "Select a Category"} */}
-        </p>
+        {/* <p className={`selected-category ${selectedCategory ? "" : "red"}`}>
+          {selectedCategory?.path || "Select a Category"}
+        </p> */}
 
         <div>
           <button
@@ -64,7 +65,7 @@ const CategoryButton = ({
         e.stopPropagation();
         handleCategoryClick(category);
 
-        if (!category.is_folder) setSelectedCategory(category);
+        if (!category.is_folder) setSelectedCategory(category.checked ? null : category);
       }}
     >
       <div className="label-and-arrow">

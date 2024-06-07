@@ -247,7 +247,7 @@ form.standard button[type="submit"]:disabled {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border: 1px solid grey;
+  border: 1px solid #555;
   box-shadow: 3px 3px 15px #181818;
   width: calc(100% - 30px);
 }

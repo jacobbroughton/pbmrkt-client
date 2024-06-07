@@ -55,7 +55,7 @@ function Navbar() {
           className="home-link"
           onClick={() => {
             dispatch(resetFilters());
-            dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: true }));
+            dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
           }}
         >
           {/* <p>Core PB</p> */}

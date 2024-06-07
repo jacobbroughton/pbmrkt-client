@@ -21,6 +21,7 @@ import {
 } from "../../../utils/usefulFunctions.js";
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import XIcon from "../../ui/Icons/XIcon.jsx";
+import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -116,8 +117,8 @@ function Listings() {
 
       if (isInitialLoad) setIsInitialLoad(false);
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
-      if (flags.searchedListingsNeedsUpdate)
-        dispatch(setFlag({ key: "searchedListingsNeedsUpdate", value: false }));
+      if (flags.searchedListingsNeedUpdate)
+        dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: false }));
       dispatch(setFiltersUpdated(false));
     } catch (error) {
       console.error(error);
@@ -144,8 +145,8 @@ function Listings() {
   }, [filters.filtersUpdated]);
 
   useEffect(() => {
-    if (flags.searchedListingsNeedsUpdate) getListings(search.savedSearchValue);
-  }, [flags.searchedListingsNeedsUpdate]);
+    if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
+  }, [flags.searchedListingsNeedUpdate]);
 
   // function handleSearchSubmit(e) {
   //   e.preventDefault();
@@ -178,6 +179,16 @@ function Listings() {
   };
 
   let filterTags = [
+    {
+      label: `Search: ${search.savedSearchValue}`,
+      onDeleteClick: () => {
+        dispatch(setDraftSearchValue(""));
+        dispatch(setSavedSearchValue(""));
+        dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+        // dispatch(setFiltersUpdated(true));
+      },
+      active: search.savedSearchValue != "",
+    },
     {
       label: `State: ${filters.saved.state}`,
       onDeleteClick: () => {
@@ -266,6 +277,11 @@ function Listings() {
           <div className="listings-controls">
             {location.pathname == "/" && (
               <button
+                title={
+                  modals.filtersSidebarToggled
+                    ? "Hide Filters Sidebar"
+                    : "Show Filters Sidebar"
+                }
                 className="filters-button"
                 onClick={() =>
                   dispatch(
@@ -356,6 +372,7 @@ function Listings() {
             <div className="heading">
               <h3>Select a category</h3>
               <button
+                title="Close this menu"
                 className="button"
                 onClick={() =>
                   dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
@@ -365,6 +382,7 @@ function Listings() {
               </button>
             </div>
             <CategorySelector
+              forModal={true}
               categories={categories}
               setCategories={setCategories}
               selectedCategory={selectedCategory}
@@ -391,15 +409,16 @@ function Listings() {
                       category: selectedCategory,
                     };
 
-                    console.log(newDraft)
+                    console.log(newDraft);
 
                     if (!selectedCategory.is_folder) {
                       dispatch(
                         setFilters({ ...filters, draft: newDraft, saved: newDraft })
                       );
                       dispatch(setFiltersUpdated(true));
-                      dispatch(toggleModal({key: 'categorySelectorModal', value: false}))
-
+                      dispatch(
+                        toggleModal({ key: "categorySelectorModal", value: false })
+                      );
                     }
                   } catch (error) {
                     setListingsError(error);

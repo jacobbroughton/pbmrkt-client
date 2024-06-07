@@ -16,6 +16,7 @@
 
 .item h1 {
   font-size: 1.5rem;
+  margin-right: 35px;
 }
 
 .item-images {
@@ -36,7 +37,7 @@
   flex-grow: 1;
   overflow: hidden;
   border-radius: 3px;
-  border: 1px solid grey;
+  border: 1px solid #555;
   padding: 10px;
   background-color: #444;
   display: flex;
@@ -161,6 +162,7 @@
   min-height: 350px;
   overflow: hidden;
   background-color: #444;
+  border: 1px solid #555;
   padding: 10px;
   border-radius: 5px;
 }
@@ -183,6 +185,7 @@
   align-items: flex-start;
   /* padding-bottom: 20px; */
   position: relative;
+  gap: 5px;
 }
 
 .item .content .primary-info .edit-item-menu-toggle {
@@ -201,7 +204,7 @@
 }
 
 .item .content .primary-info .edit-item-menu-toggle svg:hover {
-  fill: yellow;;
+  fill: yellow;
 }
 
 /* .item .content .price-change-modal-toggle {
@@ -264,7 +267,7 @@
   border-spacing: 0;
   /* margin: 15px 0 0 0; */
   padding: 0;
-  max-width: 300px;
+  /* max-width: 300px; */
 }
 
 .item .content table.metadata tr td {
@@ -288,15 +291,15 @@
   /* max-width: 150px; */
   /* width: 100px; */
   font-weight: 500;
-  background-color: #666;
+  background-color: #555;
   color: white;
-  padding-right: 15px;
+  /* padding-right: 15px; */
 }
 
 .item .content table.metadata tr td:nth-child(2) {
   padding-left: 15px;
 }
-*/ .item .content .vertical-divider {
+.item .content .vertical-divider {
   height: 1rem;
   width: 1px;
   background-color: #4ad493;
@@ -314,10 +317,18 @@
 
 .item .content .no-details-warning {
   /* border: 1px solid grey; */
-  padding-left: 10px;
   /* border-radius: 3px; */
-  max-width: 300px;
-  border-left: var(--yellow) 2px solid;
+  max-width: 375px;
+  border: var(--yellow) 2px solid;
+  background-color: #555;
+  border: grey 1px solid;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.item .content .no-details-warning svg {
+  fill: var(--red);
+  width: 15px;
 }
 
 /* No details were provided */
@@ -326,6 +337,9 @@
   /* border-left: 3px solid var(--yellow); */
   /* padding-left: 5px; */
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px
 }
 
 /* No details Advice */

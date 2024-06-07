@@ -33,6 +33,7 @@ const ListingGrid = ({ listings, accountForSidebar }) => {
           </div>
         </Link>
       ))}
+ 
     </div>
   );
 };

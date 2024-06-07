@@ -160,6 +160,7 @@
 
 .filters > .filter-items .filter-item .select-category-modal-toggle {
   justify-content: space-between;
+  width: 100%;;
 }
 
 .filters > .filter-items .filter-item .select-category-modal-toggle svg {

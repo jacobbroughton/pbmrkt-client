@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import XIcon from "../Icons/XIcon";
 
 const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
+  const formRef = useRef();
   const { user } = useSelector((state) => state.auth);
   const [brand, setBrand] = useState(item.info.brand);
   const [model, setModel] = useState(item.info.model);
@@ -88,9 +89,23 @@ const EditItemModal = ({ item, setItem }) => {
         console.log(data);
       }
 
+      const { data: data2, error: error3 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
+
+      if (error3) throw error.message;
+
+      // setItem({
+      //   photos: data,
+      //   info: { ...data[0], profile_picture_url: data2?.publicUrl },
+      // });
+
       console.log(data[0]);
 
-      setItem({ info: data[0], photos: item.photos });
+      setItem({
+        info: { ...data[0], profile_picture_url: data2?.publicUrl },
+        photos: item.photos,
+      });
       setLoading(false);
       dispatch(toggleModal({ key: "editItemModal", value: false }));
     } catch (error) {
@@ -115,18 +130,29 @@ const EditItemModal = ({ item, setItem }) => {
     <>
       <div className="modal edit-item">
         {error && <p className="small-text error-text">{error.toString()}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className='heading'>
-          <h2>Edit Item</h2>
-          <button
-            onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
-            type="button"
-            className="button close"
-          >
-            Close <XIcon/>
-          </button>
+        <button
+          type="submit"
+          onClick={() => {
+            // formRef.current.submit();
+          }}
+          form="edit-item-form"
+        >
+          Submit Form
+        </button>
+        <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
+          <div className="heading">
+            <h2>Edit Item</h2>
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "editItemModal", value: false }))
+              }
+              type="button"
+              className="button close"
+            >
+              Close <XIcon />
+            </button>
           </div>
-          
+
           {/* <button className="button" onClick={() => handleDelete()}>
                 Delete Listing
               </button>
@@ -145,8 +171,6 @@ const EditItemModal = ({ item, setItem }) => {
                 {markAsSoldLoading ? "..." : ""}
               </button>  */}
           <div className="form-block">
-            
-
             <fieldset>
               <div className="form-group">
                 <label>What is this item?</label>
@@ -343,24 +367,25 @@ const EditItemModal = ({ item, setItem }) => {
                 </div>
               </div>
             </fieldset>
-            <div className="horizontal-divider"></div>
-            {loading ? (
-              <p>Submitting...</p>
-            ) : (
-              <button type="submit" disabled={submitDisabled}>
-                Submit
-              </button>
-            )}
+            {/* <div className="horizontal-divider"></div> */}
+            <div className="controls">
+              {loading ? (
+                <p>Submitting...</p>
+              ) : (
+                <button type="submit" disabled={submitDisabled}>
+                  Submit
+                </button>
+              )}
+            </div>
           </div>
         </form>
       </div>
       <ModalOverlay
-      zIndex={5}
+        zIndex={5}
         onClick={() => {
           dispatch(toggleModal({ key: "editItemModal", value: false }));
         }}
       />
-     
     </>
   );
 };

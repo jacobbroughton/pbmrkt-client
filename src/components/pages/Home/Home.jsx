@@ -22,6 +22,7 @@ import {
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import XIcon from "../../ui/Icons/XIcon.jsx";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
+import Footer from "../../ui/Footer/Footer.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -353,7 +354,7 @@ function Listings() {
               {!listingsInitiallyLoading && listingsLoading && (
                 <LoadingOverlay zIndex={3} />
               )}
-              )
+              <Footer />
             </>
           ) : (
             <>
@@ -361,7 +362,8 @@ function Listings() {
                 listings={listings}
                 accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
               />
-              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />})
+              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />}
+              <Footer />
             </>
           )}
         </div>

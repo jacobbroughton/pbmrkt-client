@@ -32,6 +32,7 @@
   flex-direction: column;
   /* gap: 40px; */
   width: 100%;
+
 }
 
 .edit-item form .button.close {
@@ -361,16 +362,19 @@
   -moz-appearance: none;
 }
 
-.edit-item form .submit-container {
+/* .edit-item form .submit-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  position: absolute;
+  bottom: 0;
+  background-color: green;
 }
 
 .edit-item form .submit-container .warning {
   font-size: 0.875rem;
   color: var(--red);
-}
+} */
 
 .edit-item form button[type="submit"] {
   background-color: var(--lightgreen);
@@ -497,6 +501,17 @@
 .edit-item form .edit-iteming-item-images .image-container .cover-button:hover {
   border-color: #aaa;
   cursor: pointer;
+}
+
+
+/* * Controls */
+.edit-item .controls {
+  position: absolute;
+  bottom: 0;
+  background-color: #555;;
+  width: 100%;
+  border-top: #555 1px solid;
+  padding: 10px;
 }
 
 @media screen and (max-width: 610px) {

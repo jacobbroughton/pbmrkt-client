@@ -16,6 +16,9 @@ import {
 import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 import MagicWand from "../../ui/Icons/MagicWand.jsx";
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
+import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import { toggleModal } from "../../../redux/modals.js";
+import EditIcon from "../../ui/Icons/EditIcon.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -51,7 +54,9 @@ const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
 
 const Sell = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth);
+  const modals = useSelector((state) => state.modals);
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(randomBrand);
@@ -106,7 +111,6 @@ const Sell = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
 
-  const { session } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getDefaultSelections();
@@ -779,40 +783,17 @@ const Sell = () => {
           <fieldset>
             <div className={`form-group`}>
               <label>Select the most accurate category for this item</label>
-              {/* <button
-                type="button"
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      key: "categorySelectorModal",
-                      value: !modals.categorySelectorModalToggled,
-                    })
-                  )
-                }
-              >
-                Toggle modal
-              </button>
-              <p>{selectedCategory?.label}</p> */}
-              {/* {modals.categorySelectorModalToggled && ( */}
-              {/* <> */}
-              {/* <div className="modal category-selector-modal">
-                <div className="heading">
-                  <h1>Select a Category</h1>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      dispatch(
-                        toggleModal({
-                          key: "categorySelectorModal",
-                          value: false,
-                        })
-                      )
-                    }
-                  >
-                    Close
-                  </button> */}
-              {/* </div> */}
-              <CategorySelector
+              <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+              }
+              className="button select-category-modal-toggle"
+              type="button"
+              title={`Click this to open a menu and select an item category to filter your results on`}
+            >
+              {selectedCategory?.value ?? "Select a Category"} <EditIcon />{" "}
+            </button>
+              {/* <CategorySelector
                 categories={categories}
                 setCategories={setCategories}
                 setSelectedCategory={setSelectedCategory}
@@ -825,20 +806,7 @@ const Sell = () => {
                     setCategories(setCategoryChecked(category, categories));
                   }
                 }}
-              />
-              {/* </div>
-              <ModalOverlay
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      key: "categorySelectorModal",
-                      value: false,
-                    })
-                  )
-                }
               /> */}
-              {/* </> */}
-              {/* )} */}
             </div>
           </fieldset>
           <fieldset>
@@ -969,6 +937,22 @@ const Sell = () => {
           </div>
           <div className="success-modal-overlay"></div>
         </>
+      )}
+      {modals.categorySelectorModalToggled && (
+        <CategorySelectorModal
+          categories={categories}
+          setCategories={setCategories}
+          setSelectedCategory={setSelectedCategory}
+          selectedCategory={selectedCategory}
+          handleCategoryClick={(category) => {
+            if (category.is_folder) {
+              console.log("folder", category);
+              setCategories(toggleCategoryFolder(category, categories));
+            } else {
+              setCategories(setCategoryChecked(category, categories));
+            }
+          }}
+        />
       )}
       {loading && <LoadingOverlay message="Listing your item for sale..." />}
     </div>

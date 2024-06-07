@@ -618,5 +618,7 @@
 }
 
 
-.category-selector-modal {
+.sell form .select-category-modal-toggle {
+  justify-content: space-between;
+  width: 100%;;
 }

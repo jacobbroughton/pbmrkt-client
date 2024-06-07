@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import XIcon from "../Icons/XIcon";
@@ -130,29 +130,18 @@ const EditItemModal = ({ item, setItem }) => {
     <>
       <div className="modal edit-item">
         {error && <p className="small-text error-text">{error.toString()}</p>}
-        <button
-          type="submit"
-          onClick={() => {
-            // formRef.current.submit();
-          }}
-          form="edit-item-form"
-        >
-          Submit Form
-        </button>
-        <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
-          <div className="heading">
-            <h2>Edit Item</h2>
-            <button
-              onClick={() =>
-                dispatch(toggleModal({ key: "editItemModal", value: false }))
-              }
-              type="button"
-              className="button close"
-            >
-              Close <XIcon />
-            </button>
-          </div>
 
+        <div className="heading">
+          <h2>Edit Item</h2>
+          <button
+            onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
+            type="button"
+            className="button close"
+          >
+            Close <XIcon />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
           {/* <button className="button" onClick={() => handleDelete()}>
                 Delete Listing
               </button>
@@ -368,7 +357,7 @@ const EditItemModal = ({ item, setItem }) => {
               </div>
             </fieldset>
             {/* <div className="horizontal-divider"></div> */}
-            <div className="controls">
+            {/* <div className="controls">
               {loading ? (
                 <p>Submitting...</p>
               ) : (
@@ -376,9 +365,21 @@ const EditItemModal = ({ item, setItem }) => {
                   Submit
                 </button>
               )}
-            </div>
+            </div> */}
           </div>
         </form>
+        <div className="controls">
+          <button
+            type="submit"
+            className="button"
+            onClick={() => {
+              // formRef.current.submit();
+            }}
+            form="edit-item-form"
+          >
+            Submit
+          </button>
+        </div>
       </div>
       <ModalOverlay
         zIndex={5}

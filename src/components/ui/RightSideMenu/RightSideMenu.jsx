@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import HomeIcon from "../Icons/HomeIcon";
 import DollarSignIcon from "../Icons/DollarSignIcon";
 import DollarBillIcon from "../Icons/DollarBillIcon";
+import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
 const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const RightSideMenu = () => {
   const rightSideMenuRef = useRef(null);
   const { session, user } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   useEffect(() => {
     function handler(e) {
@@ -39,56 +41,63 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
+      setLogoutLoading(true);
+
       const { data, error } = await supabase.auth.signOut();
 
       if (error) throw error.message;
 
-      if (!data) navigate("/login");
+      navigate("/");
 
       dispatch(toggleModal({ key: "rightSideMenu", value: false }));
     } catch (error) {
       console.error(error);
       setError(error.toString());
     }
+
+    setLogoutLoading(false);
   }
 
   return (
-    <div className="right-side-menu" ref={rightSideMenuRef}>
-      {error && <p className="error-text small-text">{error}</p>}
-      <Link
-        to={`/profile`}
-        className="menu-item"
-        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
-      >
-        <div className="profile-link">
-          <img className="profile-picture" src={user.profile_picture_url} />
-          <div className="info">
-            <label>View Profile</label>
-            <p className="user-email">{session?.user.username}</p>
+    <>
+      <div className="right-side-menu" ref={rightSideMenuRef}>
+        {error && <p className="error-text small-text">{error}</p>}
+        <Link
+          to={`/profile`}
+          className="menu-item"
+          onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+        >
+          <div className="profile-link">
+            <img className="profile-picture" src={user.profile_picture_url} />
+            <div className="info">
+              <label>View Profile</label>
+              <p className="user-email">{session?.user.username}</p>
+            </div>
           </div>
-        </div>
-      </Link>
-      <Link
-        to={`/`}
-        className="menu-item"
-        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
-      >
-        <HomeIcon />
-        <label>Home</label>
-      </Link>
-      <Link
-        to={`/sell`}
-        className="menu-item"
-        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
-      >
-        <DollarBillIcon/>
+        </Link>
+        <Link
+          to={`/`}
+          className="menu-item"
+          onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+        >
+          <HomeIcon />
+          <label>Home</label>
+        </Link>
+        <Link
+          to={`/sell`}
+          className="menu-item"
+          onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+        >
+          <DollarBillIcon />
           <label>Sell</label>
-      </Link>
-      <button className="menu-item logout" onClick={handleLogout}>
-        <LogOutIcon />
-        Logout
-      </button>
-    </div>
+        </Link>
+        <button className="menu-item logout" onClick={handleLogout}>
+          <LogOutIcon />
+          Logout
+        </button>
+      </div>
+      {logoutLoading && <LoadingOverlay/>}
+    </>
   );
 };
 export default RightSideMenu;

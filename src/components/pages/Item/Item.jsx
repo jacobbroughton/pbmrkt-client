@@ -276,38 +276,6 @@ const Item = () => {
           <div className="modal-overlay"></div>
         </>
       )}
-      {isAdmin ? (
-        <>
-          <div className="seller-controls">
-            {/* <p>Seller Controls</p> */}
-            {/* <button
-                className="edit-item-menu-toggle"
-                onClick={() => setEditItemMenuToggled(!editItemMenuToggled)}
-              >
-                <ThreeDots />
-              </button> */}
-            {/* <button className="button" onClick={() => handleDelete()}>
-                Delete Listing
-              </button>
-              <button className="button" onClick={() => handleEditButtonClick()}>
-                Edit
-              </button>
-              <button
-                className="button"
-                onClick={() =>
-                  handleStatusChange(
-                    item.info.status == "Available" ? "Sold" : "Available"
-                  )
-                }
-              >
-                Mark as {item.info.status == "Available" ? "Sold" : "Available"}{" "}
-                {markAsSoldLoading ? "..." : ""}
-              </button> */}
-          </div>
-        </>
-      ) : (
-        false
-      )}
 
       <div className="item-images">
         <div className="main-image-parent">
@@ -336,21 +304,23 @@ const Item = () => {
         <div className="images-and-info">
           {/* Images */}
           <div className="primary-info">
-            <button
-            title='Modify the properties of this item'
-              type="button"
-              className="edit-item-menu-toggle"
-              onClick={() =>
-                dispatch(
-                  toggleModal({
-                    key: "editItemModal",
-                    value: !modals.editItemMenuToggled,
-                  })
-                )
-              }
-            >
-              <ThreeDots />
-            </button>
+            {isAdmin && (
+              <button
+                title="Modify the properties of this item"
+                type="button"
+                className="edit-item-menu-toggle"
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      key: "editItemModal",
+                      value: !modals.editItemMenuToggled,
+                    })
+                  )
+                }
+              >
+                <ThreeDots />
+              </button>
+            )}
             {editItemMenuToggled && <div></div>}
             <h1>{item.info.what_is_this}</h1>
             <div className="price-and-toggle">

@@ -17,7 +17,7 @@ const CategorySelector = ({
 }) => {
   // const [categories, setCategories] = useState(initialCategories);
   return (
-    <div className="category-selector">
+    <div className={`category-selector`}>
       <div className="category-list-buttons">
         <p className={`selected-category ${selectedCategory ? "" : "red"}`}>
           {/* {selectedCategory?.path || "Select a Category"} */}

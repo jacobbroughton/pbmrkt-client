@@ -47,7 +47,7 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
 
     try {
       const { data, error } = await supabase.rpc("add_review", {
-        p_reviewer_id: user.id,
+        p_reviewer_id: user.auth_id,
         p_reviewee_id: seller.auth_id,
         p_rating: rating,
         p_title: title,

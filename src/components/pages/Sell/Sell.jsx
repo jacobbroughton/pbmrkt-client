@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
@@ -10,18 +9,13 @@ import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
 import {
   capitalizeWords,
-  collapseAllCategoryFolders,
-  expandAllCategoryFolders,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
 import MagicWand from "../../ui/Icons/MagicWand.jsx";
 import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
-import { categories as initialCategories } from "../../../utils/categories.js";
-import { toggleModal } from "../../../redux/modals.js";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -50,18 +44,14 @@ const modelArr = [
 ];
 
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
-const conditionArr = ["New", "Used"];
 
 const randomBrand = brandArr[Math.floor(Math.random() * brandArr.length)];
 const randomModel = modelArr[Math.floor(Math.random() * modelArr.length)];
 const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
-const randomCondition = conditionArr[Math.floor(Math.random() * conditionArr.length)];
 
 const Sell = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(randomBrand);
@@ -369,8 +359,6 @@ const Sell = () => {
 
         tempImages.push(data22[0]);
 
-  
-
         index += 1;
         setNumPhotosUploaded(index);
       }
@@ -540,7 +528,7 @@ const Sell = () => {
   }
 
   const submitDisabled =
-  submitLoading || 
+    submitLoading ||
     !selectedCategory ||
     photos.length == 0 ||
     !state ||

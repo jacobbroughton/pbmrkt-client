@@ -122,7 +122,7 @@ const UserProfile = () => {
       const file = e.target.files[0];
       const { data, error } = await supabase.storage
         .from("profile_pictures")
-        .upload(`${session.user.id}/${thisUploadUUID}`, file, {
+        .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
           cacheControl: "3600",
           upsert: false,
         });
@@ -148,7 +148,7 @@ const UserProfile = () => {
         p_generated_id: data.id,
         p_full_path: data.fullPath,
         p_path: data.path,
-        p_user_id: session.user.id,
+        p_user_id: user.auth_id,
       });
       if (error3) throw error3.message;
 

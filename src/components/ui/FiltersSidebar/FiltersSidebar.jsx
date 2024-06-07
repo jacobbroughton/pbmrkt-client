@@ -3,7 +3,11 @@ import useWindowSize from "../../../utils/useWindowSize.js";
 import DoubleArrow from "../Icons/DoubleArrow.jsx";
 import UndoIcon from "../Icons/UndoIcon.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import {
+  capitalizeWords,
+  setCategoryChecked,
+  toggleCategoryFolder,
+} from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import {
@@ -17,13 +21,16 @@ import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import WarningCircle from "../Icons/WarningCircle.jsx";
-import "./FiltersSidebar.css"
+import CategorySelector from "../CategorySelector/CategorySelector.jsx";
+import "./FiltersSidebar.css";
+import EditIcon from "../Icons/EditIcon.jsx";
 
-const FiltersSidebar = ({ allFiltersDisabled }) => {
+const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -199,6 +206,30 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
         </div>
         <div className="filter-items">
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+            <div className="label-and-reset">
+              <label>By Category</label>
+              {filters.draft.category && <button
+                type="button"
+                className="reset-button"
+                onClick={() => {
+                  dispatch(resetFilter("category"));
+                  dispatch(setFiltersUpdated(true))
+                }}
+              >
+                Reset
+              </button>}
+            </div>
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+              }
+              className="button select-category-modal-toggle"
+              type="button"
+            >
+              {filters.draft.category?.value ?? "Select a Category"} <EditIcon />{" "}
+            </button>
+          </div>
+          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
                 <label>Min. Price</label>
@@ -298,6 +329,7 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
               ))}
             </select>
           </div>
+
           <div
             className={`filter-item ${
               allFiltersDisabled || filters.draft.state == "All" ? "disabled" : ""

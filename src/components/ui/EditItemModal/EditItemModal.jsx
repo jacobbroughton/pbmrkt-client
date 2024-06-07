@@ -3,10 +3,12 @@ import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import XIcon from "../Icons/XIcon";
 
 const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth)
+  const { user } = useSelector((state) => state.auth);
   const [brand, setBrand] = useState(item.info.brand);
   const [model, setModel] = useState(item.info.model);
   const [price, setPrice] = useState(item.info.price);
@@ -15,9 +17,7 @@ const EditItemModal = ({ item, setItem }) => {
   const [shipping, setShipping] = useState(item.info.shipping);
   const [trades, setTrades] = useState(item.info.trades);
   const [shippingCost, setShippingCost] = useState(item.info.shipping_cost);
-  const [buyerPaysShipping, setBuyerPaysShipping] = useState(
-    item.info.shipping_cost > 0
-  );
+  const [buyerPaysShipping, setBuyerPaysShipping] = useState(item.info.shipping_cost > 0);
   const [negotiable, setNegotiable] = useState(item.info.negotiable);
   const [whatIsThisItem, setWhatIsThisItem] = useState(item.info.what_is_this);
   const [loading, setLoading] = useState(false);
@@ -80,15 +80,15 @@ const EditItemModal = ({ item, setItem }) => {
           p_new_price: price,
           p_prev_shipping_price: item.info.shipping_cost,
           p_new_shipping_price: shippingCost,
-          p_user_id: user.auth_id
+          p_user_id: user.auth_id,
         });
 
-        if (error) throw error.message
+        if (error) throw error.message;
 
-        console.log(data)
+        console.log(data);
       }
 
-      console.log(data[0])
+      console.log(data[0]);
 
       setItem({ info: data[0], photos: item.photos });
       setLoading(false);
@@ -116,15 +116,36 @@ const EditItemModal = ({ item, setItem }) => {
       <div className="modal edit-item">
         {error && <p className="small-text error-text">{error.toString()}</p>}
         <form onSubmit={handleSubmit}>
+          <div className='heading'>
+          <h2>Edit Item</h2>
           <button
             onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
             type="button"
             className="button close"
           >
-            Close
+            Close <XIcon/>
           </button>
+          </div>
+          
+          {/* <button className="button" onClick={() => handleDelete()}>
+                Delete Listing
+              </button>
+              <button className="button" onClick={() => handleEditButtonClick()}>
+                Edit
+              </button>
+              <button
+                className="button"
+                onClick={() =>
+                  handleStatusChange(
+                    item.info.status == "Available" ? "Sold" : "Available"
+                  )
+                }
+              >
+                Mark as {item.info.status == "Available" ? "Sold" : "Available"}{" "}
+                {markAsSoldLoading ? "..." : ""}
+              </button>  */}
           <div className="form-block">
-            <h2>Item Details</h2>
+            
 
             <fieldset>
               <div className="form-group">
@@ -333,12 +354,13 @@ const EditItemModal = ({ item, setItem }) => {
           </div>
         </form>
       </div>
-      <div
-        className="modal-overlay"
+      <ModalOverlay
+      zIndex={5}
         onClick={() => {
           dispatch(toggleModal({ key: "editItemModal", value: false }));
         }}
-      ></div>
+      />
+     
     </>
   );
 };

@@ -20,8 +20,6 @@ const Comment = ({
   setError,
   getComments,
 }) => {
-  const { session } = useSelector((state) => state.auth);
-
 
   return (
     <div
@@ -47,7 +45,9 @@ const Comment = ({
         </div>
         <div className="comment-contents">
           <div className="comment-header">
-            <Link className="tiny-text bold"  to={`/user/${comment.username}`}>{comment.username}</Link>{" "}
+            <Link className="tiny-text bold" to={`/user/${comment.username}`}>
+              {comment.username}
+            </Link>{" "}
             <p
               className="tiny-text"
               title={new Date(comment.created_dttm).toLocaleString()}
@@ -58,7 +58,7 @@ const Comment = ({
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
           {comment.eff_status &&
-          comment.created_by_id == session?.user.id &&
+          // comment.created_by_id == session?.user.id &&
           comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button

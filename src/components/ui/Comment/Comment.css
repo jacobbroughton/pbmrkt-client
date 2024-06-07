@@ -135,6 +135,11 @@
   align-items: center;
 }
 
+.comment .controls button:hover,
+.comment .comment-form .buttons button:hover {
+  background-color: transparent;
+}
+
 .comment .controls button:not(:disabled),
 .comment .comment-form .buttons button:not(:disabled) {
   color: white;

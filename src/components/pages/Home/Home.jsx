@@ -10,10 +10,17 @@ import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
+import { resetFilter, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
+import {
+  nestItemCategories,
+  setCategoryChecked,
+  toggleCategoryFolder,
+} from "../../../utils/usefulFunctions.js";
+import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
+import XIcon from "../../ui/Icons/XIcon.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -25,11 +32,12 @@ function Listings() {
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
   const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  const [searchValue, setSearchValue] = useState("");
   const [listingsError, setListingsError] = useState(null);
+  const [categories, setCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   // const [views, setViews] = useState([
   //   {
   //     id: 0,
@@ -126,6 +134,7 @@ function Listings() {
   }, []);
 
   useEffect(() => {
+    getItemCategories();
     getListings(search.savedSearchValue);
   }, [sort]);
 
@@ -145,6 +154,22 @@ function Listings() {
   //   getListings(draftSearchValue);
   // }
 
+  async function getItemCategories() {
+    try {
+      const { data, error } = await supabase.rpc("get_item_categories");
+
+      if (error) throw error.message;
+
+      console.log("categories", data);
+
+      const nestedItemCategories = nestItemCategories(data);
+
+      setCategories(nestedItemCategories);
+    } catch (error) {
+      console.error(error);
+      setListingsError(error);
+    }
+  }
   const numChecked = {
     conditionOptions: filters.saved.conditionOptions.filter((op) => op.checked).length,
     shippingOptions: filters.saved.shippingOptions.filter((op) => op.checked).length,
@@ -216,8 +241,11 @@ function Listings() {
       <div className="sidebar-and-grid">
         {modals.filtersSidebarToggled && (
           <>
-            {/* <FiltersSidebar allFiltersDisabled={listings.length == 0} /> */}
-            <FiltersSidebar allFiltersDisabled={false} />
+            <FiltersSidebar
+              allFiltersDisabled={false}
+              categories={categories}
+              setCategories={setCategories}
+            />
             {windowSize.width <= 625 && (
               <ModalOverlay
                 zIndex={4}
@@ -306,8 +334,10 @@ function Listings() {
                 blinking={false}
                 heightPx={null}
               />
-              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay zIndex={3}/>})
-
+              {!listingsInitiallyLoading && listingsLoading && (
+                <LoadingOverlay zIndex={3} />
+              )}
+              )
             </>
           ) : (
             <>
@@ -320,6 +350,76 @@ function Listings() {
           )}
         </div>
       </div>
+      {modals.categorySelectorModalToggled && (
+        <>
+          <div className="category-selector-modal modal">
+            <div className="heading">
+              <h3>Select a category</h3>
+              <button
+                className="button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+                }
+              >
+                Close <XIcon />
+              </button>
+            </div>
+            <CategorySelector
+              categories={categories}
+              setCategories={setCategories}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              handleCategoryClick={(category) => {
+                if (category.is_folder) {
+                  console.log("folder", category);
+                  setCategories(toggleCategoryFolder(category, categories));
+                } else {
+                  setCategories(setCategoryChecked(category, categories));
+                }
+              }}
+            />
+            <div className="buttons">
+              <button
+                className="button"
+                type="button"
+                onClick={() => {
+                  try {
+                    if (!selectedCategory) throw "no category was selected";
+
+                    const newDraft = {
+                      ...filters.draft,
+                      category: selectedCategory,
+                    };
+
+                    console.log(newDraft)
+
+                    if (!selectedCategory.is_folder) {
+                      dispatch(
+                        setFilters({ ...filters, draft: newDraft, saved: newDraft })
+                      );
+                      dispatch(setFiltersUpdated(true));
+                      dispatch(toggleModal({key: 'categorySelectorModal', value: false}))
+
+                    }
+                  } catch (error) {
+                    setListingsError(error);
+                  }
+                }}
+                disabled={!selectedCategory || selectedCategory?.is_folder}
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+
+          <ModalOverlay
+            zIndex={5}
+            onClick={() =>
+              dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+            }
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -158,6 +158,14 @@
   text-decoration: underline;
 }
 
+.filters > .filter-items .filter-item .select-category-modal-toggle {
+  justify-content: space-between;
+}
+
+.filters > .filter-items .filter-item .select-category-modal-toggle svg {
+  width: 15px
+}
+
 .filters > .filter-items .filter-item.disabled label {
   color: grey;
 }

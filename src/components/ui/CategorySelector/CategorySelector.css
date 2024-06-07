@@ -124,11 +124,17 @@
   border-bottom: 0;
 } */
 
+
 .category-selector .categories-list-container button.category-button .label-and-arrow {
   display: flex;
   justify-content: flex-start;
   gap: 10px;
   width: 100%;
+  white-space: nowrap;
+}
+
+.category-selector .categories-list-container button.category-button:not(.is-folder) .label-and-arrow {
+  gap: 100px;
 }
 
 .category-selector .categories-list-container button.category-button svg.caret {

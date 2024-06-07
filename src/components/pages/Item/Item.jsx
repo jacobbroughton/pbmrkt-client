@@ -14,6 +14,7 @@ import { toggleModal } from "../../../redux/modals";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import "./Item.css";
 import XIcon from "../../ui/Icons/XIcon";
+import ThreeDots from "../../ui/Icons/ThreeDots";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Item = () => {
   const [localComments, setLocalComments] = useState(null);
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
+  const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
 
   useEffect(() => {
     async function getItem() {
@@ -275,9 +277,14 @@ const Item = () => {
       {isAdmin ? (
         <>
           <div className="seller-controls">
-            <p>Seller Controls</p>
-            <div className="seller-buttons">
-              <button className="button" onClick={() => handleDelete()}>
+            {/* <p>Seller Controls</p> */}
+            {/* <button
+                className="edit-item-menu-toggle"
+                onClick={() => setEditItemMenuToggled(!editItemMenuToggled)}
+              >
+                <ThreeDots />
+              </button> */}
+            {/* <button className="button" onClick={() => handleDelete()}>
                 Delete Listing
               </button>
               <button className="button" onClick={() => handleEditButtonClick()}>
@@ -293,41 +300,55 @@ const Item = () => {
               >
                 Mark as {item.info.status == "Available" ? "Sold" : "Available"}{" "}
                 {markAsSoldLoading ? "..." : ""}
-              </button>
-            </div>
+              </button> */}
           </div>
         </>
       ) : (
         false
       )}
 
+      <div className="item-images">
+        <div className="main-image-parent">
+          {selectedPhoto ? (
+            <img className="item-main-image" src={selectedPhoto.url} />
+          ) : (
+            <div className="main-image-placeholder"></div>
+          )}
+        </div>
+        {item.photos.length > 1 && (
+          <div className="item-thumbnails">
+            {item.photos.map((photo) => (
+              <img
+                key={photo.id}
+                className={`item-thumbnail-image ${
+                  photo.id === selectedPhoto?.id ? "selected" : ""
+                }`}
+                onClick={() => setSelectedPhoto(photo)}
+                src={photo.url}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       <div className="content">
         <div className="images-and-info">
           {/* Images */}
-          <div className="item-images">
-            <div className="main-image-parent">
-              {selectedPhoto ? (
-                <img className="item-main-image" src={selectedPhoto.url} />
-              ) : (
-                <div className="main-image-placeholder"></div>
-              )}
-            </div>
-            {item.photos > 1 && (
-              <div className="item-thumbnails">
-                {item.photos.map((photo) => (
-                  <img
-                    key={photo.id}
-                    className={`item-thumbnail-image ${
-                      photo.id === selectedPhoto?.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedPhoto(photo)}
-                    src={photo.url}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
           <div className="primary-info">
+            <button
+              type="button"
+              className="edit-item-menu-toggle"
+              onClick={() =>
+                dispatch(
+                  toggleModal({
+                    key: "editItemModal",
+                    value: !modals.editItemMenuToggled,
+                  })
+                )
+              }
+            >
+              <ThreeDots />
+            </button>
+            {editItemMenuToggled && <div></div>}
             <h1>{item.info.what_is_this}</h1>
             <div className="price-and-toggle">
               <p>
@@ -353,6 +374,20 @@ const Item = () => {
               {item.info.status} as of {getTimeAgo(new Date())}
             </p>
           </div>
+
+          {/* <div className="horizontal-divider"></div> */}
+          {item.info.details ? (
+            <p className="details">{item.info.details}</p>
+          ) : (
+            <div className="no-details-warning">
+              <p>No details were provided</p>
+              <p>
+                Please make sure to request more info from the seller prior to purchasing,
+                so there are no surprises.
+              </p>
+            </div>
+          )}
+
           {/* Metadata */}
           <table className="metadata">
             <tbody>
@@ -374,18 +409,6 @@ const Item = () => {
               </tr>
             </tbody>
           </table>
-          {/* <div className="horizontal-divider"></div> */}
-          {item.info.details ? (
-            <p className="details">{item.info.details}</p>
-          ) : (
-            <div className="no-details-warning">
-              <p>No details were provided</p>
-              <p>
-                Please make sure to request more info from the seller prior to purchasing,
-                so there are no surprises.
-              </p>
-            </div>
-          )}
 
           <div className="seller-info-container">
             <div className="seller-info">

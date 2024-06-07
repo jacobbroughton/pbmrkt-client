@@ -144,15 +144,21 @@
 
 .user-profile-page .picture-and-info .info .name {
   font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-profile-page .picture-and-info .info .username {
   font-weight: 500;
   color: grey;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-profile-page .picture-and-info .info .member-since {
   font-size: 0.875rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-profile-page .picture-and-info .info .edit-profile-button {

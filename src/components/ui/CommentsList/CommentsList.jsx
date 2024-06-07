@@ -16,7 +16,7 @@ const CommentsList = ({
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
   const [newReplyBody, setNewReplyBody] = useState("");
-  const { session } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setLocalComments(passedComments);
@@ -28,7 +28,7 @@ const CommentsList = ({
     try {
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newReplyBody,
-        p_created_by_id: session.user.id,
+        p_created_by_id: user.auth_id,
         p_item_id: repliedComment.item_id,
         p_parent_id: repliedComment.id,
       });

@@ -26,6 +26,7 @@
 .comment .bars-and-content .profile-picture-container {
   margin-right: 10px;
   position: relative;
+  margin-top: 5px;
 }
 
 .comment .bars-and-content .profile-picture-container .profile-picture {
@@ -47,27 +48,63 @@
 }
 
 .comment .bars-and-content .profile-picture-container .thread-bar-target {
-  width: 15px;
+  width: 20px;
   cursor: pointer;
   height: 100%;
   background-color: transparent;
   transform: translateX(-50%);
   position: absolute;
   left: 50%;
+  top: 0;
 }
 
 .comment .bars-and-content .profile-picture-container .thread-bar {
   width: 2px;
   pointer-events: none;
-  height: 100%;
+  height: calc(100% - 15px);
   background-color: #444;
   transform: translateX(-50%);
   position: absolute;
   left: 50%;
+  top: 0;
+}
+
+.comment .bars-and-content .profile-picture-container .thread-bar svg {
+  fill: var(--bg-primary);
+  padding: 1px 3px;
+  height: 17px;
+  width: 17px;
+  position: absolute;
+  transform: translateX(-50%) !important;
+  left: 50%;
+  display: flex;
+  /* bottom: 0; */
+  top: calc(100% - 5px);
+  background-color: #444;
+  border-radius: 50%;
+  fill: grey;
+  pointer-events: none;
+}
+
+.comment .bars-and-content .profile-picture-container .thread-bar svg.up {
+  transform: translateX(-50%) rotate(180deg) !important;
+}
+
+.comment .bars-and-content .profile-picture-container .thread-bar svg.down {
+  fill: yellow;
+  transform: translateX(-50%) rotate(0deg) !important;
+}
+
+.comment.is-root-level .bars-and-content .profile-picture-container .thread-bar-target {
+  /* height: calc(100% - 45px); */
 }
 
 .thread-bar-target:hover + .thread-bar {
   background-color: #555 !important;
+}
+
+.thread-bar-target:hover + .thread-bar svg {
+  fill: yellow;
 }
 /* .comment .bars-and-content .profile-picture-container .thread-bar:hover {
   background-color: #555;
@@ -159,8 +196,9 @@
 }
 
 .comment .replies-button {
-  color: var(--lightgreen);
+  /* color: var(--lightgreen); */
   display: flex;
+  align-items: center;
   gap: 5px;
   font-weight: 600;
   font-size: 0.875rem;
@@ -171,6 +209,7 @@
 }
 
 .comment .replies-button svg {
-  width: 15px;
+  width: 14px;
   fill: var(--lightgreen);
+  fill: white;
 }

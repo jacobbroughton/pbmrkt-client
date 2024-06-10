@@ -5,6 +5,8 @@ import Chevron from "../Icons/Chevron";
 import SendIcon from "../Icons/SendIcon";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { Link } from "react-router-dom";
+import MinusIcon from "../Icons/MinusIcon";
+import PlusIcon from "../Icons/PlusIcon";
 
 const Comment = ({
   comment,
@@ -20,7 +22,6 @@ const Comment = ({
   setError,
   getComments,
 }) => {
-
   return (
     <div
       key={comment.id}
@@ -33,13 +34,19 @@ const Comment = ({
         ))} */}
         <div className="profile-picture-container">
           <img className="profile-picture" src={comment.profile_picture_url} />
-          {comment.reply_count >= 1 && comment.repliesToggled && (
+          {comment.reply_count >= 1 && (
             <>
               <div
                 className="thread-bar-target"
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
-              <div className="thread-bar"></div>
+              <div className="thread-bar">
+                {comment.repliesToggled ? <MinusIcon/> : <PlusIcon/>}
+                {/* <Chevron
+                  onClick={(e) => handleRepliesClick(e, comment)}
+                  direction={comment.repliesToggled ? "down" : "up"}
+                /> */}
+              </div>
             </>
           )}
         </div>

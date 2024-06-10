@@ -278,139 +278,138 @@ const Item = () => {
             <div className="modal-overlay"></div>
           </>
         )}
-
-        <div className="item-images">
-          <div className="main-image-parent">
-            {selectedPhoto ? (
-              <img className="item-main-image" src={selectedPhoto.url} />
-            ) : (
-              <div className="main-image-placeholder"></div>
+        <div className="images-and-content">
+          <div className="item-images">
+            <div className="main-image-parent">
+              {selectedPhoto ? (
+                <img className="item-main-image" src={selectedPhoto.url} />
+              ) : (
+                <div className="main-image-placeholder"></div>
+              )}
+            </div>
+            {item.photos.length > 1 && (
+              <div className="item-thumbnails">
+                {item.photos.map((photo) => (
+                  <img
+                    key={photo.id}
+                    className={`item-thumbnail-image ${
+                      photo.id === selectedPhoto?.id ? "selected" : ""
+                    }`}
+                    onClick={() => setSelectedPhoto(photo)}
+                    src={photo.url}
+                  />
+                ))}
+              </div>
             )}
           </div>
-          {item.photos.length > 1 && (
-            <div className="item-thumbnails">
-              {item.photos.map((photo) => (
-                <img
-                  key={photo.id}
-                  className={`item-thumbnail-image ${
-                    photo.id === selectedPhoto?.id ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedPhoto(photo)}
-                  src={photo.url}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="content">
-          <div className="images-and-info">
-            {/* Images */}
-            <div className="primary-info">
-              {isAdmin && (
-                <button
-                  title="Modify the properties of this item"
-                  type="button"
-                  className="edit-item-menu-toggle"
-                  onClick={() =>
-                    dispatch(
-                      toggleModal({
-                        key: "editItemModal",
-                        value: !modals.editItemMenuToggled,
-                      })
-                    )
-                  }
-                >
-                  <ThreeDots />
-                </button>
-              )}
-              {editItemMenuToggled && <div></div>}
-              <h1>{item.info.what_is_this}</h1>
-              <div className="price-and-toggle">
-                <p>
-                  ${item.info.price}
-                  {item.info.shipping_cost
-                    ? ` + $${item.info.shipping_cost} shipping`
-                    : " + Free Shipping"}
-                </p>
-                {priceChangeHistory?.length >= 1 && (
+          <div className="content">
+            <div className="images-and-info">
+              {/* Images */}
+              <div className="primary-info">
+                {isAdmin && (
                   <button
-                    className="button price-change-modal-toggle"
+                    title="Modify the properties of this item"
+                    type="button"
+                    className="edit-item-menu-toggle"
                     onClick={() =>
-                      dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                      dispatch(
+                        toggleModal({
+                          key: "editItemModal",
+                          value: !modals.editItemMenuToggled,
+                        })
+                      )
                     }
                   >
-                    Price History
-                    <ChartIcon />
+                    <ThreeDots />
                   </button>
                 )}
-              </div>
-              <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
-                {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                {item.info.status} as of {getTimeAgo(new Date())}
-              </p>
-            </div>
-
-            {/* <div className="horizontal-divider"></div> */}
-            {item.info.details ? (
-              <p className="details">{item.info.details}</p>
-            ) : (
-              <div className="no-details-warning">
-                <p>
-                  <WarningTriangle /> No details were provided
-                </p>
-                <p>
-                  Make sure to request more info from the seller prior to purchasing, so
-                  there are no surprises.
-                </p>
-              </div>
-            )}
-
-            {/* Metadata */}
-            <table className="metadata">
-              <tbody>
-                <tr>
-                  <td>Condition</td>
-                  <td>{item.info.condition}</td>
-                </tr>
-                <tr>
-                  <td>Shipping</td>
-                  <td>{item.info.shipping}</td>
-                </tr>
-                <tr>
-                  <td>Negotiable</td>
-                  <td>{item.info.negotiable}</td>
-                </tr>
-                <tr>
-                  <td>Trades</td>
-                  <td>{item.info.trades}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div className="seller-info-container">
-              <div className="seller-info">
-                <div className="profile-picture-container">
-                  <img className="profile-picture" src={item.info.profile_picture_url} />
-                </div>
-                <div className="text">
-                  <Link
-                    to={`/user/${item.info.created_by_username}`}
-                    className="user-link"
-                  >
-                    {item.info.created_by_username}
-                  </Link>
+                {editItemMenuToggled && <div></div>}
+                <h1>{item.info.what_is_this}</h1>
+                <div className="price-and-toggle">
                   <p>
-                    {item.info.city}, {item.info.state}
+                    ${item.info.price}
+                    {item.info.shipping_cost
+                      ? ` + $${item.info.shipping_cost} shipping`
+                      : " + Free Shipping"}
                   </p>
-
-                  <Stars rating={item.info.seller_rating} />
+                  {priceChangeHistory?.length >= 1 && (
+                    <button
+                      className="button price-change-modal-toggle"
+                      onClick={() =>
+                        dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                      }
+                    >
+                      Price History
+                      <ChartIcon />
+                    </button>
+                  )}
                 </div>
+                <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                  {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+                  {item.info.status} as of {getTimeAgo(new Date())}
+                </p>
               </div>
+
+              {/* <div className="horizontal-divider"></div> */}
+              {item.info.details ? (
+                <p className="details">{item.info.details}</p>
+              ) : (
+                <div className="no-details-warning">
+                  <p>
+                    <WarningTriangle /> No details were provided
+                  </p>
+                  <p>
+                    Make sure to request more info from the seller prior to purchasing, so
+                    there are no surprises.
+                  </p>
+                </div>
+              )}
+
+              {/* Metadata */}
+              <table className="metadata">
+                <tbody>
+                  <tr>
+                    <td>Condition</td>
+                    <td>{item.info.condition}</td>
+                  </tr>
+                  <tr>
+                    <td>Shipping</td>
+                    <td>{item.info.shipping}</td>
+                  </tr>
+                  <tr>
+                    <td>Negotiable</td>
+                    <td>{item.info.negotiable}</td>
+                  </tr>
+                  <tr>
+                    <td>Trades</td>
+                    <td>{item.info.trades}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+
+        <div className="seller-info-container">
+          <div className="seller-info">
+            <div className="profile-picture-container">
+              <img className="profile-picture" src={item.info.profile_picture_url} />
+            </div>
+            <div className="text">
+              <Link to={`/user/${item.info.created_by_username}`} className="user-link">
+                {item.info.created_by_username}
+              </Link>
+              <p>
+                {item.info.city}, {item.info.state}
+              </p>
+
+              <Stars rating={item.info.seller_rating} />
+            </div>
+          </div>
+        </div>
+
         <div className="comments-section">
-          <div className="horizontal-divider"></div>
+          {/* <div className="horizontal-divider"></div> */}
           <h3>Comments</h3>
           {user ? (
             <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
@@ -458,7 +457,7 @@ const Item = () => {
           false
         )}
       </div>
-      <Footer />
+      <Footer marginTopPx={100} />
     </>
   );
 };

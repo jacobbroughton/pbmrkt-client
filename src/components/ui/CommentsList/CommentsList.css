@@ -24,3 +24,20 @@
 .item .comments-section  h3 {
   margin-bottom: 10px;
   }
+
+
+.item .comments-section .no-comments-container {
+  font-size: 0.875rem;
+  border: 1px solid #555;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+.item .comments-section .no-comments-container svg {
+  width: 15px;
+  fill: white;
+}

@@ -12,6 +12,7 @@ import Chevron from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import Footer from "../../ui/Footer/Footer.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -153,200 +154,207 @@ const Register = () => {
     !isValidEmail(email) || username === "" || password === "" || password.length <= 6; //|| phoneNumber == "";
 
   return (
-    <div className="register">
-      {registerError && <div className="error-text">{registerError}</div>}
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit} className="standard">
-        <p>
-          Have an account already? <Link to="/login">Sign in</Link>
-        </p>
+    <>
+      <div className="register">
+        {registerError && <div className="error-text">{registerError}</div>}
+        <h1>Register</h1>
+        <form onSubmit={handleSubmit} className="standard">
+          <p>
+            Have an account already? <Link to="/login">Sign in</Link>
+          </p>
 
-        <div className="form-block">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (!usernameHasBeenInteracted) setUsername(e.target.value.split("@")[0]);
-              }}
-              type="email"
-            />
-            {email == "" ? (
-              <p className="small-text">Email field can't be empty</p>
-            ) : !isValidEmail(email) ? (
-              <p className="error-text small-text">Not a valid email</p>
-            ) : (
-              false
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-and-visible-toggle">
+          <div className="form-block">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
               <input
-                placeholder="Password"
-                type={passwordVisible ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
+                placeholder="Email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (!usernameHasBeenInteracted)
+                    setUsername(e.target.value.split("@")[0]);
+                }}
+                type="email"
               />
-              <button
-                onClick={() => setPasswordVisible(!passwordVisible)}
-                type="button"
-                className="button"
-              >
-                <EyeIcon closed={passwordVisible} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-block">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              placeholder="Username"
-              onChange={(e) => {
-                // setUsernameIsInitial(true);
-                setUsername(e.target.value);
-                // checkForExistingMatchingUsername(e.target.value);
-              }}
-              onClick={() => setUsernameHasBeenInteracted(true)}
-              onFocus={() => setUsernameHasBeenInteracted(true)}
-              value={username}
-            />
-            {!loading &&
-              (usernameExistsLoading ? (
-                <p className="small-text">Checking if this username exists...</p>
-              ) : usernameExists == 1 ? (
-                <p className="small-text error-text">
-                  This username is already attached to an account{" "}
-                </p>
-              ) : !usernameIsInitial ? (
-                <p className="small-text">You're good to use this username</p>
+              {email == "" ? (
+                <p className="small-text">Email field can't be empty</p>
+              ) : !isValidEmail(email) ? (
+                <p className="error-text small-text">Not a valid email</p>
               ) : (
                 false
-              ))}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="phone-number">Phone Number (Optional)</label>
-            <input
-              placeholder="Phone Number"
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              type="tel"
-              value={phoneNumber}
-            />
-          </div>
-        </div>
-        <div className="form-block optional-fields">
-          <button
-            type="button"
-            className={`optional-fields-toggle ${optionalFieldsShowing ? "toggled" : ""}`}
-            onClick={() => setOptionalFieldsShowing(!optionalFieldsShowing)}
-          >
-            <div className="optional-fields-instructions">
-              <p>{optionalFieldsShowing ? "Hide" : "Show"} Optional Fields </p>
-              <p>You can fill these out later from your profile.</p>
+              )}
             </div>
-
-            <Chevron direction={optionalFieldsShowing ? "up" : "down"} />
-          </button>
-          {optionalFieldsShowing && (
-            <div className="form-groups-parent">
-              <div className="form-group">
-                <label htmlFor="first-name">First Name (Optional)</label>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-and-visible-toggle">
                 <input
-                  placeholder="First Name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  value={firstName}
-                  id="first-name"
+                  placeholder="Password"
+                  type={passwordVisible ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                 />
-              </div>
-              <div className="form-group">
-                <label htmlFor="last-name">Last Name (Optional)</label>
-                <input
-                  placeholder="Last Name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  value={lastName}
-                  id="last-name"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="last-name">About You (Optional)</label>
-                <textarea
-                  placeholder="About You"
-                  onChange={(e) => setBio(e.target.value)}
-                  value={bio}
-                  id="bio"
-                />
-              </div>
-              <div className="form-groups">
-                <div className="form-group">
-                  <label htmlFor="email">State</label>
-                  <select
-                    onChange={(e) =>
-                      setState(e.target.value == "All" ? null : e.target.value)
-                    }
-                    value={state}
-                  >
-                    {states.map((childState) => (
-                      <option value={childState} key={childState}>
-                        {childState}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">City</label>
-                  <select
-                    disabled={!state}
-                    onChange={(e) =>
-                      setCity(e.target.value == "All" ? null : e.target.value)
-                    }
-                    value={city?.toUpperCase()}
-                  >
-                    {statesAndCities[state]?.map((innerCity) => (
-                      <option value={innerCity}>{capitalizeWords(innerCity)}</option>
-                    ))}
-                  </select>
-                </div>
+                <button
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  type="button"
+                  className="button"
+                >
+                  <EyeIcon closed={passwordVisible} />
+                </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
 
-        <button type="submit" disabled={submitDisabled}>
-          Submit
-        </button>
-      </form>
-      {modals.verifyUserCheckedEmailModalToggled && (
-        <>
-          <div className="modal confirm-email">
-            <p className="large-text ">Check your email</p>
-            <p className="small-text">
-              An email was just sent to you containing a confirmation link. Click 'confirm
-              my email' and return here or continue through the email.
-            </p>
-            <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
-              I have confirmed my email
+          <div className="form-block">
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                placeholder="Username"
+                onChange={(e) => {
+                  // setUsernameIsInitial(true);
+                  setUsername(e.target.value);
+                  // checkForExistingMatchingUsername(e.target.value);
+                }}
+                onClick={() => setUsernameHasBeenInteracted(true)}
+                onFocus={() => setUsernameHasBeenInteracted(true)}
+                value={username}
+              />
+              {!loading &&
+                (usernameExistsLoading ? (
+                  <p className="small-text">Checking if this username exists...</p>
+                ) : usernameExists == 1 ? (
+                  <p className="small-text error-text">
+                    This username is already attached to an account{" "}
+                  </p>
+                ) : !usernameIsInitial ? (
+                  <p className="small-text">You're good to use this username</p>
+                ) : (
+                  false
+                ))}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone-number">Phone Number (Optional)</label>
+              <input
+                placeholder="Phone Number"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                type="tel"
+                value={phoneNumber}
+              />
+            </div>
+          </div>
+          <div className="form-block optional-fields">
+            <button
+              type="button"
+              className={`optional-fields-toggle ${
+                optionalFieldsShowing ? "toggled" : ""
+              }`}
+              onClick={() => setOptionalFieldsShowing(!optionalFieldsShowing)}
+            >
+              <div className="optional-fields-instructions">
+                <p>{optionalFieldsShowing ? "Hide" : "Show"} Optional Fields </p>
+                <p>You can fill these out later from your profile.</p>
+              </div>
+
+              <Chevron direction={optionalFieldsShowing ? "up" : "down"} />
             </button>
-            <div className="resend-email-container">
-              <p className="small-text">Didn't get an email?</p>
-              <button onClick={handleConfirmationEmailResend}>Resend email</button>
-            </div>
+            {optionalFieldsShowing && (
+              <div className="form-groups-parent">
+                <div className="form-group">
+                  <label htmlFor="first-name">First Name (Optional)</label>
+                  <input
+                    placeholder="First Name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    value={firstName}
+                    id="first-name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="last-name">Last Name (Optional)</label>
+                  <input
+                    placeholder="Last Name"
+                    onChange={(e) => setLastName(e.target.value)}
+                    value={lastName}
+                    id="last-name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="last-name">About You (Optional)</label>
+                  <textarea
+                    placeholder="About You"
+                    onChange={(e) => setBio(e.target.value)}
+                    value={bio}
+                    id="bio"
+                  />
+                </div>
+                <div className="form-groups">
+                  <div className="form-group">
+                    <label htmlFor="email">State</label>
+                    <select
+                      onChange={(e) =>
+                        setState(e.target.value == "All" ? null : e.target.value)
+                      }
+                      value={state}
+                    >
+                      {states.map((childState) => (
+                        <option value={childState} key={childState}>
+                          {childState}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">City</label>
+                    <select
+                      disabled={!state}
+                      onChange={(e) =>
+                        setCity(e.target.value == "All" ? null : e.target.value)
+                      }
+                      value={city?.toUpperCase()}
+                    >
+                      {statesAndCities[state]?.map((innerCity) => (
+                        <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          <ModalOverlay zIndex={4} />
-        </>
-      )}
 
-      {loading && (
-        <LoadingOverlay
-          message={
-            modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"
-          }
-        />
-      )}
-    </div>
+          <button type="submit" disabled={submitDisabled}>
+            Submit
+          </button>
+        </form>
+        {modals.verifyUserCheckedEmailModalToggled && (
+          <>
+            <div className="modal confirm-email">
+              <p className="large-text ">Check your email</p>
+              <p className="small-text">
+                An email was just sent to you containing a confirmation link. Click
+                'confirm my email' and return here or continue through the email.
+              </p>
+              <button onClick={confirmUserCheckedTheirEmail} className="confirm-button">
+                I have confirmed my email
+              </button>
+              <div className="resend-email-container">
+                <p className="small-text">Didn't get an email?</p>
+                <button onClick={handleConfirmationEmailResend}>Resend email</button>
+              </div>
+            </div>
+            <ModalOverlay zIndex={4} />
+          </>
+        )}
+
+        {loading && (
+          <LoadingOverlay
+            message={
+              modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"
+            }
+          />
+        )}
+      </div>
+
+      <Footer />
+    </>
   );
 };
 export default Register;

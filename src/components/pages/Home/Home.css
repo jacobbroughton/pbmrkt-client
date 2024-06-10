@@ -14,6 +14,19 @@
   margin-left: 241px;
 }
 
+.home .listings-section .wtb-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.home .listings-section .wtb-section button {
+  background-color: transparent;
+  padding: 3px 5px;
+  border-radius: 3px;
+  border: 1px solid #555;
+}
+
 .home .listings-controls {
   display: flex;
   width: 100%;

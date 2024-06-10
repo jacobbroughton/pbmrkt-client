@@ -83,6 +83,10 @@ textarea {
   gap: 5px;
 }
 
+.small-text.bold {
+  font-weight: 500;
+}
+
 .small-text.disabled {
   color: grey;
 }
@@ -146,6 +150,7 @@ form.standard {
 
 form.standard .form-block {
   background-color: #444;
+  border: 1px solid #555;
   padding: 10px;
   border-radius: 3px;
   display: flex;
@@ -231,7 +236,8 @@ a:hover {
 }
 
 form.standard button[type="submit"]:disabled {
-  color: #aaa;
+  color: grey;
+  border-color: #555;
   cursor: disabled;
 }
 

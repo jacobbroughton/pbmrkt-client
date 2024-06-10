@@ -23,6 +23,7 @@ import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import XIcon from "../../ui/Icons/XIcon.jsx";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
 import Footer from "../../ui/Footer/Footer.jsx";
+import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -275,6 +276,10 @@ function Listings() {
               : ""
           } listings-section`}
         >
+          {/* <div className="wtb-section">
+            <button>For Sale</button>
+            <button>ISO/WTB/Looking-For</button>
+          </div> */}
           <div className="listings-controls">
             {location.pathname == "/" && (
               <button
@@ -369,77 +374,91 @@ function Listings() {
         </div>
       </div>
       {modals.categorySelectorModalToggled && (
-        <>
-          <div className="category-selector-modal modal">
-            <div className="heading">
-              <h3>Select a category</h3>
-              <button
-                title="Close this menu"
-                className="button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
-                }
-              >
-                Close <XIcon />
-              </button>
-            </div>
-            <CategorySelector
-              forModal={true}
-              categories={categories}
-              setCategories={setCategories}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              handleCategoryClick={(category) => {
-                if (category.is_folder) {
-                  console.log("folder", category);
-                  setCategories(toggleCategoryFolder(category, categories));
-                } else {
-                  setCategories(setCategoryChecked(category, categories));
-                }
-              }}
-            />
-            <div className="buttons">
-              <button
-                className="button"
-                type="button"
-                onClick={() => {
-                  try {
-                    if (!selectedCategory) throw "no category was selected";
-
-                    const newDraft = {
-                      ...filters.draft,
-                      category: selectedCategory,
-                    };
-
-                    console.log(newDraft);
-
-                    if (!selectedCategory.is_folder) {
-                      dispatch(
-                        setFilters({ ...filters, draft: newDraft, saved: newDraft })
-                      );
-                      dispatch(setFiltersUpdated(true));
-                      dispatch(
-                        toggleModal({ key: "categorySelectorModal", value: false })
-                      );
-                    }
-                  } catch (error) {
-                    setListingsError(error);
-                  }
-                }}
-                disabled={!selectedCategory || selectedCategory?.is_folder}
-              >
-                Apply
-              </button>
-            </div>
-          </div>
-
-          <ModalOverlay
-            zIndex={5}
-            onClick={() =>
-              dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+        <CategorySelectorModal
+          categories={categories}
+          setCategories={setCategories}
+          setSelectedCategory={setSelectedCategory}
+          selectedCategory={selectedCategory}
+          handleCategoryClick={(category) => {
+            if (category.is_folder) {
+              console.log("folder", category);
+              setCategories(toggleCategoryFolder(category, categories));
+            } else {
+              setCategories(setCategoryChecked(category, categories));
             }
-          />
-        </>
+          }}
+        />
+        // <>
+        //   <div className="category-selector-modal modal">
+        //     <div className="heading">
+        //       <h3>Select a category</h3>
+        //       <button
+        //         title="Close this menu"
+        //         className="button"
+        //         onClick={() =>
+        //           dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+        //         }
+        //       >
+        //         Close <XIcon />
+        //       </button>
+        //     </div>
+        //     <CategorySelector
+        //       forModal={true}
+        //       categories={categories}
+        //       setCategories={setCategories}
+        //       selectedCategory={selectedCategory}
+        //       setSelectedCategory={setSelectedCategory}
+        //       handleCategoryClick={(category) => {
+        //         if (category.is_folder) {
+        //           console.log("folder", category);
+        //           setCategories(toggleCategoryFolder(category, categories));
+        //         } else {
+        //           setCategories(setCategoryChecked(category, categories));
+        //         }
+        //       }}
+        //     />
+        //     <div className="buttons">
+        //       <button
+        //         className="button"
+        //         type="button"
+        //         onClick={() => {
+        //           try {
+        //             if (!selectedCategory) throw "no category was selected";
+
+        //             const newDraft = {
+        //               ...filters.draft,
+        //               category: selectedCategory,
+        //             };
+
+        //             console.log(newDraft);
+
+        //             if (!selectedCategory.is_folder) {
+        //               dispatch(
+        //                 setFilters({ ...filters, draft: newDraft, saved: newDraft })
+        //               );
+        //               dispatch(setFiltersUpdated(true));
+        //               dispatch(
+        //                 toggleModal({ key: "categorySelectorModal", value: false })
+        //               );
+        //             }
+        //           } catch (error) {
+        //             setListingsError(error);
+        //           }
+        //         }}
+        //         disabled={!selectedCategory || selectedCategory?.is_folder}
+        //       >
+        //         Apply
+        //       </button>
+        //     </div>
+        //   </div>
+
+        //   <ModalOverlay
+        //     zIndex={5}
+        //     onClick={() =>
+        //       dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+        //     }
+        //   />
+        // </>
       )}
     </div>
   );

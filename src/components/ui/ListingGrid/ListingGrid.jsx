@@ -27,7 +27,7 @@ const ListingGrid = ({ listings, accountForSidebar }) => {
                   {}
                   <img className="profile-picture" src={listing.profile_picture} />
                 </div>
-                <p className="small-text">{listing.username}</p>
+                <Link className="small-text bold" to={`/user/${listing.username}`}>{listing.username}</Link>
               </div>
             </div>
           </div>

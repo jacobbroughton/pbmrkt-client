@@ -3,6 +3,7 @@ import Comment from "../Comment/Comment";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import "./CommentsList.css";
+import FrogIcon from "../Icons/FrogIcon";
 
 const CommentsList = ({
   passedComments,
@@ -101,7 +102,10 @@ const CommentsList = ({
   return (
     <div className="comments-list">
       {!localComments || localComments?.length == 0 ? (
-        <p>No comments, consider starting the conversation!</p>
+        <div className="no-comments-container">
+          <p>It's too quiet here, leave a comment!</p>
+          <FrogIcon/>
+        </div>
       ) : (
         localComments.map((comment) => {
           return (

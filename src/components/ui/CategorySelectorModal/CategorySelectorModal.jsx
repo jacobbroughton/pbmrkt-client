@@ -17,8 +17,9 @@ const CategorySelectorModal = ({
   const [error, setError] = useState(null)
   return (
     <>
-      <div className="category-selector-modal modal">
+      <div className="modal category-selector-modal">
         <div className="heading">
+        {error && <p className='error-text small-text'></p>}
           <h3>Select a category</h3>
           <button
             title="Close this menu"

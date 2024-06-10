@@ -10,6 +10,7 @@ import { toggleModal } from "../../../redux/modals";
 import { v4 as uuidv4 } from "uuid";
 import EditIcon from "../../ui/Icons/EditIcon";
 import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
+import Footer from "../../ui/Footer/Footer";
 import ThreeDots from "../../ui/Icons/ThreeDots";
 import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
@@ -17,7 +18,7 @@ import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListing
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
 const UserProfile = () => {
-  // const { userID } = useParams();
+  const {username: usernameFromURL} = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
@@ -29,8 +30,6 @@ const UserProfile = () => {
     count: 0,
     list: [],
   });
-  // const [profilePictureUpdateButtonShowing, setProfilePictureUpdateButtonShowing] =
-  // useState(false);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
 
   const { session } = useSelector((state) => state.auth);
@@ -40,10 +39,11 @@ const UserProfile = () => {
   }, []);
 
   async function getProfile() {
+    console.log(user)
     try {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_user_profile_complex", {
-        p_user_id: user.auth_id,
+        p_username: usernameFromURL,
       });
 
       if (error) {
@@ -170,51 +170,54 @@ const UserProfile = () => {
     setNewProfilePictureLoading(false);
   }
 
+  const isAdmin = user.auth_id == localUser.auth_id
+
   if (error) return <p>{error}</p>;
 
   if (loading) return <LoadingOverlay />;
 
   return (
-    <div className="user-profile-page">
-      {error && <p className="error-text small-text">{error}</p>}
-      <div className="info-section">
-        <div className="picture-and-info">
-          <div
-            className="profile-picture-container"
-            // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
-            // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
-          >
-            <img className="profile-picture" src={localUser.profile_picture_url} />
-            <label htmlFor="change-profile-picture">
-              <input
-                type="file"
-                className=""
-                title="Edit profile picture"
-                id="change-profile-picture"
-                onChange={uploadProfilePicture}
-              />
-              {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
-            </label>
-          </div>
-          <div className="info">
-            <h2 className="name">
-              {localUser.first_name} {localUser.last_name}
-            </h2>
-            <h3 className="username">{localUser.username}</h3>
-            <p className="member-since" title="">
-              Joined {getTimeAgo(new Date(localUser.created_at))} |{" "}
-              {new Date(localUser.created_at).toLocaleDateString()}
-            </p>
-            <button
-              className="edit-profile-button"
-              onClick={() =>
-                dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-              }
+    <>
+      <div className="user-profile-page">
+        {error && <p className="error-text small-text">{error}</p>}
+        <div className="info-section">
+          <div className="picture-and-info">
+            <div
+              className="profile-picture-container"
+              // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
+              // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
             >
-              Edit Profile
-            </button>
+              <img className="profile-picture" src={localUser.profile_picture_url} />
+              {isAdmin && <label htmlFor="change-profile-picture">
+                <input
+                  type="file"
+                  className=""
+                  title="Edit profile picture"
+                  id="change-profile-picture"
+                  onChange={uploadProfilePicture}
+                />
+                {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+              </label>}
+            </div>
+            <div className="info">
+              <h2 className="name">
+                {localUser.first_name} {localUser.last_name}
+              </h2>
+              <h3 className="username">{localUser.username}</h3>
+              <p className="member-since" title="">
+                Joined {getTimeAgo(new Date(localUser.created_at))} |{" "}
+                {new Date(localUser.created_at).toLocaleDateString()}
+              </p>
+             {isAdmin &&  <button
+                className="edit-profile-button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+                }
+              >
+                Edit Profile
+              </button>}
 
-            {/* <button
+              {/* <button
               className="stars-button"
               onClick={() =>
                 dispatch(toggleModal({ key: "userReviewsModal", value: true }))
@@ -223,8 +226,8 @@ const UserProfile = () => {
             >
               <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
             </button> */}
-          </div>
-          {/* <button
+            </div>
+            {/* <button
             className="edit-button"
             onClick={() =>
               dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
@@ -232,73 +235,58 @@ const UserProfile = () => {
           >
             <ThreeDots />
           </button> */}
+          </div>
+          <div className="user-info-containers">
+            <div className="user-info-container">
+              <label>Buyer Reviews</label>
+              <button
+                className="stars-button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "userReviewsModal", value: true }))
+                }
+                disabled={reviews.count == 0}
+              >
+                <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
+              </button>
+            </div>
+            <div className="user-info-container">
+              <label>Location</label>
+              <p>
+                {localUser.city}, {localUser.state}
+              </p>
+            </div>
+            <div className="user-info-container bio ">
+              <label>Bio</label>
+              <p>{localUser.bio?.trim()}</p>
+            </div>
+          </div>
         </div>
-        <div className="user-info-containers">
-          <div className="user-info-container">
-            <label>Buyer Reviews</label>
-            <button
-              className="stars-button"
-              onClick={() =>
-                dispatch(toggleModal({ key: "userReviewsModal", value: true }))
-              }
-              disabled={reviews.count == 0}
-            >
-              <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
-            </button>
-          </div>
-          <div className="user-info-container">
-            <label>Location</label>
-            <p>
-              {localUser.city}, {localUser.state}
-            </p>
-          </div>
-          <div className="user-info-container bio ">
-            <label>Bio</label>
-            <p>{localUser.bio?.trim()}</p>
-          </div>
-        </div>
-      </div>
-      {listings.length ? (
-        <ListingGrid listings={listings} />
-      ) : (
-        // <div className="skeletons-grid">
-        //   <div className="overlay-content">
-        //     <p>You haven't created any listings yet!</p>
-        //     <Link to="/sell">Sell something</Link>
-        //   </div>
-        //   <div className="gradient-overlay"></div>
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        //   <ItemSkeleton blinking={false} />
-        // </div>
-        <SkeletonsListingGrid
-          message={"You haven't created any listings yet!"}
-          link={{ url: "/sell", label: "Sell something" }}
-          blinking={false}
-          hasOverlay={true}
-          numSkeletons={10}
-        />
-      )}
-
-      {modals.editUserProfileModalToggled && (
-        <>
-          <EditUserProfileModal />
-          <ModalOverlay
-            zIndex={3}
-            onClick={() =>
-              dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
-            }
+        {listings.length ? (
+          <ListingGrid listings={listings} />
+        ) : (
+          <SkeletonsListingGrid
+            message={`${localUser.username} hasn't created any listings yet!`}
+            link={{ url: "/sell", label: "Sell something" }}
+            blinking={false}
+            hasOverlay={true}
+            numSkeletons={10}
           />
-        </>
-      )}
-    </div>
+        )}
+
+        {modals.editUserProfileModalToggled && (
+          <>
+            <EditUserProfileModal />
+            <ModalOverlay
+              zIndex={3}
+              onClick={() =>
+                dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
+              }
+            />
+          </>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 export default UserProfile;

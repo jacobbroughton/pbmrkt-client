@@ -3,6 +3,6 @@
   gap: 15px;
   top: 60px;
   max-width: 500px;
-  transform: translateX(-50%);
-  top: 60px;
+  transform: translateX(-50%) !important;
+  top: 60px !important;
 }

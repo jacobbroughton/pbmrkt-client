@@ -19,6 +19,7 @@ import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { toggleModal } from "../../../redux/modals.js";
 import EditIcon from "../../ui/Icons/EditIcon.jsx";
+import Footer from "../../ui/Footer/Footer.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -54,7 +55,7 @@ const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
 
 const Sell = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
   const imageInputRef = useRef(null);
@@ -110,7 +111,6 @@ const Sell = () => {
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
-
 
   useEffect(() => {
     getDefaultSelections();
@@ -546,28 +546,29 @@ const Sell = () => {
   const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;
 
   return (
-    <div className="sell">
-      {sellError && <div className="error-text">{sellError}</div>}
-      <h1>Create a new listing</h1>
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <div className="form-block">
-          {photos.length != 0 && (
-            <div className="selling-item-images">
-              {photos?.map((image) => {
-                return (
-                  <div
-                    className={`image-container ${
-                      image.id == newCoverPhotoId ? "cover" : ""
-                    }`}
-                    onClick={() => handleNewCoverImage(image)}
-                  >
-                    {image.is_cover && (
-                      <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
-                    )}
-                    <img
-                      src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
-                    />
-                    {/* <div className="image-overlay">
+    <>
+      <div className="sell">
+        {sellError && <div className="error-text">{sellError}</div>}
+        <h1>Create a new listing</h1>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-block">
+            {photos.length != 0 && (
+              <div className="selling-item-images">
+                {photos?.map((image) => {
+                  return (
+                    <div
+                      className={`image-container ${
+                        image.id == newCoverPhotoId ? "cover" : ""
+                      }`}
+                      onClick={() => handleNewCoverImage(image)}
+                    >
+                      {image.is_cover && (
+                        <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
+                      )}
+                      <img
+                        src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
+                      />
+                      {/* <div className="image-overlay">
                       <div className="buttons">
                         <button
                           className="delete-button"
@@ -578,63 +579,63 @@ const Sell = () => {
                         </button>
                       </div>
                     </div> */}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          {photos.length == 0 ? (
-            <div className="image-input-and-prompt">
-              {imagesStillUploading ? (
-                <div className="image-skeletons">
-                  <div className="image-skeleton">&nbsp;</div>
-                </div>
-              ) : imageSkeletonsShowing ? (
-                <div className="image-skeletons">
-                  {Array.from(Array(numPhotosUploaded)).map((item, i) => (
-                    <div key={i} className="image-skeleton">
-                      &nbsp;
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <label
-                  className={`custom-photo-upload ${
-                    photos.length > 0 ? "secondary" : ""
-                  } ${draggingPhotos ? "dragging" : ""}`}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDragEnter={handleDragEnter}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                >
-                  <p>Add Photos</p>
-                  <p>or drag and drop</p>
-                  <input
-                    onChange={(e) => handleImageUpload(e.target.files)}
-                    type="file"
-                    multiple
-                    accept=".jpg"
-                    name="photos"
-                    ref={imageInputRef}
-                  />
-                </label>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={handleDiscardImages}
-              className="reset-images-button"
-              disabled={discardImagesLoading}
-            >
-              <TrashIcon />{" "}
-              {discardImagesLoading
-                ? "Discarding Images..."
-                : "Discard & Upload New Images"}
-            </button>
-          )}
-        </div>
+                  );
+                })}
+              </div>
+            )}
+            {photos.length == 0 ? (
+              <div className="image-input-and-prompt">
+                {imagesStillUploading ? (
+                  <div className="image-skeletons">
+                    <div className="image-skeleton">&nbsp;</div>
+                  </div>
+                ) : imageSkeletonsShowing ? (
+                  <div className="image-skeletons">
+                    {Array.from(Array(numPhotosUploaded)).map((item, i) => (
+                      <div key={i} className="image-skeleton">
+                        &nbsp;
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <label
+                    className={`custom-photo-upload ${
+                      photos.length > 0 ? "secondary" : ""
+                    } ${draggingPhotos ? "dragging" : ""}`}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <p>Add Photos</p>
+                    <p>or drag and drop</p>
+                    <input
+                      onChange={(e) => handleImageUpload(e.target.files)}
+                      type="file"
+                      multiple
+                      accept=".jpg"
+                      name="photos"
+                      ref={imageInputRef}
+                    />
+                  </label>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={handleDiscardImages}
+                className="reset-images-button"
+                disabled={discardImagesLoading}
+              >
+                <TrashIcon />{" "}
+                {discardImagesLoading
+                  ? "Discarding Images..."
+                  : "Discard & Upload New Images"}
+              </button>
+            )}
+          </div>
 
-        {/* <div className="form-block">
+          {/* <div className="form-block">
           <h2>Your Info</h2>
 
           <fieldset>
@@ -710,90 +711,90 @@ const Sell = () => {
           </fieldset>
         </div> */}
 
-        <div className="form-block">
-          <h2>Item Details</h2>
+          <div className="form-block">
+            <h2>Item Details</h2>
 
-          <fieldset>
-            <div className={`form-group`}>
-              <label>What is this item?</label>
-              <input
-                onChange={(e) => setWhatIsThisItem(e.target.value)}
-                value={whatIsThisItem}
-                placeholder='e.g. "GI Cut Planet Eclipse LV1"'
-              />
-            </div>
-            <div className="form-group price">
-              <label>Price ($)</label>
-              <input
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-                placeholder="Price"
-                required
-              />
-            </div>
-          </fieldset>
+            <fieldset>
+              <div className={`form-group`}>
+                <label>What is this item?</label>
+                <input
+                  onChange={(e) => setWhatIsThisItem(e.target.value)}
+                  value={whatIsThisItem}
+                  placeholder='e.g. "GI Cut Planet Eclipse LV1"'
+                />
+              </div>
+              <div className="form-group price">
+                <label>Price ($)</label>
+                <input
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                  placeholder="Price"
+                  required
+                />
+              </div>
+            </fieldset>
 
-          <fieldset className="prices">
-            <div className="form-group shipping">
-              <label>Shipping</label>
-              <div className="shipping-selector-and-input">
-                <div className="shipping-selector">
-                  <button
-                    className={`shipping-toggle-button ${
-                      !buyerPaysShipping ? "selected" : ""
-                    }`}
-                    type="button"
-                    onClick={() => setBuyerPaysShipping(false)}
-                  >
-                    Free/Included
-                  </button>
-                  <button
-                    className={`shipping-toggle-button ${
-                      buyerPaysShipping ? "selected" : ""
-                    }`}
-                    type="button"
-                    onClick={() => setBuyerPaysShipping(true)}
-                  >
-                    Buyer Pays
-                  </button>
+            <fieldset className="prices">
+              <div className="form-group shipping">
+                <label>Shipping</label>
+                <div className="shipping-selector-and-input">
+                  <div className="shipping-selector">
+                    <button
+                      className={`shipping-toggle-button ${
+                        !buyerPaysShipping ? "selected" : ""
+                      }`}
+                      type="button"
+                      onClick={() => setBuyerPaysShipping(false)}
+                    >
+                      Free/Included
+                    </button>
+                    <button
+                      className={`shipping-toggle-button ${
+                        buyerPaysShipping ? "selected" : ""
+                      }`}
+                      type="button"
+                      onClick={() => setBuyerPaysShipping(true)}
+                    >
+                      Buyer Pays
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              className={`form-group shipping-cost ${
-                buyerPaysShipping ? "" : "disabled"
-              }`}
-              title={
-                buyerPaysShipping
-                  ? "Adjust the cost of shipping for this item"
-                  : "Toggle 'buyer pays shipping' for this to be interactive"
-              }
-            >
-              <label>Shipping Cost ($)</label>
-              <input
-                onChange={(e) => setShippingCost(e.target.value)}
-                value={shippingCost}
-                placeholder="$0"
-                required
-                disabled={!buyerPaysShipping}
-              />
-            </div>
-          </fieldset>
+              <div
+                className={`form-group shipping-cost ${
+                  buyerPaysShipping ? "" : "disabled"
+                }`}
+                title={
+                  buyerPaysShipping
+                    ? "Adjust the cost of shipping for this item"
+                    : "Toggle 'buyer pays shipping' for this to be interactive"
+                }
+              >
+                <label>Shipping Cost ($)</label>
+                <input
+                  onChange={(e) => setShippingCost(e.target.value)}
+                  value={shippingCost}
+                  placeholder="$0"
+                  required
+                  disabled={!buyerPaysShipping}
+                />
+              </div>
+            </fieldset>
 
-          <fieldset>
-            <div className={`form-group`}>
-              <label>Select the most accurate category for this item</label>
-              <button
-              onClick={() =>
-                dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
-              }
-              className="button select-category-modal-toggle"
-              type="button"
-              title={`Click this to open a menu and select an item category to filter your results on`}
-            >
-              {selectedCategory?.value ?? "Select a Category"} <EditIcon />{" "}
-            </button>
-              {/* <CategorySelector
+            <fieldset>
+              <div className={`form-group`}>
+                <label>Select the most accurate category for this item</label>
+                <button
+                  onClick={() =>
+                    dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+                  }
+                  className="button select-category-modal-toggle"
+                  type="button"
+                  title={`Click this to open a menu and select an item category to filter your results on`}
+                >
+                  {selectedCategory?.value ?? "Select a Category"} <EditIcon />{" "}
+                </button>
+                {/* <CategorySelector
                 categories={categories}
                 setCategories={setCategories}
                 setSelectedCategory={setSelectedCategory}
@@ -807,155 +808,157 @@ const Sell = () => {
                   }
                 }}
               /> */}
-            </div>
-          </fieldset>
-          <fieldset>
+              </div>
+            </fieldset>
+            <fieldset>
+              <div className={`form-group`}>
+                <label>Brand</label>
+                <input
+                  onChange={(e) => setBrand(e.target.value)}
+                  value={brand}
+                  placeholder="Brand"
+                  required
+                />
+              </div>
+
+              <div className={`form-group`}>
+                <label>Model</label>
+                <input
+                  onChange={(e) => setModel(e.target.value)}
+                  value={model}
+                  placeholder="Model"
+                  required
+                />
+              </div>
+            </fieldset>
+
             <div className={`form-group`}>
-              <label>Brand</label>
-              <input
-                onChange={(e) => setBrand(e.target.value)}
-                value={brand}
-                placeholder="Brand"
-                required
+              <label>Details</label>
+              <textarea
+                onChange={(e) => setDetails(e.target.value)}
+                value={details}
+                placeholder="Enter some details about the item you're selling"
               />
             </div>
 
-            <div className={`form-group`}>
-              <label>Model</label>
-              <input
-                onChange={(e) => setModel(e.target.value)}
-                value={model}
-                placeholder="Model"
-                required
-              />
-            </div>
-          </fieldset>
+            <fieldset className="radio-form-groups">
+              <div className={`form-group`}>
+                <label>
+                  Shipping{" "}
+                  {generatedFilters.shipping && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
 
-          <div className={`form-group`}>
-            <label>Details</label>
-            <textarea
-              onChange={(e) => setDetails(e.target.value)}
-              value={details}
-              placeholder="Enter some details about the item you're selling"
-            />
+                <RadioOptions
+                  options={radioOptions.shippingOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("shippingOptions", option)
+                  }
+                />
+              </div>
+
+              <div className={`form-group`}>
+                <label>
+                  Trades{" "}
+                  {generatedFilters.trades && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.tradeOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("tradeOptions", option)
+                  }
+                />
+              </div>
+            </fieldset>
+            <fieldset>
+              <div className={`form-group`}>
+                <label>Condition</label>
+
+                <RadioOptions
+                  options={radioOptions.conditionOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("conditionOptions", option)
+                  }
+                />
+              </div>
+              <div className={`form-group`}>
+                <label>
+                  Negotiable{" "}
+                  {generatedFilters.negotiable && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.negotiableOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("negotiableOptions", option)
+                  }
+                />
+              </div>
+            </fieldset>
           </div>
-
-          <fieldset className="radio-form-groups">
-            <div className={`form-group`}>
-              <label>
-                Shipping{" "}
-                {generatedFilters.shipping && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.shippingOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("shippingOptions", option)
-                }
-              />
-            </div>
-
-            <div className={`form-group`}>
-              <label>
-                Trades{" "}
-                {generatedFilters.trades && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.tradeOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("tradeOptions", option)
-                }
-              />
-            </div>
-          </fieldset>
-          <fieldset>
-            <div className={`form-group`}>
-              <label>Condition</label>
-
-              <RadioOptions
-                options={radioOptions.conditionOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("conditionOptions", option)
-                }
-              />
-            </div>
-            <div className={`form-group`}>
-              <label>
-                Negotiable{" "}
-                {generatedFilters.negotiable && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.negotiableOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("negotiableOptions", option)
-                }
-              />
-            </div>
-          </fieldset>
-        </div>
-        <div className="submit-container">
-          {photos?.length == 0 && (
-            <p className="warning">
-              Please upload at least 1 photo of the item you're selling
-            </p>
-          )}
-          <button type="submit" disabled={submitDisabled}>
-            {submitLoading ? "Submitting" : "Submit"}
-          </button>
-        </div>
-      </form>
-      {listedItemID && (
-        <>
-          <div className="success-modal">
-            <h2>Success</h2>
-            <Link to={`/${listedItemID}`}>Go To Listing</Link>
-            <Link to="/">View All Listings</Link>
-            <button onClick={() => handleStateReset()}>Create Another Listing</button>
+          <div className="submit-container">
+            {photos?.length == 0 && (
+              <p className="warning">
+                Please upload at least 1 photo of the item you're selling
+              </p>
+            )}
+            <button type="submit" disabled={submitDisabled}>
+              {submitLoading ? "Submitting" : "Submit"}
+            </button>
           </div>
-          <div className="success-modal-overlay"></div>
-        </>
-      )}
-      {modals.categorySelectorModalToggled && (
-        <CategorySelectorModal
-          categories={categories}
-          setCategories={setCategories}
-          setSelectedCategory={setSelectedCategory}
-          selectedCategory={selectedCategory}
-          handleCategoryClick={(category) => {
-            if (category.is_folder) {
-              console.log("folder", category);
-              setCategories(toggleCategoryFolder(category, categories));
-            } else {
-              setCategories(setCategoryChecked(category, categories));
-            }
-          }}
-        />
-      )}
-      {loading && <LoadingOverlay message="Listing your item for sale..." />}
-    </div>
+        </form>
+        {listedItemID && (
+          <>
+            <div className="success-modal">
+              <h2>Success</h2>
+              <Link to={`/${listedItemID}`}>Go To Listing</Link>
+              <Link to="/">View All Listings</Link>
+              <button onClick={() => handleStateReset()}>Create Another Listing</button>
+            </div>
+            <div className="success-modal-overlay"></div>
+          </>
+        )}
+        {modals.categorySelectorModalToggled && (
+          <CategorySelectorModal
+            categories={categories}
+            setCategories={setCategories}
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+            handleCategoryClick={(category) => {
+              if (category.is_folder) {
+                console.log("folder", category);
+                setCategories(toggleCategoryFolder(category, categories));
+              } else {
+                setCategories(setCategoryChecked(category, categories));
+              }
+            }}
+          />
+        )}
+        {loading && <LoadingOverlay message="Listing your item for sale..." />}
+      </div>
+      <Footer />
+    </>
   );
 };
 export default Sell;

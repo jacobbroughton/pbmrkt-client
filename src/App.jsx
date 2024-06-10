@@ -152,10 +152,11 @@ function App() {
           <Route element={<Login />} path="/login" />
           <Route element={<PrivateRoutes />}>
             <Route path="/sell" element={<Sell />} />
-            <Route path="/profile" element={<UserProfile />} />
+            {/* <Route path="/profile" element={<UserProfile />} /> */}
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
-          <Route path="/user/:username" element={<SellerProfile />} />
+          {/* <Route path="/user/:username" element={<SellerProfile />} /> */}
+          <Route path="/user/:username" element={<UserProfile />} />
 
           <Route element={<Item />} path="/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />

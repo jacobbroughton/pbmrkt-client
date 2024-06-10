@@ -1,5 +1,6 @@
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
 import EyeIcon from "../../ui/Icons/EyeIcon";
+import Footer from "../../ui/Footer/Footer";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
@@ -54,53 +55,56 @@ const Login = () => {
   }
 
   return (
-    <div className="login">
-      {loginError && <div className="error-text">{loginError}</div>}
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit} className="standard">
-        <p>
-          Need to create an account? <Link to="/register">Register here</Link>
-        </p>
-        <div className="form-block">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              placeholder="Email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-and-visible-toggle">
+    <>
+      <div className="login">
+        {loginError && <div className="error-text">{loginError}</div>}
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit} className="standard">
+          <p>
+            Need to create an account? <Link to="/register">Register here</Link>
+          </p>
+          <div className="form-block">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
               <input
-                placeholder="Password"
-                type={passwordVisible ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <button
-                onClick={() => setPasswordVisible(!passwordVisible)}
-                type="button"
-                className="button"
-              >
-                <EyeIcon closed={passwordVisible} />
-              </button>
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-and-visible-toggle">
+                <input
+                  placeholder="Password"
+                  type={passwordVisible ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  type="button"
+                  className="button"
+                >
+                  <EyeIcon closed={passwordVisible} />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <button type="submit" disabled={email === "" || password === ""}>
-          Submit
-        </button>
+          <button type="submit" disabled={email === "" || password === ""}>
+            Submit
+          </button>
 
-        <p>
-          <Link type="button" to={`/reset-password`}>
-            Forgot password?
-          </Link>
-        </p>
-      </form>
-      {loading && <LoadingOverlay message="Logging you in..." />}
-    </div>
+          <p>
+            <Link type="button" to={`/reset-password`}>
+              Forgot password?
+            </Link>
+          </p>
+        </form>
+        {loading && <LoadingOverlay message="Logging you in..." />}
+      </div>
+      <Footer />
+    </>
   );
 };
 export default Login;

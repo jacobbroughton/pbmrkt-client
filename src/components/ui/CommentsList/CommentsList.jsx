@@ -104,7 +104,9 @@ const CommentsList = ({
       {!localComments || localComments?.length == 0 ? (
         <div className="no-comments-container">
           <p>It's too quiet here, leave a comment!</p>
-          <FrogIcon/>
+          <div className="frog-icon-container">
+            <FrogIcon />
+          </div>
         </div>
       ) : (
         localComments.map((comment) => {

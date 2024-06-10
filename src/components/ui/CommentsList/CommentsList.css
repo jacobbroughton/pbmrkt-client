@@ -1,4 +1,3 @@
-
 .item .comments-section {
   width: 100%;
   display: flex;
@@ -13,31 +12,62 @@
   width: 100%;
 }
 
-.item .comments-section .comment-form button[type='submit']:not(:disabled) {
+.item .comments-section .comment-form button[type="submit"]:not(:disabled) {
   cursor: pointer;
 }
 
-.item .comments-section .comment-form button[type='submit']:disabled {
+.item .comments-section .comment-form button[type="submit"]:disabled {
   fill: grey !important;
 }
 
-.item .comments-section  h3 {
+.item .comments-section h3 {
   margin-bottom: 10px;
-  }
-
+}
 
 .item .comments-section .no-comments-container {
   font-size: 0.875rem;
-  border: 1px solid #555;
-  padding: 10px;
+  /* border: 1px solid #555; */
+  /* padding: 10px; */
   border-radius: 3px;
   display: flex;
-  align-items: center;
-  justify-content:space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
+  position: relative;
 }
 
 .item .comments-section .no-comments-container svg {
-  width: 15px;
+  width: 35px;
   fill: white;
+  cursor: help;
+  position: relative;
+}
+
+.item .comments-section .no-comments-container .frog-icon-container {
+  position: relative;
+}
+
+.item .comments-section .no-comments-container .frog-icon-container:hover::before {
+  content: "Hey, how's it going";
+  white-space: nowrap;
+  position: absolute;
+  font-size: 0.875rem;
+  background-color: white;
+  color: black;
+  padding: 5px 10px 5px 30px;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 10px;;
+  border-top-right-radius: 10px;;
+  /* border-radius: 3px; */
+  top: 0;
+  left: calc(100% + 5px);
+  /* width: 25px;
+  height: 25px; */
+  z-index: 1000;
+}
+
+.item .comments-section .no-comments-container svg::before {
+
 }

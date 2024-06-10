@@ -350,6 +350,26 @@ const Item = () => {
                 </p>
               </div>
 
+              {/* Seller Info */}
+              <div className="seller-info">
+                <div className="profile-picture-container">
+                  <img className="profile-picture" src={item.info.profile_picture_url} />
+                </div>
+                <div className="text">
+                  <Link
+                    to={`/user/${item.info.created_by_username}`}
+                    className="user-link"
+                  >
+                    {item.info.created_by_username}
+                  </Link>
+                  <p>
+                    {item.info.city}, {item.info.state}
+                  </p>
+
+                  <Stars rating={item.info.seller_rating} />
+                </div>
+              </div>
+
               {/* <div className="horizontal-divider"></div> */}
               {item.info.details ? (
                 <p className="details">{item.info.details}</p>
@@ -366,44 +386,28 @@ const Item = () => {
               )}
 
               {/* Metadata */}
-              <table className="metadata">
-                <tbody>
-                  <tr>
-                    <td>Condition</td>
-                    <td>{item.info.condition}</td>
-                  </tr>
-                  <tr>
-                    <td>Shipping</td>
-                    <td>{item.info.shipping}</td>
-                  </tr>
-                  <tr>
-                    <td>Negotiable</td>
-                    <td>{item.info.negotiable}</td>
-                  </tr>
-                  <tr>
-                    <td>Trades</td>
-                    <td>{item.info.trades}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div className="seller-info-container">
-          <div className="seller-info">
-            <div className="profile-picture-container">
-              <img className="profile-picture" src={item.info.profile_picture_url} />
-            </div>
-            <div className="text">
-              <Link to={`/user/${item.info.created_by_username}`} className="user-link">
-                {item.info.created_by_username}
-              </Link>
-              <p>
-                {item.info.city}, {item.info.state}
-              </p>
-
-              <Stars rating={item.info.seller_rating} />
+              <div className="metadata-table-container">
+                <table className="metadata">
+                  <tbody>
+                    <tr>
+                      <td>Condition</td>
+                      <td>{item.info.condition}</td>
+                    </tr>
+                    <tr>
+                      <td>Shipping</td>
+                      <td>{item.info.shipping}</td>
+                    </tr>
+                    <tr>
+                      <td>Negotiable</td>
+                      <td>{item.info.negotiable}</td>
+                    </tr>
+                    <tr>
+                      <td>Trades</td>
+                      <td>{item.info.trades}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

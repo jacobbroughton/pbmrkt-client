@@ -170,7 +170,7 @@ const UserProfile = () => {
     setNewProfilePictureLoading(false);
   }
 
-  const isAdmin = user.auth_id == localUser.auth_id
+  const isAdmin = user?.auth_id == localUser?.auth_id
 
   if (error) return <p>{error}</p>;
 

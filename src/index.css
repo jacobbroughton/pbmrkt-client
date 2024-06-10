@@ -238,7 +238,12 @@ a:hover {
 form.standard button[type="submit"]:disabled {
   color: grey;
   border-color: #555;
-  cursor: disabled;
+  cursor: not-allowed;
+}
+
+form.standard .form-group.required label::after {
+  content: '*';
+  color: var(--red);
 }
 
 .modal {
@@ -258,11 +263,18 @@ form.standard button[type="submit"]:disabled {
   width: calc(100% - 30px);
 }
 
-.modal .heading {
+.modal .header {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal.seller-reviews .header h4,
+.modal.seller-reviews .header h3,
+.modal.seller-reviews .header h2,
+.modal.seller-reviews .header h1 {
+  font-weight: 600;
 }
 
 .button {

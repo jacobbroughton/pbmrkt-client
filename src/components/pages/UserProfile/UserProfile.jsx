@@ -16,9 +16,11 @@ import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileM
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
+import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
+import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
 
 const UserProfile = () => {
-  const {username: usernameFromURL} = useParams();
+  const { username: usernameFromURL } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
@@ -39,7 +41,6 @@ const UserProfile = () => {
   }, []);
 
   async function getProfile() {
-    console.log(user)
     try {
       setLoading(true);
       const { data, error } = await supabase.rpc("get_user_profile_complex", {
@@ -60,6 +61,17 @@ const UserProfile = () => {
       if (error3) throw error3.message;
 
       data[0].profile_picture_url = data3.publicUrl;
+
+      const { data: data4, error: error4 } = await supabase.rpc("get_seller_reviews", {
+        p_reviewee_id: data[0].auth_id,
+      });
+
+      if (error4) throw error4.message;
+
+      setReviews({
+        count: data4.length,
+        list: data4,
+      });
 
       setLocalUser(data[0]);
 
@@ -170,7 +182,7 @@ const UserProfile = () => {
     setNewProfilePictureLoading(false);
   }
 
-  const isAdmin = user?.auth_id == localUser?.auth_id
+  const isAdmin = user?.auth_id == localUser?.auth_id;
 
   if (error) return <p>{error}</p>;
 
@@ -188,16 +200,18 @@ const UserProfile = () => {
               // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
             >
               <img className="profile-picture" src={localUser.profile_picture_url} />
-              {isAdmin && <label htmlFor="change-profile-picture">
-                <input
-                  type="file"
-                  className=""
-                  title="Edit profile picture"
-                  id="change-profile-picture"
-                  onChange={uploadProfilePicture}
-                />
-                {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
-              </label>}
+              {isAdmin && (
+                <label htmlFor="change-profile-picture">
+                  <input
+                    type="file"
+                    className=""
+                    title="Edit profile picture"
+                    id="change-profile-picture"
+                    onChange={uploadProfilePicture}
+                  />
+                  {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+                </label>
+              )}
             </div>
             <div className="info">
               <h2 className="name">
@@ -208,14 +222,16 @@ const UserProfile = () => {
                 Joined {getTimeAgo(new Date(localUser.created_at))} |{" "}
                 {new Date(localUser.created_at).toLocaleDateString()}
               </p>
-             {isAdmin &&  <button
-                className="edit-profile-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-                }
-              >
-                Edit Profile
-              </button>}
+              {isAdmin && (
+                <button
+                  className="edit-profile-button"
+                  onClick={() =>
+                    dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+                  }
+                >
+                  Edit Profile
+                </button>
+              )}
 
               {/* <button
               className="stars-button"
@@ -239,12 +255,14 @@ const UserProfile = () => {
           <div className="user-info-containers">
             <div className="user-info-container">
               <label>Buyer Reviews</label>
+            
               <button
                 className="stars-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "userReviewsModal", value: true }))
-                }
-                disabled={reviews.count == 0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
+                }}
+                // disabled={reviews.count == 0}
               >
                 <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
               </button>
@@ -282,6 +300,27 @@ const UserProfile = () => {
                 dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
               }
             />
+          </>
+        )}
+        {modals.addReviewModalToggled && (
+          <>
+            <AddReviewModal
+              seller={localUser}
+              setReviews={setReviews}
+              reviews={reviews}
+              setSeller={setLocalUser}
+            />
+            <ModalOverlay zIndex={1} />
+          </>
+        )}
+        {modals.sellerReviewsModalToggled && (
+          <>
+            <SellerReviewsModal
+              seller={localUser}
+              setReviews={setReviews}
+              reviews={reviews}
+            />
+            <ModalOverlay zIndex={5} />
           </>
         )}
       </div>

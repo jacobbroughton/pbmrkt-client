@@ -21,7 +21,7 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(e.target) &&
-        !e.target.classList.contains("add-review-button")
+        !e.target.classList.contains("add-review-modal-toggle-button")
       ) {
         dispatch(toggleModal({ key: "addReviewModal", value: false }));
       }
@@ -34,13 +34,13 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
     };
   });
 
-  function handleStarMouseOver(e, rating) {
-    const { clientX, target } = e;
-    const { left, width } = target.getBoundingClientRect();
-    const mouseXRelativeToElement = clientX - left;
-    const isOnLeft = mouseXRelativeToElement <= width / 2;
-    setRating(rating - 1 + (isOnLeft ? 0.5 : 1));
-  }
+  // function handleStarMouseOver(e, rating) {
+  //   const { clientX, target } = e;
+  //   const { left, width } = target.getBoundingClientRect();
+  //   const mouseXRelativeToElement = clientX - left;
+  //   const isOnLeft = mouseXRelativeToElement <= width / 2;
+  //   setRating(rating - 1 + (isOnLeft ? 0.5 : 1));
+  // }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -69,9 +69,8 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
       setSeller({ ...seller, review_given: true });
 
       dispatch(setFlag({ key: "sellerProfileNeedsUpdate", value: true }));
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
   }
@@ -80,32 +79,37 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
     <div className="add-review modal" ref={modalRef}>
       {error && <p className="error-text">{error}</p>}
       <h2>Give {seller.username} a review</h2>
-      <form className='standard' onSubmit={handleSubmit}>
+      <form className="standard" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Rating</label>
-          <div className="stars">
-            {[1, 2, 3, 4, 5].map((starNum) => (
-              <Star
-                onHover={(e) => handleStarMouseOver(e, starNum)}
-                fillType={
-                  starNum - 0.5 > rating ? null : starNum <= rating ? "full" : "half"
-                }
-              />
-            ))}
+          <label>Adjust the slider to select a rating</label>
+          <div className="stars-and-count">
+            <div className="stars">
+              {[1, 2, 3, 4, 5].map((starNum) => (
+                <Star
+                  // onHover={(e) => handleStarMouseOver(e, starNum)}
+                  fillType={
+                    starNum - 0.5 > rating ? null : starNum <= rating ? "full" : "half"
+                  }
+                />
+              ))}
+            </div>
+            <p className="star-count-text">{rating.toFixed(1)}/5.0</p>
           </div>
           <input
+            className="custom-range"
             type="range"
             min="0"
+            defaultValue={0}
             max="5"
             step="0.5"
             onChange={(e) => setRating(parseFloat(e.target.value))}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group required">
           <label>Title</label>
-          <input onChange={(e) => setTitle(e.target.value)} placeholder="..." />
+          <input onChange={(e) => setTitle(e.target.value)} placeholder="e.g 'John Doe was very honest and he shipped very quickly'" />
         </div>
-        <div className="form-group">
+        <div className="form-group required">
           <label>Body</label>
           <textarea onChange={(e) => setBody(e.target.value)} placeholder="....." />
         </div>

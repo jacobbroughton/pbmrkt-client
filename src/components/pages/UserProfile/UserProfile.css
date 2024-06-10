@@ -76,7 +76,7 @@
   white-space: pre-wrap;
 }
 
-.user-profile-page .profile-picture-container {
+.user-profile-page .picture-and-info .profile-picture-container {
   width: 200px;
   height: 200px;
   min-width: 200px;
@@ -86,7 +86,7 @@
   position: relative;
 }
 
-.user-profile-page .profile-picture-container .profile-picture {
+.user-profile-page  .picture-and-info .profile-picture-container .profile-picture {
   background-color: white;
   height: 100%;
   width: 100%;

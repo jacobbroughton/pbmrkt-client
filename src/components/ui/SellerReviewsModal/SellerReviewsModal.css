@@ -3,6 +3,18 @@
   width: calc(100% - 30px);
   top: 100px;
   transform: translateX(-50%);
+  padding: 0;
+  z-index: 6;
+}
+
+.modal.seller-reviews .header {
+  padding: 10px;
+  padding-bottom: 10px;
+  border-bottom: #555 1px solid;
+}
+
+.modal.seller-reviews .header h3 {
+  font-weight: 600;
 }
 
 .modal.seller-reviews ul {
@@ -11,19 +23,37 @@
   list-style: none;
   overflow-y: scroll;
   max-height: 400px;
+  gap: 5px;
+  padding: 10px;
 }
 
 .modal.seller-reviews ul li {
-  padding: 3px 0;
-  border-bottom: 1px solid grey;
+  padding: 10px;
+  background-color: #444;;
+  border: #555 1px solid;
 }
 
 .modal.seller-reviews ul li .title {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.modal.seller-reviews ul li .body {}
+.modal.seller-reviews ul li .body {
+  font-size: 0.875rem;
+
+}
 
 .modal.seller-reviews ul li .username {
   font-size: 0.875rem;
-} 
+}
+
+.modal.seller-reviews ul li .profile-reference {
+  display: flex;
+  align-items: center;
+}
+
+.modal.seller-reviews ul li .stars-username-and-date {
+  display: flex;
+  gap: 5px;
+  font-size: 0.875rem;
+}

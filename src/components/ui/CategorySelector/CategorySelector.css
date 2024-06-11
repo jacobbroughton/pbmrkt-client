@@ -105,8 +105,10 @@
   font-size: 1rem;
   color: white;
   border-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   padding-right: 0;
-  margin-right: 3px;
+  /* margin-right: 3px; */
 }
 
 .category-selector

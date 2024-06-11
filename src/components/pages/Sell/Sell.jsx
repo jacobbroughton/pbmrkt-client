@@ -550,7 +550,11 @@ const Sell = () => {
       <div className="sell">
         {sellError && <div className="error-text">{sellError}</div>}
         <h1>Create a new listing</h1>
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <form
+          onSubmit={handleSubmit}
+          autoComplete="off"
+          // className="standard"
+        >
           <div className="form-block">
             {photos.length != 0 && (
               <div className="selling-item-images">
@@ -715,28 +719,18 @@ const Sell = () => {
             <h2>Item Details</h2>
 
             <fieldset>
-              <div className={`form-group`}>
-                <label>What is this item?</label>
+              <div className={`form-group required`}>
+                <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
+                  What is this item?
+                </label>
                 <input
                   onChange={(e) => setWhatIsThisItem(e.target.value)}
                   value={whatIsThisItem}
                   placeholder='e.g. "GI Cut Planet Eclipse LV1"'
                 />
               </div>
-              <div className="form-group price">
-                <label>Price ($)</label>
-                <input
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price}
-                  placeholder="Price"
-                  required
-                />
-              </div>
-            </fieldset>
-
-            <fieldset className="prices">
               <div className="form-group shipping">
-                <label>Shipping</label>
+                <label>Are you covering the shipping cost?</label>
                 <div className="shipping-selector-and-input">
                   <div className="shipping-selector">
                     <button
@@ -760,6 +754,20 @@ const Sell = () => {
                   </div>
                 </div>
               </div>
+            </fieldset>
+
+            <fieldset className="prices">
+              <div className="form-group shipping">
+                <label>Price of item, without shipping ($)</label>
+                <input
+                  onChange={(e) => setPrice(e.target.value)}
+                  type="number"
+                  step={0.01}
+                  value={price}
+                  placeholder="Price"
+                  required
+                />
+              </div>
               <div
                 className={`form-group shipping-cost ${
                   buyerPaysShipping ? "" : "disabled"
@@ -770,9 +778,16 @@ const Sell = () => {
                     : "Toggle 'buyer pays shipping' for this to be interactive"
                 }
               >
-                <label>Shipping Cost ($)</label>
+                <label>
+                  {!buyerPaysShipping ? "(Disabled)" : ""} Added cost of shipping ($)
+                </label>
                 <input
-                  onChange={(e) => setShippingCost(e.target.value)}
+                  onChange={(e) => {
+                    const num = parseFloat();
+                    setShippingCost(e.target.value);
+                  }}
+                  type="number"
+                  step={0.01}
                   value={shippingCost}
                   placeholder="$0"
                   required
@@ -780,6 +795,17 @@ const Sell = () => {
                 />
               </div>
             </fieldset>
+
+            <div className="what-the-buyer-sees">
+              <p>
+                Total $
+                {(parseFloat(price) + parseFloat(shippingCost) || 0).toLocaleString(
+                  "en-US"
+                )}{" "}
+                = ${price || 0}
+                {shippingCost ? ` + $${shippingCost} shipping` : " + Free Shipping"}
+              </p>
+            </div>
 
             <fieldset>
               <div className={`form-group`}>
@@ -810,7 +836,7 @@ const Sell = () => {
               /> */}
               </div>
             </fieldset>
-            <fieldset>
+            {/* <fieldset>
               <div className={`form-group`}>
                 <label>Brand</label>
                 <input
@@ -830,14 +856,20 @@ const Sell = () => {
                   required
                 />
               </div>
-            </fieldset>
+            </fieldset> */}
 
             <div className={`form-group`}>
-              <label>Details</label>
+              <label>
+                Add some details to help the buyer understand what you're selling. (what's
+                included, condition details, etc.)
+              </label>
               <textarea
                 onChange={(e) => setDetails(e.target.value)}
                 value={details}
-                placeholder="Enter some details about the item you're selling"
+                placeholder="(Example) 
+- Planet Eclipse CS1
+- Comes with a .685 freak insert, parts kit, tools, barrel sock.
+- Small leak in solenoid area. Can still use about 4 pods in a point."
               />
             </div>
 

@@ -53,7 +53,7 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .sell form .form-block .image-input-and-prompt {
@@ -68,6 +68,7 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  margin-top: -10px;
   align-self: flex-start;
   border: 1px solid grey;
   padding: 3px 5px;
@@ -96,13 +97,11 @@
   border: 0;
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 15px;
 }
 
 .sell form fieldset.prices {
 }
-
-
 
 .sell form .form-group {
   display: flex;
@@ -219,10 +218,9 @@
   position: relative;
 }
 
-
 .sell form .form-group.price input::before,
 .sell form .form-group.shipping input::before {
-  content: '$';
+  content: "$";
   z-index: 2;
   color: green;
   position: absolute;
@@ -231,7 +229,7 @@
 }
 
 .sell form .form-group.price input::before {
-  content: '$';
+  content: "$";
   position: absolute;
   top: 0;
   left: 0;
@@ -249,16 +247,22 @@
   display: flex;
 }
 
-.sell form .form-group.shipping .shipping-selector {
-  display: flex;
-}
-
 .sell form .form-group.shipping .shipping-selector-and-input {
   display: flex;
   gap: 5px;
+  width: 100%;
+}
+.sell form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+  display: flex;
+  width: 100%;
 }
 
-.sell form .form-group.shipping .shipping-selector .shipping-toggle-button {
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector-and-input
+  .shipping-selector
+  .shipping-toggle-button {
   white-space: nowrap;
   width: 100%;
   display: flex;
@@ -311,6 +315,18 @@
   input:disabled::-ms-input-placeholder {
   /* Edge 12 -18 */
   color: #4f4f4f;
+}
+
+.sell form .what-the-buyer-sees {
+  border: 1px solid #555;
+  padding: 10px;
+  background-color: #555;
+  border: 1px solid #666
+}
+
+.sell form .what-the-buyer-sees p:first-child {
+  font-weight: 500;
+  font-style: italic;
 }
 
 .sell form .form-group .radio-options {
@@ -369,7 +385,7 @@
 .sell form .form-group textarea {
   --padding: 10px;
   min-height: 150px;
-  min-height: calc(4lh + 2 * var(--padding));
+  min-height: calc(5lh + 2 * var(--padding));
   /* max-height: calc(5lh + 2 * var(--padding)); */
   max-height: calc(10lh + 2 * var(--padding));
   /* field-sizing: content; */
@@ -617,8 +633,8 @@
   }
 }
 
-
 .sell form .select-category-modal-toggle {
   justify-content: space-between;
-  width: 100%;;
+  width: 100%;
+  padding: 5px 10px;
 }

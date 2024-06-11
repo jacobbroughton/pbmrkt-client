@@ -93,6 +93,7 @@ function Listings() {
         p_sort: sort,
         p_seller_id: null,
         p_city: filters.saved.city == "All" ? null : filters.saved.city,
+        p_category_id: selectedCategory?.id || null
       });
 
       if (error) {

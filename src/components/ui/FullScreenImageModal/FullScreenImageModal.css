@@ -1,0 +1,6 @@
+.full-screen-image-modal {
+  position: fixed;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 60px;
+}

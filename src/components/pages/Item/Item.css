@@ -80,6 +80,7 @@
   /* aspect-ratio: 1/1; */
   background-size: cover;
   object-fit: cover;
+  border: 1px solid #444;
 }
 
 .item-thumbnail-image:hover,

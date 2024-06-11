@@ -110,6 +110,7 @@ const UserProfile = () => {
         p_sort: "Date Listed (New-Old)",
         p_seller_id: user.auth_id,
         p_city: "",
+        p_category_id: null
       });
 
       if (error2) throw error2.message;

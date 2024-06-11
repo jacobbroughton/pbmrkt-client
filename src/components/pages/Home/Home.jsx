@@ -193,14 +193,15 @@ function Listings() {
       active: search.savedSearchValue != "",
     },
     {
-      label: `Category: ${selectedCategory.value}`,
+      label: `Category: ${selectedCategory?.value}`,
       onDeleteClick: () => {
-        dispatch(setDraftSearchValue(""));
-        dispatch(setSavedSearchValue(""));
+        // dispatch(setDraftSearchValue(""));
+        // dispatch(setSavedSearchValue(""));
+        dispatch(setSelectedCategory(null))
         dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
         // dispatch(setFiltersUpdated(true));
       },
-      active: selectedCategory.value != "",
+      active: selectedCategory,
     },
     {
       label: `State: ${filters.saved.state}`,

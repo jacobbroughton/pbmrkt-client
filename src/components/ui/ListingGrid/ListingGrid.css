@@ -41,7 +41,7 @@
   overflow: hidden;
   background-color: #444;
   padding: 5px;
-  border-radius: 3px;
+  border-radius: 5px;
   border: grey 2px solid;
   transition: transform 0.1s ease, background-color 0.1s ease;
 }

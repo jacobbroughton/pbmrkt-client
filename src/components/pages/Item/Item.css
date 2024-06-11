@@ -445,7 +445,6 @@
   border: 1px solid #444;
   position: relative;
   filter: var(--drop-shadow);
-  z-index: 100;
 }
 
 .item .content .metadata-table-container::before {

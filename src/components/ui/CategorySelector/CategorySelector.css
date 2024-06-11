@@ -11,7 +11,6 @@
 
 .category-selector.for-modal {
   border: 0;
-  padding: 0;
 }
 
 .category-selector.for-modal .category-list-buttons {
@@ -106,6 +105,8 @@
   font-size: 1rem;
   color: white;
   border-radius: 2px;
+  padding-right: 0;
+  margin-right: 3px;
 }
 
 .category-selector
@@ -158,6 +159,7 @@
   width: 12px;
   fill: grey;
   margin-left: auto;
+  margin-right: 10px;
 }
 
 .category-selector

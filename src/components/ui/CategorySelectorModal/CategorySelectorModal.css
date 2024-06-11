@@ -1,8 +1,31 @@
-.category-selector-modal {
+.modal.category-selector-modal {
   z-index: 6 !important;
-  gap: 15px;
-  top: 60px;
+  gap: 0;
   max-width: 500px;
   transform: translateX(-50%) !important;
   top: 60px !important;
+  padding: 0;
+}
+
+.modal.category-selector-modal .header {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.modal.category-selector-modal .category-list-buttons {
+  display: flex;
+  padding: 5px 10px;
+  gap: 10px !important;
+}
+
+.modal.category-selector-modal .category-list-buttons button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.modal.category-selector-modal .buttons {
+  border-top: 1px solid #444;
+  /* margin: 10px; */
+  padding: 10px;
+  margin-top: 10px;
 }

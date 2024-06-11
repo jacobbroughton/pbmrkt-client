@@ -24,20 +24,18 @@ const CategorySelector = ({
           {selectedCategory?.path || "Select a Category"}
         </p> */}
 
-        <div>
-          <button
-            type="button"
-            onClick={() => setCategories(expandAllCategoryFolders(categories))}
-          >
-            Expand All
-          </button>
-          <button
-            type="button"
-            onClick={() => setCategories(collapseAllCategoryFolders(categories))}
-          >
-            Collapse All
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setCategories(expandAllCategoryFolders(categories))}
+        >
+          Expand All
+        </button>
+        <button
+          type="button"
+          onClick={() => setCategories(collapseAllCategoryFolders(categories))}
+        >
+          Collapse All
+        </button>
       </div>
       <CategoriesList
         categories={categories}

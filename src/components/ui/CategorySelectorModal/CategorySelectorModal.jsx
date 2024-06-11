@@ -4,7 +4,7 @@ import CategorySelector from "../CategorySelector/CategorySelector";
 import XIcon from "../../ui/Icons/XIcon";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { useState } from "react";
-import "./CategorySelectorModal.css"
+import "./CategorySelectorModal.css";
 
 const CategorySelectorModal = ({
   categories,
@@ -14,12 +14,12 @@ const CategorySelectorModal = ({
   handleCategoryClick,
 }) => {
   const dispatch = useDispatch();
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
   return (
     <>
       <div className="modal category-selector-modal">
-        <div className="heading">
-        {error && <p className='error-text small-text'></p>}
+        {error && <p className="error-text small-text"></p>}
+        <div className="header">
           <h3>Select a category</h3>
           <button
             title="Close this menu"

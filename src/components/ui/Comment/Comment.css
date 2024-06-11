@@ -21,6 +21,7 @@
 .comment .bars-and-content {
   display: flex;
   padding: 5px 0;
+  padding-bottom: 0;
 }
 
 .comment .bars-and-content .profile-picture-container {
@@ -115,6 +116,7 @@
   width: 100%;
   padding-left: 0;
   color: white;
+  padding-bottom: 0;;
 }
 
 .comment .bars-and-content .comment-contents .comment-header {

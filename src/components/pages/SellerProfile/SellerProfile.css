@@ -113,7 +113,7 @@
   text-decoration: underline;
 }
 
-.seller-profile-page .skeletons-grid {
+/* .seller-profile-page .skeletons-grid {
   position: relative;
   height: 400px;
   overflow: hidden;
@@ -130,15 +130,16 @@
   z-index: 3;
   width: calc(100% - 30px);
   max-width: 350px;
-}
+  background-color: #444;
+} */
 
-.seller-profile-page .skeletons-grid .overlay-content p {
+/* .seller-profile-page .skeletons-grid .overlay-content p {
   font-size: 1.25rem;
-}
+} */
 
-.seller-profile-page .skeletons-grid .overlay-content a {
+/* .seller-profile-page .skeletons-grid .overlay-content a {
 
-}
+} */
 
 .seller-profile-page .skeletons-grid .gradient-overlay {
   position: absolute;

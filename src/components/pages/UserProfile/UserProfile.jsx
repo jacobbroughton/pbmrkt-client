@@ -278,7 +278,7 @@ const UserProfile = () => {
         ) : (
           <SkeletonsListingGrid
             message={`${localUser.username} hasn't created any listings yet!`}
-            link={{ url: "/sell", label: "Sell something" }}
+            // link={{ url: "/sell", label: "Sell something" }}
             blinking={false}
             hasOverlay={true}
             numSkeletons={10}

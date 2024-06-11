@@ -193,6 +193,16 @@ function Listings() {
       active: search.savedSearchValue != "",
     },
     {
+      label: `Category: ${selectedCategory.value}`,
+      onDeleteClick: () => {
+        dispatch(setDraftSearchValue(""));
+        dispatch(setSavedSearchValue(""));
+        dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+        // dispatch(setFiltersUpdated(true));
+      },
+      active: selectedCategory.value != "",
+    },
+    {
       label: `State: ${filters.saved.state}`,
       onDeleteClick: () => {
         dispatch(resetFilter("state"));
@@ -348,7 +358,7 @@ function Listings() {
             <>
               <SkeletonsListingGrid
                 message={"No listings found, try adjusting your search or filters."}
-                link={{ url: "/sell", label: "Sell something" }}
+                // link={{ url: "/sell", label: "Sell something" }}
                 accountsForSidebar={
                   windowSize.width > 225 && modals.filtersSidebarToggled
                 }

@@ -8,16 +8,22 @@
 
 .skeletons-grid .overlay-content {
   position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 50px;
+  /* transform: translateX(-50%); */
+  left: 20px;
+  top: 20px;
   z-index: 3;
   width: calc(100% - 30px);
   max-width: 350px;
+  background-color: #444;
+  border: 1px solid #666;
+  /* box-shadow: 3px 3px 5px black; */
+  padding: 5px; 
+  border-radius: 2px;
+
 }
 
 .skeletons-grid .overlay-content p {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .skeletons-grid .overlay-content a {

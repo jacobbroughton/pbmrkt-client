@@ -34,8 +34,6 @@ const UserProfile = () => {
   });
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
 
-  const { session } = useSelector((state) => state.auth);
-
   useEffect(() => {
     getProfile();
   }, []);
@@ -194,11 +192,7 @@ const UserProfile = () => {
         {error && <p className="error-text small-text">{error}</p>}
         <div className="info-section">
           <div className="picture-and-info">
-            <div
-              className="profile-picture-container"
-              // onMouseEnter={() => setProfilePictureUpdateButtonShowing(true)}
-              // onMouseLeave={() => setProfilePictureUpdateButtonShowing(false)}
-            >
+            <div className="profile-picture-container">
               <img className="profile-picture" src={localUser.profile_picture_url} />
               {isAdmin && (
                 <label htmlFor="change-profile-picture">
@@ -255,7 +249,7 @@ const UserProfile = () => {
           <div className="user-info-containers">
             <div className="user-info-container">
               <label>Buyer Reviews</label>
-            
+
               <button
                 className="stars-button"
                 onClick={(e) => {
@@ -293,9 +287,9 @@ const UserProfile = () => {
 
         {modals.editUserProfileModalToggled && (
           <>
-            <EditUserProfileModal />
+            <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser}/>
             <ModalOverlay
-              zIndex={3}
+              zIndex={5}
               onClick={() =>
                 dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
               }

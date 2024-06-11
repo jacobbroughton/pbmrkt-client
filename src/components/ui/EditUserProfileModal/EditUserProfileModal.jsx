@@ -6,19 +6,24 @@ import "./EditUserProfileModal.css";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { supabase } from "../../../utils/supabase.js";
 import { setUser } from "../../../redux/auth.js";
+import EditIcon from "../Icons/EditIcon.jsx";
+import { v4 as uuidv4 } from "uuid";
+import XIcon from "../Icons/XIcon.jsx";
 
-const EditUserProfileModal = () => {
+const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
 
-  const [firstName, setFirstName] = useState(user.first_name || "");
-  const [lastName, setLastName] = useState(user.last_name || "");
-  const [city, setCity] = useState(user.city || "");
-  const [state, setState] = useState(user.state || "");
-  const [bio, setBio] = useState(user.bio || "");
-  const [phoneNumber, setPhoneNumber] = useState(user.phone_number || "");
-  const [email, setEmail] = useState(user.email || "");
+  const [firstName, setFirstName] = useState(localUser.first_name || "");
+  const [lastName, setLastName] = useState(localUser.last_name || "");
+  const [city, setCity] = useState(localUser.city || "");
+  const [state, setState] = useState(localUser.state || "");
+  const [bio, setBio] = useState(localUser.bio || "");
+  const [phoneNumber, setPhoneNumber] = useState(localUser.phone_number || "");
+  const [email, setEmail] = useState(localUser.email || "");
   const [error, setError] = useState(null);
+  const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
+  const [newProfilePictureUrl, setNewProfilePictureUrl] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -26,7 +31,7 @@ const EditUserProfileModal = () => {
     // p_city, p_email, p_first_name, p_last_name, p_phone_number, p_state, p_user_id)
     try {
       const { data, error } = await supabase.rpc("edit_user_profile", {
-        p_user_id: user.auth_id,
+        p_user_id: localUser.auth_id,
         // p_email: email,
         p_phone_number: phoneNumber,
         p_first_name: firstName,
@@ -45,13 +50,104 @@ const EditUserProfileModal = () => {
       // p_bio character varying
       if (error) throw error.message;
       console.log("edit_user_profile", data);
-      dispatch(setUser(data[0]));
-      dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
+
+      
+
+      const newUser = {
+        ...data[0],
+        profile_picture_url: localUser.profile_picture_url
+      };
+
+      console.log(newUser);
+      setLocalUser(newUser);
+      dispatch(setUser(newUser));
+      dispatch(toggleModal({ key: "editUserProfileModal", value: false }));
     } catch (error) {
       console.error(error);
       setError(error);
     }
   }
+
+  async function uploadProfilePicture(e) {
+    try {
+      setNewProfilePictureLoading(true);
+
+      const thisUploadUUID = uuidv4();
+      const file = e.target.files[0];
+      const { data, error } = await supabase.storage
+        .from("profile_pictures")
+        .upload(`${localUser.auth_id}/${thisUploadUUID}`, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
+
+      console.log(data);
+
+      if (!data.path) throw "New profile picture path not found";
+
+      const { data: data2, error: error2 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data.path);
+
+      if (error2) throw error2.message;
+
+      let newProfilePictureUrlLocal = data2.publicUrl;
+
+      const { data: data3, error: error3 } = await supabase.rpc("add_profile_image", {
+        p_generated_id: data.id,
+        p_full_path: data.fullPath,
+        p_path: data.path,
+        p_user_id: localUser.auth_id,
+      });
+      if (error3) throw error3.message;
+
+      // dispatch(
+      //   setUser({
+      //     ...localUser,
+      //     profile_picture_url: newProfilePictureUrlLocal,
+      //   })
+      // );
+
+      console.log(data3);
+
+      const { data: data4, error: error4 } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(data3.path || "placeholders/user-placeholder");
+
+      if (error4) throw error4.message;
+
+      setLocalUser({
+        ...localUser,
+        profile_picture_url: data4.publicUrl,
+      });
+
+      setNewProfilePictureUrl(newProfilePictureUrlLocal);
+      // dispatch(
+      //   setUserProfilePicture(newProfilePictureUrlLocal)
+      // );
+
+      // setProfilePicture(data2[0].full_path);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+
+    setNewProfilePictureLoading(false);
+  }
+
+  const submitDisabled =
+    firstName == localUser.first_name &&
+    lastName == localUser.last_name &&
+    city == localUser.city &&
+    state == localUser.state &&
+    bio == localUser.bio &&
+    phoneNumber == localUser.phone_number &&
+    email == localUser.email;
 
   return (
     <div className="modal edit-user-profile-modal">
@@ -64,10 +160,27 @@ const EditUserProfileModal = () => {
             dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
           }
         >
-          Close
+          Close <XIcon />
         </button>
       </div>
       <form onSubmit={handleSubmit} className="standard">
+        <div className="form-group">
+          <label>Change your profile picture</label>
+          <div></div>
+          <div className="profile-picture-container">
+            <img className="profile-picture" src={localUser.profile_picture_url} />
+            <label htmlFor="change-profile-picture">
+              <input
+                type="file"
+                className=""
+                title="Edit profile picture"
+                id="change-profile-picture"
+                onChange={uploadProfilePicture}
+              />
+              {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+            </label>
+          </div>
+        </div>
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">First Name</label>
@@ -136,7 +249,9 @@ const EditUserProfileModal = () => {
             />
           </div>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={submitDisabled}>
+          Submit
+        </button>
       </form>
     </div>
   );

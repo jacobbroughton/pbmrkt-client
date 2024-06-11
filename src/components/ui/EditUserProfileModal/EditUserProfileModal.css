@@ -1,8 +1,11 @@
 .modal.edit-user-profile-modal {
-  z-index: 5;
-  width: 100%;;
+  z-index: 6;
+  width: calc(100% - 20px);
   max-width: 500px;
+  top: 60px;
+  transform: translateX(-50%);
   padding: 0;
+  gap: 0;
 }
 
 .edit-user-profile-modal .header {
@@ -47,7 +50,7 @@
   font-family: inherit;
   font-size: 1rem;
   background-color: #3b3b3b;
-  border: 1px solid grey;
+  border: 1px solid #555;
   color: white;
   border-radius: 3px;
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
@@ -74,9 +77,59 @@
   .form-group.shipping
   .shipping-selector
   .shipping-toggle-button:not(.selected):hover {
-  border-color: #aaa;
+  border-color: #666;
 }
 
 .edit-user-profile-modal > form .form-group select:not(:disabled) {
   cursor: pointer;
+}
+
+
+
+.edit-user-profile-modal > form .form-group .profile-picture-container {
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  border-radius: 500px;
+  /* overflow: hidden; */
+  display: flex;
+  position: relative;
+}
+
+.edit-user-profile-modal > form .form-group .profile-picture-container {
+  margin-top: 3px;
+}
+
+.edit-user-profile-modal > form .form-group  .profile-picture-container .profile-picture {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.edit-user-profile-modal > form .form-group .profile-picture-container label {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* background-color: orange; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 3;
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
+  cursor: pointer;
+}
+
+.edit-user-profile-modal > form .form-group .profile-picture-container label input[type="file"] {
+  display: none;
+}
+
+.edit-user-profile-modal > form .form-group .profile-picture-container label svg {
+  width: 20px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
+  fill: white;
+  transition: fill 0.1s ease, filter 0.1s ease;
 }

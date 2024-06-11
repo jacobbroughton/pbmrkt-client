@@ -270,10 +270,10 @@ form.standard .form-group.required label::after {
   align-items: center;
 }
 
-.modal.seller-reviews .header h4,
-.modal.seller-reviews .header h3,
-.modal.seller-reviews .header h2,
-.modal.seller-reviews .header h1 {
+.modal .header h4,
+.modal .header h3,
+.modal .header h2,
+.modal .header h1 {
   font-weight: 600;
 }
 

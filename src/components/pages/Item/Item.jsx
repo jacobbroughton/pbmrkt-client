@@ -350,6 +350,74 @@ const Item = () => {
                 </p>
               </div>
 
+              {/* <div className="horizontal-divider"></div> */}
+              {item.info.details ? (
+                <div className="details">
+                  <label>Details from the seller</label>
+                  <p>{item.info.details}</p>
+                </div>
+              ) : (
+                <div className="no-details-warning">
+                  <p>
+                    <WarningTriangle /> No details were provided
+                  </p>
+                  <p>
+                    Make sure to request more info from the seller prior to purchasing, so
+                    there are no surprises.
+                  </p>
+                </div>
+              )}
+
+              {/* <div className='metadata-new'>
+                <div className='metadata-row'>
+                  <p>Condition</p>
+                  <div className='horizontal-divider'></div>
+                  <p>{item.info.condition}</p>
+                </div>
+                <div className='metadata-row'>
+                  <p>Shipping</p>
+                  <div className='horizontal-divider'></div>
+                  <p>{item.info.shipping}</p>
+                </div>
+                <div className='metadata-row'>
+                  <p>Negotiable</p>
+                  <div className='horizontal-divider'></div>
+                  <p>{item.info.negotiable}</p>
+                </div>
+                <div className='metadata-row'>
+                  <p>Trades</p>
+                  <div className='horizontal-divider'></div>
+                  <p>{item.info.trades}</p>
+                </div>
+              </div> */}
+
+              {/* Metadata */}
+              <div className="metadata-table-and-label">
+                <label>Extra Info</label>
+                <div className="metadata-table-container">
+                  <table className="metadata">
+                    <tbody>
+                      <tr>
+                        <td>Condition</td>
+                        <td>{item.info.condition}</td>
+                      </tr>
+                      <tr>
+                        <td>Shipping</td>
+                        <td>{item.info.shipping}</td>
+                      </tr>
+                      <tr>
+                        <td>Negotiable</td>
+                        <td>{item.info.negotiable}</td>
+                      </tr>
+                      <tr>
+                        <td>Trades</td>
+                        <td>{item.info.trades}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               {/* Seller Info */}
               <div className="seller-info">
                 <div className="profile-picture-container">
@@ -368,45 +436,6 @@ const Item = () => {
 
                   <Stars rating={item.info.seller_rating} />
                 </div>
-              </div>
-
-              {/* <div className="horizontal-divider"></div> */}
-              {item.info.details ? (
-                <p className="details">{item.info.details}</p>
-              ) : (
-                <div className="no-details-warning">
-                  <p>
-                    <WarningTriangle /> No details were provided
-                  </p>
-                  <p>
-                    Make sure to request more info from the seller prior to purchasing, so
-                    there are no surprises.
-                  </p>
-                </div>
-              )}
-
-              {/* Metadata */}
-              <div className="metadata-table-container">
-                <table className="metadata">
-                  <tbody>
-                    <tr>
-                      <td>Condition</td>
-                      <td>{item.info.condition}</td>
-                    </tr>
-                    <tr>
-                      <td>Shipping</td>
-                      <td>{item.info.shipping}</td>
-                    </tr>
-                    <tr>
-                      <td>Negotiable</td>
-                      <td>{item.info.negotiable}</td>
-                    </tr>
-                    <tr>
-                      <td>Trades</td>
-                      <td>{item.info.trades}</td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>

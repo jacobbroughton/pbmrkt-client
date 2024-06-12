@@ -116,6 +116,8 @@ const UserProfile = () => {
       if (error2) throw error2.message;
       if (!data2) throw "No listings available";
 
+      console.log(data2)
+
       setListings(data2);
     } catch (error) {
       console.error(error);

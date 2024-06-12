@@ -196,7 +196,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             type="button"
             className={`reset-button`}
             disabled={resetButtonDisabled}
-            title='Reset all of your filters back to their original state'
+            title="Reset all of your filters back to their original state"
           >
             <UndoIcon />
           </button>
@@ -230,7 +230,10 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               type="button"
               title={`Click this to open a menu and select an item category to filter your results on`}
             >
-              {filters.draft.category?.value ?? "Select a Category"} <EditIcon />{" "}
+              <span className="current-category">
+                {filters.saved.category?.value ?? "Select a Category"}
+              </span>
+              <EditIcon />{" "}
             </button>
           </div>
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>

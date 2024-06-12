@@ -1,4 +1,3 @@
-import "./Home.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
 import useWindowSize from "../../../utils/useWindowSize";
@@ -7,10 +6,9 @@ import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import { resetFilter, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
+import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
@@ -19,11 +17,10 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
-import XIcon from "../../ui/Icons/XIcon.jsx";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
 import Footer from "../../ui/Footer/Footer.jsx";
 import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import "./Home.css";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -37,22 +34,12 @@ function Listings() {
   const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
   const [listingsError, setListingsError] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [views, setViews] = useState([
-  //   {
-  //     id: 0,
-  //     label: "For Sale",
-  //     toggled: true,
-  //   },
-  //   {
-  //     id: 1,
-  //     label: "Looking To Buy",
-  //     toggled: false,
-  //   },
-  // ]);
+
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -93,7 +80,7 @@ function Listings() {
         p_sort: sort,
         p_seller_id: null,
         p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: selectedCategory?.id || null
+        p_category_id: filters.saved.category?.id || null,
       });
 
       if (error) {
@@ -168,6 +155,7 @@ function Listings() {
 
       const nestedItemCategories = nestItemCategories(data);
 
+      setInitialCategories(nestedItemCategories)
       setCategories(nestedItemCategories);
     } catch (error) {
       console.error(error);
@@ -193,15 +181,18 @@ function Listings() {
       active: search.savedSearchValue != "",
     },
     {
-      label: `Category: ${selectedCategory?.value}`,
+      label: `Category: ${filters.saved?.category?.value}`,
       onDeleteClick: () => {
-        // dispatch(setDraftSearchValue(""));
-        // dispatch(setSavedSearchValue(""));
-        dispatch(setSelectedCategory(null))
-        dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+        // dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+        // dispatch(resetFilter("category"));
         // dispatch(setFiltersUpdated(true));
+        // setSelectedCategory(null)
+        // dispatch(setSelectedCategory(null));
+        dispatch(resetFilter("category"));
+        dispatch(setFiltersUpdated(true));
+        setCategories(initialCategories)
       },
-      active: selectedCategory,
+      active: filters.saved.category,
     },
     {
       label: `State: ${filters.saved.state}`,
@@ -340,11 +331,10 @@ function Listings() {
             <FilterTags filterTags={filterTags} />
           )}
           {listingsError ? (
-            <p>{listingsError}</p>
+            <p className="small-text error-text">{listingsError}</p>
           ) : listingsInitiallyLoading && listingsLoading ? (
             <p>
               <SkeletonsListingGrid
-                // message={"Loading listings..."}
                 // link={{ url: "/sell", label: "Sell something" }}
                 accountsForSidebar={
                   windowSize.width > 225 && modals.filtersSidebarToggled
@@ -359,7 +349,6 @@ function Listings() {
             <>
               <SkeletonsListingGrid
                 message={"No listings found, try adjusting your search or filters."}
-                // link={{ url: "/sell", label: "Sell something" }}
                 accountsForSidebar={
                   windowSize.width > 225 && modals.filtersSidebarToggled
                 }
@@ -369,10 +358,7 @@ function Listings() {
                 heightPx={null}
                 loading={!listingsInitiallyLoading && listingsLoading}
               />
-              {/* {!listingsInitiallyLoading && listingsLoading && (
-                <LoadingOverlay zIndex={3} />
-              )} */}
-              <Footer  />
+              <Footer />
             </>
           ) : (
             <>
@@ -381,7 +367,6 @@ function Listings() {
                 accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
                 loading={!listingsInitiallyLoading && listingsLoading}
               />
-              {/* {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />} */}
               <Footer />
             </>
           )}
@@ -395,84 +380,12 @@ function Listings() {
           selectedCategory={selectedCategory}
           handleCategoryClick={(category) => {
             if (category.is_folder) {
-              console.log("folder", category);
               setCategories(toggleCategoryFolder(category, categories));
             } else {
               setCategories(setCategoryChecked(category, categories));
             }
           }}
         />
-        // <>
-        //   <div className="category-selector-modal modal">
-        //     <div className="heading">
-        //       <h3>Select a category</h3>
-        //       <button
-        //         title="Close this menu"
-        //         className="button"
-        //         onClick={() =>
-        //           dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
-        //         }
-        //       >
-        //         Close <XIcon />
-        //       </button>
-        //     </div>
-        //     <CategorySelector
-        //       forModal={true}
-        //       categories={categories}
-        //       setCategories={setCategories}
-        //       selectedCategory={selectedCategory}
-        //       setSelectedCategory={setSelectedCategory}
-        //       handleCategoryClick={(category) => {
-        //         if (category.is_folder) {
-        //           console.log("folder", category);
-        //           setCategories(toggleCategoryFolder(category, categories));
-        //         } else {
-        //           setCategories(setCategoryChecked(category, categories));
-        //         }
-        //       }}
-        //     />
-        //     <div className="buttons">
-        //       <button
-        //         className="button"
-        //         type="button"
-        //         onClick={() => {
-        //           try {
-        //             if (!selectedCategory) throw "no category was selected";
-
-        //             const newDraft = {
-        //               ...filters.draft,
-        //               category: selectedCategory,
-        //             };
-
-        //             console.log(newDraft);
-
-        //             if (!selectedCategory.is_folder) {
-        //               dispatch(
-        //                 setFilters({ ...filters, draft: newDraft, saved: newDraft })
-        //               );
-        //               dispatch(setFiltersUpdated(true));
-        //               dispatch(
-        //                 toggleModal({ key: "categorySelectorModal", value: false })
-        //               );
-        //             }
-        //           } catch (error) {
-        //             setListingsError(error);
-        //           }
-        //         }}
-        //         disabled={!selectedCategory || selectedCategory?.is_folder}
-        //       >
-        //         Apply
-        //       </button>
-        //     </div>
-        //   </div>
-
-        //   <ModalOverlay
-        //     zIndex={5}
-        //     onClick={() =>
-        //       dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
-        //     }
-        //   />
-        // </>
       )}
     </div>
   );

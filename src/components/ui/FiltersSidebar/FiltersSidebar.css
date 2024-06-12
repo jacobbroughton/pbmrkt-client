@@ -160,11 +160,22 @@
 
 .filters > .filter-items .filter-item .select-category-modal-toggle {
   justify-content: space-between;
-  width: 100%;;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* width: 200px; */
+}
+
+.filters > .filter-items .filter-item .select-category-modal-toggle .current-category {
+  width: 100%;
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .filters > .filter-items .filter-item .select-category-modal-toggle svg {
-  width: 15px
+  width: 15px;
+  min-width: 15px;
 }
 
 .filters > .filter-items .filter-item.disabled label {

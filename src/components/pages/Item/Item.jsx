@@ -261,7 +261,7 @@ const Item = () => {
 
   const isAdmin = user && item.info?.created_by_id == user?.auth_id;
 
-  if (error) return <p className="error-text">{error.toString()}</p>;
+  if (error) return <p className="error-text small-text">{error.toString()}</p>;
   if (!item.info?.eff_status) return <p>This item was deleted.</p>;
 
   return (

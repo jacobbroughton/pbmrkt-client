@@ -7,6 +7,8 @@ import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
 } from "../../../utils/usefulFunctions.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilters } from "../../../redux/filters.js";
 
 const CategorySelector = ({
   categories,
@@ -55,6 +57,8 @@ const CategoryButton = ({
   selectedCategory,
   setSelectedCategory,
 }) => {
+  const dispatch = useDispatch()
+  const filters = useSelector( state => state.filters)
   return (
     <button
       className={`category-button ${category.is_folder ? "is-folder" : ""}`}
@@ -63,11 +67,18 @@ const CategoryButton = ({
         e.stopPropagation();
         handleCategoryClick(category);
 
-        if (!category.is_folder) setSelectedCategory(category.checked ? null : category);
+        // if (!category.is_folder) setSelectedCategory(category.checked ? null : category);
+        if (!category.is_folder) dispatch(setFilters({...filters, draft: {
+          ...filters.draft,
+          category: category
+        }}))
       }}
     >
       <div className="label-and-arrow">
-        <span>{category.isIndex ? "..." : category.value}</span>
+        <span>
+          {category.isIndex ? "..." : category.value}
+          {!category.is_folder ? ` (${category.num_results})` : ""}
+        </span>
         {category.is_folder ? (
           <Caret direction={category.toggled ? "down" : "right"} />
         ) : (

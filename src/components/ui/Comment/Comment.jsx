@@ -22,6 +22,7 @@ const Comment = ({
   setError,
   getComments,
 }) => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div
       key={comment.id}
@@ -41,7 +42,7 @@ const Comment = ({
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
               <div className="thread-bar">
-                {comment.repliesToggled ? <MinusIcon/> : <PlusIcon/>}
+                {comment.repliesToggled ? <MinusIcon /> : <PlusIcon />}
                 {/* <Chevron
                   onClick={(e) => handleRepliesClick(e, comment)}
                   direction={comment.repliesToggled ? "down" : "up"}
@@ -65,7 +66,7 @@ const Comment = ({
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
           {comment.eff_status &&
-          // comment.created_by_id == session?.user.id &&
+          user &&
           comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button
@@ -77,13 +78,13 @@ const Comment = ({
               >
                 Reply
               </button>
-              <button
+              {comment.created_by_id == user.auth_id && <button
                 className="button"
                 onClick={(e) => handleDeleteComment(e, comment.id)}
                 type="button"
               >
                 Delete
-              </button>
+              </button>}
             </div>
           ) : (
             false

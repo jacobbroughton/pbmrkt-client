@@ -4,6 +4,7 @@ import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import "./CommentsList.css";
 import FrogIcon from "../Icons/FrogIcon";
+import CommentsIcon from "../Icons/CommentsIcon";
 
 const CommentsList = ({
   passedComments,
@@ -103,10 +104,12 @@ const CommentsList = ({
     <div className={`comments-list ${isRootLevel ? "is-root-level" : ""}`}>
       {!localComments || localComments?.length == 0 ? (
         <div className="no-comments-container">
-          <p>It's too quiet here, leave a comment!</p>
-          <div className="frog-icon-container">
+          <CommentsIcon/>
+          <p>No Comments Yet</p>
+          <p>Be the first to share what you think!</p>
+          {/* <div className="frog-icon-container">
             <FrogIcon />
-          </div>
+          </div> */}
         </div>
       ) : (
         localComments.map((comment) => {

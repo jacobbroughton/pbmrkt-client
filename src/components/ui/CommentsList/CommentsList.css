@@ -35,15 +35,20 @@
 
 .item .comments-section .no-comments-container {
   font-size: 0.875rem;
-  /* border: 1px solid #555; */
   /* padding: 10px; */
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   position: relative;
+  margin-top: 20px;
+}
+
+.item .comments-section .no-comments-container p:nth-child(2) {
+  font-size: 1.15rem;
+  font-weight: 500;
 }
 
 .item .comments-section .no-comments-container svg {

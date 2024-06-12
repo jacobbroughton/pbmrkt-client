@@ -56,6 +56,7 @@ a {
 
 textarea {
   resize: vertical;
+  color: white;
 }
 
 .modal-overlay {
@@ -210,6 +211,7 @@ form .form-group .input-and-visible-toggle input {
 form.standard input,
 form.standard textarea,
 select {
+  appearance: none;
   font-family: inherit;
   padding: 3px 5px;
   border-radius: 3px;

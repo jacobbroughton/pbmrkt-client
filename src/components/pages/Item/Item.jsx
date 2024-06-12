@@ -394,7 +394,6 @@ const Item = () => {
 
               {/* Metadata */}
               <div className="metadata-table-and-label">
-                <label>Extra Info</label>
                 <div className="metadata-table-container">
                   <table className="metadata">
                     <tbody>
@@ -490,7 +489,7 @@ const Item = () => {
         ) : (
           false
         )}
-      <Footer marginTop={100} />
+        <Footer marginTop={150} />
       </div>
     </>
   );

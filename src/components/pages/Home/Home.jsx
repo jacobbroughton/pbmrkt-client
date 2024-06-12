@@ -311,7 +311,7 @@ function Listings() {
               </button>
             )}
             <div className="control-group sort">
-              <p>Sort By:</p>
+              <p>Sorted By:</p>
 
               <select
                 id="sort-select"

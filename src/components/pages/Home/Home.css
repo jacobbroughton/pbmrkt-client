@@ -6,7 +6,7 @@
 }
 
 .home .listings-section {
-  width: 100%;
+  /* width: 100%; this breaks the page on safari */
   /* margin-left: 241px; */
 }
 
@@ -103,10 +103,12 @@
   padding: 3px 5px;
   cursor: pointer;
   transition: 0.05s ease background-color;
+  color: white;
 }
 
 
 .home .listings-controls .control-group.sort select:hover {
+  .home .listings-controls .control-group.sort select:hover {
   background-color: #4f4f4f;
   color: initial;
 }

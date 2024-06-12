@@ -131,7 +131,7 @@ const EditItemModal = ({ item, setItem }) => {
       <div className="modal edit-item">
         {error && <p className="small-text error-text">{error.toString()}</p>}
 
-        <div className="heading">
+        <div className="header">
           <h2>Edit Item</h2>
           <button
             onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}

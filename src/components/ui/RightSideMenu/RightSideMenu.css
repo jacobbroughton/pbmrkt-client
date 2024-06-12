@@ -1,13 +1,13 @@
 .right-side-menu {
   /* padding: 10px; */
   /* z-index: 5; */
-  background-color: #555;
-  border: 1px solid grey;
+  border: 1px solid #555;
   border-radius: 3px;
   position: fixed;
   top: 58px;
   right: 10px;
   box-shadow: -3px 3px 5px #18181877;
+  overflow: hidden;
 }
 
 .right-side-menu .error-text {
@@ -16,14 +16,15 @@
   max-width: 200px;
 }
 
-.right-side-menu button .right-side-menu button {
+/* .right-side-menu button .right-side-menu button {
   padding: 5px 10px;
   font-size: 1rem;
   border-radius: 3px;
-  border: 1px solid grey;
-}
+  border: 1px solid #444;
+} */
 
-.right-side-menu .menu-item {
+.right-side-menu .menu-item,
+.right-side-menu .menu-item.logout {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -32,12 +33,10 @@
   cursor: pointer;
   gap: 10px;
   color: white;
+  background-color: #333;
 }
 
-.right-side-menu .menu-item.logout,
-.right-side-menu .menu-item a {
-  color: white ;
-}
+
 
 .right-side-menu button.menu-item {
   background-color: transparent;
@@ -46,7 +45,7 @@
 }
 
 .right-side-menu .menu-item:hover {
-  background-color: #5f5f5f;
+  background-color: #444;
   text-decoration: none;
 }
 

@@ -367,19 +367,21 @@ function Listings() {
                 numSkeletons={20}
                 blinking={false}
                 heightPx={null}
+                loading={!listingsInitiallyLoading && listingsLoading}
               />
-              {!listingsInitiallyLoading && listingsLoading && (
+              {/* {!listingsInitiallyLoading && listingsLoading && (
                 <LoadingOverlay zIndex={3} />
-              )}
-              <Footer />
+              )} */}
+              <Footer  />
             </>
           ) : (
             <>
               <ListingGrid
                 listings={listings}
                 accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
+                loading={!listingsInitiallyLoading && listingsLoading}
               />
-              {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />}
+              {/* {!listingsInitiallyLoading && listingsLoading && <LoadingOverlay />} */}
               <Footer />
             </>
           )}

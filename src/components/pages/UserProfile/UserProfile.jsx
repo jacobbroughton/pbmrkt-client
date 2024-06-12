@@ -110,7 +110,7 @@ const UserProfile = () => {
         p_sort: "Date Listed (New-Old)",
         p_seller_id: user.auth_id,
         p_city: "",
-        p_category_id: null
+        p_category_id: null,
       });
 
       if (error2) throw error2.message;
@@ -183,14 +183,13 @@ const UserProfile = () => {
 
   const isAdmin = user?.auth_id == localUser?.auth_id;
 
-  if (error) return <p>{error}</p>;
-
-  if (loading) return <LoadingOverlay />;
+  if (loading)
+    return <LoadingOverlay message="Loading user..." verticalAlignment={"center"} />;
 
   return (
     <>
       <div className="user-profile-page">
-        {error && <p className="error-text small-text">{error}</p>}
+        {error && <p className="error-text small-text">{error.toString()}</p>}
         <div className="info-section">
           <div className="picture-and-info">
             <div className="profile-picture-container">
@@ -255,9 +254,10 @@ const UserProfile = () => {
                 className="stars-button"
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (reviews.count <= 0) return;
                   dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
                 }}
-                // disabled={reviews.count == 0}
+                disabled={reviews.count == 0}
               >
                 <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
               </button>
@@ -288,7 +288,7 @@ const UserProfile = () => {
 
         {modals.editUserProfileModalToggled && (
           <>
-            <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser}/>
+            <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
             <ModalOverlay
               zIndex={5}
               onClick={() =>

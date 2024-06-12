@@ -255,7 +255,8 @@ const Item = () => {
     );
   }
 
-  if (!item && loading) return <LoadingOverlay message="Fetching item..." />;
+  if (!item && loading)
+    return <LoadingOverlay message="Fetching item..." verticalAlignment="center" />;
   if (!item) return <p>item not found</p>;
 
   const isAdmin = user && item.info?.created_by_id == user?.auth_id;
@@ -443,11 +444,11 @@ const Item = () => {
 
         <div className="comments-section">
           {/* <div className="horizontal-divider"></div> */}
-          <h3>Comments</h3>
+          {/* <h3>Comments</h3> */}
           {user ? (
             <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
               <textarea
-                placeholder="Add a comment..."
+                placeholder="Write Something"
                 onChange={(e) => setNewCommentBody(e.target.value)}
                 value={newCommentBody}
               />
@@ -462,7 +463,7 @@ const Item = () => {
             </p>
           )}
 
-          <div className="horizontal-divider"></div>
+          {/* <div className="horizontal-divider"></div> */}
           <CommentsList
             passedComments={localComments}
             handleCommentSubmit={handleNewCommentSubmit}
@@ -489,8 +490,8 @@ const Item = () => {
         ) : (
           false
         )}
+      <Footer marginTop={100} />
       </div>
-      <Footer marginTopPx={100} />
     </>
   );
 };

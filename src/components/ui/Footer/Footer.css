@@ -1,10 +1,15 @@
 .footer {
-  padding:30px;
+  /* padding: 5px 10px; */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   font-weight: 500;
-  border-top: #555 1px solid;
-  margin-top: 30px;
+  /* border: #444 1px solid; */
+  /* background-color: #333; */
+  border-radius: 3px;
+  padding-top: 30px;
+  padding-bottom: 30px
+  /* background-color: var(--bg-primary); */
+
 }

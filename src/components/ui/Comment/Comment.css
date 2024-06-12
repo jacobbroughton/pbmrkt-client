@@ -15,7 +15,7 @@
 }
 
 .comment:not(.is-root-level) {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .comment .bars-and-content {

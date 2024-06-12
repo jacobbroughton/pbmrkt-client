@@ -36,12 +36,12 @@ function App() {
 
       if (!data[0]) {
         setSessionLoading(false);
-        return
+        return;
       }
 
       const { data: data2, error: error2 } = supabase.storage
         .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path ||  "placeholders/user-placeholder");
+        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
       if (error2) throw error2.message;
 
@@ -123,7 +123,7 @@ function App() {
       } = onAuthStateChange((event, session) => {
         if (event == "SIGNED_OUT") {
           dispatch(setSession(null));
-          dispatch(setUser(null))
+          dispatch(setUser(null));
         }
 
         console.log(event);
@@ -134,7 +134,8 @@ function App() {
     }, 0);
   }, []);
 
-  if (sessionLoading) return <LoadingOverlay message={"Loading..."} />;
+  if (sessionLoading)
+    return <LoadingOverlay message={"Loading..."} verticalAlignment={"center"} />;
 
   const PrivateRoutes = () => {
     const userAuthenticated = session && !sessionLoading;
@@ -145,7 +146,7 @@ function App() {
     <>
       <Navbar />
       <main>
-        {error && <p className="error-text small-text">{error}</p>}
+        {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>
           <Route element={<Listings />} path="/" />
           <Route element={<Register />} path="/register" />

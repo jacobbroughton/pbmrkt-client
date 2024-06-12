@@ -100,7 +100,7 @@ const CommentsList = ({
     }
   }
   return (
-    <div className="comments-list">
+    <div className={`comments-list ${isRootLevel ? "is-root-level" : ""}`}>
       {!localComments || localComments?.length == 0 ? (
         <div className="no-comments-container">
           <p>It's too quiet here, leave a comment!</p>

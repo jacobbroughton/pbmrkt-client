@@ -61,7 +61,7 @@ const RightSideMenu = () => {
   return (
     <>
       <div className="right-side-menu" ref={rightSideMenuRef}>
-        {error && <p className="error-text small-text">{error}</p>}
+        {error && <p className="error-text small-text">{error.toString()}</p>}
         <Link
           to={`/user/${user.username}`}
           className="menu-item"

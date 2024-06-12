@@ -99,8 +99,16 @@
 
 .home .listings-controls .control-group.sort select {
   background-color: #444;
-  border: 1px solid grey;
+  border: 1px solid #555;
   padding: 3px 5px;
+  cursor: pointer;
+  transition: 0.05s ease background-color;
+}
+
+
+.home .listings-controls .control-group.sort select:hover {
+  background-color: #4f4f4f;
+  color: initial;
 }
 
 .home .listings-controls .control-group.sort p {

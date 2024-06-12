@@ -1,8 +1,8 @@
 import "./Footer.css";
 
-const Footer = () => {
+const Footer = ({ marginTop }) => {
   return (
-    <div className="footer">
+    <div className="footer" style={{ marginTop }}>
       <p>Built For Paintball</p>
     </div>
   );

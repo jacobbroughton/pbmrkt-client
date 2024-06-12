@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ItemSkeleton from "../Skeletons/ItemSkeleton/ItemSkeleton";
 import "./SkeletonsListingGrid.css";
+import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
 const SkeletonsListingGrid = ({
   message,
@@ -10,6 +11,7 @@ const SkeletonsListingGrid = ({
   blinking,
   numSkeletons,
   heightPx,
+  loading
 }) => {
   return (
     <div
@@ -29,6 +31,7 @@ const SkeletonsListingGrid = ({
       {[...new Array(numSkeletons)].map((num, i) => (
         <ItemSkeleton key={i} blinking={blinking} />
       ))}
+      {loading && <LoadingOverlay zIndex={3}/>}
     </div>
   );
 };

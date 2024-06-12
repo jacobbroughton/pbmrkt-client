@@ -1,10 +1,12 @@
 import Spinner from "../Icons/Spinner/Spinner";
 import "./LoadingOverlay.css";
 
-const LoadingOverlay = ({ message, zIndex }) => {
+const LoadingOverlay = ({ message, zIndex, verticalAlignment }) => {
   return (
     <div
-      className="loading-overlay"
+      className={`loading-overlay ${
+        verticalAlignment ? `vertical-${verticalAlignment}` : ""
+      }`}
       style={{
         ...(zIndex && { zIndex }),
       }}

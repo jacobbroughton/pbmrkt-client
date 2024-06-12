@@ -281,7 +281,7 @@ form.standard .form-group.required label::after {
   font-size: 1rem;
   color: white;
   background-color: #444;
-  border: 1px solid grey;
+  border: 1px solid #555;
   border-radius: 3px;
   padding: 3px 5px;
   cursor: pointer;

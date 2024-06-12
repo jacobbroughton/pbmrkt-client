@@ -239,8 +239,8 @@
 .filters > .filter-items .filter-item select {
   padding: 3px 5px;
   border-radius: 3px;
-  border: 1px solid grey;
-  background-color: #3b3b3b;
+  border: 1px solid #555;
+  background-color: #444;
   font-size: 1rem;
   color: white;
 }

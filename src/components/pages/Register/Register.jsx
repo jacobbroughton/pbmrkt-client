@@ -356,7 +356,7 @@ const Register = () => {
         )}
       </div>
 
-      <Footer marginTop={200} />
+      {/* <Footer marginTop={200} /> */}
     </>
   );
 };

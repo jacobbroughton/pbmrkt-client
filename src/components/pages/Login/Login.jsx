@@ -103,7 +103,7 @@ const Login = () => {
         </form>
         {loading && <LoadingOverlay message="Logging you in..." />}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

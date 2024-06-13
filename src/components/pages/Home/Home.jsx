@@ -368,7 +368,7 @@ function Listings() {
                 heightPx={null}
                 loading={!listingsInitiallyLoading && listingsLoading}
               />
-              <Footer />
+              {/* <Footer /> */}
             </>
           ) : (
             <>
@@ -377,7 +377,7 @@ function Listings() {
                 accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
                 loading={!listingsInitiallyLoading && listingsLoading}
               />
-              <Footer />
+              {/* <Footer /> */}
             </>
           )}
         </div>

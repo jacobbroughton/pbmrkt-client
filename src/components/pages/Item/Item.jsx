@@ -456,9 +456,9 @@ const Item = () => {
               </button>
             </form>
           ) : (
-            <p>
+            <p className='login-or-signup'>
               <Link to="/login">Login</Link> or <Link to="/register">sign up</Link> to
-              leave comment.
+              leave a comment.
             </p>
           )}
 
@@ -489,7 +489,7 @@ const Item = () => {
         ) : (
           false
         )}
-        <Footer marginTop={150} />
+        {/* <Footer marginTop={150} /> */}
       </div>
     </>
   );

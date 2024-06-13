@@ -989,7 +989,7 @@ const Sell = () => {
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

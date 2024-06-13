@@ -18,6 +18,8 @@ import XIcon from "../../ui/Icons/XIcon";
 import ThreeDots from "../../ui/Icons/ThreeDots";
 import WarningCircle from "../../ui/Icons/WarningCircle";
 import WarningTriangle from "../../ui/Icons/WarningTriangle";
+import PhoneIcon from "../../ui/Icons/PhoneIcon";
+import EmailIcon from "../../ui/Icons/EmailIcon";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -305,53 +307,75 @@ const Item = () => {
           </div>
           <div className="content">
             <div className="images-and-info">
-              {/* Images */}
-              <div className="primary-info">
-                {isAdmin && (
-                  <button
-                    title="Modify the properties of this item"
-                    type="button"
-                    className="edit-item-menu-toggle"
-                    onClick={() =>
-                      dispatch(
-                        toggleModal({
-                          key: "editItemModal",
-                          value: !modals.editItemMenuToggled,
-                        })
-                      )
-                    }
-                  >
-                    <ThreeDots />
-                  </button>
-                )}
-                {editItemMenuToggled && <div></div>}
-                <h1>{item.info.what_is_this}</h1>
-                <div className="price-and-toggle">
-                  <p>
-                    ${item.info.price}
-                    {item.info.shipping_cost
-                      ? ` + $${item.info.shipping_cost} shipping`
-                      : " + Free Shipping"}
-                  </p>
-                  {priceChangeHistory?.length >= 1 && (
+              <div className="info-and-contact">
+                <div className="primary-info">
+                  {isAdmin && (
                     <button
-                      className="button price-change-modal-toggle"
+                      title="Modify the properties of this item"
+                      type="button"
+                      className="edit-item-menu-toggle"
                       onClick={() =>
-                        dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                        dispatch(
+                          toggleModal({
+                            key: "editItemModal",
+                            value: !modals.editItemMenuToggled,
+                          })
+                        )
                       }
                     >
-                      Price History
-                      <ChartIcon />
+                      <ThreeDots />
                     </button>
                   )}
+
+                  {editItemMenuToggled && <div></div>}
+                  <h1>{item.info.what_is_this}</h1>
+                  <div className="price-and-toggle">
+                    <p>
+                      ${item.info.price}
+                      {item.info.shipping_cost
+                        ? ` + $${item.info.shipping_cost} shipping`
+                        : " + Free Shipping"}
+                    </p>
+                    {priceChangeHistory?.length >= 1 && (
+                      <button
+                        className="button price-change-modal-toggle"
+                        onClick={() =>
+                          dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                        }
+                      >
+                        Price History
+                        <ChartIcon />
+                      </button>
+                    )}
+                  </div>
+                  <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                    {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+                    {item.info.status} as of {getTimeAgo(new Date())}
+                  </p>
                 </div>
-                <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
-                  {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                  {item.info.status} as of {getTimeAgo(new Date())}
-                </p>
+
+                {/* <div className="horizontal-divider"></div> */}
+                <div className="contact-options">
+                  <div className="contact-option">
+                    <PhoneIcon />{" "}
+                    {user ? (
+                      item.info.phone_number || "7047730291"
+                    ) : (
+                      <div className="placeholder phone"></div>
+                    )}
+                  </div>
+                  <div className="contact-option">
+                    <EmailIcon />
+                    {user ? (
+                      item.info.email || "jhdhbricklayers@gmail.com"
+                    ) : (
+                      <div className="placeholder email"></div>
+                    )}
+                  </div>
+                  <p className="small-text">Must be signed in to view</p>
+                </div>
               </div>
 
-              {/* <div className="horizontal-divider"></div> */}
               {item.info.details ? (
                 <div className="details">
                   <label>Details from the seller</label>
@@ -456,7 +480,7 @@ const Item = () => {
               </button>
             </form>
           ) : (
-            <p className='login-or-signup'>
+            <p className="login-or-signup">
               <Link to="/login">Login</Link> or <Link to="/register">sign up</Link> to
               leave a comment.
             </p>

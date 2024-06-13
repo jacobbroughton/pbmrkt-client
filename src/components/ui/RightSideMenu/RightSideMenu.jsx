@@ -10,6 +10,7 @@ import HomeIcon from "../Icons/HomeIcon";
 import DollarSignIcon from "../Icons/DollarSignIcon";
 import DollarBillIcon from "../Icons/DollarBillIcon";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
+import { setLogoutLoading } from "../../../redux/loading";
 
 const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ const RightSideMenu = () => {
   const rightSideMenuRef = useRef(null);
   const { session, user } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
-  const [logoutLoading, setLogoutLoading] = useState(false);
 
   useEffect(() => {
     function handler(e) {
@@ -41,7 +41,7 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
-      setLogoutLoading(true);
+     dispatch(setLogoutLoading(true)) ;
 
       const { data, error } = await supabase.auth.signOut();
 
@@ -55,7 +55,7 @@ const RightSideMenu = () => {
       setError(error.toString());
     }
 
-    setLogoutLoading(false);
+    dispatch(setLogoutLoading(false));
   }
 
   return (
@@ -96,7 +96,7 @@ const RightSideMenu = () => {
           Logout
         </button>
       </div>
-      {logoutLoading && <LoadingOverlay/>}
+      
     </>
   );
 };

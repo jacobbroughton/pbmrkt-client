@@ -101,8 +101,14 @@ const Login = () => {
             </Link>
           </p>
         </form>
-        {loading && <LoadingOverlay message="Logging you in..." />}
       </div>
+      {loading && (
+        <LoadingOverlay
+          message="Logging you in..."
+          zIndex={2}
+          verticalAlignment={"center"}
+        />
+      )}
       {/* <Footer /> */}
     </>
   );

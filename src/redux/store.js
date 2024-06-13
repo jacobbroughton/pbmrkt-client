@@ -1,9 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit"
-import authReducer from "./auth"
-import modalsReducer from "./modals"
-import filtersReducer from "./filters"
-import flagsReducer from "./flags"
-import searchReducer from "./search"
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./auth";
+import modalsReducer from "./modals";
+import filtersReducer from "./filters";
+import flagsReducer from "./flags";
+import searchReducer from "./search";
+import loadingReducer from "./loading";
 // import commentsReducer from "./comments"
 
 export const store = configureStore({
@@ -13,12 +14,12 @@ export const store = configureStore({
     filters: filtersReducer,
     flags: flagsReducer,
     search: searchReducer,
+    loading: loadingReducer,
     // comments: commentsReducer,
-  }
-})
+  },
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 // export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 // export type AppDispatch = typeof store.dispatch;
-

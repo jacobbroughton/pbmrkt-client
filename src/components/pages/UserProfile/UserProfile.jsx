@@ -73,6 +73,8 @@ const UserProfile = () => {
 
       setLocalUser(data[0]);
 
+      // (p_brand, p_category_id, p_city, p_condition, p_max_price, p_min_price, p_model, p_negotiable, p_search_value, p_seller_id, p_shipping, p_sort, p_state, p_trades)
+
       const { data: data2, error: error2 } = await supabase.rpc("get_items", {
         p_search_value: "",
         p_brand: "",
@@ -108,7 +110,7 @@ const UserProfile = () => {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
-        p_seller_id: user.auth_id,
+        p_seller_id: data[0]?.auth_id,
         p_city: "",
         p_category_id: null,
       });
@@ -116,7 +118,7 @@ const UserProfile = () => {
       if (error2) throw error2.message;
       if (!data2) throw "No listings available";
 
-      console.log(data2)
+      console.log(data2);
 
       setListings(data2);
     } catch (error) {
@@ -276,7 +278,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        {listings.length ? (
+        {listings?.length ? (
           <ListingGrid listings={listings} />
         ) : (
           <SkeletonsListingGrid

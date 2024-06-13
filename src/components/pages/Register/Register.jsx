@@ -221,9 +221,12 @@ const Register = () => {
                 (usernameExistsLoading ? (
                   <p className="small-text">Checking if this username exists...</p>
                 ) : usernameExists == 1 ? (
-                  <p className="small-text error-text">
-                    This username is already attached to an account{" "}
-                  </p>
+                  <div>
+                    <p className="small-text error-text">
+                      This username is already attached to an account{" "}
+                    </p>
+                    <button className="button">Options</button>
+                  </div>
                 ) : !usernameIsInitial ? (
                   <p className="small-text">You're good to use this username</p>
                 ) : (
@@ -353,7 +356,7 @@ const Register = () => {
         )}
       </div>
 
-      <Footer />
+      <Footer marginTop={200} />
     </>
   );
 };

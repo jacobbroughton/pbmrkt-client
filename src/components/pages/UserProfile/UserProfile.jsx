@@ -274,7 +274,7 @@ const UserProfile = () => {
             </div>
             <div className="user-info-container bio ">
               <label>Bio</label>
-              <p>{localUser.bio?.trim()}</p>
+              <p>{localUser.bio  ? localUser.bio?.trim() : 'Nothing!'}</p>
             </div>
           </div>
         </div>

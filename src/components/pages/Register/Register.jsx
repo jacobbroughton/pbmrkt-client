@@ -150,8 +150,13 @@ const Register = () => {
       );
   };
 
+  // { } | \ ” % ~ # < >
+  const isValidUsername = (username) => {
+    return !String(username).match(/\.|[{]|[}]|\||\\|["]|[%]|[~]|[#]|[<]|[>]/g);
+  };
+
   const submitDisabled =
-    !isValidEmail(email) || username === "" || password === "" || password.length <= 6; //|| phoneNumber == "";
+    !isValidEmail(email) || !isValidUsername(username) || username === "" || password === "" || password.length <= 6; //|| phoneNumber == "";
 
   return (
     <>
@@ -171,7 +176,7 @@ const Register = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                   if (!usernameHasBeenInteracted)
-                    setUsername(e.target.value.split("@")[0]);
+                    setUsername(e.target.value.split("@")[0].replace(".", "_"));
                 }}
                 type="email"
               />
@@ -227,6 +232,10 @@ const Register = () => {
                     </p>
                     {/* <button className="button">Options</button> */}
                   </div>
+                ) : !isValidUsername(username) ? (
+                  <p className="small-text error-text">
+                    Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                  </p>
                 ) : !usernameIsInitial ? (
                   <p className="small-text">You're good to use this username</p>
                 ) : (
@@ -235,7 +244,7 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="phone-number">Phone Number (Optional)</label>
+              <label htmlFor="phone-number">Phone Number (Optional, required for selling. Can add later)</label>
               <input
                 placeholder="Phone Number"
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -323,7 +332,7 @@ const Register = () => {
             )}
           </div>
 
-          <button type="submit" disabled={submitDisabled}>
+          <button type="submit" disabled={submitDisabled }>
             Submit
           </button>
         </form>

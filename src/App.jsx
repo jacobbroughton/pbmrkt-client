@@ -10,7 +10,6 @@ import { supabase } from "./utils/supabase.js";
 import Login from "./components/pages/Login/Login.jsx";
 import Register from "./components/pages/Register/Register.jsx";
 import UserProfile from "./components/pages/UserProfile/UserProfile.jsx";
-import SellerProfile from "./components/pages/SellerProfile/SellerProfile.jsx";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
 import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
@@ -156,7 +155,6 @@ function App() {
             {/* <Route path="/profile" element={<UserProfile />} /> */}
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
-          {/* <Route path="/user/:username" element={<SellerProfile />} /> */}
           <Route path="/user/:username" element={<UserProfile />} />
 
           <Route element={<Item />} path="/:itemID" />

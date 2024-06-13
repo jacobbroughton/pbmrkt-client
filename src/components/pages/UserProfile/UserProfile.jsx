@@ -81,7 +81,7 @@ const UserProfile = () => {
         p_model: "",
         p_min_price: 0,
         p_max_price: null,
-        p_state: "",
+        p_state: null,
         p_condition: [
           { id: 0, value: "Brand New", checked: true },
           { id: 1, value: "Like New", checked: true },
@@ -111,7 +111,7 @@ const UserProfile = () => {
           .map((option) => option.value),
         p_sort: "Date Listed (New-Old)",
         p_seller_id: data[0]?.auth_id,
-        p_city: "",
+        p_city: null,
         p_category_id: null,
       });
 

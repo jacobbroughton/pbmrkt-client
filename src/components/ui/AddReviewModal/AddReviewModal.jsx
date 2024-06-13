@@ -5,6 +5,7 @@ import Star from "../Icons/Star";
 import "./AddReviewModal.css";
 import { supabase } from "../../../utils/supabase";
 import { setFlag } from "../../../redux/flags";
+import XIcon from "../Icons/XIcon";
 
 const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
@@ -78,7 +79,15 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   return (
     <div className="add-review modal" ref={modalRef}>
       {error && <p className="error-text">{error}</p>}
-      <h2>Give {seller.username} a review</h2>
+      <div className="header">
+        <h2>Give {seller.username} a review</h2>
+        <button
+          className="button"
+          onClick={() => dispatch(toggleModal({ key: "addReviewModal", value: false }))}
+        >
+          Close <XIcon />
+        </button>
+      </div>
       <form className="standard" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Adjust the slider to select a rating</label>
@@ -107,7 +116,10 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
         </div>
         <div className="form-group required">
           <label>Title</label>
-          <input onChange={(e) => setTitle(e.target.value)} placeholder="e.g 'John Doe was very honest and he shipped very quickly'" />
+          <input
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g 'John Doe was very honest and he shipped very quickly'"
+          />
         </div>
         <div className="form-group required">
           <label>Body</label>

@@ -25,6 +25,15 @@
   padding: 3px 5px;
   border-radius: 3px;
   border: 1px solid #555;
+  cursor: pointer;
+  font-size: 1rem;;
+  font-weight: 600;
+  transition: color 0.1s ease, background-color 0.1s ease;
+}
+
+.home .listings-section .wtb-section button.toggled {
+  background-color: var(--lightgreen);
+  color: #181818;
 }
 
 .home .listings-controls {

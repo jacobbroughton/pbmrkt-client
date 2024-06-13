@@ -5,6 +5,7 @@ import { setFlag } from "../../../redux/flags";
 import { useDispatch, useSelector } from "react-redux";
 import Stars from "../Stars/Stars";
 import XIcon from "../Icons/XIcon";
+import PlusIcon from "../Icons/PlusIcon";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
@@ -49,14 +50,16 @@ const SellerReviewsModal = ({ seller, reviews }) => {
       </div>
       {user.auth_id != seller.auth_id ||
         (!reviews.list.find((rev) => {
-          console.log(rev, user);
           return rev.created_by_id == user.auth_id;
         }) && (
           <button
-            className="add-review-modal-toggle-button"
-            onClick={() => dispatch(toggleModal({ key: "addReviewModal", value: true }))}
+            className="button add-review-modal-toggle-button"
+            onClick={() => {
+              dispatch(toggleModal({ key: "sellerReviewsModal", value: false }));
+              dispatch(toggleModal({ key: "addReviewModal", value: true }));
+            }}
           >
-            Add Review
+            Add Review <PlusIcon />
           </button>
         ))}
       <ul>

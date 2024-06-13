@@ -39,7 +39,7 @@ function Listings() {
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const [view, setView] = useState(null);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -155,7 +155,7 @@ function Listings() {
 
       const nestedItemCategories = nestItemCategories(data);
 
-      setInitialCategories(nestedItemCategories)
+      setInitialCategories(nestedItemCategories);
       setCategories(nestedItemCategories);
     } catch (error) {
       console.error(error);
@@ -190,7 +190,7 @@ function Listings() {
         // dispatch(setSelectedCategory(null));
         dispatch(resetFilter("category"));
         dispatch(setFiltersUpdated(true));
-        setCategories(initialCategories)
+        setCategories(initialCategories);
       },
       active: filters.saved.category,
     },
@@ -280,8 +280,18 @@ function Listings() {
           } listings-section`}
         >
           {/* <div className="wtb-section">
-            <button>For Sale</button>
-            <button>ISO/WTB/Looking-For</button>
+            <button
+              className={`${view == "for-sale" ? "toggled" : ""}`}
+              onClick={() => setView("for-sale")}
+            >
+              For Sale
+            </button>
+            <button
+              className={`${view == "wtb" ? "toggled" : ""}`}
+              onClick={() => setView("wtb")}
+            >
+              ISO/WTB/Looking-For
+            </button>
           </div> */}
           <div className="listings-controls">
             {location.pathname == "/" && (

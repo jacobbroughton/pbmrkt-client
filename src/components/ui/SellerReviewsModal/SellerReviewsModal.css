@@ -7,6 +7,12 @@
   z-index: 6;
 }
 
+.modal.seller-reviews .add-review-modal-toggle-button {
+appearance: none;
+margin: 10px 10px 0px 10px;
+justify-content: space-between;
+}
+
 .modal.seller-reviews .header {
   padding: 10px;
   padding-bottom: 10px;

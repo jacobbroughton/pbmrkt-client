@@ -307,7 +307,7 @@ const UserProfile = () => {
               reviews={reviews}
               setSeller={setLocalUser}
             />
-            <ModalOverlay zIndex={1} />
+            <ModalOverlay zIndex={3} />
           </>
         )}
         {modals.sellerReviewsModalToggled && (

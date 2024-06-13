@@ -191,7 +191,7 @@ const SellerProfile = () => {
             reviews={reviews}
             setSeller={setSeller}
           />
-          <LoadingOverlay />
+          <LoadingOverlay zIndex={10} />
         </>
       )}
       {modals.sellerReviewsModalToggled && (

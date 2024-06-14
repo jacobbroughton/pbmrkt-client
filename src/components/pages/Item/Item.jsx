@@ -359,7 +359,7 @@ const Item = () => {
                   <div className="contact-option">
                     <PhoneIcon />{" "}
                     {user ? (
-                      item.info.phone_number || "7047730291"
+                      item.info.phone_number || "N/A"
                     ) : (
                       <div className="placeholder phone"></div>
                     )}
@@ -367,12 +367,12 @@ const Item = () => {
                   <div className="contact-option">
                     <EmailIcon />
                     {user ? (
-                      item.info.email || "jhdhbricklayers@gmail.com"
+                      item.info.email || "N/A"
                     ) : (
                       <div className="placeholder email"></div>
                     )}
                   </div>
-                  <p className="small-text">Must be signed in to view</p>
+                  {!user && <p className="small-text">Must be signed in to view</p>}
                 </div>
               </div>
 

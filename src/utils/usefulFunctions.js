@@ -152,7 +152,7 @@ export function collapseAllCategoryFolders(passedCategories) {
 
 export function expandAllCategoryFolders(passedCategories) {
   if (!passedCategories || passedCategories?.length == 0) return [];
-  
+
   let categories = [...(passedCategories || [])];
 
   function searchCategories(categoriesToSearch) {
@@ -188,4 +188,8 @@ export function resetCategories(passedCategories) {
   }
 
   return searchCategories(categories);
+}
+
+export function isValidPhoneNumber(phoneNumberStr) {
+  return phoneNumberStr.match(/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/);
 }

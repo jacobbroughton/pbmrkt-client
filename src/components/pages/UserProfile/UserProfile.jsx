@@ -75,7 +75,7 @@ const UserProfile = () => {
 
       // (p_brand, p_category_id, p_city, p_condition, p_max_price, p_min_price, p_model, p_negotiable, p_search_value, p_seller_id, p_shipping, p_sort, p_state, p_trades)
 
-      const { data: data2, error: error2 } = await supabase.rpc("get_items", {
+      let { data: data2, error: error2 } = await supabase.rpc("get_items", {
         p_search_value: "",
         p_brand: "",
         p_model: "",
@@ -118,7 +118,19 @@ const UserProfile = () => {
       if (error2) throw error2.message;
       if (!data2) throw "No listings available";
 
-      console.log(data2);
+      
+      data2 = data2.map((item) => {
+        const { data, error } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
+
+        if (error) throw error.message;
+
+        return {
+          ...item,
+          profile_picture: data.publicUrl,
+        };
+      });
 
       setListings(data2);
     } catch (error) {

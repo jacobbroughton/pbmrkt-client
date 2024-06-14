@@ -9,6 +9,7 @@ import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
 import {
   capitalizeWords,
+  isValidPhoneNumber,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
@@ -554,9 +555,7 @@ const Sell = () => {
     });
   }
 
-  function isValidPhoneNumber(phoneNumberStr) {
-    return phoneNumberStr.match(/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/);
-  }
+ 
 
   const currentYear = new Date().getFullYear();
   const yearOptions = [];

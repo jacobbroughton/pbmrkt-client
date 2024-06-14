@@ -5,12 +5,13 @@ nav {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: 0;
+  /* top: 0; */
+  bottom: 0;
   right: 0;
   left: 0;
   z-index: 5;
   gap: 40px;
-  border-bottom: #444 1px solid;
+  border-top: #444 1px solid;
 }
 
 nav .home-link-and-filter-button {

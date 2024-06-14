@@ -39,7 +39,7 @@ main {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  padding-top: 65px;
+  padding-top: 15px;
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
 }

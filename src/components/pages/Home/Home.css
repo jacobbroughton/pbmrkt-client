@@ -112,7 +112,7 @@
   padding: 3px 5px;
   cursor: pointer;
   transition: 0.05s ease background-color;
-  color: white;
+  color: white !important;
 }
 
 .home .listings-controls .control-group.sort select:hover {

@@ -136,7 +136,8 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
   }
 
   const resetButtonDisabled =
-    (filters.saved.brand == filters.initial.brand &&
+    (!filters.saved.category &&
+      filters.saved.brand == filters.initial.brand &&
       filters.saved.model == filters.initial.model &&
       filters.saved.minPrice == filters.initial.minPrice &&
       filters.saved.maxPrice == filters.initial.maxPrice &&
@@ -209,7 +210,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
               <label>By Category</label>
-              {filters.draft.category && (
+              {filters.saved.category && (
                 <button
                   type="button"
                   className="reset-button"

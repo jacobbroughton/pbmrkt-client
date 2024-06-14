@@ -8,11 +8,13 @@ import { toggleModal } from "../../../redux/modals.js";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import { resetFilter, setFiltersUpdated } from "../../../redux/filters.js";
+import { resetFilter, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
 import {
+  collapseAllCategoryFolders,
+  expandAllCategoryFolders,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
@@ -38,7 +40,7 @@ function Listings() {
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  // const [selectedCategory, setSelectedCategory] = useState(null);
   const [view, setView] = useState(null);
 
   useEffect(() => {
@@ -119,6 +121,37 @@ function Listings() {
     setListingsInitiallyLoading(false);
   }
 
+  function handleCategorySelectorApply() {
+    try {
+      if (!filters.draft.category) throw "no category was selected";
+
+      const newDraft = {
+        ...filters.draft,
+        category: filters.draft.category,
+        categories: filters.draft.categories,
+      };
+
+      console.log(newDraft);
+
+      if (!filters.draft.category.is_folder) {
+        dispatch(
+          setFilters({
+            ...filters,
+            saved: {
+              ...filters.saved,
+              categories: filters.draft.categories,
+              category: filters.draft.category,
+            },
+          })
+        );
+        dispatch(setFiltersUpdated(true));
+        dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
+      }
+    } catch (error) {
+      setListingsError(error);
+    }
+  }
+
   useEffect(() => {
     if (windowSize.width < 625)
       dispatch(toggleModal({ key: "filtersSidebar", value: false }));
@@ -157,6 +190,13 @@ function Listings() {
 
       setInitialCategories(nestedItemCategories);
       setCategories(nestedItemCategories);
+      dispatch(
+        setFilters({
+          ...filters,
+          saved: { ...filters.saved, categories: nestedItemCategories },
+          draft: { ...filters.draft, categories: nestedItemCategories },
+        })
+      );
     } catch (error) {
       console.error(error);
       setListingsError(error);
@@ -384,17 +424,68 @@ function Listings() {
       </div>
       {modals.categorySelectorModalToggled && (
         <CategorySelectorModal
-          categories={categories}
+          categories={filters.draft.categories}
           setCategories={setCategories}
-          setSelectedCategory={setSelectedCategory}
-          selectedCategory={selectedCategory}
           handleCategoryClick={(category) => {
             if (category.is_folder) {
-              setCategories(toggleCategoryFolder(category, categories));
+              dispatch(
+                setFilters({
+                  ...filters,
+                  draft: {
+                    ...filters.draft,
+                    categories: toggleCategoryFolder(category, filters.draft.categories),
+                  },
+                })
+              );
             } else {
-              setCategories(setCategoryChecked(category, categories));
+              dispatch(
+                setFilters({
+                  ...filters,
+                  draft: {
+                    ...filters.draft,
+                    category,
+                    categories: setCategoryChecked(category, filters.draft.categories),
+                  },
+                })
+              );
             }
           }}
+          handleModalClick={() =>
+            dispatch(
+              setFilters({
+                ...filters,
+                draft: {
+                  ...filters.draft,
+                  category: filters.saved.category,
+                  categories: filters.saved.categories,
+                },
+              })
+            )
+          }
+          handleApply={handleCategorySelectorApply}
+          applyDisabled={!filters.draft.category || filters.draft.category?.is_folder}
+          handleExpandAll={() =>
+            dispatch(
+              setFilters({
+                ...filters,
+                draft: {
+                  ...filters.draft,
+                  categories: collapseAllCategoryFolders(categories),
+                },
+              })
+            )
+          }
+          handleCollapseAll={() =>
+            dispatch(
+              setFilters({
+                ...filters,
+                draft: {
+                  ...filters.draft,
+                  categories: expandAllCategoryFolders(categories),
+                },
+              })
+            )
+          }
         />
       )}
     </div>

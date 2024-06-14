@@ -74,7 +74,6 @@ export function nestItemCategories(flatCategories) {
   function nest(parentId) {
     let self = null;
 
-    console.log(parentId, lastParentId)
     if (parentId && parentId == lastParentId) {
       self = flatCategories.find((cat) => cat.id == parentId);
       pathArr.push(self.value);
@@ -153,6 +152,7 @@ export function collapseAllCategoryFolders(passedCategories) {
 
 export function expandAllCategoryFolders(passedCategories) {
   if (!passedCategories || passedCategories?.length == 0) return [];
+  
   let categories = [...(passedCategories || [])];
 
   function searchCategories(categoriesToSearch) {
@@ -161,6 +161,26 @@ export function expandAllCategoryFolders(passedCategories) {
         ...cat,
         ...(cat.is_folder && {
           toggled: true,
+          children: searchCategories(cat.children),
+        }),
+      };
+    });
+  }
+
+  return searchCategories(categories);
+}
+
+export function resetCategories(passedCategories) {
+  if (!passedCategories || passedCategories?.length == 0) return [];
+  let categories = [...(passedCategories || [])];
+
+  function searchCategories(categoriesToSearch) {
+    return categoriesToSearch.map((cat) => {
+      return {
+        ...cat,
+        checked: false,
+        ...(cat.is_folder && {
+          toggled: false,
           children: searchCategories(cat.children),
         }),
       };

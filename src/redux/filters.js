@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { resetCategories } from "../utils/usefulFunctions";
 
 const initialFilters = {
   brand: "",
@@ -41,6 +42,7 @@ const initialFilters = {
     { id: 0, value: "Firm", checked: true },
     { id: 1, value: "OBO/Negotiable", checked: true },
   ],
+  categories: null,
 };
 
 const filtersSlice = createSlice({
@@ -65,6 +67,22 @@ const filtersSlice = createSlice({
       const filterKey = payload;
 
       console.log(filterKey);
+
+      if (filterKey == "category") {
+        return {
+          ...state,
+          draft: {
+            ...state.draft,
+            category: initialFilters.category,
+            categories: resetCategories(state.saved.categories),
+          },
+          saved: {
+            ...state.saved,
+            category: initialFilters.category,
+            categories: resetCategories(state.saved.categories),
+          },
+        };
+      }
 
       if (filterKey == "priceOptions") {
         return {
@@ -101,7 +119,7 @@ const filtersSlice = createSlice({
         ...state,
         draft: initialFilters,
         saved: initialFilters,
-        filtersUpdated: false
+        filtersUpdated: false,
       };
     },
   },

@@ -20,6 +20,7 @@ import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelect
 import { toggleModal } from "../../../redux/modals.js";
 import EditIcon from "../../ui/Icons/EditIcon.jsx";
 import Footer from "../../ui/Footer/Footer.jsx";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -108,7 +109,16 @@ const Sell = () => {
     trades: false,
     negotiable: false,
   });
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState({
+    draft: {
+      all: null,
+      selected: null,
+    },
+    saved: {
+      all: null,
+      selected: null,
+    },
+  });
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
 
@@ -127,7 +137,18 @@ const Sell = () => {
 
       const nestedItemCategories = nestItemCategories(data);
 
-      setCategories(nestedItemCategories);
+      setCategories({
+        draft: {
+          ...categories.draft,
+          all: nestedItemCategories,
+        },
+        saved: {
+          ...categories.saved,
+          all: nestedItemCategories,
+        },
+      });
+
+      // setCategories(nestedItemCategories);
     } catch (error) {
       console.error(error);
       setSellError(error);
@@ -257,7 +278,7 @@ const Sell = () => {
         p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_shipping_cost: shippingCost,
         p_city: city || null,
-        p_category_id: selectedCategory.id,
+        p_category_id: categories.saved?.selected?.id,
       });
 
       if (error) {
@@ -533,7 +554,7 @@ const Sell = () => {
 
   const submitDisabled =
     submitLoading ||
-    !selectedCategory ||
+    !categories.saved?.selected ||
     photos.length == 0 ||
     !state ||
     !city ||
@@ -561,6 +582,7 @@ const Sell = () => {
                 {photos?.map((image) => {
                   return (
                     <div
+                      key={image.id}
                       className={`image-container ${
                         image.id == newCoverPhotoId ? "cover" : ""
                       }`}
@@ -639,81 +661,83 @@ const Sell = () => {
             )}
           </div>
 
-          {/* <div className="form-block">
-          <h2>Your Info</h2>
+          <div className="form-block">
+            <h2>Your Info</h2>
 
-          <fieldset>
-            <div className={`form-group`}>
-              <label>Full Name (First/Last)</label>
-              <input
-                onChange={(e) => setSellerName(e.target.value)}
-                value={sellerName}
-                placeholder="Seller's Name"
-                required
-              />
-            </div>
-            <div className={`form-group`}>
-              <label>Contact Phone Number </label>
-              <input
-                onChange={(e) => setContactPhoneNumber(e.target.value)}
-                value={contactPhoneNumber}
-                placeholder="Contact Phone Number"
-                required
-              />
-            </div>
-          </fieldset>
+            <fieldset>
+              <div className={`form-group`}>
+                <label>Full Name (First/Last)</label>
+                <input
+                  onChange={(e) => setSellerName(e.target.value)}
+                  value={sellerName}
+                  placeholder="Seller's Name"
+                  required
+                />
+              </div>
+              <div className={`form-group`}>
+                <label>Contact Phone Number </label>
+                <input
+                  onChange={(e) => setContactPhoneNumber(e.target.value)}
+                  value={contactPhoneNumber}
+                  placeholder="Contact Phone Number"
+                  required
+                />
+              </div>
+            </fieldset>
 
-          <fieldset>
-            <div className={`form-group`}>
-              <label>
-                State
-                {state && generatedFilters.state && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-              <select
-                onChange={(e) =>
-                  setState(e.target.value == "All" ? null : e.target.value)
-                }
-                value={state}
-              >
-                {states.map((childState) => (
-                  <option value={childState} key={childState}>
-                    {childState}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={`form-group ${!state ? "disabled" : ""}`}>
-              <label>
-                City
-                {city && generatedFilters.city && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
+            <fieldset>
+              <div className={`form-group`}>
+                <label>
+                  State
+                  {state && generatedFilters.state && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+                <select
+                  onChange={(e) =>
+                    setState(e.target.value == "All" ? null : e.target.value)
+                  }
+                  value={state}
+                >
+                  {states.map((childState) => (
+                    <option value={childState} key={childState}>
+                      {childState}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={`form-group ${!state ? "disabled" : ""}`}>
+                <label>
+                  City
+                  {city && generatedFilters.city && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
 
-              <select
-                disabled={!state}
-                onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
-                value={city?.toUpperCase()}
-              >
-                {statesAndCities[state]?.map((innerCity) => (
-                  <option value={innerCity}>{capitalizeWords(innerCity)}</option>
-                ))}
-              </select>
-            </div>
-          </fieldset>
-        </div> */}
+                <select
+                  disabled={!state}
+                  onChange={(e) =>
+                    setCity(e.target.value == "All" ? null : e.target.value)
+                  }
+                  value={city?.toUpperCase()}
+                >
+                  {statesAndCities[state]?.map((innerCity) => (
+                    <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                  ))}
+                </select>
+              </div>
+            </fieldset>
+          </div>
 
           <div className="form-block">
             <h2>Item Details</h2>
@@ -783,7 +807,6 @@ const Sell = () => {
                 </label>
                 <input
                   onChange={(e) => {
-                    const num = parseFloat();
                     setShippingCost(e.target.value);
                   }}
                   type="number"
@@ -818,22 +841,8 @@ const Sell = () => {
                   type="button"
                   title={`Click this to open a menu and select an item category to filter your results on`}
                 >
-                  {selectedCategory?.value ?? "Select a Category"} <EditIcon />{" "}
+                  {categories.saved?.selected?.value ?? "Select a Category"} <EditIcon />{" "}
                 </button>
-                {/* <CategorySelector
-                categories={categories}
-                setCategories={setCategories}
-                setSelectedCategory={setSelectedCategory}
-                selectedCategory={selectedCategory}
-                handleCategoryClick={(category) => {
-                  if (category.is_folder) {
-                    console.log("folder", category);
-                    setCategories(toggleCategoryFolder(category, categories));
-                  } else {
-                    setCategories(setCategoryChecked(category, categories));
-                  }
-                }}
-              /> */}
               </div>
             </fieldset>
             {/* <fieldset>
@@ -971,20 +980,48 @@ const Sell = () => {
             <div className="success-modal-overlay"></div>
           </>
         )}
+        {console.log(categories)}
         {modals.categorySelectorModalToggled && (
           <CategorySelectorModal
-            categories={categories}
+            categories={categories.draft.all}
             setCategories={setCategories}
-            setSelectedCategory={setSelectedCategory}
-            selectedCategory={selectedCategory}
             handleCategoryClick={(category) => {
+              // setSelectedCategory(category);
               if (category.is_folder) {
-                console.log("folder", category);
-                setCategories(toggleCategoryFolder(category, categories));
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    all: toggleCategoryFolder(category, categories.draft.all),
+                  },
+                });
               } else {
-                setCategories(setCategoryChecked(category, categories));
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    selected: category.checked ? null : category,
+                    all: setCategoryChecked(category, categories.draft.all),
+                  },
+                });
+                // setCategories(setCategoryChecked(category, categories));
               }
             }}
+            handleModalClick={() => {
+              // TODO - reset draft categories
+            }}
+            handleApply={() => {
+              setCategories({
+                ...categories,
+                saved: categories.draft,
+              });
+              dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
+            }}
+            applyDisabled={
+              categories.draft?.selected?.id == categories.saved?.selected?.id
+            }
+            handleExpandAll={() => null}
+            handleCollapseAll={() => null}
           />
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}

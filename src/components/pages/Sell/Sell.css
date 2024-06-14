@@ -103,6 +103,33 @@
 .sell form fieldset.prices {
 }
 
+.sell form fieldset.prices .input-container {
+  width: 100%;
+  position: relative;
+}
+
+.sell form fieldset.prices .input-container::before {
+  content: "$";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 2;
+  color: grey;
+  transform: translateY(-50%);
+  top: 50%;
+  border-right: 1px solid grey;
+  padding-right: 10px;
+  height: calc(100% - 2px);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sell form fieldset.prices .input-container input {
+  padding-left: 37px !important;
+  position: relative;
+}
+
 .sell form .form-group {
   display: flex;
   flex-direction: column;
@@ -140,7 +167,7 @@
   width: 12px;
 }
 
-.sell form .form-group .price-and-shipping-input {
+/* .sell form .form-group .price-and-shipping-input {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -154,7 +181,8 @@
 .sell form .form-group .price-and-shipping-input input {
   max-width: 100px;
   min-width: 100px;
-}
+  background-color: blue;
+} */
 
 .sell form .custom-photo-upload,
 .images-uploading {

@@ -103,6 +103,7 @@ const Sell = () => {
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
   const [generatedFilters, setGeneratedFilters] = useState({
+    phoneNumber: false,
     city: false,
     state: false,
     shipping: false,
@@ -166,6 +167,7 @@ const Sell = () => {
       if (!data[0]) return;
 
       const {
+        phone_number: defaultPhoneNumber,
         state: defaultState,
         city: defaultCity,
         trades: defaultTrades,
@@ -175,6 +177,11 @@ const Sell = () => {
 
       let localGeneratedFilters = { ...generatedFilters };
       let localRadioOptions = { ...radioOptions };
+
+      if (defaultPhoneNumber) {
+        localGeneratedFilters.phoneNumber = defaultPhoneNumber;
+        setContactPhoneNumber(defaultPhoneNumber);
+      }
 
       if (defaultState) {
         localGeneratedFilters.state = true;
@@ -261,6 +268,8 @@ const Sell = () => {
     e.preventDefault();
 
     try {
+      console.log("user", user);
+
       setSubmitLoading(true);
 
       const { data, error } = await supabase.rpc("add_item", {
@@ -545,6 +554,10 @@ const Sell = () => {
     });
   }
 
+  function isValidPhoneNumber(phoneNumberStr) {
+    return phoneNumberStr.match(/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/);
+  }
+
   const currentYear = new Date().getFullYear();
   const yearOptions = [];
 
@@ -554,6 +567,7 @@ const Sell = () => {
 
   const submitDisabled =
     submitLoading ||
+    !isValidPhoneNumber(contactPhoneNumber) ||
     !categories.saved?.selected ||
     photos.length == 0 ||
     !state ||
@@ -682,6 +696,9 @@ const Sell = () => {
                   placeholder="Contact Phone Number"
                   required
                 />
+                {contactPhoneNumber && !isValidPhoneNumber(contactPhoneNumber) && (
+                  <p className="small-text error-text">Invalid phone number</p>
+                )}
               </div>
             </fieldset>
 
@@ -782,15 +799,18 @@ const Sell = () => {
 
             <fieldset className="prices">
               <div className="form-group shipping">
-                <label>Price of item, without shipping ($)</label>
-                <input
-                  onChange={(e) => setPrice(e.target.value)}
-                  type="number"
-                  step={0.01}
-                  value={price}
-                  placeholder="Price"
-                  required
-                />
+                <label>Price of item, without shipping</label>
+                <div className="input-container">
+                  <input
+                    onChange={(e) => setPrice(e.target.value)}
+                    type="number"
+                    step={0.01}
+                    value={price}
+                    placeholder="Price"
+                    className="dollars"
+                    required
+                  />
+                </div>
               </div>
               <div
                 className={`form-group shipping-cost ${
@@ -803,30 +823,35 @@ const Sell = () => {
                 }
               >
                 <label>
-                  {!buyerPaysShipping ? "(Disabled)" : ""} Added cost of shipping ($)
+                  {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
                 </label>
-                <input
-                  onChange={(e) => {
-                    setShippingCost(e.target.value);
-                  }}
-                  type="number"
-                  step={0.01}
-                  value={shippingCost}
-                  placeholder="$0"
-                  required
-                  disabled={!buyerPaysShipping}
-                />
+                <div className="input-container">
+                  <input
+                    onChange={(e) => {
+                      setShippingCost(e.target.value);
+                    }}
+                    type="number"
+                    step={0.01}
+                    value={shippingCost}
+                    placeholder="$0"
+                    required
+                    className="dollars"
+                    disabled={!buyerPaysShipping}
+                  />
+                </div>
               </div>
             </fieldset>
 
             <div className="what-the-buyer-sees">
               <p>
-                Total $
-                {(parseFloat(price) + parseFloat(shippingCost) || 0).toLocaleString(
+                Buyer Sees $
+                {(parseFloat(price) + parseFloat(shippingCost || 0) || 0).toLocaleString(
                   "en-US"
                 )}{" "}
-                = ${price || 0}
-                {shippingCost ? ` + $${shippingCost} shipping` : " + Free Shipping"}
+                = ${parseFloat(price).toLocaleString("en-US") || 0}
+                {shippingCost
+                  ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
+                  : " + Free Shipping"}
               </p>
             </div>
 

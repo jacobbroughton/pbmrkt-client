@@ -5,13 +5,13 @@ nav {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  /* top: 0; */
-  bottom: 0;
+  top: 0;
+  /* bottom: 0; */
   right: 0;
   left: 0;
   z-index: 5;
   gap: 40px;
-  border-top: #444 1px solid;
+  border-bottom: #444 1px solid;
 }
 
 nav .home-link-and-filter-button {
@@ -145,4 +145,25 @@ nav .right-side .right-side-menu-button .profile-picture {
   nav .right-side a.sell-link {
     display: none;
   }
+}
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  nav {
+    top: initial;
+    bottom: 0;
+    border-top: #444 1px solid;
+  }
+}
+
+/* tablets */
+@media only screen and (max-device-width: 768px) {
+}
+
+/* Laptops and medium desktops */
+@media only screen and (max-device-width: 992px) {
+}
+
+/* large desktops/devices */
+@media only screen and (max-device-width: 1200px) {
 }

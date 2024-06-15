@@ -39,7 +39,7 @@ main {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  padding-top: 15px;
+  padding-top: 65px;
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
 }
@@ -165,7 +165,7 @@ form.standard .form-block {
 .register form .form-group,
 .login form .form-group { */
 
-form.standard .form-groups  {
+form.standard .form-groups {
   display: flex;
 }
 form.standard .form-group {
@@ -244,7 +244,7 @@ form.standard button[type="submit"]:disabled {
 }
 
 form.standard .form-group.required label::after {
-  content: '*';
+  content: "*";
   color: var(--red);
 }
 
@@ -272,10 +272,10 @@ form.standard .form-group.required label::after {
   align-items: center;
 }
 
- h4,
- h3,
- h2,
- h1 {
+h4,
+h3,
+h2,
+h1 {
   font-weight: 600;
 }
 
@@ -322,4 +322,24 @@ form.standard .form-group.required label::after {
   to {
     filter: brightness(1.5);
   }
+}
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  main {
+    padding-top: 15px;
+    padding-bottom: 65px;
+  }
+}
+
+/* tablets */
+@media only screen and (max-device-width: 768px) {
+}
+
+/* Laptops and medium desktops */
+@media only screen and (max-device-width: 992px) {
+}
+
+/* large desktops/devices */
+@media only screen and (max-device-width: 1200px) {
 }

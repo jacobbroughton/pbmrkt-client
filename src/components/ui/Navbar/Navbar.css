@@ -104,6 +104,7 @@ nav .right-side .notifications-menu-toggle {
   background-color: #444;
   height: 35px;
   width: 35px;
+  min-width: 35px;
   border-radius: 50%;
   display: flex;
   align-items: center;

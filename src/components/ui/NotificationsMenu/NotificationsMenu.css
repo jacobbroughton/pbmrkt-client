@@ -50,6 +50,6 @@ border-bottom: 1px solid #555;
 @media only screen and (max-device-width: 480px) {
   .notifications-menu {
     top: initial;
-    bottom: 58px;
+    bottom: 63px;
   }
 }

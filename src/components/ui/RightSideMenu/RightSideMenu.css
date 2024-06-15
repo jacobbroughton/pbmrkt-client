@@ -132,6 +132,6 @@
 @media only screen and (max-device-width: 480px) {
   .right-side-menu {
     top: initial;
-    bottom: 58px;
+    bottom: 63px;
   }
 }

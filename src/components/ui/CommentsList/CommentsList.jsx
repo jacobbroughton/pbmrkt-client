@@ -27,6 +27,8 @@ const CommentsList = ({
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
 
+
+    console.log(repliedComment)
     try {
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newReplyBody,
@@ -34,7 +36,25 @@ const CommentsList = ({
         p_item_id: repliedComment.item_id,
         p_parent_id: repliedComment.id,
       });
+
       if (error) throw error.message;
+
+      const { data: data2, error: error2 } = await supabase.rpc(
+        "add_comment_notification",
+        {
+          p_message: newReplyBody,
+          p_type: "Reply",
+          p_url: "",
+          p_item_id: repliedComment.item_id,
+          p_comment_id: data[0].id,
+          p_user_id: user.auth_id,
+          p_related_user_id: repliedComment.created_by_id
+        }
+      );
+
+      if (error2) throw error2.message;
+
+      console.log("added comment notification");
 
       setCommentWithReplyWindowID(null);
       setLocalComments(
@@ -104,7 +124,7 @@ const CommentsList = ({
     <div className={`comments-list ${isRootLevel ? "is-root-level" : ""}`}>
       {!localComments || localComments?.length == 0 ? (
         <div className="no-comments-container">
-          <CommentsIcon/>
+          <CommentsIcon />
           <p>No Comments Yet</p>
           <p>Be the first to share what you think!</p>
           {/* <div className="frog-icon-container">

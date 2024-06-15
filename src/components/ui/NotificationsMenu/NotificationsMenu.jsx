@@ -33,20 +33,33 @@ const NotificationsMenu = ({ notifications }) => {
         <p>Notifications</p>
       </div>
       <ul>
-        {notifications?.map((notification) => (
-          <li>
-            <Link
-              to={`/${notification.item_id}`}
-              onClick={() => {
-                dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-                // TODO - Update 'read'/'unread' status
-              }}
-            >
-              <p>x commented on your post</p>
-              <p className="time-ago">{getTimeAgo(new Date(notification.created_at))}</p>
-            </Link>
-          </li>
-        ))}
+        {notifications ? (
+          notifications?.map((notification) => (
+            <li>
+              <Link
+                to={`/${notification.item_id}`}
+                onClick={() => {
+                  dispatch(toggleModal({ key: "notificationsMenu", value: false }));
+                  // TODO - Update 'read'/'unread' status
+                }}
+              >
+                {notification.type == "Comment" ? (
+                  <p>x commented on your post</p>
+                ) : notification.type == "Reply" ? (
+                  <p>x replied to your comment</p>
+                ) : (
+                  <p className="time-ago">
+                    {getTimeAgo(new Date(notification.created_at))}
+                  </p>
+                )}
+              </Link>
+            </li>
+          ))
+        ) : (
+          <div className="no-notifications">
+            You don't have any notifications right now...
+          </div>
+        )}
       </ul>
     </div>
   );

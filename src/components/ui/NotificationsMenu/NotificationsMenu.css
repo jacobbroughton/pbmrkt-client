@@ -8,6 +8,7 @@
   border: 1px solid #555;
   z-index: 5;
   box-shadow: -3px 3px 5px #18181877;
+  max-width: 250px;
 }
 
 .notifications-menu .header {
@@ -44,6 +45,10 @@ border-bottom: 1px solid #555;
 
 .notifications-menu ul li a .time-ago {
   font-size: 0.875rem
+}
+
+.notifications-menu .no-notifications {
+  padding: 10px;
 }
 
 /* Phones */

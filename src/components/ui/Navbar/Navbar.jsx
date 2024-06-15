@@ -11,20 +11,38 @@ import { setDraftSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
 import useWindowSize from "../../../utils/useWindowSize";
 import { useCurrentPath } from "../../../utils/usefulFunctions";
+import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
+import BellIcon from "../Icons/BellIcon";
+import { supabase } from "../../../utils/supabase";
+import { useEffect, useState } from "react";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const location = useLocation()
+  const location = useLocation();
   const { session, user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
+  const [notifications, setNotifications] = useState(null);
 
-  const windowSize = useWindowSize()
+  const windowSize = useWindowSize();
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    dispatch(
+      toggleModal({ key: "notificationsMenu", value: false})
+    );
     dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
+  }
+
+  function handleNotificationsMenuToggle(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(toggleModal({ key: "rightSideMenu", value: false}));
+
+    dispatch(
+      toggleModal({ key: "notificationsMenu", value: !modals.notificationsMenuToggled })
+    );
   }
 
   function handleSearchSubmit(e) {
@@ -34,6 +52,56 @@ function Navbar() {
     getListings(draftSearchValue);
   }
 
+  async function handleNotificationsSubscribe() {
+    try {
+      if (!user) return;
+
+      const { data, error } = await supabase.rpc("get_comment_notifications", {
+        p_user_id: user.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      let localNotifications = data;
+
+      setNotifications(localNotifications);
+
+      supabase
+        .channel("comment_notifications")
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "comment_notifications" },
+          (payload) => {
+            localNotifications.unshift(payload.new);
+            setNotifications(localNotifications);
+            console.log("Change received!", payload);
+          }
+        )
+        .subscribe((status, err) => {
+          if (status === "SUBSCRIBED") {
+            console.log("Connected!");
+          }
+
+          if (status === "CHANNEL_ERROR") {
+            console.log(`There was an error subscribing to channel: ${err.message}`);
+          }
+
+          if (status === "TIMED_OUT") {
+            console.log("Realtime server did not respond in time.");
+          }
+
+          if (status === "CLOSED") {
+            console.log("Realtime channel was unexpectedly closed.");
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    if (user) handleNotificationsSubscribe();
+  }, []);
 
   return (
     <nav>
@@ -65,6 +133,7 @@ function Navbar() {
 
       <div className="right-side">
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
+
         <Link to="/sell" className="sell-link" style={{}}>
           {/* <PlusIcon /> */}
           Sell
@@ -73,6 +142,13 @@ function Navbar() {
         {session?.user ? (
           <>
             <button
+              type="button"
+              className="notifications-menu-toggle"
+              onClick={handleNotificationsMenuToggle}
+            >
+              <BellIcon />
+            </button>
+            <button
               onClick={handleRightSideMenuToggle}
               className="right-side-menu-button"
             >
@@ -80,17 +156,15 @@ function Navbar() {
             </button>
           </>
         ) : (
-          <>
-            <Link to="/login" className="login-link">
-              Login
-            </Link>
-            {/* <Link to="/register">Register</Link> */}
-          </>
+          <Link to="/login" className="login-link">
+            Login
+          </Link>
         )}
-        {/* {!user && <Link to="/login">Login</Link>} */}
-        {/* {!user && <Link to="/register">Register</Link>} */}
       </div>
       {modals.rightSideMenuToggled && session && <RightSideMenu />}
+      {modals.notificationsMenuToggled && session && (
+        <NotificationsMenu notifications={notifications} />
+      )}
     </nav>
   );
 }

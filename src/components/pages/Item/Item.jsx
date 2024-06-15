@@ -121,8 +121,27 @@ const Item = () => {
         p_item_id: itemID,
         p_parent_id: null,
       });
+
+      console.log(data);
+
       if (error) throw error.message;
 
+      const { data: data2, error: error2 } = await supabase.rpc(
+        "add_comment_notification",
+        {
+          p_message: newCommentBody,
+          p_type: "Comment",
+          p_url: "",
+          p_item_id: itemID,
+          p_comment_id: data[0].id,
+          p_user_id: user.auth_id
+        }
+      );
+
+
+      if (error2) throw error2.message;
+
+      console.log("added comment notification");
       getComments();
       setNewCommentBody("");
     } catch (error) {

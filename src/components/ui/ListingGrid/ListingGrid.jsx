@@ -20,8 +20,10 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
               )}
             </div>
             <div className="listing-card-info">
-              <p className="price">${listing.price}</p>
-              <p className="what-is-this">{listing.what_is_this}</p>
+              <div className="price-and-name">
+                <p className="price">${listing.price}</p>
+                <p className="what-is-this">{listing.what_is_this}</p>
+              </div>
               <div className="profile">
                 <div className="profile-picture-container">
                   {/* <div className="profile-picture">&nbsp;</div> */}

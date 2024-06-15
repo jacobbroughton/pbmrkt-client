@@ -304,6 +304,7 @@ h1 {
 
 .button svg {
   width: 13px;
+  min-width: 13px;
   fill: white;
 }
 

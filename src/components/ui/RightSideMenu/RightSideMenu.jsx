@@ -1,16 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./RightSideMenu.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
-import { setUser } from "../../../redux/auth";
 import { supabase } from "../../../utils/supabase";
 import LogOutIcon from "../Icons/LogOutIcon";
 import { useEffect, useRef, useState } from "react";
 import HomeIcon from "../Icons/HomeIcon";
-import DollarSignIcon from "../Icons/DollarSignIcon";
 import DollarBillIcon from "../Icons/DollarBillIcon";
-import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 import { setLogoutLoading } from "../../../redux/loading";
+import "./RightSideMenu.css";
 
 const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -41,9 +38,9 @@ const RightSideMenu = () => {
     e.preventDefault();
 
     try {
-     dispatch(setLogoutLoading(true)) ;
+      dispatch(setLogoutLoading(true));
 
-      const { data, error } = await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
 
       if (error) throw error.message;
 
@@ -59,7 +56,6 @@ const RightSideMenu = () => {
   }
 
   return (
-    <>
       <div className="right-side-menu" ref={rightSideMenuRef}>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Link
@@ -96,8 +92,6 @@ const RightSideMenu = () => {
           Logout
         </button>
       </div>
-      
-    </>
   );
 };
 export default RightSideMenu;

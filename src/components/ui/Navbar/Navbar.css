@@ -99,6 +99,24 @@ nav .right-side a.sell-link svg {
   fill: white;
 }
 
+nav .right-side .notifications-menu-toggle {
+  border: 0;
+  background-color: #444;
+  height: 34px;
+  padding: 3px 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: #555 1px solid;
+  cursor: pointer;
+}
+
+nav .right-side .notifications-menu-toggle svg {
+  width: 15px;
+  fill: white;
+}
+
 nav .right-side .right-side-menu-button {
   height: 35px;
   width: 35px;

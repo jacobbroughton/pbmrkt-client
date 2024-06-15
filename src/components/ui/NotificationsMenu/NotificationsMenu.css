@@ -1,0 +1,47 @@
+.notifications-menu {
+  /* padding: 10px; */
+  border-radius: 3px;
+  top: 58px;
+  right: 15px;
+  position: fixed;
+  background-color: #333;
+  border: 1px solid #555;
+  z-index: 5;
+  box-shadow: -3px 3px 5px #18181877;
+}
+
+.notifications-menu .header {
+  display: flex;
+border-bottom: 1px solid #555;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+
+.notifications-menu ul {
+  list-style: none;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.notifications-menu ul li {
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+}
+
+.notifications-menu ul li:not(:last-child) {
+  border-bottom: 1px solid #555;
+}
+
+
+.notifications-menu ul li a {
+  color: white;
+}
+
+.notifications-menu ul li a .time-ago {
+  font-size: 0.875rem
+}

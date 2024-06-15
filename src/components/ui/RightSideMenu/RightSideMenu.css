@@ -121,8 +121,17 @@
   color: #aaa;
 }
 
-@media screen and (max-width: 500px) {
+/* @media screen and (max-width: 500px) {
   .right-side-menu .menu-item.sell {
     display: flex;
+  }
+} */
+
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  .right-side-menu {
+    top: initial;
+    bottom: 58px;
   }
 }

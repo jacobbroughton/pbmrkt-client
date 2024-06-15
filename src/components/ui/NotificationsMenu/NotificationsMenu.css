@@ -45,3 +45,11 @@ border-bottom: 1px solid #555;
 .notifications-menu ul li a .time-ago {
   font-size: 0.875rem
 }
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  .notifications-menu {
+    top: initial;
+    bottom: 58px;
+  }
+}

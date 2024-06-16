@@ -27,11 +27,11 @@
   max-height: 700px;
 }
 
-.modal.edit-item  .heading {
+.modal.edit-item .heading {
   position: sticky;
   background-color: #444;
   top: 0;
-  border-bottom: 1px solid #555
+  border-bottom: 1px solid #555;
 }
 
 .modal.edit-item form {
@@ -55,7 +55,6 @@
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
-  
 }
 
 .modal.edit-item form .form-block .image-input-and-prompt {
@@ -522,13 +521,10 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: #555;
+  background-color: #444;
   width: 100%;
   border-top: #555 1px solid;
   padding: 10px;
-}
-
-@media screen and (max-width: 610px) {
 }
 
 @media screen and (max-width: 400px) {

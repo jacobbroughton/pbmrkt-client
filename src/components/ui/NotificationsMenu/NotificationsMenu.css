@@ -13,12 +13,11 @@
 
 .notifications-menu .header {
   display: flex;
-border-bottom: 1px solid #555;
+  border-bottom: 1px solid #555;
   padding: 5px 10px;
   font-size: 1rem;
   font-weight: 600;
 }
-
 
 .notifications-menu ul {
   list-style: none;
@@ -27,24 +26,52 @@ border-bottom: 1px solid #555;
 }
 
 .notifications-menu ul li {
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   display: flex;
-  flex-direction: column;
   gap: 5px;
-  padding: 10px;
+}
+
+.notifications-menu ul li:hover {
+  cursor: pointer;
+  background-color: #444;;
 }
 
 .notifications-menu ul li:not(:last-child) {
   border-bottom: 1px solid #555;
 }
 
+.notifications-menu ul li .read-circle {
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+  min-width: 12px;
+  background-color: white;
+  visibility: hidden;
+}
+
+.notifications-menu ul li .read-circle.unread {
+  background-color: var(--lightgreen);
+  border: 1px solid #555;
+  z-index: 2;
+  visibility: visible;
+  cursor: help;
+}
 
 .notifications-menu ul li a {
   color: white;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 
+.notifications-menu ul li a:hover {
+  text-decoration: none;
+}
+
+
+
 .notifications-menu ul li a .time-ago {
-  font-size: 0.875rem
+  font-size: 0.875rem;
 }
 
 .notifications-menu .no-notifications {

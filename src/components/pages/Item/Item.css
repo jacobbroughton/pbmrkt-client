@@ -30,6 +30,8 @@
   max-height: 350px;
   /* max-width: 350px; */
   /* min-width: 350px; */
+  position: sticky;
+  top: 58px;
 }
 
 .main-image-parent {
@@ -294,7 +296,7 @@
   border-radius: 5px;
 }
 
-.item .content .images-and-info {
+.item .content .info {
   display: flex;
   /* flex-direction: row; */
   flex-direction: column;
@@ -316,7 +318,7 @@
   gap: 25px;
 }
 
-.item .content .images-and-info .contact-options {
+.item .content .info .contact-options {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -325,7 +327,7 @@
   border-radius: 3px;
 }
 
-.item .content .images-and-info .contact-options .contact-option {
+.item .content .info .contact-options .contact-option {
   display: flex;
   gap: 15px;
   font-size: 0.875rem;
@@ -333,22 +335,22 @@
   justify-content: flex-start;
 }
 
-.item .content .images-and-info .contact-options .contact-option .placeholder {
+.item .content .info .contact-options .contact-option .placeholder {
   background-color: #555;
   border-radius: 3px;
   height: 0.875rem;
   width: 100%;
 }
 
-.item .content .images-and-info .contact-options .contact-option .placeholder.phone {
+.item .content .info .contact-options .contact-option .placeholder.phone {
   width: 12ch;
 }
 
-.item .content .images-and-info .contact-options .contact-option .placeholder.email {
+.item .content .info .contact-options .contact-option .placeholder.email {
   width: 15ch;
 }
 
-.item .content .images-and-info .contact-options .contact-option svg {
+.item .content .info .contact-options .contact-option svg {
   fill: white;
   width: 15px;
   min-width: 15px;
@@ -652,17 +654,19 @@
   }
 
   .item .images-and-content,
-  .item .content .images-and-info {
+  .item .content .info {
     flex-direction: column;
     max-width: none;
   }
 
-  .item .content .images-and-info .item-images {
+  .item .item-images {
     width: 100%;
     max-width: none;
+    position: static !important;
+    top: initial;
   }
 
-  .item .content > .images-and-info > .item-images > .main-image-parent {
+  .item .content > .info > .item-images > .main-image-parent {
     width: 100%;
     max-width: none;
   }

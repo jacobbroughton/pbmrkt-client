@@ -125,23 +125,21 @@ const Item = () => {
       console.log(data);
 
       if (error) throw error.message;
-
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "add_comment_notification",
-        {
+      if (user.auth_id != item.info.created_by_id) {
+        const { error: error2 } = await supabase.rpc("add_comment_notification", {
           p_message: newCommentBody,
           p_type: "Comment",
           p_url: "",
           p_item_id: itemID,
           p_comment_id: data[0].id,
-          p_user_id: user.auth_id
-        }
-      );
+          p_user_id: user.auth_id,
+          p_related_user_id: item.info.created_by_id,
+        });
 
+        if (error2) throw error2.message;
 
-      if (error2) throw error2.message;
-
-      console.log("added comment notification");
+        console.log("added comment notification");
+      }
       getComments();
       setNewCommentBody("");
     } catch (error) {
@@ -325,7 +323,7 @@ const Item = () => {
             )}
           </div>
           <div className="content">
-            <div className="images-and-info">
+            <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info">
                   {isAdmin && (

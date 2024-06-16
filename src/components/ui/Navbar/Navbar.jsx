@@ -29,16 +29,14 @@ function Navbar() {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(
-      toggleModal({ key: "notificationsMenu", value: false})
-    );
+    dispatch(toggleModal({ key: "notificationsMenu", value: false }));
     dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
   }
 
   function handleNotificationsMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(toggleModal({ key: "rightSideMenu", value: false}));
+    dispatch(toggleModal({ key: "rightSideMenu", value: false }));
 
     dispatch(
       toggleModal({ key: "notificationsMenu", value: !modals.notificationsMenuToggled })
@@ -101,7 +99,7 @@ function Navbar() {
 
   useEffect(() => {
     if (user) handleNotificationsSubscribe();
-  }, []);
+  }, [user]);
 
   return (
     <nav>
@@ -163,7 +161,10 @@ function Navbar() {
       </div>
       {modals.rightSideMenuToggled && session && <RightSideMenu />}
       {modals.notificationsMenuToggled && session && (
-        <NotificationsMenu notifications={notifications} />
+        <NotificationsMenu
+          notifications={notifications}
+          setNotifications={setNotifications}
+        />
       )}
     </nav>
   );

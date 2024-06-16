@@ -41,8 +41,8 @@ const Comment = ({
                 className="thread-bar-target"
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
-              <div className="thread-bar">
                 {comment.repliesToggled ? <MinusIcon /> : <PlusIcon />}
+              <div className="thread-bar">
                 {/* <Chevron
                   onClick={(e) => handleRepliesClick(e, comment)}
                   direction={comment.repliesToggled ? "down" : "up"}

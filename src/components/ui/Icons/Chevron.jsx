@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const Chevron = ({ direction, onClick = null }) => {
+const Chevron = ({ direction, onClick = () => null }) => {
   let rotateText = "";
   const svgRef = useRef();
 

@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
   margin-top: 50px;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 5px;
+  border: 1px solid #555;
 }
 
 .item .comments-section .login-or-signup {
@@ -26,6 +30,7 @@
 
 .item .comments-section .comments-list.is-root-level {
   margin-top: 30px;
+
 }
 
 .item .comments-section .comment-form button[type="submit"]:not(:disabled) {

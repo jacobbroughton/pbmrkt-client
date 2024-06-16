@@ -237,41 +237,58 @@ const Item = () => {
 
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
-    const { data, error } = await supabase.rpc("get_child_comments", {
-      p_item_id: item.info.id,
-      p_parent_comment_id: commentWithReplies.id,
-    });
+    console.log(commentWithReplies);
+    if (!commentWithReplies.repliesToggled) {
+      const { data, error } = await supabase.rpc("get_child_comments", {
+        p_item_id: item.info.id,
+        p_parent_comment_id: commentWithReplies.id,
+      });
 
-    if (error) {
-      console.error(error);
-      throw error.message;
-    }
-    const replies = data.map((comment) => {
-      const { data: data2, error: error2 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
+      const replies = data.map((comment) => {
+        const { data: data2, error: error2 } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
 
-      if (error2) throw error.message;
+        if (error2) throw error.message;
 
-      return {
-        ...comment,
-        profile_picture_url: data2.publicUrl,
-      };
-    });
-
-    setLocalComments(
-      localComments.map((comm) => {
         return {
-          ...comm,
-          tier: 0,
-          ...(comm.id == commentWithReplies.id && {
-            replies: replies,
-            repliesToggled: !comm.repliesToggled,
-            reply_count: replies.length,
-          }),
+          ...comment,
+          profile_picture_url: data2.publicUrl,
         };
-      })
-    );
+      });
+
+      setLocalComments( 
+        localComments.map((comm) => {
+          return {
+            ...comm,
+            tier: 0,
+            ...(comm.id == commentWithReplies.id && {
+              replies: replies,
+              repliesToggled: !comm.repliesToggled,
+              reply_count: replies.length,
+            }),
+          };
+        })
+      );
+    } else {
+      setLocalComments(
+        localComments.map((comm) => {
+          return {
+            ...comm,
+            tier: 0,
+            ...(comm.id == commentWithReplies.id && {
+              replies: [],
+              repliesToggled: false,
+              // reply_count: replies.length,
+            }),
+          };
+        })
+      );
+    }
   }
 
   if (!item && loading)

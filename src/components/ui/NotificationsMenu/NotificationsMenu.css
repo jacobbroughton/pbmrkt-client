@@ -8,7 +8,7 @@
   border: 1px solid #555;
   z-index: 5;
   box-shadow: -3px 3px 5px #18181877;
-  max-width: 250px;
+  max-width: 300px;
 }
 
 .notifications-menu .header {
@@ -38,6 +38,19 @@
 
 .notifications-menu ul li:not(:last-child) {
   border-bottom: 1px solid #555;
+}
+
+.notifications-menu ul li .profile-picture-container {
+  margin-right: 5px;
+  margin-top: 3px;
+}
+
+.notifications-menu ul li  .profile-picture-container .profile-picture {
+  background-color: #666;
+  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
 }
 
 .notifications-menu ul li .read-circle {

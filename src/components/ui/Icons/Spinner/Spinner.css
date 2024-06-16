@@ -1,13 +1,19 @@
 .spinner-container {
   padding: 10px;
-  border-radius: 100px;
+  border-radius: 50%;
   background-color: #444;
   aspect-ratio: 1/1;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid grey;
-  
+}
+
+.spinner-container.defaults-stripped {
+  padding: 0 !important;
+  border: 0;
+  padding: 0;
+  background-color: #444;
 }
 
 .spinner-container svg {

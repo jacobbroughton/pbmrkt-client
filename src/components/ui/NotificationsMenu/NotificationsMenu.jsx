@@ -70,6 +70,12 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
                   handleNotificationRead(notification);
                 }}
               >
+                <div className="profile-picture-container">
+                  <img
+                    className="profile-picture"
+                    src={notification.profile_picture_url}
+                  />
+                </div>
                 <div className="notification-body">
                   {notification.type == "Comment" ? (
                     <p>{notification.username} commented on your post</p>
@@ -86,7 +92,11 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
                   className={`read-circle ${
                     notification.status == "Read" ? "read" : "unread"
                   }`}
-                  title={`This notification${notification.status == "Read" ? `was read at ${notification.read_at}` : ' has not been read yet'}`}
+                  title={`This notification${
+                    notification.status == "Read"
+                      ? `was read at ${notification.read_at}`
+                      : " has not been read yet"
+                  }`}
                 ></div>
               </Link>
             </li>

@@ -7,6 +7,7 @@ import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { Link } from "react-router-dom";
 import MinusIcon from "../Icons/MinusIcon";
 import PlusIcon from "../Icons/PlusIcon";
+import Spinner from "../Icons/Spinner/Spinner";
 
 const Comment = ({
   comment,
@@ -41,7 +42,12 @@ const Comment = ({
                 className="thread-bar-target"
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
-                {comment.repliesToggled ? <MinusIcon /> : <PlusIcon />}
+              {comment.repliesToggled ? (
+                <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />
+              ) : (
+                <PlusIcon onClick={(e) => handleRepliesClick(e, comment)} />
+              )}
+              <Spinner defaultsStripped/>
               <div className="thread-bar">
                 {/* <Chevron
                   onClick={(e) => handleRepliesClick(e, comment)}
@@ -65,9 +71,7 @@ const Comment = ({
           </div>
           <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
           <p>{comment.eff_status ? comment.body : "DELETED"} </p>
-          {comment.eff_status &&
-          user &&
-          comment.id != commentWithReplyWindowID ? (
+          {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button
                 className="button"
@@ -78,13 +82,15 @@ const Comment = ({
               >
                 Reply
               </button>
-              {comment.created_by_id == user.auth_id && <button
-                className="button"
-                onClick={(e) => handleDeleteComment(e, comment.id)}
-                type="button"
-              >
-                Delete
-              </button>}
+              {comment.created_by_id == user.auth_id && (
+                <button
+                  className="button"
+                  onClick={(e) => handleDeleteComment(e, comment.id)}
+                  type="button"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ) : (
             false

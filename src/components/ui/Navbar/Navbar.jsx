@@ -60,7 +60,19 @@ function Navbar() {
 
       if (error) throw error.message;
 
-      let localNotifications = data;
+      let localNotifications = data.map((notif) => {
+        console.log(notif.profile_picture_path);
+        const { data: data2, error: error2 } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(notif.profile_picture_path || "placeholders/user-placeholder");
+
+        if (error2) throw error.message;
+
+        return {
+          ...notif,
+          profile_picture_url: data2.publicUrl,
+        };
+      });
 
       setNotifications(localNotifications);
 

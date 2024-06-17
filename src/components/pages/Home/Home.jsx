@@ -34,7 +34,7 @@ function Listings() {
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
   const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  const [listingsError, setListingsError] = useState(null);
+  const [error, setError] = useState(null);
   const [categories, setCategories] = useState(null);
   const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
@@ -86,7 +86,6 @@ function Listings() {
       });
 
       if (error) {
-        console.error(error);
         throw error.message;
       }
 
@@ -114,7 +113,7 @@ function Listings() {
       dispatch(setFiltersUpdated(false));
     } catch (error) {
       console.error(error);
-      setListingsError(error.toString());
+      setError(error.toString());
     }
 
     setListingsLoading(false);
@@ -148,7 +147,7 @@ function Listings() {
         dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
       }
     } catch (error) {
-      setListingsError(error);
+      setError(error);
     }
   }
 
@@ -199,7 +198,7 @@ function Listings() {
       );
     } catch (error) {
       console.error(error);
-      setListingsError(error);
+      setError(error);
     }
   }
   const numChecked = {
@@ -380,8 +379,8 @@ function Listings() {
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />
           )}
-          {listingsError ? (
-            <p className="small-text error-text">{listingsError}</p>
+          {error ? (
+            <p className="small-text error-text">{error}</p>
           ) : listingsInitiallyLoading && listingsLoading ? (
             <p>
               <SkeletonsListingGrid

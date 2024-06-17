@@ -11,7 +11,9 @@ const LoadingOverlay = ({ message, zIndex, verticalAlignment }) => {
         ...(zIndex && { zIndex }),
       }}
     >
-      <Spinner />
+      <div className="spinner-container">
+        <Spinner />
+      </div>
       {message && <p>{message}</p>}
     </div>
   );

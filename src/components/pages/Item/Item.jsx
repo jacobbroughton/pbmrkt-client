@@ -373,7 +373,6 @@ const Item = () => {
                 </div>
 
                 {/* <div className="horizontal-divider"></div> */}
-                <div className="top-right">
                   {isAdmin && (
                     <button
                       title="Modify the properties of this item"
@@ -391,6 +390,7 @@ const Item = () => {
                       <ThreeDots />
                     </button>
                   )}
+                <div className="top-right">
                   <div className="contact-options">
                     <div className="contact-option">
                       <PhoneIcon />{" "}

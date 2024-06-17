@@ -17,21 +17,22 @@
   /* margin-bottom: 5px; */
   overflow-y: scroll;
   background-color: #444;
-  padding: 10px;
+  /* padding: 10px; */
   z-index: 6;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
   overflow-y: scroll;
   max-height: 700px;
 }
 
-.modal.edit-item .heading {
+.modal.edit-item .header {
   position: sticky;
   background-color: #444;
   top: 0;
   border-bottom: 1px solid #555;
+  padding: 10px;
 }
 
 .modal.edit-item form {
@@ -42,6 +43,8 @@
   overflow-y: hidden;
   height: calc(100% - 100px);
   max-height: 500px;
+  padding: 0 10px 10px 10px !important;
+  margin-top: 10px;
 }
 
 .modal.edit-item form .button.close {
@@ -70,7 +73,7 @@
   align-items: center;
   gap: 10px;
   align-self: flex-start;
-  border: 1px solid grey;
+ border: 1px solid #555;
   padding: 3px 5px;
   background-color: #4f4f4f;
   border-radius: 2px;
@@ -134,7 +137,7 @@
 .modal.edit-item form .custom-photo-upload,
 .images-uploading {
   height: 60px;
-  border: 1px solid grey;
+ border: 1px solid #555;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +204,7 @@
   color: white;
   gap: 5px;
   background-color: #4f4f4f;
-  border: 1px solid grey;
+ border: 1px solid #555;
   padding: 5px 10px;
   font-size: 1rem;
   border-radius: 3px;
@@ -282,7 +285,7 @@
   white-space: nowrap;
   gap: 5px;
   background-color: #4f4f4f;
-  border: 1px solid grey;
+ border: 1px solid #555;
   padding: 3px 5px 3px 3px;
   border-radius: 2px;
   cursor: pointer;
@@ -327,7 +330,7 @@
   font-family: inherit;
   font-size: 1rem;
   background-color: #3b3b3b;
-  border: 1px solid grey;
+ border: 1px solid #555;
   color: white;
   border-radius: 3px;
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
@@ -354,7 +357,7 @@
   font-family: inherit;
   font-size: 1rem;
   /* background-color: #3B3B3B; */
-  /* border: 1px solid grey; */
+  /*border: 1px solid #555; */
   border-radius: 3px;
 }
 
@@ -501,7 +504,7 @@
 }
 
 .modal.edit-item form .edit-iteming-item-images .image-container button {
-  border: 1px solid grey;
+ border: 1px solid #555;
   border-radius: 2px;
   padding: 1px 4px;
 }

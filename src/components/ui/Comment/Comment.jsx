@@ -52,8 +52,8 @@ const Comment = ({
               ></div>
 
               <div className="thread-bar"></div>
-              {repliesLoading ? (
-                <Spinner defaultsStripped />
+              {!repliesLoading ? (
+                <Spinner />
               ) : comment.repliesToggled ? (
                 <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />
               ) : (
@@ -74,8 +74,8 @@ const Comment = ({
               {getTimeAgo(new Date(comment.created_dttm))}
             </p>
           </div>
-          <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p>
-          <p>{comment.eff_status ? comment.body : "DELETED"} </p>
+          {/* <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p> */}
+          <p>{comment.eff_status ? comment.body : "Deleted"} </p>
           {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button

@@ -24,6 +24,10 @@
   padding-bottom: 0;
 }
 
+.comment.is-root-level {
+  margin-top: 10px;
+}
+
 .comment .bars-and-content .profile-picture-container {
   margin-right: 10px;
   position: relative;
@@ -110,6 +114,13 @@
 
 .comment .bars-and-content .profile-picture-container svg:not(.spinner) {
   transform: translateX(-50%);
+}
+
+.comment .bars-and-content .profile-picture-container svg.spinner {
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+  /* transform: translateX(-50%) !important; */
 }
 
 

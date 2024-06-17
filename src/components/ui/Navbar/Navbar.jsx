@@ -88,9 +88,11 @@ function Navbar() {
             filter: `related_user_id=eq.${user.auth_id}`,
           },
           (payload) => {
-            localNotifications.unshift(payload.new);
-            setNotifications(localNotifications);
             console.log("Change received!", payload);
+            if (payload.new.related_user_id != user.auth_id) {
+              localNotifications.unshift(payload.new);
+              setNotifications(localNotifications);
+            }
           }
         )
         .subscribe((status, err) => {
@@ -151,19 +153,17 @@ function Navbar() {
             }
           >
             {!modals.filtersSidebarToggled ? (
-                  <Caret direction={"right"} />
-                ) : (
-                  <Caret direction={"left"} />
-                )}{" "}
+              <Caret direction={"right"} />
+            ) : (
+              <Caret direction={"left"} />
+            )}{" "}
             <FilterIcon />
           </button>
         )}
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
-
       </div>
 
       <div className="right-side">
-
         <Link to="/sell" className="sell-link" style={{}}>
           {/* <PlusIcon /> */}
           Sell

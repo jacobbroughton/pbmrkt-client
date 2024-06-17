@@ -1,45 +1,16 @@
-.spinner-container {
-  padding: 10px;
-  border-radius: 50%;
-  background-color: #444;
-  aspect-ratio: 1/1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid grey;
-}
-
-.spinner-container.defaults-stripped {
-  padding: 0 !important;
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-}
-
-.spinner-container svg {
-  animation: rotate 0.85s infinite linear;
-  transform-origin: center;
-  width: 20px;
-  fill: white;
-}
-
 /* Defaults stripped */
-svg.defaults-stripped {
+svg.spinner {
   fill: white;
   animation: rotate 0.85s infinite linear !important;
-  transform-origin: left;
   width: 20px;
- position: absolute;
- left: 0;
-/* transform: translateX(-50%); */
-
+  transform-origin: left;
 }
 
 @keyframes rotate {
   from {
-    transform: rotate(0deg)  translateX(-50%);
+    transform: rotate(0deg) translateX(-50%);
   }
   to {
-    transform: rotate(360deg)  translateX(-50%);
+    transform: rotate(360deg) translateX(-50%);;
   }
 }

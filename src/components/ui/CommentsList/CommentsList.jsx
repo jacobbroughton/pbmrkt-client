@@ -14,10 +14,12 @@ const CommentsList = ({
   setRootLevelComments,
   setError,
   getComments,
+  repliesLoadingFromRootLevel,
 }) => {
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
   const [newReplyBody, setNewReplyBody] = useState("");
+  const [repliesLoading, setRepliesLoading] = useState(repliesLoadingFromRootLevel || false);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -27,8 +29,7 @@ const CommentsList = ({
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
 
-
-    console.log(repliedComment)
+    console.log(repliedComment);
     try {
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newReplyBody,
@@ -48,7 +49,7 @@ const CommentsList = ({
           p_item_id: repliedComment.item_id,
           p_comment_id: data[0].id,
           p_user_id: user.auth_id,
-          p_related_user_id: repliedComment.created_by_id
+          p_related_user_id: repliedComment.created_by_id,
         }
       );
 
@@ -79,6 +80,7 @@ const CommentsList = ({
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
     try {
+      setRepliesLoading(true);
       const { data, error } = await supabase.rpc("get_child_comments", {
         p_item_id: commentWithReplies.item_id,
         p_parent_comment_id: commentWithReplies.id,
@@ -119,6 +121,8 @@ const CommentsList = ({
     } catch (error) {
       setError(error.toString());
     }
+
+    setRepliesLoading(false);
   }
   return (
     <div className={`comments-list ${isRootLevel ? "is-root-level" : ""}`}>
@@ -149,6 +153,7 @@ const CommentsList = ({
               setRootLevelComments={setRootLevelComments}
               getComments={getComments}
               setError={setError}
+              repliesLoading={repliesLoading}
             />
           );
         })

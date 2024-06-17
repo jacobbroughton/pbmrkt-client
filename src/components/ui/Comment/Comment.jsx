@@ -22,6 +22,7 @@ const Comment = ({
   setRootLevelComments,
   setError,
   getComments,
+  repliesLoading,
 }) => {
   const { user } = useSelector((state) => state.auth);
   return (
@@ -30,6 +31,7 @@ const Comment = ({
       className={`comment ${isRootLevel ? "is-root-level" : ""}`}
       // style={{marginLeft: `${comment.depth * 15}px`}}
     >
+      {repliesLoading.toString()}
       <div className="bars-and-content">
         {/* {[...new Array(comment.depth)].map((depthIndex) => (
           <div className="depth-bar" id={depthIndex}></div>
@@ -48,14 +50,11 @@ const Comment = ({
                 className="thread-bar-target"
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
-              {/* <Spinner defaultsStripped/> */}
-              <div className="thread-bar">
-                {/* <Chevron
-                  onClick={(e) => handleRepliesClick(e, comment)}
-                  direction={comment.repliesToggled ? "down" : "up"}
-                  /> */}
-              </div>
-              {comment.repliesToggled ? (
+
+              <div className="thread-bar"></div>
+              {repliesLoading ? (
+                <Spinner defaultsStripped />
+              ) : comment.repliesToggled ? (
                 <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />
               ) : (
                 <PlusIcon onClick={(e) => handleRepliesClick(e, comment)} />
@@ -154,6 +153,8 @@ const Comment = ({
                 setRootLevelComments={setRootLevelComments}
                 setError={setError}
                 getComments={getComments}
+                repliesLoading={repliesLoading}
+                repliesLoadingFromRootLevel={false}
               />
             </div>
           )}

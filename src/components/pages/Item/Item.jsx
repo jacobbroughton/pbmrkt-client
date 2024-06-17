@@ -36,6 +36,7 @@ const Item = () => {
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
+  const [repliesLoading, setRepliesLoading] = useState(false);
 
   useEffect(() => {
     async function getItem() {
@@ -237,8 +238,8 @@ const Item = () => {
 
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
-    console.log(commentWithReplies);
     if (!commentWithReplies.repliesToggled) {
+      setRepliesLoading(true);
       const { data, error } = await supabase.rpc("get_child_comments", {
         p_item_id: item.info.id,
         p_parent_comment_id: commentWithReplies.id,
@@ -261,7 +262,7 @@ const Item = () => {
         };
       });
 
-      setLocalComments( 
+      setLocalComments(
         localComments.map((comm) => {
           return {
             ...comm,
@@ -289,6 +290,7 @@ const Item = () => {
         })
       );
     }
+    setRepliesLoading(false);
   }
 
   if (!item && loading)
@@ -343,24 +345,6 @@ const Item = () => {
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info">
-                  {isAdmin && (
-                    <button
-                      title="Modify the properties of this item"
-                      type="button"
-                      className="edit-item-menu-toggle"
-                      onClick={() =>
-                        dispatch(
-                          toggleModal({
-                            key: "editItemModal",
-                            value: !modals.editItemMenuToggled,
-                          })
-                        )
-                      }
-                    >
-                      <ThreeDots />
-                    </button>
-                  )}
-
                   {editItemMenuToggled && <div></div>}
                   <h1>{item.info.what_is_this}</h1>
                   <div className="price-and-toggle">
@@ -389,24 +373,47 @@ const Item = () => {
                 </div>
 
                 {/* <div className="horizontal-divider"></div> */}
-                <div className="contact-options">
-                  <div className="contact-option">
-                    <PhoneIcon />{" "}
-                    {user ? (
-                      item.info.phone_number || "N/A"
-                    ) : (
-                      <div className="placeholder phone"></div>
-                    )}
+                <div className="top-right">
+                  {isAdmin && (
+                    <button
+                      title="Modify the properties of this item"
+                      type="button"
+                      className="edit-item-menu-toggle"
+                      onClick={() =>
+                        dispatch(
+                          toggleModal({
+                            key: "editItemModal",
+                            value: !modals.editItemMenuToggled,
+                          })
+                        )
+                      }
+                    >
+                      <ThreeDots />
+                    </button>
+                  )}
+                  <div className="contact-options">
+                    <div className="contact-option">
+                      <PhoneIcon />{" "}
+                      <p className="phone">
+                        {user ? (
+                          item.info.phone_number || "N/A"
+                        ) : (
+                          <div className="placeholder phone"></div>
+                        )}
+                      </p>
+                    </div>
+                    <div className="contact-option">
+                      <EmailIcon />
+                      <p className="email">
+                        {user ? (
+                          item.info.email || "N/A"
+                        ) : (
+                          <div className="placeholder email"></div>
+                        )}
+                      </p>
+                    </div>
+                    {!user && <p className="small-text">Must be signed in to view</p>}
                   </div>
-                  <div className="contact-option">
-                    <EmailIcon />
-                    {user ? (
-                      item.info.email || "N/A"
-                    ) : (
-                      <div className="placeholder email"></div>
-                    )}
-                  </div>
-                  {!user && <p className="small-text">Must be signed in to view</p>}
                 </div>
               </div>
 
@@ -521,6 +528,7 @@ const Item = () => {
           )}
 
           {/* <div className="horizontal-divider"></div> */}
+          {repliesLoading.toString()}
           <CommentsList
             passedComments={localComments}
             handleCommentSubmit={handleNewCommentSubmit}
@@ -530,6 +538,7 @@ const Item = () => {
             setRootLevelComments={setLocalComments}
             setError={setError}
             getComments={getComments}
+            repliesLoadingFromRootLevel={repliesLoading}
           />
         </div>
         {modals.editItemModalToggled ? (

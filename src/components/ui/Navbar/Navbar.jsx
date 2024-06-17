@@ -10,7 +10,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { setDraftSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
 import useWindowSize from "../../../utils/useWindowSize";
-import { useCurrentPath } from "../../../utils/usefulFunctions";
+import { isOnMobile, useCurrentPath } from "../../../utils/usefulFunctions";
 import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import BellIcon from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
@@ -125,6 +125,7 @@ function Navbar() {
 
   return (
     <nav>
+      {isOnMobile() && <h1>You're on mobile!</h1>}
       <div className="home-link-and-filter-button">
         <Link
           to="/"
@@ -157,10 +158,11 @@ function Navbar() {
             <FilterIcon />
           </button>
         )}
+        <SearchBar handleSearchSubmit={handleSearchSubmit} />
+
       </div>
 
       <div className="right-side">
-        <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
         <Link to="/sell" className="sell-link" style={{}}>
           {/* <PlusIcon /> */}

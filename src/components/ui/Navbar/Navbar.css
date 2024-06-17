@@ -10,14 +10,15 @@ nav {
   right: 0;
   left: 0;
   z-index: 5;
-  gap: 40px;
+  gap: 15px;
   border-bottom: #444 1px solid;
 }
 
 nav .home-link-and-filter-button {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
+  width: 100%;
 }
 
 nav .home-link-and-filter-button svg {
@@ -25,9 +26,9 @@ nav .home-link-and-filter-button svg {
   fill: white;
 }
 
-nav .home-link-and-filter-button .filters-toggle-button  {
+nav .home-link-and-filter-button .filters-toggle-button {
   display: none;
- }
+}
 
 nav .home-link-and-filter-button .filters-toggle-button svg {
   width: 32px;
@@ -80,7 +81,7 @@ nav .right-side {
   display: flex;
   align-items: center;
   gap: 15px;
-  width: 100%;
+  /* width: 100%; */
   justify-content: flex-end;
 }
 
@@ -122,6 +123,11 @@ nav .right-side .notifications-menu-toggle {
   position: relative;
 }
 
+nav .right-side .notifications-menu-toggle:hover {
+  background-color: #555;
+  border: #666;
+}
+
 nav .right-side .notifications-menu-toggle svg {
   width: 15px;
   fill: white;
@@ -138,10 +144,6 @@ nav .right-side .notifications-menu-toggle .unread-notification-count {
   height: 15px;
 }
 
-nav .right-side .notifications-menu-toggle:hover {
-  background-color: #555;
-  border: #666;
-}
 
 nav .right-side .right-side-menu-button {
   height: 35px;
@@ -204,11 +206,11 @@ nav .right-side .right-side-menu-button .profile-picture {
   }
 
   nav .home-link-and-filter-button .filters-toggle-button {
-   display: flex;
+    display: flex;
   }
 
   nav .home-link-and-filter-button .filters-toggle-button svg.caret {
-    width: 12px;;
+    width: 12px;
   }
 }
 

@@ -111,6 +111,7 @@ nav .right-side .notifications-menu-toggle {
   justify-content: center;
   border: #555 1px solid;
   cursor: pointer;
+  position: relative;
 }
 
 nav .right-side .notifications-menu-toggle svg {
@@ -118,9 +119,20 @@ nav .right-side .notifications-menu-toggle svg {
   fill: white;
 }
 
+nav .right-side .notifications-menu-toggle .unread-notification-count {
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  background-color: crimson;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  width: 15px;
+  height: 15px;
+}
+
 nav .right-side .notifications-menu-toggle:hover {
-background-color: #555;
-border: #666;
+  background-color: #555;
+  border: #666;
 }
 
 nav .right-side .right-side-menu-button {

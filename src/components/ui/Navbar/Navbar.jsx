@@ -113,6 +113,10 @@ function Navbar() {
     if (user) handleNotificationsSubscribe();
   }, [user]);
 
+  const unreadNotificationCount = notifications.filter(
+    (notif) => notif.status == "Unread"
+  ).length;
+
   return (
     <nav>
       <div className="home-link-and-filter-button">
@@ -157,6 +161,7 @@ function Navbar() {
               onClick={handleNotificationsMenuToggle}
             >
               <BellIcon />
+              {unreadNotificationCount > 0 && <span className="unread-notification-count">{unreadNotificationCount}</span>}
             </button>
             <button
               onClick={handleRightSideMenuToggle}

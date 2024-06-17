@@ -47,7 +47,7 @@ const Comment = ({
               ) : (
                 <PlusIcon onClick={(e) => handleRepliesClick(e, comment)} />
               )}
-              <Spinner defaultsStripped/>
+              {/* <Spinner defaultsStripped/> */}
               <div className="thread-bar">
                 {/* <Chevron
                   onClick={(e) => handleRepliesClick(e, comment)}

@@ -13,7 +13,7 @@
   padding: 0 !important;
   border: 0;
   padding: 0;
-  background-color: #444;
+  background-color: transparent;
 }
 
 .spinner-container svg {
@@ -21,6 +21,13 @@
   transform-origin: center;
   width: 20px;
   fill: white;
+}
+
+/* Defaults stripped */
+svg.defaults-stripped {
+  animation: rotate 0.85s infinite linear;
+  transform-origin: center;
+  width: 20px;
 }
 
 @keyframes rotate {

@@ -125,7 +125,7 @@ function Navbar() {
 
   return (
     <nav>
-      {isOnMobile() && <h1>You're on mobile!</h1>}
+      {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       <div className="home-link-and-filter-button">
         <Link
           to="/"

@@ -528,7 +528,7 @@ const Item = () => {
           )}
 
           {/* <div className="horizontal-divider"></div> */}
-          {repliesLoading.toString()}
+          {/* {repliesLoading.toString()} */}
           <CommentsList
             passedComments={localComments}
             handleCommentSubmit={handleNewCommentSubmit}

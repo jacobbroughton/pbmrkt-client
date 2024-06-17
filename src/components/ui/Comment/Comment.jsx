@@ -31,7 +31,7 @@ const Comment = ({
       className={`comment ${isRootLevel ? "is-root-level" : ""}`}
       // style={{marginLeft: `${comment.depth * 15}px`}}
     >
-      {repliesLoading.toString()}
+      {/* {repliesLoading.toString()} */}
       <div className="bars-and-content">
         {/* {[...new Array(comment.depth)].map((depthIndex) => (
           <div className="depth-bar" id={depthIndex}></div>

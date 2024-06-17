@@ -138,6 +138,8 @@ nav .right-side .notifications-menu-toggle .unread-notification-count {
   right: -3px;
   top: -3px;
   background-color: crimson;
+  color: white;
+  font-size: 0.875rem;
   border-radius: 50%;
   aspect-ratio: 1/1;
   width: 15px;

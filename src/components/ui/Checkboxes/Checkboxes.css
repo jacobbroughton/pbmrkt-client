@@ -27,6 +27,12 @@
   fill: grey;
 }
 
+
+
 .checkbox-options.disabled > .checkbox-option label {
   color: grey;
+}
+
+.checkbox-options:not(.disabled) > .checkbox-option:hover svg {
+  fill: yellow;
 }

@@ -54,15 +54,20 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
     }
   }
 
+  const unreadNotificationCount = notifications?.filter(
+    (notif) => notif.status == "Unread"
+  ).length;
+
   return (
     <div className="notifications-menu" ref={notificationsMenuRef}>
       <div className="header">
         <p>Notifications</p>
+        {unreadNotificationCount > 0 && <button>Mark all as read</button>}
       </div>
       <ul>
         {notifications?.length != 0 ? (
           notifications?.map((notification) => (
-            <li>
+            <li key={notification.id}>
               <Link
                 to={`/${notification.item_id}`}
                 onClick={() => {

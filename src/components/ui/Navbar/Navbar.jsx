@@ -15,6 +15,7 @@ import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import BellIcon from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
+import Caret from "../Icons/Caret";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -80,7 +81,12 @@ function Navbar() {
         .channel("comment_notifications")
         .on(
           "postgres_changes",
-          { event: "INSERT", schema: "public", table: "comment_notifications" },
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "comment_notifications",
+            filter: `related_user_id=eq.${user.auth_id}`,
+          },
           (payload) => {
             localNotifications.unshift(payload.new);
             setNotifications(localNotifications);
@@ -113,25 +119,13 @@ function Navbar() {
     if (user) handleNotificationsSubscribe();
   }, [user]);
 
-  const unreadNotificationCount = notifications.filter(
+  const unreadNotificationCount = notifications?.filter(
     (notif) => notif.status == "Unread"
   ).length;
 
   return (
     <nav>
       <div className="home-link-and-filter-button">
-        {/* {location.pathname == '/' && <button
-          onClick={() =>
-            dispatch(
-              toggleModal({
-                key: "filtersSidebar",
-                value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
-              })
-            )
-          }
-        >
-          <FilterIcon />
-        </button>} */}
         <Link
           to="/"
           className="home-link"
@@ -143,6 +137,26 @@ function Navbar() {
           {/* <p>Core PB</p> */}
           <HomeIcon />
         </Link>
+        {location.pathname == "/" && (
+          <button
+            className="filters-toggle-button"
+            onClick={() =>
+              dispatch(
+                toggleModal({
+                  key: "filtersSidebar",
+                  value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+                })
+              )
+            }
+          >
+            {!modals.filtersSidebarToggled ? (
+                  <Caret direction={"right"} />
+                ) : (
+                  <Caret direction={"left"} />
+                )}{" "}
+            <FilterIcon />
+          </button>
+        )}
       </div>
 
       <div className="right-side">
@@ -161,7 +175,11 @@ function Navbar() {
               onClick={handleNotificationsMenuToggle}
             >
               <BellIcon />
-              {unreadNotificationCount > 0 && <span className="unread-notification-count">{unreadNotificationCount}</span>}
+              {unreadNotificationCount > 0 && (
+                <span className="unread-notification-count">
+                  {unreadNotificationCount}
+                </span>
+              )}
             </button>
             <button
               onClick={handleRightSideMenuToggle}

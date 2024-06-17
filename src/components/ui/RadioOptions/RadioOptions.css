@@ -31,10 +31,13 @@
   fill: var(--yellow);
 }
 
+.radio-options > .radio-option:hover > svg {
+  fill: var(--yellow);
+}
+
 .radio-options.disabled > .radio-option label {
   color: grey;
 }
-
 
 .radio-options.disabled > .radio-option svg {
   fill: grey;

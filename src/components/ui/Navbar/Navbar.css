@@ -25,6 +25,14 @@ nav .home-link-and-filter-button svg {
   fill: white;
 }
 
+nav .home-link-and-filter-button .filters-toggle-button  {
+  display: none;
+ }
+
+nav .home-link-and-filter-button .filters-toggle-button svg {
+  width: 32px;
+}
+
 nav .home-link {
   font-weight: 600;
   white-space: nowrap;
@@ -187,8 +195,20 @@ nav .right-side .right-side-menu-button .profile-picture {
 @media only screen and (max-device-width: 480px) {
   nav {
     top: initial;
-    bottom: 0;
+    bottom: -2px;
     border-top: #444 1px solid;
+  }
+
+  nav .home-link-and-filter-button .home-link {
+    display: none;
+  }
+
+  nav .home-link-and-filter-button .filters-toggle-button {
+   display: flex;
+  }
+
+  nav .home-link-and-filter-button .filters-toggle-button svg.caret {
+    width: 12px;;
   }
 }
 

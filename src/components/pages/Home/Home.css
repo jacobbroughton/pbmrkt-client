@@ -165,3 +165,17 @@
     top: 56px;
   }
 }
+
+@media only screen and (max-device-width: 480px)  {
+  .home .listings-controls .filters-button {
+    display: none;
+  }
+
+  .home > .sidebar-and-grid .sidebar {
+    z-index: 6;
+  }
+
+  .home > .sidebar-and-grid .modal-overlay {
+    z-index: 5 !important;
+  }
+}

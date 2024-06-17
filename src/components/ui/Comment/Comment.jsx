@@ -35,25 +35,31 @@ const Comment = ({
           <div className="depth-bar" id={depthIndex}></div>
         ))} */}
         <div className="profile-picture-container">
-          <img className="profile-picture" src={comment.profile_picture_url} />
+          <Link
+            to={`/user/${comment.username}`}
+            className="profile-picture-link"
+            // onClick={(e) => handleRepliesClick(e, comment)}
+          >
+            <img className="profile-picture" src={comment.profile_picture_url} />
+          </Link>
           {comment.reply_count >= 1 && (
             <>
               <div
                 className="thread-bar-target"
                 onClick={(e) => handleRepliesClick(e, comment)}
               ></div>
-              {comment.repliesToggled ? (
-                <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />
-              ) : (
-                <PlusIcon onClick={(e) => handleRepliesClick(e, comment)} />
-              )}
               {/* <Spinner defaultsStripped/> */}
               <div className="thread-bar">
                 {/* <Chevron
                   onClick={(e) => handleRepliesClick(e, comment)}
                   direction={comment.repliesToggled ? "down" : "up"}
-                /> */}
+                  /> */}
               </div>
+              {comment.repliesToggled ? (
+                <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />
+              ) : (
+                <PlusIcon onClick={(e) => handleRepliesClick(e, comment)} />
+              )}
             </>
           )}
         </div>

@@ -34,7 +34,7 @@ const SearchBar = () => {
 
   return (
     <div className="search-bar">
-      <form onSubmit={handleSearchSubmit}>
+      <form onSubmit={handleSearchSubmit} className={searchInputToggled ? "toggled" : ""}>
         <div className="search-input-container">
           <button
             className="search-input-toggle"

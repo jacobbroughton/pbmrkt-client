@@ -199,8 +199,9 @@ const UserProfile = () => {
 
   const isAdmin = user?.auth_id == localUser?.auth_id;
 
-  if (!loading)
+  if (loading)
     return <LoadingOverlay message="Loading user..." verticalAlignment={"center"} />;
+
 
   return (
     <>

@@ -26,6 +26,7 @@
   border: 0;
   font-size: 0.875rem;
   cursor: pointer;
+  color: white;
 }
 
 .notifications-menu .header button:hover {

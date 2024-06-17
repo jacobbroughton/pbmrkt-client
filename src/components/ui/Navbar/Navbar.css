@@ -125,7 +125,7 @@ nav .right-side .notifications-menu-toggle {
 
 nav .right-side .notifications-menu-toggle:hover {
   background-color: #555;
-  border: #666;
+  border-color: #666;
 }
 
 nav .right-side .notifications-menu-toggle svg {
@@ -135,15 +135,20 @@ nav .right-side .notifications-menu-toggle svg {
 
 nav .right-side .notifications-menu-toggle .unread-notification-count {
   position: absolute;
-  right: -3px;
-  top: -3px;
-  background-color: crimson;
+  font-weight: 600;
+  right: -5px;
+  top: -5px;
+  background-color: #e41e3f;
   color: white;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   border-radius: 50%;
   aspect-ratio: 1/1;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 

@@ -52,7 +52,7 @@ const Comment = ({
               ></div>
 
               <div className="thread-bar"></div>
-              {!repliesLoading ? (
+              {repliesLoading ? (
                 <Spinner />
               ) : comment.repliesToggled ? (
                 <MinusIcon onClick={(e) => handleRepliesClick(e, comment)} />

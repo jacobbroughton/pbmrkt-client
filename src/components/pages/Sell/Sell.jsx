@@ -22,6 +22,8 @@ import { toggleModal } from "../../../redux/modals.js";
 import EditIcon from "../../ui/Icons/EditIcon.jsx";
 import Footer from "../../ui/Footer/Footer.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import RadioIcon from "../../ui/Icons/RadioIcon.jsx";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 
 // const yearArr = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 const brandArr = [
@@ -65,6 +67,7 @@ const Sell = () => {
   const [brand, setBrand] = useState(randomBrand);
   const [model, setModel] = useState(randomModel);
   const [price, setPrice] = useState(randomPrice);
+
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
@@ -103,6 +106,7 @@ const Sell = () => {
   const [batchFile, setBatchFile] = useState(null);
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
+  const [totalPhotos, setTotalPhotos] = useState(null);
   const [generatedFilters, setGeneratedFilters] = useState({
     phoneNumber: false,
     city: false,
@@ -137,7 +141,7 @@ const Sell = () => {
 
       console.log("categories", data);
 
-      const nestedItemCategories = nestItemCategories(data);
+      const nestedItemCategories = nestItemCategories(data, null);
 
       setCategories({
         draft: {
@@ -362,6 +366,8 @@ const Sell = () => {
     try {
       const tempImages = [];
 
+      setTotalPhotos(imageFiles.length);
+
       setImagesUploading(true);
 
       for (let i = 0; i < imageFiles.length; i++) {
@@ -555,8 +561,6 @@ const Sell = () => {
     });
   }
 
- 
-
   const currentYear = new Date().getFullYear();
   const yearOptions = [];
 
@@ -578,6 +582,10 @@ const Sell = () => {
 
   const imagesStillUploading = imagesUploading && !numPhotosUploaded;
   const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;
+
+  let warnings = [];
+
+  if (!whatIsThisItem) warnings.push("");
 
   return (
     <>
@@ -625,6 +633,11 @@ const Sell = () => {
             )}
             {photos.length == 0 ? (
               <div className="image-input-and-prompt">
+                {(imagesStillUploading || imageSkeletonsShowing) && (
+                  <p className="small-text">
+                    {numPhotosUploaded}/{totalPhotos} Uploaded
+                  </p>
+                )}
                 {imagesStillUploading ? (
                   <div className="image-skeletons">
                     <div className="image-skeleton">&nbsp;</div>
@@ -677,6 +690,7 @@ const Sell = () => {
           <div className="form-block">
             <h2>Your Info</h2>
 
+            {/* For edit page, copy from here down */}
             <fieldset>
               <div className={`form-group`}>
                 <label>Full Name (First/Last)</label>
@@ -758,47 +772,53 @@ const Sell = () => {
           <div className="form-block">
             <h2>Item Details</h2>
 
-            <fieldset>
-              <div className={`form-group required`}>
-                <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
-                  What is this item?
-                </label>
-                <input
-                  onChange={(e) => setWhatIsThisItem(e.target.value)}
-                  value={whatIsThisItem}
-                  placeholder='e.g. "GI Cut Planet Eclipse LV1"'
-                />
-              </div>
-              <div className="form-group shipping">
-                <label>Are you covering the shipping cost?</label>
-                <div className="shipping-selector-and-input">
-                  <div className="shipping-selector">
-                    <button
-                      className={`shipping-toggle-button ${
-                        !buyerPaysShipping ? "selected" : ""
-                      }`}
-                      type="button"
-                      onClick={() => setBuyerPaysShipping(false)}
-                    >
-                      Free/Included
-                    </button>
-                    <button
-                      className={`shipping-toggle-button ${
-                        buyerPaysShipping ? "selected" : ""
-                      }`}
-                      type="button"
-                      onClick={() => setBuyerPaysShipping(true)}
-                    >
-                      Buyer Pays
-                    </button>
-                  </div>
+            {/* <fieldset> */}
+            <div className={`form-group required`}>
+              <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
+                <span className="question-number">1.</span> What is this item?
+              </label>
+              <input
+                onChange={(e) => setWhatIsThisItem(e.target.value)}
+                value={whatIsThisItem}
+                placeholder='e.g. "GI Cut Planet Eclipse LV1"'
+              />
+            </div>
+            <div className="form-group shipping">
+              <label>
+                <span className="question-number">2.</span> Are you covering the shipping
+                cost?
+              </label>
+              <div className="shipping-selector-and-input">
+                <div className="shipping-selector">
+                  <button
+                    className={`shipping-toggle-button ${
+                      !buyerPaysShipping ? "selected" : ""
+                    }`}
+                    type="button"
+                    onClick={() => setBuyerPaysShipping(false)}
+                  >
+                    <RadioIcon checked={!buyerPaysShipping} /> Free/Included
+                  </button>
+                  <button
+                    className={`shipping-toggle-button ${
+                      buyerPaysShipping ? "selected" : ""
+                    }`}
+                    type="button"
+                    onClick={() => setBuyerPaysShipping(true)}
+                  >
+                    <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
+                  </button>
                 </div>
               </div>
-            </fieldset>
+            </div>
+            {/* </fieldset> */}
 
             <fieldset className="prices">
               <div className="form-group shipping">
-                <label>Price of item, without shipping</label>
+                <label>
+                  <span className="question-number">3a.</span>Price of item, without
+                  shipping
+                </label>
                 <div className="input-container">
                   <input
                     onChange={(e) => setPrice(e.target.value)}
@@ -822,6 +842,7 @@ const Sell = () => {
                 }
               >
                 <label>
+                  <span className="question-number">3b.</span>{" "}
                   {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
                 </label>
                 <div className="input-container">
@@ -856,7 +877,10 @@ const Sell = () => {
 
             <fieldset>
               <div className={`form-group`}>
-                <label>Select the most accurate category for this item</label>
+                <label>
+                  <span className="question-number">4.</span> Select the most accurate
+                  category for this item
+                </label>
                 <button
                   onClick={() =>
                     dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
@@ -869,32 +893,12 @@ const Sell = () => {
                 </button>
               </div>
             </fieldset>
-            {/* <fieldset>
-              <div className={`form-group`}>
-                <label>Brand</label>
-                <input
-                  onChange={(e) => setBrand(e.target.value)}
-                  value={brand}
-                  placeholder="Brand"
-                  required
-                />
-              </div>
-
-              <div className={`form-group`}>
-                <label>Model</label>
-                <input
-                  onChange={(e) => setModel(e.target.value)}
-                  value={model}
-                  placeholder="Model"
-                  required
-                />
-              </div>
-            </fieldset> */}
 
             <div className={`form-group`}>
               <label>
-                Add some details to help the buyer understand what you're selling. (what's
-                included, condition details, etc.)
+                <span className="question-number">5.</span> Add some details to help the
+                buyer understand what you're selling. (what's included, condition details,
+                etc.)
               </label>
               <textarea
                 onChange={(e) => setDetails(e.target.value)}
@@ -981,8 +985,12 @@ const Sell = () => {
                 />
               </div>
             </fieldset>
+            {/* For edit page, copy from here up */}
           </div>
           <div className="submit-container">
+            {warnings?.map((warning) => (
+              <p className="warning"></p>
+            ))}
             {photos?.length == 0 && (
               <p className="warning">
                 Please upload at least 1 photo of the item you're selling
@@ -1006,47 +1014,50 @@ const Sell = () => {
         )}
         {console.log(categories)}
         {modals.categorySelectorModalToggled && (
-          <CategorySelectorModal
-            categories={categories.draft.all}
-            setCategories={setCategories}
-            handleCategoryClick={(category) => {
-              // setSelectedCategory(category);
-              if (category.is_folder) {
+          <>
+            <CategorySelectorModal
+              categories={categories.draft.all}
+              setCategories={setCategories}
+              handleCategoryClick={(category) => {
+                // setSelectedCategory(category);
+                if (category.is_folder) {
+                  setCategories({
+                    ...categories,
+                    draft: {
+                      ...categories.draft,
+                      all: toggleCategoryFolder(category, categories.draft.all),
+                    },
+                  });
+                } else {
+                  setCategories({
+                    ...categories,
+                    draft: {
+                      ...categories.draft,
+                      selected: category.checked ? null : category,
+                      all: setCategoryChecked(category, categories.draft.all),
+                    },
+                  });
+                  // setCategories(setCategoryChecked(category, categories));
+                }
+              }}
+              handleModalClick={() => {
+                // TODO - reset draft categories
+              }}
+              handleApply={() => {
                 setCategories({
                   ...categories,
-                  draft: {
-                    ...categories.draft,
-                    all: toggleCategoryFolder(category, categories.draft.all),
-                  },
+                  saved: categories.draft,
                 });
-              } else {
-                setCategories({
-                  ...categories,
-                  draft: {
-                    ...categories.draft,
-                    selected: category.checked ? null : category,
-                    all: setCategoryChecked(category, categories.draft.all),
-                  },
-                });
-                // setCategories(setCategoryChecked(category, categories));
+                dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
+              }}
+              applyDisabled={
+                categories.draft?.selected?.id == categories.saved?.selected?.id
               }
-            }}
-            handleModalClick={() => {
-              // TODO - reset draft categories
-            }}
-            handleApply={() => {
-              setCategories({
-                ...categories,
-                saved: categories.draft,
-              });
-              dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
-            }}
-            applyDisabled={
-              categories.draft?.selected?.id == categories.saved?.selected?.id
-            }
-            handleExpandAll={() => null}
-            handleCollapseAll={() => null}
-          />
+              handleExpandAll={() => null}
+              handleCollapseAll={() => null}
+            />
+            
+          </>
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}
       </div>

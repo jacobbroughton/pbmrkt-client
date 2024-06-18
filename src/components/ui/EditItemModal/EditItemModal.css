@@ -1,87 +1,68 @@
-.modal.edit-item {
-  /* padding: 10px; 
-  z-index: 3;
-  background-color: #242424;
+.edit-item.modal {
   position: fixed;
-  left: 50%;
-  top: 60px;
-  max-width: 600px;
-  transform: translateX(-50%); */
-  background-color: transparent;
-  transform: translateX(-50%);
-  top: 50px;
-  width: calc(100% - 20px);
-  padding: 0;
-  max-width: 600px;
-  /* max-height: 700px; */
-  /* margin-bottom: 5px; */
-  overflow-y: scroll;
-  background-color: #444;
-  /* padding: 10px; */
   z-index: 6;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  overflow-y: scroll;
-  max-height: 700px;
+  top: 30px;
+  transform: translateX(-50%);
+  left: 50%;
+  padding: 0;
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  max-width: 600px;
 }
 
-.modal.edit-item .header {
-  position: sticky;
-  background-color: #444;
-  top: 0;
+.modal.category-selector-modal.category-selector-modal {
+  z-index: 7 !important;
+}
+
+.edit-item.modal .header {
   border-bottom: 1px solid #555;
   padding: 10px;
 }
 
-.modal.edit-item form {
+.edit-item form {
   display: flex;
   flex-direction: column;
-  /* gap: 40px; */
+  gap: 30px;
+  max-width: 600px;
   width: 100%;
-  overflow-y: hidden;
-  height: calc(100% - 100px);
-  max-height: 500px;
-  padding: 0 10px 10px 10px !important;
-  margin-top: 10px;
+  padding: 10px;
 }
 
-.modal.edit-item form .button.close {
-}
-
-.modal.edit-item form .form-block {
+.edit-item form .form-block {
   background-color: #444;
-  /* padding: 10px; */
+  padding: 10px;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  overflow-y: scroll;
+  gap: 20px;
 }
 
-.modal.edit-item form .form-block .image-input-and-prompt {
+.edit-item form .form-block .image-input-and-prompt {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
 }
 
-.modal.edit-item form .form-block .reset-images-button {
+.edit-item form .form-block .reset-images-button {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  margin-top: -10px;
   align-self: flex-start;
- border: 1px solid #555;
+  border: 1px solid grey;
   padding: 3px 5px;
   background-color: #4f4f4f;
+  color: white;
   border-radius: 2px;
   cursor: pointer;
+  font-size: 1rem;
 }
 
-.modal.edit-item form .form-block .reset-images-button svg {
-  width: 13px;
+.edit-item form .form-block .reset-images-button svg {
+  width: 15px;
   fill: var(--red);
   /* fill: white; */
 }
@@ -94,18 +75,44 @@
   display: flex;
 }
 
-.modal.edit-item form fieldset {
+.edit-item form fieldset {
   border: 0;
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 15px;
 }
 
-.modal.edit-item form fieldset.prices {
-  /* flex-direction: column; */
+.edit-item form fieldset.prices {
 }
 
-.modal.edit-item form .form-group {
+.edit-item form fieldset.prices .input-container {
+  width: 100%;
+  position: relative;
+}
+
+.edit-item form fieldset.prices .input-container::before {
+  content: "$";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 2;
+  color: grey;
+  transform: translateY(-50%);
+  top: 50%;
+  border-right: 1px solid grey;
+  padding-right: 10px;
+  height: calc(100% - 2px);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.edit-item form fieldset.prices .input-container input {
+  padding-left: 37px !important;
+  position: relative;
+}
+
+.edit-item form .form-group {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -114,30 +121,68 @@
   gap: 3px;
 }
 
-.modal.edit-item form .form-group:first-child {
+.edit-item form .form-group:first-child {
   flex-grow: 0;
 }
 
-.modal.edit-item form .form-group .price-and-shipping-input {
+.edit-item form .form-group label {
+  display: flex;
+  gap: 5px;
+  white-space: wrap;
+}
+
+.edit-item form .form-group label .question-number {
+  border-radius: 50%;
+  font-weight: 500;
+  /* width: 20px;
+  min-width: 20px;
+  height: 20px; */
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+.edit-item form .auto-completed-span {
+  /* background-color: var(--yellow); */
+  display: flex;
+  align-items: center;
+  /* align-self: flex-start; */
+  margin-left: 5px;
+  cursor: help;
+}
+
+.edit-item form .auto-completed-span.legend {
+  align-self: flex-start;
+}
+
+.edit-item form .auto-completed-span svg {
+  fill: grey;
+  width: 12px;
+}
+
+/* .edit-item form .form-group .price-and-shipping-input {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 3px;
 }
 
-.modal.edit-item form .form-group .price-and-shipping-input p {
+.edit-item form .form-group .price-and-shipping-input p {
   white-space: nowrap;
 }
 
-.modal.edit-item form .form-group .price-and-shipping-input input {
+.edit-item form .form-group .price-and-shipping-input input {
   max-width: 100px;
   min-width: 100px;
-}
+  background-color: blue;
+} */
 
-.modal.edit-item form .custom-photo-upload,
+.edit-item form .custom-photo-upload,
 .images-uploading {
   height: 60px;
- border: 1px solid #555;
+  border: 1px solid grey;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -145,56 +190,124 @@
   padding: 3px 5px;
   cursor: pointer;
   border-radius: 3px;
+  /* height: 100%; */
   background-color: #4f4f4f;
   width: 100%;
+  /* background-color: var(--lightgreen);
+  padding: 3px 5px;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  color: #212529;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+  color: white;
+  text-shadow: 1px 1px 3px #21252963;
+  font-weight: 600;
+  transition: color 0.1s ease, background-color 0.1s ease; */
+  /* position: absolute; */
 }
 
-.modal.edit-item form .custom-photo-upload p:first-child {
+.edit-item form .custom-photo-upload p:first-child {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.modal.edit-item form .custom-photo-upload input[type="file"] {
+.edit-item form .custom-photo-upload input[type="file"] {
   display: none;
 }
 
-.modal.edit-item form .custom-photo-upload.secondary {
+.edit-item form .custom-photo-upload.secondary {
   background-color: #4f4f4f;
   padding: 0;
   font-weight: 500;
 }
 
-.modal.edit-item form .custom-photo-upload.secondary:hover {
+.edit-item form .custom-photo-upload.secondary:hover {
   text-decoration: underline;
 }
 
-.modal.edit-item form .custom-photo-upload.dragging {
-  border-color: #aaa;
+.edit-item form .custom-photo-upload.dragging {
+  border-color: #666;
 }
 
-.modal.edit-item form .form-group.year,
-.modal.edit-item form .form-group.price {
+.edit-item form .form-group.year,
+.edit-item form .form-group.price {
   max-width: 100px;
 }
 
-.modal.edit-item form .form-group.disabled label {
+.edit-item form .form-group.shipping {
+  /* max-width: 300px; */
+}
+
+.edit-item form .form-group.shipping button {
+  gap: 15px;
+}
+
+.edit-item form .form-group.shipping button svg {
+  width: 14px;
+  fill: lightgrey;
+}
+
+.edit-item form .form-group.shipping button svg.checked {
+  fill: var(--lightgreen);
+}
+
+.edit-item form .form-group.price input,
+.edit-item form .form-group.shipping input {
+  position: relative;
+}
+
+.edit-item form .form-group.price input::before,
+.edit-item form .form-group.shipping input::before {
+  content: "$";
+  z-index: 2;
+  color: green;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.edit-item form .form-group.price input::before {
+  content: "$";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.edit-item form .form-group.disabled {
+  cursor: not-allowed;
+}
+
+.edit-item form .form-group.disabled label {
   color: grey;
 }
 
-.modal.edit-item form .form-group.shipping {
+.edit-item form .form-group.shipping {
   display: flex;
 }
 
-.modal.edit-item form .form-group.shipping .shipping-selector {
-  display: flex;
-}
-
-.modal.edit-item form .form-group.shipping .shipping-selector-and-input {
+.edit-item form .form-group.shipping .shipping-selector-and-input {
   display: flex;
   gap: 5px;
+  width: 100%;
+}
+.edit-item form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+  display: flex;
+  width: 100%;
+  max-width: 350px;
 }
 
-.modal.edit-item form .form-group.shipping .shipping-selector .shipping-toggle-button {
+.edit-item form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+  max-width: 500px !;
+  width: 100%;
+}
+
+.edit-item form
+  .form-group.shipping
+  .shipping-selector-and-input
+  .shipping-selector
+  .shipping-toggle-button {
   white-space: nowrap;
   width: 100%;
   display: flex;
@@ -202,20 +315,16 @@
   align-items: center;
   white-space: nowrap;
   color: white;
-  gap: 5px;
+  gap: 10px;
   background-color: #4f4f4f;
- border: 1px solid #555;
+  border: 1px solid grey;
   padding: 5px 10px;
   font-size: 1rem;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.modal.edit-item
-  form
-  .form-group.shipping
-  .shipping-selector
-  .shipping-toggle-button.selected {
+.edit-item form .form-group.shipping .shipping-selector .shipping-toggle-button.selected {
   border-color: var(--lightgreen);
   color: var(--lightgreen);
 }
@@ -238,11 +347,11 @@
   border-bottom-left-radius: 0;
 }
 
-.modal.edit-item form .form-group.shipping .shipping-selector-and-input input {
+.edit-item form .form-group.shipping .shipping-selector-and-input input {
   max-width: 100px;
 }
 
-.modal.edit-item form .form-group.shipping .shipping-selector-and-input input:disabled {
+.edit-item form .form-group.shipping .shipping-selector-and-input input:disabled {
   border-color: #4f4f4f;
   color: #6f6f6f;
 }
@@ -256,8 +365,7 @@
   opacity: 1; /* Firefox */
 }
 
-.edit-item
-  form
+.edit-item form
   .form-group.shipping
   .shipping-selector-and-input
   input:disabled::-ms-input-placeholder {
@@ -265,19 +373,31 @@
   color: #4f4f4f;
 }
 
-.modal.edit-item form .form-group .radio-options {
+.edit-item form .what-the-buyer-sees {
+  padding: 5px 10px;
+  background-color: #555;
+  border: 1px solid #666;
+  border-radius: 3px;
+}
+
+.edit-item form .what-the-buyer-sees p:first-child {
+  font-weight: 500;
+  font-style: italic;
+}
+
+.edit-item form .form-group .radio-options {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
 
-.modal.edit-item form .form-group .radio-options .radio-option {
+.edit-item form .form-group .radio-options .radio-option {
   width: 100%;
 }
 
-.modal.edit-item form .form-group .radio-options .radio-option label,
-.modal.edit-item form .custom-photo-upload.secondary {
+/* .edit-item form .form-group .radio-options .radio-option label,
+.edit-item form .custom-photo-upload.secondary {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -285,23 +405,23 @@
   white-space: nowrap;
   gap: 5px;
   background-color: #4f4f4f;
- border: 1px solid #555;
+  border: 1px solid grey;
   padding: 3px 5px 3px 3px;
   border-radius: 2px;
   cursor: pointer;
 }
 
-.modal.edit-item form .form-group .radio-options .radio-option label:hover {
-  border-color: #aaa;
-}
+.edit-item form .form-group .radio-options .radio-option label:hover {
+  border-color: #666;
+} */
 
-.modal.edit-item form .custom-photo-upload.secondary {
+.edit-item form .custom-photo-upload.secondary {
   align-self: flex-start;
   width: auto;
   padding: 1px 5px 1px 5px;
 }
 
-.modal.edit-item form .form-group .toggle-button {
+.edit-item form .form-group .toggle-button {
   padding: 3px 5px;
   font-size: 1rem;
   border: 1px solid transparent;
@@ -309,90 +429,102 @@
   transition: 0;
 }
 
-.modal.edit-item form .form-group .toggle-button.activated {
+.edit-item form .form-group .toggle-button.activated {
   border: 1px solid var(--lightgreen);
 }
 
-.modal.edit-item form label {
+.edit-item form label {
   font-size: 0.875rem;
   white-space: nowrap;
 }
 
-.modal.edit-item form .form-group textarea {
-  min-height: 100px;
+.edit-item form .form-group textarea {
+  --padding: 10px;
+  min-height: 150px;
+  min-height: calc(5lh + 2 * var(--padding));
+  /* max-height: calc(5lh + 2 * var(--padding)); */
+  max-height: calc(10lh + 2 * var(--padding));
+  /* field-sizing: content; */
+  line-height: 1.5;
+  padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
 }
 
-.modal.edit-item form .form-group input:not([type="radio"]):not([type="file"]),
-.modal.edit-item form .form-group textarea,
-.modal.edit-item form .form-group select {
+.edit-item form .form-group input:not([type="radio"]):not([type="file"]),
+.edit-item form .form-group textarea,
+.edit-item form .form-group select {
   width: 100%;
   padding: 5px 10px;
   font-family: inherit;
   font-size: 1rem;
   background-color: #3b3b3b;
- border: 1px solid #555;
+  border: 1px solid #555;
   color: white;
   border-radius: 3px;
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
+}
+
+.edit-item form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
+  color: grey;
+  cursor: not-allowed;
 }
 
 .edit-item
   form
   .form-group
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
-.modal.edit-item form .form-group textarea:not(:disabled):hover,
-.modal.edit-item form .form-group selepct:not(:disabled):hover,
-.modal.edit-item form .custom-photo-upload:not(:disabled):hover,
-.modal.edit-item form .form-block .reset-images-button:not(:disabled):hover,
-.edit-item
-  form
+.edit-item form .form-group textarea:not(:disabled):hover,
+.edit-item form .form-group select:not(:disabled):hover,
+.edit-item form .custom-photo-upload:not(:disabled):hover,
+.edit-item form .form-block .reset-images-button:not(:disabled):hover,
+.edit-item form
   .form-group.shipping
   .shipping-selector
   .shipping-toggle-button:not(.selected):hover {
-  border-color: #aaa;
+  border-color: #666;
 }
 
-.modal.edit-item form .form-group input[type="file"] {
+.edit-item form .form-group select:not(:disabled) {
+  cursor: pointer;
+}
+
+.edit-item form .form-group input[type="file"] {
   width: 100%;
   font-family: inherit;
   font-size: 1rem;
   /* background-color: #3B3B3B; */
-  /*border: 1px solid #555; */
+  /* border: 1px solid grey; */
   border-radius: 3px;
 }
 
-.modal.edit-item form .form-group input[type="file"] {
+.edit-item form .form-group input[type="file"] {
   padding: 0;
 }
 
-.modal.edit-item form .form-group select {
+.edit-item form .form-group select {
   position: pointer;
 }
 
-.modal.edit-item form .form-group select {
+.edit-item form .form-group select {
   /* background-image: url("src/components/ui/Icons/Arrow.svg"); */
-  /* background-repeat: no-repeat; */
+  background-repeat: no-repeat;
   background-position: 98% center;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
-/* .modal.edit-item form .submit-container {
+.edit-item form .submit-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  position: absolute;
-  bottom: 0;
-  background-color: green;
 }
 
-.modal.edit-item form .submit-container .warning {
+.edit-item form .submit-container .warning {
   font-size: 0.875rem;
   color: var(--red);
-} */
+}
 
-.modal.edit-item form button[type="submit"] {
+.edit-item form button[type="submit"] {
   background-color: var(--lightgreen);
   padding: 7px 15px;
   align-self: flex-start;
@@ -406,17 +538,17 @@
   text-shadow: 1px 1px 3px #21252963;
 }
 
-.modal.edit-item form button[type="submit"]:not(:disabled):hover {
+.edit-item form button[type="submit"]:not(:disabled):hover {
   filter: brightness(1.1);
 }
 
-.modal.edit-item form button[type="submit"]:disabled {
+.edit-item form button[type="submit"]:disabled {
   color: grey;
   background-color: #444;
   cursor: not-allowed;
 }
 
-.modal.edit-item form .edit-iteming-item-images,
+.edit-item form .selling-item-images,
 .image-skeletons {
   display: flex;
   flex-direction: row;
@@ -425,8 +557,8 @@
   flex-grow: 0;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container,
-.modal.edit-item form .image-skeletons .image-skeleton {
+.edit-item form .selling-item-images .image-container,
+.edit-item form .image-skeletons .image-skeleton {
   height: 75px;
   width: 75px;
   border: 2px solid transparent;
@@ -438,7 +570,7 @@
   background-color: #666;
 }
 
-.modal.edit-item form .image-skeletons .image-skeleton {
+.edit-item form .image-skeletons .image-skeleton {
   animation: brightenAnimation 0.5s infinite alternate;
 }
 
@@ -451,11 +583,11 @@
   }
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container.cover {
+.edit-item form .selling-item-images .image-container.cover {
   border: 2px solid var(--lightgreen);
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container svg {
+.edit-item form .selling-item-images .image-container svg {
   width: 15px;
   position: absolute;
   top: 2px;
@@ -475,13 +607,13 @@
     drop-shadow(-1px 2px 0px #3e68ff) */
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container img {
+.edit-item form .selling-item-images .image-container img {
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container .image-overlay {
+.edit-item form .selling-item-images .image-container .image-overlay {
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -489,12 +621,12 @@
   z-index: 2;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container:hover .image-overlay {
+.edit-item form .selling-item-images .image-container:hover .image-overlay {
   opacity: 1;
   visibility: visible;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container .buttons {
+.edit-item form .selling-item-images .image-container .buttons {
   position: absolute;
   bottom: 2px;
   left: 2px;
@@ -503,25 +635,25 @@
   gap: 2px;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container button {
- border: 1px solid #555;
+.edit-item form .selling-item-images .image-container button {
+  border: 1px solid grey;
   border-radius: 2px;
   padding: 1px 4px;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container .delete-button:hover {
-  border-color: #aaa;
+.edit-item form .selling-item-images .image-container .delete-button:hover {
+  border-color: #666;
   cursor: pointer;
 }
 
-.modal.edit-item form .edit-iteming-item-images .image-container .cover-button:hover {
-  border-color: #aaa;
+.edit-item form .selling-item-images .image-container .cover-button:hover {
+  border-color: #666;
   cursor: pointer;
 }
 
 /* * Controls */
 .modal.edit-item .controls {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   background-color: #444;
@@ -530,25 +662,28 @@
   padding: 10px;
 }
 
+@media screen and (max-width: 610px) {
+}
+
 @media screen and (max-width: 400px) {
-  .modal.edit-item form .form-block {
+  .edit-item form .form-block {
     /* gap: 10px; */
   }
 
-  .modal.edit-item form .form-block fieldset {
+  .edit-item form .form-block fieldset {
     gap: 15px;
   }
 
-  .modal.edit-item form .shipping-selector {
+  .edit-item form .shipping-selector {
     flex-direction: column;
   }
 
-  .modal.edit-item form .shipping-selector-and-input,
-  .modal.edit-item form .shipping-selector-and-input .shipping-selector {
+  .edit-item form .shipping-selector-and-input,
+  .edit-item form .shipping-selector-and-input .shipping-selector {
     width: 100%;
   }
 
-  .modal.edit-item form .form-group.price {
+  .edit-item form .form-group.price {
     max-width: 75px;
   }
 
@@ -573,4 +708,16 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
   }
+}
+
+.edit-item form .select-category-modal-toggle {
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #3b3b3b;
+}
+
+.edit-item form .select-category-modal-toggle:hover {
+  background-color: #3f3f3f;
+  border: 1px solid #666;
 }

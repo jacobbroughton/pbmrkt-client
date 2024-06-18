@@ -67,7 +67,7 @@ export const useCurrentPath = () => {
   return route.path;
 };
 
-export function nestItemCategories(flatCategories) {
+export function nestItemCategories(flatCategories, defaultCheckedID) {
   let pathArr = [];
   let lastParentId = null;
 
@@ -89,12 +89,45 @@ export function nestItemCategories(flatCategories) {
         children: nest(child.id),
         // toggled: child.is_folder,
         toggled: false,
-        checked: false,
+        checked: child.id == defaultCheckedID || false,
       };
     });
   }
 
   return nest(null);
+}
+
+export function nestItemCategoriesExperimental(flatCategories, defaultCheckedID) {
+  let pathArr = [];
+  let lastParentId = null;
+  let preSelectedCategory = null;
+
+  function nest(parentId) {
+    let self = null;
+
+    if (parentId && parentId == lastParentId) {
+      self = flatCategories.find((cat) => cat.id == parentId);
+      pathArr.push(self.value);
+    }
+
+    const children = flatCategories.filter((cat) => cat.parent_id == parentId);
+
+    lastParentId = parentId;
+
+    return children.map((child) => {
+      if (child.id == defaultCheckedID) preSelectedCategory = child;
+
+      return {
+        ...child,
+        children: nest(child.id),
+        // toggled: child.is_folder,
+        toggled: false,
+        checked: child.id == defaultCheckedID || false,
+      };
+    });
+  }
+
+  return { nestedCategories: nest(null), preSelectedCategory };
 }
 
 export function toggleCategoryFolder(clickedFolder, nestedCategories) {
@@ -195,7 +228,7 @@ export function isValidPhoneNumber(phoneNumberStr) {
 }
 
 export function isOnMobile() {
-  console.log(navigator.userAgent)
+  console.log(navigator.userAgent);
   return (function (a) {
     return (
       /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(

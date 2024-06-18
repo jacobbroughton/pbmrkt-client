@@ -58,9 +58,11 @@
 
 .sell form .form-block .image-input-and-prompt {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  
 }
 
 .sell form .form-block .reset-images-button {
@@ -148,6 +150,21 @@
   gap: 5px;
   white-space: wrap;
 }
+
+.sell form .form-group label .question-number {
+  border-radius: 50%;
+  font-weight: 500;
+  /* width: 20px;
+  min-width: 20px;
+  height: 20px; */
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+
 
 .sell form .auto-completed-span {
   /* background-color: var(--yellow); */
@@ -241,6 +258,23 @@
   max-width: 100px;
 }
 
+.sell form .form-group.shipping {
+  /* max-width: 300px; */
+}
+
+.sell form .form-group.shipping button {
+  gap: 15px;
+}
+
+.sell form .form-group.shipping button svg {
+  width: 14px;
+  fill: lightgrey;
+}
+
+.sell form .form-group.shipping button svg.checked {
+  fill: var(--lightgreen)
+}
+
 .sell form .form-group.price input,
 .sell form .form-group.shipping input {
   position: relative;
@@ -283,7 +317,17 @@
 .sell form .form-group.shipping .shipping-selector-and-input .shipping-selector {
   display: flex;
   width: 100%;
+  max-width: 350px;
 }
+
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector-and-input
+  .shipping-selector {
+    max-width: 500px !;
+    width: 100%;
+  }
 
 .sell
   form
@@ -298,7 +342,7 @@
   align-items: center;
   white-space: nowrap;
   color: white;
-  gap: 5px;
+  gap: 10px;
   background-color: #4f4f4f;
   border: 1px solid grey;
   padding: 5px 10px;
@@ -306,6 +350,8 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+  
 
 .sell form .form-group.shipping .shipping-selector .shipping-toggle-button.selected {
   border-color: var(--lightgreen);

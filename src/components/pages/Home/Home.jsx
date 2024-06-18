@@ -185,7 +185,7 @@ function Listings() {
 
       console.log("categories", data);
 
-      const nestedItemCategories = nestItemCategories(data);
+      const nestedItemCategories = nestItemCategories(data, null);
 
       setInitialCategories(nestedItemCategories);
       setCategories(nestedItemCategories);

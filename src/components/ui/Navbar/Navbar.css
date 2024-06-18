@@ -28,6 +28,8 @@ nav .home-link-and-filter-button svg {
 
 nav .home-link-and-filter-button .filters-toggle-button {
   display: none;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 nav .home-link-and-filter-button .filters-toggle-button svg {
@@ -151,7 +153,6 @@ nav .right-side .notifications-menu-toggle .unread-notification-count {
   justify-content: center;
 }
 
-
 nav .right-side .right-side-menu-button {
   height: 35px;
   width: 35px;
@@ -209,15 +210,35 @@ nav .right-side .right-side-menu-button .profile-picture {
   }
 
   nav .home-link-and-filter-button .home-link {
-    display: none;
+    /* display: none; */
   }
 
-  nav .home-link-and-filter-button .filters-toggle-button {
+  nav .home-link-and-filter-button .filters-toggle-button,
+  nav .home-link,
+  nav .search-bar .search-input-container .search-input-toggle {
     display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #444;
+    border: 1px solid #555;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  nav .home-link-and-filter-button .filters-toggle-button svg,
+  nav .home-link svg:not(.caret) {
+    width: 22px;
+  }
+
+  nav .search-bar .search-input-container .search-input-toggle svg {
+    width: 19px;
   }
 
   nav .home-link-and-filter-button .filters-toggle-button svg.caret {
-    width: 12px;
+    display: none;
   }
 }
 

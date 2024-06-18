@@ -1,0 +1,100 @@
+.modal.search-modal {
+  top: 65px;
+  transform: translateX(-50%);
+  gap: 15px;
+}
+
+.search-modal .header {
+  border-bottom: 1px solid #555;
+  padding: 10px;
+}
+
+.search-modal .search-input-container {
+  display: flex;
+  /* padding: 10px; */
+  position: relative;
+  gap: 5px;
+}
+
+.search-modal .search-input-container svg.search-icon {
+  width: 15px;
+  fill: white;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+.search-modal .search-input-container input {
+  padding: 10px 10px 10px 45px;
+  border: 1px solid #555;
+  background-color: transparent;
+  width: 100%;
+  border-radius: 5px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  font-size: 1rem;
+}
+
+.search-modal .search-input-container button {
+  background-color: transparent;
+  border: 1px solid #555;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  /* height: 100%;; */
+  /* border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px; */
+  background-color: var(--lightgreen);
+  border: 0;
+  font-weight: 600;
+}
+
+.search-modal .search-input-container button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* * Search Results */
+.search-modal .search-results-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #555;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.search-modal .search-results-container .search-types-list {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #555;
+}
+
+.search-modal .search-results-container .search-types-list button {
+  text-align: start;
+  background-color: transparent;
+  border: 0;
+  padding: 5px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-modal .search-results-container .search-types-list button.toggled {
+  background-color: #555;;
+}
+
+
+.search-modal .search-results-container .search-types-list button:first-child {
+  border-top-left-radius: 5px;
+}
+
+.search-modal .search-results-container .search-types-list button:not(:last-child) {
+  border-bottom: 1px solid #555;
+}
+
+.search-modal .search-results-container .no-search-results {
+  padding: 10px;
+}
+
+.search-modal .search-results-container .results-loading {
+  padding: 10px;
+}

@@ -11,6 +11,7 @@ const modalsSlice = createSlice({
     sellerReviewsModalToggled: false,
     priceChangeModalToggled: false,
     categorySelectorModalToggled: false,
+    searchModalToggled: false
   },
   reducers: {
     toggleModal: (state, { payload }) => {

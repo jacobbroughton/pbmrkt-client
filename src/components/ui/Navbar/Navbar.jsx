@@ -16,6 +16,7 @@ import BellIcon from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
 import Caret from "../Icons/Caret";
+import SearchModal from "../SearchModal/SearchModal";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -172,7 +173,7 @@ function Navbar() {
 
         {session?.user ? (
           <>
-            {!search.searchBarToggled && (
+            {((isOnMobile() && search.searchBarToggled) || true) && (
               <button
                 type="button"
                 className="notifications-menu-toggle"
@@ -206,6 +207,7 @@ function Navbar() {
           setNotifications={setNotifications}
         />
       )}
+      {modals.searchModalToggled && <SearchModal />}
     </nav>
   );
 }

@@ -9,6 +9,7 @@ import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
 import { setFlag } from "../../../redux/flags";
 import { useNavigate } from "react-router-dom";
+import { toggleModal } from "../../../redux/modals";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -48,19 +49,20 @@ const SearchBar = () => {
             className="search-input-toggle"
             onClick={(e) => {
               e.stopPropagation();
+              dispatch(toggleModal({ key: "searchModal", value: true }));
               dispatch(setSearchBarToggled(!search.searchBarToggled));
             }}
           >
             <SearchIcon />
           </button>
-          {search.searchBarToggled && (
+          {/* {search.searchBarToggled && (
             <input
               placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
               value={search.draftSearchValue}
               onChange={(e) => dispatch(setDraftSearchValue(e.target.value))}
               ref={searchRef}
             />
-          )}
+          )} */}
         </div>
         {error && <p className="error-text tiny text">{error}</p>}
       </form>

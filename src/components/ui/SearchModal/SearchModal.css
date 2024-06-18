@@ -2,7 +2,8 @@
   top: 65px;
   transform: translateX(-50%);
   gap: 15px;
-  max-height: 500px
+  max-height: 500px;
+  max-width: 800px;
 }
 
 .search-modal .header {
@@ -109,7 +110,7 @@
 .search-modal .search-results-container .results-loading,
 .search-modal .search-results-container .search-results .type-something-prompt  {
   padding: 10px;
-  min-height: 100px;
+  min-height: 200px;
   height: 100%;
   width: 100%;
 }

@@ -79,7 +79,7 @@
   min-width: 100px;
   position: sticky;
   overflow-y: auto;
-  height: 100%;
+  /* height: 100%;/ */
   top: 0;
 }
 

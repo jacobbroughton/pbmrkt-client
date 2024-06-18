@@ -142,7 +142,7 @@ function Navbar() {
           {/* <p>Core PB</p> */}
           <HomeIcon />
         </Link>
-        {location.pathname == "/" && !search.searchBarToggled && (
+        {location.pathname == "/" &&  (
           <button
             className="filters-toggle-button"
             onClick={() =>

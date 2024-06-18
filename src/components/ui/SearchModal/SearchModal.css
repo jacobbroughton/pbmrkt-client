@@ -37,6 +37,7 @@
   background-color: transparent;
   width: 100%;
   border-radius: 5px;
+  color: white;
   /* border-top-left-radius: 25px;
   border-bottom-left-radius: 25px; */
   font-size: 1rem;
@@ -87,13 +88,12 @@
   padding: 5px 10px;
   font-size: 1rem;
   cursor: pointer;
-  color: white
+  color: white;
 }
 
 .search-modal .search-results-container .search-types-list button.toggled {
-  background-color: #555;;
+  background-color: #555;
 }
-
 
 .search-modal .search-results-container .search-types-list button:first-child {
   border-top-left-radius: 5px;
@@ -108,7 +108,7 @@
 .search-modal .search-results-container .search-results,
 .search-modal .search-results-container .user-results,
 .search-modal .search-results-container .results-loading,
-.search-modal .search-results-container .search-results .type-something-prompt  {
+.search-modal .search-results-container .search-results .type-something-prompt {
   padding: 10px;
   min-height: 200px;
   height: 100%;
@@ -116,13 +116,11 @@
 }
 
 .search-modal .search-results-container .search-results {
-  padding: 0
+  padding: 0;
 }
 
 .search-modal .search-results-container .search-results .type-something-prompt {
-
 }
-
 
 .search-modal .search-results-container ul.listings {
   overflow-y: auto !important;
@@ -166,14 +164,13 @@
   border: #555 1px solid;
 }
 
-
 .search-modal .search-results-container ul.listings li a .image-container img {
   object-fit: cover;
   width: 100%;
 }
 
 .search-modal .search-results-container ul.listings li a .what-is-this {
- font-weight: 500;
+  font-weight: 500;
 }
 
 .search-modal .search-results-container ul.listings li a .date-created {
@@ -183,4 +180,66 @@
 .search-modal .search-results-container ul.listings li a .username {
   font-size: 0.875rem;
   /* font-weight: 500; */
+}
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  .search-modal .search-results-container .search-types-list {
+    min-width: 65px;
+  }
+
+  .search-modal .search-results-container .search-types-list button {
+    padding: 5px 7px;
+  }
+
+  .search-modal .search-input-container input {
+    padding-left: 35px;
+    padding: 7px 10px 7px 35px;
+  }
+
+  .search-modal .search-input-container svg {
+    left: 12px !important;
+  }
+
+  .search-modal form button {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-modal form button svg {
+    width: 15px;
+    fill: white;
+  }
+
+  .search-modal .search-results-container .search-types-list button,
+  .search-modal .search-results-container .no-search-results,
+  .search-modal .search-results-container .listing-results,
+  .search-modal .search-results-container .user-results,
+  .search-modal .search-results-container .results-loading,
+  .search-modal .search-results-container .search-results .type-something-prompt {
+    font-size: 0.875rem;
+    padding: 5px;
+  }
+
+  .search-modal .search-results-container .search-results ul li a{
+    /* flex-direction: column; */
+    align-items: flex-start;
+    overflow: hidden;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .search-modal .search-results-container ul.listings li a .what-is-this {
+    font-size: 0.875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .search-modal .search-results-container ul.listings li a .username {
+    font-size: .75rem;
+  }
+
 }

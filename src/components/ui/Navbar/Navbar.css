@@ -110,7 +110,6 @@ nav .right-side a.sell-link svg {
 
 nav .right-side .notifications-menu-toggle {
   border: 0;
-  background-color: #444;
   height: 35px;
   width: 35px;
   min-width: 35px;
@@ -118,6 +117,7 @@ nav .right-side .notifications-menu-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #444;
   border: #555 1px solid;
   cursor: pointer;
   position: relative;

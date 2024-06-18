@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import XIcon from "../Icons/XIcon";
+import Arrow from "../Icons/Arrow";
 import { toggleModal } from "../../../redux/modals";
 import "./SearchModal.css";
 import SearchIcon from "../Icons/SearchIcon";
@@ -10,7 +11,7 @@ import { setFlag } from "../../../redux/flags";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
-import { getTimeAgo } from "../../../utils/usefulFunctions";
+import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
 
 const SearchModal = () => {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const SearchModal = () => {
               ref={searchRef}
             />
             <button type="submit" className="search-apply-button">
-              Search
+              {isOnMobile() ? <Arrow direction={"right"} /> : "Search"}
             </button>
           </form>
         </div>
@@ -134,7 +135,6 @@ const SearchModal = () => {
                 id={searchType.label}
                 className={`${searchType.toggled ? "toggled" : ""}`}
                 onClick={() => {
-
                   setSearchTypes(
                     searchTypes.map((innerSearchType) => ({
                       ...innerSearchType,

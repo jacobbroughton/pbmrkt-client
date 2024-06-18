@@ -78,6 +78,8 @@
   overflow-y: auto;
   min-width: 100px;
   position: sticky;
+  overflow-y: auto;
+  height: 100%;
   top: 0;
 }
 

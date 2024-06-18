@@ -22,6 +22,7 @@ function Navbar() {
   const location = useLocation();
   const { session, user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
+  const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
 
   const windowSize = useWindowSize();
@@ -140,7 +141,7 @@ function Navbar() {
           {/* <p>Core PB</p> */}
           <HomeIcon />
         </Link>
-        {location.pathname == "/" && (
+        {location.pathname == "/" && !search.searchBarToggled && (
           <button
             className="filters-toggle-button"
             onClick={() =>
@@ -171,18 +172,20 @@ function Navbar() {
 
         {session?.user ? (
           <>
-            <button
-              type="button"
-              className="notifications-menu-toggle"
-              onClick={handleNotificationsMenuToggle}
-            >
-              <BellIcon />
-              {unreadNotificationCount > 0 && (
-                <span className="unread-notification-count">
-                  {unreadNotificationCount}
-                </span>
-              )}
-            </button>
+            {!search.searchBarToggled && (
+              <button
+                type="button"
+                className="notifications-menu-toggle"
+                onClick={handleNotificationsMenuToggle}
+              >
+                <BellIcon />
+                {unreadNotificationCount > 0 && (
+                  <span className="unread-notification-count">
+                    {unreadNotificationCount}
+                  </span>
+                )}
+              </button>
+            )}
             <button
               onClick={handleRightSideMenuToggle}
               className="right-side-menu-button"

@@ -5,6 +5,7 @@ const search = createSlice({
   initialState: {
     draftSearchValue: "",
     savedSearchValue: "",
+    searchBarToggled: false,
   },
   reducers: {
     setDraftSearchValue: (state, { payload }) => {
@@ -19,8 +20,15 @@ const search = createSlice({
         savedSearchValue: payload,
       };
     },
+    setSearchBarToggled: (state, { payload }) => {
+      return {
+        ...state,
+        searchBarToggled: payload,
+      };
+    },
   },
 });
 
-export const { setDraftSearchValue, setSavedSearchValue } = search.actions;
+export const { setDraftSearchValue, setSavedSearchValue, setSearchBarToggled } =
+  search.actions;
 export default search.reducer;

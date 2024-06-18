@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
+import {
+  setDraftSearchValue,
+  setSavedSearchValue,
+  setSearchBarToggled,
+} from "../../../redux/search";
 import SearchIcon from "../Icons/SearchIcon";
 import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
@@ -10,9 +14,10 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef(null);
-  const search = useSelector((state) => state.search);
   const [error, setError] = useState();
-  const [searchInputToggled, setSearchInputToggled] = useState(false);
+
+  const search = useSelector((state) => state.search);
+  // const [searchInputToggled, setSearchBarToggled] = useState(false);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -29,23 +34,26 @@ const SearchBar = () => {
   }
 
   useEffect(() => {
-    if (searchInputToggled) searchRef.current?.focus();
-  }, [searchInputToggled]);
+    if (search.searchInputToggled) searchRef.current?.focus();
+  }, [search.searchInputToggled]);
 
   return (
     <div className="search-bar">
-      <form onSubmit={handleSearchSubmit} className={searchInputToggled ? "toggled" : ""}>
+      <form
+        onSubmit={handleSearchSubmit}
+        className={search.searchBarToggled ? "toggled" : ""}
+      >
         <div className="search-input-container">
           <button
             className="search-input-toggle"
             onClick={(e) => {
               e.stopPropagation();
-              setSearchInputToggled(!searchInputToggled);
+              dispatch(setSearchBarToggled(!search.searchBarToggled));
             }}
           >
             <SearchIcon />
           </button>
-          {searchInputToggled && (
+          {search.searchBarToggled && (
             <input
               placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
               value={search.draftSearchValue}
@@ -55,9 +63,6 @@ const SearchBar = () => {
           )}
         </div>
         {error && <p className="error-text tiny text">{error}</p>}
-        {/* <button disabled={search.draftSearchValue === search.savedSearchValue}>
-          Search
-        </button> */}
       </form>
     </div>
   );

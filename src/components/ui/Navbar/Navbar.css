@@ -112,9 +112,9 @@ nav .right-side a.sell-link svg {
 
 nav .right-side .notifications-menu-toggle {
   border: 0;
-  height: 35px;
-  width: 35px;
-  min-width: 35px;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -177,8 +177,7 @@ nav .right-side .right-side-menu-button:hover {
 nav .right-side .right-side-menu-button .profile-picture {
   height: 100%;
   width: 100%;
-  border-radius: 100px;
-  border: white solid 1px;
+  border-radius: 50%;
   background-color: white;
   object-fit: cover;
 }
@@ -196,9 +195,9 @@ nav .right-side .right-side-menu-button .profile-picture {
     display: block;
   }
 
-  nav .right-side a.sell-link {
+  /* nav .right-side a.sell-link {
     display: none;
-  }
+  } */
 }
 
 /* Phones */
@@ -215,9 +214,10 @@ nav .right-side .right-side-menu-button .profile-picture {
 
   nav .home-link-and-filter-button .filters-toggle-button,
   nav .home-link,
-  nav .search-bar .search-input-container .search-input-toggle {
+  nav .search-bar .search-input-container .search-input-toggle,
+  nav .right-side .right-side-menu-button {
     display: flex;
-    border-radius: 5px;
+    border-radius: 50%;
     overflow: hidden;
     background-color: #444;
     border: 1px solid #555;
@@ -226,6 +226,10 @@ nav .right-side .right-side-menu-button .profile-picture {
     min-width: 40px;
     align-items: center;
     justify-content: center;
+  }
+
+  nav .right-side .right-side-menu-button {
+    border: 0;
   }
 
   nav .home-link-and-filter-button .filters-toggle-button svg,

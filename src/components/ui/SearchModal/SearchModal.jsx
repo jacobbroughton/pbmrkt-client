@@ -1,21 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import XIcon from "../Icons/XIcon";
 import Arrow from "../Icons/Arrow";
 import { toggleModal } from "../../../redux/modals";
-import "./SearchModal.css";
 import SearchIcon from "../Icons/SearchIcon";
 import { useEffect, useRef, useState } from "react";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
-import { setFiltersUpdated } from "../../../redux/filters";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
+import "./SearchModal.css";
 
 const SearchModal = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const searchRef = useRef();
   const search = useSelector((state) => state.search);
   const [searchResults, setSearchResults] = useState({
@@ -29,26 +27,24 @@ const SearchModal = () => {
   const [error, setError] = useState();
   const [resultsLoading, setResultsLoading] = useState(false);
   const [searchIsInitial, setSearchIsInitial] = useState(true);
-
-  function handleSearcOldh() {
-    console.log("handleSearch", search);
-    dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-    dispatch(setFiltersUpdated(false));
-    dispatch(toggleModal({ key: "searchModal", value: false }));
-  }
+  const [searchValue, setSearchValue] = useState({
+    draft: "",
+    saved: "",
+  });
 
   function handleSearch(e) {
     e.preventDefault();
     try {
-      if (search.draftSearchValue === search.savedSearchValue) return;
-      dispatch(setSavedSearchValue(search.draftSearchValue));
+      // if (searchValue.draft === searchValue.saved) return;
+      if (location.pathname !== '/') navigate('/')
+      dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
       setSearchIsInitial(false);
       searchRef.current?.blur();
     } catch (error) {
       console.error(error);
-      setError(error.message.toString());
+      setError(error.toString());
     }
   }
 
@@ -90,13 +86,14 @@ const SearchModal = () => {
 
   useEffect(() => {
     const debounceFn = setTimeout(() => {
-      if (search.draftSearchValue == "" && searchIsInitial) return;
-      dispatch(setSavedSearchValue(search.draftSearchValue));
-      handleOnInputSearch(search.draftSearchValue);
+      if (searchValue.draft == "" && searchIsInitial) return;
+      // dispatch(setSavedSearchValue(searchValue.draft));
+      setSearchValue({ ...searchValue, saved: searchValue.draft });
+      handleOnInputSearch( searchValue.draft);
     }, 500);
 
     return () => clearTimeout(debounceFn);
-  }, [search.draftSearchValue]);
+  }, [searchValue.draft]);
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);
   const resultsForView = searchResults[selectedSearchType?.label?.toLowerCase()];
@@ -111,16 +108,16 @@ const SearchModal = () => {
           </button>
         </div> */}
         {error && <p className="small-text error-text">{error.toString()}</p>}
-        <p>
+        {/* <p>
           <i>This feature is under development</i>
-        </p>
+        </p> */}
         <div className="search-input-container">
           <SearchIcon />
           <form onSubmit={handleSearch}>
             <input
               placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
-              value={search.draftSearchValue}
-              onChange={(e) => dispatch(setDraftSearchValue(e.target.value))}
+              value={searchValue.draft}
+              onChange={(e) => setSearchValue({ ...searchValue, draft: e.target.value })}
               ref={searchRef}
             />
             <button type="submit" className="search-apply-button">
@@ -163,12 +160,12 @@ const SearchModal = () => {
               <div className="results-loading">
                 <p>Results loading...</p>
               </div>
-            ) : search.savedSearchValue == "" ? (
+            ) : searchValue.saved == "" ? (
               <p className="type-something-prompt">Type something to get started</p>
             ) : resultsForView.length == 0 ? (
               <div className="no-search-results">
                 <p>
-                  No results found for "{search.savedSearchValue}" in{" "}
+                  No results found for "{searchValue.saved}" in{" "}
                   <strong>{selectedSearchType.label}</strong>
                 </p>
                 {console.log(selectedSearchType)}

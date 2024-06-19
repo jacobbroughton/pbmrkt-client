@@ -3,7 +3,6 @@ import Comment from "../Comment/Comment";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import "./CommentsList.css";
-import FrogIcon from "../Icons/FrogIcon";
 import CommentsIcon from "../Icons/CommentsIcon";
 
 const CommentsList = ({
@@ -19,14 +18,16 @@ const CommentsList = ({
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
   const [newReplyBody, setNewReplyBody] = useState("");
-  const [repliesLoading, setRepliesLoading] = useState(
-    repliesLoadingFromRootLevel || false
-  );
+  const [repliesLoading, setRepliesLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setLocalComments(passedComments);
   }, [passedComments]);
+
+  useEffect(() => {
+    console.log("replies loading from root level", repliesLoadingFromRootLevel);
+  }, [repliesLoadingFromRootLevel]);
 
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
@@ -157,7 +158,7 @@ const CommentsList = ({
               setRootLevelComments={setRootLevelComments}
               getComments={getComments}
               setError={setError}
-              repliesLoading={repliesLoading}
+              repliesLoading={repliesLoadingFromRootLevel || repliesLoading}
             />
           );
         })

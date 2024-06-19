@@ -224,7 +224,7 @@
     padding: 5px;
   }
 
-  .search-modal .search-results-container .search-results ul li a{
+  .search-modal .search-results-container .search-results ul li a {
     /* flex-direction: column; */
     align-items: flex-start;
     overflow: hidden;
@@ -241,7 +241,6 @@
   }
 
   .search-modal .search-results-container ul.listings li a .username {
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
-
 }

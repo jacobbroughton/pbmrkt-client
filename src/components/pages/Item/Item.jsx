@@ -348,7 +348,7 @@ const Item = () => {
                     onClick={() => setSelectedPhoto(photo)}
                     onDoubleClick={() => {
                       setSelectedPhoto(photo);
-                      dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
+                      dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
                     }}
                     src={photo.url}
                   />
@@ -542,8 +542,6 @@ const Item = () => {
             </p>
           )}
 
-          {/* <div className="horizontal-divider"></div> */}
-          {/* {repliesLoading.toString()} */}
           <CommentsList
             passedComments={localComments}
             handleCommentSubmit={handleNewCommentSubmit}

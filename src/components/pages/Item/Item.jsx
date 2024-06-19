@@ -20,6 +20,8 @@ import WarningCircle from "../../ui/Icons/WarningCircle";
 import WarningTriangle from "../../ui/Icons/WarningTriangle";
 import PhoneIcon from "../../ui/Icons/PhoneIcon";
 import EmailIcon from "../../ui/Icons/EmailIcon";
+import ExpandIcon from "../../ui/Icons/ExpandIcon";
+import FullScreenImageModal from "../../ui/FullScreenImageModal/FullScreenImageModal";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ const Item = () => {
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
   const [repliesLoading, setRepliesLoading] = useState(false);
+  const [imageForFullScreenModal, setImageForFullScreenModal] = useState(null);
 
   useEffect(() => {
     async function getItem() {
@@ -325,6 +328,14 @@ const Item = () => {
               ) : (
                 <div className="main-image-placeholder"></div>
               )}
+              <button
+                className="expand-image-button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
+                }
+              >
+                <ExpandIcon />
+              </button>
             </div>
             {item.photos.length > 1 && (
               <div className="item-thumbnails">
@@ -335,6 +346,10 @@ const Item = () => {
                       photo.id === selectedPhoto?.id ? "selected" : ""
                     }`}
                     onClick={() => setSelectedPhoto(photo)}
+                    onDoubleClick={() => {
+                      setSelectedPhoto(photo);
+                      dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
+                    }}
                     src={photo.url}
                   />
                 ))}
@@ -373,23 +388,23 @@ const Item = () => {
                 </div>
 
                 {/* <div className="horizontal-divider"></div> */}
-                  {isAdmin && (
-                    <button
-                      title="Modify the properties of this item"
-                      type="button"
-                      className="edit-item-menu-toggle"
-                      onClick={() =>
-                        dispatch(
-                          toggleModal({
-                            key: "editItemModal",
-                            value: !modals.editItemMenuToggled,
-                          })
-                        )
-                      }
-                    >
-                      <ThreeDots />
-                    </button>
-                  )}
+                {isAdmin && (
+                  <button
+                    title="Modify the properties of this item"
+                    type="button"
+                    className="edit-item-menu-toggle"
+                    onClick={() =>
+                      dispatch(
+                        toggleModal({
+                          key: "editItemModal",
+                          value: !modals.editItemMenuToggled,
+                        })
+                      )
+                    }
+                  >
+                    <ThreeDots />
+                  </button>
+                )}
                 <div className="top-right">
                   <div className="contact-options">
                     <div className="contact-option">
@@ -553,6 +568,11 @@ const Item = () => {
         )}
         {modals.priceChangeModalToggled ? (
           <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
+        ) : (
+          false
+        )}
+        {modals.fullScreenImageModalToggled ? (
+          <FullScreenImageModal image={selectedPhoto} />
         ) : (
           false
         )}

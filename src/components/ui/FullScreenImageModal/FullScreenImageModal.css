@@ -1,6 +1,50 @@
-.full-screen-image-modal {
+.modal.full-screen-image-modal {
   position: fixed;
   transform: translateX(-50%);
   left: 50%;
   top: 60px;
+  z-index: 6;
+  max-height: calc(800px - 80px);
+  max-width: 600px;
+  height: 100%;
+}
+
+.modal.full-screen-image-modal .image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  position: relative;
+}
+
+.modal.full-screen-image-modal .image-container .close-button {
+  right: 5px;
+  top: 5px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #333;
+  border: 1px solid #555;
+  transition: 0.1s ease background-color;
+}
+
+.modal.full-screen-image-modal .image-container .close-button:hover {
+  background-color: #3b3b3b;
+}
+
+.modal.full-screen-image-modal .image-container .close-button svg {
+  width: 15px;
+  fill: white;
+}
+
+.modal.full-screen-image-modal .image-container img {
+  width: 100%;
+  border-radius: 5px;
+  object-fit: cover;
 }

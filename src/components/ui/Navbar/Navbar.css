@@ -42,23 +42,30 @@ nav.desktop .home-link {
   display: flex;
 }
 
-nav.desktop .home-link-and-filter-button button {
-  background-color: transparent;
+nav.desktop .home-link-and-filter-button button.search-toggle,
+nav.desktop .home-link-and-filter-button a.home-link {
+  background-color: #444;
+  border-radius: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0;
   border: 0;
   cursor: pointer;
+  border: 1px solid #555;
+  width: 40px;
+  height: 40px;
 }
 
 nav.desktop .home-link-and-filter-button button:hover svg {
   fill: var(--yellow);
 }
 
-nav.desktop .home-link svg {
+nav.desktop .home-link-and-filter-button button.search-toggle svg,
+nav.desktop .home-link-and-filter-button .home-link svg {
   /* display: none; */
   fill: white;
-  width: 30px;
+  width: 20px;
 }
 
 nav.desktop .login-link {
@@ -182,69 +189,6 @@ nav.desktop .right-side .right-side-menu-button .profile-picture {
   object-fit: cover;
 }
 
-@media screen and (max-width: 500px) {
-  nav.desktop {
-    padding: 10px 15px;
-    gap: 15px;
-  }
-  /* nav.desktop .home-link {
-    display: none;
-  } */
-
-  nav.desktop .home-link svg {
-    display: block;
-  }
-
-  /* nav.desktop .right-side a.sell-link {
-    display: none;
-  } */
-}
-
-/* Phones */
-@media only screen and (max-device-width: 480px) {
-  nav.desktop {
-    top: initial;
-    bottom: -2px;
-    border-top: #444 1px solid;
-  }
-
-  nav.desktop .home-link-and-filter-button .home-link  {
-    /* display: none; */
-  }
-
-  nav.desktop .home-link-and-filter-button .filters-toggle-button,
-  nav.desktop .home-link,
-  nav.desktop .search-toggle,
-  nav.desktop .right-side .right-side-menu-button {
-    display: flex;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #444;
-    border: 1px solid #555;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  nav.desktop .right-side .right-side-menu-button {
-    border: 0;
-  }
-
-  nav.desktop .home-link-and-filter-button .filters-toggle-button svg,
-  nav.desktop .home-link svg:not(.caret) {
-    width: 22px;
-  }
-
-  nav.desktop .search-bar .search-input-container .search-input-toggle svg {
-    width: 19px;
-  }
-
-  nav.desktop .home-link-and-filter-button .filters-toggle-button svg.caret {
-    display: none;
-  }
-}
 
 /* tablets */
 @media only screen and (max-device-width: 768px) {

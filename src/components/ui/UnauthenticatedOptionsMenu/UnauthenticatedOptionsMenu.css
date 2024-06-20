@@ -1,18 +1,25 @@
 .unauthenticated-options-menu {
   position: fixed;
-  bottom: 55px;
+  bottom: 60px;
   right: 5px;
   display: flex;
   flex-direction: column;
   background-color: #333;
   border: 1px solid #555;
   border-radius: 3px;
+  min-width: 120px;
+  box-shadow: -3px 3px 5px #18181877;
 }
 
 .unauthenticated-options-menu a {
   padding: 5px 10px;
   font-size: 1rem;
   color: white;;
+}
+
+
+.unauthenticated-options-menu a:not(:last-child) {
+  border-bottom: 1px solid #555;
 }
 
 .unauthenticated-options-menu a:hover {

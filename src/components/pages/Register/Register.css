@@ -86,6 +86,10 @@
     gap: 3px;
 }
 
+.register form .form-block.optional-fields .optional-fields-toggle p {
+  color: white;
+}
+
 .register form .form-block.optional-fields .optional-fields-toggle p:first-child {
   display: flex;
   justify-content: space-between;

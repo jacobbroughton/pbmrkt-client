@@ -1,0 +1,21 @@
+.unauthenticated-options-menu {
+  position: fixed;
+  bottom: 55px;
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 3px;
+}
+
+.unauthenticated-options-menu a {
+  padding: 5px 10px;
+  font-size: 1rem;
+  color: white;;
+}
+
+.unauthenticated-options-menu a:hover {
+  background-color: #3b3b3b;
+  text-decoration: none;
+}

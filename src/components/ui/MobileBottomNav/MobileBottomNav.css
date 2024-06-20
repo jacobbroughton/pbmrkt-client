@@ -4,7 +4,6 @@ nav.mobile-nav {
   left: 0;
   right: 0;
   background-color: var(--bg-primary);
-  /* padding: 7px 20px; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,9 +11,7 @@ nav.mobile-nav {
   display: flex;
   justify-content: space-between;
   top: initial;
-  /* bottom: -2px; */
   border-top: #444 1px solid;
-
 }
 
 nav.mobile-nav .filters-toggle-button,
@@ -22,46 +19,29 @@ nav.mobile-nav .home-link,
 nav.mobile-nav .sell-link,
 nav.mobile-nav .search-toggle,
 nav.mobile-nav .right-side-menu-button,
-nav.mobile-nav .notifications-menu-toggle {
+nav.mobile-nav .notifications-menu-toggle,
+nav.mobile-nav .right-side-menu-button {
   display: flex;
-  /* border-radius: 5px; */
   overflow: hidden;
-  /* width: 40px; */
   height: 50px;
-  /* min-width: 40px; */
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color: #444;
-  border: 1px solid #555;
+  background-color: #333;
+  border: 0;
+}
+
+nav.mobile-nav .filters-toggle-button:not(:last-child),
+nav.mobile-nav .home-link:not(:last-child),
+nav.mobile-nav .sell-link:not(:last-child),
+nav.mobile-nav .search-toggle:not(:last-child),
+nav.mobile-nav .notifications-menu-toggle:not(:last-child) {
+  border-right: 1px solid #555;
 }
 
 nav.mobile-nav .right-side-menu-button {
   border: 0;
 }
-
-nav.mobile-nav .right-side-menu-button {
-  
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  cursor: pointer;
-  overflow: hidden;
-  /* margin-left: 5px; */
-  padding: 2px;
-  transition: 0.1s ease background-color;
-  /* background-color: transparent; */
-  border: 1px solid #555;
-
-}
-
-
-nav.mobile-nav .right-side-menu-button:hover {
-  background-color: #b1b1b1;
-}
-
 nav.mobile-nav .profile-picture-container {
   height: 40px;
   width: 40px;
@@ -78,7 +58,6 @@ nav.mobile-nav .right-side-menu-button .profile-picture {
   object-fit: cover;
 }
 
-
 nav.mobile-nav .search-toggle svg,
 nav.mobile-nav .sell-link svg,
 nav.mobile-nav .notifications-menu-toggle svg,
@@ -86,6 +65,7 @@ nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret) {
   width: 22px;
   fill: white;
+  pointer-events: ;
 }
 
 nav.mobile-nav .sell-link {

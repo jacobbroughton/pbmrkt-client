@@ -18,23 +18,32 @@ import SearchModal from "../SearchModal/SearchModal";
 import PlusIcon from "../Icons/PlusIcon";
 import SearchIcon from "../Icons/SearchIcon";
 import "./MobileBottomNav.css";
+import UnauthenticatedOptionsMenu from "../UnauthenticatedOptionsMenu/UnauthenticatedOptionsMenu";
 
 function MobileBottomNav() {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const { session, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const modals = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
-
-  const windowSize = useWindowSize();
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-    dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
+    if (user) {
+      dispatch(toggleModal({ key: "notificationsMenu", value: false }));
+      dispatch(
+        toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled })
+      );
+    } else {
+      dispatch(
+        toggleModal({
+          key: "unauthenticatedOptionsMenu",
+          value: !modals.unauthenticatedOptionsMenuToggled,
+        })
+      );
+    }
   }
 
   function handleNotificationsMenuToggle(e) {
@@ -134,26 +143,7 @@ function MobileBottomNav() {
       >
         <HomeIcon />
       </Link>
-      {location.pathname == "/" && (
-        <button
-          className="filters-toggle-button"
-          onClick={() =>
-            dispatch(
-              toggleModal({
-                key: "filtersSidebar",
-                value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
-              })
-            )
-          }
-        >
-          {!modals.filtersSidebarToggled ? (
-            <Caret direction={"right"} />
-          ) : (
-            <Caret direction={"left"} />
-          )}{" "}
-          <FilterIcon />
-        </button>
-      )}
+
       <button
         className="search-toggle"
         onClick={(e) => {
@@ -169,35 +159,41 @@ function MobileBottomNav() {
         {isOnMobile() ? <PlusIcon /> : "Sell"}
       </Link>
 
-      {session?.user ? (
-        <>
-          {((isOnMobile() && search.searchBarToggled) || true) && (
-            <button
-              type="button"
-              className="notifications-menu-toggle"
-              onClick={handleNotificationsMenuToggle}
-            >
-              <BellIcon />
-              {unreadNotificationCount > 0 && (
-                <span className="unread-notification-count">
-                  {unreadNotificationCount}
-                </span>
-              )}
-            </button>
-          )}
-          <button onClick={handleRightSideMenuToggle} className="right-side-menu-button">
-            <div className="profile-picture-container">
-              <img className="profile-picture" src={user.profile_picture_url} />
-            </div>
+      {/* {session?.user ? ( */}
+      <>
+        {user && (
+          <button
+            type="button"
+            className="notifications-menu-toggle"
+            onClick={handleNotificationsMenuToggle}
+          >
+            <BellIcon />
+            {unreadNotificationCount > 0 && (
+              <span className="unread-notification-count">{unreadNotificationCount}</span>
+            )}
           </button>
-        </>
-      ) : (
+        )}
+        <button onClick={handleRightSideMenuToggle} className="right-side-menu-button">
+          <div className="profile-picture-container">
+            <img
+              className="profile-picture"
+              src={
+                user?.profile_picture_url ??
+                "https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/profile_pictures/placeholders/user-placeholder?t=2024-06-20T15%3A58%3A46.381Z"
+              }
+            />
+          </div>
+        </button>
+      </>
+      {/* ) : (
         <Link to="/login" className="login-link">
           Login
         </Link>
-      )}
-      {modals.rightSideMenuToggled && session && <RightSideMenu />}
-      {modals.notificationsMenuToggled && session && (
+      )} */}
+
+      {modals.rightSideMenuToggled && user && <RightSideMenu />}
+      {modals.unauthenticatedOptionsMenuToggled &&  <UnauthenticatedOptionsMenu />}
+      {modals.notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}
           setNotifications={setNotifications}

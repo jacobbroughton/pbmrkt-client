@@ -368,7 +368,7 @@ function Listings() {
               </button>
             )}
             <div className='control-group home'>
-            <Link
+            {/* <Link
               to="/"
               className="home-link"
               onClick={() => {
@@ -377,7 +377,7 @@ function Listings() {
               }}
             >
               <HomeIcon />
-            </Link>
+            </Link> */}
             </div>
             <div className="control-group sort">
               <SortIcon />

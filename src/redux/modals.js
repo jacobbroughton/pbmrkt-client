@@ -12,7 +12,8 @@ const modalsSlice = createSlice({
     priceChangeModalToggled: false,
     categorySelectorModalToggled: false,
     searchModalToggled: false,
-    fullScreenImageModalToggled: false
+    fullScreenImageModalToggled: false,
+    unauthenticatedOptionsMenuToggled: false
   },
   reducers: {
     toggleModal: (state, { payload }) => {

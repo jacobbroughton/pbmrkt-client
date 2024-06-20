@@ -184,9 +184,9 @@
     display: flex;
   }
 
-  .home .listings-controls .filters-button {
+  /* .home .listings-controls .filters-button {
     display: none;
-  }
+  } */
 
   .home > .sidebar-and-grid .sidebar {
     z-index: 6;

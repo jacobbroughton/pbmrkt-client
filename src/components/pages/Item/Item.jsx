@@ -204,6 +204,7 @@ const Item = () => {
 
       setLocalComments(
         localComments.map((comment) => {
+          console.log(comment, commentId)
           return {
             ...comment,
             ...(comment.id == commentId && {

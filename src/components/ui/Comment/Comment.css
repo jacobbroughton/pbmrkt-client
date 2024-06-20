@@ -187,6 +187,10 @@
   gap: 5px;
 }
 
+.comment .comment-body.deleted {
+  color: #aaa;
+}
+
 .comment .controls {
   display: flex;
   gap: 10px;

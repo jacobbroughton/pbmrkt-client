@@ -235,6 +235,10 @@
   cursor: pointer;
 }
 
+.filters > .filter-items .filter-item select:not(:disabled):hover {
+  background-color: #4f4f4f;
+}
+
 .filters > .filter-items .filter-item input[type="text"],
 .filters > .filter-items .filter-item input[type="number"],
 .filters > .filter-items .filter-item select {

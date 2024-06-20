@@ -71,7 +71,6 @@ const Register = () => {
 
       const user = data.user;
 
-      // TODO - Add user to local database
       const { error: error2 } = await supabase.rpc("add_user", {
         p_generated_id: user.id,
         p_email: user.email,
@@ -156,7 +155,11 @@ const Register = () => {
   };
 
   const submitDisabled =
-    !isValidEmail(email) || !isValidUsername(username) || username === "" || password === "" || password.length <= 6; //|| phoneNumber == "";
+    !isValidEmail(email) ||
+    !isValidUsername(username) ||
+    username === "" ||
+    password === "" ||
+    password.length <= 6; //|| phoneNumber == "";
 
   return (
     <>
@@ -244,7 +247,9 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="phone-number">Phone Number (Optional, required for selling. Can add later)</label>
+              <label htmlFor="phone-number">
+                Phone Number (Optional, required for selling. Can add later)
+              </label>
               <input
                 placeholder="Phone Number"
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -332,7 +337,7 @@ const Register = () => {
             )}
           </div>
 
-          <button type="submit" disabled={submitDisabled }>
+          <button type="submit" disabled={submitDisabled}>
             Submit
           </button>
         </form>

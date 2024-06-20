@@ -1,0 +1,119 @@
+nav.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-primary);
+  /* padding: 7px 20px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  top: initial;
+  /* bottom: -2px; */
+  border-top: #444 1px solid;
+
+}
+
+nav.mobile-nav .filters-toggle-button,
+nav.mobile-nav .home-link,
+nav.mobile-nav .sell-link,
+nav.mobile-nav .search-toggle,
+nav.mobile-nav .right-side-menu-button,
+nav.mobile-nav .notifications-menu-toggle {
+  display: flex;
+  /* border-radius: 5px; */
+  overflow: hidden;
+  /* width: 40px; */
+  height: 50px;
+  /* min-width: 40px; */
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: #444;
+  border: 1px solid #555;
+}
+
+nav.mobile-nav .right-side-menu-button {
+  border: 0;
+}
+
+nav.mobile-nav .right-side-menu-button {
+  
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  overflow: hidden;
+  /* margin-left: 5px; */
+  padding: 2px;
+  transition: 0.1s ease background-color;
+  /* background-color: transparent; */
+  border: 1px solid #555;
+
+}
+
+
+nav.mobile-nav .right-side-menu-button:hover {
+  background-color: #b1b1b1;
+}
+
+nav.mobile-nav .profile-picture-container {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  border: 1px solid #555;
+  border-radius: 50%;
+}
+
+nav.mobile-nav .right-side-menu-button .profile-picture {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: white;
+  object-fit: cover;
+}
+
+
+nav.mobile-nav .search-toggle svg,
+nav.mobile-nav .sell-link svg,
+nav.mobile-nav .notifications-menu-toggle svg,
+nav.mobile-nav .filters-toggle-button svg,
+nav.mobile-nav .home-link svg:not(.caret) {
+  width: 22px;
+  fill: white;
+}
+
+nav.mobile-nav .sell-link {
+  color: white;
+  background-color: var(--lightgreen);
+}
+
+nav.mobile-nav .sell-link svg {
+  fill: white;
+  filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+nav.mobile-nav .search-bar .search-input-container .search-input-toggle svg {
+  width: 19px;
+}
+
+nav.mobile-nav .filters-toggle-button svg.caret {
+  display: none;
+}
+
+/* tablets */
+@media only screen and (max-device-width: 768px) {
+}
+
+/* Laptops and medium desktops */
+@media only screen and (max-device-width: 992px) {
+}
+
+/* large desktops/devices */
+@media only screen and (max-device-width: 1200px) {
+}

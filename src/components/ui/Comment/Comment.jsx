@@ -75,7 +75,10 @@ const Comment = ({
             </p>
           </div>
           {/* <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p> */}
-          <p>{comment.eff_status ? comment.body : "Deleted"} </p>
+          <p className={`comment-body ${comment.eff_status ? "" : "deleted"}`}>
+            {console.log(comment)}
+            {comment.eff_status ? comment.body : "This comment has been deleted"}
+          </p>
           {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <button

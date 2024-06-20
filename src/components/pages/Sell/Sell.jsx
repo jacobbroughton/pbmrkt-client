@@ -865,11 +865,12 @@ const Sell = () => {
             <div className="what-the-buyer-sees">
               <p>
                 Buyer Sees $
-                {(parseFloat(price) + parseFloat(shippingCost || 0) || 0).toLocaleString(
-                  "en-US"
-                )}{" "}
+                {(
+                  parseFloat(price) +
+                    parseFloat(buyerPaysShipping ? shippingCost || 0 : 0) || 0
+                ).toLocaleString("en-US")}{" "}
                 = ${parseFloat(price).toLocaleString("en-US") || 0}
-                {shippingCost
+                {buyerPaysShipping && shippingCost
                   ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
                   : " + Free Shipping"}
               </p>
@@ -1056,7 +1057,6 @@ const Sell = () => {
               handleExpandAll={() => null}
               handleCollapseAll={() => null}
             />
-            
           </>
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}

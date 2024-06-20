@@ -1,4 +1,4 @@
-nav {
+nav.desktop {
   background-color: var(--bg-primary);
   padding: 7px 20px;
   display: flex;
@@ -14,35 +14,35 @@ nav {
   border-bottom: #444 1px solid;
 }
 
-nav .home-link-and-filter-button {
+nav.desktop .home-link-and-filter-button {
   display: flex;
   gap: 15px;
   align-items: center;
   width: 100%;
 }
 
-nav .home-link-and-filter-button svg {
+nav.desktop .home-link-and-filter-button svg {
   width: 30px;
   fill: white;
 }
 
-nav .home-link-and-filter-button .filters-toggle-button {
+nav.desktop .home-link-and-filter-button .filters-toggle-button {
   display: none;
   border-radius: 50%;
   overflow: hidden;
 }
 
-nav .home-link-and-filter-button .filters-toggle-button svg {
+nav.desktop .home-link-and-filter-button .filters-toggle-button svg {
   width: 32px;
 }
 
-nav .home-link {
+nav.desktop .home-link {
   font-weight: 600;
   white-space: nowrap;
   display: flex;
 }
 
-nav .home-link-and-filter-button button {
+nav.desktop .home-link-and-filter-button button {
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -51,17 +51,17 @@ nav .home-link-and-filter-button button {
   cursor: pointer;
 }
 
-nav .home-link-and-filter-button button:hover svg {
+nav.desktop .home-link-and-filter-button button:hover svg {
   fill: var(--yellow);
 }
 
-nav .home-link svg {
+nav.desktop .home-link svg {
   /* display: none; */
   fill: white;
   width: 30px;
 }
 
-nav .login-link {
+nav.desktop .login-link {
   padding: 5px 10px;
   border-radius: 3px;
   background-color: var(--lightgreen);
@@ -70,16 +70,16 @@ nav .login-link {
   justify-content: center;
 }
 
-nav .login-link {
+nav.desktop .login-link {
   color: white;
   font-weight: 600;
 }
 
-nav .login-link:hover {
+nav.desktop .login-link:hover {
   text-decoration: none;
 }
 
-nav .right-side {
+nav.desktop .right-side {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -87,7 +87,7 @@ nav .right-side {
   justify-content: flex-end;
 }
 
-nav .right-side a.sell-link {
+nav.desktop .right-side a.sell-link {
   padding: 5px 10px;
   border-radius: 3px;
   background-color: var(--lightgreen);
@@ -96,21 +96,21 @@ nav .right-side a.sell-link {
   justify-content: center;
 }
 
-nav .right-side a.sell-link {
+nav.desktop .right-side a.sell-link {
   color: white;
   font-weight: 600;
 }
 
-nav .right-side a.sell-link:hover {
+nav.desktop .right-side a.sell-link:hover {
   text-decoration: none;
 }
 
-nav .right-side a.sell-link svg {
+nav.desktop .right-side a.sell-link svg {
   width: 15px;
   fill: white;
 }
 
-nav .right-side .notifications-menu-toggle {
+nav.desktop .right-side .notifications-menu-toggle {
   border: 0;
   height: 40px;
   width: 40px;
@@ -125,17 +125,17 @@ nav .right-side .notifications-menu-toggle {
   position: relative;
 }
 
-nav .right-side .notifications-menu-toggle:hover {
+nav.desktop .right-side .notifications-menu-toggle:hover {
   background-color: #555;
   border-color: #666;
 }
 
-nav .right-side .notifications-menu-toggle svg {
+nav.desktop .right-side .notifications-menu-toggle svg {
   width: 15px;
   fill: white;
 }
 
-nav .right-side .notifications-menu-toggle .unread-notification-count {
+nav.desktop .right-side .notifications-menu-toggle .unread-notification-count {
   position: absolute;
   font-weight: 600;
   right: -5px;
@@ -153,7 +153,7 @@ nav .right-side .notifications-menu-toggle .unread-notification-count {
   justify-content: center;
 }
 
-nav .right-side .right-side-menu-button {
+nav.desktop .right-side .right-side-menu-button {
   height: 35px;
   width: 35px;
   min-width: 35px;
@@ -170,11 +170,11 @@ nav .right-side .right-side-menu-button {
   /* background-color: transparent; */
 }
 
-nav .right-side .right-side-menu-button:hover {
+nav.desktop .right-side .right-side-menu-button:hover {
   background-color: #b1b1b1;
 }
 
-nav .right-side .right-side-menu-button .profile-picture {
+nav.desktop .right-side .right-side-menu-button .profile-picture {
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -183,39 +183,39 @@ nav .right-side .right-side-menu-button .profile-picture {
 }
 
 @media screen and (max-width: 500px) {
-  nav {
+  nav.desktop {
     padding: 10px 15px;
     gap: 15px;
   }
-  /* nav .home-link {
+  /* nav.desktop .home-link {
     display: none;
   } */
 
-  nav .home-link svg {
+  nav.desktop .home-link svg {
     display: block;
   }
 
-  /* nav .right-side a.sell-link {
+  /* nav.desktop .right-side a.sell-link {
     display: none;
   } */
 }
 
 /* Phones */
 @media only screen and (max-device-width: 480px) {
-  nav {
+  nav.desktop {
     top: initial;
     bottom: -2px;
     border-top: #444 1px solid;
   }
 
-  nav .home-link-and-filter-button .home-link {
+  nav.desktop .home-link-and-filter-button .home-link  {
     /* display: none; */
   }
 
-  nav .home-link-and-filter-button .filters-toggle-button,
-  nav .home-link,
-  nav .search-bar .search-input-container .search-input-toggle,
-  nav .right-side .right-side-menu-button {
+  nav.desktop .home-link-and-filter-button .filters-toggle-button,
+  nav.desktop .home-link,
+  nav.desktop .search-toggle,
+  nav.desktop .right-side .right-side-menu-button {
     display: flex;
     border-radius: 50%;
     overflow: hidden;
@@ -228,20 +228,20 @@ nav .right-side .right-side-menu-button .profile-picture {
     justify-content: center;
   }
 
-  nav .right-side .right-side-menu-button {
+  nav.desktop .right-side .right-side-menu-button {
     border: 0;
   }
 
-  nav .home-link-and-filter-button .filters-toggle-button svg,
-  nav .home-link svg:not(.caret) {
+  nav.desktop .home-link-and-filter-button .filters-toggle-button svg,
+  nav.desktop .home-link svg:not(.caret) {
     width: 22px;
   }
 
-  nav .search-bar .search-input-container .search-input-toggle svg {
+  nav.desktop .search-bar .search-input-container .search-input-toggle svg {
     width: 19px;
   }
 
-  nav .home-link-and-filter-button .filters-toggle-button svg.caret {
+  nav.desktop .home-link-and-filter-button .filters-toggle-button svg.caret {
     display: none;
   }
 }

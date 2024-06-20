@@ -17,9 +17,9 @@ import Caret from "../Icons/Caret";
 import SearchModal from "../SearchModal/SearchModal";
 import PlusIcon from "../Icons/PlusIcon";
 import SearchIcon from "../Icons/SearchIcon";
-import "./Navbar.css";
+import "./MobileBottomNav.css";
 
-function Navbar() {
+function MobileBottomNav() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { session, user } = useSelector((state) => state.auth);
@@ -122,86 +122,80 @@ function Navbar() {
   ).length;
 
   return (
-    <nav className='desktop'>
+    <nav className="mobile-nav">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
-      <div className="home-link-and-filter-button">
-        <Link
-          to="/"
-          className="home-link"
-          onClick={() => {
-            dispatch(resetFilters());
-            dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-          }}
-        >
-          <HomeIcon />
-        </Link>
-        {location.pathname == "/" && (
-          <button
-            className="filters-toggle-button"
-            onClick={() =>
-              dispatch(
-                toggleModal({
-                  key: "filtersSidebar",
-                  value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
-                })
-              )
-            }
-          >
-            {!modals.filtersSidebarToggled ? (
-              <Caret direction={"right"} />
-            ) : (
-              <Caret direction={"left"} />
-            )}{" "}
-            <FilterIcon />
-          </button>
-        )}
-        {/* <SearchBar handleSearchSubmit={handleSearchSubmit} /> */}
+      <Link
+        to="/"
+        className="home-link"
+        onClick={() => {
+          dispatch(resetFilters());
+          dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+        }}
+      >
+        <HomeIcon />
+      </Link>
+      {location.pathname == "/" && (
         <button
-          className="search-toggle"
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(toggleModal({ key: "searchModal", value: true }));
-            dispatch(setSearchBarToggled(!search.searchBarToggled));
-          }}
+          className="filters-toggle-button"
+          onClick={() =>
+            dispatch(
+              toggleModal({
+                key: "filtersSidebar",
+                value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+              })
+            )
+          }
         >
-          <SearchIcon />
+          {!modals.filtersSidebarToggled ? (
+            <Caret direction={"right"} />
+          ) : (
+            <Caret direction={"left"} />
+          )}{" "}
+          <FilterIcon />
         </button>
-      </div>
+      )}
+      <button
+        className="search-toggle"
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(toggleModal({ key: "searchModal", value: true }));
+          dispatch(setSearchBarToggled(!search.searchBarToggled));
+        }}
+      >
+        <SearchIcon />
+      </button>
 
-      <div className="right-side">
-        <Link to="/sell" className="sell-link">
-          {isOnMobile() ? <PlusIcon /> : "Sell"}
-        </Link>
+      <Link to="/sell" className="sell-link">
+        {isOnMobile() ? <PlusIcon /> : "Sell"}
+      </Link>
 
-        {session?.user ? (
-          <>
-            {((isOnMobile() && search.searchBarToggled) || true) && (
-              <button
-                type="button"
-                className="notifications-menu-toggle"
-                onClick={handleNotificationsMenuToggle}
-              >
-                <BellIcon />
-                {unreadNotificationCount > 0 && (
-                  <span className="unread-notification-count">
-                    {unreadNotificationCount}
-                  </span>
-                )}
-              </button>
-            )}
+      {session?.user ? (
+        <>
+          {((isOnMobile() && search.searchBarToggled) || true) && (
             <button
-              onClick={handleRightSideMenuToggle}
-              className="right-side-menu-button"
+              type="button"
+              className="notifications-menu-toggle"
+              onClick={handleNotificationsMenuToggle}
             >
-              <img className="profile-picture" src={user.profile_picture_url} />
+              <BellIcon />
+              {unreadNotificationCount > 0 && (
+                <span className="unread-notification-count">
+                  {unreadNotificationCount}
+                </span>
+              )}
             </button>
-          </>
-        ) : (
-          <Link to="/login" className="login-link">
-            Login
-          </Link>
-        )}
-      </div>
+          )}
+          <button onClick={handleRightSideMenuToggle} className="right-side-menu-button">
+            <div className="profile-picture-container">
+              <img className="profile-picture" src={user.profile_picture_url} />
+            </div>
+          </button>
+        </>
+      ) : (
+        <Link to="/login" className="login-link">
+          Login
+        </Link>
+      )}
       {modals.rightSideMenuToggled && session && <RightSideMenu />}
       {modals.notificationsMenuToggled && session && (
         <NotificationsMenu
@@ -214,4 +208,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default MobileBottomNav;

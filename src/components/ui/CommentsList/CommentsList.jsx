@@ -25,10 +25,6 @@ const CommentsList = ({
     setLocalComments(passedComments);
   }, [passedComments]);
 
-  useEffect(() => {
-    console.log("replies loading from root level", repliesLoadingFromRootLevel);
-  }, [repliesLoadingFromRootLevel]);
-
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
 

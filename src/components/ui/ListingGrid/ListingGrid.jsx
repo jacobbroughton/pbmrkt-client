@@ -25,12 +25,12 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
                 <p className="what-is-this">{listing.what_is_this}</p>
               </div>
               <div className="profile">
-                <div className="profile-picture-container">
-                  {/* <div className="profile-picture">&nbsp;</div> */}
-                  {}
-                  <img className="profile-picture" src={listing.profile_picture} />
-                </div>
                 <Link className="small-text bold" to={`/user/${listing.username}`}>
+                  <div className="profile-picture-container">
+                    {/* <div className="profile-picture">&nbsp;</div> */}
+                    {}
+                    <img className="profile-picture" src={listing.profile_picture} />
+                  </div>
                   {listing.username}
                 </Link>
               </div>

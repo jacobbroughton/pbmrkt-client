@@ -228,7 +228,7 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         </div>
         <div className="form-group">
           <label htmlFor="bio">Details about you?</label>
-          <textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+          <textarea id="bio" value={bio} placeholder="Add some details about you" onChange={(e) => setBio(e.target.value)} />
         </div>
         <div className="form-groups">
           <div className="form-group">

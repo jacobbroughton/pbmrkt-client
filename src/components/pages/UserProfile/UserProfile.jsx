@@ -118,7 +118,6 @@ const UserProfile = () => {
       if (error2) throw error2.message;
       if (!data2) throw "No listings available";
 
-      
       data2 = data2.map((item) => {
         const { data, error } = supabase.storage
           .from("profile_pictures")
@@ -201,7 +200,6 @@ const UserProfile = () => {
 
   if (loading)
     return <LoadingOverlay message="Loading user..." verticalAlignment={"center"} />;
-
 
   return (
     <>
@@ -287,7 +285,11 @@ const UserProfile = () => {
             </div>
             <div className="user-info-container bio ">
               <label>Bio</label>
-              <p>{localUser.bio  ? localUser.bio?.trim() : 'Nothing!'}</p>
+              <p>
+                {localUser.bio
+                  ? localUser.bio?.trim()
+                  : "This user has not added a bio yet"}
+              </p>
             </div>
           </div>
         </div>

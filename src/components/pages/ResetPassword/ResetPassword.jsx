@@ -27,22 +27,26 @@ const ResetPassword = () => {
       e.preventDefault();
       setLoading(true);
 
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "http://localhost:3000/update-password",
-      });
+      // const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      //   redirectTo: "http://localhost:3000/update-password",
+      // });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      // if (error) {
+      //   console.error(error);
+      //   throw error.message;
+      // }
+      
 
       setIsVerifying(true);
       // navigate("/update-password");
-      // dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
+      dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
       setError(error.toString());
     }
-    setLoading(false);
+    setTimeout(() => {
+
+      setLoading(false);
+    }, 1000)
   }
 
   async function handleValidated() {
@@ -72,22 +76,22 @@ const ResetPassword = () => {
           Send Email
         </button>
       </form>
-      {modals.validateResetPasswordModal && (
+      {modals.validateResetPasswordModalToggled && (
         <>
           <div className="modal is-verifying-modal">
             <p className="large-text ">Check your email</p>
             <p className="small-text">
               An email was just sent to you containing a verification button. Click
-              'validate' and return here or continue through the email.
+              'validate' on the email and return here or continue through the email.
             </p>
             <button onClick={handleValidated} type="button" className="button">
               Verify
             </button>
           </div>
-          <ModalOverlay zIndex={4} />
+          <ModalOverlay zIndex={5} />
         </>
       )}
-      {loading && <LoadingOverlay message="Resetting your password..." />}
+      {loading && <LoadingOverlay message="Sending you an email..." zIndex={5}/>}
     </div>
   );
 };

@@ -8,7 +8,12 @@ import { toggleModal } from "../../../redux/modals.js";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import Caret from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import { resetFilter, setFilters, setFiltersUpdated } from "../../../redux/filters.js";
+import {
+  resetFilter,
+  resetFilters,
+  setFilters,
+  setFiltersUpdated,
+} from "../../../redux/filters.js";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
 import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
 import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
@@ -23,6 +28,9 @@ import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.
 import Footer from "../../ui/Footer/Footer.jsx";
 import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import "./Home.css";
+import SortIcon from "../../ui/Icons/SortIcon.jsx";
+import { Link } from "react-router-dom";
+import HomeIcon from "../../ui/Icons/HomeIcon.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
@@ -359,8 +367,20 @@ function Listings() {
                 <FilterIcon />
               </button>
             )}
+            <div className='control-group home'>
+            <Link
+              to="/"
+              className="home-link"
+              onClick={() => {
+                dispatch(resetFilters());
+                dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+              }}
+            >
+              <HomeIcon />
+            </Link>
+            </div>
             <div className="control-group sort">
-              <p>Sorted By:</p>
+              <SortIcon />
 
               <select
                 id="sort-select"

@@ -13,6 +13,8 @@ import UserProfile from "./components/pages/UserProfile/UserProfile.jsx";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
 import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
+import { isOnMobile } from "./utils/usefulFunctions.js";
+import MobileBottomNav from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -143,7 +145,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>

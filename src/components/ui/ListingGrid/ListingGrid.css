@@ -108,7 +108,7 @@
   margin-top: 3px;
 }
 
-.grid .grid-item > .listing-card-info > .profile > .profile-picture-container {
+.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-container {
   position: relative;
   width: 23px;
   height: 23px;
@@ -118,6 +118,7 @@
   .grid-item
   > .listing-card-info
   > .profile
+  > a
   > .profile-picture-container
   > .profile-picture {
   background-color: #666;

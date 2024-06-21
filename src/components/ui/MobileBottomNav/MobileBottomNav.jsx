@@ -1,19 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
 import RightSideMenu from "../RightSideMenu/RightSideMenu";
 import HomeIcon from "../Icons/HomeIcon";
-import FilterIcon from "../Icons/FilterIcon";
 import { setSearchBarToggled } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
-import useWindowSize from "../../../utils/useWindowSize";
 import { isOnMobile } from "../../../utils/usefulFunctions";
 import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import BellIcon from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
-import Caret from "../Icons/Caret";
 import SearchModal from "../SearchModal/SearchModal";
 import PlusIcon from "../Icons/PlusIcon";
 import SearchIcon from "../Icons/SearchIcon";
@@ -41,6 +38,7 @@ function MobileBottomNav() {
         toggleModal({
           key: "unauthenticatedOptionsMenu",
           value: !modals.unauthenticatedOptionsMenuToggled,
+          closeAll: true,
         })
       );
     }
@@ -122,6 +120,13 @@ function MobileBottomNav() {
     }
   }
 
+  function handleSearchToggle(e) {
+    console.log("swag")
+    e.stopPropagation();
+    dispatch(toggleModal({ key: "searchModal", value: true, closeAll: true }));
+    dispatch(setSearchBarToggled(!search.searchBarToggled));
+  }
+
   useEffect(() => {
     if (user) handleNotificationsSubscribe();
   }, [user]);
@@ -144,14 +149,7 @@ function MobileBottomNav() {
         <HomeIcon />
       </Link>
 
-      <button
-        className="search-toggle"
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch(toggleModal({ key: "searchModal", value: true }));
-          dispatch(setSearchBarToggled(!search.searchBarToggled));
-        }}
-      >
+      <button className="search-toggle" onClick={handleSearchToggle}>
         <SearchIcon />
       </button>
 
@@ -192,7 +190,7 @@ function MobileBottomNav() {
       )} */}
 
       {modals.rightSideMenuToggled && user && <RightSideMenu />}
-      {modals.unauthenticatedOptionsMenuToggled &&  <UnauthenticatedOptionsMenu />}
+      {modals.unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
       {modals.notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}

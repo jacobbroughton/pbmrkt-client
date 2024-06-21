@@ -76,7 +76,6 @@ const Comment = ({
           </div>
           {/* <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p> */}
           <p className={`comment-body ${comment.eff_status ? "" : "deleted"}`}>
-            {console.log(comment)}
             {comment.eff_status ? comment.body : "This comment has been deleted"}
           </p>
           {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
@@ -156,7 +155,6 @@ const Comment = ({
                 setRootLevelComments={setRootLevelComments}
                 setError={setError}
                 getComments={getComments}
-                repliesLoading={repliesLoading}
                 repliesLoadingFromRootLevel={false}
               />
             </div>

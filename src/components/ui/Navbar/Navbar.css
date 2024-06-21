@@ -95,12 +95,15 @@ nav.desktop .right-side {
 }
 
 nav.desktop .right-side a.sell-link {
-  padding: 5px 10px;
-  border-radius: 3px;
-  background-color: var(--lightgreen);
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  /* border: 1px solid #555; */
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #444;
+  border: 1px solid #555;
 }
 
 nav.desktop .right-side a.sell-link {
@@ -113,7 +116,8 @@ nav.desktop .right-side a.sell-link:hover {
 }
 
 nav.desktop .right-side a.sell-link svg {
-  width: 15px;
+  width: 17px;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.15));
   fill: white;
 }
 
@@ -188,7 +192,6 @@ nav.desktop .right-side .right-side-menu-button .profile-picture {
   background-color: white;
   object-fit: cover;
 }
-
 
 /* tablets */
 @media only screen and (max-device-width: 768px) {

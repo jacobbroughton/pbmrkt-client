@@ -14,6 +14,7 @@ const CommentsList = ({
   setError,
   getComments,
   repliesLoadingFromRootLevel,
+  commentIdWithRepliesOpening,
 }) => {
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
@@ -81,47 +82,67 @@ const CommentsList = ({
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
     try {
-      setRepliesLoading(true);
-      const { data, error } = await supabase.rpc("get_child_comments", {
-        p_item_id: commentWithReplies.item_id,
-        p_parent_comment_id: commentWithReplies.id,
-      });
+      console.log(commentWithReplies);
+      if (!commentWithReplies.repliesToggled) {
+        setRepliesLoading(true);
+        const { data, error } = await supabase.rpc("get_child_comments", {
+          p_item_id: commentWithReplies.item_id,
+          p_parent_comment_id: commentWithReplies.id,
+        });
 
-      const replies = data.map((comment) => {
-        console.log(comment.profile_picture_path);
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
+        const replies = data.map((comment) => {
+          console.log(comment.profile_picture_path);
+          const { data: data2, error: error2 } = supabase.storage
+            .from("profile_pictures")
+            .getPublicUrl(
+              comment.profile_picture_path || "placeholders/user-placeholder"
+            );
 
-        if (error2) throw error.message;
+          if (error2) throw error.message;
 
-        return {
-          ...comment,
-          profile_picture_url: data2.publicUrl,
-        };
-      });
+          return {
+            ...comment,
+            profile_picture_url: data2.publicUrl,
+          };
+        });
 
-      if (error) throw error.message;
+        if (error) throw error.message;
 
-      const updatedComments = localComments.map((comm) => {
-        return {
-          ...comm,
-          tier: comm.tier + 1,
-          ...(comm.id == commentWithReplies.id && {
-            replies: replies,
-            repliesToggled: !comm.repliesToggled,
-          }),
-        };
-      });
+        const updatedComments = localComments.map((comm) => {
+          return {
+            ...comm,
+            tier: comm.tier + 1,
+            ...(comm.id == commentWithReplies.id && {
+              replies: replies,
+              repliesToggled: !comm.repliesToggled,
+            }),
+          };
+        });
 
-      if (isRootLevel) {
-        setRootLevelComments(updatedComments);
+        if (isRootLevel) {
+          setRootLevelComments(updatedComments);
+        } else {
+          setLocalComments(updatedComments);
+        }
       } else {
+        const updatedComments = localComments.map((comm) => {
+          return {
+            ...comm,
+            tier: comm.tier + 1,
+            ...(comm.id == commentWithReplies.id && {
+              replies: [],
+              repliesToggled: !comm.repliesToggled,
+            }),
+          };
+        });
+
         setLocalComments(updatedComments);
       }
     } catch (error) {
       setError(error.toString());
     }
+
+    console.log("child");
 
     setRepliesLoading(false);
   }
@@ -139,23 +160,30 @@ const CommentsList = ({
       ) : (
         localComments.map((comment) => {
           return (
-            <Comment
-              comment={comment}
-              commentWithReplyWindowID={commentWithReplyWindowID}
-              setCommentWithReplyWindowID={setCommentWithReplyWindowID}
-              handleCommentSubmit={(e) => handleReplySubmit(e, comment)}
-              setNewReplyBody={setNewReplyBody}
-              handleRepliesClick={
-                isRootLevel ? handleRepliesClickFromRootLevel : handleRepliesClick
-              }
-              handleDeleteComment={handleDeleteComment}
-              newReplyBody={newReplyBody}
-              isRootLevel={isRootLevel}
-              setRootLevelComments={setRootLevelComments}
-              getComments={getComments}
-              setError={setError}
-              repliesLoading={repliesLoadingFromRootLevel || repliesLoading}
-            />
+            <>
+              <Comment
+                comment={comment}
+                commentWithReplyWindowID={commentWithReplyWindowID}
+                setCommentWithReplyWindowID={setCommentWithReplyWindowID}
+                handleCommentSubmit={(e) => handleReplySubmit(e, comment)}
+                setNewReplyBody={setNewReplyBody}
+                handleRepliesClick={
+                  isRootLevel ? handleRepliesClickFromRootLevel : handleRepliesClick
+                }
+                handleDeleteComment={handleDeleteComment}
+                newReplyBody={newReplyBody}
+                isRootLevel={isRootLevel}
+                setRootLevelComments={setRootLevelComments}
+                getComments={getComments}
+                setError={setError}
+                repliesLoading={
+                  isRootLevel
+                    ? commentIdWithRepliesOpening == comment.id &&
+                      repliesLoadingFromRootLevel
+                    : repliesLoading
+                }
+              />
+            </>
           );
         })
       )}

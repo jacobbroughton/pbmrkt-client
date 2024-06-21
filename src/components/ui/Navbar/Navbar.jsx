@@ -170,7 +170,7 @@ function Navbar() {
 
       <div className="right-side">
         <Link to="/sell" className="sell-link">
-          {isOnMobile() ? <PlusIcon /> : "Sell"}
+          <PlusIcon /> 
         </Link>
 
         {session?.user ? (

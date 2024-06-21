@@ -280,7 +280,13 @@ const UserProfile = () => {
             <div className="user-info-container">
               <label>Location</label>
               <p>
-                {localUser.city}, {localUser.state}
+                {!localUser.city || !localUser.state ? (
+                  "No location has been added"
+                ) : (
+                  <>
+                    {localUser.city}, {localUser.state}
+                  </>
+                )}
               </p>
             </div>
             <div className="user-info-container bio ">
@@ -288,7 +294,7 @@ const UserProfile = () => {
               <p>
                 {localUser.bio
                   ? localUser.bio?.trim()
-                  : "This user has not added a bio yet"}
+                  : "No bio has been added"}
               </p>
             </div>
           </div>

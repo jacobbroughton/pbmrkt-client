@@ -39,7 +39,7 @@ const Item = () => {
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
   const [repliesLoading, setRepliesLoading] = useState(false);
-  const [imageForFullScreenModal, setImageForFullScreenModal] = useState(null);
+  const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
 
   useEffect(() => {
     async function getItem() {
@@ -204,7 +204,7 @@ const Item = () => {
 
       setLocalComments(
         localComments.map((comment) => {
-          console.log(comment, commentId)
+          console.log(comment, commentId);
           return {
             ...comment,
             ...(comment.id == commentId && {
@@ -241,8 +241,10 @@ const Item = () => {
   }
 
   async function handleRepliesClick(e, commentWithReplies) {
+    console.log("root");
     e.preventDefault();
     if (!commentWithReplies.repliesToggled) {
+      setCommentIdWithRepliesOpening(commentWithReplies.id);
       setRepliesLoading(true);
       const { data, error } = await supabase.rpc("get_child_comments", {
         p_item_id: item.info.id,
@@ -280,6 +282,7 @@ const Item = () => {
         })
       );
     } else {
+      setCommentIdWithRepliesOpening(null);
       setLocalComments(
         localComments.map((comm) => {
           return {
@@ -542,7 +545,6 @@ const Item = () => {
               leave a comment.
             </p>
           )}
-
           <CommentsList
             passedComments={localComments}
             handleCommentSubmit={handleNewCommentSubmit}
@@ -553,6 +555,7 @@ const Item = () => {
             setError={setError}
             getComments={getComments}
             repliesLoadingFromRootLevel={repliesLoading}
+            commentIdWithRepliesOpening={commentIdWithRepliesOpening}
           />
         </div>
         {modals.editItemModalToggled ? (

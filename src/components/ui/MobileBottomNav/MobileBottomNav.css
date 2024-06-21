@@ -65,7 +65,6 @@ nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret) {
   width: 22px;
   fill: white;
-  pointer-events: ;
 }
 
 nav.mobile-nav .sell-link {

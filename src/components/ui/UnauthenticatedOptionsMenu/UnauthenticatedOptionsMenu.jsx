@@ -3,6 +3,7 @@ import "./UnauthenticatedOptionsMenu.css";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
+import EnterIcon from "../Icons/EnterIcon";
 
 const UnauthenticatedOptionsMenu = () => {
   const menuRef = useRef(null);

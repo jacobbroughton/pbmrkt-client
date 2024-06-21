@@ -12,9 +12,16 @@
 }
 
 .unauthenticated-options-menu a {
-  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
+  gap: 10px;
+  color: white;
+  background-color: #333;
   font-size: 1rem;
-  color: white;;
 }
 
 
@@ -25,4 +32,24 @@
 .unauthenticated-options-menu a:hover {
   background-color: #3b3b3b;
   text-decoration: none;
+}
+
+.unauthenticated-options-menu a {
+  background-color: transparent;
+  border: 0;
+  font-size: 1rem;
+}
+
+.unauthenticated-options-menu a:hover {
+  background-color: #444;
+  text-decoration: none;
+}
+
+.unauthenticated-options-menu a:active {
+  background-color: #6f6f6f;
+}
+
+.unauthenticated-options-menu a svg {
+  fill: white;
+  width: 20px;
 }

@@ -136,7 +136,10 @@ nav.desktop .right-side .notifications-menu-toggle {
   position: relative;
 }
 
-nav.desktop .right-side .notifications-menu-toggle:hover {
+nav.desktop .right-side .notifications-menu-toggle:hover,
+nav.desktop .right-side a.sell-link:hover,
+nav.desktop .home-link-and-filter-button button.search-toggle:hover,
+nav.desktop .home-link-and-filter-button a.home-link:hover {
   background-color: #555;
   border-color: #666;
 }

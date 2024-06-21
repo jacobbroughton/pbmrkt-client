@@ -7,7 +7,7 @@ nav.mobile-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 5;
+  z-index: 6;
   display: flex;
   justify-content: space-between;
   top: initial;
@@ -65,6 +65,28 @@ nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret) {
   width: 22px;
   fill: white;
+}
+
+#root > nav > button.notifications-menu-toggle {
+  position: relative;
+}
+
+#root > nav > button.notifications-menu-toggle > span {
+  position: absolute;
+  font-weight: 600;
+  right: 6px;
+  top: 5px;
+  background-color: #e41e3f;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 nav.mobile-nav .sell-link {

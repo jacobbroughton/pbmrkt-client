@@ -189,10 +189,10 @@
   } */
 
   .home > .sidebar-and-grid .sidebar {
-    z-index: 6;
+    z-index: 8;
   }
 
   .home > .sidebar-and-grid .modal-overlay {
-    z-index: 5 !important;
+    z-index:7 !important;
   }
 }

@@ -12,6 +12,8 @@ const CategorySelectorModal = ({
   handleModalClick,
   handleApply,
   applyDisabled,
+  handleExpandAll = () => null,
+  handleCollapseAll = () => null
 }) => {
   const dispatch = useDispatch();
 
@@ -34,9 +36,9 @@ const CategorySelectorModal = ({
           forModal={true}
           categories={categories}
           setCategories={setCategories}
-          // selectedCategory={selectedCategory}
-          // setSelectedCategory={setSelectedCategory}
           handleCategoryClick={handleCategoryClick}
+          handleExpandAll={handleExpandAll}
+          handleCollapseAll={handleCollapseAll}
         />
         <div className="buttons">
           <button

@@ -367,8 +367,8 @@ function Listings() {
                 <FilterIcon />
               </button>
             )}
-            <div className='control-group home'>
-            {/* <Link
+            <div className="control-group home">
+              {/* <Link
               to="/"
               className="home-link"
               onClick={() => {
@@ -483,7 +483,8 @@ function Listings() {
           }
           handleApply={handleCategorySelectorApply}
           applyDisabled={!filters.draft.category || filters.draft.category?.is_folder}
-          handleExpandAll={() =>
+          handleExpandAll={() => {
+            console.log("Swag")
             dispatch(
               setFilters({
                 ...filters,
@@ -492,8 +493,8 @@ function Listings() {
                   categories: collapseAllCategoryFolders(categories),
                 },
               })
-            )
-          }
+            );
+          }}
           handleCollapseAll={() =>
             dispatch(
               setFilters({

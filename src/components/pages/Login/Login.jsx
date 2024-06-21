@@ -105,7 +105,7 @@ const Login = () => {
       {loading && (
         <LoadingOverlay
           message="Logging you in..."
-          zIndex={2}
+          zIndex={5}
           verticalAlignment={"center"}
         />
       )}

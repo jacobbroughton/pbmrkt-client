@@ -9,13 +9,14 @@ const CategorySelector = ({
   handleExpandAll,
   handleCollapseAll,
 }) => {
+
   return (
     <div className={`category-selector ${forModal ? "for-modal" : ""}`}>
       <div className="category-list-buttons">
-        <button type="button" onClick={handleCollapseAll}>
+        <button type="button" onClick={handleExpandAll}>
           Expand All
         </button>
-        <button type="button" onClick={handleExpandAll}>
+        <button type="button" onClick={handleCollapseAll}>
           Collapse All
         </button>
       </div>

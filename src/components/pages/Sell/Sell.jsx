@@ -9,6 +9,8 @@ import TrashIcon from "../../ui/Icons/TrashIcon";
 import StarIcon from "../../ui/Icons/StarIcon";
 import {
   capitalizeWords,
+  collapseAllCategoryFolders,
+  expandAllCategoryFolders,
   isValidPhoneNumber,
   nestItemCategories,
   setCategoryChecked,
@@ -1054,8 +1056,26 @@ const Sell = () => {
               applyDisabled={
                 categories.draft?.selected?.id == categories.saved?.selected?.id
               }
-              handleExpandAll={() => null}
-              handleCollapseAll={() => null}
+              handleExpandAll={() => {
+                console.log(categories);
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    all: expandAllCategoryFolders(categories.draft.all),
+                  },
+                });
+              }}
+              handleCollapseAll={() => {
+                console.log(categories)
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    all: collapseAllCategoryFolders(categories.draft.all),
+                  },
+                });
+              }}
             />
           </>
         )}

@@ -11,6 +11,8 @@ import RadioOptions from "../RadioOptions/RadioOptions";
 import MagicWand from "../Icons/MagicWand";
 import { useNavigate } from "react-router-dom";
 import {
+  collapseAllCategoryFolders,
+  expandAllCategoryFolders,
   isValidPhoneNumber,
   nestItemCategories,
   nestItemCategoriesExperimental,
@@ -126,7 +128,7 @@ const EditItemModal = ({ item, setItem }) => {
         p_category_id: categories.saved.selected?.id,
       });
 
-      if (error) throw error.message
+      if (error) throw error.message;
 
       console.log(data);
 
@@ -572,8 +574,26 @@ const EditItemModal = ({ item, setItem }) => {
             applyDisabled={
               categories.draft?.selected?.id == categories.saved?.selected?.id
             }
-            handleExpandAll={() => null}
-            handleCollapseAll={() => null}
+            handleExpandAll={() => {
+              console.log(categories);
+              setCategories({
+                ...categories,
+                draft: {
+                  ...categories.draft,
+                  all: expandAllCategoryFolders(categories.draft.all),
+                },
+              });
+            }}
+            handleCollapseAll={() => {
+              console.log(categories);
+              setCategories({
+                ...categories,
+                draft: {
+                  ...categories.draft,
+                  all: collapseAllCategoryFolders(categories.draft.all),
+                },
+              });
+            }}
           />
           <ModalOverlay zIndex={6} />
         </>

@@ -595,7 +595,7 @@ const EditItemModal = ({ item, setItem }) => {
               });
             }}
           />
-          <ModalOverlay zIndex={6} />
+          <ModalOverlay zIndex={6} onClick={() => dispatch(toggleModal({key: 'categorySelectorModal', value: false}))}/>
         </>
       )}
       <ModalOverlay

@@ -1,5 +1,4 @@
 .modal.category-selector-modal {
-  z-index: 6 !important;
   gap: 0;
   max-width: 500px;
   transform: translateX(-50%) !important;

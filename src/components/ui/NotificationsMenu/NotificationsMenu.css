@@ -2,7 +2,7 @@
   /* padding: 10px; */
   border-radius: 3px;
   top: 58px;
-  right: 15px;
+  right: 10px;
   position: fixed;
   background-color: #333;
   border: 1px solid #555;
@@ -109,6 +109,7 @@
 @media only screen and (max-device-width: 480px) {
   .notifications-menu {
     top: initial;
-    bottom: 63px;
+
+    bottom: 78px;
   }
 }

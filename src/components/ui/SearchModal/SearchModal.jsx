@@ -13,7 +13,7 @@ import "./SearchModal.css";
 
 const SearchModal = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const searchRef = useRef();
   const search = useSelector((state) => state.search);
   const [searchResults, setSearchResults] = useState({
@@ -35,8 +35,7 @@ const SearchModal = () => {
   function handleSearch(e) {
     e.preventDefault();
     try {
-      // if (searchValue.draft === searchValue.saved) return;
-      if (location.pathname !== '/') navigate('/')
+      if (location.pathname !== "/") navigate("/");
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
@@ -89,7 +88,7 @@ const SearchModal = () => {
       if (searchValue.draft == "" && searchIsInitial) return;
       // dispatch(setSavedSearchValue(searchValue.draft));
       setSearchValue({ ...searchValue, saved: searchValue.draft });
-      handleOnInputSearch( searchValue.draft);
+      handleOnInputSearch(searchValue.draft);
     }, 500);
 
     return () => clearTimeout(debounceFn);
@@ -101,16 +100,7 @@ const SearchModal = () => {
   return (
     <>
       <div className="modal search-modal">
-        {/* <div className="header">
-          <h2>Search</h2>
-          <button className="button">
-            <XIcon /> Close
-          </button>
-        </div> */}
         {error && <p className="small-text error-text">{error.toString()}</p>}
-        {/* <p>
-          <i>This feature is under development</i>
-        </p> */}
         <div className="search-input-container">
           <SearchIcon />
           <form onSubmit={handleSearch}>
@@ -126,7 +116,7 @@ const SearchModal = () => {
           </form>
         </div>
         <div className="search-results-container">
-          <div className="search-types-list">
+          {/* <div className="search-types-list">
             {searchTypes.map((searchType) => (
               <button
                 id={searchType.label}
@@ -154,7 +144,7 @@ const SearchModal = () => {
                 {searchType.label}
               </button>
             ))}
-          </div>
+          </div> */}
           <div className="search-results">
             {resultsLoading ? (
               <div className="results-loading">
@@ -204,7 +194,7 @@ const SearchModal = () => {
         </div>
       </div>
       <ModalOverlay
-      zIndex={5}
+        zIndex={5}
         onClick={() => {
           dispatch(toggleModal({ key: "searchModal", value: false }));
           dispatch(setDraftSearchValue(""));

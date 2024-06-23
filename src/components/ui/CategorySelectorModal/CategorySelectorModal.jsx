@@ -13,13 +13,14 @@ const CategorySelectorModal = ({
   handleApply,
   applyDisabled,
   handleExpandAll = () => null,
-  handleCollapseAll = () => null
+  handleCollapseAll = () => null,
+  zIndex = 2,
 }) => {
   const dispatch = useDispatch();
 
   return (
     <>
-      <div className="modal category-selector-modal">
+      <div className="modal category-selector-modal" style={{ zIndex }}>
         <div className="header">
           <h3>Select a category</h3>
           <button
@@ -54,7 +55,7 @@ const CategorySelectorModal = ({
       </div>
 
       <ModalOverlay
-        zIndex={5}
+        zIndex={zIndex - 1}
         onClick={() => {
           dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
           handleModalClick();

@@ -66,22 +66,23 @@
 /* * Search Results */
 .search-modal .search-results-container {
   display: flex;
-  flex-direction: row;
-  border: 1px solid #555;
+  flex-direction: column;
+  /* border: 1px solid #555; */
   border-radius: 5px;
   overflow-y: auto;
 }
 
 .search-modal .search-results-container .search-types-list {
   display: flex;
-  flex-direction: column;
-  border-right: 1px solid #555;
+  flex-direction: row;
+  /* border-bottom: 1px solid #555; */
   overflow-y: auto;
   min-width: 100px;
   position: sticky;
   overflow-y: auto;
-  /* height: 100%;/ */
   top: 0;
+  margin: 5px;
+  gap: 10px;
 }
 
 .search-modal .search-results-container .search-types-list button {
@@ -92,15 +93,17 @@
   font-size: 1rem;
   cursor: pointer;
   color: white;
+  border: 1px solid #555;
+  border-radius: 20px;
 }
 
 .search-modal .search-results-container .search-types-list button.toggled {
   background-color: #555;
 }
 
-.search-modal .search-results-container .search-types-list button:first-child {
+/* .search-modal .search-results-container .search-types-list button:first-child {
   border-top-left-radius: 5px;
-}
+} */
 
 .search-modal .search-results-container .search-types-list button:not(:last-child) {
   border-bottom: 1px solid #555;
@@ -112,7 +115,7 @@
 .search-modal .search-results-container .user-results,
 .search-modal .search-results-container .results-loading,
 .search-modal .search-results-container .search-results .type-something-prompt {
-  padding: 10px;
+  padding: 7px;
   min-height: 200px;
   height: 100%;
   width: 100%;
@@ -120,6 +123,8 @@
 
 .search-modal .search-results-container .search-results {
   padding: 0;
+  border: 1px solid #555;
+  border-radius: 5px;
 }
 
 .search-modal .search-results-container .search-results .type-something-prompt {
@@ -192,7 +197,7 @@
   }
 
   .search-modal .search-results-container .search-types-list button {
-    padding: 5px 7px;
+    padding: 5px 10px;
   }
 
   .search-modal .search-input-container input {
@@ -222,7 +227,6 @@
   .search-modal .search-results-container .results-loading,
   .search-modal .search-results-container .search-results .type-something-prompt {
     font-size: 0.875rem;
-    padding: 5px;
   }
 
   .search-modal .search-results-container .search-results ul li a {

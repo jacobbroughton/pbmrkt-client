@@ -122,7 +122,7 @@ function Navbar() {
   ).length;
 
   return (
-    <nav className='desktop'>
+    <nav className="desktop">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       <div className="home-link-and-filter-button">
         <Link
@@ -170,7 +170,7 @@ function Navbar() {
 
       <div className="right-side">
         <Link to="/sell" className="sell-link">
-          <PlusIcon /> 
+          <PlusIcon />
         </Link>
 
         {session?.user ? (
@@ -178,7 +178,9 @@ function Navbar() {
             {((isOnMobile() && search.searchBarToggled) || true) && (
               <button
                 type="button"
-                className="notifications-menu-toggle"
+                className={`notifications-menu-toggle ${
+                  modals.notificationsMenuToggled ? "toggled" : ""
+                }`}
                 onClick={handleNotificationsMenuToggle}
               >
                 <BellIcon />

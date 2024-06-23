@@ -484,13 +484,12 @@ function Listings() {
           handleApply={handleCategorySelectorApply}
           applyDisabled={!filters.draft.category || filters.draft.category?.is_folder}
           handleExpandAll={() => {
-            console.log("Swag")
             dispatch(
               setFilters({
                 ...filters,
                 draft: {
                   ...filters.draft,
-                  categories: collapseAllCategoryFolders(categories),
+                  categories: expandAllCategoryFolders(categories),
                 },
               })
             );
@@ -501,11 +500,12 @@ function Listings() {
                 ...filters,
                 draft: {
                   ...filters.draft,
-                  categories: expandAllCategoryFolders(categories),
+                  categories: collapseAllCategoryFolders(categories),
                 },
               })
             )
           }
+          zIndex={9}
         />
       )}
     </div>

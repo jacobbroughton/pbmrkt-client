@@ -10,10 +10,6 @@
   max-width: 600px;
 }
 
-.modal.category-selector-modal.category-selector-modal {
-  z-index: 7 !important;
-}
-
 .edit-item.modal .header {
   border-bottom: 1px solid #555;
   padding: 10px;
@@ -303,7 +299,8 @@
   width: 100%;
 }
 
-.edit-item form
+.edit-item
+  form
   .form-group.shipping
   .shipping-selector-and-input
   .shipping-selector
@@ -365,7 +362,8 @@
   opacity: 1; /* Firefox */
 }
 
-.edit-item form
+.edit-item
+  form
   .form-group.shipping
   .shipping-selector-and-input
   input:disabled::-ms-input-placeholder {
@@ -476,7 +474,8 @@
 .edit-item form .form-group select:not(:disabled):hover,
 .edit-item form .custom-photo-upload:not(:disabled):hover,
 .edit-item form .form-block .reset-images-button:not(:disabled):hover,
-.edit-item form
+.edit-item
+  form
   .form-group.shipping
   .shipping-selector
   .shipping-toggle-button:not(.selected):hover {

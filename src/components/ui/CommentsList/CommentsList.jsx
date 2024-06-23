@@ -40,6 +40,21 @@ const CommentsList = ({
 
       if (error) throw error.message;
 
+      const { data: data3, error: error3 } = supabase.storage
+      .from("profile_pictures")
+      .getPublicUrl(
+        data[0].profile_picture_path || "placeholders/user-placeholder"
+      );
+
+      data[0] = {
+        ...data[0],
+        profile_picture_url: data3.publicUrl
+      }
+
+      console.log(data[0])
+
+    if (error3) throw error.message;
+
       if (repliedComment.created_by_id != user.auth_id) {
         const { data: data2, error: error2 } = await supabase.rpc(
           "add_comment_notification",

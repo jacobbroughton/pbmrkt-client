@@ -184,15 +184,11 @@
     display: flex;
   }
 
-  /* .home .listings-controls .filters-button {
-    display: none;
-  } */
-
   .home > .sidebar-and-grid .sidebar {
     z-index: 8;
   }
 
   .home > .sidebar-and-grid .modal-overlay {
-    z-index:7 !important;
+    z-index: 7 !important;
   }
 }

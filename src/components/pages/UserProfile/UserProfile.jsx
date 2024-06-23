@@ -116,7 +116,10 @@ const UserProfile = () => {
       });
 
       if (error2) throw error2.message;
+
       if (!data2) throw "No listings available";
+
+      console.log(data2)
 
       data2 = data2.map((item) => {
         const { data, error } = supabase.storage

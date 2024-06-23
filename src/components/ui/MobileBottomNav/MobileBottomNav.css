@@ -12,6 +12,8 @@ nav.mobile-nav {
   justify-content: space-between;
   top: initial;
   border-top: #444 1px solid;
+  padding: 10px; 
+  gap: 15px
 }
 
 nav.mobile-nav .filters-toggle-button,
@@ -19,8 +21,7 @@ nav.mobile-nav .home-link,
 nav.mobile-nav .sell-link,
 nav.mobile-nav .search-toggle,
 nav.mobile-nav .right-side-menu-button,
-nav.mobile-nav .notifications-menu-toggle,
-nav.mobile-nav .right-side-menu-button {
+nav.mobile-nav .notifications-menu-toggle {
   display: flex;
   overflow: hidden;
   height: 50px;
@@ -28,7 +29,18 @@ nav.mobile-nav .right-side-menu-button {
   align-items: center;
   justify-content: center;
   background-color: #333;
-  border: 0;
+  border-radius: 5px;
+  border: 1px solid #555;;
+}
+
+
+nav.mobile-nav .search-toggle svg,
+nav.mobile-nav .sell-link svg,
+nav.mobile-nav .notifications-menu-toggle svg,
+nav.mobile-nav .filters-toggle-button svg,
+nav.mobile-nav .home-link svg:not(.caret) {
+  width: 22px;
+  fill: white;
 }
 
 nav.mobile-nav .filters-toggle-button:not(:last-child),
@@ -39,9 +51,6 @@ nav.mobile-nav .notifications-menu-toggle:not(:last-child) {
   border-right: 1px solid #555;
 }
 
-nav.mobile-nav .right-side-menu-button {
-  border: 0;
-}
 nav.mobile-nav .profile-picture-container {
   height: 40px;
   width: 40px;
@@ -58,14 +67,6 @@ nav.mobile-nav .right-side-menu-button .profile-picture {
   object-fit: cover;
 }
 
-nav.mobile-nav .search-toggle svg,
-nav.mobile-nav .sell-link svg,
-nav.mobile-nav .notifications-menu-toggle svg,
-nav.mobile-nav .filters-toggle-button svg,
-nav.mobile-nav .home-link svg:not(.caret) {
-  width: 22px;
-  fill: white;
-}
 
 #root > nav > button.notifications-menu-toggle {
   position: relative;

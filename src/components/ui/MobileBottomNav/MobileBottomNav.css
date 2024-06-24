@@ -35,10 +35,8 @@ nav.mobile-nav .notifications-menu-toggle {
   border: 0;
 }
 
-
 nav.mobile-nav .sell-link {
   border: 0;
-  
 }
 
 nav.mobile-nav .right-side-menu-button {
@@ -52,10 +50,10 @@ nav.mobile-nav .notifications-menu-toggle svg,
 nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret) {
   width: 22px;
+  min-width: 22px;
   fill: whitesmoke;
+  filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
-
-
 
 nav.mobile-nav .right-side-menu-button .profile-picture-container {
   height: 40px;

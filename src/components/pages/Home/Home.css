@@ -44,7 +44,7 @@
   margin-bottom: 10px;
   gap: 10px;
   font-size: 0.875rem;
-  border-bottom: #444 1px solid;
+  /* border-bottom: #444 1px solid; */
   padding: 10px 0 10px 0;
   padding-top: 0;
   z-index: 2;
@@ -65,12 +65,18 @@
   align-items: center;
   display: flex;
   gap: 3px;
+  
 }
 
 .home .listings-controls .control-group select label {
   background-color: lightblue;
   width: 100%;
 }
+
+.home .listings-controls .filters-button svg {
+  filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
+}
+
 
 .home .listings-controls .filters-button svg:nth-child(1) {
   width: 10px;
@@ -95,26 +101,46 @@
   gap: 10px;
   /* align-self: flex-end; */
   align-items: center;
-  width: 100%;
   justify-content: flex-end;
+  position: relative;
 }
 
+/* .home .listings-controls .control-group.sort .sort-icon-container {
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+} */
+
 .home .listings-controls .control-group.sort svg {
-  width: 12px;
+  width: 10px;
+  min-width: none;
   fill: #ddd;
+  position: absolute;
+  left: 10px;
+  top: translateY(-50%);
+  z-index: 2;
 }
 
 .home .listings-controls .control-group.sort select {
-  background-color: #444;
+  background-color: transparent;
   border: 1px solid #555;
-  padding: 3px 5px;
+  padding: 5px 7px;
   cursor: pointer;
   transition: 0.05s ease background-color;
-  color: white !important;
+  color: whitesmoke;
+  padding-left: 35px;
+  z-index: 1;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .home .listings-controls .control-group.sort select:hover {
-  background-color: #4f4f4f;
+  background-color: #333;
   color: initial;
 }
 
@@ -190,5 +216,12 @@
 
   .home > .sidebar-and-grid .modal-overlay {
     z-index: 7 !important;
+  }
+
+  .home .listings-controls .control-group.sort select {
+    height: 32px;
+  }
+
+  .home .listings-controls .filters-button {
   }
 }

@@ -380,8 +380,6 @@ function Listings() {
             </Link> */}
             </div>
             <div className="control-group sort">
-              <SortIcon />
-
               <select
                 id="sort-select"
                 onChange={(e) => setSort(e.target.value)}
@@ -394,6 +392,7 @@ function Listings() {
                 <option>Date Listed (New-Old)</option>
                 <option>Date Listed (Old-New)</option>
               </select>
+                <SortIcon />
             </div>
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (

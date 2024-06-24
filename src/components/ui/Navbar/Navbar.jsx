@@ -117,6 +117,15 @@ function Navbar() {
 
   useEffect(() => {
     if (user) handleNotificationsSubscribe();
+
+    function handleKeyDownEvent(e) {
+      if (e.code == "Slash" && !modals.searchModalToggled)
+        dispatch(toggleModal({ key: "searchModal", value: true }));
+    }
+
+    document.addEventListener("keydown", handleKeyDownEvent);
+
+    return () => document.removeEventListener("keydown", handleKeyDownEvent);
   }, [user]);
 
   const unreadNotificationCount = notifications?.filter(
@@ -126,7 +135,7 @@ function Navbar() {
   return (
     <nav className="desktop">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
-      <div className="home-link-and-filter-button">
+      <div className="left-side">
         <Link
           to="/"
           className="home-link"
@@ -158,20 +167,23 @@ function Navbar() {
           </button>
         )}
         {/* <SearchBar handleSearchSubmit={handleSearchSubmit} /> */}
-        <button
-          className="search-toggle"
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(toggleModal({ key: "searchModal", value: true }));
-            dispatch(setSearchBarToggled(!search.searchBarToggled));
-          }}
-        >
-          <SearchIcon />
-        </button>
-        {isOnMobile() ? false : <DesktopSearchToggle/>}
       </div>
 
       <div className="right-side">
+        {isOnMobile() ? (
+          <button
+            className="search-toggle"
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(toggleModal({ key: "searchModal", value: true }));
+              dispatch(setSearchBarToggled(!search.searchBarToggled));
+            }}
+          >
+            <SearchIcon />
+          </button>
+        ) : (
+          <DesktopSearchToggle />
+        )}
         <Link to="/sell" className="sell-link">
           <PlusIcon />
         </Link>

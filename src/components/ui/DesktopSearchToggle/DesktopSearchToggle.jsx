@@ -11,7 +11,8 @@ const DesktopSearchToggle = () => {
       onClick={() => dispatch(toggleModal({ key: "searchModal", value: true }))}
     >
       <SearchIcon />
-      Type <span className="slash-with-border">/</span> to search
+      {/* Type <span className="slash-with-border">/</span> to search */}
+      Search for anything
     </button>
   );
 };

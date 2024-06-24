@@ -15,7 +15,6 @@ const SearchModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef();
-  const search = useSelector((state) => state.search);
   const [searchResults, setSearchResults] = useState({
     listings: [],
     users: [],
@@ -93,6 +92,10 @@ const SearchModal = () => {
 
     return () => clearTimeout(debounceFn);
   }, [searchValue.draft]);
+
+  useEffect(() => {
+    searchRef.current.focus()
+  }, [])
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);
   const resultsForView = searchResults[selectedSearchType?.label?.toLowerCase()];

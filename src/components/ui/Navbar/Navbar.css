@@ -14,25 +14,20 @@ nav.desktop {
   border-bottom: #444 1px solid;
 }
 
-nav.desktop .home-link-and-filter-button {
+nav.desktop .left-side {
   display: flex;
   gap: 15px;
   align-items: center;
   width: 100%;
 }
 
-/* nav.desktop .home-link-and-filter-button svg {
-  width: 30px;
-  fill: white;
-} */
-
-nav.desktop .home-link-and-filter-button .filters-toggle-button {
+nav.desktop .left-side .filters-toggle-button {
   display: none;
   border-radius: 50%;
   overflow: hidden;
 }
 
-nav.desktop .home-link-and-filter-button .filters-toggle-button svg {
+nav.desktop .left-side .filters-toggle-button svg {
   width: 32px;
 }
 
@@ -42,9 +37,8 @@ nav.desktop .home-link {
   display: flex;
 }
 
-nav.desktop .home-link-and-filter-button button.search-toggle,
-nav.desktop .home-link-and-filter-button a.home-link {
-  background-color: #444;
+nav.desktop .left-side button.search-toggle,
+nav.desktop .left-side a.home-link {
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -52,21 +46,17 @@ nav.desktop .home-link-and-filter-button a.home-link {
   padding: 0;
   border: 0;
   cursor: pointer;
-  border: 1px solid #555;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
 }
-/* 
-nav.desktop .home-link-and-filter-button button:hover svg {
-  fill: var(--yellow);
-} */
 
-nav.desktop .home-link-and-filter-button button.search-toggle svg,
-nav.desktop .home-link-and-filter-button .home-link svg {
+
+nav.desktop .left-side button.search-toggle svg,
+nav.desktop .left-side .home-link svg {
   /* display: none; */
   fill: white;
-  width: 20px;
+  width: 30px;
 }
 
 nav.desktop .login-link {
@@ -96,14 +86,12 @@ nav.desktop .right-side {
 }
 
 nav.desktop .right-side a.sell-link {
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  /* border: 1px solid #555; */
+  border-radius: 5px;
+  height: 32px;
+  width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #444;
   border: 1px solid #555;
 }
 
@@ -124,25 +112,26 @@ nav.desktop .right-side a.sell-link svg {
 
 nav.desktop .right-side .notifications-menu-toggle {
   border: 0;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #444;
+  /* background-color: #444; */
   border: #555 1px solid;
   cursor: pointer;
   position: relative;
+
+  background-color: transparent;
 }
 
 nav.desktop .right-side .notifications-menu-toggle:hover,
 nav.desktop .right-side a.sell-link:hover,
-nav.desktop .home-link-and-filter-button button.search-toggle:hover,
-nav.desktop .home-link-and-filter-button a.home-link:hover {
-  background-color: #555;
-  border-color: #666;
+nav.desktop .left-side button.search-toggle:hover {
+  background-color: #333;
+  border-color: #555;
 }
 
 nav.desktop .right-side .notifications-menu-toggle.toggled {
@@ -177,9 +166,9 @@ nav.desktop .right-side .notifications-menu-toggle .unread-notification-count {
 }
 
 nav.desktop .right-side .right-side-menu-button {
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
   border-radius: 100px;
   display: flex;
   align-items: center;
@@ -200,7 +189,7 @@ nav.desktop .right-side .right-side-menu-button:hover {
 nav.desktop .right-side .right-side-menu-button .profile-picture {
   height: 100%;
   width: 100%;
-  border-radius: 50%;
+  border-radius: ;
   background-color: white;
   object-fit: cover;
 }

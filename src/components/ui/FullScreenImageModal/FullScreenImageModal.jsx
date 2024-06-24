@@ -49,7 +49,18 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
   return (
     <>
       <div className="modal full-screen-image-modal">
-        <div className="image-container">
+      <div className="item-thumbnails">
+          {photos.map((photo) => (
+            <img
+              key={photo.id}
+              className={`item-thumbnail-image ${
+                photo.id === selectedPhotoLocal?.id ? "selected" : ""
+              }`}
+              onClick={() => setSelectedPhotoLocal(photo)}
+              src={photo.url}
+            />
+          ))}
+        </div>
           <button
             className="close-button"
             onClick={() =>
@@ -58,6 +69,7 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
           >
             Close <XIcon />
           </button>
+        <div className="image-container">
           {console.log(selectedPhotoLocal)}
           <img src={selectedPhotoLocal?.url} />
           {photos?.length >= 1 && (
@@ -71,22 +83,7 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
             </div>
           )}
         </div>
-        <div className="item-thumbnails">
-          {photos.map((photo) => (
-            <img
-              key={photo.id}
-              className={`item-thumbnail-image ${
-                photo.id === selectedPhotoLocal?.id ? "selected" : ""
-              }`}
-              onClick={() => setSelectedPhotoLocal(photo)}
-              onDoubleClick={() => {
-                setSelectedPhotoLocal(photo);
-                dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
-              }}
-              src={photo.url}
-            />
-          ))}
-        </div>
+
       </div>
       <ModalOverlay
         zIndex={5}

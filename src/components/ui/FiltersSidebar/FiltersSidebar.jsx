@@ -180,8 +180,9 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               }
               type="button"
               className="close-sidebar-button"
+              tabIndex="0"
             >
-              <DoubleArrow direction="left" />
+              <DoubleArrow direction="left"  />
             </button>
           )}
           {/* {!resetButtonHidden && ( */}
@@ -189,7 +190,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             onClick={() => {
               if (resetButtonDisabled) return;
               dispatch(resetFilters());
-              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));  
               // if (windowSize.width <= 625) {
               //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
               // }

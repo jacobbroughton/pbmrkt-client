@@ -160,6 +160,8 @@ const Item = () => {
 
       if (error) throw error.message;
 
+      console.log(data)
+
       setPriceChangeHistory(data);
     } catch (error) {
       console.error(error);
@@ -392,14 +394,14 @@ const Item = () => {
                           dispatch(toggleModal({ key: "priceChangeModal", value: true }))
                         }
                       >
-                        Price History
+                        Price Change History
                         <ChartIcon />
                       </button>
                     )}
                   </div>
                   <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
                     {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                    {item.info.status} as of {getTimeAgo(new Date())}
+                     {item.info.status} {/* as of {getTimeAgo(new Date())} */}
                   </p>
                 </div>
 

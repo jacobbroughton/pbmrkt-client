@@ -21,19 +21,18 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
             </div>
             <div className="listing-card-info">
               <div className="price-and-name">
-                <p className="price">${listing.price}</p>
+                <p className="price">${listing.price.toLocaleString('en-US')}</p>
                 <p className="what-is-this">{listing.what_is_this}</p>
               </div>
               <div className="profile">
                 <Link className="small-text bold" to={`/user/${listing.username}`}>
                   <div className="profile-picture-container">
-                    {/* <div className="profile-picture">&nbsp;</div> */}
-                    {}
                     <img className="profile-picture" src={listing.profile_picture} />
                   </div>
                   {listing.username}
                 </Link>
               </div>
+              <p className='location'>{listing.city}, {listing.state}</p>
             </div>
           </div>
         </Link>

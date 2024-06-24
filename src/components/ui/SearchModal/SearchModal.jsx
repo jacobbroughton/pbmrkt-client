@@ -94,8 +94,8 @@ const SearchModal = () => {
   }, [searchValue.draft]);
 
   useEffect(() => {
-    searchRef.current.focus()
-  }, [])
+    searchRef.current.focus();
+  }, []);
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);
   const resultsForView = searchResults[selectedSearchType?.label?.toLowerCase()];
@@ -179,8 +179,9 @@ const SearchModal = () => {
                       {console.log(listing)}
                       <div className="listing-info">
                         <p className="what-is-this">{listing.what_is_this}</p>
-                        <p className="username">
-                          Listed by {listing.created_by_username}{" "}
+                        
+                        <p className='location'>
+                          {listing.city}, {listing.state} {"-  "}
                           {getTimeAgo(new Date(listing.created_dttm))}
                         </p>
                       </div>

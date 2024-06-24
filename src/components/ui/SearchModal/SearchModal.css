@@ -185,10 +185,13 @@
   font-size: 0.875rem;
 }
 
-.search-modal .search-results-container ul.listings li a .username {
+.search-modal .search-results-container ul.listings li a .username,
+.search-modal .search-results-container ul.listings li a .location {
   font-size: 0.875rem;
+  color: grey;
   /* font-weight: 500; */
 }
+
 
 /* Phones */
 @media only screen and (max-device-width: 480px) {

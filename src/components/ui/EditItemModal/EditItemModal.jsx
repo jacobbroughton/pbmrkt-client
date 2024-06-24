@@ -132,6 +132,22 @@ const EditItemModal = ({ item, setItem }) => {
 
       console.log(data);
 
+      if (item.info.price != price) {
+        // TODO - Add price change here
+        const { data, error } = await supabase.rpc("add_price_change", {
+          p_item_id: item.info.id,
+          p_prev_price: item.info.price,
+          p_new_price: price,
+          p_prev_shipping_price: item.info.shipping_cost,
+          p_new_shipping_price: shippingCost,
+          p_user_id: user.auth_id,
+        });
+
+        if (error) throw error.message;
+
+        console.log(data);
+      }
+
       const { data: data2, error: error3 } = supabase.storage
         .from("profile_pictures")
         .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
@@ -595,7 +611,12 @@ const EditItemModal = ({ item, setItem }) => {
               });
             }}
           />
-          <ModalOverlay zIndex={6} onClick={() => dispatch(toggleModal({key: 'categorySelectorModal', value: false}))}/>
+          <ModalOverlay
+            zIndex={6}
+            onClick={() =>
+              dispatch(toggleModal({ key: "categorySelectorModal", value: false }))
+            }
+          />
         </>
       )}
       <ModalOverlay

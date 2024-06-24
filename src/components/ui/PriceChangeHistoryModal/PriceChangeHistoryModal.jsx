@@ -50,7 +50,7 @@ const PriceChangeHistoryModal = ({ item, priceChangeHistory }) => {
                   {prevPrice} &#61;&gt; {newPrice}
                   {priceStatus == "equal" ? "=" : <Arrow direction={priceStatus} />}
                 </p>
-                <p title={createdDt}>{createdTimeAgo}</p>
+                <p title={createdDt} className='change-date'>{createdTimeAgo}</p>
               </li>
             );
           })}

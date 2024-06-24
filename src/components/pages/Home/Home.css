@@ -129,19 +129,23 @@
 
 .home .listings-controls .control-group.sort select {
   background-color: transparent;
-  border: 1px solid #555;
-  padding: 5px 7px;
+  border: 0;
+  border-radius: 5px;;
+  /* border-left: 2px solid ; */
+  /* padding: 5px 7px; */
   cursor: pointer;
   transition: 0.05s ease background-color;
   color: whitesmoke;
   padding-left: 35px;
   z-index: 1;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border: 1px solid transparent;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
 
 .home .listings-controls .control-group.sort select:hover {
   background-color: #333;
   color: initial;
+  border: 1px solid #555;
 }
 
 .home .listings-controls .control-group.sort p {

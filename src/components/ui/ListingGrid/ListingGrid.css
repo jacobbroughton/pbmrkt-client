@@ -3,7 +3,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-gap: 25px 10px;
   padding-bottom: 100px;
   position: relative;
 }
@@ -25,7 +25,7 @@
   cursor: pointer;
   text-decoration: none;
   position: relative;
-  height: 295px;
+  height: 280px;
 }
 
 .grid .grid-item:hover .image-container {
@@ -72,9 +72,13 @@
   align-items: flex-start;
 }
 
+
 .grid .grid-item > .listing-card-info .price-and-name {
   display: flex;
   flex-direction: column;
+  /* gap: 5px;
+  justify-content: space-between;
+  width: 100%; */
 }
 
 .grid .grid-item > .listing-card-info .what-is-this,
@@ -101,8 +105,14 @@
   text-decoration: none !important;
 }
 
+.grid  .grid-item > .listing-card-info .location {
+  font-size: 0.875rem;
+  color: grey;
+}
+
 .grid .grid-item > .listing-card-info > .profile {
-  display: flex;
+  /* display: flex; */
+  display: none;
   gap: 5px;
   align-items: center;
   margin-top: 3px;
@@ -212,5 +222,4 @@
     transform: none;
     border: 1px solid transparent;
   }
-  
 }

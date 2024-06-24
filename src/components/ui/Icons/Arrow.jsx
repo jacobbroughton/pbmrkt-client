@@ -7,7 +7,7 @@ const Arrow = ({ direction }) => {
       break;
     }
     case "left": {
-      rotateText = "rotate(180deg)";
+      rotateText = "rotate(90deg)";
       break;
     }
     case "down": {

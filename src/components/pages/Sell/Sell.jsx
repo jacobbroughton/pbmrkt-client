@@ -864,19 +864,19 @@ const Sell = () => {
               </div>
             </fieldset>
 
-            <div className="what-the-buyer-sees">
+            {/* <div className="what-the-buyer-sees">
               <p>
                 Buyer Sees $
                 {(
                   parseFloat(price) +
                     parseFloat(buyerPaysShipping ? shippingCost || 0 : 0) || 0
                 ).toLocaleString("en-US")}{" "}
-                = ${parseFloat(price).toLocaleString("en-US") || 0}
+                (${parseFloat(price).toLocaleString("en-US") || 0}
                 {buyerPaysShipping && shippingCost
                   ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
-                  : " + Free Shipping"}
+                  : " + Free Shipping"})
               </p>
-            </div>
+            </div> */}
 
             <fieldset>
               <div className={`form-group`}>

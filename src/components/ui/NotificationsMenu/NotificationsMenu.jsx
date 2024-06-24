@@ -54,6 +54,16 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
     }
   }
 
+  async function handleMarkAllAsRead() {
+    try {
+      const {data, error} = await supabase.rpc("mark_all_notifications_read", {
+        p_user_id: user.auth_id
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const unreadNotificationCount = notifications?.filter(
     (notif) => notif.status == "Unread"
   ).length;
@@ -62,7 +72,7 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
     <div className="notifications-menu" ref={notificationsMenuRef}>
       <div className="header">
         <p>Notifications</p>
-        {unreadNotificationCount > 0 && <button>Mark all as read</button>}
+        {unreadNotificationCount > 0 && <button onClick={() => handleMarkAllAsRead()}>Mark all as read</button>}
       </div>
       <ul>
         {notifications?.length != 0 ? (

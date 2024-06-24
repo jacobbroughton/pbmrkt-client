@@ -385,7 +385,7 @@ const EditItemModal = ({ item, setItem }) => {
             </div>
           </fieldset>
 
-          <div className="what-the-buyer-sees">
+          {/* <div className="what-the-buyer-sees">
             <p>
               Buyer Sees $
               {(parseFloat(price) + parseFloat(shippingCost || 0) || 0).toLocaleString(
@@ -396,7 +396,7 @@ const EditItemModal = ({ item, setItem }) => {
                 ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
                 : " + Free Shipping"}
             </p>
-          </div>
+          </div> */}
 
           <fieldset>
             <div className={`form-group`}>

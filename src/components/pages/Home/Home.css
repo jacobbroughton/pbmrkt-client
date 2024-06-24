@@ -41,7 +41,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   gap: 10px;
   font-size: 0.875rem;
   /* border-bottom: #444 1px solid; */

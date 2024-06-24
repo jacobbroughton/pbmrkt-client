@@ -33,7 +33,7 @@
   background-color: #333;
   border: 1px solid #555;
   transition: 0.1s ease background-color;
-  color: white
+  color: white;
 }
 
 .modal.full-screen-image-modal .image-container .close-button:hover {
@@ -49,4 +49,45 @@
   width: 100%;
   border-radius: 5px;
   object-fit: cover;
+}
+
+/* * Previous and next buttons */
+.modal.full-screen-image-modal .buttons-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.modal.full-screen-image-modal .buttons-overlay button {
+  opacity: 0;
+  /* visibility: hidden;; */
+  z-index: 2;
+  border: 0;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.modal.full-screen-image-modal .buttons-overlay button.previous {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+}
+
+.modal.full-screen-image-modal .buttons-overlay button.next {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+}
+
+.modal.full-screen-image-modal .buttons-overlay button svg {
+  max-width: 50px;
+  fill: white;
+}
+
+.modal.full-screen-image-modal .buttons-overlay button:hover {
+  opacity: 1;
 }

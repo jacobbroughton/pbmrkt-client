@@ -574,7 +574,11 @@ const Item = () => {
           false
         )}
         {modals.fullScreenImageModalToggled ? (
-          <FullScreenImageModal image={selectedPhoto} />
+          <FullScreenImageModal
+            photos={item.photos}
+            setSelectedPhoto={setSelectedPhoto}
+            selectedPhoto={selectedPhoto}
+          />
         ) : (
           false
         )}

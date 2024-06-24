@@ -15,7 +15,7 @@
   height: 100%;
   overflow: hidden;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   border-radius: 5px;
   position: relative;
@@ -27,6 +27,7 @@
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   font-size: 1rem;
   cursor: pointer;
@@ -34,6 +35,7 @@
   border: 1px solid #555;
   transition: 0.1s ease background-color;
   color: white;
+  z-index: 3;
 }
 
 .modal.full-screen-image-modal .image-container .close-button:hover {
@@ -63,9 +65,9 @@
   z-index: 2;
   border: 0;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: transparent;
+  padding: 10px 20px;
 }
-
 
 .modal.full-screen-image-modal .buttons-overlay button.previous {
   position: absolute;
@@ -73,6 +75,9 @@
   top: 0;
   bottom: 0;
   width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .modal.full-screen-image-modal .buttons-overlay button.next {
@@ -81,11 +86,15 @@
   top: 0;
   bottom: 0;
   width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .modal.full-screen-image-modal .buttons-overlay button svg {
-  max-width: 50px;
+  max-width: 20px;
   fill: white;
+  filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
 
 .modal.full-screen-image-modal .buttons-overlay button:hover {

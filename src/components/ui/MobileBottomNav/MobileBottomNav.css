@@ -31,7 +31,6 @@ nav.mobile-nav .notifications-menu-toggle {
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid #555;
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
   border: 0;
 }
 
@@ -61,7 +60,6 @@ nav.mobile-nav .right-side-menu-button .profile-picture-container {
   min-width: 40px;
   border: 1px solid #555;
   border-radius: 50%;
-
   border: 1px solid #555;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

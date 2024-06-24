@@ -60,14 +60,32 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
           </button>
           {console.log(selectedPhotoLocal)}
           <img src={selectedPhotoLocal?.url} />
+          {photos?.length >= 1 && (
+            <div className="buttons-overlay">
+              <button className="previous" onClick={handlePreviousPhoto}>
+                <Arrow direction="left" />
+              </button>
+              <button className="next" onClick={handleNextPhoto}>
+                <Arrow direction="right" />
+              </button>
+            </div>
+          )}
         </div>
-        <div className="buttons-overlay">
-          <button className="previous" onClick={handlePreviousPhoto}>
-            <Arrow direction="right" />
-          </button>
-          <button className="next" onClick={handleNextPhoto}>
-            <Arrow direction="right" />
-          </button>
+        <div className="item-thumbnails">
+          {photos.map((photo) => (
+            <img
+              key={photo.id}
+              className={`item-thumbnail-image ${
+                photo.id === selectedPhotoLocal?.id ? "selected" : ""
+              }`}
+              onClick={() => setSelectedPhotoLocal(photo)}
+              onDoubleClick={() => {
+                setSelectedPhotoLocal(photo);
+                dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
+              }}
+              src={photo.url}
+            />
+          ))}
         </div>
       </div>
       <ModalOverlay

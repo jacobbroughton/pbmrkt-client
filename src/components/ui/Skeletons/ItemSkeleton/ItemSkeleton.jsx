@@ -13,7 +13,7 @@ const ItemSkeleton = ({ blinking }) => {
         &nbsp;
       </div>
       <div className={`profile-picture-and-name-skeletons`}>
-        <div className={`profile-picture skeleton  ${blinking ? "blinking" : ""}`}></div>
+        {/* <div className={`profile-picture skeleton  ${blinking ? "blinking" : ""}`}></div> */}
         <div className={`words-skeleton skeleton  ${blinking ? "blinking" : ""}`}></div>
       </div>
     </div>

@@ -326,7 +326,19 @@ const Item = () => {
         )}
         <div className="images-and-content">
           <div className="item-images">
-            <div className="main-image-parent">
+            <div
+              className="main-image-parent"
+              onDoubleClick={() =>
+                dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
+              }
+            >
+              {/* <div className="double-click-overlay">
+                <button
+                  // onDoubleClick={() =>
+                  //   dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
+                  // }
+                >asdf</button>
+              </div> */}
               {selectedPhoto ? (
                 <img className="item-main-image" src={selectedPhoto.url} />
               ) : (

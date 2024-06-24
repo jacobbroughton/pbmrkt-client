@@ -60,7 +60,7 @@
 }
 
 .modal.full-screen-image-modal .buttons-overlay button {
-  opacity: 0;
+  /* opacity: 0; */
   /* visibility: hidden;; */
   z-index: 2;
   border: 0;
@@ -93,7 +93,7 @@
 
 .modal.full-screen-image-modal .buttons-overlay button svg {
   max-width: 20px;
-  fill: white;
+  fill: rgba(255, 255, 255, 0.821);
   filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
 

@@ -28,9 +28,10 @@ nav.mobile-nav .notifications-menu-toggle {
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color: #333;
+  background-color: transparent;
   border-radius: 5px;
-  border: 1px solid #555;;
+  border: 1px solid #555;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 
@@ -40,7 +41,7 @@ nav.mobile-nav .notifications-menu-toggle svg,
 nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret) {
   width: 22px;
-  fill: white;
+  fill: whitesmoke;
 }
 
 nav.mobile-nav .filters-toggle-button:not(:last-child),

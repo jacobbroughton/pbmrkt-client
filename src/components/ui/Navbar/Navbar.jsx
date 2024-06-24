@@ -18,6 +18,8 @@ import SearchModal from "../SearchModal/SearchModal";
 import PlusIcon from "../Icons/PlusIcon";
 import SearchIcon from "../Icons/SearchIcon";
 import "./Navbar.css";
+import SearchBar from "../SearchBar/SearchBar";
+import DesktopSearchToggle from "../DesktopSearchToggle/DesktopSearchToggle";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -166,6 +168,7 @@ function Navbar() {
         >
           <SearchIcon />
         </button>
+        {isOnMobile() ? false : <DesktopSearchToggle/>}
       </div>
 
       <div className="right-side">

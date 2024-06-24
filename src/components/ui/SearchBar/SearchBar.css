@@ -54,7 +54,7 @@
   fill: white;
 }
 
-/* .search-bar form .search-input-container {
+.search-bar form .search-input-container {
   position: relative;
   width: fit-content;
   display: flex;
@@ -76,13 +76,11 @@
   border: 0;
   text-overflow: ellipsis;
   padding-left: 10px;
-  /* margin-left: -10px; 
-  height: 100%;
-}*/
+}
 
 .search-bar form .search-input-container .search-icon {
   pointer-events: none;
-} */
+} 
 
 .search-bar form button {
   padding: 5px 10px;

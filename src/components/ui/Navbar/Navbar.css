@@ -21,10 +21,10 @@ nav.desktop .home-link-and-filter-button {
   width: 100%;
 }
 
-nav.desktop .home-link-and-filter-button svg {
+/* nav.desktop .home-link-and-filter-button svg {
   width: 30px;
   fill: white;
-}
+} */
 
 nav.desktop .home-link-and-filter-button .filters-toggle-button {
   display: none;
@@ -55,11 +55,12 @@ nav.desktop .home-link-and-filter-button a.home-link {
   border: 1px solid #555;
   width: 40px;
   height: 40px;
+  min-width: 40px;
 }
-
+/* 
 nav.desktop .home-link-and-filter-button button:hover svg {
   fill: var(--yellow);
-}
+} */
 
 nav.desktop .home-link-and-filter-button button.search-toggle svg,
 nav.desktop .home-link-and-filter-button .home-link svg {

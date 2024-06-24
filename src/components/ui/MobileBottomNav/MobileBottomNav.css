@@ -12,8 +12,8 @@ nav.mobile-nav {
   justify-content: space-between;
   top: initial;
   border-top: #444 1px solid;
-  padding: 10px; 
-  gap: 15px
+  padding: 10px;
+  gap: 15px;
 }
 
 nav.mobile-nav .filters-toggle-button,
@@ -31,9 +31,20 @@ nav.mobile-nav .notifications-menu-toggle {
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid #555;
-   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  border: 0;
 }
 
+
+nav.mobile-nav .sell-link {
+  border: 0;
+  
+}
+
+nav.mobile-nav .right-side-menu-button {
+  border: 0;
+  box-shadow: none;
+}
 
 nav.mobile-nav .search-toggle svg,
 nav.mobile-nav .sell-link svg,
@@ -44,20 +55,17 @@ nav.mobile-nav .home-link svg:not(.caret) {
   fill: whitesmoke;
 }
 
-nav.mobile-nav .filters-toggle-button:not(:last-child),
-nav.mobile-nav .home-link:not(:last-child),
-nav.mobile-nav .sell-link:not(:last-child),
-nav.mobile-nav .search-toggle:not(:last-child),
-nav.mobile-nav .notifications-menu-toggle:not(:last-child) {
-  border-right: 1px solid #555;
-}
 
-nav.mobile-nav .profile-picture-container {
+
+nav.mobile-nav .right-side-menu-button .profile-picture-container {
   height: 40px;
   width: 40px;
   min-width: 40px;
   border: 1px solid #555;
   border-radius: 50%;
+
+  border: 1px solid #555;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 nav.mobile-nav .right-side-menu-button .profile-picture {
@@ -67,7 +75,6 @@ nav.mobile-nav .right-side-menu-button .profile-picture {
   background-color: white;
   object-fit: cover;
 }
-
 
 #root > nav > button.notifications-menu-toggle {
   position: relative;

@@ -131,9 +131,9 @@ function MobileBottomNav() {
     if (user) handleNotificationsSubscribe();
   }, [user]);
 
-  useEffect(() => {
-    return () => alert("hello")
-  }, [])
+  // useEffect(() => {
+  //   return () => alert("hello")
+  // }, [])
 
   const unreadNotificationCount = notifications?.filter(
     (notif) => notif.status == "Unread"

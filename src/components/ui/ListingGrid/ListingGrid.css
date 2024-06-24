@@ -206,3 +206,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media only screen and (max-device-width: 480px) {
+  .grid .grid-item:hover .image-container {
+    transform: none;
+    border: 1px solid transparent;
+  }
+  
+}

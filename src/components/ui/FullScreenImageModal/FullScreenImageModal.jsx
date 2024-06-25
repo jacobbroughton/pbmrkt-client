@@ -50,7 +50,8 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
     <>
       <div className="modal full-screen-image-modal">
       <div className="item-thumbnails">
-          {photos.map((photo) => (
+          {photos.length > 1 && photos.map((photo) => (
+             <div className="item-thumbnail-image-container">
             <img
               key={photo.id}
               className={`item-thumbnail-image ${
@@ -59,6 +60,7 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
               onClick={() => setSelectedPhotoLocal(photo)}
               src={photo.url}
             />
+            </div>
           ))}
         </div>
           <button
@@ -70,9 +72,9 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
             Close <XIcon />
           </button>
         <div className="image-container">
-          {console.log(selectedPhotoLocal)}
+      
           <img src={selectedPhotoLocal?.url} />
-          {photos?.length >= 1 && (
+          {photos?.length > 1 && (
             <div className="buttons-overlay">
               <button className="previous" onClick={handlePreviousPhoto}>
                 <Arrow direction="left" />

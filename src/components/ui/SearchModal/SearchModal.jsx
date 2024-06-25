@@ -171,7 +171,7 @@ const SearchModal = () => {
                       onClick={() =>
                         dispatch(toggleModal({ key: "searchModal", value: false }))
                       }
-                      to={`${listing.id}`}
+                      to={`/listing/${listing.id}`}
                     >
                       <div className="image-container">
                         <img src={listing.image_url} />

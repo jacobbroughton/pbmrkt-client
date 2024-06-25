@@ -159,7 +159,7 @@ function App() {
           </Route>
           <Route path="/user/:username" element={<UserProfile />} />
 
-          <Route element={<Item />} path="/:itemID" />
+          <Route element={<Item />} path="/listing/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
       </main>

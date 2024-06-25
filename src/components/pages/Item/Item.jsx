@@ -94,7 +94,7 @@ const Item = () => {
 
     getItem();
     getComments();
-  }, []);
+  }, [itemID]);
 
   async function handleDelete() {
     setLoading(true);
@@ -160,7 +160,7 @@ const Item = () => {
 
       if (error) throw error.message;
 
-      console.log(data)
+      console.log(data);
 
       setPriceChangeHistory(data);
     } catch (error) {
@@ -226,6 +226,8 @@ const Item = () => {
   }
 
   async function handleStatusChange(newStatus) {
+    if (!["Available", "Pending", "Sold"].includes(newStatus)) return;
+
     setMarkAsSoldLoading(true);
     const { data, error } = await supabase.rpc("update_item_status", {
       p_status: newStatus,
@@ -358,18 +360,22 @@ const Item = () => {
             {item.photos.length > 1 && (
               <div className="item-thumbnails">
                 {item.photos.map((photo) => (
-                  <img
-                    key={photo.id}
-                    className={`item-thumbnail-image ${
-                      photo.id === selectedPhoto?.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedPhoto(photo)}
-                    onDoubleClick={() => {
-                      setSelectedPhoto(photo);
-                      dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
-                    }}
-                    src={photo.url}
-                  />
+                  <div className="item-thumbnail-image-container">
+                    <img
+                      key={photo.id}
+                      className={`item-thumbnail-image ${
+                        photo.id === selectedPhoto?.id ? "selected" : ""
+                      }`}
+                      onClick={() => setSelectedPhoto(photo)}
+                      onDoubleClick={() => {
+                        setSelectedPhoto(photo);
+                        dispatch(
+                          toggleModal({ key: "fullScreenImageModal", value: true })
+                        );
+                      }}
+                      src={photo.url}
+                    />
+                  </div>
                 ))}
               </div>
             )}
@@ -399,10 +405,13 @@ const Item = () => {
                       </button>
                     )}
                   </div>
-                  <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
-                    {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                     {item.info.status} {/* as of {getTimeAgo(new Date())} */}
-                  </p>
+                  <div className="status-as-of-container">
+                    <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                      {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+                      {item.info.status} {/* as of {getTimeAgo(new Date())} */}
+                    </p>
+                    <button onClick={() => handleStatusChange(item.info.status == 'Available' ? 'Sold' : 'Available')}>Mark as "{item.info.status == 'Available' ? 'Sold' : 'Available'}"</button>
+                  </div>
                 </div>
 
                 {/* <div className="horizontal-divider"></div> */}

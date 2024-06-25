@@ -410,7 +410,17 @@ const Item = () => {
                       {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
                       {item.info.status} {/* as of {getTimeAgo(new Date())} */}
                     </p>
-                    <button onClick={() => handleStatusChange(item.info.status == 'Available' ? 'Sold' : 'Available')}>Mark as "{item.info.status == 'Available' ? 'Sold' : 'Available'}"</button>
+                    {isAdmin && (
+                      <button
+                        onClick={() =>
+                          handleStatusChange(
+                            item.info.status == "Available" ? "Sold" : "Available"
+                          )
+                        }
+                      >
+                        Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
+                      </button>
+                    )}
                   </div>
                 </div>
 

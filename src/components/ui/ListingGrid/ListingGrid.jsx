@@ -6,7 +6,7 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
   return (
     <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => (
-        <Link to={`/${listing.id}`} key={listing.id} title={listing.what_is_this}>
+        <Link to={`/listing/${listing.id}`} key={listing.id} title={listing.what_is_this}>
           <div className="grid-item">
             <div className="image-container">
               {listing.path ? (

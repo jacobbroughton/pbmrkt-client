@@ -459,10 +459,13 @@
 .item .content .price-change-modal-toggle,
 .item .content .status-as-of-container button{
   font-size: 0.875rem;
+  white-space: nowrap;
+  height: 1.5rem;
 }
 
 .item .content .status-as-of-container  {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -501,7 +504,12 @@
 
 .item .content .price-and-toggle {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.item .content .price-and-toggle p:first-child {
+  margin-right: 10px
 }
 /* .item .content .price-change-display {
   display: flex;

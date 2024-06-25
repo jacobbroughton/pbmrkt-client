@@ -3,7 +3,7 @@
   transform: translateX(-50%);
   left: 50%;
   top: 60px;
-  z-index: 6;
+  z-index: 7;
   /* max-height: calc(800px - 80px); */
   max-width: 600px;
   max-height: calc(100% - 100px);

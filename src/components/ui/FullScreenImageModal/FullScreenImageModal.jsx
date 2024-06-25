@@ -88,7 +88,7 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
 
       </div>
       <ModalOverlay
-        zIndex={5}
+        zIndex={6}
         onClick={() =>
           dispatch(toggleModal({ key: "fullScreenImageModal", value: false }))
         }

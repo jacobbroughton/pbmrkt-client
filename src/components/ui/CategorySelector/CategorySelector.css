@@ -83,7 +83,7 @@
   button.category-button:hover:not(:has(div:hover))
   .categories-list-container.is-nested:first-child
   .nest-bar {
-  background-color: var(--yellow);
+  background-color: var(--lightgreen);
 }
 
 .categories-list-container .nest-bar {
@@ -115,7 +115,7 @@
 .category-selector
   .categories-list-container
   button.category-button:hover:not(:has(button:hover)) {
-  color: var(--yellow);
+  color: var(--lightgreen);
   background-color: #555;
 }
 
@@ -131,7 +131,7 @@
   > .categories-list-container
   > .list-and-nest-bar
   > .nest-bar {
-  background-color: var(--yellow);
+  background-color: var(--lightgreen);
 }
 
 /* .category-selector .categories-list-container button.category-button:last-child {
@@ -169,7 +169,7 @@
   .categories-list-container
   button.category-button
   svg.radio-icon.checked {
-  fill: var(--yellow);
+  fill: var(--lightgreen);
 }
 
 .category-selector
@@ -177,7 +177,7 @@
   button.category-button:hover:not(:has(button:hover))
   > .label-and-arrow
   > svg:not(.checked) {
-  fill: var(--yellow);
+  fill: var(--lightgreen);
 }
 
 /* .category-selector .categories-list-container button.category-button:last-child {

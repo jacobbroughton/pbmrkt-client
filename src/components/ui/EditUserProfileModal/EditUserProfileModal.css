@@ -6,6 +6,8 @@
   transform: translateX(-50%);
   padding: 0;
   gap: 0;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
 }
 
 .edit-user-profile-modal .header {
@@ -84,8 +86,6 @@
   cursor: pointer;
 }
 
-
-
 .edit-user-profile-modal > form .form-group .profile-picture-container {
   width: 100px;
   height: 100px;
@@ -100,7 +100,7 @@
   margin-top: 3px;
 }
 
-.edit-user-profile-modal > form .form-group  .profile-picture-container .profile-picture {
+.edit-user-profile-modal > form .form-group .profile-picture-container .profile-picture {
   background-color: white;
   height: 100%;
   width: 100%;
@@ -122,7 +122,12 @@
   cursor: pointer;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container label input[type="file"] {
+.edit-user-profile-modal
+  > form
+  .form-group
+  .profile-picture-container
+  label
+  input[type="file"] {
   display: none;
 }
 
@@ -132,3 +137,4 @@
   fill: white;
   transition: fill 0.1s ease, filter 0.1s ease;
 }
+

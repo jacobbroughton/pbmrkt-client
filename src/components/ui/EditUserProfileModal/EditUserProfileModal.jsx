@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { useState } from "react";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import "./EditUserProfileModal.css";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { supabase } from "../../../utils/supabase.js";
 import { setUser } from "../../../redux/auth.js";
 import EditIcon from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
 import XIcon from "../Icons/XIcon.jsx";
+import "./EditUserProfileModal.css";
+import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
 
 const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
 
   const [firstName, setFirstName] = useState(localUser.first_name || "");
   const [lastName, setLastName] = useState(localUser.last_name || "");
@@ -24,6 +24,8 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const [error, setError] = useState(null);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [newProfilePictureUrl, setNewProfilePictureUrl] = useState(null);
+
+  // mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,11 +53,9 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       if (error) throw error.message;
       console.log("edit_user_profile", data);
 
-      
-
       const newUser = {
         ...data[0],
-        profile_picture_url: localUser.profile_picture_url
+        profile_picture_url: localUser.profile_picture_url,
       };
 
       console.log(newUser);
@@ -226,9 +226,19 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
             </select>
           </div>
         </div>
+
         <div className="form-group">
           <label htmlFor="bio">Details about you?</label>
-          <textarea id="bio" value={bio} placeholder="Add some details about you" onChange={(e) => setBio(e.target.value)} />
+          <textarea
+            id="bio"
+            value={bio}
+            placeholder="Add some details about you"
+            onChange={(e) => setBio(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>Location</label>
+          <MapboxLocationSearch/>
         </div>
         <div className="form-groups">
           <div className="form-group">

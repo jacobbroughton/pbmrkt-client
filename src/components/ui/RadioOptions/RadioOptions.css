@@ -28,11 +28,11 @@
 
 .radio-options > .radio-option svg.checked {
   width: 14px;
-  fill: var(--yellow);
+  fill: var(--lightgreen);
 }
 
 .radio-options > .radio-option:hover > svg {
-  fill: var(--yellow);
+  fill: var(--lightgreen);
 }
 
 .radio-options.disabled > .radio-option label {

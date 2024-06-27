@@ -29,7 +29,7 @@
 }
 
 .grid .grid-item:hover .image-container {
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
   border: 1px solid var(--lightgreen);
 }
 
@@ -44,7 +44,7 @@
   padding: 5px;
   border-radius: 5px;
   border: #555 1px solid;
-  transition: transform 0.1s ease, background-color 0.1s ease;
+  transition: background-color 0.1s ease;
 }
 
 .grid .grid-item > .image-container > img {

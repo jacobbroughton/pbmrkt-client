@@ -13,6 +13,7 @@ import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import Footer from "../../ui/Footer/Footer.jsx";
+import SortIcon from "../../ui/Icons/SortIcon.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -320,17 +321,20 @@ const Register = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="email">City</label>
-                    <select
-                      disabled={!state}
-                      onChange={(e) =>
-                        setCity(e.target.value == "All" ? null : e.target.value)
-                      }
-                      value={city?.toUpperCase()}
-                    >
-                      {statesAndCities[state]?.map((innerCity) => (
-                        <option value={innerCity}>{capitalizeWords(innerCity)}</option>
-                      ))}
-                    </select>
+                    <div className="select-container">
+                      <select
+                        disabled={!state}
+                        onChange={(e) =>
+                          setCity(e.target.value == "All" ? null : e.target.value)
+                        }
+                        value={city?.toUpperCase()}
+                      >
+                        {statesAndCities[state]?.map((innerCity) => (
+                          <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                        ))}
+                      </select>
+                      <SortIcon />
+                    </div>
                   </div>
                 </div>
               </div>

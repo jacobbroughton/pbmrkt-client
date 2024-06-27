@@ -1,0 +1,68 @@
+.location-selector-parent  {
+  display: flex;
+  flex-direction: column;
+}
+.location-selector {
+  position: relative;
+}
+
+
+.location-selector .selected-location {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  margin-right: 20px;
+}
+
+.location-selector .selected-location:not(.skeleton) {
+  background-color: #333;
+  border: 1px solid #555;
+}
+
+.location-selector .selected-location.skeleton {
+  max-width: 328px;
+  width: 100%;
+  margin-right: 5px;
+  height: 29px;
+}
+
+.location-selector .map-parent {
+  height: 300px;
+  overflow: hidden;
+}
+
+/* * Map */
+.location-selector .map-parent .map-container {
+  height: 100%;
+  width: 100%;
+  /* max-width: 400px; */
+  border-radius: 5px;
+}
+
+.location-selector .map-parent .map-container.hidden {
+  opacity: 0;
+  height: 0;
+}
+
+.location-selector .skeleton.map-loading {
+  height: 300px;
+  width: 100%;
+  border-radius: 3px;
+}
+
+
+
+/* * Suggestion List */
+.location-selector-parent .suggestion-list {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 10px;
+}
+
+.location-selector-parent p.no-suggestions {
+  margin: 10px 0;
+}

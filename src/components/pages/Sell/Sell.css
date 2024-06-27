@@ -556,6 +556,20 @@
   margin-bottom: 20px;
 }
 
+.field-errors .header {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-errors .header p:first-child {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.field-errors .header p:nth-child(2) {
+  color: grey;
+}
+
 .field-errors button {
   background-color: transparent;
   display: flex;

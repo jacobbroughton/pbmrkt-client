@@ -1232,7 +1232,7 @@ const Sell = () => {
           <div className="submit-container">
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
               <div className="field-errors">
-                <div>
+                <div className='header'>
                   <p className="small-text bold">Complete these to submit</p>
                   <p className="small-text">(Click one to mark it & jump to it)</p>
                 </div>

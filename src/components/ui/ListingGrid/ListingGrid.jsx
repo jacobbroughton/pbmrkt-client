@@ -9,6 +9,7 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
         <Link to={`/listing/${listing.id}`} key={listing.id} title={listing.what_is_this}>
           <div className="grid-item">
             <div className="image-container">
+            {listing.shipping_cost == 0 ? <p className='free-shipping'>Free Shipping</p> : false}
               {listing.path ? (
                 <img
                   src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}
@@ -21,7 +22,7 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
             </div>
             <div className="listing-card-info">
               <div className="price-and-name">
-                <p className="price">${listing.price.toLocaleString('en-US')}</p>
+                <p className="price">${listing.price.toLocaleString("en-US")}</p>
                 <p className="what-is-this">{listing.what_is_this}</p>
               </div>
               <div className="profile">
@@ -32,7 +33,9 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
                   {listing.username}
                 </Link>
               </div>
-              <p className='location'>{listing.city}, {listing.state}</p>
+              <p className="location">
+                {listing.city}, {listing.state}
+              </p>
             </div>
           </div>
         </Link>

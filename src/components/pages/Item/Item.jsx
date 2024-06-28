@@ -412,6 +412,7 @@ const Item = () => {
                     </p>
                     {isAdmin && (
                       <button
+                      className='status-change-button'
                         onClick={() =>
                           handleStatusChange(
                             item.info.status == "Available" ? "Sold" : "Available"

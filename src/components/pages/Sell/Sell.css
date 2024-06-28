@@ -571,6 +571,8 @@
 }
 
 .field-errors button {
+  font-size: 0.875rem;
+  color: white;
   background-color: transparent;
   display: flex;
   flex-direction: row;
@@ -840,6 +842,8 @@
 }
 
 .sell .form-group .cant-find-city-toggle {
+  color: white;
+  font-size: 0.875rem;
   background-color: transparent;
   border: 0;
   cursor: pointer;

@@ -457,17 +457,29 @@
 }
 
 .item .content .price-change-modal-toggle,
-.item .content .status-as-of-container button{
+.item .content .status-as-of-container button {
   font-size: 0.875rem;
   white-space: nowrap;
   height: 1.5rem;
   cursor: pointer;
+  color: white;
+
 }
 
-.item .content .status-as-of-container  {
+.item .content .price-change-modal-toggle:hover,
+.item .content .status-as-of-container button:hover {
+  background-color: #3b3b3b;
+}
+
+.item .content .status-as-of-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.item .content .status-as-of-container .status-change-button {
+  color: white;
+  font-size: 0.875rem;
 }
 
 .item .content .status-as-of {
@@ -510,7 +522,7 @@
 }
 
 .item .content .price-and-toggle p:first-child {
-  margin-right: 10px
+  margin-right: 10px;
 }
 /* .item .content .price-change-display {
   display: flex;

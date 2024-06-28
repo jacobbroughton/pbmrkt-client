@@ -929,7 +929,6 @@ const Sell = () => {
                       </span>
                     )}
                   </label>
-                    {city}
                   {cantFindCity ? (
                     <>
                       <input

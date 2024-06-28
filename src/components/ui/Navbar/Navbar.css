@@ -51,7 +51,6 @@ nav.desktop .left-side a.home-link {
   min-width: 32px;
 }
 
-
 nav.desktop .left-side button.search-toggle svg,
 nav.desktop .left-side .home-link svg {
   /* display: none; */
@@ -62,10 +61,14 @@ nav.desktop .left-side .home-link svg {
 nav.desktop .login-link {
   padding: 5px 10px;
   border-radius: 3px;
+  border: 1px solid transparent;
+  font-size: 1rem;
+
   background-color: var(--lightgreen);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 nav.desktop .login-link {
@@ -85,7 +88,7 @@ nav.desktop .right-side {
   justify-content: flex-end;
 }
 
-nav.desktop .right-side a.sell-link {
+nav.desktop .right-side button.sell-link {
   border-radius: 5px;
   height: 32px;
   width: 32px;
@@ -93,18 +96,20 @@ nav.desktop .right-side a.sell-link {
   align-items: center;
   justify-content: center;
   border: 1px solid #555;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-nav.desktop .right-side a.sell-link {
+nav.desktop .right-side button.sell-link {
   color: white;
   font-weight: 600;
 }
 
-nav.desktop .right-side a.sell-link:hover {
+nav.desktop .right-side button.sell-link:hover {
   text-decoration: none;
 }
 
-nav.desktop .right-side a.sell-link svg {
+nav.desktop .right-side button.sell-link svg {
   width: 17px;
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.15));
   fill: white;
@@ -128,7 +133,7 @@ nav.desktop .right-side .notifications-menu-toggle {
 }
 
 nav.desktop .right-side .notifications-menu-toggle:hover,
-nav.desktop .right-side a.sell-link:hover,
+nav.desktop .right-side button.sell-link:hover,
 nav.desktop .left-side button.search-toggle:hover {
   background-color: #333;
   border-color: #555;

@@ -309,6 +309,20 @@ h1 {
   fill: white;
 }
 
+.link-button {
+  color: var(--lightgreen);
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.link-button:not(:disabled):hover,
+.link-button:not(:disabled):focus {
+  text-decoration: underline;
+}
+
 .skeleton {
   background-color: #555;
 }

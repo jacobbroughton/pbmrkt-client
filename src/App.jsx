@@ -15,11 +15,14 @@ import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx
 import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
 import { isOnMobile } from "./utils/usefulFunctions.js";
 import MobileBottomNav from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
+import LoginModal from "./components/ui/LoginModal/LoginModal.jsx";
+import RegisterModal from "./components/ui/RegisterModal/RegisterModal.jsx";
 
 function App() {
   const dispatch = useDispatch();
 
   const { session, user } = useSelector((state) => state.auth);
+  const  modals = useSelector((state) => state.modals);
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -162,6 +165,8 @@ function App() {
           <Route element={<Item />} path="/listing/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
+        {modals.loginModalToggled && <LoginModal/>}
+        {modals.registerModalToggled && <RegisterModal/>}
       </main>
     </>
   );

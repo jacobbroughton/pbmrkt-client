@@ -1,0 +1,15 @@
+.modal.login {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 0;
+  max-height: 500px;
+  top: 60px;
+  transform: translateX(-50%);
+  z-index: 6;
+}
+
+.modal.login h1 {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}

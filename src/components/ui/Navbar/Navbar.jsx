@@ -183,9 +183,15 @@ function Navbar() {
         ) : (
           <DesktopSearchToggle />
         )}
-        <Link to="/sell" className="sell-link">
+        {/* <Link to="/sell" className="sell-link">
           <PlusIcon />
-        </Link>
+        </Link> */}
+        <button
+          className="sell-link"
+          onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+        >
+          <PlusIcon />
+        </button>
 
         {session?.user ? (
           <>
@@ -213,9 +219,15 @@ function Navbar() {
             </button>
           </>
         ) : (
-          <Link to="/login" className="login-link">
+          // <Link to="/login" className="login-link">
+          //   Login
+          // </Link>
+          <button
+            className="login-link"
+            onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+          >
             Login
-          </Link>
+          </button>
         )}
       </div>
       {modals.rightSideMenuToggled && session && <RightSideMenu />}

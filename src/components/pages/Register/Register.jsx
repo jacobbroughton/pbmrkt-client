@@ -14,6 +14,7 @@ import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import Footer from "../../ui/Footer/Footer.jsx";
 import SortIcon from "../../ui/Icons/SortIcon.jsx";
+import CityStateFieldset from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -173,92 +174,80 @@ const Register = () => {
           </p>
 
           <div className="form-block">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                placeholder="Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (!usernameHasBeenInteracted)
-                    setUsername(e.target.value.split("@")[0].replace(".", "_"));
-                }}
-                type="email"
-              />
-              {email == "" ? (
-                <p className="small-text">Email field can't be empty</p>
-              ) : !isValidEmail(email) ? (
-                <p className="error-text small-text">Not a valid email</p>
-              ) : (
-                false
-              )}
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-and-visible-toggle">
+            <div className="form-groups-parent">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
                 <input
-                  placeholder="Password"
-                  type={passwordVisible ? "text" : "password"}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
+                  placeholder="Email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (!usernameHasBeenInteracted)
+                      setUsername(e.target.value.split("@")[0].replace(".", "_"));
+                  }}
+                  type="email"
                 />
-                <button
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  type="button"
-                  className="button"
-                >
-                  <EyeIcon closed={passwordVisible} />
-                </button>
+                {email == "" ? (
+                  <p className="small-text">Email field can't be empty</p>
+                ) : !isValidEmail(email) ? (
+                  <p className="error-text small-text">Not a valid email</p>
+                ) : (
+                  false
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <div className="input-and-visible-toggle">
+                  <input
+                    placeholder="Password"
+                    type={passwordVisible ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    type="button"
+                    className="button"
+                  >
+                    <EyeIcon closed={passwordVisible} />
+                  </button>
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  placeholder="Username"
+                  onChange={(e) => {
+                    // setUsernameIsInitial(true);
+                    setUsername(e.target.value);
+                    // checkForExistingMatchingUsername(e.target.value);
+                  }}
+                  onClick={() => setUsernameHasBeenInteracted(true)}
+                  onFocus={() => setUsernameHasBeenInteracted(true)}
+                  value={username}
+                />
+                {!loading &&
+                  (usernameExistsLoading ? (
+                    <p className="small-text">Checking if this username exists...</p>
+                  ) : usernameExists == 1 ? (
+                    <div>
+                      <p className="small-text error-text">
+                        This username is already attached to an account{" "}
+                      </p>
+                      {/* <button className="button">Options</button> */}
+                    </div>
+                  ) : !isValidUsername(username) ? (
+                    <p className="small-text error-text">
+                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                    </p>
+                  ) : !usernameIsInitial ? (
+                    <p className="small-text">You're good to use this username</p>
+                  ) : (
+                    false
+                  ))}
               </div>
             </div>
           </div>
 
-          <div className="form-block">
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                placeholder="Username"
-                onChange={(e) => {
-                  // setUsernameIsInitial(true);
-                  setUsername(e.target.value);
-                  // checkForExistingMatchingUsername(e.target.value);
-                }}
-                onClick={() => setUsernameHasBeenInteracted(true)}
-                onFocus={() => setUsernameHasBeenInteracted(true)}
-                value={username}
-              />
-              {!loading &&
-                (usernameExistsLoading ? (
-                  <p className="small-text">Checking if this username exists...</p>
-                ) : usernameExists == 1 ? (
-                  <div>
-                    <p className="small-text error-text">
-                      This username is already attached to an account{" "}
-                    </p>
-                    {/* <button className="button">Options</button> */}
-                  </div>
-                ) : !isValidUsername(username) ? (
-                  <p className="small-text error-text">
-                    Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
-                  </p>
-                ) : !usernameIsInitial ? (
-                  <p className="small-text">You're good to use this username</p>
-                ) : (
-                  false
-                ))}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="phone-number">
-                Phone Number (Optional, required for selling. Can add later)
-              </label>
-              <input
-                placeholder="Phone Number"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                type="tel"
-                value={phoneNumber}
-              />
-            </div>
-          </div>
           <div className="form-block optional-fields">
             <button
               type="button"
@@ -274,8 +263,20 @@ const Register = () => {
 
               <Chevron direction={optionalFieldsShowing ? "up" : "down"} />
             </button>
+
             {optionalFieldsShowing && (
               <div className="form-groups-parent">
+                <div className="form-group">
+                  <label htmlFor="phone-number">
+                    Phone Number (Optional, required for selling. Can add later)
+                  </label>
+                  <input
+                    placeholder="Phone Number"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    type="tel"
+                    value={phoneNumber}
+                  />
+                </div>
                 <div className="form-group">
                   <label htmlFor="first-name">First Name (Optional)</label>
                   <input
@@ -303,7 +304,7 @@ const Register = () => {
                     id="bio"
                   />
                 </div>
-                <div className="form-groups">
+                {/* <div className="form-groups">
                   <div className="form-group">
                     <label htmlFor="email">State</label>
                     <select
@@ -336,7 +337,8 @@ const Register = () => {
                       <SortIcon />
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <CityStateFieldset />
               </div>
             )}
           </div>

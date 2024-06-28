@@ -22,6 +22,8 @@ import PhoneIcon from "../../ui/Icons/PhoneIcon";
 import EmailIcon from "../../ui/Icons/EmailIcon";
 import ExpandIcon from "../../ui/Icons/ExpandIcon";
 import FullScreenImageModal from "../../ui/FullScreenImageModal/FullScreenImageModal";
+import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const Item = () => {
   const dispatch = useDispatch();
@@ -40,6 +42,7 @@ const Item = () => {
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
   const [repliesLoading, setRepliesLoading] = useState(false);
   const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
+  const [sellerReviews, setSellerReviews] = useState();
 
   useEffect(() => {
     async function getItem() {
@@ -80,6 +83,17 @@ const Item = () => {
           .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
         if (error3) throw error.message;
+
+        const { data: data4, error: error4 } = await supabase.rpc("get_seller_reviews", {
+          p_reviewee_id: data[0].created_by_id,
+        });
+
+        if (error4) throw error4.message;
+
+        setSellerReviews({
+          count: data4.length,
+          list: data4,
+        });
 
         setItem({
           photos: data2,
@@ -412,7 +426,7 @@ const Item = () => {
                     </p>
                     {isAdmin && (
                       <button
-                      className='status-change-button'
+                        className="status-change-button"
                         onClick={() =>
                           handleStatusChange(
                             item.info.status == "Available" ? "Sold" : "Available"
@@ -552,7 +566,19 @@ const Item = () => {
                     {item.info.city}, {item.info.state}
                   </p>
 
-                  <Stars rating={item.info.seller_rating} />
+                  {/* <Stars rating={item.info.seller_rating} /> ({sellerReviews.count}) */}
+                  <button
+                    className="stars-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (sellerReviews.count <= 0) return;
+                      dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
+                    }}
+                    disabled={sellerReviews.count == 0}
+                  >
+                    <Stars rating={item.info.seller_rating} />{" "}
+                    <span>({sellerReviews.count})</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -615,6 +641,18 @@ const Item = () => {
           />
         ) : (
           false
+        )}
+        {modals.sellerReviewsModalToggled && (
+          <>
+            <SellerReviewsModal
+              seller={{
+                username: item.info.created_by_username,
+                auth_id: item.info.created_by_id,
+              }}
+              reviews={sellerReviews}
+            />
+            <ModalOverlay zIndex={5} />
+          </>
         )}
         {/* <Footer marginTop={150} /> */}
       </div>

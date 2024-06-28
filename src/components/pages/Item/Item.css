@@ -223,6 +223,30 @@
   object-fit: cover;
 }
 
+.item .seller-info  .stars-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  gap: 3px;
+  font-size: 1rem;
+  /* margin-top: 10px */
+}
+
+.item .seller-info .stars-button:not(:disabled) {
+  cursor: pointer;
+}
+
+.item .seller-info .stars-button span {
+  color: white;
+}
+
+.item .seller-info .stars-button:not(:disabled):hover span {
+  text-decoration: underline;
+}
+
+
 .item .heading {
   font-weight: 600;
   text-decoration: underline;

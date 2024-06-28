@@ -3,13 +3,25 @@ import "./ListingGrid.css";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
 const ListingGrid = ({ listings, accountForSidebar, loading }) => {
+  console.log(listings);
   return (
     <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => (
         <Link to={`/listing/${listing.id}`} key={listing.id} title={listing.what_is_this}>
           <div className="grid-item">
             <div className="image-container">
-            {listing.shipping_cost == 0 ? <p className='free-shipping'>Free Shipping</p> : false}
+              <div className="indicators">
+                {listing.trades == "Accepting Trades" ? (
+                  <p className="trades">Open to Trades</p>
+                ) : (
+                  false
+                )}{" "}
+                {listing.shipping_cost == 0 ? (
+                  <p className="free-shipping">Free Shipping</p>
+                ) : (
+                  false
+                )}
+              </div>
               {listing.path ? (
                 <img
                   src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/${listing?.path}`}

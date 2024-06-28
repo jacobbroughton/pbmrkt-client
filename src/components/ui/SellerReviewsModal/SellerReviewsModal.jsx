@@ -48,7 +48,7 @@ const SellerReviewsModal = ({ seller, reviews }) => {
           Close <XIcon />
         </button>
       </div>
-      {user.auth_id != seller.auth_id ||
+      {user?.auth_id != seller.auth_id ||
         (!reviews.list.find((rev) => {
           return rev.created_by_id == user.auth_id;
         }) && (

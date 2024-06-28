@@ -194,7 +194,7 @@ form .form-group .input-and-visible-toggle button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid grey;
+  border: 1px solid #555;
   border-radius: 3px;
   padding: 3px 10px;
   cursor: pointer;
@@ -216,7 +216,7 @@ select {
   font-family: inherit;
   padding: 3px 5px;
   border-radius: 3px;
-  border: 1px solid grey;
+  border: 1px solid #555;
   background-color: #3b3b3b;
   color: white;
   font-size: 1rem;
@@ -227,7 +227,7 @@ form.standard button[type="submit"] {
   font-size: 1rem;
   color: white;
   background-color: #444;
-  border: 1px solid grey;
+  border: 1px solid #555;
   border-radius: 3px;
   padding: 3px 5px;
   cursor: pointer;

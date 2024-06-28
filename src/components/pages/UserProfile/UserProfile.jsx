@@ -340,7 +340,6 @@ const UserProfile = () => {
           <>
             <SellerReviewsModal
               seller={localUser}
-              setReviews={setReviews}
               reviews={reviews}
             />
             <ModalOverlay zIndex={5} />

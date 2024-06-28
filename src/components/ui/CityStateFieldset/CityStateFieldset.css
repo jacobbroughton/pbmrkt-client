@@ -1,0 +1,47 @@
+fieldset.city-state {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+
+fieldset.city-state .auto-completed-span {
+  /* background-color: var(--yellow); */
+  display: flex;
+  align-items: center;
+  /* align-self: flex-start; */
+  margin-left: 5px;
+  cursor: help;
+}
+
+fieldset.city-state .auto-completed-span.legend {
+  align-self: flex-start;
+}
+
+fieldset.city-state .auto-completed-span svg {
+  fill: grey;
+  width: 12px;
+}
+
+fieldset.city-state .cant-find-city-toggle {
+  color: white;
+  font-size: 0.875rem;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+fieldset.city-state .cant-find-city-toggle:hover {
+  text-decoration: underline;
+}
+
+fieldset.city-state .cant-find-city-toggle svg {
+  fill: whitesmoke;
+  width: 9px;
+}

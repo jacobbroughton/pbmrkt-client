@@ -15,8 +15,9 @@
 }
 
 .desktop-search-toggle  svg {
-  fill: grey;
+  fill: white;
   width: 15px;
+  min-width: 15px;
 }
 
 .desktop-search-toggle .slash-with-border {
@@ -32,4 +33,24 @@
 .desktop-search-toggle:hover {
   background-color: #333;
   border-color: #555;
+}
+
+@media screen and (max-width: 430px) {
+
+  .desktop-search-toggle {
+    width: 32px;
+    max-width: 32px;;
+    min-width: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .desktop-search-toggle .search-span {
+    display: none;
+  }
+
+  
 }

@@ -12,7 +12,7 @@ const DesktopSearchToggle = () => {
     >
       <SearchIcon />
       {/* Type <span className="slash-with-border">/</span> to search */}
-      Search for anything
+      <span className='search-span'>Search for anything</span>
     </button>
   );
 };

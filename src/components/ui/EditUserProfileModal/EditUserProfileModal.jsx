@@ -236,10 +236,10 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
             onChange={(e) => setBio(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Location</label>
           <MapboxLocationSearch/>
-        </div>
+        </div> */}
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">Phone Number</label>

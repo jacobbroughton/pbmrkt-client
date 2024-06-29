@@ -49,7 +49,8 @@ const LoginModal = () => {
       if (data2 == 0)
         throw "There was a problem finding the user account you are trying to access.";
 
-      navigate("/");
+      // navigate("/");
+      dispatch(toggleModal({ key: "loginModal", value: false }));
     } catch (error) {
       console.error(error);
       setLoginError(error.toString());
@@ -60,13 +61,14 @@ const LoginModal = () => {
   return (
     <>
       <div className="modal login">
-        {loginError && <div className="error-text">{loginError}</div>}
+        {loginError && <div className="error-text">{loginError.toString()}</div>}
         <h1>Login</h1>
         <form onSubmit={handleSubmit} className="standard">
           <p>
             {/* Need to create an account? <Link to="/register">Register here</Link> */}
             Need to create an account?{" "}
             <button
+              type="button"
               className="link-button"
               onClick={() => {
                 dispatch(toggleModal({ key: "loginModal", value: false }));
@@ -80,6 +82,7 @@ const LoginModal = () => {
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
+                autoComplete="username"
                 placeholder="Email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -89,6 +92,7 @@ const LoginModal = () => {
               <label htmlFor="password">Password</label>
               <div className="input-and-visible-toggle">
                 <input
+                  autoComplete="password"
                   placeholder="Password"
                   type={passwordVisible ? "text" : "password"}
                   onChange={(e) => setPassword(e.target.value)}
@@ -113,10 +117,11 @@ const LoginModal = () => {
               Forgot password?
             </Link> */}
             <button
+              type="button"
               className="link-button"
               onClick={() => {
                 dispatch(toggleModal({ key: "loginModal", value: false }));
-                dispatch(toggleModal({ key: "forgotPasswordModal", value: true }));
+                dispatch(toggleModal({ key: "resetPasswordModal", value: true }));
               }}
             >
               Forgot password?

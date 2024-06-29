@@ -17,7 +17,7 @@ const CityStateFieldset = () => {
         <label>State</label>
         <div className="select-container">
           <select
-            onChange={(e) => setState(e.target.value == "All" ? null : e.target.value)}
+            onChange={(e) => setState(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)}
             value={state}
           >
             {states.map((childState) => (
@@ -50,7 +50,7 @@ const CityStateFieldset = () => {
             <div className="select-container">
               <select
                 disabled={!state}
-                onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
+                onChange={(e) => setCity(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)}
                 value={city?.toUpperCase()}
               >
                 {statesAndCities[state]?.map((innerCity, i) => (

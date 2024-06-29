@@ -25481,6 +25481,7 @@ export const statesAndCities = {
 };
 
 export const states = [
+  "Select One",
   "Alabama",
   "Alaska",
   "American Samoa",

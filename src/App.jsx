@@ -17,6 +17,7 @@ import { isOnMobile } from "./utils/usefulFunctions.js";
 import MobileBottomNav from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
 import LoginModal from "./components/ui/LoginModal/LoginModal.jsx";
 import RegisterModal from "./components/ui/RegisterModal/RegisterModal.jsx";
+import ResetPasswordModal from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -167,6 +168,7 @@ function App() {
         </Routes>
         {modals.loginModalToggled && <LoginModal/>}
         {modals.registerModalToggled && <RegisterModal/>}
+        {modals.resetPasswordModalToggled && <ResetPasswordModal/>}
       </main>
     </>
   );

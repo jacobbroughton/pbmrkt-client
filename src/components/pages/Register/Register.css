@@ -74,6 +74,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px
 }
 
 .register
@@ -88,6 +89,7 @@
 
 .register form .form-block.optional-fields .optional-fields-toggle p {
   color: white;
+  text-align: start;
 }
 
 .register form .form-block.optional-fields .optional-fields-toggle p:first-child {

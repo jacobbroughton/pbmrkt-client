@@ -182,19 +182,21 @@ nav.desktop .right-side .right-side-menu-button {
   cursor: pointer;
   overflow: hidden;
   /* margin-left: 5px; */
-  padding: 2px;
+  /* padding: 2px; */
   transition: 0.1s ease background-color;
   /* background-color: transparent; */
+  border: 1px solid #555;
+  background-color: #333;
 }
 
 nav.desktop .right-side .right-side-menu-button:hover {
-  background-color: #b1b1b1;
+  border: 1px solid #777;
 }
+
 
 nav.desktop .right-side .right-side-menu-button .profile-picture {
   height: 100%;
   width: 100%;
-  border-radius: ;
   background-color: white;
   object-fit: cover;
 }

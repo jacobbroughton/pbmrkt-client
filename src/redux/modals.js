@@ -14,6 +14,9 @@ const initialState = {
   fullScreenImageModalToggled: false,
   notificationsMenuToggled: false,
   unauthenticatedOptionsMenuToggled: false,
+  resetPasswordModalToggled: false,
+  loginModalToggled: false,
+  registerModalToggled: false,
 };
 
 const modalsSlice = createSlice({

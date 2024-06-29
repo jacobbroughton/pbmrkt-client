@@ -87,6 +87,7 @@ const RegisterModal = () => {
 
       if (error2) throw error2.message;
 
+      setLoading(false);
       dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
 
       // dispatch(setSession(data));
@@ -98,8 +99,10 @@ const RegisterModal = () => {
   }
 
   async function confirmUserCheckedTheirEmail() {
-    navigate("/login");
-    dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
+    // navigate("/login");
+    dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: false }));
+    dispatch(toggleModal({ key: "registerModal", value: false }));
+    dispatch(toggleModal({ key: "loginModal", value: true }));
   }
 
   async function checkForExistingMatchingUsername(newUsername) {
@@ -170,8 +173,7 @@ const RegisterModal = () => {
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="standard">
           <p>
-            Have an account already? {" "}
-            {/* <Link to="/login">Sign in</Link> */}
+            Have an account already? {/* <Link to="/login">Sign in</Link> */}
             <button
               className="link-button"
               onClick={() => {
@@ -276,39 +278,42 @@ const RegisterModal = () => {
 
             {optionalFieldsShowing && (
               <div className="form-groups-parent">
+                <fieldset>
+                  <div className="form-group">
+                    <label htmlFor="first-name">First Name</label>
+                    <input
+                      placeholder="First Name"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      value={firstName}
+                      id="first-name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="last-name">Last Name</label>
+                    <input
+                      placeholder="Last Name"
+                      onChange={(e) => setLastName(e.target.value)}
+                      value={lastName}
+                      id="last-name"
+                    />
+                  </div>
+                </fieldset>
+                <CityStateFieldset />
                 <div className="form-group">
                   <label htmlFor="phone-number">
-                    Phone Number (Optional, required for selling. Can add later)
+                    Phone Number
                   </label>
                   <input
-                    placeholder="Phone Number"
+                    placeholder="7048290000"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     type="tel"
                     value={phoneNumber}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="first-name">First Name (Optional)</label>
-                  <input
-                    placeholder="First Name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    id="first-name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="last-name">Last Name (Optional)</label>
-                  <input
-                    placeholder="Last Name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                    id="last-name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="last-name">About You (Optional)</label>
+                  <label htmlFor="last-name">About You</label>
                   <textarea
-                    placeholder="About You"
+                    placeholder="Write something about you or the business this account represents"
                     onChange={(e) => setBio(e.target.value)}
                     value={bio}
                     id="bio"
@@ -348,7 +353,6 @@ const RegisterModal = () => {
                     </div>
                   </div>
                 </div> */}
-                <CityStateFieldset />
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
 .modal.login {
-  max-width: 400px;
+  max-width: 450px;
   margin: 0 auto;
   width: 100%;
   min-height: 0;
@@ -7,6 +7,7 @@
   top: 60px;
   transform: translateX(-50%);
   z-index: 6;
+  width: calc(100% - 20px);
 }
 
 .modal.login h1 {

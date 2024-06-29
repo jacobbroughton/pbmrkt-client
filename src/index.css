@@ -57,6 +57,7 @@ a {
 textarea {
   resize: vertical;
   color: white;
+  min-width: 150px;
 
 }
 
@@ -160,6 +161,13 @@ form.standard .form-block {
   gap: 10px;
 }
 
+form.standard .form-block fieldset {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
 /* .modal.add-review form .form-group,
 .reset-password form .form-group,
 .update-password form .form-group,
@@ -222,6 +230,10 @@ select {
   font-size: 1rem;
 }
 
+form.standard textarea {
+  min-height: 100px;
+}
+
 form.standard button[type="submit"] {
   align-self: flex-start;
   font-size: 1rem;
@@ -247,6 +259,20 @@ form.standard button[type="submit"]:disabled {
 form.standard .form-group.required label::after {
   content: "*";
   color: var(--red);
+}
+
+form.standard .form-group.disabled {
+  pointer-events: none;
+}
+
+
+form.standard .form-group.disabled button,
+form.standard .form-group.disabled label {
+  color: grey;
+}
+
+form.standard .form-group.disabled  svg {
+  fill: grey;
 }
 
 .modal {

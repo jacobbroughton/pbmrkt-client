@@ -899,11 +899,11 @@ const Sell = () => {
                   <div className="select-container">
                     <select
                       onChange={(e) =>
-                        setState(e.target.value == "All" ? null : e.target.value)
+                        setState(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)
                       }
                       value={state}
                     >
-                      {states.map((childState) => (
+                      {["Select One", ...states].map((childState) => (
                         <option value={childState} key={childState}>
                           {childState}
                         </option>
@@ -949,7 +949,7 @@ const Sell = () => {
                         <select
                           disabled={!state}
                           onChange={(e) =>
-                            setCity(e.target.value == "All" ? null : e.target.value)
+                            setCity(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)
                           }
                           value={city?.toUpperCase()}
                         >

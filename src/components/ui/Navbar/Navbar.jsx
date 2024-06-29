@@ -143,7 +143,8 @@ function Navbar() {
             dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
           }}
         >
-          <HomeIcon />
+          {/* <HomeIcon /> */}
+          Core PB
         </Link>
         {location.pathname == "/" && (
           <button

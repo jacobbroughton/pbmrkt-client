@@ -319,40 +319,7 @@ const RegisterModal = () => {
                     id="bio"
                   />
                 </div>
-                {/* <div className="form-groups">
-                  <div className="form-group">
-                    <label htmlFor="email">State</label>
-                    <select
-                      onChange={(e) =>
-                        setState(e.target.value == "All" ? null : e.target.value)
-                      }
-                      value={state}
-                    >
-                      {states.map((childState) => (
-                        <option value={childState} key={childState}>
-                          {childState}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email">City</label>
-                    <div className="select-container">
-                      <select
-                        disabled={!state}
-                        onChange={(e) =>
-                          setCity(e.target.value == "All" ? null : e.target.value)
-                        }
-                        value={city?.toUpperCase()}
-                      >
-                        {statesAndCities[state]?.map((innerCity) => (
-                          <option value={innerCity}>{capitalizeWords(innerCity)}</option>
-                        ))}
-                      </select>
-                      <SortIcon />
-                    </div>
-                  </div>
-                </div> */}
+      
               </div>
             )}
           </div>

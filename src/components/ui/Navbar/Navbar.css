@@ -39,16 +39,16 @@ nav.desktop .home-link {
 
 nav.desktop .left-side button.search-toggle,
 nav.desktop .left-side a.home-link {
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   border: 0;
   cursor: pointer;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.15rem;
+
 }
 
 nav.desktop .left-side button.search-toggle svg,
@@ -199,6 +199,16 @@ nav.desktop .right-side .right-side-menu-button .profile-picture {
   width: 100%;
   background-color: white;
   object-fit: cover;
+}
+
+@media only screen and (max-device-width: 480px) {
+  nav.desktop .left-side a.home-link {
+    width: 100%;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
 }
 
 /* tablets */

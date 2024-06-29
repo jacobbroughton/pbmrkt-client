@@ -17,10 +17,14 @@ const CityStateFieldset = () => {
         <label>State</label>
         <div className="select-container">
           <select
-            onChange={(e) => setState(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)}
+            onChange={(e) =>
+              setState(
+                ["All", "Select One"].includes(e.target.value) ? null : e.target.value
+              )
+            }
             value={state}
           >
-            {states.map((childState) => (
+            {["Select One", ...states].map((childState) => (
               <option value={childState} key={childState}>
                 {childState}
               </option>
@@ -50,11 +54,17 @@ const CityStateFieldset = () => {
             <div className="select-container">
               <select
                 disabled={!state}
-                onChange={(e) => setCity(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)}
+                onChange={(e) =>
+                  setCity(
+                    ["All", "Select One"].includes(e.target.value) ? null : e.target.value
+                  )
+                }
                 value={city?.toUpperCase()}
               >
                 {statesAndCities[state]?.map((innerCity, i) => (
-                  <option value={innerCity} key={i}>{capitalizeWords(innerCity)}</option>
+                  <option value={innerCity} key={i}>
+                    {capitalizeWords(innerCity)}
+                  </option>
                 ))}
               </select>
               <SortIcon />

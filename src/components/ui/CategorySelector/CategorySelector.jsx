@@ -9,7 +9,6 @@ const CategorySelector = ({
   handleExpandAll,
   handleCollapseAll,
 }) => {
-
   return (
     <div className={`category-selector ${forModal ? "for-modal" : ""}`}>
       <div className="category-list-buttons">
@@ -48,6 +47,16 @@ const CategoriesList = ({ categories, isNested, handleCategoryClick }) => {
 };
 
 const CategoryButton = ({ category, handleCategoryClick }) => {
+  const totalChildrenNumResults = category.children.reduce(
+    (acc, currentValue) => {
+      console.log(currentValue, acc);
+      return acc + currentValue.num_results
+    },
+    0
+  );
+
+  console.log(totalChildrenNumResults);
+
   return (
     <button
       className={`category-button ${category.is_folder ? "is-folder" : ""}`}
@@ -60,7 +69,7 @@ const CategoryButton = ({ category, handleCategoryClick }) => {
       <div className="label-and-arrow">
         <span>
           {category.isIndex ? "..." : category.value}
-          {!category.is_folder ? ` (${category.num_results})` : ""}
+          {!category.is_folder ? ` (${category.num_results})` : ` (${totalChildrenNumResults})`}
         </span>
         {category.is_folder ? (
           <Caret direction={category.toggled ? "down" : "right"} />

@@ -3,11 +3,7 @@ import useWindowSize from "../../../utils/useWindowSize.js";
 import DoubleArrow from "../Icons/DoubleArrow.jsx";
 import UndoIcon from "../Icons/UndoIcon.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import {
-  capitalizeWords,
-  setCategoryChecked,
-  toggleCategoryFolder,
-} from "../../../utils/usefulFunctions.js";
+import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import {
@@ -21,16 +17,14 @@ import Checkboxes from "../Checkboxes/Checkboxes.jsx";
 import RadioOptions from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import WarningCircle from "../Icons/WarningCircle.jsx";
-import CategorySelector from "../CategorySelector/CategorySelector.jsx";
 import "./FiltersSidebar.css";
 import EditIcon from "../Icons/EditIcon.jsx";
 
-const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
+const FiltersSidebar = ({ allFiltersDisabled }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -54,17 +48,8 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
       })),
     };
 
-    // dispatch(
-    //   setFilters({
-    //     ...filters,
-    //     draft: newDraft,
-    //   })
-    // );
-
-    // test below
     dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
     dispatch(setFiltersUpdated(true));
-    // test above
   }
 
   function handleStateFilterSelect(e) {
@@ -100,27 +85,10 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
       [filterTypeKey]: filters.draft[filterTypeKey]?.map((option) => ({
         ...option,
         ...(option.id == selectedOption.id && {
-          // checked: e.target.checked,
           checked: !selectedOption.checked,
         }),
       })),
     };
-
-    // dispatch(
-    //   setFilters({
-    //     ...filters,
-    //     draft: {
-    //       ...filters.draft,
-    //       [filterTypeKey]: filters.draft[filterTypeKey]?.map((option) => ({
-    //         ...option,
-    //         ...(option.id == selectedOption.id && {
-    //           // checked: e.target.checked,
-    //           checked: !selectedOption.checked,
-    //         }),
-    //       })),
-    //     },
-    //   })
-    // );
 
     dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
     dispatch(setFiltersUpdated(true));
@@ -128,6 +96,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
 
   function handleFiltersApply(e) {
     e.preventDefault();
+    console.log("wassup wassup youtube");
 
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));
@@ -182,7 +151,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               className="close-sidebar-button"
               tabIndex="0"
             >
-              <DoubleArrow direction="left"  />
+              <DoubleArrow direction="left" />
             </button>
           )}
           {/* {!resetButtonHidden && ( */}
@@ -190,7 +159,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             onClick={() => {
               if (resetButtonDisabled) return;
               dispatch(resetFilters());
-              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));  
+              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
               // if (windowSize.width <= 625) {
               //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
               // }
@@ -239,9 +208,37 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
             </button>
           </div>
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+            <div className="label-and-reset">
+              <label>By Price</label>
+              {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
+                <button
+                  className="reset-button"
+                  type="button"
+                  onClick={() => {
+                    dispatch(resetFilter("priceOptions"));
+                    dispatch(setFiltersUpdated(true));
+                  }}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+            {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
+              <p className="filter-warning">Max must be equal or greater</p>
+            ) : filters.draft.minPrice[0] == 0 ||
+              (filters.draft.maxPrice && filters.draft?.maxPrice[0]) == "" ? (
+              <p className="filter-warning">Min/Max cannot start with '0'</p>
+            ) : (
+              false
+            )}
+            <RadioOptions
+              options={filters.draft.priceOptions}
+              handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
+              disabled={allFiltersDisabled}
+            />
             {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
-                <label>Min. Price</label>
+                <label>Min. $</label>
                 <input
                   type="number"
                   placeholder="$15"
@@ -257,7 +254,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
                 />
               </div>
               <div className="min-max-input-container">
-                <label>Max Price</label>
+                <label>Max $</label>
                 <input
                   type="number"
                   placeholder="$450"
@@ -279,37 +276,6 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
                 />
               </div>
             </div> */}
-            <div className="label-and-reset">
-              <label>By Price</label>
-              {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
-                <button
-                  className="reset-button"
-                  onClick={() => {
-                    dispatch(resetFilter("priceOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-            <RadioOptions
-              options={filters.draft.priceOptions}
-              handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
-              disabled={allFiltersDisabled}
-            />
-            {/* <Checkboxes
-              options={filters.draft.priceOptions}
-              handleCheckboxOptionClick={(option) => handlePriceFilterSelect(option)}
-            /> */}
-            {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
-              <p className="filter-warning">Max must be equal or greater</p>
-            ) : filters.draft.minPrice[0] == 0 ||
-              (filters.draft.maxPrice && filters.draft?.maxPrice[0]) == "" ? (
-              <p className="filter-warning">Min/Max cannot start with '0'</p>
-            ) : (
-              false
-            )}
           </div>
           <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
             <div className="label-and-reset">
@@ -318,6 +284,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
                 <button
                   title="Reset the state filter"
                   className="reset-button"
+                  type="button"
                   onClick={() => {
                     dispatch(resetFilter("state"));
                     dispatch(setFiltersUpdated(true));
@@ -334,8 +301,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               value={filters.draft.state}
               disabled={allFiltersDisabled}
             >
-              <option>All</option>
-              {states.map((state) => (
+              {["All", ...states].map((state) => (
                 <option key={state}>{state}</option>
               ))}
             </select>
@@ -352,6 +318,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
                 <button
                   title="Reset the city filter"
                   className="reset-button"
+                  type="button"
                   onClick={() => {
                     dispatch(resetFilter("city"));
                     dispatch(setFiltersUpdated(true));
@@ -390,6 +357,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               {filters.draft.conditionOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
+                  type="button"
                   onClick={() => {
                     dispatch(resetFilter("conditionOptions"));
                     dispatch(setFiltersUpdated(true));
@@ -413,6 +381,7 @@ const FiltersSidebar = ({ allFiltersDisabled, categories, setCategories }) => {
               {filters.draft.shippingOptions.find((op) => !op.checked) && (
                 <button
                   className="reset-button"
+                  type="button"
                   onClick={() => {
                     dispatch(resetFilter("shippingOptions"));
                     dispatch(setFiltersUpdated(true));

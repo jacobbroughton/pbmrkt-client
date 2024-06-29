@@ -206,7 +206,7 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
               onChange={(e) => setState(e.target.value == "All" ? null : e.target.value)}
               value={state}
             >
-              {states.map((childState) => (
+              {["Select One", ...states].map((childState) => (
                 <option value={childState} key={childState}>
                   {childState}
                 </option>

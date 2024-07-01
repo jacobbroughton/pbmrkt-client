@@ -471,9 +471,10 @@ const Item = () => {
                     </div>
                     <div className="contact-option">
                       <EmailIcon />
+                      {console.log(item.info)}
                       <p className="email">
                         {user ? (
-                          item.info.email || "N/A"
+                          item.info.created_by_email || "N/A"
                         ) : (
                           <div className="placeholder email"></div>
                         )}
@@ -650,8 +651,9 @@ const Item = () => {
                 auth_id: item.info.created_by_id,
               }}
               reviews={sellerReviews}
+              zIndex={7}
             />
-            <ModalOverlay zIndex={5} />
+            <ModalOverlay zIndex={6} />
           </>
         )}
         {/* <Footer marginTop={150} /> */}

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
@@ -29,6 +29,7 @@ function Navbar() {
   const [notifications, setNotifications] = useState(null);
 
   const windowSize = useWindowSize();
+  const navigate = useNavigate();
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
@@ -189,7 +190,14 @@ function Navbar() {
         </Link> */}
         <button
           className="sell-link"
-          onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+          onClick={() => {
+            if (!user) {
+              dispatch(toggleModal({ key: "loginModal", value: true }));
+              return;
+            }
+
+            navigate("/sell");
+          }}
         >
           <PlusIcon />
         </button>
@@ -214,6 +222,7 @@ function Navbar() {
             )}
             <button
               onClick={handleRightSideMenuToggle}
+              type="button"
               className="right-side-menu-button"
             >
               <img className="profile-picture" src={user.profile_picture_url} />

@@ -4,7 +4,7 @@
   right: 5px;
   display: flex;
   flex-direction: column;
-  background-color: #333;
+  background-color: #2f2f2f;
   border: 1px solid #555;
   border-radius: 3px;
   min-width: 120px;
@@ -20,7 +20,7 @@
   cursor: pointer;
   gap: 10px;
   color: white;
-  background-color: #333;
+  background-color: #2f2f2f;
   font-size: 1rem;
 }
 

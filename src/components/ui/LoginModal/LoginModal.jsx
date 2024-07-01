@@ -128,14 +128,14 @@ const LoginModal = () => {
             </button>
           </p>
         </form>
+        {loading && (
+          <LoadingOverlay
+            message="Logging you in..."
+            zIndex={5}
+            verticalAlignment={"center"}
+          />
+        )}
       </div>
-      {loading && (
-        <LoadingOverlay
-          message="Logging you in..."
-          zIndex={5}
-          verticalAlignment={"center"}
-        />
-      )}
       <ModalOverlay
         zIndex={5}
         onClick={() => dispatch(toggleModal({ key: "loginModal", value: false }))}

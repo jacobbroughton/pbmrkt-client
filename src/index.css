@@ -277,7 +277,7 @@ form.standard .form-group.disabled  svg {
 
 .modal {
   z-index: 2;
-  background-color: #333;
+  background-color: #2f2f2f;
   position: fixed;
   transform: translate(-50%, -50%);
   top: 50%;

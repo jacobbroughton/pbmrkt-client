@@ -32,6 +32,7 @@ import SortIcon from "../../ui/Icons/SortIcon.jsx";
 import ImagesIcons from "../../ui/Icons/ImagesIcons.jsx";
 import PenIcon from "../../ui/Icons/PenIcon.jsx";
 import JumpToIcon from "../../ui/Icons/JumpToIcon.jsx";
+import MissingUserInfoModal from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
 
 const brandArr = [
   "Planet Eclipse",
@@ -74,7 +75,6 @@ const Sell = () => {
   const [brand, setBrand] = useState(randomBrand);
   const [model, setModel] = useState(randomModel);
   const [price, setPrice] = useState(randomPrice);
-
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
@@ -551,28 +551,15 @@ const Sell = () => {
     }
   }
 
-  // {
-  //   conditionOptions: [
-  //     { id: 0, value: "Brand New", checked: false },
-  //     { id: 1, value: "Like New", checked: false },
-  //     { id: 2, value: "Used", checked: false },
-  //     { id: 3, value: "Not Functional", checked: false },
-  //   ],
-  //   shippingOptions: [
-  //     { id: 0, value: "Willing to Ship", checked: false },
-  //     { id: 1, value: "Local Only", checked: false },
-  //   ],
-  //   tradeOptions: [
-  //     { id: 0, value: "Accepting Trades", checked: false },
-  //     { id: 1, value: "No Trades", checked: false },
-  //   ],
-  //   negotiableOptions: [
-  //     { id: 0, value: "Firm", checked: false },
-  //     { id: 1, value: "OBO/Negotiable", checked: false },
-  //   ],
-  // }
-
   function handleRadioSelect(optionTypeKey, selectedOption) {
+    if (
+      optionTypeKey == "shippingOptions" &&
+      selectedOption.value == "Local Only" &&
+      buyerPaysShipping
+    ) {
+      setBuyerPaysShipping(false);
+      setShippingCost(0);
+    }
     setRadioOptions({
       ...radioOptions,
       [optionTypeKey]: radioOptions[optionTypeKey].map((option) => ({
@@ -725,6 +712,16 @@ const Sell = () => {
 
   const imagesStillUploading = imagesUploading && !numPhotosUploaded;
   const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;
+
+  const missingUserInfo =
+    !user.phone_number ||
+    !user.first_name ||
+    !user.last_name ||
+    !user.state ||
+    !user.city;
+
+  const noShipping =
+    radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
 
   let warnings = [];
 
@@ -899,7 +896,11 @@ const Sell = () => {
                   <div className="select-container">
                     <select
                       onChange={(e) =>
-                        setState(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)
+                        setState(
+                          ["All", "Select One"].includes(e.target.value)
+                            ? null
+                            : e.target.value
+                        )
                       }
                       value={state}
                     >
@@ -949,7 +950,11 @@ const Sell = () => {
                         <select
                           disabled={!state}
                           onChange={(e) =>
-                            setCity(['All', 'Select One'].includes(e.target.value) ? null : e.target.value)
+                            setCity(
+                              ["All", "Select One"].includes(e.target.value)
+                                ? null
+                                : e.target.value
+                            )
                           }
                           value={city?.toUpperCase()}
                         >
@@ -1132,31 +1137,39 @@ const Sell = () => {
               <h2>Price</h2>
             </div>
             <div className="form-content">
-              <div className="form-group shipping">
-                <label>Are you covering the shipping cost?</label>
-                <div className="shipping-selector-and-input">
-                  <div className="shipping-selector">
-                    <button
-                      className={`shipping-toggle-button ${
-                        !buyerPaysShipping ? "selected" : ""
-                      }`}
-                      type="button"
-                      onClick={() => setBuyerPaysShipping(false)}
-                    >
-                      <RadioIcon checked={!buyerPaysShipping} /> Free/Included
-                    </button>
-                    <button
-                      className={`shipping-toggle-button ${
-                        buyerPaysShipping ? "selected" : ""
-                      }`}
-                      type="button"
-                      onClick={() => setBuyerPaysShipping(true)}
-                    >
-                      <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
-                    </button>
+              {noShipping ? (
+                <div className="form-group">
+                  <label>Shipping</label>
+                  <p>No shipping, local only</p>
+                </div>
+              ) : (
+                <div className="form-group shipping">
+                  <label>Are you covering the shipping cost?</label>
+                  <div className="shipping-selector-and-input">
+                    <div className="shipping-selector">
+                      <button
+                        className={`shipping-toggle-button ${
+                          !buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(false)}
+                      >
+                        <RadioIcon checked={!buyerPaysShipping} /> Free/Included
+                      </button>
+                      <button
+                        className={`shipping-toggle-button ${
+                          buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(true)}
+                      >
+                        <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
               {/* </fieldset> */}
 
               <fieldset className="prices">
@@ -1166,7 +1179,10 @@ const Sell = () => {
                   }`}
                   ref={priceRef}
                 >
-                  <label>Price of item, without shipping</label>
+                  <label>
+                    Price of item
+                    {noShipping ? "" : ", without shipping"}
+                  </label>
                   <div className="input-container">
                     <input
                       onChange={(e) => setPrice(e.target.value)}
@@ -1180,7 +1196,7 @@ const Sell = () => {
                   </div>
                 </div>
 
-                <div
+                {!noShipping && <div
                   className={`form-group shipping-cost ${
                     buyerPaysShipping ? "" : "disabled"
                   }`}
@@ -1207,7 +1223,7 @@ const Sell = () => {
                       disabled={!buyerPaysShipping}
                     />
                   </div>
-                </div>
+                </div>}
               </fieldset>
             </div>
           </div>
@@ -1231,7 +1247,7 @@ const Sell = () => {
           <div className="submit-container">
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
               <div className="field-errors">
-                <div className='header'>
+                <div className="header">
                   <p className="small-text bold">Complete these to submit</p>
                   <p className="small-text">(Click one to mark it & jump to it)</p>
                 </div>
@@ -1286,6 +1302,7 @@ const Sell = () => {
               categories={categories.draft.all}
               setCategories={setCategories}
               handleCategoryClick={(category) => {
+                console.log(category);
                 // setSelectedCategory(category);
                 if (category.is_folder) {
                   setCategories({
@@ -1343,6 +1360,8 @@ const Sell = () => {
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}
       </div>
+      {console.log(user)}
+      {missingUserInfo && <MissingUserInfoModal />}
       {/* <Footer /> */}
     </>
   );

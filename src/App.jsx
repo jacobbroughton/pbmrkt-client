@@ -23,7 +23,7 @@ function App() {
   const dispatch = useDispatch();
 
   const { session, user } = useSelector((state) => state.auth);
-  const  modals = useSelector((state) => state.modals);
+  const modals = useSelector((state) => state.modals);
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -153,6 +153,8 @@ function App() {
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>
+          // Use it in this way, and it should work:
+          <Route path="*" element={<p>Page not found</p>} />
           <Route element={<Listings />} path="/" />
           <Route element={<Register />} path="/register" />
           <Route element={<Login />} path="/login" />
@@ -162,13 +164,12 @@ function App() {
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
           <Route path="/user/:username" element={<UserProfile />} />
-
           <Route element={<Item />} path="/listing/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
-        {modals.loginModalToggled && <LoginModal/>}
-        {modals.registerModalToggled && <RegisterModal/>}
-        {modals.resetPasswordModalToggled && <ResetPasswordModal/>}
+        {modals.loginModalToggled && <LoginModal />}
+        {modals.registerModalToggled && <RegisterModal />}
+        {modals.resetPasswordModalToggled && <ResetPasswordModal />}
       </main>
     </>
   );

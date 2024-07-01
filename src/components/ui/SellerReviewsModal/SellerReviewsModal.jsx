@@ -9,7 +9,7 @@ import PlusIcon from "../Icons/PlusIcon";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
-const SellerReviewsModal = ({ seller, reviews }) => {
+const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
   const modalRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const SellerReviewsModal = ({ seller, reviews }) => {
   console.log(reviews);
 
   return (
-    <div ref={modalRef} className="modal seller-reviews">
+    <div ref={modalRef} className="modal seller-reviews" style={{ zIndex }}>
       <div className="header">
         <h3>{seller.username}'s Reviews</h3>
         <button

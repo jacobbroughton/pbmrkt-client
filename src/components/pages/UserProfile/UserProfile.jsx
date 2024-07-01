@@ -15,7 +15,7 @@ import ThreeDots from "../../ui/Icons/ThreeDots";
 import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
-import { getTimeAgo } from "../../../utils/usefulFunctions";
+import { capitalizeWords, getTimeAgo } from "../../../utils/usefulFunctions";
 import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
 import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
 
@@ -287,7 +287,7 @@ const UserProfile = () => {
                   "No location has been added"
                 ) : (
                   <>
-                    {localUser.city}, {localUser.state}
+                    {capitalizeWords(localUser.city)}, {localUser.state}
                   </>
                 )}
               </p>

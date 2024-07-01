@@ -60,6 +60,8 @@
   border-bottom: 1px solid #555;
   border-left: 5px solid #666;
   padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .sell > form .form-block .header h2 {
@@ -582,7 +584,7 @@
   border-left: 3px solid var(--red);
   padding: 3px 10px;
   border-radius: 3px;
-  background-color: #333;
+  background-color: #2f2f2f;
   cursor: pointer;
   transition: 0.1s ease background-color, 0.1s ease border-color;
 }

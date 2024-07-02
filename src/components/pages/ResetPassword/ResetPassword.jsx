@@ -9,7 +9,7 @@ import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const {validateResetPasswordModalToggled} = useSelector((state) => state.modals);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [email, setEmail] = useState("");
@@ -76,7 +76,7 @@ const ResetPassword = () => {
           Send Email
         </button>
       </form>
-      {modals.validateResetPasswordModalToggled && (
+      {validateResetPasswordModalToggled && (
         <>
           <div className="modal is-verifying-modal">
             <p className="large-text ">Check your email</p>

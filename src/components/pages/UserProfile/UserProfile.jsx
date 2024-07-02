@@ -23,7 +23,11 @@ const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const {
+    editUserProfileModalToggled,
+    addReviewModalToggled,
+    sellerReviewsModalToggled,
+  } = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -119,7 +123,7 @@ const UserProfile = () => {
 
       if (!data2) throw "No listings available";
 
-      console.log(data2)
+      console.log(data2);
 
       data2 = data2.map((item) => {
         const { data, error } = supabase.storage
@@ -294,11 +298,7 @@ const UserProfile = () => {
             </div>
             <div className="user-info-container bio ">
               <label>Bio</label>
-              <p>
-                {localUser.bio
-                  ? localUser.bio?.trim()
-                  : "No bio has been added"}
-              </p>
+              <p>{localUser.bio ? localUser.bio?.trim() : "No bio has been added"}</p>
             </div>
           </div>
         </div>
@@ -314,7 +314,7 @@ const UserProfile = () => {
           />
         )}
 
-        {modals.editUserProfileModalToggled && (
+        {editUserProfileModalToggled && (
           <>
             <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
             <ModalOverlay
@@ -325,7 +325,7 @@ const UserProfile = () => {
             />
           </>
         )}
-        {modals.addReviewModalToggled && (
+        {addReviewModalToggled && (
           <>
             <AddReviewModal
               seller={localUser}
@@ -336,12 +336,9 @@ const UserProfile = () => {
             <ModalOverlay zIndex={3} />
           </>
         )}
-        {modals.sellerReviewsModalToggled && (
+        {sellerReviewsModalToggled && (
           <>
-            <SellerReviewsModal
-              seller={localUser}
-              reviews={reviews}
-            />
+            <SellerReviewsModal seller={localUser} reviews={reviews} />
             <ModalOverlay zIndex={5} />
           </>
         )}

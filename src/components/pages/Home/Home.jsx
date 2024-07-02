@@ -34,7 +34,13 @@ import HomeIcon from "../../ui/Icons/HomeIcon.jsx";
 
 function Listings() {
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+
+  const categorySelectorModalToggled = useSelector(
+    (state) => state.modals.categorySelectorModalToggled
+  );
+  const filtersSidebarToggled = useSelector(
+    (state) => state.modals.filtersSidebarToggled
+  );
   const flags = useSelector((state) => state.flags);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
@@ -302,7 +308,7 @@ function Listings() {
   return (
     <div className="home">
       <div className="sidebar-and-grid">
-        {modals.filtersSidebarToggled && (
+        {filtersSidebarToggled && (
           <>
             <FiltersSidebar
               allFiltersDisabled={false}
@@ -311,7 +317,7 @@ function Listings() {
             />
             {windowSize.width <= 625 && (
               <ModalOverlay
-                zIndex={4}
+                zIndex={5}
                 onClick={() =>
                   dispatch(toggleModal({ key: "filtersSidebar", value: false }))
                 }
@@ -321,9 +327,7 @@ function Listings() {
         )}
         <div
           className={`${
-            windowSize.width > 625 && modals.filtersSidebarToggled
-              ? "has-sidebar-margin"
-              : ""
+            windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
           {/* <div className="wtb-section">
@@ -344,22 +348,19 @@ function Listings() {
             {location.pathname == "/" && (
               <button
                 title={
-                  modals.filtersSidebarToggled
-                    ? "Hide Filters Sidebar"
-                    : "Show Filters Sidebar"
+                  filtersSidebarToggled ? "Hide Filters Sidebar" : "Show Filters Sidebar"
                 }
                 className="filters-button"
                 onClick={() =>
                   dispatch(
                     toggleModal({
                       key: "filtersSidebar",
-                      value:
-                        windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+                      value: windowSize.width > 625 ? !filtersSidebarToggled : true,
                     })
                   )
                 }
               >
-                {!modals.filtersSidebarToggled ? (
+                {!filtersSidebarToggled ? (
                   <Caret direction={"right"} />
                 ) : (
                   <Caret direction={"left"} />
@@ -392,7 +393,7 @@ function Listings() {
                 <option>Date Listed (New-Old)</option>
                 <option>Date Listed (Old-New)</option>
               </select>
-                <SortIcon />
+              <SortIcon />
             </div>
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
@@ -404,9 +405,7 @@ function Listings() {
             <p>
               <SkeletonsListingGrid
                 // link={{ url: "/sell", label: "Sell something" }}
-                accountsForSidebar={
-                  windowSize.width > 225 && modals.filtersSidebarToggled
-                }
+                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
                 hasOverlay={false}
                 numSkeletons={20}
                 blinking={true}
@@ -417,9 +416,7 @@ function Listings() {
             <>
               <SkeletonsListingGrid
                 message={"No listings found, try adjusting your search or filters."}
-                accountsForSidebar={
-                  windowSize.width > 225 && modals.filtersSidebarToggled
-                }
+                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
                 hasOverlay={true}
                 numSkeletons={20}
                 blinking={false}
@@ -432,7 +429,7 @@ function Listings() {
             <>
               <ListingGrid
                 listings={listings}
-                accountForSidebar={windowSize.width > 225 && modals.filtersSidebarToggled}
+                accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
                 loading={!listingsInitiallyLoading && listingsLoading}
               />
               {/* <Footer /> */}
@@ -440,7 +437,7 @@ function Listings() {
           )}
         </div>
       </div>
-      {modals.categorySelectorModalToggled && (
+      {categorySelectorModalToggled && (
         <CategorySelectorModal
           categories={filters.draft.categories}
           setCategories={setCategories}

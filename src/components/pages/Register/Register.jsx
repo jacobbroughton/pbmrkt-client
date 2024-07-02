@@ -19,7 +19,8 @@ import CityStateFieldset from "../../ui/CityStateFieldset/CityStateFieldset.jsx"
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const { verifyUserCheckedEmailModalToggled } =
+    useSelector((state) => state.modals);
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -37,6 +38,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [optionalFieldsShowing, setOptionalFieldsShowing] = useState(false);
+  const [human, setHuman] = useState("");
 
   useEffect(() => {
     const debounceFn = setTimeout(() => {
@@ -245,6 +247,19 @@ const Register = () => {
                     false
                   ))}
               </div>
+              <div className="form-group">
+                <label htmlFor="username">Human?</label>
+                <input
+                  placeholder="...?"
+                  onChange={(e) => {
+                    // setUsernameIsInitial(true);
+                    setHuman(e.target.value);
+                    // checkForExistingMatchingUsername(e.target.value);
+                  }}
+                  value={human}
+                />
+                human?
+              </div>
             </div>
           </div>
 
@@ -314,7 +329,7 @@ const Register = () => {
             Submit
           </button>
         </form>
-        {modals.verifyUserCheckedEmailModalToggled && (
+        {verifyUserCheckedEmailModalToggled && (
           <>
             <div className="modal confirm-email">
               <p className="large-text ">Check your email</p>
@@ -336,9 +351,7 @@ const Register = () => {
 
         {loading && (
           <LoadingOverlay
-            message={
-              modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"
-            }
+            message={verifyUserCheckedEmailModalToggled ? "" : "Creating your account"}
           />
         )}
       </div>

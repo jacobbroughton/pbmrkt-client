@@ -49,13 +49,11 @@ const CategoriesList = ({ categories, isNested, handleCategoryClick }) => {
 const CategoryButton = ({ category, handleCategoryClick }) => {
   const totalChildrenNumResults = category.children.reduce(
     (acc, currentValue) => {
-      console.log(currentValue, acc);
       return acc + currentValue.num_results
     },
     0
   );
 
-  console.log(totalChildrenNumResults);
 
   return (
     <button

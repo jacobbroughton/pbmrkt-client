@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import Listings from "./components/pages/Home/Home";
 import Navbar from "./components/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
@@ -22,8 +22,13 @@ import ResetPasswordModal from "./components/ui/ResetPasswordModal/ResetPassword
 function App() {
   const dispatch = useDispatch();
 
-  const { session, user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const { session } = useSelector((state) => state.auth);
+  const resetPasswordModalToggled = useSelector(
+    (state) => state.modals.resetPasswordModalToggled
+  );
+  const registerModalToggled = useSelector((state) => state.modals.registerModalToggled);
+  const loginModalToggled = useSelector((state) => state.modals.loginModalToggled);
+  const navigate = useNavigate();
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -74,6 +79,8 @@ function App() {
     }
   }
 
+  // console.log('gang')
+
   // useEffect(() => {
   //   setSessionLoading(true);
   //   supabase.auth.getSession().then(async ({ data: { _session } }) => {
@@ -107,6 +114,7 @@ function App() {
   // }, []);
 
   const onAuthStateChange = (callback) => {
+    console.log(callback);
     let currentSession;
     return supabase.auth.onAuthStateChange((event, _session) => {
       if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
@@ -122,10 +130,12 @@ function App() {
   };
 
   useEffect(() => {
+    if (!session && !sessionLoading) navigate("/login");
+
     setTimeout(() => {
       const {
         data: { subscription },
-      } = onAuthStateChange((event, session) => {
+      } = onAuthStateChange((event) => {
         if (event == "SIGNED_OUT") {
           dispatch(setSession(null));
           dispatch(setUser(null));
@@ -150,6 +160,7 @@ function App() {
   return (
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
+      {/* <Navbar/> */}
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>
@@ -160,16 +171,15 @@ function App() {
           <Route element={<Login />} path="/login" />
           <Route element={<PrivateRoutes />}>
             <Route path="/sell" element={<Sell />} />
-            {/* <Route path="/profile" element={<UserProfile />} /> */}
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
           <Route path="/user/:username" element={<UserProfile />} />
           <Route element={<Item />} path="/listing/:itemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
-        {modals.loginModalToggled && <LoginModal />}
-        {modals.registerModalToggled && <RegisterModal />}
-        {modals.resetPasswordModalToggled && <ResetPasswordModal />}
+        {loginModalToggled && <LoginModal />}
+        {registerModalToggled && <RegisterModal />}
+        {resetPasswordModalToggled && <ResetPasswordModal />}
       </main>
     </>
   );

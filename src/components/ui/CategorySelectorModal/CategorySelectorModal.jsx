@@ -8,9 +8,9 @@ import "./CategorySelectorModal.css";
 const CategorySelectorModal = ({
   categories,
   setCategories,
-  handleCategoryClick,
-  handleModalClick,
-  handleApply,
+  handleCategoryClick = () => null,
+  handleModalClick = () => null,
+  handleApply = () => null,
   applyDisabled,
   handleExpandAll = () => null,
   handleCollapseAll = () => null,
@@ -46,7 +46,6 @@ const CategorySelectorModal = ({
             className="button"
             type="button"
             onClick={handleApply}
-            // disabled={!selectedCategory || selectedCategory?.is_folder}
             disabled={applyDisabled}
           >
             Apply

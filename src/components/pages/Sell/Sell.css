@@ -856,6 +856,10 @@
   margin-top: 3px;
 }
 
+.sell .form-group.disabled .cant-find-city-toggle {
+  color: grey;
+}
+
 .sell .form-group .cant-find-city-toggle:hover {
   text-decoration: underline;
 }

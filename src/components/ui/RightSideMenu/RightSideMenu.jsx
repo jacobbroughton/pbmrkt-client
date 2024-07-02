@@ -13,7 +13,7 @@ const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const rightSideMenuRef = useRef(null);
-  const { session, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const RightSideMenu = () => {
       window.removeEventListener("click", handler);
     };
   });
+
 
   async function handleLogout(e) {
     e.preventDefault();
@@ -67,7 +68,7 @@ const RightSideMenu = () => {
             <img className="profile-picture" src={user.profile_picture_url} />
             <div className="info">
               <label>View Profile</label>
-              <p className="user-email">{session?.user.username}</p>
+              <p className="user-email">{user.username}</p>
             </div>
           </div>
         </Link>
@@ -87,7 +88,7 @@ const RightSideMenu = () => {
           <DollarBillIcon />
           <label>Sell</label>
         </Link>
-        <button className="menu-item logout" onClick={handleLogout}>
+        <button className="menu-item logout" type="button" onClick={handleLogout}>
           <LogOutIcon />
           Logout
         </button>

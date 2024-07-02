@@ -9,7 +9,7 @@ import "./ResetPasswordModal.css";
 
 const ResetPasswordModal = () => {
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const { validateResetPasswordModalToggled } = useSelector((state) => state.modals);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const ResetPasswordModal = () => {
   async function handleRequestEmail(e) {
     try {
       e.preventDefault();
-      if (!email) throw 'No email was provided'
+      if (!email) throw "No email was provided";
       setLoading(true);
 
       // const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -65,8 +65,8 @@ const ResetPasswordModal = () => {
             Need to create an account? {/* <Link to="/register">Register here</Link> */}
             <button
               onClick={() => {
-                dispatch(toggleModal({key: 'resetPasswordModal', value: false}));
-                dispatch(toggleModal({key: 'registerModal', value: true}));
+                dispatch(toggleModal({ key: "resetPasswordModal", value: false }));
+                dispatch(toggleModal({ key: "registerModal", value: true }));
               }}
               className="link-button"
               type="button"
@@ -88,7 +88,7 @@ const ResetPasswordModal = () => {
             Send Email
           </button>
         </form>
-        {modals.validateResetPasswordModalToggled && (
+        {validateResetPasswordModalToggled && (
           <>
             <div className="modal is-verifying-modal">
               <p className="large-text ">Check your email</p>

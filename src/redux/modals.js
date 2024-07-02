@@ -24,7 +24,7 @@ const modalsSlice = createSlice({
   initialState,
   reducers: {
     toggleModal: (state, { payload }) => {
-      const { key, value, closeAll } = payload;
+      const { key, value, closeAll = false } = payload;
       return {
         ...state,
         ...(closeAll && initialState),

@@ -1,13 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import TrashIcon from "../../ui/Icons/TrashIcon";
-import StarIcon from "../../ui/Icons/StarIcon";
-import Arrow from "../../ui/Icons/Arrow";
 import {
   capitalizeWords,
   collapseAllCategoryFolders,
@@ -17,20 +14,22 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
-import MagicWand from "../../ui/Icons/MagicWand.jsx";
 // import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
-import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { toggleModal } from "../../../redux/modals.js";
 // import EditIcon from "../../ui/Icons/EditIcon.jsx";
 // import Footer from "../../ui/Footer/Footer.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import RadioIcon from "../../ui/Icons/RadioIcon.jsx";
 // import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
 // import MapboxLocationSearch from "../../ui/MapboxLocationSearch/MapboxLocationSearch.jsx";
+import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import TrashIcon from "../../ui/Icons/TrashIcon";
+import StarIcon from "../../ui/Icons/StarIcon";
+import Arrow from "../../ui/Icons/Arrow";
+import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
+import MagicWand from "../../ui/Icons/MagicWand.jsx";
+import RadioIcon from "../../ui/Icons/RadioIcon.jsx";
 import SortIcon from "../../ui/Icons/SortIcon.jsx";
 import ImagesIcons from "../../ui/Icons/ImagesIcons.jsx";
-import PenIcon from "../../ui/Icons/PenIcon.jsx";
 import JumpToIcon from "../../ui/Icons/JumpToIcon.jsx";
 import MissingUserInfoModal from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
 
@@ -69,7 +68,9 @@ const Sell = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const categorySelectorModalToggled = useSelector(
+    (state) => state.modals.categorySelectorModalToggled
+  );
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(randomBrand);
@@ -78,7 +79,7 @@ const Sell = () => {
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
-  const [contactPhoneNumber, setContactPhoneNumber] = useState("7047708371");
+  const [contactPhoneNumber, setContactPhoneNumber] = useState("");
   const [sellerName, setSellerName] = useState("Jacob Broughton");
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
@@ -153,120 +154,120 @@ const Sell = () => {
   const priceRef = useRef(null);
 
   useEffect(() => {
+    const getItemCategories = async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_item_categories");
+
+        if (error) throw error.message;
+
+        const nestedItemCategories = nestItemCategories(data, null);
+
+        setCategories({
+          draft: {
+            ...categories.draft,
+            all: nestedItemCategories,
+          },
+          saved: {
+            ...categories.saved,
+            all: nestedItemCategories,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        setSellError(error);
+      }
+    };
+
+    const getDefaultSelections = async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_default_seller_inputs", {
+          p_user_id: user.auth_id,
+        });
+
+        if (error) throw error.message;
+
+        if (!data[0]) return;
+
+        const {
+          phone_number: defaultPhoneNumber,
+          state: defaultState,
+          city: defaultCity,
+          trades: defaultTrades,
+          shipping: defaultShipping,
+          negotiable: defaultNegotiable,
+        } = data[0];
+
+        let localGeneratedFilters = { ...generatedFilters };
+        let localRadioOptions = { ...radioOptions };
+
+        if (defaultPhoneNumber) {
+          localGeneratedFilters.phoneNumber = defaultPhoneNumber;
+          setContactPhoneNumber(defaultPhoneNumber);
+        }
+
+        if (defaultState) {
+          localGeneratedFilters.state = true;
+          setState(defaultState);
+        }
+        if (defaultState && defaultCity) {
+          localGeneratedFilters.city = true;
+          setCity(capitalizeWords(defaultCity));
+        }
+
+        if (defaultTrades) {
+          localGeneratedFilters.trades = true;
+          const correspondingTradesOption = radioOptions.tradeOptions.find(
+            (op) => op.value == defaultTrades
+          );
+          localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
+            return {
+              ...op,
+              checked: op.value == correspondingTradesOption.value,
+            };
+          });
+        }
+
+        if (defaultShipping) {
+          localGeneratedFilters.shipping = true;
+          const correspondingShippingOption = radioOptions.shippingOptions.find(
+            (op) => op.value == defaultShipping
+          );
+          localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
+            (op) => {
+              return {
+                ...op,
+                checked: op.value == correspondingShippingOption.value,
+              };
+            }
+          );
+        }
+
+        if (defaultNegotiable) {
+          localGeneratedFilters.negotiable = true;
+          const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
+            (op) => op.value == defaultNegotiable
+          );
+          localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
+            (op) => {
+              return {
+                ...op,
+                checked: op.value == correspondingNegotiableOption.value,
+              };
+            }
+          );
+        }
+
+        setRadioOptions(localRadioOptions);
+        setGeneratedFilters(localGeneratedFilters);
+      } catch (error) {
+        console.error(error);
+        setSellError(error.toString());
+      }
+    };
+
     getDefaultSelections();
     getItemCategories();
   }, []);
-
-  async function getItemCategories() {
-    try {
-      const { data, error } = await supabase.rpc("get_item_categories");
-
-      if (error) throw error.message;
-
-      const nestedItemCategories = nestItemCategories(data, null);
-
-      setCategories({
-        draft: {
-          ...categories.draft,
-          all: nestedItemCategories,
-        },
-        saved: {
-          ...categories.saved,
-          all: nestedItemCategories,
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      setSellError(error);
-    }
-  }
-
-  async function getDefaultSelections() {
-    try {
-      const { data, error } = await supabase.rpc("get_default_seller_inputs", {
-        p_user_id: user.auth_id,
-      });
-
-      if (error) throw error.message;
-
-      if (!data[0]) return;
-
-      const {
-        phone_number: defaultPhoneNumber,
-        state: defaultState,
-        city: defaultCity,
-        trades: defaultTrades,
-        shipping: defaultShipping,
-        negotiable: defaultNegotiable,
-      } = data[0];
-
-      let localGeneratedFilters = { ...generatedFilters };
-      let localRadioOptions = { ...radioOptions };
-
-      if (defaultPhoneNumber) {
-        localGeneratedFilters.phoneNumber = defaultPhoneNumber;
-        setContactPhoneNumber(defaultPhoneNumber);
-      }
-
-      if (defaultState) {
-        localGeneratedFilters.state = true;
-        setState(defaultState);
-      }
-      if (defaultState && defaultCity) {
-        localGeneratedFilters.city = true;
-        setCity(capitalizeWords(defaultCity));
-      }
-
-      if (defaultTrades) {
-        localGeneratedFilters.trades = true;
-        const correspondingTradesOption = radioOptions.tradeOptions.find(
-          (op) => op.value == defaultTrades
-        );
-        localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
-          return {
-            ...op,
-            checked: op.value == correspondingTradesOption.value,
-          };
-        });
-      }
-
-      if (defaultShipping) {
-        localGeneratedFilters.shipping = true;
-        const correspondingShippingOption = radioOptions.shippingOptions.find(
-          (op) => op.value == defaultShipping
-        );
-        localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
-          (op) => {
-            return {
-              ...op,
-              checked: op.value == correspondingShippingOption.value,
-            };
-          }
-        );
-      }
-
-      if (defaultNegotiable) {
-        localGeneratedFilters.negotiable = true;
-        const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
-          (op) => op.value == defaultNegotiable
-        );
-        localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
-          (op) => {
-            return {
-              ...op,
-              checked: op.value == correspondingNegotiableOption.value,
-            };
-          }
-        );
-      }
-
-      setRadioOptions(localRadioOptions);
-      setGeneratedFilters(localGeneratedFilters);
-    } catch (error) {
-      console.error(error);
-      setSellError(error.toString());
-    }
-  }
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -581,8 +582,9 @@ const Sell = () => {
   const fieldErrors = [
     {
       fieldKey: "images",
+      active: false,
       warningText: "You must include at least one photo of the item you're selling",
-      active: photos?.length == 0,
+      // active: photos?.length == 0,
       onClick: (e) => {
         e.preventDefault();
         imagesRef.current.scrollIntoView(scrollOptions);
@@ -591,7 +593,8 @@ const Sell = () => {
     {
       fieldKey: "fullName",
       warningText: "You must include your full name",
-      active: !sellerName,
+      // active: !sellerName,
+      active: false,
       onClick: (e) => {
         e.preventDefault();
         fullNameRef.current.scrollIntoView(scrollOptions);
@@ -600,7 +603,8 @@ const Sell = () => {
     {
       fieldKey: "contactPhoneNumber",
       warningText: "You must include your contact number",
-      active: !contactPhoneNumber,
+      // active: !contactPhoneNumber,
+      active: false,
       onClick: (e) => {
         e.preventDefault();
         contactPhoneNumberRef.current.scrollIntoView(scrollOptions);
@@ -725,6 +729,11 @@ const Sell = () => {
 
   let warnings = [];
 
+  const detailsPlaceholderText = `(Example) 
+- Planet Eclipse CS1
+- Comes with a .685 freak insert, parts kit, tools, barrel sock.
+- Small leak in solenoid area. Can still use about 4 pods in a point.`;
+
   if (!whatIsThisItem) warnings.push("");
 
   return (
@@ -819,6 +828,7 @@ const Sell = () => {
                         accept=".jpg"
                         name="photos"
                         ref={imageInputRef}
+                        capture
                       />
                     </label>
                   )}
@@ -866,6 +876,7 @@ const Sell = () => {
                 >
                   <label>Contact Phone Number </label>
                   <input
+                    type="tel"
                     onChange={(e) => setContactPhoneNumber(e.target.value)}
                     value={contactPhoneNumber}
                     placeholder="Contact Phone Number"
@@ -1008,6 +1019,7 @@ const Sell = () => {
                   ref={categoryRef}
                 >
                   <label>Select the most accurate category for this item</label>
+                  {console.log(categories)}
                   <button
                     onClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
@@ -1124,10 +1136,7 @@ const Sell = () => {
                 <textarea
                   onChange={(e) => setDetails(e.target.value)}
                   value={details}
-                  placeholder="(Example) 
-- Planet Eclipse CS1
-- Comes with a .685 freak insert, parts kit, tools, barrel sock.
-- Small leak in solenoid area. Can still use about 4 pods in a point."
+                  placeholder={detailsPlaceholderText}
                 />
               </div>
             </div>
@@ -1196,34 +1205,36 @@ const Sell = () => {
                   </div>
                 </div>
 
-                {!noShipping && <div
-                  className={`form-group shipping-cost ${
-                    buyerPaysShipping ? "" : "disabled"
-                  }`}
-                  title={
-                    buyerPaysShipping
-                      ? "Adjust the cost of shipping for this item"
-                      : "Toggle 'buyer pays shipping' for this to be interactive"
-                  }
-                >
-                  <label>
-                    {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
-                  </label>
-                  <div className="input-container">
-                    <input
-                      onChange={(e) => {
-                        setShippingCost(e.target.value);
-                      }}
-                      type="number"
-                      step={0.01}
-                      value={shippingCost}
-                      placeholder="$0"
-                      required
-                      className="dollars"
-                      disabled={!buyerPaysShipping}
-                    />
+                {!noShipping && (
+                  <div
+                    className={`form-group shipping-cost ${
+                      buyerPaysShipping ? "" : "disabled"
+                    }`}
+                    title={
+                      buyerPaysShipping
+                        ? "Adjust the cost of shipping for this item"
+                        : "Toggle 'buyer pays shipping' for this to be interactive"
+                    }
+                  >
+                    <label>
+                      {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
+                    </label>
+                    <div className="input-container">
+                      <input
+                        onChange={(e) => {
+                          setShippingCost(e.target.value);
+                        }}
+                        type="number"
+                        step={0.01}
+                        value={shippingCost}
+                        placeholder="$0"
+                        required
+                        className="dollars"
+                        disabled={!buyerPaysShipping}
+                      />
+                    </div>
                   </div>
-                </div>}
+                )}
               </fieldset>
             </div>
           </div>
@@ -1296,7 +1307,7 @@ const Sell = () => {
             <div className="success-modal-overlay"></div>
           </>
         )}
-        {modals.categorySelectorModalToggled && (
+        {categorySelectorModalToggled && (
           <>
             <CategorySelectorModal
               categories={categories.draft.all}
@@ -1328,9 +1339,13 @@ const Sell = () => {
                 // TODO - reset draft categories
               }}
               handleApply={() => {
+                console.log(categories);
                 setCategories({
                   ...categories,
-                  saved: categories.draft,
+                  saved: {
+                    all: categories.draft.all,
+                    selected: categories.draft.selected,
+                  },
                 });
                 dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
               }}
@@ -1360,8 +1375,7 @@ const Sell = () => {
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}
       </div>
-      {console.log(user)}
-      {missingUserInfo && <MissingUserInfoModal />}
+      {/* {missingUserInfo && <MissingUserInfoModal />} */}
       {/* <Footer /> */}
     </>
   );

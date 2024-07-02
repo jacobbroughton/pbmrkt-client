@@ -18,8 +18,6 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
 
         if (error) throw error.message;
 
-        console.log(error)
-
         const imageUrl = data.publicUrl;
         return (
           <Link

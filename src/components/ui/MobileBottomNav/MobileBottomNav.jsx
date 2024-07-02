@@ -20,7 +20,12 @@ import UnauthenticatedOptionsMenu from "../UnauthenticatedOptionsMenu/Unauthenti
 function MobileBottomNav() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const {
+    rightSideMenuToggled,
+    unauthenticatedOptionsMenuToggled,
+    notificationsMenuToggled,
+    searchModalToggled,
+  } = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
 
@@ -30,14 +35,12 @@ function MobileBottomNav() {
 
     if (user) {
       dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-      dispatch(
-        toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled })
-      );
+      dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
     } else {
       dispatch(
         toggleModal({
           key: "unauthenticatedOptionsMenu",
-          value: !modals.unauthenticatedOptionsMenuToggled,
+          value: !unauthenticatedOptionsMenuToggled,
           closeAll: true,
         })
       );
@@ -49,9 +52,7 @@ function MobileBottomNav() {
     e.stopPropagation();
     dispatch(toggleModal({ key: "rightSideMenu", value: false }));
 
-    dispatch(
-      toggleModal({ key: "notificationsMenu", value: !modals.notificationsMenuToggled })
-    );
+    dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled }));
   }
 
   async function handleNotificationsSubscribe() {
@@ -121,7 +122,7 @@ function MobileBottomNav() {
   }
 
   function handleSearchToggle(e) {
-    console.log("swag")
+    console.log("swag");
     e.stopPropagation();
     dispatch(toggleModal({ key: "searchModal", value: true, closeAll: true }));
     dispatch(setSearchBarToggled(!search.searchBarToggled));
@@ -193,15 +194,15 @@ function MobileBottomNav() {
         </Link>
       )} */}
 
-      {modals.rightSideMenuToggled && user && <RightSideMenu />}
-      {modals.unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
-      {modals.notificationsMenuToggled && user && (
+      {rightSideMenuToggled && user && <RightSideMenu />}
+      {unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
+      {notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}
           setNotifications={setNotifications}
         />
       )}
-      {modals.searchModalToggled && <SearchModal />}
+      {searchModalToggled && <SearchModal />}
     </nav>
   );
 }

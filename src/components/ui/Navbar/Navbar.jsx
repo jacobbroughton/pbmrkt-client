@@ -12,7 +12,7 @@ import { isOnMobile } from "../../../utils/usefulFunctions";
 import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import BellIcon from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Caret from "../Icons/Caret";
 import SearchModal from "../SearchModal/SearchModal";
 import PlusIcon from "../Icons/PlusIcon";
@@ -20,13 +20,20 @@ import SearchIcon from "../Icons/SearchIcon";
 import "./Navbar.css";
 import DesktopSearchToggle from "../DesktopSearchToggle/DesktopSearchToggle";
 
-function Navbar() {
+const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { session, user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const { user } = useSelector((state) => state.auth);
+  const {
+    searchModalToggled,
+    filtersSidebarToggled,
+
+    rightSideMenuToggled,
+    notificationsMenuToggled,
+  } = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
+  const [testState, setTestState] = useState("on");
 
   const windowSize = useWindowSize();
   const navigate = useNavigate();
@@ -36,7 +43,7 @@ function Navbar() {
     e.stopPropagation();
 
     dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-    dispatch(toggleModal({ key: "rightSideMenu", value: !modals.rightSideMenuToggled }));
+    dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
   }
 
   function handleNotificationsMenuToggle(e) {
@@ -44,9 +51,7 @@ function Navbar() {
     e.stopPropagation();
     dispatch(toggleModal({ key: "rightSideMenu", value: false }));
 
-    dispatch(
-      toggleModal({ key: "notificationsMenu", value: !modals.notificationsMenuToggled })
-    );
+    dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled }));
   }
 
   async function handleNotificationsSubscribe() {
@@ -119,7 +124,7 @@ function Navbar() {
     if (user) handleNotificationsSubscribe();
 
     function handleKeyDownEvent(e) {
-      if (e.code == "Slash" && !modals.searchModalToggled)
+      if (e.code == "Slash" && !searchModalToggled)
         dispatch(toggleModal({ key: "searchModal", value: true }));
     }
 
@@ -154,12 +159,12 @@ function Navbar() {
               dispatch(
                 toggleModal({
                   key: "filtersSidebar",
-                  value: windowSize.width > 625 ? !modals.filtersSidebarToggled : true,
+                  value: windowSize.width > 625 ? !filtersSidebarToggled : true,
                 })
               )
             }
           >
-            {!modals.filtersSidebarToggled ? (
+            {!filtersSidebarToggled ? (
               <Caret direction={"right"} />
             ) : (
               <Caret direction={"left"} />
@@ -202,13 +207,13 @@ function Navbar() {
           <PlusIcon />
         </button>
 
-        {session?.user ? (
+        {user ? (
           <>
             {((isOnMobile() && search.searchBarToggled) || true) && (
               <button
                 type="button"
                 className={`notifications-menu-toggle ${
-                  modals.notificationsMenuToggled ? "toggled" : ""
+                  notificationsMenuToggled ? "toggled" : ""
                 }`}
                 onClick={handleNotificationsMenuToggle}
               >
@@ -240,16 +245,24 @@ function Navbar() {
           </button>
         )}
       </div>
-      {modals.rightSideMenuToggled && session && <RightSideMenu />}
-      {modals.notificationsMenuToggled && session && (
+      <button
+        onClick={() => {
+          setTestState(testState == "on" ? "off" : "on");
+          dispatch(toggleModal({ key: "noodlebob", value: false }));
+        }}
+      >
+        {testState}
+      </button>
+      {rightSideMenuToggled && user && <RightSideMenu />}
+      {notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}
           setNotifications={setNotifications}
         />
       )}
-      {modals.searchModalToggled && <SearchModal />}
+      {searchModalToggled && <SearchModal />}
     </nav>
   );
-}
+};
 
 export default Navbar;

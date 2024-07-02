@@ -160,6 +160,7 @@
 
 .category-selector .categories-list-container button.category-button svg.radio-icon {
   width: 12px;
+  min-width: 12px;
   fill: grey;
   margin-left: auto;
   margin-right: 10px;

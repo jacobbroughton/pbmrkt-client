@@ -19,7 +19,7 @@ import CityStateFieldset from "../../ui/CityStateFieldset/CityStateFieldset.jsx"
 const RegisterModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const { verifyUserCheckedEmailModalToggled } = useSelector((state) => state.modals);
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -300,9 +300,7 @@ const RegisterModal = () => {
                 </fieldset>
                 <CityStateFieldset />
                 <div className="form-group">
-                  <label htmlFor="phone-number">
-                    Phone Number
-                  </label>
+                  <label htmlFor="phone-number">Phone Number</label>
                   <input
                     placeholder="7048290000"
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -319,7 +317,6 @@ const RegisterModal = () => {
                     id="bio"
                   />
                 </div>
-      
               </div>
             )}
           </div>
@@ -328,7 +325,7 @@ const RegisterModal = () => {
             Submit
           </button>
         </form>
-        {modals.verifyUserCheckedEmailModalToggled && (
+        {verifyUserCheckedEmailModalToggled && (
           <>
             <div className="modal confirm-email">
               <p className="large-text ">Check your email</p>
@@ -350,9 +347,7 @@ const RegisterModal = () => {
 
         {loading && (
           <LoadingOverlay
-            message={
-              modals.verifyUserCheckedEmailModalToggled ? "" : "Creating your account"
-            }
+            message={verifyUserCheckedEmailModalToggled ? "" : "Creating your account"}
           />
         )}
       </div>

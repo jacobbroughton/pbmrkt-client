@@ -27,7 +27,12 @@ import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
 const Item = () => {
   const dispatch = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const {
+    editItemModalToggled,
+    priceChangeModalToggled,
+    fullScreenImageModalToggled,
+    sellerReviewsModalToggled,
+  } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
   const { itemID } = useParams();
   const [item, setItem] = useState(null);
@@ -236,7 +241,7 @@ const Item = () => {
   }
 
   function handleEditButtonClick() {
-    dispatch(toggleModal({ key: "editItemModal", value: !modals.editItemModalToggled }));
+    dispatch(toggleModal({ key: "editItemModal", value: !editItemModalToggled }));
   }
 
   async function handleStatusChange(newStatus) {
@@ -449,7 +454,7 @@ const Item = () => {
                       dispatch(
                         toggleModal({
                           key: "editItemModal",
-                          value: !modals.editItemMenuToggled,
+                          value: !editItemMenuToggled,
                         })
                       )
                     }
@@ -619,7 +624,7 @@ const Item = () => {
             commentIdWithRepliesOpening={commentIdWithRepliesOpening}
           />
         </div>
-        {modals.editItemModalToggled ? (
+        {editItemModalToggled ? (
           <EditItemModal
             item={item}
             setItem={(newItem) => {
@@ -629,12 +634,12 @@ const Item = () => {
         ) : (
           false
         )}
-        {modals.priceChangeModalToggled ? (
+        {priceChangeModalToggled ? (
           <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
         ) : (
           false
         )}
-        {modals.fullScreenImageModalToggled ? (
+        {fullScreenImageModalToggled ? (
           <FullScreenImageModal
             photos={item.photos}
             setSelectedPhoto={setSelectedPhoto}
@@ -643,7 +648,7 @@ const Item = () => {
         ) : (
           false
         )}
-        {modals.sellerReviewsModalToggled && (
+        {sellerReviewsModalToggled && (
           <>
             <SellerReviewsModal
               seller={{

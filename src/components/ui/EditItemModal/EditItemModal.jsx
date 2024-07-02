@@ -26,7 +26,7 @@ const EditItemModal = ({ item, setItem }) => {
   const navigate = useNavigate();
   const formRef = useRef();
   const { user } = useSelector((state) => state.auth);
-  const modals = useSelector((state) => state.modals);
+  const { categorySelectorModalToggled } = useSelector((state) => state.modals);
   const [brand, setBrand] = useState(item.info.brand);
   const [model, setModel] = useState(item.info.model);
   const [price, setPrice] = useState(item.info.price);
@@ -550,7 +550,7 @@ const EditItemModal = ({ item, setItem }) => {
         </div>
       </div>
       {console.log(categories)}
-      {modals.categorySelectorModalToggled && (
+      {categorySelectorModalToggled && (
         <>
           <CategorySelectorModal
             categories={categories.draft.all}

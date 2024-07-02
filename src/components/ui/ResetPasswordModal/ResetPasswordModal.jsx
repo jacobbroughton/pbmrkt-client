@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./ResetPasswordModal.css";
 
-const ResetPasswordModal = () => {
+export const ResetPasswordModal = () => {
   const dispatch = useDispatch();
   const { validateResetPasswordModalToggled } = useSelector((state) => state.modals);
   const [error, setError] = useState(null);
@@ -113,4 +113,3 @@ const ResetPasswordModal = () => {
     </>
   );
 };
-export default ResetPasswordModal;

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import "./ResetPassword.css";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 
-const ResetPassword = () => {
+export const ResetPassword = () => {
   const dispatch = useDispatch();
-  const {validateResetPasswordModalToggled} = useSelector((state) => state.modals);
+  const { validateResetPasswordModalToggled } = useSelector((state) => state.modals);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [email, setEmail] = useState("");
@@ -35,7 +35,6 @@ const ResetPassword = () => {
       //   console.error(error);
       //   throw error.message;
       // }
-      
 
       setIsVerifying(true);
       // navigate("/update-password");
@@ -44,9 +43,8 @@ const ResetPassword = () => {
       setError(error.toString());
     }
     setTimeout(() => {
-
       setLoading(false);
-    }, 1000)
+    }, 1000);
   }
 
   async function handleValidated() {
@@ -58,7 +56,7 @@ const ResetPassword = () => {
     <div className="reset-password">
       {error && <div className="error-text">{error}</div>}
       <h1>Reset Password</h1>
-      <form onSubmit={handleRequestEmail} className='standard'>
+      <form onSubmit={handleRequestEmail} className="standard">
         <p>
           Need to create an account? <Link to="/register">Register here</Link>
         </p>
@@ -91,8 +89,7 @@ const ResetPassword = () => {
           <ModalOverlay zIndex={5} />
         </>
       )}
-      {loading && <LoadingOverlay message="Sending you an email..." zIndex={5}/>}
+      {loading && <LoadingOverlay message="Sending you an email..." zIndex={5} />}
     </div>
   );
 };
-export default ResetPassword;

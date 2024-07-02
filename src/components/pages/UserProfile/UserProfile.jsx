@@ -3,23 +3,23 @@ import "./UserProfile.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
-import ListingGrid from "../../ui/ListingGrid/ListingGrid";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import Stars from "../../ui/Stars/Stars";
+import { ListingGrid } from "../../ui/ListingGrid/ListingGrid";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { Stars } from "../../ui/Stars/Stars";
 import { toggleModal } from "../../../redux/modals";
 import { v4 as uuidv4 } from "uuid";
-import EditIcon from "../../ui/Icons/EditIcon";
-import ItemSkeleton from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
-import Footer from "../../ui/Footer/Footer";
-import ThreeDots from "../../ui/Icons/ThreeDots";
-import EditUserProfileModal from "../../ui/EditUserProfileModal/EditUserProfileModal";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
-import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
+import { EditIcon } from "../../ui/Icons/EditIcon";
+import { ItemSkeleton } from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
+import { Footer } from "../../ui/Footer/Footer";
+import { ThreeDots } from "../../ui/Icons/ThreeDots";
+import { EditUserProfileModal } from "../../ui/EditUserProfileModal/EditUserProfileModal";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
+import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
 import { capitalizeWords, getTimeAgo } from "../../../utils/usefulFunctions";
-import AddReviewModal from "../../ui/AddReviewModal/AddReviewModal";
-import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import { AddReviewModal } from "../../ui/AddReviewModal/AddReviewModal";
+import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 
-const UserProfile = () => {
+export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -347,4 +347,3 @@ const UserProfile = () => {
     </>
   );
 };
-export default UserProfile;

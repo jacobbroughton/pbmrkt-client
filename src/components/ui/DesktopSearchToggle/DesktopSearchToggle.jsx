@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import SearchIcon from "../Icons/SearchIcon";
+import {SearchIcon} from "../Icons/SearchIcon";
 import "./DesktopSearchToggle.css";
 import { toggleModal } from "../../../redux/modals";
 
-const DesktopSearchToggle = () => {
+export const DesktopSearchToggle = () => {
   const dispatch = useDispatch();
   return (
     <button
@@ -16,4 +16,3 @@ const DesktopSearchToggle = () => {
     </button>
   );
 };
-export default DesktopSearchToggle;

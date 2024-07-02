@@ -1,8 +1,8 @@
 import { determineStarFillArray } from "../../../utils/usefulFunctions";
-import Star from "../Icons/Star.jsx";
+import {Star} from "../Icons/Star.jsx";
 import "./Stars.css"
 
-const Stars = ({rating}) => {
+export const Stars = ({rating}) => {
 
   let stars = determineStarFillArray(rating)
 
@@ -14,4 +14,3 @@ const Stars = ({rating}) => {
     </div>
   );
 };
-export default Stars;

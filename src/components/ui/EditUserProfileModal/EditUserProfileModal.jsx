@@ -5,13 +5,13 @@ import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { supabase } from "../../../utils/supabase.js";
 import { setUser } from "../../../redux/auth.js";
-import EditIcon from "../Icons/EditIcon.jsx";
+import {EditIcon} from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
-import XIcon from "../Icons/XIcon.jsx";
+import {XIcon} from "../Icons/XIcon.jsx";
 import "./EditUserProfileModal.css";
-import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
+// import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
 
-const EditUserProfileModal = ({ localUser, setLocalUser }) => {
+export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const dispatch = useDispatch();
 
   const [firstName, setFirstName] = useState(localUser.first_name || "");
@@ -266,4 +266,3 @@ const EditUserProfileModal = ({ localUser, setLocalUser }) => {
     </div>
   );
 };
-export default EditUserProfileModal;

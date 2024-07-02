@@ -3,9 +3,9 @@ import "./UnauthenticatedOptionsMenu.css";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import EnterIcon from "../Icons/EnterIcon";
+import { EnterIcon } from "../Icons/EnterIcon";
 
-const UnauthenticatedOptionsMenu = () => {
+export const UnauthenticatedOptionsMenu = () => {
   const menuRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -37,4 +37,3 @@ const UnauthenticatedOptionsMenu = () => {
     </div>
   );
 };
-export default UnauthenticatedOptionsMenu;

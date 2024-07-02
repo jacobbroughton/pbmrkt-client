@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase.js";
-import useWindowSize from "../../../utils/useWindowSize";
-import ListingGrid from "../../ui/ListingGrid/ListingGrid.jsx";
-import FiltersSidebar from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
+import { useWindowSize } from "../../../utils/useWindowSize";
+import { ListingGrid } from "../../ui/ListingGrid/ListingGrid.jsx";
+import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import Caret from "../../ui/Icons/Caret.jsx";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
+import { Caret } from "../../ui/Icons/Caret.jsx";
 import { setFlag } from "../../../redux/flags.js";
 import {
   resetFilter,
@@ -14,9 +14,9 @@ import {
   setFilters,
   setFiltersUpdated,
 } from "../../../redux/filters.js";
-import SkeletonsListingGrid from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
-import FilterTags from "../../ui/FilterTags/FilterTags.jsx";
-import FilterIcon from "../../ui/Icons/FilterIcon.jsx";
+import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
+import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
+import { FilterIcon } from "../../ui/Icons/FilterIcon.jsx";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
@@ -25,14 +25,15 @@ import {
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
-import Footer from "../../ui/Footer/Footer.jsx";
-import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
-import "./Home.css";
-import SortIcon from "../../ui/Icons/SortIcon.jsx";
+import { Footer } from "../../ui/Footer/Footer.jsx";
+import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { Link } from "react-router-dom";
-import HomeIcon from "../../ui/Icons/HomeIcon.jsx";
+import { HomeIcon } from "../../ui/Icons/HomeIcon.jsx";
+import "./Home.css";
+import { Arrow } from "../../ui/Icons/Arrow.jsx";
 
-function Listings() {
+export function Listings() {
   const dispatch = useDispatch();
 
   const categorySelectorModalToggled = useSelector(
@@ -345,7 +346,7 @@ function Listings() {
             </button>
           </div> */}
           <div className="listings-controls">
-            {location.pathname == "/" && (
+            {/* {location.pathname == "/" && (
               <button
                 title={
                   filtersSidebarToggled ? "Hide Filters Sidebar" : "Show Filters Sidebar"
@@ -367,7 +368,43 @@ function Listings() {
                 )}{" "}
                 <FilterIcon />
               </button>
-            )}
+            )} */}
+            {/* {location.pathname == "/" && (
+              <button
+                title={
+                  filtersSidebarToggled ? "Hide Filters Sidebar" : "Show Filters Sidebar"
+                }
+                className="filters-button"
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      key: "filtersSidebar",
+                      value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                    })
+                  )
+                }
+              >
+                {filtersSidebarToggled ? "" : "Show Filters"}
+              </button>
+            )} */}
+            <button
+              className="sidebar-toggle-button"
+              onClick={() =>
+                dispatch(
+                  toggleModal({
+                    key: "filtersSidebar",
+                    value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                  })
+                )
+              }
+            >
+              {filtersSidebarToggled ? (
+                <Arrow direction={"left"} />
+              ) : (
+                <Arrow direction={"right"} />
+              )}
+            </button>
+
             <div className="control-group home">
               {/* <Link
               to="/"
@@ -507,5 +544,3 @@ function Listings() {
     </div>
   );
 }
-
-export default Listings;

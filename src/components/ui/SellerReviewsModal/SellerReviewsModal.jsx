@@ -3,13 +3,13 @@ import "./SellerReviewsModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { setFlag } from "../../../redux/flags";
 import { useDispatch, useSelector } from "react-redux";
-import Stars from "../Stars/Stars";
-import XIcon from "../Icons/XIcon";
-import PlusIcon from "../Icons/PlusIcon";
+import { Stars } from "../Stars/Stars";
+import { XIcon } from "../Icons/XIcon";
+import { PlusIcon } from "../Icons/PlusIcon";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
-const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
+export const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
   const modalRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -88,4 +88,3 @@ const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
     </div>
   );
 };
-export default SellerReviewsModal;

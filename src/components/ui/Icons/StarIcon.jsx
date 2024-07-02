@@ -1,4 +1,4 @@
-const StarIcon = () => {
+export const StarIcon = () => {
   return (
     <div title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing.">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" stroke="black">
@@ -6,5 +6,4 @@ const StarIcon = () => {
       </svg>
     </div>
   );
-};
-export default StarIcon;
+}

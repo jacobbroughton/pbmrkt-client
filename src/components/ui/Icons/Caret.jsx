@@ -1,4 +1,4 @@
-const Caret = ({ direction }) => {
+export const Caret = ({ direction }) => {
   let rotateText = "";
 
   switch (direction) {
@@ -36,4 +36,3 @@ const Caret = ({ direction }) => {
     </svg>
   );
 };
-export default Caret;

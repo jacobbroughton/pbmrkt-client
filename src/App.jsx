@@ -1,28 +1,28 @@
 import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
-import Listings from "./components/pages/Home/Home";
-import Navbar from "./components/ui/Navbar/Navbar";
+import { Listings } from "./components/pages/Home/Home";
+import { Navbar } from "./components/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSession, setUser } from "./redux/auth.js";
-import Sell from "./components/pages/Sell/Sell.jsx";
-import Item from "./components/pages/Item/Item.jsx";
+import { Sell } from "./components/pages/Sell/Sell.jsx";
+import { Item } from "./components/pages/Item/Item.jsx";
 import { supabase } from "./utils/supabase.js";
-import Login from "./components/pages/Login/Login.jsx";
-import Register from "./components/pages/Register/Register.jsx";
-import UserProfile from "./components/pages/UserProfile/UserProfile.jsx";
-import ResetPassword from "./components/pages/ResetPassword/ResetPassword.jsx";
-import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword.jsx";
-import LoadingOverlay from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
+import { Login } from "./components/pages/Login/Login.jsx";
+import { Register } from "./components/pages/Register/Register.jsx";
+import { UserProfile } from "./components/pages/UserProfile/UserProfile.jsx";
+import { ResetPassword } from "./components/pages/ResetPassword/ResetPassword.jsx";
+import { UpdatePassword } from "./components/pages/UpdatePassword/UpdatePassword.jsx";
+import { LoadingOverlay } from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
 import { isOnMobile } from "./utils/usefulFunctions.js";
-import MobileBottomNav from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
-import LoginModal from "./components/ui/LoginModal/LoginModal.jsx";
-import RegisterModal from "./components/ui/RegisterModal/RegisterModal.jsx";
-import ResetPasswordModal from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
+import { MobileBottomNav } from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
+import { LoginModal } from "./components/ui/LoginModal/LoginModal.jsx";
+import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
+import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
 
-function App() {
+export function App() {
   const dispatch = useDispatch();
 
-  const { session } = useSelector((state) => state.auth);
+  const session = useSelector((state) => state.auth.session);
   const resetPasswordModalToggled = useSelector(
     (state) => state.modals.resetPasswordModalToggled
   );
@@ -160,6 +160,7 @@ function App() {
   return (
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
+      {/* {isOnMobile() ? false : <IconSidebar/>} */}
       {/* <Navbar/> */}
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
@@ -184,5 +185,3 @@ function App() {
     </>
   );
 }
-
-export default App;

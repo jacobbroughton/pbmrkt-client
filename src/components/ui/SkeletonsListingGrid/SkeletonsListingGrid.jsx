@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import ItemSkeleton from "../Skeletons/ItemSkeleton/ItemSkeleton";
+import { ItemSkeleton } from "../Skeletons/ItemSkeleton/ItemSkeleton";
+import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
 import "./SkeletonsListingGrid.css";
-import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
-const SkeletonsListingGrid = ({
+export const SkeletonsListingGrid = ({
   message,
   link,
   accountsForSidebar,
@@ -11,7 +11,7 @@ const SkeletonsListingGrid = ({
   blinking,
   numSkeletons,
   heightPx,
-  loading
+  loading,
 }) => {
   return (
     <div
@@ -31,8 +31,7 @@ const SkeletonsListingGrid = ({
       {[...new Array(numSkeletons)].map((num, i) => (
         <ItemSkeleton key={i} blinking={blinking} />
       ))}
-      {loading && <LoadingOverlay zIndex={3}/>}
+      {loading && <LoadingOverlay zIndex={3} />}
     </div>
   );
 };
-export default SkeletonsListingGrid;

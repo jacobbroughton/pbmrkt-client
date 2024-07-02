@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Star = ({ onHover, fillType }) => {
+export const Star = ({ onHover, fillType }) => {
   const [hoveredSide, setHoveredSide] = useState(null);
 
   let svg = null;
@@ -35,4 +35,3 @@ const Star = ({ onHover, fillType }) => {
     </div>
   );
 };
-export default Star;

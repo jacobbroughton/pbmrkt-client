@@ -1,7 +1,7 @@
-import Spinner from "../Icons/Spinner/Spinner";
+import {Spinner} from "../Icons/Spinner/Spinner";
 import "./LoadingOverlay.css";
 
-const LoadingOverlay = ({ message, zIndex, verticalAlignment }) => {
+export const LoadingOverlay = ({ message, zIndex, verticalAlignment }) => {
   return (
     <div
       className={`loading-overlay ${
@@ -18,4 +18,3 @@ const LoadingOverlay = ({ message, zIndex, verticalAlignment }) => {
     </div>
   );
 };
-export default LoadingOverlay;

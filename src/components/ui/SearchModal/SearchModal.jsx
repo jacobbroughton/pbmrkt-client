@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import Arrow from "../Icons/Arrow";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import { Arrow } from "../Icons/Arrow";
 import { toggleModal } from "../../../redux/modals";
-import SearchIcon from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
 import { useEffect, useRef, useState } from "react";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
@@ -11,7 +11,7 @@ import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
 import "./SearchModal.css";
 
-const SearchModal = () => {
+export const SearchModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef();
@@ -179,8 +179,8 @@ const SearchModal = () => {
                       {console.log(listing)}
                       <div className="listing-info">
                         <p className="what-is-this">{listing.what_is_this}</p>
-                        
-                        <p className='location'>
+
+                        <p className="location">
                           {listing.city}, {listing.state} {"-  "}
                           {getTimeAgo(new Date(listing.created_dttm))}
                         </p>
@@ -208,4 +208,3 @@ const SearchModal = () => {
     </>
   );
 };
-export default SearchModal;

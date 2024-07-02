@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import useWindowSize from "../../../utils/useWindowSize.js";
-import DoubleArrow from "../Icons/DoubleArrow.jsx";
-import UndoIcon from "../Icons/UndoIcon.jsx";
+import { useWindowSize } from "../../../utils/useWindowSize.js";
+import { DoubleArrow } from "../Icons/DoubleArrow.jsx";
+import { UndoIcon } from "../Icons/UndoIcon";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,18 +13,21 @@ import {
   setFiltersUpdated,
 } from "../../../redux/filters.js";
 import "./FiltersSidebar.css";
-import Checkboxes from "../Checkboxes/Checkboxes.jsx";
-import RadioOptions from "../RadioOptions/RadioOptions.jsx";
+import { Checkboxes } from "../Checkboxes/Checkboxes.jsx";
+import { RadioOptions } from "../RadioOptions/RadioOptions.jsx";
 import { setFlag } from "../../../redux/flags.js";
-import WarningCircle from "../Icons/WarningCircle.jsx";
+import { WarningCircle } from "../Icons/WarningCircle.jsx";
+import { EditIcon } from "../Icons/EditIcon.jsx";
+import { Arrow } from "../Icons/Arrow.jsx";
 import "./FiltersSidebar.css";
-import EditIcon from "../Icons/EditIcon.jsx";
 
-const FiltersSidebar = ({ allFiltersDisabled }) => {
+export const FiltersSidebar = ({ allFiltersDisabled }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
+  const { filtersSidebarToggled } = useSelector((state) => state.modals);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
+  const [sidebarTogglePositionY, setSidebarTogglePositionY] = useState(50); // percentage
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -104,6 +107,14 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
       dispatch(toggleModal({ key: "filtersSidebar", value: false }));
   }
 
+  // function handleMousePosition(e) {
+  //   console.log("mousemove", e);
+  //   if (isDragging)
+  //     setSidebarTogglePositionY(
+  //       Math.round(((e.pageY - 30) / e.view.innerHeight) * 98 + 1)
+  //     );
+  // }
+
   const resetButtonDisabled =
     (!filters.saved.category &&
       filters.saved.brand == filters.initial.brand &&
@@ -142,7 +153,7 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
       {" "}
       <form className="filters" onSubmit={handleFiltersApply}>
         <div className="apply-and-reset">
-          {windowSize.width <= 625 && (
+          {/* {windowSize.width <= 625 && (
             <button
               onClick={() =>
                 dispatch(toggleModal({ key: "filtersSidebar", value: false }))
@@ -153,7 +164,7 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
             >
               <DoubleArrow direction="left" />
             </button>
-          )}
+          )} */}
           {/* {!resetButtonHidden && ( */}
           <button
             onClick={() => {
@@ -451,7 +462,33 @@ const FiltersSidebar = ({ allFiltersDisabled }) => {
           </div>
         </div>
       </form>
+      <div className="sidebar-fixed-wrapper">
+        <div className="dotted-track"></div>
+        <button
+          draggable={true}
+          // onDrag={(e) => {
+          //   console.log(e.target.offsetTop)
+          // }}
+
+          className="sidebar-toggle-button"
+          onClick={() => {
+            console.log("toggled");
+            dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+          }}
+          style={{
+            // top: `${sidebarTogglePositionY}%`,
+            // transform: `translateY(-${sidebarTogglePositionY}%)`,
+            top: `${45}px`,
+            transform: `translateY(-${sidebarTogglePositionY}%)`,
+          }}
+        >
+          {filtersSidebarToggled ? (
+            <Arrow direction="left" />
+          ) : (
+            <Arrow direction="right" />
+          )}
+        </button>
+      </div>
     </aside>
   );
 };
-export default FiltersSidebar;

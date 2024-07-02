@@ -1,6 +1,6 @@
 import "./Spinner.css";
 
-const Spinner = () => {
+export const Spinner = () => {
   // return defaultsStripped ? (
   return (
     <svg className="spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -15,4 +15,3 @@ const Spinner = () => {
   //   </div>
   // );
 };
-export default Spinner;

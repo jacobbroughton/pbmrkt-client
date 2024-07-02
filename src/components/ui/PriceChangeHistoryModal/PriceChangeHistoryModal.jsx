@@ -1,11 +1,13 @@
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import Arrow from "../Icons/Arrow";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import {Arrow} from "../Icons/Arrow";
 import "./PriceChangeHistoryModal.css";
 import { formatDollars, getTimeAgo } from "../../../utils/usefulFunctions";
 import { useEffect } from "react";
-const PriceChangeHistoryModal = ({ item, priceChangeHistory }) => {
+
+
+export const PriceChangeHistoryModal = ({ item, priceChangeHistory }) => {
   const dispatch = useDispatch();
 
   return (
@@ -63,4 +65,3 @@ const PriceChangeHistoryModal = ({ item, priceChangeHistory }) => {
     </>
   );
 };
-export default PriceChangeHistoryModal;

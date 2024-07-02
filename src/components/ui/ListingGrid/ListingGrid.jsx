@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import "./ListingGrid.css";
-import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
+import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
+import "./ListingGrid.css";
 
-const ListingGrid = ({ listings, accountForSidebar, loading }) => {
+export const ListingGrid = ({ listings, accountForSidebar, loading }) => {
   return (
     <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => {
@@ -75,4 +75,3 @@ const ListingGrid = ({ listings, accountForSidebar, loading }) => {
     </div>
   );
 };
-export default ListingGrid;

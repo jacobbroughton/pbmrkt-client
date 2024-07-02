@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import Comment from "../Comment/Comment";
+import { Comment } from "../Comment/Comment";
 import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
+import { CommentsIcon } from "../Icons/CommentsIcon";
 import "./CommentsList.css";
-import CommentsIcon from "../Icons/CommentsIcon";
 
-const CommentsList = ({
+export const CommentsList = ({
   passedComments,
   handleDeleteComment,
   handleRepliesClickFromRootLevel,
@@ -41,19 +41,17 @@ const CommentsList = ({
       if (error) throw error.message;
 
       const { data: data3, error: error3 } = supabase.storage
-      .from("profile_pictures")
-      .getPublicUrl(
-        data[0].profile_picture_path || "placeholders/user-placeholder"
-      );
+        .from("profile_pictures")
+        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
       data[0] = {
         ...data[0],
-        profile_picture_url: data3.publicUrl
-      }
+        profile_picture_url: data3.publicUrl,
+      };
 
-      console.log(data[0])
+      console.log(data[0]);
 
-    if (error3) throw error.message;
+      if (error3) throw error.message;
 
       if (repliedComment.created_by_id != user.auth_id) {
         const { data: data2, error: error2 } = await supabase.rpc(
@@ -205,4 +203,3 @@ const CommentsList = ({
     </div>
   );
 };
-export default CommentsList;

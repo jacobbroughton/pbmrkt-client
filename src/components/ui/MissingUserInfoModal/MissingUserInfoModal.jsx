@@ -1,6 +1,6 @@
 import "./MissingUserInfoModal.css"
 
-const MissingUserInfoModal = () => {
+export const MissingUserInfoModal = () => {
   return (
     <div className='modal missing-user-info'>
       <div className="header">
@@ -13,4 +13,3 @@ const MissingUserInfoModal = () => {
     </div>
   );
 };
-export default MissingUserInfoModal;

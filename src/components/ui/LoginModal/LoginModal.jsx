@@ -1,15 +1,14 @@
-import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
-import EyeIcon from "../Icons/EyeIcon";
+import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
+import { EyeIcon } from "../Icons/EyeIcon";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./LoginModal.css";
 
-const LoginModal = () => {
-  const navigate = useNavigate();
+export const LoginModal = () => {
   const dispatch = useDispatch();
 
   const [password, setPassword] = useState("");
@@ -143,4 +142,3 @@ const LoginModal = () => {
     </>
   );
 };
-export default LoginModal;

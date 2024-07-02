@@ -1,4 +1,4 @@
-const Arrow = ({ direction }) => {
+export const Arrow = ({ direction }) => {
   let rotateText = "";
 
   switch (direction) {
@@ -35,4 +35,3 @@ const Arrow = ({ direction }) => {
     </svg>
   );
 };
-export default Arrow;

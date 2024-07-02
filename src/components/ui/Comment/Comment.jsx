@@ -1,15 +1,15 @@
 import { useSelector } from "react-redux";
-import CommentsList from "../CommentsList/CommentsList";
+import { CommentsList } from "../CommentsList/CommentsList";
 import "./Comment.css";
-import Chevron from "../Icons/Chevron";
-import SendIcon from "../Icons/SendIcon";
+import { Chevron } from "../Icons/Chevron";
+import { SendIcon } from "../Icons/SendIcon";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { Link } from "react-router-dom";
-import MinusIcon from "../Icons/MinusIcon";
-import PlusIcon from "../Icons/PlusIcon";
-import Spinner from "../Icons/Spinner/Spinner";
+import { MinusIcon } from "../Icons/MinusIcon";
+import { PlusIcon } from "../Icons/PlusIcon";
+import { Spinner } from "../Icons/Spinner/Spinner";
 
-const Comment = ({
+export const Comment = ({
   comment,
   commentWithReplyWindowID,
   setCommentWithReplyWindowID,
@@ -164,4 +164,3 @@ const Comment = ({
     </div>
   );
 };
-export default Comment;

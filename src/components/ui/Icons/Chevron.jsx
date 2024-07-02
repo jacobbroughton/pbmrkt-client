@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const Chevron = ({ direction, onClick = () => null }) => {
+export const Chevron = ({ direction, onClick = () => null }) => {
   let rotateText = "";
   const svgRef = useRef();
 
@@ -40,4 +40,3 @@ const Chevron = ({ direction, onClick = () => null }) => {
     </svg>
   );
 };
-export default Chevron;

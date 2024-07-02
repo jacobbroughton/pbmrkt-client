@@ -1,4 +1,4 @@
-const DoubleArrow = ({ direction }) => {
+export const DoubleArrow = ({ direction }) => {
   let rotateText = "";
 
   switch (direction) {
@@ -26,4 +26,3 @@ const DoubleArrow = ({ direction }) => {
     </svg>
   );
 };
-export default DoubleArrow;

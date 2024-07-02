@@ -1,12 +1,12 @@
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import EyeIcon from "../../ui/Icons/EyeIcon";
-import Footer from "../../ui/Footer/Footer";
+import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
+import {EyeIcon} from "../../ui/Icons/EyeIcon";
+import {Footer} from "../../ui/Footer/Footer";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import "./Login.css";
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
@@ -113,4 +113,3 @@ const Login = () => {
     </>
   );
 };
-export default Login;

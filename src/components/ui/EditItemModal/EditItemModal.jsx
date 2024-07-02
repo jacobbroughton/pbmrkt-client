@@ -3,12 +3,12 @@ import { toggleModal } from "../../../redux/modals";
 import "./EditItemModal.css";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../../utils/supabase";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import XIcon from "../Icons/XIcon";
-import EditIcon from "../Icons/EditIcon";
-import RadioIcon from "../Icons/RadioIcon";
-import RadioOptions from "../RadioOptions/RadioOptions";
-import MagicWand from "../Icons/MagicWand";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import { XIcon } from "../Icons/XIcon";
+import { EditIcon } from "../Icons/EditIcon";
+import { RadioIcon } from "../Icons/RadioIcon";
+import { RadioOptions } from "../RadioOptions/RadioOptions";
+import { MagicWand } from "../Icons/MagicWand";
 import { useNavigate } from "react-router-dom";
 import {
   collapseAllCategoryFolders,
@@ -19,9 +19,9 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions";
-import CategorySelectorModal from "../CategorySelectorModal/CategorySelectorModal";
+import { CategorySelectorModal } from "../CategorySelectorModal/CategorySelectorModal";
 
-const EditItemModal = ({ item, setItem }) => {
+export const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formRef = useRef();
@@ -629,4 +629,3 @@ const EditItemModal = ({ item, setItem }) => {
     </>
   );
 };
-export default EditItemModal;

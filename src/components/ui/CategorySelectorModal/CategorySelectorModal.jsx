@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import CategorySelector from "../CategorySelector/CategorySelector";
-import XIcon from "../../ui/Icons/XIcon";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { CategorySelector } from "../CategorySelector/CategorySelector";
+import { XIcon } from "../../ui/Icons/XIcon";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import "./CategorySelectorModal.css";
 
-const CategorySelectorModal = ({
+export const CategorySelectorModal = ({
   categories,
   setCategories,
   handleCategoryClick = () => null,
@@ -63,4 +63,3 @@ const CategorySelectorModal = ({
     </>
   );
 };
-export default CategorySelectorModal;

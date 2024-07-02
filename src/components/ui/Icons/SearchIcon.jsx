@@ -1,4 +1,4 @@
-const SearchIcon = () => {
+export const SearchIcon = () => {
   return (
     <svg
       onClick={(e) => {
@@ -12,4 +12,3 @@ const SearchIcon = () => {
     </svg>
   );
 };
-export default SearchIcon;

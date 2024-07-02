@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./UpdatePassword.css";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
+import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
 
-const UpdatePassword = () => {
+export const UpdatePassword = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [newPassword, setNewPassword] = useState("");
@@ -55,4 +55,3 @@ const UpdatePassword = () => {
     </div>
   );
 };
-export default UpdatePassword;

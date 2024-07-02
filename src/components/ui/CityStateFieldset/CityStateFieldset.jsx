@@ -1,12 +1,12 @@
 import { forwardRef, useState } from "react";
-import SortIcon from "../Icons/SortIcon";
-import MagicWand from "../Icons/MagicWand";
+import { SortIcon } from "../Icons/SortIcon";
+import { MagicWand } from "../Icons/MagicWand";
 import { states, statesAndCities } from "../../../utils/statesAndCities";
 import { capitalizeWords } from "../../../utils/usefulFunctions";
-import Arrow from "../Icons/Arrow";
+import { Arrow } from "../Icons/Arrow";
 import "./CityStateFieldset.css";
 
-const CityStateFieldset = () => {
+export const CityStateFieldset = () => {
   const [state, setState] = useState();
   const [city, setCity] = useState();
   const [cantFindCity, setCantFindCity] = useState(false);
@@ -81,4 +81,3 @@ const CityStateFieldset = () => {
     </fieldset>
   );
 };
-export default CityStateFieldset;

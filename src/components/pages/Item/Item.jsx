@@ -1,31 +1,31 @@
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import EditItemModal from "../../ui/EditItemModal/EditItemModal";
-import CommentsList from "../../ui/CommentsList/CommentsList";
-import Footer from "../../ui/Footer/Footer";
-import Stars from "../../ui/Stars/Stars";
-import SendIcon from "../../ui/Icons/SendIcon";
-import CheckIcon from "../../ui/Icons/CheckIcon";
-import PriceChangeHistoryModal from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
-import ChartIcon from "../../ui/Icons/ChartIcon";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { EditItemModal } from "../../ui/EditItemModal/EditItemModal";
+import { CommentsList } from "../../ui/CommentsList/CommentsList";
+import { Footer } from "../../ui/Footer/Footer";
+import { Stars } from "../../ui/Stars/Stars";
+import { SendIcon } from "../../ui/Icons/SendIcon";
+import { CheckIcon } from "../../ui/Icons/CheckIcon";
+import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
+import { ChartIcon } from "../../ui/Icons/ChartIcon";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
+import { XIcon } from "../../ui/Icons/XIcon";
+import { ThreeDots } from "../../ui/Icons/ThreeDots";
+import { WarningCircle } from "../../ui/Icons/WarningCircle";
+import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
+import { PhoneIcon } from "../../ui/Icons/PhoneIcon";
+import { EmailIcon } from "../../ui/Icons/EmailIcon";
+import { ExpandIcon } from "../../ui/Icons/ExpandIcon";
+import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
+import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./Item.css";
-import XIcon from "../../ui/Icons/XIcon";
-import ThreeDots from "../../ui/Icons/ThreeDots";
-import WarningCircle from "../../ui/Icons/WarningCircle";
-import WarningTriangle from "../../ui/Icons/WarningTriangle";
-import PhoneIcon from "../../ui/Icons/PhoneIcon";
-import EmailIcon from "../../ui/Icons/EmailIcon";
-import ExpandIcon from "../../ui/Icons/ExpandIcon";
-import FullScreenImageModal from "../../ui/FullScreenImageModal/FullScreenImageModal";
-import SellerReviewsModal from "../../ui/SellerReviewsModal/SellerReviewsModal";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
 
-const Item = () => {
+export const Item = () => {
   const dispatch = useDispatch();
   const {
     editItemModalToggled,
@@ -666,4 +666,3 @@ const Item = () => {
     </>
   );
 };
-export default Item;

@@ -1,7 +1,8 @@
-import FilterIcon from "../Icons/FilterIcon"
-import SearchIcon from "../Icons/SearchIcon"
+import {FilterIcon} from "../Icons/FilterIcon"
+import {SearchIcon} from "../Icons/SearchIcon"
+import "./IconSidebar.css"
 
-const IconSidebar = () => {
+export const IconSidebar = () => {
   return (
     <div className="icon-sidebar">
       <button><FilterIcon/></button>
@@ -9,4 +10,3 @@ const IconSidebar = () => {
     </div>
   )
 }
-export default IconSidebar

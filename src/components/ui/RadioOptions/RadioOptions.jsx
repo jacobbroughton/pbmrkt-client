@@ -1,7 +1,7 @@
-import RadioIcon from "../Icons/RadioIcon";
+import { RadioIcon } from "../Icons/RadioIcon";
 import "./RadioOptions.css";
 
-const RadioOptions = ({ options, handleRadioOptionClick, disabled }) => {
+export const RadioOptions = ({ options, handleRadioOptionClick, disabled }) => {
   return (
     <div className={`radio-options ${disabled ? "disabled" : ""}`}>
       {options.map((option) => (
@@ -21,4 +21,3 @@ const RadioOptions = ({ options, handleRadioOptionClick, disabled }) => {
     </div>
   );
 };
-export default RadioOptions;

@@ -1,7 +1,7 @@
-import XIcon from "../Icons/XIcon";
+import {XIcon} from "../Icons/XIcon";
 import "./FilterTags.css";
 
-const FilterTags = ({ filterTags }) => {
+export const FilterTags = ({ filterTags }) => {
   return (
     <div className="filter-tags-parent">
       <p>Results are currently filtered by:</p>
@@ -22,4 +22,3 @@ const FilterTags = ({ filterTags }) => {
     </div>
   );
 };
-export default FilterTags;

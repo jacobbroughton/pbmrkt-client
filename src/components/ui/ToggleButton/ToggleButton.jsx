@@ -1,6 +1,6 @@
 import "./ToggleButton.css";
 
-const ToggleButton = ({ text, toggled, onClick }) => {
+export const ToggleButton = ({ text, toggled, onClick }) => {
   return (
     <button
       type="button"
@@ -11,4 +11,3 @@ const ToggleButton = ({ text, toggled, onClick }) => {
     </button>
   );
 };
-export default ToggleButton;

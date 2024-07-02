@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
-import "./NotificationsMenu.css";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { supabase } from "../../../utils/supabase";
+import "./NotificationsMenu.css";
 
-const NotificationsMenu = ({ notifications, setNotifications }) => {
+export const NotificationsMenu = ({ notifications, setNotifications }) => {
   const dispatch = useDispatch();
   const notificationsMenuRef = useRef(null);
 
@@ -125,4 +125,3 @@ const NotificationsMenu = ({ notifications, setNotifications }) => {
     </div>
   );
 };
-export default NotificationsMenu;

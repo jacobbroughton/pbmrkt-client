@@ -1,6 +1,6 @@
 import "./ModalOverlay.css";
 
-const ModalOverlay = ({ zIndex = 0, onClick }) => {
+export const ModalOverlay = ({ zIndex = 0, onClick }) => {
   return (
     <div
       className="modal-overlay"
@@ -13,4 +13,3 @@ const ModalOverlay = ({ zIndex = 0, onClick }) => {
     ></div>
   );
 };
-export default ModalOverlay;

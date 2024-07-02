@@ -4,14 +4,14 @@ import {
   setSavedSearchValue,
   setSearchBarToggled,
 } from "../../../redux/search";
-import SearchIcon from "../Icons/SearchIcon";
+import {SearchIcon} from "../Icons/SearchIcon";
 import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
 import { setFlag } from "../../../redux/flags";
 import { useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
 
-const SearchBar = () => {
+export const SearchBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef(null);
@@ -69,4 +69,3 @@ const SearchBar = () => {
     </div>
   );
 };
-export default SearchBar;

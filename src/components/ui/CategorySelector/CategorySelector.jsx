@@ -1,8 +1,8 @@
 import "./CategorySelector.css";
-import Caret from "../Icons/Caret.jsx";
-import RadioIcon from "../Icons/RadioIcon.jsx";
+import {Caret} from "../Icons/Caret.jsx";
+import {RadioIcon} from "../Icons/RadioIcon.jsx";
 
-const CategorySelector = ({
+export const CategorySelector = ({
   categories,
   handleCategoryClick,
   forModal,
@@ -89,4 +89,3 @@ const CategoryButton = ({ category, handleCategoryClick }) => {
   );
 };
 
-export default CategorySelector;

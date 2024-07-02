@@ -1,7 +1,7 @@
-import Checkbox from "../Icons/Checkbox";
+import { Checkbox } from "../Icons/Checkbox";
 import "./Checkboxes.css";
 
-const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
+export const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
   return (
     <div className={`checkbox-options ${disabled ? "disabled" : ""}`}>
       {options.map((option) => (
@@ -9,7 +9,7 @@ const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
           className={`checkbox-option ${option.checked ? "checked" : ""}`}
           onClick={() => handleCheckboxOptionClick(option)}
           key={option.id}
-          title={`${option.checked ? 'Uncheck' : 'Check'} "${option.value}"`}
+          title={`${option.checked ? "Uncheck" : "Check"} "${option.value}"`}
         >
           <Checkbox checked={option.checked} />
           <label>{option.value}</label>
@@ -18,4 +18,3 @@ const Checkboxes = ({ options, handleCheckboxOptionClick, disabled }) => {
     </div>
   );
 };
-export default Checkboxes;

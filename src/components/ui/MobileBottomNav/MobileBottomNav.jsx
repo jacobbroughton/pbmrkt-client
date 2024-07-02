@@ -2,22 +2,22 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
-import RightSideMenu from "../RightSideMenu/RightSideMenu";
-import HomeIcon from "../Icons/HomeIcon";
+import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
+import { HomeIcon } from "../Icons/HomeIcon";
 import { setSearchBarToggled } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
 import { isOnMobile } from "../../../utils/usefulFunctions";
-import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
-import BellIcon from "../Icons/BellIcon";
+import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
+import { BellIcon } from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
-import SearchModal from "../SearchModal/SearchModal";
-import PlusIcon from "../Icons/PlusIcon";
-import SearchIcon from "../Icons/SearchIcon";
+import { SearchModal } from "../SearchModal/SearchModal";
+import { PlusIcon } from "../Icons/PlusIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
+import { UnauthenticatedOptionsMenu } from "../UnauthenticatedOptionsMenu/UnauthenticatedOptionsMenu";
 import "./MobileBottomNav.css";
-import UnauthenticatedOptionsMenu from "../UnauthenticatedOptionsMenu/UnauthenticatedOptionsMenu";
 
-function MobileBottomNav() {
+export function MobileBottomNav() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const {
@@ -206,5 +206,3 @@ function MobileBottomNav() {
     </nav>
   );
 }
-
-export default MobileBottomNav;

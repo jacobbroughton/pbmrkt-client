@@ -2,25 +2,25 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
-import RightSideMenu from "../RightSideMenu/RightSideMenu";
-import HomeIcon from "../Icons/HomeIcon";
-import FilterIcon from "../Icons/FilterIcon";
+import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
+import { HomeIcon } from "../Icons/HomeIcon";
+import { FilterIcon } from "../Icons/FilterIcon";
 import { setSearchBarToggled } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
-import useWindowSize from "../../../utils/useWindowSize";
+import { useWindowSize } from "../../../utils/useWindowSize";
 import { isOnMobile } from "../../../utils/usefulFunctions";
-import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
-import BellIcon from "../Icons/BellIcon";
+import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
+import { BellIcon } from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import React, { useEffect, useState } from "react";
-import Caret from "../Icons/Caret";
-import SearchModal from "../SearchModal/SearchModal";
-import PlusIcon from "../Icons/PlusIcon";
-import SearchIcon from "../Icons/SearchIcon";
+import { Caret } from "../Icons/Caret";
+import { SearchModal } from "../SearchModal/SearchModal";
+import { PlusIcon } from "../Icons/PlusIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
+import { DesktopSearchToggle } from "../DesktopSearchToggle/DesktopSearchToggle";
 import "./Navbar.css";
-import DesktopSearchToggle from "../DesktopSearchToggle/DesktopSearchToggle";
 
-const Navbar = () => {
+export const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
@@ -201,6 +201,8 @@ const Navbar = () => {
               return;
             }
 
+            if (location.pathname == "/sell") return;
+
             navigate("/sell");
           }}
         >
@@ -245,14 +247,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
-      <button
-        onClick={() => {
-          setTestState(testState == "on" ? "off" : "on");
-          dispatch(toggleModal({ key: "noodlebob", value: false }));
-        }}
-      >
-        {testState}
-      </button>
+
       {rightSideMenuToggled && user && <RightSideMenu />}
       {notificationsMenuToggled && user && (
         <NotificationsMenu
@@ -264,5 +259,3 @@ const Navbar = () => {
     </nav>
   );
 };
-
-export default Navbar;

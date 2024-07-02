@@ -3,7 +3,7 @@ import "./MapboxLocationSearch.css";
 import mapboxgl from "mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 
-const MapboxLocationSearch = () => {
+export const MapboxLocationSearch = () => {
   const mapContainerRef = useRef(null);
   const map = useRef(null);
 
@@ -267,4 +267,3 @@ const MapboxLocationSearch = () => {
     </div>
   );
 };
-export default MapboxLocationSearch;

@@ -1,12 +1,12 @@
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import XIcon from "../Icons/XIcon";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import {XIcon} from "../Icons/XIcon";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./FullScreenImageModal.css";
-import Arrow from "../Icons/Arrow";
+import {Arrow} from "../Icons/Arrow";
 import { useEffect, useState } from "react";
 
-const FullScreenImageModal = ({ photos, selectedPhoto }) => {
+export const FullScreenImageModal = ({ photos, selectedPhoto }) => {
   const dispatch = useDispatch();
 
   photos = photos.map((photo, i) => ({
@@ -96,4 +96,3 @@ const FullScreenImageModal = ({ photos, selectedPhoto }) => {
     </>
   );
 };
-export default FullScreenImageModal;

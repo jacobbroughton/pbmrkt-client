@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch, useSelector } from "react-redux";
-import Star from "../Icons/Star";
-import "./AddReviewModal.css";
+import {Star} from "../Icons/Star";
+import {XIcon} from "../Icons/XIcon";
 import { supabase } from "../../../utils/supabase";
 import { setFlag } from "../../../redux/flags";
-import XIcon from "../Icons/XIcon";
+import "./AddReviewModal.css";
 
-const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
+export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
   const { user } = useSelector((state) => state.auth.session);
@@ -136,4 +136,3 @@ const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
     </div>
   );
 };
-export default AddReviewModal;

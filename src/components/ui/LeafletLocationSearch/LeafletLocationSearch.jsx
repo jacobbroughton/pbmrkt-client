@@ -2,7 +2,7 @@ import L from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import "./LeafletLocationSearch.css";
 
-const LeafletLocationSearch = () => {
+export const LeafletLocationSearch = () => {
   const mapContainer = useRef();
   const [map, setMap] = useState({});
   const [radiusInMiles, setRadiusInMiles] = useState(100);
@@ -128,4 +128,3 @@ const LeafletLocationSearch = () => {
   );
 };
 
-export default LeafletLocationSearch;

@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import "./RegisterModal.css";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay";
-import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay";
+import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
+import {ModalOverlay} from "../../ui/ModalOverlay/ModalOverlay";
 import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { setSession } from "../../../redux/auth";
-import EyeIcon from "../../ui/Icons/EyeIcon";
-import Chevron from "../../ui/Icons/Chevron";
+import {EyeIcon} from "../../ui/Icons/EyeIcon";
+import {Chevron} from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords } from "../../../utils/usefulFunctions.js";
-import Footer from "../../ui/Footer/Footer.jsx";
-import SortIcon from "../../ui/Icons/SortIcon.jsx";
-import CityStateFieldset from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
+import {Footer} from "../../ui/Footer/Footer.jsx";
+import {SortIcon} from "../../ui/Icons/SortIcon.jsx";
+import {CityStateFieldset} from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
 
-const RegisterModal = () => {
+export const RegisterModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { verifyUserCheckedEmailModalToggled } = useSelector((state) => state.modals);
@@ -358,4 +358,3 @@ const RegisterModal = () => {
     </>
   );
 };
-export default RegisterModal;

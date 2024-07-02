@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import LoadingOverlay from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sell.css";
 import { supabase } from "../../../utils/supabase";
@@ -14,24 +14,19 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-// import CategorySelector from "../../ui/CategorySelector/CategorySelector.jsx";
 import { toggleModal } from "../../../redux/modals.js";
-// import EditIcon from "../../ui/Icons/EditIcon.jsx";
-// import Footer from "../../ui/Footer/Footer.jsx";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-// import ModalOverlay from "../../ui/ModalOverlay/ModalOverlay.jsx";
-// import MapboxLocationSearch from "../../ui/MapboxLocationSearch/MapboxLocationSearch.jsx";
-import CategorySelectorModal from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
-import TrashIcon from "../../ui/Icons/TrashIcon";
-import StarIcon from "../../ui/Icons/StarIcon";
-import Arrow from "../../ui/Icons/Arrow";
-import RadioOptions from "../../ui/RadioOptions/RadioOptions.jsx";
-import MagicWand from "../../ui/Icons/MagicWand.jsx";
-import RadioIcon from "../../ui/Icons/RadioIcon.jsx";
-import SortIcon from "../../ui/Icons/SortIcon.jsx";
-import ImagesIcons from "../../ui/Icons/ImagesIcons.jsx";
-import JumpToIcon from "../../ui/Icons/JumpToIcon.jsx";
-import MissingUserInfoModal from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
+import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import { TrashIcon } from "../../ui/Icons/TrashIcon";
+import { StarIcon } from "../../ui/Icons/StarIcon";
+import { Arrow } from "../../ui/Icons/Arrow";
+import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
+import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
+import { RadioIcon } from "../../ui/Icons/RadioIcon.jsx";
+import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
+import { ImagesIcons } from "../../ui/Icons/ImagesIcons.jsx";
+import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
+import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
 
 const brandArr = [
   "Planet Eclipse",
@@ -64,7 +59,7 @@ const randomBrand = brandArr[Math.floor(Math.random() * brandArr.length)];
 const randomModel = modelArr[Math.floor(Math.random() * modelArr.length)];
 const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
 
-const Sell = () => {
+export const Sell = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -1380,4 +1375,3 @@ const Sell = () => {
     </>
   );
 };
-export default Sell;

@@ -1,6 +1,6 @@
 import "./ItemSkeleton.css";
 
-const ItemSkeleton = ({ blinking }) => {
+export const ItemSkeleton = ({ blinking }) => {
   return (
     <div className="item-skeleton-container">
       <div className={`image-skeleton skeleton ${blinking ? "blinking" : ""}`}>
@@ -19,4 +19,3 @@ const ItemSkeleton = ({ blinking }) => {
     </div>
   );
 };
-export default ItemSkeleton;

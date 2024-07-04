@@ -32,10 +32,12 @@ export const SearchModal = () => {
   });
   const [searchHistory, setSearchHistory] = useState([]);
   const { user } = useSelector((state) => state.auth);
+  const [
+    recentSearchClicked_handleSearchAgain,
+    setRecentSearchClicked_handleSearchAgain,
+  ] = useState(false);
 
-  useEffect(() => {
-    getRecentSearches();
-  }, []);
+
 
   async function getRecentSearches() {
     try {
@@ -51,9 +53,11 @@ export const SearchModal = () => {
     }
   }
 
-  async function handleSearch(e) {
-    e.preventDefault();
+  async function handleSearch(e, origin) {
+    if (e) e.preventDefault();
+
     try {
+      console.log({ searchValue });
       if (searchValue.draft == "") throw "Cannot search without a query";
 
       if (location.pathname !== "/") navigate("/");
@@ -62,6 +66,7 @@ export const SearchModal = () => {
         const { data, error } = await supabase.rpc("add_search", {
           p_created_by_id: user.auth_id,
           p_search_value: searchValue.draft.trim(),
+          p_origin: origin
         });
 
         if (error) throw error.message;
@@ -80,6 +85,9 @@ export const SearchModal = () => {
       console.error(error);
       setError(error.toString());
     }
+
+    if (recentSearchClicked_handleSearchAgain)
+      setRecentSearchClicked_handleSearchAgain(false);
   }
 
   async function handleOnInputSearch(searchValue) {
@@ -130,6 +138,11 @@ export const SearchModal = () => {
   }, [searchValue.draft]);
 
   useEffect(() => {
+    if (recentSearchClicked_handleSearchAgain) handleSearch(null, 'Recently Searched Click');
+  }, [recentSearchClicked_handleSearchAgain]);
+
+  useEffect(() => {
+    getRecentSearches();
     searchRef.current.focus();
   }, []);
 
@@ -142,7 +155,7 @@ export const SearchModal = () => {
         {error && <p className="small-text error-text">{error.toString()}</p>}
         <div className="search-input-container">
           <SearchIcon />
-          <form onSubmit={handleSearch}>
+          <form onSubmit={(e) => handleSearch(e, "Search Input")}>
             <input
               placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
               value={searchValue.draft}
@@ -184,77 +197,77 @@ export const SearchModal = () => {
               </button>
             ))}
           </div> */}
-          {console.log(searchHistory)}
-          <div className="search-results">
-            {resultsLoading ? (
-              <div className="results-loading">
-                <p>Results loading...</p>
-              </div>
-            ) : searchValue.saved == "" && searchHistory.length == 0 ? (
-              <p className="type-something-prompt">Type something to get started</p>
-            ) : searchValue.saved == "" && searchHistory?.length >= 1 ? (
-              <div className="recent-searches">
-                <p className='label'>Recent Searches</p>
-                <ul className="search-list">
-                  {searchHistory.map((searchHistoryItem, i) => (
-                    <li
-                      key={i}
-                      onClick={(e) => {
-                        setSearchValue({
-                          draft: searchHistoryItem.search_value,
-                          saved: searchHistoryItem.search_value,
-                        });
-                        setTimeout(() => {
-                          handleSearch(e);
-                        }, 1);
-                      }}
-                    >
-                      <p>{searchHistoryItem.search_value}</p>
-                      <Arrow direction={"right"} />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : resultsForView.length == 0 ? (
-              <div className="no-search-results">
-                <p>
-                  No results found for "{searchValue.saved}" in{" "}
-                  <strong>{selectedSearchType.label}</strong>
-                </p>
-                {console.log(selectedSearchType)}
-              </div>
-            ) : selectedSearchType.label == "Listings" ? (
-              <ul className="listings">
-                {searchResults.listings.map((listing) => (
-                  <li>
-                    <Link
-                      onClick={() =>
-                        dispatch(toggleModal({ key: "searchModal", value: false }))
-                      }
-                      to={`/listing/${listing.id}`}
-                    >
-                      <div className="image-container">
-                        <img src={listing.image_url} />
-                      </div>
-                      {console.log(listing)}
-                      <div className="listing-info">
-                        <p className="what-is-this">{listing.what_is_this}</p>
 
-                        <p className="location">
-                          {listing.city}, {listing.state} {"-  "}
-                          {getTimeAgo(new Date(listing.created_dttm))}
-                        </p>
-                      </div>
-                    </Link>
+          {searchValue.saved == "" && searchHistory?.length >= 1 ? (
+            <div className="recent-searches">
+              <p className="label">Recent Searches</p>
+              <ul className="search-list">
+                {searchHistory.map((searchHistoryItem, i) => (
+                  <li
+                    key={i}
+                    onClick={(e) => {
+                      setSearchValue({
+                        draft: searchHistoryItem.search_value,
+                        saved: searchHistoryItem.search_value,
+                      });
+
+                      setRecentSearchClicked_handleSearchAgain(true);
+                    }}
+                  >
+                    <p>{searchHistoryItem.search_value}</p>
+                    <Arrow direction={"right"} />
                   </li>
                 ))}
               </ul>
-            ) : selectedSearchType.label == "Users" ? (
-              <div className="user-results">Search users found</div>
-            ) : (
-              false
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="search-results">
+              {resultsLoading ? (
+                <div className="results-loading">
+                  <p>Results loading...</p>
+                </div>
+              ) : searchValue.saved == "" && searchHistory.length == 0 ? (
+                <p className="type-something-prompt">Type something to get started</p>
+              ) : resultsForView.length == 0 ? (
+                <div className="no-search-results">
+                  <p>
+                    No results found for "{searchValue.saved}" in{" "}
+                    <strong>{selectedSearchType.label}</strong>
+                  </p>
+                </div>
+              ) : selectedSearchType.label == "Listings" ? (
+                <ul className="listings">
+                  {searchResults.listings.map((listing) => (
+                    <li>
+                      <Link
+                        onClick={() =>
+                          dispatch(toggleModal({ key: "searchModal", value: false }))
+                        }
+                        to={`/listing/${listing.id}`}
+                      >
+                        <div className="image-container">
+                          <img src={listing.image_url} />
+                        </div>
+                        {console.log(listing)}
+                        <div className="listing-info">
+                          <p className="what-is-this">{listing.what_is_this}</p>
+
+                          <p className="location">
+                            {listing.city}, {listing.state} {"-  "}
+                            {getTimeAgo(new Date(listing.created_dttm))}
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : selectedSearchType.label == "Users" ? (
+                <div className="user-results">Search users found</div>
+              ) : (
+                false
+              )}
+            </div>
+          )}
         </div>
       </div>
       <ModalOverlay

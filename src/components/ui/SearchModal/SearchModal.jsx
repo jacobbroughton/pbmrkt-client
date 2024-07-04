@@ -30,11 +30,47 @@ export const SearchModal = () => {
     draft: "",
     saved: "",
   });
+  const [searchHistory, setSearchHistory] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
-  function handleSearch(e) {
+  useEffect(() => {
+    getRecentSearches();
+  }, []);
+
+  async function getRecentSearches() {
+    try {
+      const { data, error } = await supabase.rpc("get_search_history", {
+        p_user_id: user.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      setSearchHistory(data);
+    } catch (error) {
+      setError(error.toString());
+    }
+  }
+
+  async function handleSearch(e) {
     e.preventDefault();
     try {
+      if (searchValue.draft == "") throw "Cannot search without a query";
+
       if (location.pathname !== "/") navigate("/");
+
+      if (user) {
+        const { data, error } = await supabase.rpc("add_search", {
+          p_created_by_id: user.auth_id,
+          p_search_value: searchValue.draft.trim(),
+        });
+
+        if (error) throw error.message;
+
+        console.log(data);
+      } else {
+        alert("No user, no search history"); // TODO - fix and delete
+      }
+
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
@@ -148,13 +184,37 @@ export const SearchModal = () => {
               </button>
             ))}
           </div> */}
+          {console.log(searchHistory)}
           <div className="search-results">
             {resultsLoading ? (
               <div className="results-loading">
                 <p>Results loading...</p>
               </div>
-            ) : searchValue.saved == "" ? (
+            ) : searchValue.saved == "" && searchHistory.length == 0 ? (
               <p className="type-something-prompt">Type something to get started</p>
+            ) : searchValue.saved == "" && searchHistory?.length >= 1 ? (
+              <div className="recent-searches">
+                <p className='label'>Recent Searches</p>
+                <ul className="search-list">
+                  {searchHistory.map((searchHistoryItem, i) => (
+                    <li
+                      key={i}
+                      onClick={(e) => {
+                        setSearchValue({
+                          draft: searchHistoryItem.search_value,
+                          saved: searchHistoryItem.search_value,
+                        });
+                        setTimeout(() => {
+                          handleSearch(e);
+                        }, 1);
+                      }}
+                    >
+                      <p>{searchHistoryItem.search_value}</p>
+                      <Arrow direction={"right"} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : resultsForView.length == 0 ? (
               <div className="no-search-results">
                 <p>

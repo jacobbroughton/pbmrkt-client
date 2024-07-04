@@ -38,7 +38,7 @@
   background-color: transparent;
   width: 1px;
   position: absolute;
-  right: -7px;
+  right: -6px;
   border-right: dashed 1px #555;
   top: 0;
 }
@@ -47,7 +47,7 @@
   --btn-width: 40;
   position: absolute;
   /* cursor: grab; */
-  margin-top: 52px;
+  /* margin-top: 52px; */
   cursor: pointer;
   right: calc(var(--btn-width) * -1px);
   height: 60px;
@@ -359,6 +359,9 @@
 }
 
 @media screen and (max-device-width: 480px) {
+  .home .sidebar .sidebar-fixed-wrapper {
+    
+  }
   .home .sidebar .sidebar-fixed-wrapper .sidebar-toggle-button {
     margin-top: 100px;
   }

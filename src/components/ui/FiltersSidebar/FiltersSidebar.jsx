@@ -3,7 +3,7 @@ import { useWindowSize } from "../../../utils/useWindowSize.js";
 import { DoubleArrow } from "../Icons/DoubleArrow.jsx";
 import { UndoIcon } from "../Icons/UndoIcon";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import { capitalizeWords, isOnMobile } from "../../../utils/usefulFunctions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import {
@@ -466,10 +466,6 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
         <div className="dotted-track"></div>
         <button
           draggable={true}
-          // onDrag={(e) => {
-          //   console.log(e.target.offsetTop)
-          // }}
-
           className="sidebar-toggle-button"
           onClick={() => {
             console.log("toggled");
@@ -478,8 +474,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
           style={{
             // top: `${sidebarTogglePositionY}%`,
             // transform: `translateY(-${sidebarTogglePositionY}%)`,
-            top: `${45}px`,
-            transform: `translateY(-${sidebarTogglePositionY}%)`,
+            ...(isOnMobile() ? {bottom: '200px'} : {top: '65px'}),
           }}
         >
           {filtersSidebarToggled ? (

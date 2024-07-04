@@ -331,6 +331,26 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
+          {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
+            <div className="dotted-track"></div>
+            <button
+              className="sidebar-toggle-button"
+              onClick={() =>
+                dispatch(
+                  toggleModal({
+                    key: "filtersSidebar",
+                    value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                  })
+                )
+              }
+            >
+              {filtersSidebarToggled ? (
+                <Arrow direction={"left"} />
+              ) : (
+                <Arrow direction={"right"} />
+              )}
+            </button>
+          </div>}
           {/* <div className="wtb-section">
             <button
               className={`${view == "for-sale" ? "toggled" : ""}`}
@@ -387,23 +407,6 @@ export function Listings() {
                 {filtersSidebarToggled ? "" : "Show Filters"}
               </button>
             )} */}
-            <button
-              className="sidebar-toggle-button"
-              onClick={() =>
-                dispatch(
-                  toggleModal({
-                    key: "filtersSidebar",
-                    value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-                  })
-                )
-              }
-            >
-              {filtersSidebarToggled ? (
-                <Arrow direction={"left"} />
-              ) : (
-                <Arrow direction={"right"} />
-              )}
-            </button>
 
             <div className="control-group home">
               {/* <Link

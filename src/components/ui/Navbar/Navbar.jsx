@@ -150,7 +150,7 @@ export const Navbar = () => {
           }}
         >
           {/* <HomeIcon /> */}
-          Core PB
+          PBMRKT
         </Link>
         {location.pathname == "/" && (
           <button
@@ -213,7 +213,7 @@ export const Navbar = () => {
         {/* {user ? ( */}
         <>
           {/* {((isOnMobile() && search.searchBarToggled) || true) && ( */}
-          <button
+          {user && <button
             type="button"
             className={`notifications-menu-toggle ${
               notificationsMenuToggled ? "toggled" : ""
@@ -224,7 +224,7 @@ export const Navbar = () => {
             {unreadNotificationCount > 0 && (
               <span className="unread-notification-count">{unreadNotificationCount}</span>
             )}
-          </button>
+          </button>}
           {/* )} */}
           <button
             onClick={handleRightSideMenuToggle}

@@ -605,8 +605,22 @@ export const Item = () => {
             </form>
           ) : (
             <p className="login-or-signup">
-              <Link to="/login">Login</Link> or <Link to="/register">sign up</Link> to
-              leave a comment.
+              <button
+                className="link-button"
+                onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+              >
+                Login
+              </button>{" "}
+              or{" "}
+              <button
+                className="link-button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "registerModal", value: true }))
+                }
+              >
+                Sign Up
+              </button>{" "}
+              to leave a comment.
             </p>
           )}
           <CommentsList

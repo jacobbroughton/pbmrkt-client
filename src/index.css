@@ -58,7 +58,6 @@ textarea {
   resize: vertical;
   color: white;
   min-width: 150px;
-
 }
 
 .modal-overlay {
@@ -265,13 +264,12 @@ form.standard .form-group.disabled {
   pointer-events: none;
 }
 
-
 form.standard .form-group.disabled button,
 form.standard .form-group.disabled label {
   color: grey;
 }
 
-form.standard .form-group.disabled  svg {
+form.standard .form-group.disabled svg {
   fill: grey;
 }
 
@@ -335,7 +333,7 @@ h1 {
   fill: white;
 }
 
-.link-button {
+button.link-button {
   color: var(--lightgreen);
   border: 0;
   background-color: transparent;
@@ -344,8 +342,8 @@ h1 {
   cursor: pointer;
 }
 
-.link-button:not(:disabled):hover,
-.link-button:not(:disabled):focus {
+button.link-button:not(:disabled):hover,
+button.link-button:not(:disabled):focus {
   text-decoration: underline;
 }
 

@@ -1,0 +1,4 @@
+.modal.bug {
+  max-width: 500px;
+  z-index: 6;
+}

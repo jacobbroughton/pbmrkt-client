@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
 import { LogOutIcon } from "../Icons/LogOutIcon";
@@ -8,10 +8,13 @@ import { HomeIcon } from "../Icons/HomeIcon";
 import { DollarBillIcon } from "../Icons/DollarBillIcon";
 import { setLogoutLoading } from "../../../redux/loading";
 import "./RightSideMenu.css";
+import BugIcon from "../Icons/BugIcon";
+import FeedbackIcon from "../Icons/FeedbackIcon";
 
 export const RightSideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const rightSideMenuRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
@@ -58,22 +61,24 @@ export const RightSideMenu = () => {
   return (
     <div className="right-side-menu" ref={rightSideMenuRef}>
       {error && <p className="error-text small-text">{error.toString()}</p>}
-      <Link
-        to={`/user/${user.username}`}
-        className="menu-item"
-        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
-      >
-        <div className="profile-link">
-          <img className="profile-picture" src={user.profile_picture_url} />
-          <div className="info">
-            <label>View Profile</label>
-            <p className="user-email">{user.username}</p>
+      {user && (
+        <Link
+          to={`/user/${user.username}`}
+          className={`menu-item ${location.pathname.includes("/user/") ? "current" : ""}`}
+          onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
+        >
+          <div className="profile-link">
+            <img className="profile-picture" src={user.profile_picture_url} />
+            <div className="info">
+              <label>View Profile</label>
+              <p className="user-email">{user.username}</p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      )}
       <Link
         to={`/`}
-        className="menu-item"
+        className={`menu-item ${location.pathname == "/" ? "current" : ""}`}
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <HomeIcon />
@@ -81,16 +86,38 @@ export const RightSideMenu = () => {
       </Link>
       <Link
         to={`/sell`}
-        className="menu-item"
+        className={`menu-item ${location.pathname == "/sell" ? "current" : ""}`}
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <DollarBillIcon />
         <label>Sell</label>
       </Link>
-      <button className="menu-item logout" type="button" onClick={handleLogout}>
+      <Link
+        to={`/sell`}
+        className="menu-item"
+        onClick={() => {
+          dispatch(toggleModal({ key: "bugModal", value: true }));
+          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+        }}
+      >
+        <BugIcon />
+        <label>Report a bug</label>
+      </Link>
+      <Link
+        to={`/sell`}
+        className="menu-item"
+        onClick={() => {
+          dispatch(toggleModal({ key: "feedbackModal", value: true }));
+          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+        }}
+      >
+        <FeedbackIcon />
+        <label>Feedback</label>
+      </Link>
+      {user && <button className="menu-item logout" type="button" onClick={handleLogout}>
         <LogOutIcon />
         Logout
-      </button>
+      </button>}
     </div>
   );
 };

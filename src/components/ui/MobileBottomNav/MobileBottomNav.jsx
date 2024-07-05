@@ -194,7 +194,7 @@ export function MobileBottomNav() {
         </Link>
       )} */}
 
-      {rightSideMenuToggled && user && <RightSideMenu />}
+      {rightSideMenuToggled && <RightSideMenu />}
       {unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
       {notificationsMenuToggled && user && (
         <NotificationsMenu

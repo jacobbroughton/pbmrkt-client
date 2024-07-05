@@ -209,46 +209,57 @@ export const Navbar = () => {
           <PlusIcon />
         </button>
 
-        {user ? (
-          <>
-            {((isOnMobile() && search.searchBarToggled) || true) && (
-              <button
-                type="button"
-                className={`notifications-menu-toggle ${
-                  notificationsMenuToggled ? "toggled" : ""
-                }`}
-                onClick={handleNotificationsMenuToggle}
-              >
-                <BellIcon />
-                {unreadNotificationCount > 0 && (
-                  <span className="unread-notification-count">
-                    {unreadNotificationCount}
-                  </span>
-                )}
-              </button>
+        {/* Before experimenting below */}
+        {/* {user ? ( */}
+        <>
+          {/* {((isOnMobile() && search.searchBarToggled) || true) && ( */}
+          <button
+            type="button"
+            className={`notifications-menu-toggle ${
+              notificationsMenuToggled ? "toggled" : ""
+            }`}
+            onClick={handleNotificationsMenuToggle}
+          >
+            <BellIcon />
+            {unreadNotificationCount > 0 && (
+              <span className="unread-notification-count">{unreadNotificationCount}</span>
             )}
-            <button
-              onClick={handleRightSideMenuToggle}
-              type="button"
-              className="right-side-menu-button"
-            >
-              <img className="profile-picture" src={user.profile_picture_url} />
-            </button>
-          </>
-        ) : (
-          // <Link to="/login" className="login-link">
+          </button>
+          {/* )} */}
+          <button
+            onClick={handleRightSideMenuToggle}
+            type="button"
+            className="right-side-menu-button"
+          >
+            <img
+              className="profile-picture"
+              src={
+                user
+                  ? user.profile_picture_url
+                  : "https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/profile_pictures/placeholders/user-placeholder"
+              }
+            />
+          </button>
+        </>
+        {/* ) : ( */}
+        {/* // <Link to="/login" className="login-link">
           //   Login
           // </Link>
-          <button
-            className="login-link"
-            onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
-          >
-            Login
-          </button>
-        )}
+          // <button */}
+        {/* //   className="login-link"
+          //   onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+          // >
+          //   Login
+          // </button> */}
+        {/* false */}
+        {/* )} */}
+
+        {/* Before experimenting above */}
+
+        {/* <button></button> */}
       </div>
 
-      {rightSideMenuToggled && user && <RightSideMenu />}
+      {rightSideMenuToggled &&  <RightSideMenu />}
       {notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}

@@ -719,10 +719,11 @@ export const Sell = () => {
     !user.state ||
     !user.city;
 
-  const noShipping =
-    radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
-
-  let warnings = [];
+    
+    let warnings = [];
+    
+    const noShipping =
+  radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
 
   const detailsPlaceholderText = `(Example) 
 - Planet Eclipse CS1

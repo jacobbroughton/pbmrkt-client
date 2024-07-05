@@ -37,8 +37,6 @@ export const SearchModal = () => {
     setRecentSearchClicked_handleSearchAgain,
   ] = useState(false);
 
-
-
   async function getRecentSearches() {
     try {
       const { data, error } = await supabase.rpc("get_search_history", {
@@ -66,7 +64,7 @@ export const SearchModal = () => {
         const { data, error } = await supabase.rpc("add_search", {
           p_created_by_id: user.auth_id,
           p_search_value: searchValue.draft.trim(),
-          p_origin: origin
+          p_origin: origin,
         });
 
         if (error) throw error.message;
@@ -138,11 +136,12 @@ export const SearchModal = () => {
   }, [searchValue.draft]);
 
   useEffect(() => {
-    if (recentSearchClicked_handleSearchAgain) handleSearch(null, 'Recently Searched Click');
+    if (recentSearchClicked_handleSearchAgain)
+      handleSearch(null, "Recently Searched Click");
   }, [recentSearchClicked_handleSearchAgain]);
 
   useEffect(() => {
-    getRecentSearches();
+    if (user) getRecentSearches();
     searchRef.current.focus();
   }, []);
 

@@ -1,0 +1,4 @@
+.modal.feedback {
+  max-width: 500px;
+  z-index: 6;
+}

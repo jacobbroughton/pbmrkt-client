@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { MinusIcon } from "../Icons/MinusIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Spinner } from "../Icons/Spinner/Spinner";
+import { Arrow } from "../Icons/Arrow";
 
 export const Comment = ({
   comment,
@@ -80,6 +81,15 @@ export const Comment = ({
           </p>
           {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
             <div className="controls">
+              <div className="like-and-dislike">
+                <button>
+                  <Arrow direction="up" />
+                </button>
+                <span>{Math.floor(Math.random() * 10)}</span>
+                <button>
+                  <Arrow direction="down" />
+                </button>
+              </div>
               <button
                 className="button"
                 onClick={() => {

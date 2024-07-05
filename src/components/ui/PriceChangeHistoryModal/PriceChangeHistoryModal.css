@@ -1,40 +1,59 @@
-.price-change-modal {
-  max-width: 450px;
-  max-height: 500px;
-  z-index: 5 !important;
-  gap: 0 !important;
+.modal.price-change-modal {
+  max-width: 500px;
+  width: calc(100% - 30px);
+  top: 100px;
+  transform: translateX(-50%);
+  padding: 0;
+  z-index: 6;
+  gap: 0;
 }
 
 .price-change-modal > .header {
   display: flex;
   justify-content: space-between;
-  border-bottom: grey 1px solid;
+  border-bottom: #555 1px solid;
   padding-bottom: 15px;
-  padding: 10px 5px;
+  padding: 10px;
 }
 
 .price-change-modal > .metadata {
   padding: 10px 5px;
-  border-bottom: grey 1px solid;
+  border-bottom: #555 1px solid;
   font-style: italic;
+  padding: 10px;
 }
 
-.price-change-modal > ul {
+.modal.price-change-modal > .content {
+  padding: 10px;
+  min-height: 100px;
+}
+
+.price-change-modal > .content ul {
   list-style: none;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   width: 100%;
+  /* border: 1px solid #555; */
+  /* border-radius: 3px; */
 }
 
-.price-change-modal > ul > li {
-  padding: 10px 5px;
+.price-change-modal > .content ul > li {
+  /* padding: 5px 10px; */
+  padding-bottom: 5px;
   display: flex;
   gap: 20px;
   justify-content: space-between;
+  /* border-bottom: 1px solid #555; */
+  /* padding: 5px 10px; */
+  border-radius: 2px;
 }
 
-.price-change-modal > ul > li > .price-change-and-icon {
+.price-change-modal > .content ul > li:not(:last-child) {
+  border: 1px solid #555;
+}
+
+.price-change-modal > .content ul > li > .price-change-and-icon {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -45,15 +64,15 @@
   font-size: 0.875rem;
 }
 
-.price-change-modal > ul > li > .price-change-and-icon > svg {
+.price-change-modal > .content ul > li > .price-change-and-icon > svg {
   width: 13px;
   fill: grey;
 }
 
-.price-change-modal > ul > li.up > .price-change-and-icon > svg {
+.price-change-modal > .content ul > li.up > .price-change-and-icon > svg {
   fill: lightgreen;
 }
 
-.price-change-modal > ul > li.down > .price-change-and-icon > svg {
+.price-change-modal > .content ul > li.down > .price-change-and-icon > svg {
   fill: var(--red);
 }

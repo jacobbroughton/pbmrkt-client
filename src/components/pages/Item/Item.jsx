@@ -225,7 +225,6 @@ export const Item = () => {
 
       setLocalComments(
         localComments.map((comment) => {
-          console.log(comment, commentId);
           return {
             ...comment,
             ...(comment.id == commentId && {
@@ -476,7 +475,6 @@ export const Item = () => {
                     </div>
                     <div className="contact-option">
                       <EmailIcon />
-                      {console.log(item.info)}
                       <p className="email">
                         {user ? (
                           item.info.created_by_email || "N/A"

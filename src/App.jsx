@@ -18,6 +18,8 @@ import { MobileBottomNav } from "./components/ui/MobileBottomNav/MobileBottomNav
 import { LoginModal } from "./components/ui/LoginModal/LoginModal.jsx";
 import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
 import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
+import FeedbackModal from "./components/ui/FeedbackModal/FeedbackModal.jsx";
+import BugModal from "./components/ui/BugModal/BugModal.jsx";
 
 export function App() {
   const dispatch = useDispatch();
@@ -28,6 +30,8 @@ export function App() {
   );
   const registerModalToggled = useSelector((state) => state.modals.registerModalToggled);
   const loginModalToggled = useSelector((state) => state.modals.loginModalToggled);
+  const bugModalToggled = useSelector((state) => state.modals.bugModalToggled);
+  const feedbackModalToggled = useSelector((state) => state.modals.feedbackModalToggled);
   const navigate = useNavigate();
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -181,6 +185,8 @@ export function App() {
         {loginModalToggled && <LoginModal />}
         {registerModalToggled && <RegisterModal />}
         {resetPasswordModalToggled && <ResetPasswordModal />}
+        {bugModalToggled && <BugModal />}
+        {feedbackModalToggled && <FeedbackModal />}
       </main>
     </>
   );

@@ -20,6 +20,7 @@ import {
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../CategorySelectorModal/CategorySelectorModal";
+import { SortIcon } from "../Icons/SortIcon";
 
 export const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
@@ -99,6 +100,23 @@ export const EditItemModal = ({ item, setItem }) => {
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [listedItemID, setListedItemID] = useState(false);
+  const [cantFindCity, setCantFindCity] = useState(false);
+  const [markedFieldKey, setMarkedFieldKey] = useState(null);
+
+    // * Form group refs
+    const imagesRef = useRef(null);
+    const fullNameRef = useRef(null);
+    const contactPhoneNumberRef = useRef(null);
+    const stateRef = useRef(null);
+    const cityRef = useRef(null);
+    const whatIsThisRef = useRef(null);
+    const categoryRef = useRef(null);
+    const shippingRef = useRef(null);
+    const tradesRef = useRef(null);
+    const conditionRef = useRef(null);
+    const negotiableRef = useRef(null);
+    const detailsRef = useRef(null);
+    const priceRef = useRef(null);
 
   useEffect(() => {
     getItemCategories();
@@ -164,7 +182,7 @@ export const EditItemModal = ({ item, setItem }) => {
       setLoading(false);
       dispatch(toggleModal({ key: "editItemModal", value: false }));
 
-      navigate(`/${data[0].id}`);
+      navigate(`/listing/${data[0].id}`);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -297,11 +315,19 @@ export const EditItemModal = ({ item, setItem }) => {
     item.info.negotiable == negotiable &&
     item.info.what_is_this == whatIsThisItem;
 
+    const noShipping =
+    radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
+  
+    const detailsPlaceholderText = `(Example) 
+  - Planet Eclipse CS1
+  - Comes with a .685 freak insert, parts kit, tools, barrel sock.
+  - Small leak in solenoid area. Can still use about 4 pods in a point.`;
+
   return (
     <>
       <div className="modal edit-item">
         <div className="header">
-          <h2>Edit Item</h2>
+          <h2>Edit/Modify This Listing</h2>
           <button
             onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
             type="button"
@@ -312,219 +338,252 @@ export const EditItemModal = ({ item, setItem }) => {
         </div>
         <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
           {error && <p className="small-text error-text">{error.toString()}</p>}
-          <div className={`form-group required`}>
-            <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
-              <span className="question-number">1.</span> What is this item?
-            </label>
-            <input
-              onChange={(e) => setWhatIsThisItem(e.target.value)}
-              value={whatIsThisItem}
-              placeholder='e.g. "GI Cut Planet Eclipse LV1"'
-            />
-          </div>
-          <div className="form-group shipping">
-            <label>
-              <span className="question-number">2.</span> Are you covering the shipping
-              cost?
-            </label>
-            <div className="shipping-selector-and-input">
-              <div className="shipping-selector">
-                <button
-                  className={`shipping-toggle-button ${
-                    !buyerPaysShipping ? "selected" : ""
-                  }`}
-                  type="button"
-                  onClick={() => setBuyerPaysShipping(false)}
-                >
-                  <RadioIcon checked={!buyerPaysShipping} /> Free/Included
-                </button>
-                <button
-                  className={`shipping-toggle-button ${
-                    buyerPaysShipping ? "selected" : ""
-                  }`}
-                  type="button"
-                  onClick={() => setBuyerPaysShipping(true)}
-                >
-                  <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
-                </button>
-              </div>
-            </div>
-          </div>
-          {/* </fieldset> */}
-
-          <fieldset className="prices">
-            <div className="form-group shipping">
-              <label>
-                <span className="question-number">3a.</span>Price of item, without
-                shipping
-              </label>
-              <div className="input-container">
-                <input
-                  onChange={(e) => setPrice(e.target.value)}
-                  type="number"
-                  step={0.01}
-                  value={price}
-                  placeholder="Price"
-                  className="dollars"
-                  required
-                />
-              </div>
-            </div>
-            <div
-              className={`form-group shipping-cost ${
-                buyerPaysShipping ? "" : "disabled"
-              }`}
-              title={
-                buyerPaysShipping
-                  ? "Adjust the cost of shipping for this item"
-                  : "Toggle 'buyer pays shipping' for this to be interactive"
-              }
-            >
-              <label>
-                <span className="question-number">3b.</span>{" "}
-                {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
-              </label>
-              <div className="input-container">
-                <input
-                  onChange={(e) => {
-                    setShippingCost(e.target.value);
-                  }}
-                  type="number"
-                  step={0.01}
-                  value={shippingCost}
-                  placeholder="$0"
-                  required
-                  className="dollars"
-                  disabled={!buyerPaysShipping}
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          {/* <div className="what-the-buyer-sees">
-            <p>
-              Buyer Sees $
-              {(parseFloat(price) + parseFloat(shippingCost || 0) || 0).toLocaleString(
-                "en-US"
-              )}{" "}
-              = ${parseFloat(price).toLocaleString("en-US") || 0}
-              {shippingCost
-                ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
-                : " + Free Shipping"}
-            </p>
-          </div> */}
-
-          <fieldset>
-            <div className={`form-group`}>
-              <label>
-                <span className="question-number">4.</span> Select the most accurate
-                category for this item
-              </label>
-              <button
-                onClick={() => {
-                  // dispatch(toggleModal({ key: "editItemModal", value: false }));
-                  dispatch(toggleModal({ key: "categorySelectorModal", value: true }));
-                }}
-                className="button select-category-modal-toggle"
-                type="button"
-                title={`Click this to open a menu and select an item category to filter your results on`}
+          <div className="form-block">
+            {/* <div className="header">
+              <h2>Item Details</h2>
+            </div> */}
+            <div className="form-content">
+              <div
+                className={`form-group ${
+                  markedFieldKey == "whatIsThis" ? "marked" : ""
+                } required`}
+                ref={whatIsThisRef}
               >
-                {categories.saved?.selected?.value ?? "Select a Category"} <EditIcon />{" "}
-              </button>
-            </div>
-          </fieldset>
+                <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
+                  What is this item?
+                </label>
+                {/* <label>Examples: 'Planet Eclipse LV1 Dynasty Waffle Cut', 'Valken Rolling Gear Bag', 'Infamous Pro DNA Barrel Kit'</label> */}
+                <input
+                  onChange={(e) => setWhatIsThisItem(e.target.value)}
+                  value={whatIsThisItem}
+                  placeholder='e.g. "GI Cut Planet Eclipse LV1"'
+                />
+              </div>
+              <fieldset>
+                <div
+                  className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
+                  ref={categoryRef}
+                >
+                  <label>Select the most accurate category for this item</label>
+                  {console.log(categories)}
+                  <button
+                    onClick={() =>
+                      dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+                    }
+                    className="select-category-modal-toggle"
+                    type="button"
+                    title={`Click this to open a menu and select an item category to filter your results on`}
+                  >
+                    {categories.saved?.selected?.value ?? "No Category Selected"}{" "}
+                    <SortIcon />{" "}
+                  </button>
+                </div>
+              </fieldset>
 
-          <div className={`form-group`}>
-            <label>
-              <span className="question-number">5.</span> Add some details to help the
-              buyer understand what you're selling. (what's included, condition details,
-              etc.)
-            </label>
-            <textarea
-              onChange={(e) => setDetails(e.target.value)}
-              value={details}
-              placeholder="(Example) 
-- Planet Eclipse CS1
-- Comes with a .685 freak insert, parts kit, tools, barrel sock.
-- Small leak in solenoid area. Can still use about 4 pods in a point."
-            />
+              <fieldset className="radio-form-groups">
+                <div
+                  className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
+                  ref={shippingRef}
+                >
+                  <label>
+                    Shipping{" "}
+                    {generatedFilters.shipping && (
+                      <span
+                        className="auto-completed-span"
+                        title="This has been automatically filled out based on your last listing"
+                      >
+                        <MagicWand />
+                      </span>
+                    )}
+                  </label>
+
+                  <RadioOptions
+                    options={radioOptions.shippingOptions}
+                    handleRadioOptionClick={(option) =>
+                      handleRadioSelect("shippingOptions", option)
+                    }
+                  />
+                </div>
+
+                <div
+                  className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
+                  ref={tradesRef}
+                >
+                  <label>
+                    Trades{" "}
+                    {generatedFilters.trades && (
+                      <span
+                        className="auto-completed-span"
+                        title="This has been automatically filled out based on your last listing"
+                      >
+                        <MagicWand />
+                      </span>
+                    )}
+                  </label>
+
+                  <RadioOptions
+                    options={radioOptions.tradeOptions}
+                    handleRadioOptionClick={(option) =>
+                      handleRadioSelect("tradeOptions", option)
+                    }
+                  />
+                </div>
+              </fieldset>
+              <fieldset className="radio-form-groups">
+                <div
+                  className={`form-group ${
+                    markedFieldKey == "condition" ? "marked" : ""
+                  }`}
+                  ref={conditionRef}
+                >
+                  <label>Condition</label>
+
+                  <RadioOptions
+                    options={radioOptions.conditionOptions}
+                    handleRadioOptionClick={(option) =>
+                      handleRadioSelect("conditionOptions", option)
+                    }
+                  />
+                </div>
+                <div
+                  className={`form-group ${
+                    markedFieldKey == "negotiable" ? "marked" : ""
+                  }`}
+                >
+                  <label>
+                    Negotiable{" "}
+                    {generatedFilters.negotiable && (
+                      <span
+                        className="auto-completed-span"
+                        title="This has been automatically filled out based on your last listing"
+                      >
+                        <MagicWand />
+                      </span>
+                    )}
+                  </label>
+
+                  <RadioOptions
+                    options={radioOptions.negotiableOptions}
+                    handleRadioOptionClick={(option) =>
+                      handleRadioSelect("negotiableOptions", option)
+                    }
+                  />
+                </div>
+              </fieldset>
+
+              <div
+                className={`form-group ${markedFieldKey == "details" ? "marked" : ""}`}
+                ref={detailsRef}
+              >
+                <label>
+                  Add some details to help the buyer understand what you're selling.
+                  (what's included, condition details, etc.)
+                </label>
+                <textarea
+                  onChange={(e) => setDetails(e.target.value)}
+                  value={details}
+                  placeholder={detailsPlaceholderText}
+                />
+              </div>
+            </div>
           </div>
+          <div className="form-block">
+            {/* <div className="header">
+              <h2>Price</h2>
+            </div> */}
+            <div className="form-content">
+              {noShipping ? (
+                <div className="form-group">
+                  <label>Shipping</label>
+                  <p>No shipping, local only</p>
+                </div>
+              ) : (
+                <div className="form-group shipping">
+                  <label>Are you covering the shipping cost?</label>
+                  <div className="shipping-selector-and-input">
+                    <div className="shipping-selector">
+                      <button
+                        className={`shipping-toggle-button ${
+                          !buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(false)}
+                      >
+                        <RadioIcon checked={!buyerPaysShipping} /> Free/Included
+                      </button>
+                      <button
+                        className={`shipping-toggle-button ${
+                          buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(true)}
+                      >
+                        <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
-          <fieldset className="radio-form-groups">
-            <div className={`form-group`}>
-              <label>
-                Shipping{" "}
-                {generatedFilters.shipping && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
+              {/* </fieldset> */}
+
+              <fieldset className="prices">
+                <div
+                  className={`form-group shipping ${
+                    markedFieldKey == "price" ? "marked" : ""
+                  }`}
+                  ref={priceRef}
+                >
+                  <label>
+                    Price of item
+                    {noShipping ? "" : ", without shipping"}
+                  </label>
+                  <div className="input-container">
+                    <input
+                      onChange={(e) => setPrice(e.target.value)}
+                      type="number"
+                      step={0.01}
+                      value={price}
+                      placeholder="Price"
+                      className="dollars"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {!noShipping && (
+                  <div
+                    className={`form-group shipping-cost ${
+                      buyerPaysShipping ? "" : "disabled"
+                    }`}
+                    title={
+                      buyerPaysShipping
+                        ? "Adjust the cost of shipping for this item"
+                        : "Toggle 'buyer pays shipping' for this to be interactive"
+                    }
                   >
-                    <MagicWand />
-                  </span>
+                    <label>
+                      {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
+                    </label>
+                    <div className="input-container">
+                      <input
+                        onChange={(e) => {
+                          setShippingCost(e.target.value);
+                        }}
+                        type="number"
+                        step={0.01}
+                        value={shippingCost}
+                        placeholder="$0"
+                        required
+                        className="dollars"
+                        disabled={!buyerPaysShipping}
+                      />
+                    </div>
+                  </div>
                 )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.shippingOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("shippingOptions", option)
-                }
-              />
+              </fieldset>
             </div>
-
-            <div className={`form-group`}>
-              <label>
-                Trades{" "}
-                {generatedFilters.trades && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.tradeOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("tradeOptions", option)
-                }
-              />
-            </div>
-          </fieldset>
-          <fieldset>
-            <div className={`form-group`}>
-              <label>Condition</label>
-
-              <RadioOptions
-                options={radioOptions.conditionOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("conditionOptions", option)
-                }
-              />
-            </div>
-            <div className={`form-group`}>
-              <label>
-                Negotiable{" "}
-                {generatedFilters.negotiable && (
-                  <span
-                    className="auto-completed-span"
-                    title="This has been automatically filled out based on your last listing"
-                  >
-                    <MagicWand />
-                  </span>
-                )}
-              </label>
-
-              <RadioOptions
-                options={radioOptions.negotiableOptions}
-                handleRadioOptionClick={(option) =>
-                  handleRadioSelect("negotiableOptions", option)
-                }
-              />
-            </div>
-          </fieldset>
+          </div>
           {/* <div className="horizontal-divider"></div> */}
           {/* <div className="controls">
               {loading ? (

@@ -44,6 +44,11 @@
   font-size: 1rem;
 }
 
+.right-side-menu button.menu-item.current,
+.right-side-menu .menu-item.current {
+  border-left: 2px solid var(--lightgreen);
+}
+
 .right-side-menu .menu-item:hover {
   background-color: #444;
   text-decoration: none;

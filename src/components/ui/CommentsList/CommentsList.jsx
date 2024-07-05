@@ -26,6 +26,10 @@ export const CommentsList = ({
     setLocalComments(passedComments);
   }, [passedComments]);
 
+  useEffect(() => {
+    console.log(localComments)
+  }, [localComments])
+
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
 

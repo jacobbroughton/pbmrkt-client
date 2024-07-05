@@ -197,6 +197,26 @@
   margin-top: 5px;
 }
 
+.comment .controls .like-and-dislike {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.comment .controls .like-and-dislike button {
+  padding: 1px 10px;
+  background-color: #444;;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px
+}
+
+.comment .controls .like-and-dislike button svg {
+  width: 12px;
+  height: 12px;;
+}
+
 .comment .comment-form .buttons {
   display: flex;
   gap: 10px;

@@ -92,8 +92,7 @@ export const RightSideMenu = () => {
         <DollarBillIcon />
         <label>Sell</label>
       </Link>
-      <Link
-        to={`/sell`}
+      <button
         className="menu-item"
         onClick={() => {
           dispatch(toggleModal({ key: "bugModal", value: true }));
@@ -102,9 +101,8 @@ export const RightSideMenu = () => {
       >
         <BugIcon />
         <label>Report a bug</label>
-      </Link>
-      <Link
-        to={`/sell`}
+      </button>
+      <button
         className="menu-item"
         onClick={() => {
           dispatch(toggleModal({ key: "feedbackModal", value: true }));
@@ -113,7 +111,7 @@ export const RightSideMenu = () => {
       >
         <FeedbackIcon />
         <label>Feedback</label>
-      </Link>
+      </button>
       {user && <button className="menu-item logout" type="button" onClick={handleLogout}>
         <LogOutIcon />
         Logout

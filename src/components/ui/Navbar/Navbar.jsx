@@ -104,7 +104,7 @@ export const Navbar = () => {
           }
 
           if (status === "CHANNEL_ERROR") {
-            console.log(`There was an error subscribing to channel: ${err.message}`);
+            console.log(`There was an error subscribing to channel: ${err?.message || "default"}`);
           }
 
           if (status === "TIMED_OUT") {

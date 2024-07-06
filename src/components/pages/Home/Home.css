@@ -71,6 +71,7 @@
   top: 47px;
   bottom: 0;
   z-index: 4;
+  
 }
 
 .home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button {
@@ -88,6 +89,7 @@
   z-index: 18;
   position: relative;
   opacity: 0.95;
+  
 }
 
 .home .listings-section .sidebar-toggle-button-parent .dotted-track {

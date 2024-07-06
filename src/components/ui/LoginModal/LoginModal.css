@@ -6,7 +6,7 @@
   max-height: 500px;
   top: 60px;
   transform: translateX(-50%);
-  z-index: 6;
+  z-index: 7;
   width: calc(100% - 20px);
 }
 

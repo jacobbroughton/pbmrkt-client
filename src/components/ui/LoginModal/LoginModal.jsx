@@ -136,7 +136,7 @@ export const LoginModal = () => {
         )}
       </div>
       <ModalOverlay
-        zIndex={5}
+        zIndex={6}
         onClick={() => dispatch(toggleModal({ key: "loginModal", value: false }))}
       />
     </>

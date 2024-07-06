@@ -33,18 +33,18 @@ export function MobileBottomNav() {
     e.preventDefault();
     e.stopPropagation();
 
-    if (user) {
+    // if (user) {
       dispatch(toggleModal({ key: "notificationsMenu", value: false }));
       dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
-    } else {
-      dispatch(
-        toggleModal({
-          key: "unauthenticatedOptionsMenu",
-          value: !unauthenticatedOptionsMenuToggled,
-          closeAll: true,
-        })
-      );
-    }
+    // } else {
+    //   dispatch(
+    //     toggleModal({
+    //       key: "unauthenticatedOptionsMenu",
+    //       value: !unauthenticatedOptionsMenuToggled,
+    //       closeAll: true,
+    //     })
+    //   );
+    // }
   }
 
   function handleNotificationsMenuToggle(e) {

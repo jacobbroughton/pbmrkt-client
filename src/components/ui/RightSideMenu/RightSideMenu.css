@@ -34,17 +34,11 @@
   gap: 10px;
   color: white;
   background-color: #2f2f2f;
-}
-
-
-
-.right-side-menu button.menu-item {
-  background-color: transparent;
   border: 0;
   font-size: 1rem;
 }
 
-.right-side-menu button.menu-item.current,
+.right-side-menu .menu-item.current,
 .right-side-menu .menu-item.current {
   border-left: 2px solid var(--lightgreen);
 }
@@ -131,7 +125,6 @@
     display: flex;
   }
 } */
-
 
 /* Phones */
 @media only screen and (max-device-width: 480px) {

@@ -6,7 +6,7 @@
   max-height: calc(100% - 100px);
   top: 60px;
   transform: translateX(-50%);
-  z-index: 6;
+  z-index: 7;
   overflow: auto;
   padding: 10px;
   width: calc(100% - 20px);

@@ -10,6 +10,8 @@ import { setLogoutLoading } from "../../../redux/loading";
 import "./RightSideMenu.css";
 import BugIcon from "../Icons/BugIcon";
 import FeedbackIcon from "../Icons/FeedbackIcon";
+import ArrowRightToBracket from "../Icons/ArrowRightToBracket";
+import IDCardIcon from "../Icons/IDCardIcon";
 
 export const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -112,10 +114,56 @@ export const RightSideMenu = () => {
         <FeedbackIcon />
         <label>Feedback</label>
       </button>
-      {user && <button className="menu-item logout" type="button" onClick={handleLogout}>
-        <LogOutIcon />
-        Logout
-      </button>}
+      {user && (
+        <button className="menu-item logout" type="button" onClick={handleLogout}>
+          <LogOutIcon />
+          Logout
+        </button>
+      )}
+      {/* <Link
+        className={`menu-item`}
+        to="/register"
+        onClick={() => {
+          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+        }}
+      >
+        <IDCardIcon />
+        Register
+      </Link>
+      <Link
+        className={`menu-item`}
+        to="/login"
+        onClick={() => {
+          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+        }}
+      >
+        <ArrowRightToBracket />
+        Login
+      </Link> */}
+      {!user && (
+        <>
+          <button
+            className="menu-item"
+            onClick={() => {
+              dispatch(toggleModal({ key: "loginModal", value: true }));
+              dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+            }}
+          >
+            <ArrowRightToBracket />
+            Login
+          </button>
+          <button
+            className="menu-item"
+            onClick={() => {
+              dispatch(toggleModal({ key: "registerModal", value: true }));
+              dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+            }}
+          >
+            <IDCardIcon />
+            Register
+          </button>
+        </>
+      )}
     </div>
   );
 };

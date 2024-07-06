@@ -45,15 +45,15 @@
 }
 
 .home .sidebar .sidebar-fixed-wrapper .sidebar-toggle-button {
-  --btn-width: 40;
+  --btn-width: 40px;
   position: absolute;
   /* cursor: grab; */
   /* margin-top: 52px; */
   cursor: pointer;
-  right: calc(var(--btn-width) * -1px);
+  right: calc(var(--btn-width) * -1);
   height: 60px;
   border-bottom-right-radius: 3px;
-  width: calc(var(--btn-width) * 1px);
+  width: calc(var(--btn-width) * 1);
   background-color: var(--lightgreen);
   border: #222 1px solid;
   border-left: 0;

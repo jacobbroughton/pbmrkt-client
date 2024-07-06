@@ -74,10 +74,10 @@
 }
 
 .home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button {
-  --btn-width: 40;
+  --btn-width: 40px;
   cursor: pointer;
   margin-top: 17px;
-  width: calc(var(--btn-width) * 1px);
+  width: calc(var(--btn-width) * 1);
   height: 60px;
   background-color: var(--lightgreen);
   border: #222 1px solid;

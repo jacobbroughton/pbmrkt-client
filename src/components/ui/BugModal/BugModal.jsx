@@ -12,7 +12,7 @@ const BugModal = () => {
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [bugBody, setBugBody] = useState("");
-  const [name, setName] = useState(user?.first_name + " " + user?.last_name || "");
+  const [name, setName] = useState(user ? user.first_name + " " + user.last_name : "");
   const [email, setEmail] = useState(user?.email || "");
   const [error, setError] = useState(null);
 
@@ -33,7 +33,7 @@ const BugModal = () => {
 
       console.log("add_bug", data);
 
-      setBugBody("")
+      setBugBody("");
     } catch (error) {
       console.log(error);
       setError(error.toString());

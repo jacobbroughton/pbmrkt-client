@@ -332,7 +332,7 @@ export function Listings() {
           } listings-section`}
         >
           {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
-            <div className="dotted-track"></div>
+            {/* <div className="dotted-track"></div> */}
             <button
               className="sidebar-toggle-button"
               onClick={() =>

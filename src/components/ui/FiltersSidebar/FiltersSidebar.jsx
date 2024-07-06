@@ -463,7 +463,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
         </div>
       </form>
       <div className="sidebar-fixed-wrapper">
-        <div className="dotted-track"></div>
+        {/* <div className="dotted-track"></div> */}
         <button
           draggable={true}
           className="sidebar-toggle-button"

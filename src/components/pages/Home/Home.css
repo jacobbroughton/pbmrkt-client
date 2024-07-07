@@ -75,9 +75,9 @@
 }
 
 .home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button {
-  --btn-width: 40px;
+  --btn-width: 20px;
   cursor: pointer;
-  margin-top: 17px;
+  margin-top: 0;
   width: calc(var(--btn-width) * 1);
   height: 60px;
   background-color: var(--lightgreen);
@@ -89,6 +89,34 @@
   z-index: 18;
   position: relative;
   opacity: 0.95;
+
+  --btn-width: 20px;
+  position: absolute;
+  /* cursor: grab; */
+  /* margin-top: 52px; */
+  cursor: pointer;
+  right: calc(var(--btn-width) * -1);
+  height: 60px;
+  height: 100%;
+  border-bottom-right-radius: 3px;
+  width: calc(var(--btn-width) * 1);
+  background-color: #555;
+  border: #222 1px solid;
+  border-left: 0;
+  /* border-top-right-radius: 5px; */
+  /* border-bottom-right-radius: 5px; */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  opacity: 0.9;
+  right:  -webkit-calc(var(--btn-width) * -1);
+  right:  -moz-calc(var(--btn-width) * -1);
+  right:  calc(var(--btn-width) * -1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+  border-radius: 0;
+  /* padding-top: 55px */
   
 }
 
@@ -108,8 +136,8 @@
 }
 
 .home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button svg {
-  width: 15px;
-  fill: white;
+  width: 10px;
+  fill: grey;
   filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
 

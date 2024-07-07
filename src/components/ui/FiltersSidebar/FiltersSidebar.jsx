@@ -151,9 +151,10 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
   return (
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
       {" "}
-      <form className="filters" onSubmit={handleFiltersApply}>
-        <div className="apply-and-reset">
-          {/* {windowSize.width <= 625 && (
+      <div className="sidebar-container">
+        <form className="filters" onSubmit={handleFiltersApply}>
+          <div className="apply-and-reset">
+            {/* {windowSize.width <= 625 && (
             <button
               onClick={() =>
                 dispatch(toggleModal({ key: "filtersSidebar", value: false }))
@@ -165,89 +166,89 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
               <DoubleArrow direction="left" />
             </button>
           )} */}
-          {/* {!resetButtonHidden && ( */}
-          <button
-            onClick={() => {
-              if (resetButtonDisabled) return;
-              dispatch(resetFilters());
-              dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-              // if (windowSize.width <= 625) {
-              //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-              // }
-            }}
-            type="button"
-            className={`reset-button`}
-            disabled={resetButtonDisabled}
-            title="Reset all of your filters back to their original state"
-          >
-            <UndoIcon />
-          </button>
-          {/* )} */}
-          {/* <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
+            {/* {!resetButtonHidden && ( */}
+            <button
+              onClick={() => {
+                if (resetButtonDisabled) return;
+                dispatch(resetFilters());
+                dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+                // if (windowSize.width <= 625) {
+                //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+                // }
+              }}
+              type="button"
+              className={`reset-button`}
+              disabled={resetButtonDisabled}
+              title="Reset all of your filters back to their original state"
+            >
+              <UndoIcon />
+            </button>
+            {/* )} */}
+            {/* <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
             Apply
           </button> */}
-        </div>
-        <div className="filter-items">
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Category</label>
-              {filters.saved.category && (
-                <button
-                  type="button"
-                  className="reset-button"
-                  onClick={() => {
-                    dispatch(resetFilter("category"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-            <button
-              onClick={() =>
-                dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
-              }
-              className="button select-category-modal-toggle"
-              type="button"
-              title={`Click this to open a menu and select an item category to filter your results on`}
-            >
-              <span className="current-category">
-                {filters.saved.category?.value ?? "Select a Category"}
-              </span>
-              <EditIcon />{" "}
-            </button>
           </div>
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Price</label>
-              {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
-                <button
-                  className="reset-button"
-                  type="button"
-                  onClick={() => {
-                    dispatch(resetFilter("priceOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
+          <div className="filter-items">
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Category</label>
+                {filters.saved.category && (
+                  <button
+                    type="button"
+                    className="reset-button"
+                    onClick={() => {
+                      dispatch(resetFilter("category"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <button
+                onClick={() =>
+                  dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+                }
+                className="button select-category-modal-toggle"
+                type="button"
+                title={`Click this to open a menu and select an item category to filter your results on`}
+              >
+                <span className="current-category">
+                  {filters.saved.category?.value ?? "Select a Category"}
+                </span>
+                <EditIcon />{" "}
+              </button>
             </div>
-            {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
-              <p className="filter-warning">Max must be equal or greater</p>
-            ) : filters.draft.minPrice[0] == 0 ||
-              (filters.draft.maxPrice && filters.draft?.maxPrice[0]) == "" ? (
-              <p className="filter-warning">Min/Max cannot start with '0'</p>
-            ) : (
-              false
-            )}
-            <RadioOptions
-              options={filters.draft.priceOptions}
-              handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
-              disabled={allFiltersDisabled}
-            />
-            {/* <div className="min-max-price-inputs">
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Price</label>
+                {!filters.draft.priceOptions.find((op) => op.id == 0).checked && (
+                  <button
+                    className="reset-button"
+                    type="button"
+                    onClick={() => {
+                      dispatch(resetFilter("priceOptions"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              {parseFloat(filters.draft.minPrice) > parseFloat(filters.draft.maxPrice) ? (
+                <p className="filter-warning">Max must be equal or greater</p>
+              ) : filters.draft.minPrice[0] == 0 ||
+                (filters.draft.maxPrice && filters.draft?.maxPrice[0]) == "" ? (
+                <p className="filter-warning">Min/Max cannot start with '0'</p>
+              ) : (
+                false
+              )}
+              <RadioOptions
+                options={filters.draft.priceOptions}
+                handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
+                disabled={allFiltersDisabled}
+              />
+              {/* <div className="min-max-price-inputs">
               <div className="min-max-input-container">
                 <label>Min. $</label>
                 <input
@@ -287,202 +288,212 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 />
               </div>
             </div> */}
-          </div>
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By State</label>
-              {filters.draft.state != "All" && (
-                <button
-                  title="Reset the state filter"
-                  className="reset-button"
-                  type="button"
-                  onClick={() => {
-                    dispatch(resetFilter("state"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
             </div>
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By State</label>
+                {filters.draft.state != "All" && (
+                  <button
+                    title="Reset the state filter"
+                    className="reset-button"
+                    type="button"
+                    onClick={() => {
+                      dispatch(resetFilter("state"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
 
-            <select
-              title="Select a state to filter your results on"
-              onChange={handleStateFilterSelect}
-              value={filters.draft.state}
-              disabled={allFiltersDisabled}
-            >
-              {["All", ...states].map((state) => (
-                <option key={state}>{state}</option>
-              ))}
-            </select>
-          </div>
-
-          <div
-            className={`filter-item ${
-              allFiltersDisabled || filters.draft.state == "All" ? "disabled" : ""
-            }`}
-          >
-            <div className="label-and-reset">
-              <label>By City</label>
-              {filters.draft.city != "All" && filters.draft.state != "All" && (
-                <button
-                  title="Reset the city filter"
-                  className="reset-button"
-                  type="button"
-                  onClick={() => {
-                    dispatch(resetFilter("city"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            {filters.draft.state == "All" ? (
-              <p
-                className="small-text disabled"
-                title={"Selecting a city is disabled if no state is selected"}
-              >
-                <WarningCircle /> Select a state first
-              </p>
-            ) : (
               <select
-                title={`Select a city`}
-                className=""
-                disabled={allFiltersDisabled || filters.draft.state == "All"}
-                onChange={handleCityFilterSelect}
-                value={filters.draft.city}
+                title="Select a state to filter your results on"
+                onChange={handleStateFilterSelect}
+                value={filters.draft.state}
+                disabled={allFiltersDisabled}
               >
-                <option>All</option>
-                {statesAndCities[filters.draft.state]?.map((city) => (
-                  <option key={city}>{capitalizeWords(city)}</option>
+                {["All", ...states].map((state) => (
+                  <option key={state}>{state}</option>
                 ))}
               </select>
+            </div>
+
+            <div
+              className={`filter-item ${
+                allFiltersDisabled || filters.draft.state == "All" ? "disabled" : ""
+              }`}
+            >
+              <div className="label-and-reset">
+                <label>By City</label>
+                {filters.draft.city != "All" && filters.draft.state != "All" && (
+                  <button
+                    title="Reset the city filter"
+                    className="reset-button"
+                    type="button"
+                    onClick={() => {
+                      dispatch(resetFilter("city"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+
+              {filters.draft.state == "All" ? (
+                <p
+                  className="small-text disabled"
+                  title={"Selecting a city is disabled if no state is selected"}
+                >
+                  <WarningCircle /> Select a state first
+                </p>
+              ) : (
+                <select
+                  title={`Select a city`}
+                  className=""
+                  disabled={allFiltersDisabled || filters.draft.state == "All"}
+                  onChange={handleCityFilterSelect}
+                  value={filters.draft.city}
+                >
+                  <option>All</option>
+                  {statesAndCities[filters.draft.state]?.map((city) => (
+                    <option key={city}>{capitalizeWords(city)}</option>
+                  ))}
+                </select>
+              )}
+            </div>
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Condition</label>
+                {filters.draft.conditionOptions.find((op) => !op.checked) && (
+                  <button
+                    className="reset-button"
+                    type="button"
+                    onClick={() => {
+                      dispatch(resetFilter("conditionOptions"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <Checkboxes
+                options={filters.draft.conditionOptions}
+                handleCheckboxOptionClick={(option) =>
+                  handleRadioFilterSelect("conditionOptions", option)
+                }
+                disabled={allFiltersDisabled}
+              />
+            </div>
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Shipping</label>
+                {filters.draft.shippingOptions.find((op) => !op.checked) && (
+                  <button
+                    className="reset-button"
+                    type="button"
+                    onClick={() => {
+                      dispatch(resetFilter("shippingOptions"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+
+              <Checkboxes
+                options={filters.draft.shippingOptions}
+                handleCheckboxOptionClick={(option) =>
+                  handleRadioFilterSelect("shippingOptions", option)
+                }
+                disabled={allFiltersDisabled}
+              />
+            </div>
+
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Trades</label>
+                {filters.draft.tradeOptions.find((op) => !op.checked) && (
+                  <button
+                    className="reset-button"
+                    onClick={() => {
+                      dispatch(resetFilter("tradeOptions"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+
+              <Checkboxes
+                options={filters.draft.tradeOptions}
+                handleCheckboxOptionClick={(option) =>
+                  handleRadioFilterSelect("tradeOptions", option)
+                }
+                disabled={allFiltersDisabled}
+              />
+            </div>
+            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+              <div className="label-and-reset">
+                <label>By Negotiable</label>
+                {filters.draft.negotiableOptions.find((op) => !op.checked) && (
+                  <button
+                    className="reset-button"
+                    onClick={() => {
+                      dispatch(resetFilter("negotiableOptions"));
+                      dispatch(setFiltersUpdated(true));
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+
+              <Checkboxes
+                options={filters.draft.negotiableOptions}
+                handleCheckboxOptionClick={(option) =>
+                  handleRadioFilterSelect("negotiableOptions", option)
+                }
+                disabled={allFiltersDisabled}
+              />
+            </div>
+          </div>
+        </form>
+        <div className="sidebar-fixed-wrapper">
+          {/* <div className="dotted-track"></div> */}
+          <button
+            draggable={true}
+            className="sidebar-toggle-button"
+            onClick={() => {
+              console.log("toggled");
+              dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+            }}
+            style={{
+              // top: `${sidebarTogglePositionY}%`,
+              // transform: `translateY(-${sidebarTogglePositionY}%)`,
+              ...(isOnMobile() ? { bottom: "200px" } : { top: "0" }),
+              // ...(isOnMobile() ? { top: "0" } : { top: "0" }),
+            }}
+          >
+            {filtersSidebarToggled ? (
+              <>
+                <Arrow direction="left" />
+                <Arrow direction="left" />
+                <Arrow direction="left" />
+              </>
+            ) : (
+              <>
+                <Arrow direction="right" />
+                <Arrow direction="right" />
+                <Arrow direction="right" />
+              </>
             )}
-          </div>
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Condition</label>
-              {filters.draft.conditionOptions.find((op) => !op.checked) && (
-                <button
-                  className="reset-button"
-                  type="button"
-                  onClick={() => {
-                    dispatch(resetFilter("conditionOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-            <Checkboxes
-              options={filters.draft.conditionOptions}
-              handleCheckboxOptionClick={(option) =>
-                handleRadioFilterSelect("conditionOptions", option)
-              }
-              disabled={allFiltersDisabled}
-            />
-          </div>
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Shipping</label>
-              {filters.draft.shippingOptions.find((op) => !op.checked) && (
-                <button
-                  className="reset-button"
-                  type="button"
-                  onClick={() => {
-                    dispatch(resetFilter("shippingOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            <Checkboxes
-              options={filters.draft.shippingOptions}
-              handleCheckboxOptionClick={(option) =>
-                handleRadioFilterSelect("shippingOptions", option)
-              }
-              disabled={allFiltersDisabled}
-            />
-          </div>
-
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Trades</label>
-              {filters.draft.tradeOptions.find((op) => !op.checked) && (
-                <button
-                  className="reset-button"
-                  onClick={() => {
-                    dispatch(resetFilter("tradeOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            <Checkboxes
-              options={filters.draft.tradeOptions}
-              handleCheckboxOptionClick={(option) =>
-                handleRadioFilterSelect("tradeOptions", option)
-              }
-              disabled={allFiltersDisabled}
-            />
-          </div>
-          <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-            <div className="label-and-reset">
-              <label>By Negotiable</label>
-              {filters.draft.negotiableOptions.find((op) => !op.checked) && (
-                <button
-                  className="reset-button"
-                  onClick={() => {
-                    dispatch(resetFilter("negotiableOptions"));
-                    dispatch(setFiltersUpdated(true));
-                  }}
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            <Checkboxes
-              options={filters.draft.negotiableOptions}
-              handleCheckboxOptionClick={(option) =>
-                handleRadioFilterSelect("negotiableOptions", option)
-              }
-              disabled={allFiltersDisabled}
-            />
-          </div>
+          </button>
         </div>
-      </form>
-      <div className="sidebar-fixed-wrapper">
-        {/* <div className="dotted-track"></div> */}
-        <button
-          draggable={true}
-          className="sidebar-toggle-button"
-          onClick={() => {
-            console.log("toggled");
-            dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-          }}
-          style={{
-            // top: `${sidebarTogglePositionY}%`,
-            // transform: `translateY(-${sidebarTogglePositionY}%)`,
-            ...(isOnMobile() ? {bottom: '200px'} : {top: '65px'}),
-          }}
-        >
-          {filtersSidebarToggled ? (
-            <Arrow direction="left" />
-          ) : (
-            <Arrow direction="right" />
-          )}
-        </button>
       </div>
     </aside>
   );

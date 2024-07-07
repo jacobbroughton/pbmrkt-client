@@ -22,7 +22,7 @@ main {
   --bg-primary: #242424;
   --lightgreen: #4ad493;
   --red: #ff607d;
-  --yellow: yellow;
+  --yellow: var(--lightgreen);
 
   color: var(--text-color);
   background-color: var(--bg-primary);

@@ -223,7 +223,7 @@
   object-fit: cover;
 }
 
-.item .seller-info  .stars-button {
+.item .seller-info .stars-button {
   display: flex;
   align-items: center;
   background-color: transparent;
@@ -245,7 +245,6 @@
 .item .seller-info .stars-button:not(:disabled):hover span {
   text-decoration: underline;
 }
-
 
 .item .heading {
   font-weight: 600;
@@ -411,7 +410,7 @@
 }
 
 .item .content .info-and-contact .edit-item-menu-toggle svg:hover {
-  fill: yellow;
+  fill: var(--yellow);
 }
 
 .item .content .info .contact-options {
@@ -487,7 +486,6 @@
   height: 1.5rem;
   cursor: pointer;
   color: white;
-
 }
 
 .item .content .price-change-modal-toggle:hover,

@@ -135,7 +135,7 @@
 }
 
 .comment .bars-and-content .profile-picture-container .thread-bar svg.down {
-  fill: yellow;
+  fill:var(--yellow);
   transform: translateX(-50%) rotate(0deg) !important;
 }
 
@@ -144,7 +144,7 @@
 }
 
 .thread-bar-target:hover + .thread-bar svg {
-  fill: yellow;
+  fill:var(--yellow);
 }
 
 .comment .bars-and-content .comment-contents {

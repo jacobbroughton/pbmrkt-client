@@ -89,7 +89,7 @@ export const UserProfile = () => {
         p_condition: [
           { id: 0, value: "Brand New", checked: true },
           { id: 1, value: "Like New", checked: true },
-          { id: 2, value: "Used", cdhecked: true },
+          { id: 2, value: "Used", checked: true },
           { id: 3, value: "Heavily Used", checked: true },
           { id: 4, value: "Not Functional", checked: true },
         ]

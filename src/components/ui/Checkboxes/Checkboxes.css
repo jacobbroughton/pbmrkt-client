@@ -34,5 +34,5 @@
 }
 
 .checkbox-options:not(.disabled) > .checkbox-option:hover svg {
-  fill: yellow;
+  fill:var(--yellow);
 }

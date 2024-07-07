@@ -331,36 +331,27 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
-          {!filtersSidebarToggled && (
-            <div className="sidebar-toggle-button-parent">
-              {/* <div className="dotted-track"></div> */}
-              <button
-                className="sidebar-toggle-button"
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      key: "filtersSidebar",
-                      value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-                    })
-                  )
-                }
-              >
-                {filtersSidebarToggled ? (
-                  <>
-                    <Arrow direction="left" />
-                    <Arrow direction="left" />
-                    <Arrow direction="left" />
-                  </>
-                ) : (
-                  <>
-                    <Arrow direction="right" />
-                    <Arrow direction="right" />
-                    <Arrow direction="right" />
-                  </>
-                )}
-              </button>
-            </div>
-          )}
+          {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
+            {/* <div className="dotted-track"></div> */}
+            <button
+              className="sidebar-toggle-button"
+              onClick={() =>
+                dispatch(
+                  toggleModal({
+                    key: "filtersSidebar",
+                    value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                  })
+                )
+              }
+            >
+              {filtersSidebarToggled ? (
+                <Arrow direction={"left"} />
+                
+              ) : (
+                <Arrow direction={"right"} />
+              )}
+            </button>
+          </div>}
           {/* <div className="wtb-section">
             <button
               className={`${view == "for-sale" ? "toggled" : ""}`}

@@ -475,22 +475,13 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             style={{
               // top: `${sidebarTogglePositionY}%`,
               // transform: `translateY(-${sidebarTogglePositionY}%)`,
-              ...(isOnMobile() ? { bottom: "200px" } : { top: "0" }),
-              // ...(isOnMobile() ? { top: "0" } : { top: "0" }),
+              ...(isOnMobile() ? { bottom: "200px" } : { top: "65px" }),
             }}
           >
             {filtersSidebarToggled ? (
-              <>
-                <Arrow direction="left" />
-                <Arrow direction="left" />
-                <Arrow direction="left" />
-              </>
+              <Arrow direction="left" />
             ) : (
-              <>
-                <Arrow direction="right" />
-                <Arrow direction="right" />
-                <Arrow direction="right" />
-              </>
+              <Arrow direction="right" />
             )}
           </button>
         </div>

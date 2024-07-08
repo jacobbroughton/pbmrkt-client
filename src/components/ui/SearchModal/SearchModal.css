@@ -115,20 +115,34 @@
 .search-modal .search-results-container .user-results,
 .search-modal .search-results-container .results-loading,
 .search-modal .search-results-container .search-results .type-something-prompt,
-.search-modal .search-results-container .search-results .recent-searches {
+.search-modal .search-results-container .search-results .recent-searches,
+.search-modal .search-results-container .results-loading {
   padding: 7px;
   min-height: 200px;
   height: 100%;
   width: 100%;
 }
 
-.search-modal .search-results-container .search-results {
-  padding: 0;
+.search-modal .search-results-container .search-results,
+.search-modal .search-results-container .results-loading {
   border: 1px solid #555;
   border-radius: 5px;
 }
 
+.search-modal .search-results-container .search-results {
+  padding: 0;
+}
+
 .search-modal .search-results-container .search-results .type-something-prompt {
+}
+
+.search-modal .search-results-container .search-types-list button,
+.search-modal .search-results-container .no-search-results,
+.search-modal .search-results-container .listing-results,
+.search-modal .search-results-container .user-results,
+.search-modal .search-results-container .results-loading,
+.search-modal .search-results-container .search-results .type-something-prompt {
+  font-size: 0.875rem;
 }
 
 .search-modal .search-results-container ul.listings {
@@ -156,10 +170,15 @@
   width: fit-content;
 }
 
+.search-modal .search-results-container .results-loading,
+.search-modal .search-results-container .recent-searches ul.search-list {
+  min-height: 200px;
+}
+
 .search-modal .search-results-container .recent-searches ul.search-list {
   border: 1px solid #555;
   border-radius: 5px;
-  min-height: 200px;
+  overflow: hidden;
 }
 
 .search-modal .search-results-container .recent-searches ul li {
@@ -186,6 +205,16 @@
   fill: white;
 }
 
+.search-modal .search-results-container .recent-searches ul li.skeleton {
+  background-color: #444;
+  /* margin: 5px; */
+  /* border-radius: 5px; */
+}
+
+.search-modal .search-results-container .recent-searches ul li.skeleton:not(:last-child) {
+  border-bottom: 1px solid #222;
+}
+
 .search-modal .search-results-container ul.listings li {
   display: flex;
 }
@@ -197,7 +226,7 @@
 .search-modal .search-results-container ul.listings li a {
   width: 100%;
   color: white;
-  padding: 10px;
+  /* padding: 2px; */
   display: flex;
   gap: 15px;
   align-items: center;
@@ -211,17 +240,20 @@
 .search-modal .search-results-container ul.listings li a .image-container {
   width: 50px;
   /* height: 100px; */
-  border-radius: 3px;
-  background-color: grey;
+  /* border-radius: 3px; */
+  background-color: #333;
+  align-items: center;
   max-width: 50px;
   height: 50px;
   overflow: hidden;
-  border: #555 1px solid;
+  border-right: #555 1px solid;
 }
 
 .search-modal .search-results-container ul.listings li a .image-container img {
   object-fit: cover;
+
   width: 100%;
+  height: 100%;
 }
 
 .search-modal .search-results-container ul.listings li a .what-is-this {
@@ -267,15 +299,6 @@
   .search-modal form button svg {
     width: 15px;
     fill: white;
-  }
-
-  .search-modal .search-results-container .search-types-list button,
-  .search-modal .search-results-container .no-search-results,
-  .search-modal .search-results-container .listing-results,
-  .search-modal .search-results-container .user-results,
-  .search-modal .search-results-container .results-loading,
-  .search-modal .search-results-container .search-results .type-something-prompt {
-    font-size: 0.875rem;
   }
 
   .search-modal .search-results-container .search-results ul li a {

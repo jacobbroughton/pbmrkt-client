@@ -100,7 +100,7 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
             return (
               <li key={notification.id}>
                 <Link
-                  to={`/${notification.item_id}`}
+                  to={`/listing/${notification.item_id}`}
                   onClick={() => {
                     dispatch(toggleModal({ key: "notificationsMenu", value: false }));
                     handleNotificationRead(notification);

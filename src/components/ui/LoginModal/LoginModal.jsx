@@ -7,6 +7,7 @@ import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./LoginModal.css";
+import { isValidEmail } from "../../../utils/usefulFunctions";
 
 export const LoginModal = () => {
   const dispatch = useDispatch();
@@ -107,7 +108,10 @@ export const LoginModal = () => {
             </div>
           </div>
 
-          <button type="submit" disabled={email === "" || password === ""}>
+          <button
+            type="submit"
+            disabled={email === "" || password === "" || !isValidEmail(email)}
+          >
             Submit
           </button>
 

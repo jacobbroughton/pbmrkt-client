@@ -200,32 +200,39 @@ export const SearchModal = () => {
           {searchValue.saved == "" && searchHistory?.length >= 1 ? (
             <div className="recent-searches">
               <p className="label">Recent Searches</p>
+              {console.log(searchHistory)}
               <ul className="search-list">
-                {searchHistory.map((searchHistoryItem, i) => (
-                  <li
-                    key={i}
-                    onClick={(e) => {
-                      setSearchValue({
-                        draft: searchHistoryItem.search_value,
-                        saved: searchHistoryItem.search_value,
-                      });
+                {searchHistory.length >= 1 ? (
+                  searchHistory?.map((searchHistoryItem, i) => (
+                    <li
+                      key={i}
+                      onClick={(e) => {
+                        setSearchValue({
+                          draft: searchHistoryItem.search_value,
+                          saved: searchHistoryItem.search_value,
+                        });
 
-                      setRecentSearchClicked_handleSearchAgain(true);
-                    }}
-                  >
-                    <p>{searchHistoryItem.search_value}</p>
-                    <Arrow direction={"right"} />
-                  </li>
-                ))}
+                        setRecentSearchClicked_handleSearchAgain(true);
+                      }}
+                    >
+                      <p>{searchHistoryItem.search_value}</p>
+                      <Arrow direction={"right"} />
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li className="skeleton">&nbsp;</li>
+                  </>
+                )}
               </ul>
+            </div>
+          ) : resultsLoading ? (
+            <div className="results-loading">
+              <p>Results loading...</p>
             </div>
           ) : (
             <div className="search-results">
-              {resultsLoading ? (
-                <div className="results-loading">
-                  <p>Results loading...</p>
-                </div>
-              ) : searchValue.saved == "" && searchHistory.length == 0 ? (
+              {searchValue.saved == "" && searchHistory.length == 0 ? (
                 <p className="type-something-prompt">Type something to get started</p>
               ) : resultsForView.length == 0 ? (
                 <div className="no-search-results">

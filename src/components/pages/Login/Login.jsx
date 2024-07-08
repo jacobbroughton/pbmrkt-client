@@ -1,10 +1,11 @@
-import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
-import {EyeIcon} from "../../ui/Icons/EyeIcon";
-import {Footer} from "../../ui/Footer/Footer";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { EyeIcon } from "../../ui/Icons/EyeIcon";
+import { Footer } from "../../ui/Footer/Footer";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import "./Login.css";
+import { isValidEmail } from "../../../utils/usefulFunctions";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -91,7 +92,10 @@ export const Login = () => {
             </div>
           </div>
 
-          <button type="submit" disabled={email === "" || password === ""}>
+          <button
+            type="submit"
+            disabled={email === "" || password === "" || !isValidEmail(email)}
+          >
             Submit
           </button>
 

@@ -11,7 +11,7 @@ import { EyeIcon } from "../../ui/Icons/EyeIcon";
 import { Chevron } from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import { capitalizeWords, isValidEmail, isValidUsername } from "../../../utils/usefulFunctions.js";
 import { Footer } from "../../ui/Footer/Footer.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
@@ -144,18 +144,6 @@ export const Register = () => {
     }
   }
 
-  const isValidEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-
-  // { } | \ ” % ~ # < >
-  const isValidUsername = (username) => {
-    return !String(username).match(/\.|[{]|[}]|\||\\|["]|[%]|[~]|[#]|[<]|[>]/g);
-  };
 
   const submitDisabled =
     !isValidEmail(email) ||

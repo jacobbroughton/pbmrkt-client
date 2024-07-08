@@ -12,5 +12,5 @@
 
 .stars .star-container svg {
   width: 14px;
-  fill: var(--yellow);
+  fill: yellow;
 }

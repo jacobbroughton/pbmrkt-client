@@ -58,8 +58,16 @@ const BugModal = () => {
         </div>
         <div className="content">
           <form onSubmit={handleSubmit} className="standard">
+          <div className="form-group">
+              <label>Description</label>
+              <textarea
+                value={bugBody}
+                onChange={(e) => setBugBody(e.target.value)}
+                placeholder="Describe what happened"
+              />
+            </div>
             <div className="form-group">
-              <label>Name</label>
+              <label>Name (Optional)</label>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -67,20 +75,14 @@ const BugModal = () => {
               />
             </div>
             <div className="form-group">
-              <label>Email</label>
+              <label>Email (Optional)</label>
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="johnsmith@gmail.com"
               />
             </div>
-            <div className="form-group">
-              <textarea
-                value={bugBody}
-                onChange={(e) => setBugBody(e.target.value)}
-                placeholder="Describe what happened"
-              />
-            </div>
+            
             <button type="submit" className="button" disabled={!bugBody}>
               Submit{submitLoading ? " (Loading)" : ""}
             </button>

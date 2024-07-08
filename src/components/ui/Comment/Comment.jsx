@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CommentsList } from "../CommentsList/CommentsList";
 import "./Comment.css";
 import { Chevron } from "../Icons/Chevron";
@@ -9,6 +9,9 @@ import { MinusIcon } from "../Icons/MinusIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Spinner } from "../Icons/Spinner/Spinner";
 import { Arrow } from "../Icons/Arrow";
+import { supabase } from "../../../utils/supabase";
+import { toggleModal } from "../../../redux/modals";
+import { useEffect, useState } from "react";
 
 export const Comment = ({
   comment,
@@ -26,6 +29,136 @@ export const Comment = ({
   repliesLoading,
 }) => {
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const [votes, setVotes] = useState(comment.votes);
+  const [existingVote, setExistingVote] = useState(comment.existing_vote || null);
+  const [userVote, setUserVote] = useState(comment.existing_vote || null);
+  const [voteNeedsUpdate, setVoteNeedsUpdate] = useState(false);
+
+  async function handleUpvote(e, comment) {
+    try {
+      if (!user) {
+        dispatch(toggleModal({ key: "loginModal", value: true }));
+        return;
+      }
+
+      const { data, error } = await supabase.rpc("add_comment_vote", {
+        p_comment_id: comment.id,
+        p_vote_direction: "Up",
+        p_user_id: user?.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      setUserVote("Up");
+
+      if (!existingVote) {
+        setVotes((prevVotes) => (prevVotes += 1));
+      } else if (existingVote == "Down") {
+        setVotes((prevVotes) => (prevVotes += 2));
+      } else if (existingVote == "Up") {
+        setVotes((prevVotes) => (prevVotes -= 1));
+        setUserVote(null);
+      }
+
+      setExistingVote(data[0].vote_direction);
+      setVoteNeedsUpdate(true);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
+  async function handleDownvote(e, comment) {
+    try {
+      if (!user) {
+        dispatch(toggleModal({ key: "loginModal", value: true }));
+        return;
+      }
+      // Add reference here (ike 'to vote, you'll need to sign in)
+
+      const { data, error } = await supabase.rpc("add_comment_vote", {
+        p_comment_id: comment.id,
+        p_vote_direction: "Down",
+        p_user_id: user.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      console.log(data);
+      if (!existingVote) {
+      setVotes((prevVotes) => (prevVotes -= 1));
+      } else if (existingVote == "Up") {
+        setVotes((prevVotes) => (prevVotes -= 2));
+      } else if (existingVote == "Down") {
+        setVotes((prevVotes) => (prevVotes += 1));
+        setUserVote(null)
+      }
+
+      setExistingVote(data[0].vote_direction);
+      setVoteNeedsUpdate(true);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
+  // useEffect(() => {
+  //   if (voteNeedsUpdate) {
+  //     if (userVote == "Up") {
+  //       if (!comment.existing_vote) {
+  //         setVotes((prevVotes) => (prevVotes += 1));
+  //       } else if (comment.existing_vote == "Down") {
+  //         setVotes((prevVotes) => (prevVotes += 2));
+  //       } else if (comment.existing_vote == "Up") {
+  //         setVotes((prevVotes) => (prevVotes -= 1));
+  //         setUserVote(null)
+  //       }
+  //     } else if (userVote == "Down") {
+  //       if (!comment.existing_vote) {
+  //         setVotes((prevVotes) => (prevVotes -= 1));
+  //       } else if (comment.existing_vote == "Up") {
+  //         setVotes((prevVotes) => (prevVotes -= 2));
+  //       } else if (comment.existing_vote == "Down") {
+  //         setVotes((prevVotes) => (prevVotes += 1));
+  //         setUserVote(null)
+  //       }
+  //     }
+  //     setVoteNeedsUpdate(false);
+
+  //   }
+  //   console.log('----')
+  //   console.log("userVote", userVote);
+  //   console.log("voteNeedsUpdate", voteNeedsUpdate);
+  // }, [voteNeedsUpdate]);
+
+  // if (userVote == "Up" && voteNeedsUpdate) {
+  //   if (!comment.existing_vote) {
+  //     votes += 1;
+  //   } else if (comment.existing_vote == "Down") {
+  //     votes += 2;
+  //   } else if (comment.existing_vote == "Up") {
+  //     votes -= 1;
+  //   }
+  // } else if (userVote == "Down") {
+  //   if (!comment.existing_vote) {
+  //     votes -= 1;
+  //   } else if (comment.existing_vote == "Up") {
+  //     votes -= 2;
+  //   } else if (comment.existing_vote == "Down") {
+  //     votes += 1;
+  //   }
+  // }
+
+  // if (userVote == "Up" && (!comment.existing_vote || comment.existing_vote == "Down")) {
+  //   votes += 1;
+  // } else if (
+  //   userVote == "Down" &&
+  //   (!comment.existing_vote || comment.existing_vote == "Up")
+  // ) {
+  //   votes -= 1;
+  // }
   return (
     <div
       key={comment.id}
@@ -79,34 +212,48 @@ export const Comment = ({
           <p className={`comment-body ${comment.eff_status ? "" : "deleted"}`}>
             {comment.eff_status ? comment.body : "This comment has been deleted"}
           </p>
-          {comment.eff_status && user && comment.id != commentWithReplyWindowID ? (
+          {comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <div className="like-and-dislike">
-                <button>
+                <button
+                  disabled={!comment.eff_status}
+                  onClick={(e) => handleUpvote(e, comment)}
+                  className={`up ${existingVote == "Up" ? "selected" : ""}`}
+                >
                   <Arrow direction="up" />
                 </button>
-                <span>{Math.floor(Math.random() * 10)}</span>
-                <button>
+                <span>{votes}</span>
+                <button
+                  disabled={!comment.eff_status}
+                  onClick={(e) => handleDownvote(e, comment)}
+                  className={`down ${existingVote == "Down" ? "selected" : ""}`}
+                >
                   <Arrow direction="down" />
                 </button>
               </div>
-              <button
-                className="button"
-                onClick={() => {
-                  setNewReplyBody("");
-                  setCommentWithReplyWindowID(comment.id);
-                }}
-              >
-                Reply
-              </button>
-              {comment.created_by_id == user.auth_id && (
-                <button
-                  className="button"
-                  onClick={(e) => handleDeleteComment(e, comment.id)}
-                  type="button"
-                >
-                  Delete
-                </button>
+              {comment.eff_status ? (
+                <>
+                  <button
+                    className="button"
+                    onClick={() => {
+                      setNewReplyBody("");
+                      setCommentWithReplyWindowID(comment.id);
+                    }}
+                  >
+                    Reply
+                  </button>
+                  {comment.created_by_id == user?.auth_id && (
+                    <button
+                      className="button"
+                      onClick={(e) => handleDeleteComment(e, comment.id)}
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </>
+              ) : (
+                false
               )}
             </div>
           ) : (

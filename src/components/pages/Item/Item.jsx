@@ -24,6 +24,7 @@ import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenIm
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./Item.css";
+import { Arrow } from "../../ui/Icons/Arrow";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -192,7 +193,10 @@ export const Item = () => {
     try {
       const { data, error } = await supabase.rpc("get_comments_experimental", {
         p_item_id: itemID,
+        p_user_id: user?.auth_id
       });
+
+      if (error) throw error.message
 
       const comments = data.map((comment) => {
         const { data: data2, error: error2 } = supabase.storage
@@ -271,6 +275,7 @@ export const Item = () => {
       const { data, error } = await supabase.rpc("get_child_comments", {
         p_item_id: item.info.id,
         p_parent_comment_id: commentWithReplies.id,
+        p_user_id: user?.auth_id
       });
 
       if (error) {
@@ -401,45 +406,59 @@ export const Item = () => {
           <div className="content">
             <div className="info">
               <div className="info-and-contact">
-                <div className="primary-info">
-                  {editItemMenuToggled && <div></div>}
-                  <h1>{item.info.what_is_this}</h1>
-                  <div className="price-and-toggle">
-                    <p>
-                      ${item.info.price}
-                      {item.info.shipping_cost
-                        ? ` + $${item.info.shipping_cost} shipping`
-                        : " + Free Shipping"}
-                    </p>
-                    {priceChangeHistory?.length >= 1 && (
-                      <button
-                        className="button price-change-modal-toggle"
-                        onClick={() =>
-                          dispatch(toggleModal({ key: "priceChangeModal", value: true }))
-                        }
-                      >
-                        Price Change History
-                        <ChartIcon />
-                      </button>
-                    )}
-                  </div>
-                  <div className="status-as-of-container">
-                    <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
-                      {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                      {item.info.status} {/* as of {getTimeAgo(new Date())} */}
-                    </p>
-                    {isAdmin && (
-                      <button
-                        className="status-change-button"
-                        onClick={() =>
-                          handleStatusChange(
-                            item.info.status == "Available" ? "Sold" : "Available"
-                          )
-                        }
-                      >
-                        Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
-                      </button>
-                    )}
+                <div className="primary-info-and-votes">
+              <div className="like-and-dislike">
+                <button>
+                  <Arrow direction="up" />
+                </button>
+                <span>{Math.floor(Math.random() * 10)}</span>
+                <button>
+                  <Arrow direction="down" />
+                </button>
+              </div>
+                  <div className="primary-info">
+                    {editItemMenuToggled && <div></div>}
+                    <h1>{item.info.what_is_this}</h1>
+                    <div className="price-and-toggle">
+                      <p>
+                        ${item.info.price}
+                        {item.info.shipping_cost
+                          ? ` + $${item.info.shipping_cost} shipping`
+                          : " + Free Shipping"}
+                      </p>
+                      {priceChangeHistory?.length >= 1 && (
+                        <button
+                          className="button price-change-modal-toggle"
+                          onClick={() =>
+                            dispatch(
+                              toggleModal({ key: "priceChangeModal", value: true })
+                            )
+                          }
+                        >
+                          Price Change History
+                          <ChartIcon />
+                        </button>
+                      )}
+                    </div>
+                    <div className="status-as-of-container">
+                      <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                        {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+                        {item.info.status} {/* as of {getTimeAgo(new Date())} */}
+                      </p>
+                      {isAdmin && (
+                        <button
+                          className="status-change-button"
+                          onClick={() =>
+                            handleStatusChange(
+                              item.info.status == "Available" ? "Sold" : "Available"
+                            )
+                          }
+                        >
+                          Mark as "
+                          {item.info.status == "Available" ? "Sold" : "Available"}"
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
 

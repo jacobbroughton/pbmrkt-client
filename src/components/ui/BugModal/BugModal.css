@@ -1,4 +1,17 @@
 .modal.bug {
   max-width: 500px;
   z-index: 7;
+  padding: 0;
+  top: 70px;
+  transform: translateX(-50%);
+}
+
+.modal.bug .header {
+  padding: 10px;
+  border-bottom: 1px solid #555;
+}
+
+.modal.bug .content {
+  gap: 0;
+  padding: 10px;
 }

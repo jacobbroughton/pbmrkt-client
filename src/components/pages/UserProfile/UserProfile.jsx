@@ -18,6 +18,7 @@ import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsLis
 import { capitalizeWords, getTimeAgo } from "../../../utils/usefulFunctions";
 import { AddReviewModal } from "../../ui/AddReviewModal/AddReviewModal";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import { SortIcon } from "../../ui/Icons/SortIcon";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -36,11 +37,16 @@ export const UserProfile = () => {
     count: 0,
     list: [],
   });
+  const [sort, setSort] = useState("Date Listed (New-Old)");
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
 
   useEffect(() => {
     getProfile();
   }, []);
+
+  useEffect(() => {
+    getListings(user)
+  }, [sort])
 
   async function getProfile() {
     try {
@@ -79,72 +85,76 @@ export const UserProfile = () => {
 
       // (p_brand, p_category_id, p_city, p_condition, p_max_price, p_min_price, p_model, p_negotiable, p_search_value, p_seller_id, p_shipping, p_sort, p_state, p_trades)
 
-      let { data: data2, error: error2 } = await supabase.rpc("get_items", {
-        p_search_value: "",
-        p_brand: "",
-        p_model: "",
-        p_min_price: 0,
-        p_max_price: null,
-        p_state: null,
-        p_condition: [
-          { id: 0, value: "Brand New", checked: true },
-          { id: 1, value: "Like New", checked: true },
-          { id: 2, value: "Used", checked: true },
-          { id: 3, value: "Heavily Used", checked: true },
-          { id: 4, value: "Not Functional", checked: true },
-        ]
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: [
-          { id: 0, value: "Willing to Ship", checked: true },
-          { id: 1, value: "Local Only", checked: true },
-        ]
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: [
-          { id: 0, value: "Accepting Trades", checked: true },
-          { id: 1, value: "No Trades", checked: true },
-        ]
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: [
-          { id: 0, value: "Firm", checked: true },
-          { id: 1, value: "OBO/Negotiable", checked: true },
-        ]
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_sort: "Date Listed (New-Old)",
-        p_seller_id: data[0]?.auth_id,
-        p_city: null,
-        p_category_id: null,
-      });
-
-      if (error2) throw error2.message;
-
-      if (!data2) throw "No listings available";
-
-      console.log(data2);
-
-      data2 = data2.map((item) => {
-        const { data, error } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error) throw error.message;
-
-        return {
-          ...item,
-          profile_picture: data.publicUrl,
-        };
-      });
-
-      setListings(data2);
+      getListings(data[0]);
     } catch (error) {
       console.error(error);
       setError(error.toString());
     }
 
     setLoading(false);
+  }
+
+  async function getListings(passedUser) {
+    let { data: data2, error: error2 } = await supabase.rpc("get_items", {
+      p_search_value: "",
+      p_brand: "",
+      p_model: "",
+      p_min_price: 0,
+      p_max_price: null,
+      p_state: null,
+      p_condition: [
+        { id: 0, value: "Brand New", checked: true },
+        { id: 1, value: "Like New", checked: true },
+        { id: 2, value: "Used", checked: true },
+        { id: 3, value: "Heavily Used", checked: true },
+        { id: 4, value: "Not Functional", checked: true },
+      ]
+        .filter((option) => option.checked)
+        .map((option) => option.value),
+      p_shipping: [
+        { id: 0, value: "Willing to Ship", checked: true },
+        { id: 1, value: "Local Only", checked: true },
+      ]
+        .filter((option) => option.checked)
+        .map((option) => option.value),
+      p_trades: [
+        { id: 0, value: "Accepting Trades", checked: true },
+        { id: 1, value: "No Trades", checked: true },
+      ]
+        .filter((option) => option.checked)
+        .map((option) => option.value),
+      p_negotiable: [
+        { id: 0, value: "Firm", checked: true },
+        { id: 1, value: "OBO/Negotiable", checked: true },
+      ]
+        .filter((option) => option.checked)
+        .map((option) => option.value),
+      p_sort: sort,
+      p_seller_id: passedUser?.auth_id,
+      p_city: null,
+      p_category_id: null,
+    });
+
+    if (error2) throw error2.message;
+
+    if (!data2) throw "No listings available";
+
+    console.log(data2);
+
+    data2 = data2.map((item) => {
+      const { data, error } = supabase.storage
+        .from("profile_pictures")
+        .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
+
+      if (error) throw error.message;
+
+      return {
+        ...item,
+        profile_picture: data.publicUrl,
+      };
+    });
+
+    setListings(data2);
   }
 
   async function uploadProfilePicture(e) {
@@ -303,7 +313,26 @@ export const UserProfile = () => {
           </div>
         </div>
         {listings?.length ? (
-          <ListingGrid listings={listings} />
+          <div className="listings-wrapper">
+            <div className="listing-controls">
+              <div className="select-container">
+                <select
+                  id="sort-select"
+                  onChange={(e) => setSort(e.target.value)}
+                  value={sort}
+                >
+                  <option>Alphabetically (A-Z)</option>
+                  <option>Alphabetically (Z-A)</option>
+                  <option>Price (Low-High)</option>
+                  <option>Price (High-Low)</option>
+                  <option>Date Listed (New-Old)</option>
+                  <option>Date Listed (Old-New)</option>
+                </select>
+                <SortIcon />
+              </div>
+            </div>
+            <ListingGrid listings={listings} />
+          </div>
         ) : (
           <SkeletonsListingGrid
             message={`${localUser.username} hasn't created any listings yet!`}

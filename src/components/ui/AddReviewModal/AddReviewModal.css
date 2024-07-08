@@ -32,7 +32,7 @@
 
 .modal.add-review .form-group .stars-and-count  .stars .star-container svg {
   width: 35px;
-  fill: var(--yellow);
+  fill: yellow;
 }
 
 .modal.add-review .form-group .stars-and-count p {

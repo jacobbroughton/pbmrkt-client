@@ -58,6 +58,14 @@ const FeedbackModal = () => {
         </div>
         <div className="content">
           <form onSubmit={handleSubmit} className="standard">
+          <div className="form-group">
+              <label>Description</label>
+              <textarea
+                value={feedbackBody}
+                onChange={(e) => setFeedbackBody(e.target.value)}
+                placeholder="Any feedback is greatly appreciated!"
+              />
+            </div>
             <div className="form-group">
               <label>Name</label>
               <input
@@ -74,14 +82,7 @@ const FeedbackModal = () => {
                 placeholder="johnsmith@gmail.com"
               />
             </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
-                value={feedbackBody}
-                onChange={(e) => setFeedbackBody(e.target.value)}
-                placeholder="Any feedback is greatly appreciated!"
-              />
-            </div>
+            
             <button type="submit" className="button" disabled={!feedbackBody}>
               Submit{submitLoading ? " (Loading)" : ""}
             </button>

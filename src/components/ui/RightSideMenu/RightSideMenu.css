@@ -52,6 +52,10 @@
   background-color: #6f6f6f;
 }
 
+.right-side-menu .menu-item label {
+  pointer-events: none;
+}
+
 .right-side-menu .menu-item svg {
   fill: white;
   width: 20px;

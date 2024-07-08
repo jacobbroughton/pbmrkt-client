@@ -200,21 +200,52 @@
 .comment .controls .like-and-dislike {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+  margin-left: -10px;
 }
 
 .comment .controls .like-and-dislike button {
-  padding: 1px 10px;
-  background-color: #444;;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px
+}
+
+.comment .controls .like-and-dislike button:disabled {
+  cursor: not-allowed;
+}
+
+.comment .controls .like-and-dislike button:disabled:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+
+.comment .controls .like-and-dislike button:hover {
+  background-color: #444;
+  border: 1px solid #555;
 }
 
 .comment .controls .like-and-dislike button svg {
   width: 12px;
   height: 12px;;
+}
+
+.comment .controls .like-and-dislike button:disabled svg {
+  fill: grey;
+}
+
+.comment .controls .like-and-dislike button.up.selected svg {
+  fill: orange;
+}
+
+.comment .controls .like-and-dislike button.down.selected svg {
+  fill: teal;
 }
 
 .comment .comment-form .buttons {

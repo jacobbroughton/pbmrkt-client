@@ -318,7 +318,7 @@ export function Listings() {
             />
             {windowSize.width <= 625 && (
               <ModalOverlay
-                zIndex={5}
+                zIndex={3}
                 onClick={() =>
                   dispatch(toggleModal({ key: "filtersSidebar", value: false }))
                 }

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./ResetPasswordModal.css";
+import { isValidEmail } from "../../../utils/usefulFunctions";
 
 export const ResetPasswordModal = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export const ResetPasswordModal = () => {
   const [loading, setLoading] = useState(null);
   const [email, setEmail] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const navigate = useNavigate();
+  const [needsEmailSent, setNeedsEmailSent] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -22,30 +23,50 @@ export const ResetPasswordModal = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const debounceFn = setTimeout(() => {
+      if (needsEmailSent) {
+        sendEmail();
+      }
+    }, 5000);
+
+    return () => clearTimeout(debounceFn);
+  }, [needsEmailSent]);
+
   async function handleRequestEmail(e) {
     try {
       e.preventDefault();
       if (!email) throw "No email was provided";
-      setLoading(true);
 
-      // const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      //   redirectTo: "http://localhost:3000/update-password",
-      // });
-
-      // if (error) {
-      //   console.error(error);
-      //   throw error.message;
-      // }
-
-      setIsVerifying(true);
+      // setLoading(true);
+      setNeedsEmailSent(true);
       // navigate("/update-password");
       dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
       setError(error.toString());
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+  }
+
+  async function sendEmail() {
+    try {
+      setLoading(true);
+
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:3000/update-password",
+      });
+
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
+
+      setIsVerifying(true);
+    } catch (error) {
+      setError(error.toString());
+    }
+
+    setNeedsEmailSent(false);
+    setLoading(false);
   }
 
   async function handleValidated() {
@@ -84,7 +105,10 @@ export const ResetPasswordModal = () => {
             </>
           </div>
 
-          <button type="submit" disabled={email === "" || loading}>
+          <button
+            type="submit"
+            disabled={ email === "" || loading || !isValidEmail(email)}
+          >
             Send Email
           </button>
         </form>
@@ -97,10 +121,10 @@ export const ResetPasswordModal = () => {
                 'validate' on the email and return here or continue through the email.
               </p>
               <button onClick={handleValidated} type="button" className="button">
-                Verify
+                Verify & Login
               </button>
             </div>
-            <ModalOverlay zIndex={5} />
+            <ModalOverlay zIndex={6} />
           </>
         )}
         {loading && <LoadingOverlay message="Sending you an email..." zIndex={5} />}

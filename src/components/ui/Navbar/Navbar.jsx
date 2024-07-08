@@ -19,6 +19,7 @@ import { PlusIcon } from "../Icons/PlusIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { DesktopSearchToggle } from "../DesktopSearchToggle/DesktopSearchToggle";
 import "./Navbar.css";
+import HamburgerMenuIcon from "../Icons/HamburgerMenuIcon";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
@@ -104,7 +105,9 @@ export const Navbar = () => {
           }
 
           if (status === "CHANNEL_ERROR") {
-            console.log(`There was an error subscribing to channel: ${err?.message || "default"}`);
+            console.log(
+              `There was an error subscribing to channel: ${err?.message || "default"}`
+            );
           }
 
           if (status === "TIMED_OUT") {
@@ -141,6 +144,20 @@ export const Navbar = () => {
     <nav className="desktop">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       <div className="left-side">
+        <button
+          className={`menu-button ${filtersSidebarToggled ? 'toggled' : ''}`}
+          onClick={() =>
+            dispatch(
+              toggleModal({
+                key: "filtersSidebar",
+                value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+              })
+            )
+          }
+          type="button"
+        >
+          <HamburgerMenuIcon />
+        </button>
         <Link
           to="/"
           className="home-link"
@@ -149,7 +166,6 @@ export const Navbar = () => {
             dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
           }}
         >
-          {/* <HomeIcon /> */}
           PBMRKT
         </Link>
         {location.pathname == "/" && (
@@ -213,18 +229,22 @@ export const Navbar = () => {
         {/* {user ? ( */}
         <>
           {/* {((isOnMobile() && search.searchBarToggled) || true) && ( */}
-          {user && <button
-            type="button"
-            className={`notifications-menu-toggle ${
-              notificationsMenuToggled ? "toggled" : ""
-            }`}
-            onClick={handleNotificationsMenuToggle}
-          >
-            <BellIcon />
-            {unreadNotificationCount > 0 && (
-              <span className="unread-notification-count">{unreadNotificationCount}</span>
-            )}
-          </button>}
+          {user && (
+            <button
+              type="button"
+              className={`notifications-menu-toggle ${
+                notificationsMenuToggled ? "toggled" : ""
+              }`}
+              onClick={handleNotificationsMenuToggle}
+            >
+              <BellIcon />
+              {unreadNotificationCount > 0 && (
+                <span className="unread-notification-count">
+                  {unreadNotificationCount}
+                </span>
+              )}
+            </button>
+          )}
           {/* )} */}
           <button
             onClick={handleRightSideMenuToggle}
@@ -259,7 +279,7 @@ export const Navbar = () => {
         {/* <button></button> */}
       </div>
 
-      {rightSideMenuToggled &&  <RightSideMenu />}
+      {rightSideMenuToggled && <RightSideMenu />}
       {notificationsMenuToggled && user && (
         <NotificationsMenu
           notifications={notifications}

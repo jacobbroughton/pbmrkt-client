@@ -88,7 +88,8 @@ nav.desktop .right-side {
   justify-content: flex-end;
 }
 
-nav.desktop .right-side button.sell-link {
+nav.desktop .right-side button.sell-link,
+nav.desktop button.menu-button {
   border-radius: 5px;
   height: 32px;
   width: 32px;
@@ -100,16 +101,27 @@ nav.desktop .right-side button.sell-link {
   cursor: pointer;
 }
 
-nav.desktop .right-side button.sell-link {
+nav.desktop button.menu-button.toggled {
+  background-color: var(--lightgreen);
+}
+
+nav.desktop button.menu-button.toggled svg {
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.45));
+}
+
+nav.desktop .right-side button.sell-link,
+nav.desktop button.menu-button  {
   color: white;
   font-weight: 600;
 }
 
-nav.desktop .right-side button.sell-link:hover {
+nav.desktop .right-side button.sell-link:hover,
+nav.desktop button.menu-button:hover {
   text-decoration: none;
 }
 
-nav.desktop .right-side button.sell-link svg {
+nav.desktop .right-side button.sell-link svg,
+nav.desktop button.menu-button svg {
   width: 17px;
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.15));
   fill: white;
@@ -203,6 +215,7 @@ nav.desktop .right-side .right-side-menu-button .profile-picture {
 
 @media only screen and (max-device-width: 480px) {
   nav.desktop .left-side a.home-link {
+
     width: 100%;
     border-radius: 50%;
     width: 32px;

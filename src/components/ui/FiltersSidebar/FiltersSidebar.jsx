@@ -463,8 +463,8 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             </div>
           </div>
         </form>
-        <div className="sidebar-fixed-wrapper">
-          {/* <div className="dotted-track"></div> */}
+        {/* <div className="sidebar-fixed-wrapper">
+          <div className="dotted-track"></div>
           <button
             draggable={true}
             className="sidebar-toggle-button"
@@ -473,8 +473,6 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
               dispatch(toggleModal({ key: "filtersSidebar", value: false }));
             }}
             style={{
-              // top: `${sidebarTogglePositionY}%`,
-              // transform: `translateY(-${sidebarTogglePositionY}%)`,
               ...(isOnMobile() ? { bottom: "200px" } : { top: "65px" }),
             }}
           >
@@ -484,7 +482,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
               <Arrow direction="right" />
             )}
           </button>
-        </div>
+        </div> */}
       </div>
     </aside>
   );

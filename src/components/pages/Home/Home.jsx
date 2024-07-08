@@ -331,8 +331,8 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
-          {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
-            {/* <div className="dotted-track"></div> */}
+          {/* {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
+            <div className="dotted-track"></div>
             <button
               className="sidebar-toggle-button"
               onClick={() =>
@@ -351,7 +351,7 @@ export function Listings() {
                 <Arrow direction={"right"} />
               )}
             </button>
-          </div>}
+          </div>} */}
           {/* <div className="wtb-section">
             <button
               className={`${view == "for-sale" ? "toggled" : ""}`}

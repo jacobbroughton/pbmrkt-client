@@ -87,16 +87,16 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
       <ul>
         {notifications?.length != 0 ? (
           notifications?.map((notification) => {
-            console.log(notification)
-            const {data, error} = supabase.storage
+            console.log(notification);
+            const { data, error } = supabase.storage
               .from("profile_pictures")
               .getPublicUrl(
                 notification.profile_picture_path || "placeholders/user-placeholder"
               );
 
-            if (error) throw error.message
+            if (error) throw error.message;
 
-           const profile_picture_url = data.publicUrl
+            const profile_picture_url = data.publicUrl;
             return (
               <li key={notification.id}>
                 <Link
@@ -114,6 +114,10 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                       <p>{notification.username} commented on your post</p>
                     ) : notification.type == "Reply" ? (
                       <p>{notification.username} replied to your comment</p>
+                    ) : notification.type == "Up Vote" ? (
+                      <p>{notification.username} liked your comment</p>
+                    ) : notification.type == "Down Vote" ? (
+                      <p>Someone disliked your comment</p>
                     ) : (
                       false
                     )}

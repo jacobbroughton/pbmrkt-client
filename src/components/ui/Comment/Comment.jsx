@@ -62,6 +62,23 @@ export const Comment = ({
         setUserVote(null);
       }
 
+      const { data: data2, error: error2 } = await supabase.rpc(
+        "add_comment_notification",
+        {
+          p_message: "Upvoted",
+          p_type: "Up Vote",
+          p_url: "",
+          p_item_id: comment.item_id,
+          p_comment_id: data[0].id,
+          p_user_id: user.auth_id,
+          p_related_user_id: comment.created_by_id,
+        }
+      );
+
+      if (error2) throw error2.message;
+
+      console.log("added comment notification", data2);
+
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
     } catch (error) {
@@ -96,6 +113,23 @@ export const Comment = ({
         setUserVote(null)
       }
 
+      const { data: data2, error: error2 } = await supabase.rpc(
+        "add_comment_notification",
+        {
+          p_message: "Upvoted",
+          p_type: "Down Vote",
+          p_url: "",
+          p_item_id: comment.item_id,
+          p_comment_id: data[0].id,
+          p_user_id: user.auth_id,
+          p_related_user_id: comment.created_by_id,
+        }
+      );
+
+      if (error2) throw error2.message;
+
+      console.log("added comment notification", data2);
+
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
     } catch (error) {
@@ -104,61 +138,7 @@ export const Comment = ({
     }
   }
 
-  // useEffect(() => {
-  //   if (voteNeedsUpdate) {
-  //     if (userVote == "Up") {
-  //       if (!comment.existing_vote) {
-  //         setVotes((prevVotes) => (prevVotes += 1));
-  //       } else if (comment.existing_vote == "Down") {
-  //         setVotes((prevVotes) => (prevVotes += 2));
-  //       } else if (comment.existing_vote == "Up") {
-  //         setVotes((prevVotes) => (prevVotes -= 1));
-  //         setUserVote(null)
-  //       }
-  //     } else if (userVote == "Down") {
-  //       if (!comment.existing_vote) {
-  //         setVotes((prevVotes) => (prevVotes -= 1));
-  //       } else if (comment.existing_vote == "Up") {
-  //         setVotes((prevVotes) => (prevVotes -= 2));
-  //       } else if (comment.existing_vote == "Down") {
-  //         setVotes((prevVotes) => (prevVotes += 1));
-  //         setUserVote(null)
-  //       }
-  //     }
-  //     setVoteNeedsUpdate(false);
 
-  //   }
-  //   console.log('----')
-  //   console.log("userVote", userVote);
-  //   console.log("voteNeedsUpdate", voteNeedsUpdate);
-  // }, [voteNeedsUpdate]);
-
-  // if (userVote == "Up" && voteNeedsUpdate) {
-  //   if (!comment.existing_vote) {
-  //     votes += 1;
-  //   } else if (comment.existing_vote == "Down") {
-  //     votes += 2;
-  //   } else if (comment.existing_vote == "Up") {
-  //     votes -= 1;
-  //   }
-  // } else if (userVote == "Down") {
-  //   if (!comment.existing_vote) {
-  //     votes -= 1;
-  //   } else if (comment.existing_vote == "Up") {
-  //     votes -= 2;
-  //   } else if (comment.existing_vote == "Down") {
-  //     votes += 1;
-  //   }
-  // }
-
-  // if (userVote == "Up" && (!comment.existing_vote || comment.existing_vote == "Down")) {
-  //   votes += 1;
-  // } else if (
-  //   userVote == "Down" &&
-  //   (!comment.existing_vote || comment.existing_vote == "Up")
-  // ) {
-  //   votes -= 1;
-  // }
   return (
     <div
       key={comment.id}

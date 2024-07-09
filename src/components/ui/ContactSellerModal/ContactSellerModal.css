@@ -1,0 +1,44 @@
+.modal.contact-seller {
+  max-width: 500px;
+  z-index: 7;
+  padding: 0;
+  top: 70px;
+  transform: translateX(-50%);
+}
+
+.modal.contact-seller .header {
+  padding: 10px;
+  border-bottom: 1px solid #555;
+}
+
+.modal.modal.contact-seller .content {
+  padding: 10px;
+}
+
+.modal.modal.contact-seller .input-container {
+  width: 100%;
+  position: relative;
+}
+
+.modal.modal.contact-seller .input-container::before {
+  content: "$";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 2;
+  color: grey;
+  transform: translateY(-50%);
+  top: 50%;
+  border-right: 1px solid grey;
+  padding-right: 10px;
+  height: calc(100% - 2px);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.modal.modal.contact-seller .input-container input {
+  padding-left: 37px !important;
+  position: relative;
+  width: 100%;
+}

@@ -478,8 +478,12 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding-right: 10px;
-  border-right: 1px solid #555;
+  /* padding-right: 10px; */
+  /* border-right: 1px solid #555; */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: #333;
+  border-radius: 3px;
+  padding: 5px;
 }
 
 .item .content .primary-info-and-votes .like-and-dislike button {
@@ -579,7 +583,7 @@
 }
 
 .item .content .price-and-toggle p:first-child {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 /* .item .content .price-change-display {
   display: flex;

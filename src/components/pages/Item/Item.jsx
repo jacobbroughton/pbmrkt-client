@@ -25,6 +25,7 @@ import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsMod
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./Item.css";
 import { Arrow } from "../../ui/Icons/Arrow";
+import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export const Item = () => {
     priceChangeModalToggled,
     fullScreenImageModalToggled,
     sellerReviewsModalToggled,
+    contactSellerModalToggled,
   } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
   const { itemID } = useParams();
@@ -193,10 +195,10 @@ export const Item = () => {
     try {
       const { data, error } = await supabase.rpc("get_comments_experimental", {
         p_item_id: itemID,
-        p_user_id: user?.auth_id
+        p_user_id: user?.auth_id,
       });
 
-      if (error) throw error.message
+      if (error) throw error.message;
 
       const comments = data.map((comment) => {
         const { data: data2, error: error2 } = supabase.storage
@@ -275,7 +277,7 @@ export const Item = () => {
       const { data, error } = await supabase.rpc("get_child_comments", {
         p_item_id: item.info.id,
         p_parent_comment_id: commentWithReplies.id,
-        p_user_id: user?.auth_id
+        p_user_id: user?.auth_id,
       });
 
       if (error) {
@@ -407,15 +409,15 @@ export const Item = () => {
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
-              <div className="like-and-dislike">
-                <button>
-                  <Arrow direction="up" />
-                </button>
-                <span>{Math.floor(Math.random() * 10)}</span>
-                <button>
-                  <Arrow direction="down" />
-                </button>
-              </div>
+                  <div className="like-and-dislike">
+                    <button>
+                      <Arrow direction="up" />
+                    </button>
+                    <span>{Math.floor(Math.random() * 10)}</span>
+                    <button>
+                      <Arrow direction="down" />
+                    </button>
+                  </div>
                   <div className="primary-info">
                     {editItemMenuToggled && <div></div>}
                     <h1>{item.info.what_is_this}</h1>
@@ -424,7 +426,7 @@ export const Item = () => {
                         ${item.info.price}
                         {item.info.shipping_cost
                           ? ` + $${item.info.shipping_cost} shipping`
-                          : " + Free Shipping"}
+                          : " + Free Shipping"}{" "}
                       </p>
                       {priceChangeHistory?.length >= 1 && (
                         <button
@@ -435,7 +437,6 @@ export const Item = () => {
                             )
                           }
                         >
-                          Price Change History
                           <ChartIcon />
                         </button>
                       )}
@@ -482,7 +483,14 @@ export const Item = () => {
                 )}
                 <div className="top-right">
                   <div className="contact-options">
-                    <div className="contact-option">
+                    <button
+                      onClick={() =>
+                        dispatch(toggleModal({ key: "contactSellerModal", value: true }))
+                      }
+                    >
+                      Contact
+                    </button>
+                    {/* <div className="contact-option">
                       <PhoneIcon />{" "}
                       <p className="phone">
                         {user ? (
@@ -501,7 +509,7 @@ export const Item = () => {
                           <div className="placeholder email"></div>
                         )}
                       </p>
-                    </div>
+                    </div> */}
                     {!user && <p className="small-text">Must be signed in to view</p>}
                   </div>
                 </div>
@@ -692,6 +700,7 @@ export const Item = () => {
             <ModalOverlay zIndex={6} />
           </>
         )}
+        {contactSellerModalToggled && <ContactSellerModal contactInfo={item.info} />}
         {/* <Footer marginTop={150} /> */}
       </div>
     </>

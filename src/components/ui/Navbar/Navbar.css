@@ -102,11 +102,12 @@ nav.desktop button.menu-button {
 }
 
 nav.desktop button.menu-button.toggled {
-  background-color: var(--lightgreen);
+  border: 1px solid var(--lightgreen);
 }
 
 nav.desktop button.menu-button.toggled svg {
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.45));
+  /* fill: var(--lightgreen); */
 }
 
 nav.desktop .right-side button.sell-link,

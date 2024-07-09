@@ -144,20 +144,22 @@ export const Navbar = () => {
     <nav className="desktop">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       <div className="left-side">
-        <button
-          className={`menu-button ${filtersSidebarToggled ? 'toggled' : ''}`}
-          onClick={() =>
-            dispatch(
-              toggleModal({
-                key: "filtersSidebar",
-                value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-              })
-            )
-          }
-          type="button"
-        >
-          <HamburgerMenuIcon />
-        </button>
+        {location.pathname == "/" && (
+          <button
+            className={`menu-button ${filtersSidebarToggled ? "toggled" : ""}`}
+            onClick={() =>
+              dispatch(
+                toggleModal({
+                  key: "filtersSidebar",
+                  value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                })
+              )
+            }
+            type="button"
+          >
+            <HamburgerMenuIcon />
+          </button>
+        )}
         <Link
           to="/"
           className="home-link"

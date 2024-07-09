@@ -80,9 +80,14 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
     <div className="notifications-menu" ref={notificationsMenuRef}>
       <div className="header">
         <p>Notifications</p>
-        {unreadNotificationCount > 0 && (
-          <button onClick={() => handleMarkAllAsRead()}>Mark all as read</button>
-        )}
+
+        <button
+          className="mark-all-read"
+          onClick={() => handleMarkAllAsRead()}
+          disabled={unreadNotificationCount <= 0}
+        >
+          Mark all as read
+        </button>
       </div>
       <ul>
         {notifications?.length != 0 ? (
@@ -117,7 +122,7 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                     ) : notification.type == "Up Vote" ? (
                       <p>{notification.username} liked your comment</p>
                     ) : notification.type == "Down Vote" ? (
-                      <p>Someone disliked your comment</p>
+                      <p>{notification.username} disliked your comment</p>
                     ) : (
                       false
                     )}

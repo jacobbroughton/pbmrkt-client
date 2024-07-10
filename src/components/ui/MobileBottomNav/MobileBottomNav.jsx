@@ -59,7 +59,7 @@ export function MobileBottomNav() {
     try {
       if (!user) return;
 
-      const { data, error } = await supabase.rpc("get_comment_notifications", {
+      const { data, error } = await supabase.rpc("get_notifications", {
         p_user_id: user.auth_id,
       });
 

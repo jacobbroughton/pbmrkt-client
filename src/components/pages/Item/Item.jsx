@@ -26,6 +26,8 @@ import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./Item.css";
 import { Arrow } from "../../ui/Icons/Arrow";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
+import MessageIcon from "../../ui/Icons/MessageIcon";
+import { EditIcon } from "../../ui/Icons/EditIcon";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -406,6 +408,49 @@ export const Item = () => {
             )}
           </div>
           <div className="content">
+            <div className="header-buttons">
+              <button
+                onClick={() =>
+                  dispatch(toggleModal({ key: "contactSellerModal", value: true }))
+                }
+              >
+                Contact
+              </button>
+              {priceChangeHistory?.length >= 1 && (
+                <button
+                  onClick={() =>
+                    dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                  }
+                >
+                  Price Change History
+                </button>
+              )}
+              {isAdmin && (
+                <>
+                  <button
+                    onClick={() =>
+                      handleStatusChange(
+                        item.info.status == "Available" ? "Sold" : "Available"
+                      )
+                    }
+                  >
+                    Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
+                  </button>
+                  <button
+                    onClick={() =>
+                      dispatch(
+                        toggleModal({
+                          key: "editItemModal",
+                          value: !editItemMenuToggled,
+                        })
+                      )
+                    }
+                  >
+                    Edit/Modify Listing
+                  </button>
+                </>
+              )}
+            </div>
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
@@ -428,7 +473,7 @@ export const Item = () => {
                           ? ` + $${item.info.shipping_cost} shipping`
                           : " + Free Shipping"}{" "}
                       </p>
-                      {priceChangeHistory?.length >= 1 && (
+                      {/* {priceChangeHistory?.length >= 1 && (
                         <button
                           className="button price-change-modal-toggle"
                           onClick={() =>
@@ -439,14 +484,14 @@ export const Item = () => {
                         >
                           <ChartIcon />
                         </button>
-                      )}
+                      )} */}
                     </div>
                     <div className="status-as-of-container">
                       <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
                         {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
                         {item.info.status} {/* as of {getTimeAgo(new Date())} */}
                       </p>
-                      {isAdmin && (
+                      {/* {isAdmin && (
                         <button
                           className="status-change-button"
                           onClick={() =>
@@ -458,13 +503,13 @@ export const Item = () => {
                           Mark as "
                           {item.info.status == "Available" ? "Sold" : "Available"}"
                         </button>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
 
                 {/* <div className="horizontal-divider"></div> */}
-                {isAdmin && (
+                {/* {isAdmin && (
                   <button
                     title="Modify the properties of this item"
                     type="button"
@@ -480,17 +525,17 @@ export const Item = () => {
                   >
                     <ThreeDots />
                   </button>
-                )}
-                <div className="top-right">
-                  <div className="contact-options">
-                    <button
+                )} */}
+
+                {/* <button
                       onClick={() =>
                         dispatch(toggleModal({ key: "contactSellerModal", value: true }))
                       }
                     >
-                      Contact
-                    </button>
-                    {/* <div className="contact-option">
+                      <MessageIcon />
+                      <p>Contact</p>
+                    </button> */}
+                {/* <div className="contact-option">
                       <PhoneIcon />{" "}
                       <p className="phone">
                         {user ? (
@@ -510,9 +555,9 @@ export const Item = () => {
                         )}
                       </p>
                     </div> */}
-                    {!user && <p className="small-text">Must be signed in to view</p>}
-                  </div>
-                </div>
+                {/* {!user && <p className="small-text">Must be signed in to view</p>} */}
+                {/* </div>
+                </div> */}
               </div>
 
               {item.info.details ? (

@@ -25,7 +25,7 @@
 
 .modal.price-change-modal > .content {
   padding: 10px;
-  min-height: 100px;
+  /* min-height: 100px; */
 }
 
 .price-change-modal > .content ul {

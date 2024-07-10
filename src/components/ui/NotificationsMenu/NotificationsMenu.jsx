@@ -126,6 +126,9 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                     ) : (
                       false
                     )}
+                    {/* <p>
+                      {notification.message} 
+                    </p> */}
                     <p className="time-ago">
                       {getTimeAgo(new Date(notification.created_at))}
                     </p>

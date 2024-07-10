@@ -377,6 +377,7 @@
   color: white;
   overflow: hidden;
   background-color: #333;;
+  font-size: 0.875rem;
 }
 
 .item .images-and-content .content .header-buttons button:not(:disabled):hover {

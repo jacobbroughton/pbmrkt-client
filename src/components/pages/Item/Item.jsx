@@ -53,18 +53,20 @@ export const Item = () => {
   const [repliesLoading, setRepliesLoading] = useState(false);
   const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
   const [sellerReviews, setSellerReviews] = useState();
+  const [existingVote, setExistingVote] = useState(null);
+  const [votes, setVotes] = useState(null);
 
   useEffect(() => {
     async function getItem() {
       setLoading(true);
       try {
-        const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID });
+        const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID, p_user_id: user?.auth_id });
 
         if (error) {
           console.error(error);
           throw error.message;
         }
-        if (!data) throw "item not found";
+        if (!data) throw "Item not found";
 
         getPriceChangeHistory(itemID);
 
@@ -109,9 +111,11 @@ export const Item = () => {
           photos: data2,
           info: { ...data[0], profile_picture_url: data3?.publicUrl },
         });
+        setVotes(data[0].votes)
+        setExistingVote(data[0].existing_vote)
         setSelectedPhoto(data2[0]);
       } catch (error) {
-        setError(error);
+        setError(error.toString());
       }
       setLoading(false);
     }
@@ -331,6 +335,60 @@ export const Item = () => {
     setRepliesLoading(false);
   }
 
+  async function handleItemDownvote() {
+    try {
+      const { data, error } = await supabase.rpc("add_item_vote", {
+        p_item_id: item.info.id,
+        p_vote_direction: "Down",
+        p_user_id: user?.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      console.log("downvote", data);
+
+      if (!existingVote) {
+        setVotes((prevVotes) => (prevVotes -= 1));
+      } else if (existingVote == "Up") {
+        setVotes((prevVotes) => (prevVotes -= 2));
+      } else if (existingVote == "Down") {
+        setVotes((prevVotes) => (prevVotes += 1));
+      }
+
+      setExistingVote(data[0]?.vote_direction);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
+  async function handleItemUpvote() {
+    try {
+      const { data, error } = await supabase.rpc("add_item_vote", {
+        p_item_id: item.info.id,
+        p_vote_direction: "Up",
+        p_user_id: user?.auth_id,
+      });
+
+      if (error) throw error.message;
+
+      console.log("upvote", data);
+
+      if (!existingVote) {
+        setVotes((prevVotes) => (prevVotes += 1));
+      } else if (existingVote == "Down") {
+        setVotes((prevVotes) => (prevVotes += 2));
+      } else if (existingVote == "Up") {
+        setVotes((prevVotes) => (prevVotes -= 1));
+      }
+
+      setExistingVote(data[0]?.vote_direction);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
   if (!item && loading)
     return <LoadingOverlay message="Fetching item..." verticalAlignment="center" />;
   if (!item) return <p>item not found</p>;
@@ -454,12 +512,29 @@ export const Item = () => {
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
-                  <div className="like-and-dislike">
-                    <button>
+                  {/* <div className="like-and-dislike">
+                    <button onClick={handleItemUpvote}>
                       <Arrow direction="up" />
                     </button>
-                    <span>{Math.floor(Math.random() * 10)}</span>
-                    <button>
+                    <span>{votes}</span>
+                    <button onClick={handleItemDownvote}>
+                      <Arrow direction="down" />
+                    </button>
+                  </div> */}
+                  <div className="like-and-dislike">
+                    <button
+                      disabled={false}
+                      onClick={(e) => handleItemUpvote(e)}
+                      className={`up ${existingVote == "Up" ? "selected" : ""}`}
+                    >
+                      <Arrow direction="up" />
+                    </button>
+                    <span>{votes}</span>
+                    <button
+                      disabled={false}
+                      onClick={(e) => handleItemDownvote(e)}
+                      className={`down ${existingVote == "Down" ? "selected" : ""}`}
+                    >
                       <Arrow direction="down" />
                     </button>
                   </div>

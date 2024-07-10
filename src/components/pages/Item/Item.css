@@ -554,6 +554,7 @@
   border: 1px solid #555;
 }
 
+
 .item
   .images-and-content
   .content
@@ -566,6 +567,14 @@
 .item .images-and-content .content .primary-info-and-votes .like-and-dislike button svg {
   fill: white;
   width: 10px;
+}
+
+.item .images-and-content .content .primary-info-and-votes .like-and-dislike button.up.selected svg {
+  fill: orange;
+}
+
+.item .images-and-content .content .primary-info-and-votes .like-and-dislike button.down.selected svg {
+  fill: teal;
 }
 
 .item .images-and-content .content .primary-info {

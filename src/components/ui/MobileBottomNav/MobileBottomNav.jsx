@@ -4,6 +4,7 @@ import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
 import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
 import { HomeIcon } from "../Icons/HomeIcon";
+import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
 import { setSearchBarToggled } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
 import { isOnMobile } from "../../../utils/usefulFunctions";
@@ -25,6 +26,7 @@ export function MobileBottomNav() {
     unauthenticatedOptionsMenuToggled,
     notificationsMenuToggled,
     searchModalToggled,
+    filtersSidebarToggled,
   } = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
@@ -34,8 +36,8 @@ export function MobileBottomNav() {
     e.stopPropagation();
 
     // if (user) {
-      dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-      dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
+    dispatch(toggleModal({ key: "notificationsMenu", value: false }));
+    dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
     // } else {
     //   dispatch(
     //     toggleModal({
@@ -143,7 +145,15 @@ export function MobileBottomNav() {
   return (
     <nav className="mobile-nav">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
-      <Link
+      <button
+        className={`sidebar-toggle-button ${filtersSidebarToggled ? "active" : ""}`}
+        onClick={() =>
+          dispatch(toggleModal({ key: "filtersSidebar", value: !filtersSidebarToggled }))
+        }
+      >
+        <HamburgerMenuIcon />
+      </button>
+      {/* <Link
         to="/"
         className="home-link"
         onClick={() => {
@@ -152,7 +162,7 @@ export function MobileBottomNav() {
         }}
       >
         <HomeIcon />
-      </Link>
+      </Link> */}
 
       <button className="search-toggle" onClick={handleSearchToggle}>
         <SearchIcon />

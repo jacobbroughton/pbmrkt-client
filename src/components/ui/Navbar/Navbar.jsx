@@ -19,7 +19,7 @@ import { PlusIcon } from "../Icons/PlusIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { DesktopSearchToggle } from "../DesktopSearchToggle/DesktopSearchToggle";
 import "./Navbar.css";
-import HamburgerMenuIcon from "../Icons/HamburgerMenuIcon";
+import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
 
 export const Navbar = () => {
   const dispatch = useDispatch();

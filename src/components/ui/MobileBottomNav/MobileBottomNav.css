@@ -7,7 +7,7 @@ nav.mobile-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 6;
+  z-index: 9;
   display: flex;
   justify-content: space-between;
   top: initial;
@@ -21,7 +21,8 @@ nav.mobile-nav .home-link,
 nav.mobile-nav .sell-link,
 nav.mobile-nav .search-toggle,
 nav.mobile-nav .right-side-menu-button,
-nav.mobile-nav .notifications-menu-toggle {
+nav.mobile-nav .notifications-menu-toggle,
+nav.mobile-nav .sidebar-toggle-button {
   display: flex;
   overflow: hidden;
   height: 50px;
@@ -47,11 +48,17 @@ nav.mobile-nav .search-toggle svg,
 nav.mobile-nav .sell-link svg,
 nav.mobile-nav .notifications-menu-toggle svg,
 nav.mobile-nav .filters-toggle-button svg,
-nav.mobile-nav .home-link svg:not(.caret) {
+nav.mobile-nav .home-link svg:not(.caret),
+nav.mobile-nav .sidebar-toggle-button svg{
   width: 22px;
   min-width: 22px;
   fill: whitesmoke;
   filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
+}
+
+
+nav.mobile-nav .sidebar-toggle-button.active svg {
+  fill: var(--lightgreen);
 }
 
 nav.mobile-nav .right-side-menu-button .profile-picture-container {

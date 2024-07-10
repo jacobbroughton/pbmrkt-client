@@ -376,4 +376,8 @@
   .home .sidebar .sidebar-fixed-wrapper .sidebar-toggle-button {
     margin-top: 100px;
   }
+
+  .home .sidebar .sidebar-container {
+    padding-top: 0
+  }
 }

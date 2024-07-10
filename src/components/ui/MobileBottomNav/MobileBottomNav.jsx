@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
@@ -20,6 +20,7 @@ import "./MobileBottomNav.css";
 
 export function MobileBottomNav() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const {
     rightSideMenuToggled,
@@ -145,24 +146,30 @@ export function MobileBottomNav() {
   return (
     <nav className="mobile-nav">
       {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
-      <button
-        className={`sidebar-toggle-button ${filtersSidebarToggled ? "active" : ""}`}
-        onClick={() =>
-          dispatch(toggleModal({ key: "filtersSidebar", value: !filtersSidebarToggled }))
-        }
-      >
-        <HamburgerMenuIcon />
-      </button>
-      {/* <Link
-        to="/"
-        className="home-link"
-        onClick={() => {
-          dispatch(resetFilters());
-          dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-        }}
-      >
-        <HomeIcon />
-      </Link> */}
+      {location.pathname == "/" ? (
+        <button
+          className={`sidebar-toggle-button ${filtersSidebarToggled ? "active" : ""}`}
+          onClick={() => {
+            // if (location.pathname != '/') navigate('/')
+            dispatch(
+              toggleModal({ key: "filtersSidebar", value: !filtersSidebarToggled })
+            );
+          }}
+        >
+          <HamburgerMenuIcon />
+        </button>
+      ) : (
+        <Link
+          to="/"
+          className="home-link"
+          onClick={() => {
+            dispatch(resetFilters());
+            dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+          }}
+        >
+          <HomeIcon />
+        </Link>
+      )}
 
       <button className="search-toggle" onClick={handleSearchToggle}>
         <SearchIcon />

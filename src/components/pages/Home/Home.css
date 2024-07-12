@@ -66,6 +66,7 @@
   padding: 3px 5px;
   cursor: pointer;
   font-size: 0.875rem;
+  color: white;
 }
 
 .home .listings-controls .view-selector button:not(:disabled):not(.selected):hover {
@@ -211,9 +212,9 @@
     z-index: 7 !important;
   }
 
-  .home .listings-controls .control-group.sort select {
+  /* .home .listings-controls .control-group.sort select {
     height: 32px;
-  }
+  } */
 
   .home .listings-section .sidebar-toggle-button-parent {
     top: 0;

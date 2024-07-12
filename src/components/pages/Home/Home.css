@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .home .listings-section {
@@ -49,6 +49,12 @@
   width: 100%;
   z-index: 4;
   margin-bottom: 10px;
+  background-color: var(--bg-primary);
+  padding-top: 10px;
+
+  position: sticky;
+  padding-bottom: 10px;
+  top: 47px !important;
 }
 
 .home .listings-controls .view-selector {
@@ -230,5 +236,17 @@
   }
 
   .home .listings-section .sidebar-toggle-button-parent .dotted-track {
+  }
+}
+
+@media screen and (max-device-width: 480px) {
+
+  .home {
+    height: auto;
+  }
+  .home .listings-controls {
+    position: sticky;
+    padding-bottom: 10px;
+    top: 0 !important;
   }
 }

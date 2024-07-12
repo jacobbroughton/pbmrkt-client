@@ -20,10 +20,10 @@ const ListingList = ({ listings, loading }) => {
         return (
           <li>
             <div className="image-wrapper">
-              <div className="image-container">
+              <Link className="image-container"  to={`/listing/${listing.id}`}>
                 <img src={imageUrl} />
-              </div>
-              <p className="small-text photo-count">5 Photos</p>
+              </Link>
+              {listing.image_count > 1 && <p className="small-text photo-count">{listing.image_count} Photos</p>}
             </div>
             <div className="info">
               <Link className="what-is-this" to={`/listing/${listing.id}`}>{listing.what_is_this}</Link>

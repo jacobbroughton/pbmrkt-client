@@ -142,7 +142,7 @@ export const SearchModal = () => {
 
   useEffect(() => {
     if (user) getRecentSearches();
-    searchRef.current.focus();
+    if (!isOnMobile()) searchRef.current.focus();
   }, []);
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);

@@ -20,6 +20,7 @@ import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
 import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
 import FeedbackModal from "./components/ui/FeedbackModal/FeedbackModal.jsx";
 import BugModal from "./components/ui/BugModal/BugModal.jsx";
+import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
 
 export function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export function App() {
   const loginModalToggled = useSelector((state) => state.modals.loginModalToggled);
   const bugModalToggled = useSelector((state) => state.modals.bugModalToggled);
   const feedbackModalToggled = useSelector((state) => state.modals.feedbackModalToggled);
+  const searchModalToggled = useSelector((state) => state.modals.searchModalToggled);
   const navigate = useNavigate();
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -187,6 +189,7 @@ export function App() {
         {resetPasswordModalToggled && <ResetPasswordModal />}
         {bugModalToggled && <BugModal />}
         {feedbackModalToggled && <FeedbackModal />}
+        {searchModalToggled && <SearchModal />}
       </main>
     </>
   );

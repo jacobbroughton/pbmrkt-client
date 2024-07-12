@@ -31,8 +31,14 @@ const modalsSlice = createSlice({
         [`${key}Toggled`]: value,
       };
     },
+    closeAllModals: (state, { payload }) => {
+      return {
+        ...initialState,
+        filtersSidebarToggled: isOnMobile() ? false : true
+      }
+    }
   },
 });
 
-export const { toggleModal } = modalsSlice.actions;
+export const { toggleModal, closeAllModals } = modalsSlice.actions;
 export default modalsSlice.reducer;

@@ -28,7 +28,6 @@ export const Navbar = () => {
   const {
     searchModalToggled,
     filtersSidebarToggled,
-
     rightSideMenuToggled,
     notificationsMenuToggled,
   } = useSelector((state) => state.modals);
@@ -151,7 +150,7 @@ export const Navbar = () => {
               dispatch(
                 toggleModal({
                   key: "filtersSidebar",
-                  value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                  value: !filtersSidebarToggled,
                 })
               )
             }
@@ -177,7 +176,7 @@ export const Navbar = () => {
               dispatch(
                 toggleModal({
                   key: "filtersSidebar",
-                  value: windowSize.width > 625 ? !filtersSidebarToggled : true,
+                  value: !filtersSidebarToggled,
                 })
               )
             }
@@ -288,7 +287,7 @@ export const Navbar = () => {
           setNotifications={setNotifications}
         />
       )}
-      {searchModalToggled && <SearchModal />}
+      {/* {searchModalToggled && <SearchModal />} */}
     </nav>
   );
 };

@@ -57,6 +57,8 @@ nav.mobile-nav .sidebar-toggle-button svg{
 }
 
 
+
+nav.mobile-nav .notifications-menu-toggle.toggled svg,
 nav.mobile-nav .sidebar-toggle-button.active svg {
   fill: var(--lightgreen);
 }

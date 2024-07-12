@@ -39,99 +39,51 @@
 .home .listings-controls {
   display: flex;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   font-size: 0.875rem;
-  padding: 10px 0 10px 0;
+  /* padding: 10px 0 10px 0; */
   padding-top: 0;
   z-index: 2;
   width: 100%;
   z-index: 4;
-  background-color: var(--bg-primary);
+  margin-bottom: 10px;
 }
 
-.home .listings-controls .filters-button {
-  font-size: 1rem;
-  color: white;
-  border: 0;
-  background-color: transparent;
-  border-radius: 3px;
-  padding: 0;
-  cursor: pointer;
-  transition: 0.1s ease background-color;
-  align-items: center;
+.home .listings-controls .view-selector {
   display: flex;
-  gap: 3px;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 }
 
-.home .listings-section .sidebar-toggle-button-parent {
-  position: fixed;
-  left: 0;
-  top: 47px;
-  bottom: 0;
-  z-index: 4;
-  
-}
-
-.home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button {
-  --btn-width: 40px;
+.home .listings-controls .view-selector button {
+  border-radius: 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  padding: 3px 5px;
   cursor: pointer;
-  margin-top: 17px;
-  width: calc(var(--btn-width) * 1);
-  height: 60px;
-  background-color: var(--lightgreen);
-  border: #222 1px solid;
-  border-left: 0;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  z-index: 18;
-  position: relative;
-  opacity: 0.95;
-
-  
-  
+  font-size: 0.875rem;
 }
 
-.home .listings-section .sidebar-toggle-button-parent .dotted-track {
-  height: 100%;
-  background-color: transparent;
-  width: 1px;
-  position: absolute;
-  left: 6px;
-  top: 0;
-  border-right: dashed 1px #555;
-  z-index: 1;
+.home .listings-controls .view-selector button:not(:disabled):not(.selected):hover {
+  background-color: #3b3b3b;
 }
 
-.home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button:hover {
-  /* background-color: #3b3b3b; */
+.home .listings-controls .view-selector button.selected {
+  background-color: #555;
+  border: 1px solid grey;
 }
 
-.home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button svg {
-  width: 15px;
-  fill: white;
-  filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
+.home .listings-controls .view-selector button:not(:disabled).selected:hover {
+  background-color: #5b5b5b;
 }
 
 .home .listings-controls .control-group select label {
   background-color: lightblue;
   width: 100%;
-}
-
-.home .listings-controls .filters-button svg {
-  filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
-}
-
-.home .listings-controls .filters-button svg:nth-child(1) {
-  width: 10px;
-  fill: #ddd;
-}
-
-.home .listings-controls .filters-button svg:nth-child(2) {
-  width: 28px;
-  fill: #ddd;
 }
 
 .home .listings-controls .control-group select:hover,
@@ -149,6 +101,7 @@
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  /* margin-bottom: 10px; */
 }
 
 .home .listings-controls .control-group.sort svg {
@@ -157,7 +110,8 @@
   fill: #ddd;
   position: absolute;
   left: 10px;
-  top: translateY(-50%);
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 2;
 }
 
@@ -176,6 +130,7 @@
   /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
   background-color: #2f2f2f;
   border: 1px solid #555;
+  font-size: 0.875rem;
 }
 
 .home .listings-controls .control-group.sort select:hover {
@@ -269,7 +224,6 @@
   }
 
   .home .listings-section .sidebar-toggle-button-parent .sidebar-toggle-button {
-
     /* bottom: 0; */
     margin-bottom: 200px;
   }

@@ -5,7 +5,7 @@ import filtersReducer from "./filters";
 import flagsReducer from "./flags";
 import searchReducer from "./search";
 import loadingReducer from "./loading";
-// import commentsReducer from "./comments"
+import viewReducer from "./view"
 
 export const store = configureStore({
   reducer: {
@@ -15,11 +15,10 @@ export const store = configureStore({
     flags: flagsReducer,
     search: searchReducer,
     loading: loadingReducer,
-    // comments: commentsReducer,
+    view: viewReducer
   },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 // export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 // export type AppDispatch = typeof store.dispatch;

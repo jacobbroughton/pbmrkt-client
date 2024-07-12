@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "../../../redux/modals";
-import { resetFilters } from "../../../redux/filters";
+import { closeAllModals, toggleModal } from "../../../redux/modals";
+import filters, { resetFilters } from "../../../redux/filters";
 import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
 import { HomeIcon } from "../Icons/HomeIcon";
 import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
@@ -40,13 +40,13 @@ export function MobileBottomNav() {
     dispatch(toggleModal({ key: "notificationsMenu", value: false }));
     dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
     // } else {
-    //   dispatch(
-    //     toggleModal({
-    //       key: "unauthenticatedOptionsMenu",
-    //       value: !unauthenticatedOptionsMenuToggled,
-    //       closeAll: true,
-    //     })
-    //   );
+    // dispatch(
+    //   toggleModal({
+    //     key: "unauthenticatedOptionsMenu",
+    //     value: !unauthenticatedOptionsMenuToggled,
+    //     closeAll: true,
+    //   })
+    // );
     // }
   }
 
@@ -125,9 +125,9 @@ export function MobileBottomNav() {
   }
 
   function handleSearchToggle(e) {
-    console.log("swag");
     e.stopPropagation();
-    dispatch(toggleModal({ key: "searchModal", value: true, closeAll: true }));
+    if (filtersSidebarToggled)  dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+    dispatch(toggleModal({ key: "searchModal", value: !searchModalToggled }));
     dispatch(setSearchBarToggled(!search.searchBarToggled));
   }
 
@@ -175,7 +175,18 @@ export function MobileBottomNav() {
         <SearchIcon />
       </button>
 
-      <Link to="/sell" className="sell-link">
+      <Link
+        to="/sell"
+        className="sell-link"
+        onClick={() => {
+          // dispatch(closeAllModals());
+          if (rightSideMenuToggled)
+            unauthenticatedOptionsMenuToggled,
+              notificationsMenuToggled,
+              searchModalToggled;
+          filtersSidebarToggled;
+        }}
+      >
         {isOnMobile() ? <PlusIcon /> : "Sell"}
       </Link>
 
@@ -184,7 +195,9 @@ export function MobileBottomNav() {
         {user && (
           <button
             type="button"
-            className="notifications-menu-toggle"
+            className={`notifications-menu-toggle ${
+              notificationsMenuToggled ? "toggled" : ""
+            }`}
             onClick={handleNotificationsMenuToggle}
           >
             <BellIcon />
@@ -219,7 +232,7 @@ export function MobileBottomNav() {
           setNotifications={setNotifications}
         />
       )}
-      {searchModalToggled && <SearchModal />}
+      {/* {searchModalToggled && <SearchModal />} */}
     </nav>
   );
 }

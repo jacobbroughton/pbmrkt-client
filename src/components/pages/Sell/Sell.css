@@ -587,6 +587,7 @@
   background-color: #2f2f2f;
   cursor: pointer;
   transition: 0.1s ease background-color, 0.1s ease border-color;
+  text-align: start;
 }
 
 .field-errors button:hover {

@@ -32,6 +32,9 @@ import { Link } from "react-router-dom";
 import { HomeIcon } from "../../ui/Icons/HomeIcon.jsx";
 import "./Home.css";
 import { Arrow } from "../../ui/Icons/Arrow.jsx";
+import ListingList from "../../ui/ListingList/ListingList.jsx";
+import { setView } from "../../../redux/view.js";
+import Overview from "../../ui/Overview/Overview.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -43,6 +46,7 @@ export function Listings() {
     (state) => state.modals.filtersSidebarToggled
   );
   const flags = useSelector((state) => state.flags);
+  const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -56,7 +60,6 @@ export function Listings() {
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   // const [selectedCategory, setSelectedCategory] = useState(null);
-  const [view, setView] = useState(null);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -331,95 +334,19 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
-          {/* {!filtersSidebarToggled && <div className="sidebar-toggle-button-parent">
-            <div className="dotted-track"></div>
-            <button
-              className="sidebar-toggle-button"
-              onClick={() =>
-                dispatch(
-                  toggleModal({
-                    key: "filtersSidebar",
-                    value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-                  })
-                )
-              }
-            >
-              {filtersSidebarToggled ? (
-                <Arrow direction={"left"} />
-                
-              ) : (
-                <Arrow direction={"right"} />
-              )}
-            </button>
-          </div>} */}
-          {/* <div className="wtb-section">
-            <button
-              className={`${view == "for-sale" ? "toggled" : ""}`}
-              onClick={() => setView("for-sale")}
-            >
-              For Sale
-            </button>
-            <button
-              className={`${view == "wtb" ? "toggled" : ""}`}
-              onClick={() => setView("wtb")}
-            >
-              ISO/WTB/Looking-For
-            </button>
-          </div> */}
           <div className="listings-controls">
-            {/* {location.pathname == "/" && (
-              <button
-                title={
-                  filtersSidebarToggled ? "Hide Filters Sidebar" : "Show Filters Sidebar"
-                }
-                className="filters-button"
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      key: "filtersSidebar",
-                      value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-                    })
-                  )
-                }
-              >
-                {!filtersSidebarToggled ? (
-                  <Caret direction={"right"} />
-                ) : (
-                  <Caret direction={"left"} />
-                )}{" "}
-                <FilterIcon />
-              </button>
-            )} */}
-            {/* {location.pathname == "/" && (
-              <button
-                title={
-                  filtersSidebarToggled ? "Hide Filters Sidebar" : "Show Filters Sidebar"
-                }
-                className="filters-button"
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      key: "filtersSidebar",
-                      value: windowSize.width > 625 ? !filtersSidebarToggled : true,
-                    })
-                  )
-                }
-              >
-                {filtersSidebarToggled ? "" : "Show Filters"}
-              </button>
-            )} */}
-
-            <div className="control-group home">
-              {/* <Link
-              to="/"
-              className="home-link"
-              onClick={() => {
-                dispatch(resetFilters());
-                dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-              }}
-            >
-              <HomeIcon />
-            </Link> */}
+            <div className="view-selector">
+              {["Overview", "Grid", "List"].map((viewOption) => (
+                <button
+                  onClick={() => {
+                    localStorage.setItem("pbmrkt_view", viewOption);
+                    dispatch(setView(viewOption));
+                  }}
+                  className={`view-option ${viewOption == view ? "selected" : ""}`}
+                >
+                  {viewOption}
+                </button>
+              ))}
             </div>
             <div className="control-group sort">
               <select
@@ -443,38 +370,36 @@ export function Listings() {
           {error ? (
             <p className="small-text error-text">{error}</p>
           ) : listingsInitiallyLoading && listingsLoading ? (
-            <p>
-              <SkeletonsListingGrid
-                // link={{ url: "/sell", label: "Sell something" }}
-                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-                hasOverlay={false}
-                numSkeletons={20}
-                blinking={true}
-                heightPx={null}
-              />
-            </p>
+            <SkeletonsListingGrid
+              // link={{ url: "/sell", label: "Sell something" }}
+              accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
+              hasOverlay={false}
+              numSkeletons={20}
+              blinking={true}
+              heightPx={null}
+            />
           ) : !isInitialLoad && listings.length === 0 ? (
-            <>
-              <SkeletonsListingGrid
-                message={"No listings found, try adjusting your search or filters."}
-                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-                hasOverlay={true}
-                numSkeletons={20}
-                blinking={false}
-                heightPx={null}
-                loading={!listingsInitiallyLoading && listingsLoading}
-              />
-              {/* <Footer /> */}
-            </>
+            <SkeletonsListingGrid
+              message={"No listings found, try adjusting your search or filters."}
+              accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
+              hasOverlay={true}
+              numSkeletons={20}
+              blinking={false}
+              heightPx={null}
+              loading={!listingsInitiallyLoading && listingsLoading}
+            />
+          ) : view == "Grid" ? (
+            <ListingGrid
+              listings={listings}
+              accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
+              loading={!listingsInitiallyLoading && listingsLoading}
+            />
+          ) : view == "List" ? (
+            <ListingList listings={listings} />
+          ) : view == "Overview" ? (
+            <Overview />
           ) : (
-            <>
-              <ListingGrid
-                listings={listings}
-                accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-                loading={!listingsInitiallyLoading && listingsLoading}
-              />
-              {/* <Footer /> */}
-            </>
+            false
           )}
         </div>
       </div>

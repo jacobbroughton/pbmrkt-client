@@ -1256,7 +1256,7 @@ export const Sell = () => {
               <div className="field-errors">
                 <div className="header">
                   <p className="small-text bold">Complete these to submit</p>
-                  <p className="small-text">(Click one to mark it & jump to it)</p>
+                  <p className="small-text">(Click one to mark and jump to it)</p>
                 </div>
                 {fieldErrors
                   .filter((fieldError) => fieldError.active)

@@ -55,19 +55,23 @@ const OverviewOptionList = ({ options }) => {
 
   return (
     <ul className="overview-option-list">
-      {options?.map((category) => (
-        <li>
+      {options?.map((category, id) => (
+        <li key={id}> 
           {category.is_folder ? (
             <p className="label">
               {category.plural_name} ({category.num_results})
             </p>
           ) : (
-            <Link onClick={() => handleCategoryClick(category)}>
+            <button
+              className="link-button"
+              onClick={() => handleCategoryClick(category)}
+              id={id}
+            >
               {category.plural_name}{" "}
               {category.num_results ? <span>({category.num_results})</span> : false}
-            </Link>
+            </button>
           )}
-          <OverviewOptionList options={category.children} />
+          {category.children.length >= 1 && <OverviewOptionList options={category.children} />}
         </li>
       ))}
     </ul>

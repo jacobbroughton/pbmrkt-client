@@ -9,27 +9,30 @@
 .overview-option-list.main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 5px
+  grid-gap: 5px;
 }
 
-.overview-option-list:not(.main) {
+/* .overview-option-list:not(.main) {
   padding-left: 5px;
-}
+} */
 
-.overview-option-list.main > li{
+.overview-option-list > li {
   display: flex;
   flex-direction: column;
   background-color: #2b2b2b;
   padding: 5px;
+  gap: 5px;
 }
 
 .overview-option-list.main li p.label {
   font-weight: 500;
   font-size: 0.875rem;
+  text-align: start;
 }
 
-.overview-option-list.main > li a {
+.overview-option-list.main > li button {
   font-size: 0.875rem;
+  text-align: start;
 }
 
 @media screen and (max-width: 800px) {

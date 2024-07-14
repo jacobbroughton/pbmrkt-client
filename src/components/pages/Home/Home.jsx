@@ -364,7 +364,7 @@ export function Listings() {
               <SortIcon />
             </div>
           </div>
-          {filterTags.filter((filter) => filter.active).length >= 1 && (
+          {view != 'Overview'  && filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />
           )}
           {error ? (

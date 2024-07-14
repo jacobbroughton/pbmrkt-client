@@ -1,5 +1,8 @@
 ul.listing-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 ul.listing-list li {
@@ -7,11 +10,12 @@ ul.listing-list li {
   gap: 20px;
   padding: 10px 0;
   width: 100%;
+  background-color: #2b2b2b;
 }
 
 
 ul.listing-list li:not(:last-child) {
-  border-bottom: 1px solid #555;
+  /* border-bottom: 1px solid #555; */
 }
 
 ul.listing-list li a.what-is-this {
@@ -31,7 +35,7 @@ ul.listing-list li p strong {
 ul.listing-list li .image-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
 }
 
 ul.listing-list li .image-wrapper p.photo-count {
@@ -72,6 +76,6 @@ ul.listing-list li .info {
   ul.listing-list li .image-wrapper {
     flex-direction: row;
     align-items: flex-end;
-    gap: 3px
+    gap: 5px;
   }
 }

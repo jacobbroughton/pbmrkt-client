@@ -3,6 +3,9 @@ import { supabase } from "../../../utils/supabase";
 import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
 import { Link } from "react-router-dom";
 import "./Overview.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilters, setFiltersUpdated } from "../../../redux/filters";
+import { setView } from "../../../redux/view";
 
 const Overview = () => {
   const [error, setError] = useState();
@@ -51,7 +54,29 @@ const Overview = () => {
 export default Overview;
 
 const OverviewOptionList = ({ options }) => {
-  function handleCategoryClick(category) {}
+  const dispatch = useDispatch()
+
+  const filters = useSelector(state => state.filters)
+
+
+  function handleCategoryClick(category) {
+    try {
+      dispatch(
+        setFilters({
+          ...filters,
+          saved: {
+            ...filters.saved,
+            categories: options,
+            category: category,
+          },
+        })
+      );
+      dispatch(setFiltersUpdated(true))
+      dispatch(setView('Grid'))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <ul className="overview-option-list">

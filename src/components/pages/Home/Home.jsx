@@ -238,7 +238,7 @@ export function Listings() {
       active: search.savedSearchValue != "",
     },
     {
-      label: `Category: ${filters.saved?.category?.value}`,
+      label: `Category: ${filters.saved?.category?.plural_name}`,
       onDeleteClick: () => {
         // dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
         // dispatch(resetFilter("category"));

@@ -1,0 +1,39 @@
+.overview {
+  padding-bottom: 100px;
+}
+
+.overview-option-list {
+  list-style: none;
+}
+
+.overview-option-list.main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px
+}
+
+.overview-option-list:not(.main) {
+  padding-left: 5px;
+}
+
+.overview-option-list.main > li{
+  display: flex;
+  flex-direction: column;
+  background-color: #2b2b2b;
+  padding: 5px;
+}
+
+.overview-option-list.main li p.label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.overview-option-list.main > li a {
+  font-size: 0.875rem;
+}
+
+@media screen and (max-width: 800px) {
+  .overview-option-list.main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

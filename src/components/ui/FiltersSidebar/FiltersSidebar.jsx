@@ -214,7 +214,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 title={`Click this to open a menu and select an item category to filter your results on`}
               >
                 <span className="current-category">
-                  {filters.saved.category?.value ?? "Select a Category"}
+                  {filters.saved.category?.plural_name ?? "Select a Category"}
                 </span>
                 <EditIcon />{" "}
               </button>

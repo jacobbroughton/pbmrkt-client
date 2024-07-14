@@ -66,7 +66,7 @@ const CategoryButton = ({ category, handleCategoryClick }) => {
     >
       <div className="label-and-arrow">
         <span>
-          {category.isIndex ? "..." : category.value}
+          {category.isIndex ? "..." : category.plural_name}
           {!category.is_folder ? ` (${category.num_results})` : ` (${totalChildrenNumResults})`}
         </span>
         {category.is_folder ? (

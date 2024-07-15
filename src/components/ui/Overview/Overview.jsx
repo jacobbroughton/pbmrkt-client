@@ -40,24 +40,25 @@ const Overview = () => {
 
   return (
     <div className="overview">
-      <ul className="overview-option-list main">
-        {nestedCategories?.map((category) => (
-          <li>
-            <p className="label">{category.plural_name}</p>
-            <OverviewOptionList options={category.children} />
-          </li>
-        ))}
+      <ul className="overview-option-list main tier-0">
+        {nestedCategories?.map((category) => {
+          return (
+            <li>
+              <p className="label">{category.plural_name}</p>
+              <OverviewOptionList options={category.children} level={0} />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
 };
 export default Overview;
 
-const OverviewOptionList = ({ options }) => {
-  const dispatch = useDispatch()
+const OverviewOptionList = ({ options, level }) => {
+  const dispatch = useDispatch();
 
-  const filters = useSelector(state => state.filters)
-
+  const filters = useSelector((state) => state.filters);
 
   function handleCategoryClick(category) {
     try {
@@ -71,34 +72,42 @@ const OverviewOptionList = ({ options }) => {
           },
         })
       );
-      dispatch(setFiltersUpdated(true))
-      dispatch(setView('Grid'))
+      dispatch(setFiltersUpdated(true));
+      dispatch(setView("Grid"));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   return (
-    <ul className="overview-option-list">
-      {options?.map((category, id) => (
-        <li key={id}> 
-          {category.is_folder ? (
-            <p className="label">
-              {category.plural_name} ({category.num_results})
-            </p>
-          ) : (
-            <button
-              className="link-button"
-              onClick={() => handleCategoryClick(category)}
-              id={id}
+    <>
+      <ul className={`overview-option-list tier-${level + 1}`}>
+        {options?.map((category, id) => {
+          let newLevel = level + 2;
+          return (
+            <li
+              key={id}
+              className={`${category.children.length >= 1 ? "has-children" : ""}`}
             >
-              {category.plural_name}{" "}
-              {category.num_results ? <span>({category.num_results})</span> : false}
-            </button>
-          )}
-          {category.children.length >= 1 && <OverviewOptionList options={category.children} />}
-        </li>
-      ))}
-    </ul>
+              {category.is_folder ? (
+                <p className="label">{category.plural_name}</p>
+              ) : (
+                <button
+                  className="link-button"
+                  onClick={() => handleCategoryClick(category)}
+                  id={id}
+                >
+                  {category.plural_name}{" "}
+                  {category.num_results ? <span>({category.num_results})</span> : false}
+                </button>
+              )}
+              {category.children.length >= 1 && (
+                <OverviewOptionList options={category.children} level={newLevel} />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 };

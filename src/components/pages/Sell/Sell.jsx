@@ -132,6 +132,7 @@ export const Sell = () => {
   // const [selectedCategory, setSelectedCategory] = useState(null);
   const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
   const [cantFindCity, setCantFindCity] = useState(false);
+  const [acceptedTrades, setAcceptedTrades] = useState("");
 
   // * Form group refs
   const imagesRef = useRef(null);
@@ -264,6 +265,16 @@ export const Sell = () => {
     getItemCategories();
   }, []);
 
+  useEffect(() => {
+    if (
+      markedFieldKey == "category" ||
+      markedFieldKey == "condition" ||
+      (markedFieldKey == "details" && details != "")
+    ) {
+      setMarkedFieldKey(null);
+    }
+  }, [categories.saved.selected, radioOptions.conditionOptions, details]);
+
   function handleDragEnter(e) {
     e.preventDefault();
     setDraggingPhotos(true);
@@ -307,6 +318,7 @@ export const Sell = () => {
         p_shipping_cost: shippingCost,
         p_city: city || null,
         p_category_id: categories.saved?.selected?.id,
+        p_accepted_trades: acceptedTrades,
       });
 
       if (error) {
@@ -577,9 +589,8 @@ export const Sell = () => {
   const fieldErrors = [
     {
       fieldKey: "images",
-      active: false,
-      warningText: "You must include at least one photo of the item you're selling",
-      // active: photos?.length == 0,
+      warningText: "Include at least one photo of the item you're selling",
+      active: photos?.length == 0,
       onClick: (e) => {
         e.preventDefault();
         imagesRef.current.scrollIntoView(scrollOptions);
@@ -587,7 +598,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "fullName",
-      warningText: "You must include your full name",
+      warningText: "Include your full name",
       // active: !sellerName,
       active: false,
       onClick: (e) => {
@@ -597,7 +608,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "contactPhoneNumber",
-      warningText: "You must include your contact number",
+      warningText: "Include your contact number",
       // active: !contactPhoneNumber,
       active: false,
       onClick: (e) => {
@@ -607,7 +618,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "state",
-      warningText: "You must include your state",
+      warningText: "Include your state",
       active: !state,
       onClick: (e) => {
         e.preventDefault();
@@ -616,7 +627,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "city",
-      warningText: "You must include your city",
+      warningText: "Include your city",
       active: !city,
       onClick: (e) => {
         e.preventDefault();
@@ -625,7 +636,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "whatIsThis",
-      warningText: 'You must include a name for your item (The "What is this" field)',
+      warningText: 'Include a name for your item (The "What is this" field)',
       active: !whatIsThisItem,
       onClick: (e) => {
         e.preventDefault();
@@ -634,7 +645,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "category",
-      warningText: "You must include a category for your item",
+      warningText: "Include a category for your item",
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
@@ -643,7 +654,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "shipping",
-      warningText: "You must select an option for shipping",
+      warningText: "Select an option for shipping",
       active: !radioOptions.shippingOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -652,7 +663,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "trades",
-      warningText: "You must select an option for trades",
+      warningText: "Select an option for trades",
       active: !radioOptions.tradeOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -661,7 +672,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "condition",
-      warningText: "You must select an option for condition",
+      warningText: "Select an option for condition",
       active: !radioOptions.conditionOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -670,7 +681,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "negotiable",
-      warningText: "You must select an option for how negotiable your price is",
+      warningText: "Select an option for how negotiable your price is",
       active: !radioOptions.negotiableOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -679,7 +690,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "price",
-      warningText: "You must select an option for condition",
+      warningText: "Select an option for condition",
       active: !price,
       onClick: (e) => {
         e.preventDefault();
@@ -688,7 +699,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "details",
-      warningText: "You must select an option for how negotiable your price is",
+      warningText: "Add some details about your item",
       active: !details,
       onClick: (e) => {
         e.preventDefault();
@@ -719,11 +730,14 @@ export const Sell = () => {
     !user.state ||
     !user.city;
 
-    
-    let warnings = [];
-    
-    const noShipping =
-  radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
+  let warnings = [];
+
+  const noShipping =
+    radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
+
+  const tradeWindowShowing =
+    radioOptions.tradeOptions.find((option) => option.checked)?.value ==
+    "Accepting Trades";
 
   const detailsPlaceholderText = `(Example) 
 - Planet Eclipse CS1
@@ -742,7 +756,7 @@ export const Sell = () => {
           autoComplete="off"
           // className="standard"
         >
-          <div className="form-block">
+          <div className="form-block photos">
             {/* <div className="header">
               <h2>Photos</h2>
             </div> */}
@@ -844,7 +858,7 @@ export const Sell = () => {
             </div>
           </div>
 
-          <div className="form-block">
+          <div className="form-block seller-info">
             <div className="header">
               <h2>Your Info</h2>
             </div>
@@ -988,7 +1002,7 @@ export const Sell = () => {
             {/* <LeafletLocationSearch /> */}
           </div>
 
-          <div className="form-block">
+          <div className="form-block item-details">
             <div className="header">
               <h2>Item Details</h2>
             </div>
@@ -1024,7 +1038,7 @@ export const Sell = () => {
                     type="button"
                     title={`Click this to open a menu and select an item category to filter your results on`}
                   >
-                    {categories.saved?.selected?.value ?? "No Category Selected"}{" "}
+                    {categories.saved?.selected?.plural_name ?? "No Category Selected"}{" "}
                     <SortIcon />{" "}
                   </button>
                 </div>
@@ -1077,6 +1091,17 @@ export const Sell = () => {
                       handleRadioSelect("tradeOptions", option)
                     }
                   />
+                  {tradeWindowShowing && (
+                    <div>
+                      <label>What would you trade for? (Optional)</label>
+
+                      <input
+                        placeholder="..."
+                        value={acceptedTrades}
+                        onChange={(e) => setAcceptedTrades(e.target.value)}
+                      />
+                    </div>
+                  )}
                 </div>
               </fieldset>
               <fieldset className="radio-form-groups">
@@ -1137,7 +1162,7 @@ export const Sell = () => {
               </div>
             </div>
           </div>
-          <div className="form-block">
+          <div className="form-block price">
             <div className="header">
               <h2>Price</h2>
             </div>
@@ -1146,6 +1171,18 @@ export const Sell = () => {
                 <div className="form-group">
                   <label>Shipping</label>
                   <p>No shipping, local only</p>
+                  <button
+                    className="button"
+                    onClick={() =>
+                      handleRadioSelect("shippingOptions", {
+                        id: 0,
+                        value: "Willing to Ship",
+                        checked: true,
+                      })
+                    }
+                  >
+                    Change to <i>"Willing to Ship"</i>
+                  </button>
                 </div>
               ) : (
                 <div className="form-group shipping">

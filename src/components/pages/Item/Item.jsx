@@ -60,7 +60,10 @@ export const Item = () => {
     async function getItem() {
       setLoading(true);
       try {
-        const { data, error } = await supabase.rpc("get_item", { p_item_id: itemID, p_user_id: user?.auth_id });
+        const { data, error } = await supabase.rpc("get_item", {
+          p_item_id: itemID,
+          p_user_id: user?.auth_id,
+        });
 
         if (error) {
           console.error(error);
@@ -111,8 +114,8 @@ export const Item = () => {
           photos: data2,
           info: { ...data[0], profile_picture_url: data3?.publicUrl },
         });
-        setVotes(data[0].votes)
-        setExistingVote(data[0].existing_vote)
+        setVotes(data[0].votes);
+        setExistingVote(data[0].existing_vote);
         setSelectedPhoto(data2[0]);
       } catch (error) {
         setError(error.toString());
@@ -652,29 +655,6 @@ export const Item = () => {
                 </div>
               )}
 
-              {/* <div className='metadata-new'>
-                <div className='metadata-row'>
-                  <p>Condition</p>
-                  <div className='horizontal-divider'></div>
-                  <p>{item.info.condition}</p>
-                </div>
-                <div className='metadata-row'>
-                  <p>Shipping</p>
-                  <div className='horizontal-divider'></div>
-                  <p>{item.info.shipping}</p>
-                </div>
-                <div className='metadata-row'>
-                  <p>Negotiable</p>
-                  <div className='horizontal-divider'></div>
-                  <p>{item.info.negotiable}</p>
-                </div>
-                <div className='metadata-row'>
-                  <p>Trades</p>
-                  <div className='horizontal-divider'></div>
-                  <p>{item.info.trades}</p>
-                </div>
-              </div> */}
-
               {/* Metadata */}
               <div className="metadata-table-and-label">
                 <div className="metadata-table-container">
@@ -694,7 +674,16 @@ export const Item = () => {
                       </tr>
                       <tr>
                         <td>Trades</td>
-                        <td>{item.info.trades}</td>
+                        <td>
+                          <p>{item.info.trades}</p>
+                          {item.info.accepted_trades ? (
+                            <p>
+                              <i>"{item.info.accepted_trades}"</i>
+                            </p>
+                          ) : (
+                            false
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   </table>

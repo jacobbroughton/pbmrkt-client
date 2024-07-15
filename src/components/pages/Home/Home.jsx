@@ -35,6 +35,8 @@ import { Arrow } from "../../ui/Icons/Arrow.jsx";
 import ListingList from "../../ui/ListingList/ListingList.jsx";
 import { setView } from "../../../redux/view.js";
 import Overview from "../../ui/Overview/Overview.jsx";
+import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsListingList.jsx";
+import { SkeletonsOverview } from "../../ui/SkeletonsOverview/SkeletonsOverview.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -309,6 +311,9 @@ export function Listings() {
     },
   ];
 
+  const isInitiallyLoading = isInitialLoad && listingsLoading;
+  const loadedWithNoResults = !isInitialLoad && listings.length === 0;
+
   return (
     <div className="home">
       <div className="sidebar-and-grid">
@@ -321,7 +326,7 @@ export function Listings() {
             />
             {windowSize.width <= 625 && (
               <ModalOverlay
-                zIndex={3}
+                zIndex={5}
                 onClick={() =>
                   dispatch(toggleModal({ key: "filtersSidebar", value: false }))
                 }
@@ -364,40 +369,59 @@ export function Listings() {
               <SortIcon />
             </div>
           </div>
-          {view != 'Overview'  && filterTags.filter((filter) => filter.active).length >= 1 && (
+          {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />
           )}
+
           {error ? (
             <p className="small-text error-text">{error}</p>
-          ) : listingsInitiallyLoading && listingsLoading ? (
-            <SkeletonsListingGrid
-              // link={{ url: "/sell", label: "Sell something" }}
-              accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-              hasOverlay={false}
-              numSkeletons={20}
-              blinking={true}
-              heightPx={null}
-            />
-          ) : !isInitialLoad && listings.length === 0 ? (
-            <SkeletonsListingGrid
-              message={"No listings found, try adjusting your search or filters."}
-              accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-              hasOverlay={true}
-              numSkeletons={20}
-              blinking={false}
-              heightPx={null}
-              loading={!listingsInitiallyLoading && listingsLoading}
-            />
+          ) : isInitiallyLoading ? (
+            view == "Grid" ? (
+              <SkeletonsListingGrid
+                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
+                hasOverlay={false}
+                numSkeletons={20}
+                blinking={true}
+                heightPx={null}
+              />
+            ) : view == "List" ? (
+              <SkeletonsListingList />
+            ) : view == "Overview" ? (
+              <SkeletonsOverview />
+            ) : (
+              false
+            )
+          ) : loadedWithNoResults ? (
+            view == "Grid" ? (
+              <SkeletonsListingGrid
+                message={"No listings found, try adjusting your search or filters."}
+                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
+                hasOverlay={true}
+                numSkeletons={20}
+                blinking={false}
+                heightPx={null}
+                loading={false}
+              />
+            ) : view == "List" ? (
+              <SkeletonsListingList />
+            ) : view == "Overview" ? (
+              <SkeletonsOverview />
+            ) : (
+              false
+            )
           ) : view == "Grid" ? (
             <ListingGrid
               listings={listings}
               accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-              loading={!listingsInitiallyLoading && listingsLoading}
+              loading={false}
             />
           ) : view == "List" ? (
             <ListingList listings={listings} />
           ) : view == "Overview" ? (
-            <Overview />
+            <Overview
+              loading={listingsLoading}
+              setLoading={(value) => setListingsLoading(value)}
+            />
           ) : (
             false
           )}

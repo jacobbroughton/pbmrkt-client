@@ -29,7 +29,7 @@ export const ListingGrid = ({ listings, accountForSidebar, loading }) => {
               <div className="image-container">
                 <div className="indicators">
                   {listing.trades == "Accepting Trades" ? (
-                    <p className="trades">Open to Trades</p>
+                    <p className="trades" >Open to Trades {listing.accepted_trades && <p className='info-bubble' title={listing.accepted_trades}>i</p>}</p>
                   ) : (
                     false
                   )}{" "}

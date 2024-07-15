@@ -1,0 +1,13 @@
+.overview-skeletons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.overview-skeletons .overview-skeleton {
+  background-color: #2b2b2b;
+  height: 171px;
+  border-radius: 3px;
+  width: 49%;
+}

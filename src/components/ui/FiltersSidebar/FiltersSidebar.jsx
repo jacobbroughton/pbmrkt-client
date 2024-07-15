@@ -150,7 +150,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
 
   return (
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
-      {" "}
+
       <div className="sidebar-container">
         <form className="filters" onSubmit={handleFiltersApply}>
           <div className="apply-and-reset">

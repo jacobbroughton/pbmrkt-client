@@ -1,0 +1,11 @@
+.listings-list-skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.listings-list-skeletons .listing-list-skeleton {
+  background-color: #2b2b2b;
+  height: 171px;
+  border-radius: 3px;
+}

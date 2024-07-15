@@ -68,12 +68,30 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
+
+
 .grid .grid-item > .image-container p.free-shipping {
   border-left: 3px solid var(--lightgreen);
 }
 
 .grid .grid-item > .image-container p.trades {
   border-left: 3px solid orange;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.grid .grid-item > .image-container p.trades p.info-bubble {
+  background-color: #333;
+  width: 15px;
+  max-width: 15px;
+  max-height: 15px;
+  height: 15px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
 }
 
 .grid .grid-item > .image-container > img {

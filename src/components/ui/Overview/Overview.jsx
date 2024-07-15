@@ -6,14 +6,16 @@ import "./Overview.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setView } from "../../../redux/view";
+import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 
-const Overview = () => {
+const Overview = ({ loading, setLoading }) => {
   const [error, setError] = useState();
   const [nestedCategories, setNestedCategories] = useState(null);
   const [flatCategories, setFlatCategories] = useState(null);
 
   async function getCategories() {
     try {
+      setLoading(true);
       const { data, error } = await supabase.rpc("get_item_categories");
 
       if (error) throw error.message;
@@ -32,6 +34,8 @@ const Overview = () => {
       console.log(error);
       setError(error.toString());
     }
+
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -40,16 +44,20 @@ const Overview = () => {
 
   return (
     <div className="overview">
-      <ul className="overview-option-list main tier-0">
-        {nestedCategories?.map((category) => {
-          return (
-            <li>
-              <p className="label">{category.plural_name}</p>
-              <OverviewOptionList options={category.children} level={0} />
-            </li>
-          );
-        })}
-      </ul>
+      {loading ? (
+        <SkeletonsOverview />
+      ) : (
+        <ul className="overview-option-list main tier-0">
+          {nestedCategories?.map((category) => {
+            return (
+              <li>
+                <p className="label">{category.plural_name}</p>
+                <OverviewOptionList options={category.children} level={0} />
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };

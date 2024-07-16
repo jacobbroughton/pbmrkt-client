@@ -349,7 +349,7 @@ button.link-button:not(:disabled):focus {
 }
 
 .skeleton {
-  background-color: #555;
+  background-color: #2b2b2b;
 }
 
 .skeleton.blinking {

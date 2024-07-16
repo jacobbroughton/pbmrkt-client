@@ -62,26 +62,42 @@
   align-self: center;
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 2px;
+  /* padding: 5px */
 }
 
 .home .listings-controls .view-selector button {
-  border-radius: 5px;
-  border: 1px solid #555;
-  background-color: #333;
-  padding: 3px 5px;
+  /* border-radius: 2px; */
+  border: 0;
+  background-color: transparent;
+  padding: 3px 10px;
   cursor: pointer;
   font-size: 0.875rem;
   color: white;
 }
+
 
 .home .listings-controls .view-selector button:not(:disabled):not(.selected):hover {
   background-color: #3b3b3b;
 }
 
 .home .listings-controls .view-selector button.selected {
-  background-color: #555;
-  border: 1px solid grey;
+   background-color: #555;
+ position: relative;
+ overflow: hidden;
+}
+
+.home .listings-controls .view-selector button.selected::before {
+  content: '';
+  position: absolute;
+  background-color: var(--lightgreen);
+  width: 10px;
+  top: -5px;
+  left: -5px;
+  height: 10px;
+  transform: rotate(-45deg);
 }
 
 .home .listings-controls .view-selector button:not(:disabled).selected:hover {

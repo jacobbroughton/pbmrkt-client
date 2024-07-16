@@ -24,7 +24,7 @@ export const SkeletonsListingGrid = ({
             <p>{message}</p>
             {link && <Link to={link.url}>{link.label}</Link>}
           </div>
-          <div className="gradient-overlay"></div>
+          {/* <div className="gradient-overlay"></div> */}
         </>
       )}
 

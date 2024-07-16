@@ -9,26 +9,46 @@ import { setView } from "../../../redux/view";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 
 const Overview = ({ loading, setLoading }) => {
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.filters);
+  const { savedSearchValue } = useSelector((state) => state.search);
   const [error, setError] = useState();
   const [nestedCategories, setNestedCategories] = useState(null);
   const [flatCategories, setFlatCategories] = useState(null);
 
+  // p_brand, p_category_id, p_city, p_condition, p_max_price, p_min_price, p_model, p_negotiable, p_search_value, p_seller_id, p_shipping, p_state, p_trades
   async function getCategories() {
     try {
       setLoading(true);
-      const { data, error } = await supabase.rpc("get_item_categories");
+      const { data, error } = await supabase.rpc("get_item_categories", {
+        p_search_value: savedSearchValue,
+        p_brand: filters.saved.brand,
+        p_model: filters.saved.model,
+        p_min_price: filters.saved.minPrice || 0,
+        p_max_price: filters.saved.maxPrice,
+        p_state: filters.saved.state == "All" ? null : filters.saved.state,
+        p_condition: filters.saved.conditionOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_shipping: filters.saved.shippingOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_trades: filters.saved.tradeOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_negotiable: filters.saved.negotiableOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_seller_id: null,
+        p_city: filters.saved.city == "All" ? null : filters.saved.city,
+        p_category_id: filters.saved.category?.id || null,
+      });
 
       if (error) throw error.message;
 
-      console.log("categories", data);
       setFlatCategories(data);
 
-      const { nestedCategories, preSelectedCategory } = nestItemCategoriesExperimental(
-        data,
-        null
-      );
-
-      console.log({ nestedCategories, preSelectedCategory });
+      const { nestedCategories } = nestItemCategoriesExperimental(data, null);
       setNestedCategories(nestedCategories);
     } catch (error) {
       console.log(error);
@@ -36,27 +56,37 @@ const Overview = ({ loading, setLoading }) => {
     }
 
     setLoading(false);
+    // dispatch(setFiltersUpdated(false));
   }
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    getCategories()
+  }, [])
+
+  useEffect(() => {
+    if (filters.filtersUpdated) getCategories();
+  }, [filters.filtersUpdated]);
 
   return (
     <div className="overview">
       {loading ? (
         <SkeletonsOverview />
       ) : (
-        <ul className="overview-option-list main tier-0">
-          {nestedCategories?.map((category) => {
-            return (
-              <li>
-                <p className="label">{category.plural_name}</p>
-                <OverviewOptionList options={category.children} level={0} />
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <button className="view-all">
+            View All <span>(23)</span>
+          </button>
+          <ul className="overview-option-list main tier-0">
+            {nestedCategories?.map((category) => {
+              return (
+                <li>
+                  <p className="label">{category.plural_name}</p>
+                  <OverviewOptionList options={category.children} level={0} />
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
     </div>
   );
@@ -105,8 +135,7 @@ const OverviewOptionList = ({ options, level }) => {
                   onClick={() => handleCategoryClick(category)}
                   id={id}
                 >
-                  {category.plural_name}{" "}
-                  {category.num_results ? <span>({category.num_results})</span> : false}
+                  {category.plural_name} <span>({category.num_results || 0})</span>
                 </button>
               )}
               {category.children.length >= 1 && (

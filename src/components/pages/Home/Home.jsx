@@ -150,8 +150,6 @@ export function Listings() {
         categories: filters.draft.categories,
       };
 
-      console.log(newDraft);
-
       if (!filters.draft.category.is_folder) {
         dispatch(
           setFilters({
@@ -182,7 +180,8 @@ export function Listings() {
   }, [sort]);
 
   useEffect(() => {
-    // if (filters.filtersUpdated) getListings(searchValue);
+    console.log("filtersUpdated", filters.filtersUpdated);
+    if (view == "Overview" && filters.filtersUpdated) getItemCategories()
     if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
 
@@ -199,19 +198,40 @@ export function Listings() {
 
   async function getItemCategories() {
     try {
-      const { data, error } = await supabase.rpc("get_item_categories");
+      const { data, error } = await supabase.rpc("get_item_categories", {
+        p_search_value: "",
+        p_brand: filters.saved.brand,
+        p_model: filters.saved.model,
+        p_min_price: filters.saved.minPrice || 0,
+        p_max_price: filters.saved.maxPrice,
+        p_state: filters.saved.state == "All" ? null : filters.saved.state,
+        p_condition: filters.saved.conditionOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_shipping: filters.saved.shippingOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_trades: filters.saved.tradeOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_negotiable: filters.saved.negotiableOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_seller_id: null,
+        p_city: filters.saved.city == "All" ? null : filters.saved.city,
+        p_category_id: filters.saved.category?.id || null,
+      });
 
       if (error) throw error.message;
 
-      console.log("categories", data);
-
       const nestedItemCategories = nestItemCategories(data, null);
 
-      setInitialCategories(nestedItemCategories);
-      setCategories(nestedItemCategories);
-      dispatch(
+      if (true) setInitialCategories(nestedItemCategories);
+      if (true) setCategories(nestedItemCategories);
+      if (true) dispatch(
         setFilters({
           ...filters,
+          filtersUpdated: false,
           saved: { ...filters.saved, categories: nestedItemCategories },
           draft: { ...filters.draft, categories: nestedItemCategories },
         })
@@ -403,11 +423,17 @@ export function Listings() {
                 loading={false}
               />
             ) : view == "List" ? (
-              <SkeletonsListingList />
+              <SkeletonsListingList
+                hasOverlay={true}
+                message={"No listings found, try adjusting your search or filters."}
+              />
             ) : view == "Overview" ? (
-              <SkeletonsOverview />
+              <Overview
+                loading={listingsLoading}
+                setLoading={(value) => setListingsLoading(value)}
+              />
             ) : (
-              false
+              true
             )
           ) : view == "Grid" ? (
             <ListingGrid

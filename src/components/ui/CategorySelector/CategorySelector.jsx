@@ -1,6 +1,6 @@
 import "./CategorySelector.css";
-import {Caret} from "../Icons/Caret.jsx";
-import {RadioIcon} from "../Icons/RadioIcon.jsx";
+import { Caret } from "../Icons/Caret.jsx";
+import { RadioIcon } from "../Icons/RadioIcon.jsx";
 
 export const CategorySelector = ({
   categories,
@@ -8,6 +8,7 @@ export const CategorySelector = ({
   forModal,
   handleExpandAll,
   handleCollapseAll,
+  showResultNumbers,
 }) => {
   return (
     <div className={`category-selector ${forModal ? "for-modal" : ""}`}>
@@ -23,12 +24,13 @@ export const CategorySelector = ({
         categories={categories}
         isNested={false}
         handleCategoryClick={handleCategoryClick}
+        showResultNumbers={showResultNumbers}
       />
     </div>
   );
 };
 
-const CategoriesList = ({ categories, isNested, handleCategoryClick }) => {
+const CategoriesList = ({ categories, isNested, handleCategoryClick, showResultNumbers }) => {
   return (
     <div className={`categories-list-container ${isNested ? "is-nested" : ""}`}>
       <div className="list-and-nest-bar">
@@ -38,6 +40,7 @@ const CategoriesList = ({ categories, isNested, handleCategoryClick }) => {
             <CategoryButton
               category={category}
               handleCategoryClick={handleCategoryClick}
+              showResultNumbers={showResultNumbers}
             />
           ))}
         </div>
@@ -46,14 +49,10 @@ const CategoriesList = ({ categories, isNested, handleCategoryClick }) => {
   );
 };
 
-const CategoryButton = ({ category, handleCategoryClick }) => {
-  const totalChildrenNumResults = category.children.reduce(
-    (acc, currentValue) => {
-      return acc + currentValue.num_results
-    },
-    0
-  );
-
+const CategoryButton = ({ category, handleCategoryClick, showResultNumbers }) => {
+  const totalChildrenNumResults = category.children.reduce((acc, currentValue) => {
+    return acc + currentValue.num_results;
+  }, 0);
 
   return (
     <button
@@ -67,7 +66,11 @@ const CategoryButton = ({ category, handleCategoryClick }) => {
       <div className="label-and-arrow">
         <span>
           {category.isIndex ? "..." : category.plural_name}
-          {!category.is_folder ? ` (${category.num_results})` : ` (${totalChildrenNumResults})`}
+          {showResultNumbers
+            ? !category.is_folder
+              ? ` (${category.num_results})`
+              : ` (${totalChildrenNumResults})`
+            : false}
         </span>
         {category.is_folder ? (
           <Caret direction={category.toggled ? "down" : "right"} />
@@ -88,4 +91,3 @@ const CategoryButton = ({ category, handleCategoryClick }) => {
     </button>
   );
 };
-

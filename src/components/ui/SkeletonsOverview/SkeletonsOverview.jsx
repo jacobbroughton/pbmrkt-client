@@ -11,9 +11,12 @@ export const SkeletonsOverview = ({ hasOverlay, message }) => {
           <div className="gradient-overlay"></div>
         </>
       )}
-      {[...new Array(10)].map((num, i) => (
-        <div className="overview-skeleton">&nbsp;</div>
-      ))}
+      <div className="view-all-skeleton">&nbsp;</div>
+      <div className="grid">
+        {[...new Array(10)].map((num, i) => (
+          <div className="overview-skeleton">&nbsp;</div>
+        ))}
+      </div>
     </div>
   );
 };

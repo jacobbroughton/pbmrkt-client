@@ -58,11 +58,62 @@ const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 const randomBrand = brandArr[Math.floor(Math.random() * brandArr.length)];
 const randomModel = modelArr[Math.floor(Math.random() * modelArr.length)];
 const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
+const initialRadioOptions = {
+  conditionOptions: [
+    { id: 0, value: "Brand New", title: "Brand New", description: "", checked: false },
+    { id: 1, value: "Like New", title: "Like New", description: "", checked: false },
+    { id: 2, value: "Used", title: "Used", description: "", checked: false },
+    {
+      id: 3,
+      value: "Not Functional",
+      title: "Not Functional",
+      description: "",
+      checked: false,
+    },
+  ],
+  shippingOptions: [
+    {
+      id: 0,
+      value: "Willing to Ship",
+      title: "Willing to Ship",
+      description: "",
+      checked: false,
+    },
+    {
+      id: 1,
+      value: "Local Only",
+      title: "Local Only",
+      description: "",
+      checked: false,
+    },
+  ],
+  tradeOptions: [
+    { id: 0, value: "No Trades", title: "No Trades", description: "", checked: false },
+    {
+      id: 1,
+      value: "Accepting Trades",
+      title: "Accepting Trades",
+      description: "",
+      checked: false,
+    },
+  ],
+  negotiableOptions: [
+    { id: 0, value: "Firm", title: "Firm", description: "", checked: false },
+    {
+      id: 1,
+      value: "OBO/Negotiable",
+      title: "OBO/Negotiable",
+      description: "",
+      checked: false,
+    },
+  ],
+};
 
 export const Sell = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const filters = useSelector((state) => state.filters);
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
@@ -84,26 +135,7 @@ export const Sell = () => {
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [whatIsThisItem, setWhatIsThisItem] = useState(randomBrand + " " + randomModel);
-  const [radioOptions, setRadioOptions] = useState({
-    conditionOptions: [
-      { id: 0, value: "Brand New", checked: false },
-      { id: 1, value: "Like New", checked: false },
-      { id: 2, value: "Used", checked: false },
-      { id: 3, value: "Not Functional", checked: false },
-    ],
-    shippingOptions: [
-      { id: 0, value: "Willing to Ship", checked: false },
-      { id: 1, value: "Local Only", checked: false },
-    ],
-    tradeOptions: [
-      { id: 0, value: "Accepting Trades", checked: false },
-      { id: 1, value: "No Trades", checked: false },
-    ],
-    negotiableOptions: [
-      { id: 0, value: "Firm", checked: false },
-      { id: 1, value: "OBO/Negotiable", checked: false },
-    ],
-  });
+  const [radioOptions, setRadioOptions] = useState(initialRadioOptions);
   const [draggingPhotos, setDraggingPhotos] = useState(false);
   const [numPhotosUploaded, setNumPhotosUploaded] = useState(0);
   const [batchFile, setBatchFile] = useState(null);
@@ -152,7 +184,29 @@ export const Sell = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_item_categories");
+        const { data, error } = await supabase.rpc("get_item_categories", {
+          p_search_value: "",
+          p_brand: filters.saved.brand,
+          p_model: filters.saved.model,
+          p_min_price: filters.saved.minPrice || 0,
+          p_max_price: filters.saved.maxPrice,
+          p_state: filters.saved.state == "All" ? null : filters.saved.state,
+          p_condition: filters.saved.conditionOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_shipping: filters.saved.shippingOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_trades: filters.saved.tradeOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_negotiable: filters.saved.negotiableOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_seller_id: null,
+          p_city: filters.saved.city == "All" ? null : filters.saved.city,
+          p_category_id: filters.saved.category?.id || null,
+        });
 
         if (error) throw error.message;
 
@@ -487,26 +541,7 @@ export const Sell = () => {
     setListedItemID(false);
     setLoading(false);
     setWhatIsThisItem(randomBrand + " " + randomModel);
-    setRadioOptions({
-      conditionOptions: [
-        { id: 0, value: "Brand New", checked: false },
-        { id: 1, value: "Like New", checked: false },
-        { id: 2, value: "Used", checked: false },
-        { id: 3, value: "Not Functional", checked: false },
-      ],
-      shippingOptions: [
-        { id: 0, value: "Willing to Ship", checked: false },
-        { id: 1, value: "Local Only", checked: false },
-      ],
-      tradeOptions: [
-        { id: 0, value: "Accepting Trades", checked: false },
-        { id: 1, value: "No Trades", checked: false },
-      ],
-      negotiableOptions: [
-        { id: 0, value: "Firm", checked: false },
-        { id: 1, value: "OBO/Negotiable", checked: false },
-      ],
-    });
+    setRadioOptions(initialRadioOptions);
   }
 
   async function handleImageDelete(image) {
@@ -735,9 +770,9 @@ export const Sell = () => {
   const noShipping =
     radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
 
-  const tradeWindowShowing =
-    radioOptions.tradeOptions.find((option) => option.checked)?.value ==
-    "Accepting Trades";
+  // const tradeWindowShowing =
+  //   radioOptions.tradeOptions.find((option) => option.checked)?.value ==
+  //   "Accepting Trades";
 
   const detailsPlaceholderText = `(Example) 
 - Planet Eclipse CS1
@@ -1044,107 +1079,25 @@ export const Sell = () => {
                 </div>
               </fieldset>
 
-              <fieldset className="radio-form-groups">
-                <div
-                  className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
-                  ref={shippingRef}
-                >
-                  <label>
-                    Shipping{" "}
-                    {generatedFilters.shipping && (
-                      <span
-                        className="auto-completed-span"
-                        title="This has been automatically filled out based on your last listing"
-                      >
-                        <MagicWand />
-                      </span>
-                    )}
-                  </label>
+              {/* <fieldset className="radio-form-groups"> */}
 
-                  <RadioOptions
-                    options={radioOptions.shippingOptions}
-                    handleRadioOptionClick={(option) =>
-                      handleRadioSelect("shippingOptions", option)
-                    }
-                  />
-                </div>
+              {/* </fieldset> */}
+              {/* <fieldset className="radio-form-groups"> */}
+              <div
+                className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
+                ref={conditionRef}
+              >
+                <label>Condition</label>
 
-                <div
-                  className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
-                  ref={tradesRef}
-                >
-                  <label>
-                    Trades{" "}
-                    {generatedFilters.trades && (
-                      <span
-                        className="auto-completed-span"
-                        title="This has been automatically filled out based on your last listing"
-                      >
-                        <MagicWand />
-                      </span>
-                    )}
-                  </label>
+                <RadioOptions
+                  options={radioOptions.conditionOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("conditionOptions", option)
+                  }
+                />
+              </div>
 
-                  <RadioOptions
-                    options={radioOptions.tradeOptions}
-                    handleRadioOptionClick={(option) =>
-                      handleRadioSelect("tradeOptions", option)
-                    }
-                  />
-                  {tradeWindowShowing && (
-                    <div>
-                      <label>What would you trade for? (Optional)</label>
-
-                      <input
-                        placeholder="..."
-                        value={acceptedTrades}
-                        onChange={(e) => setAcceptedTrades(e.target.value)}
-                      />
-                    </div>
-                  )}
-                </div>
-              </fieldset>
-              <fieldset className="radio-form-groups">
-                <div
-                  className={`form-group ${
-                    markedFieldKey == "condition" ? "marked" : ""
-                  }`}
-                  ref={conditionRef}
-                >
-                  <label>Condition</label>
-
-                  <RadioOptions
-                    options={radioOptions.conditionOptions}
-                    handleRadioOptionClick={(option) =>
-                      handleRadioSelect("conditionOptions", option)
-                    }
-                  />
-                </div>
-                <div
-                  className={`form-group ${
-                    markedFieldKey == "negotiable" ? "marked" : ""
-                  }`}
-                >
-                  <label>
-                    Negotiable{" "}
-                    {generatedFilters.negotiable && (
-                      <span
-                        className="auto-completed-span"
-                        title="This has been automatically filled out based on your last listing"
-                      >
-                        <MagicWand />
-                      </span>
-                    )}
-                  </label>
-
-                  <RadioOptions
-                    options={radioOptions.negotiableOptions}
-                    handleRadioOptionClick={(option) =>
-                      handleRadioSelect("negotiableOptions", option)
-                    }
-                  />
-                </div>
-              </fieldset>
+              {/* </fieldset> */}
 
               <div
                 className={`form-group ${markedFieldKey == "details" ? "marked" : ""}`}
@@ -1164,9 +1117,113 @@ export const Sell = () => {
           </div>
           <div className="form-block price">
             <div className="header">
+              <h2>Trades</h2>
+            </div>
+            <div className="form-content">
+              <div
+                className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
+                ref={tradesRef}
+              >
+                {/* <label>
+                  Trades{" "}
+                  {generatedFilters.trades && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label> */}
+                <div className="trade-options">
+                  {radioOptions.tradeOptions.map((option) => {
+                    console.log(option);
+                    return (
+                      <button
+                        className={`${option.checked ? "selected" : ""}`}
+                        onClick={() => handleRadioSelect("tradeOptions", option)}
+                      >
+                        <div className="radio-icon-container">
+                          <RadioIcon checked={option.checked} />
+                        </div>
+                        <div className="option-content">
+                          {option.value}
+                          {option.value == "Accepting Trades" && (
+                            <div>
+                              <label>What would you trade for? (Optional)</label>
+
+                              <input
+                                placeholder="..."
+                                value={acceptedTrades}
+                                onChange={(e) => setAcceptedTrades(e.target.value)}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* <RadioOptions
+                  options={radioOptions.tradeOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("tradeOptions", option)
+                  }
+                /> */}
+              </div>
+            </div>
+          </div>
+          <div className="form-block price">
+            <div className="header">
               <h2>Price</h2>
             </div>
             <div className="form-content">
+              <div
+                className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
+                ref={shippingRef}
+              >
+                <label>
+                  Shipping{" "}
+                  {generatedFilters.shipping && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.shippingOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("shippingOptions", option)
+                  }
+                />
+              </div>
+              <div
+                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
+              >
+                <label>
+                  Negotiable{" "}
+                  {generatedFilters.negotiable && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.negotiableOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("negotiableOptions", option)
+                  }
+                />
+              </div>
               {noShipping ? (
                 <div className="form-group">
                   <label>Shipping</label>
@@ -1403,6 +1460,7 @@ export const Sell = () => {
                   },
                 });
               }}
+              showResultNumbers={false}
             />
           </>
         )}

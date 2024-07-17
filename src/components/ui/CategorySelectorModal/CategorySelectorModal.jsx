@@ -15,6 +15,7 @@ export const CategorySelectorModal = ({
   handleExpandAll = () => null,
   handleCollapseAll = () => null,
   zIndex = 2,
+  showResultNumbers
 }) => {
   const dispatch = useDispatch();
 
@@ -40,6 +41,7 @@ export const CategorySelectorModal = ({
           handleCategoryClick={handleCategoryClick}
           handleExpandAll={handleExpandAll}
           handleCollapseAll={handleCollapseAll}
+          showResultNumbers={showResultNumbers}
         />
         <div className="buttons">
           <button

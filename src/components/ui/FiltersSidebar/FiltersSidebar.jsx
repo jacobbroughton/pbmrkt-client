@@ -20,6 +20,7 @@ import { WarningCircle } from "../Icons/WarningCircle.jsx";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { Arrow } from "../Icons/Arrow.jsx";
 import "./FiltersSidebar.css";
+import { SortIcon } from "../Icons/SortIcon.jsx";
 
 export const FiltersSidebar = ({ allFiltersDisabled }) => {
   const dispatch = useDispatch();
@@ -150,7 +151,6 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
 
   return (
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
-
       <div className="sidebar-container">
         <form className="filters" onSubmit={handleFiltersApply}>
           <div className="apply-and-reset">
@@ -213,10 +213,10 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 type="button"
                 title={`Click this to open a menu and select an item category to filter your results on`}
               >
+                <SortIcon/>
                 <span className="current-category">
                   {filters.saved.category?.plural_name ?? "Select a Category"}
                 </span>
-                <EditIcon />{" "}
               </button>
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
@@ -307,16 +307,19 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 )}
               </div>
 
-              <select
-                title="Select a state to filter your results on"
-                onChange={handleStateFilterSelect}
-                value={filters.draft.state}
-                disabled={allFiltersDisabled}
-              >
-                {["All", ...states].map((state) => (
-                  <option key={state}>{state}</option>
-                ))}
-              </select>
+              <div className="select-container">
+                <select
+                  title="Select a state to filter your results on"
+                  onChange={handleStateFilterSelect}
+                  value={filters.draft.state}
+                  disabled={allFiltersDisabled}
+                >
+                  {["All", ...states].map((state) => (
+                    <option key={state}>{state}</option>
+                  ))}
+                </select>
+                <SortIcon/>
+              </div>
             </div>
 
             <div

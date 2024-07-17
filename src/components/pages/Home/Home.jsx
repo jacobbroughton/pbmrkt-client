@@ -144,12 +144,6 @@ export function Listings() {
     try {
       if (!filters.draft.category) throw "no category was selected";
 
-      const newDraft = {
-        ...filters.draft,
-        category: filters.draft.category,
-        categories: filters.draft.categories,
-      };
-
       if (!filters.draft.category.is_folder) {
         dispatch(
           setFilters({
@@ -163,6 +157,7 @@ export function Listings() {
         );
         dispatch(setFiltersUpdated(true));
         dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
+        if (view == "Overview") dispatch(setView("Grid"));
       }
     } catch (error) {
       setError(error);
@@ -181,7 +176,7 @@ export function Listings() {
 
   useEffect(() => {
     console.log("filtersUpdated", filters.filtersUpdated);
-    if (view == "Overview" && filters.filtersUpdated) getItemCategories()
+    if (view == "Overview" && filters.filtersUpdated) getItemCategories();
     if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
 
@@ -228,14 +223,15 @@ export function Listings() {
 
       if (true) setInitialCategories(nestedItemCategories);
       if (true) setCategories(nestedItemCategories);
-      if (true) dispatch(
-        setFilters({
-          ...filters,
-          filtersUpdated: false,
-          saved: { ...filters.saved, categories: nestedItemCategories },
-          draft: { ...filters.draft, categories: nestedItemCategories },
-        })
-      );
+      if (true)
+        dispatch(
+          setFilters({
+            ...filters,
+            filtersUpdated: false,
+            saved: { ...filters.saved, categories: nestedItemCategories },
+            draft: { ...filters.draft, categories: nestedItemCategories },
+          })
+        );
     } catch (error) {
       console.error(error);
       setError(error);
@@ -333,6 +329,10 @@ export function Listings() {
 
   const isInitiallyLoading = isInitialLoad && listingsLoading;
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
+
+  useEffect(() => {
+    return () => dispatch(resetFilters());
+  }, []);
 
   return (
     <div className="home">
@@ -518,6 +518,7 @@ export function Listings() {
             )
           }
           zIndex={9}
+          showResultNumbers={true}
         />
       )}
     </div>

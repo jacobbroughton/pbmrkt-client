@@ -670,6 +670,7 @@ export const EditItemModal = ({ item, setItem }) => {
               });
             }}
             zIndex={7}
+            showResultNumbers={false}
           />
           <ModalOverlay
             zIndex={6}

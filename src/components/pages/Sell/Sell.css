@@ -170,6 +170,62 @@
   flex-grow: 0;
 }
 
+.sell > form .form-group .trade-options {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #666;
+  border-radius: 3px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.sell > form .form-group .trade-options button {
+  /* padding: 10px; */
+  border: 0;
+  background-color:transparent;
+  appearance: none;
+  display: flex;
+  flex-direction: row;
+  /* gap: 10px; */
+  border-left: 2px solid transparent;
+  border-radius: 0;
+}
+
+.sell > form .form-group .trade-options button:not(:disabled).selected {
+  border-left: 2px solid var(--lightgreen);
+}
+
+.sell > form .form-group .trade-options button:not(:last-child) {
+  border-bottom: 1px solid #666;
+}
+
+.sell > form .form-group .trade-options button .radio-icon-container {
+  display: flex;
+  border-right: 1px solid #555;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+
+.sell > form .form-group .trade-options button .option-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+}
+
+.sell > form .form-group .trade-options button svg {
+  width: 15px;
+  fill: grey;
+}
+
+.sell > form .form-group .trade-options button:not(:disabled).selected svg {
+  fill: var(--lightgreen);
+}
+
 .sell > form .form-group label {
   display: flex;
   gap: 5px;

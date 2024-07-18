@@ -27,6 +27,8 @@ import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { ImagesIcons } from "../../ui/Icons/ImagesIcons.jsx";
 import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
 import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
+import FieldErrorButtons from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
+import { smoothScrollOptions } from "../../../utils/constants.js";
 
 const brandArr = [
   "Planet Eclipse",
@@ -75,14 +77,14 @@ const initialRadioOptions = {
     {
       id: 0,
       value: "Willing to Ship",
-      title: "Willing to Ship",
+      title: "Yes, I will ship this item if needed",
       description: "",
       checked: false,
     },
     {
       id: 1,
       value: "Local Only",
-      title: "Local Only",
+      title: "No, local only",
       description: "",
       checked: false,
     },
@@ -98,7 +100,7 @@ const initialRadioOptions = {
     },
   ],
   negotiableOptions: [
-    { id: 0, value: "Firm", title: "Firm", description: "", checked: false },
+    { id: 0, value: "Firm", title: "No, price is firm", description: "", checked: false },
     {
       id: 1,
       value: "OBO/Negotiable",
@@ -619,8 +621,6 @@ export const Sell = () => {
     yearOptions.push(i);
   }
 
-  const scrollOptions = { behavior: "smooth", block: "center", inline: "center" };
-
   const fieldErrors = [
     {
       fieldKey: "images",
@@ -628,7 +628,7 @@ export const Sell = () => {
       active: photos?.length == 0,
       onClick: (e) => {
         e.preventDefault();
-        imagesRef.current.scrollIntoView(scrollOptions);
+        imagesRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -638,7 +638,7 @@ export const Sell = () => {
       active: false,
       onClick: (e) => {
         e.preventDefault();
-        fullNameRef.current.scrollIntoView(scrollOptions);
+        fullNameRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -648,7 +648,7 @@ export const Sell = () => {
       active: false,
       onClick: (e) => {
         e.preventDefault();
-        contactPhoneNumberRef.current.scrollIntoView(scrollOptions);
+        contactPhoneNumberRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -657,7 +657,7 @@ export const Sell = () => {
       active: !state,
       onClick: (e) => {
         e.preventDefault();
-        stateRef.current.scrollIntoView(scrollOptions);
+        stateRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -666,7 +666,7 @@ export const Sell = () => {
       active: !city,
       onClick: (e) => {
         e.preventDefault();
-        cityRef.current.scrollIntoView(scrollOptions);
+        cityRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -675,7 +675,7 @@ export const Sell = () => {
       active: !whatIsThisItem,
       onClick: (e) => {
         e.preventDefault();
-        whatIsThisRef.current.scrollIntoView(scrollOptions);
+        whatIsThisRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -684,7 +684,7 @@ export const Sell = () => {
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
-        categoryRef.current.scrollIntoView(scrollOptions);
+        categoryRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -693,7 +693,7 @@ export const Sell = () => {
       active: !radioOptions.shippingOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        shippingRef.current.scrollIntoView(scrollOptions);
+        shippingRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -702,7 +702,7 @@ export const Sell = () => {
       active: !radioOptions.tradeOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        tradesRef.current.scrollIntoView(scrollOptions);
+        tradesRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -711,7 +711,7 @@ export const Sell = () => {
       active: !radioOptions.conditionOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        conditionRef.current.scrollIntoView(scrollOptions);
+        conditionRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -720,7 +720,7 @@ export const Sell = () => {
       active: !radioOptions.negotiableOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        negotiableRef.current.scrollIntoView(scrollOptions);
+        negotiableRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -729,7 +729,7 @@ export const Sell = () => {
       active: !price,
       onClick: (e) => {
         e.preventDefault();
-        priceRef.current.scrollIntoView(scrollOptions);
+        priceRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -738,7 +738,7 @@ export const Sell = () => {
       active: !details,
       onClick: (e) => {
         e.preventDefault();
-        detailsRef.current.scrollIntoView(scrollOptions);
+        detailsRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
   ];
@@ -1115,68 +1115,10 @@ export const Sell = () => {
               </div>
             </div>
           </div>
+
           <div className="form-block price">
             <div className="header">
-              <h2>Trades</h2>
-            </div>
-            <div className="form-content">
-              <div
-                className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
-                ref={tradesRef}
-              >
-                {/* <label>
-                  Trades{" "}
-                  {generatedFilters.trades && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label> */}
-                <div className="trade-options">
-                  {radioOptions.tradeOptions.map((option) => {
-                    console.log(option);
-                    return (
-                      <button
-                        className={`${option.checked ? "selected" : ""}`}
-                        onClick={() => handleRadioSelect("tradeOptions", option)}
-                      >
-                        <div className="radio-icon-container">
-                          <RadioIcon checked={option.checked} />
-                        </div>
-                        <div className="option-content">
-                          {option.value}
-                          {option.value == "Accepting Trades" && (
-                            <div>
-                              <label>What would you trade for? (Optional)</label>
-
-                              <input
-                                placeholder="..."
-                                value={acceptedTrades}
-                                onChange={(e) => setAcceptedTrades(e.target.value)}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* <RadioOptions
-                  options={radioOptions.tradeOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("tradeOptions", option)
-                  }
-                /> */}
-              </div>
-            </div>
-          </div>
-          <div className="form-block price">
-            <div className="header">
-              <h2>Price</h2>
+              <h2>Price & Shipping</h2>
             </div>
             <div className="form-content">
               <div
@@ -1184,7 +1126,7 @@ export const Sell = () => {
                 ref={shippingRef}
               >
                 <label>
-                  Shipping{" "}
+                  Are you willing to ship this item?{" "}
                   {generatedFilters.shipping && (
                     <span
                       className="auto-completed-span"
@@ -1201,46 +1143,62 @@ export const Sell = () => {
                     handleRadioSelect("shippingOptions", option)
                   }
                 />
-              </div>
-              <div
-                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
-              >
-                <label>
-                  Negotiable{" "}
-                  {generatedFilters.negotiable && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label>
 
-                <RadioOptions
-                  options={radioOptions.negotiableOptions}
+                {/* <div className="option-buttons">
+                  {radioOptions.shippingOptions.map((option) => {
+                    console.log(option);
+                    return (
+                      <button
+                        className={`${option.checked ? "selected" : ""}`}
+                        onClick={() => handleRadioSelect("shippingOptions", option)}
+                      >
+                        <div className="radio-icon-container">
+                          <RadioIcon checked={option.checked} />
+                        </div>
+                        <div className="option-content">
+                          {option.value}
+                          {option.value == "Accepting Trades" && (
+                            <div className="accepting-trades-container">
+                              <label>What would you trade for? (Optional)</label>
+
+                              <input
+                                placeholder="..."
+                                value={acceptedTrades}
+                                onChange={(e) => setAcceptedTrades(e.target.value)}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div> */}
+                {/* <RadioOptions
+                  options={radioOptions.shippingOptions}
                   handleRadioOptionClick={(option) =>
-                    handleRadioSelect("negotiableOptions", option)
+                    handleRadioSelect("shippingOptions", option)
                   }
-                />
+                /> */}
               </div>
+
               {noShipping ? (
-                <div className="form-group">
-                  <label>Shipping</label>
-                  <p>No shipping, local only</p>
-                  <button
-                    className="button"
-                    onClick={() =>
-                      handleRadioSelect("shippingOptions", {
-                        id: 0,
-                        value: "Willing to Ship",
-                        checked: true,
-                      })
-                    }
-                  >
-                    Change to <i>"Willing to Ship"</i>
-                  </button>
-                </div>
+                // <div className="form-group">
+                //   <label>Shipping</label>
+                //   <p>No shipping, local only</p>
+                //   <button
+                //     className="button"
+                //     onClick={() =>
+                //       handleRadioSelect("shippingOptions", {
+                //         id: 0,
+                //         value: "Willing to Ship",
+                //         checked: true,
+                //       })
+                //     }
+                //   >
+                //     Change to <i>"Willing to Ship"</i>
+                //   </button>
+                // </div>
+                false
               ) : (
                 <div className="form-group shipping">
                   <label>Are you covering the shipping cost?</label>
@@ -1279,7 +1237,7 @@ export const Sell = () => {
                   ref={priceRef}
                 >
                   <label>
-                    Price of item
+                    How much are you selling this for?
                     {noShipping ? "" : ", without shipping"}
                   </label>
                   <div className="input-container">
@@ -1326,6 +1284,103 @@ export const Sell = () => {
                   </div>
                 )}
               </fieldset>
+              <div
+                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
+              >
+                <label>
+                  Is this price negotiable?{" "}
+                  {generatedFilters.negotiable && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.negotiableOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("negotiableOptions", option)
+                  }
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="form-block price">
+            <div className="header">
+              <h2>Trades</h2>
+            </div>
+            <div className="form-content">
+              <div
+                className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
+                ref={tradesRef}
+              >
+                {/* <label>
+                  Trades{" "}
+                  {generatedFilters.trades && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label> */}
+                {/* <div className="option-buttons">
+                  {radioOptions.tradeOptions.map((option) => {
+                    console.log(option);
+                    return (
+                      <button
+                        className={`${option.checked ? "selected" : ""}`}
+                        onClick={() => handleRadioSelect("tradeOptions", option)}
+                      >
+                        <div className="radio-icon-container">
+                          <RadioIcon checked={option.checked} />
+                        </div>
+                        <div className="option-content">
+                          <div className="title-and-description">
+                            <p>{option.title}</p>
+                            <p>{option.description}</p>
+                          </div>
+                          {option.value == "Accepting Trades" && option.checked && (
+                            <div className="accepting-trades-container">
+                              <label>What would you trade for? (Optional)</label>
+
+                              <input
+                                placeholder="..."
+                                value={acceptedTrades}
+                                onChange={(e) => setAcceptedTrades(e.target.value)}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div> */}
+
+                <RadioOptions
+                  options={radioOptions.tradeOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("tradeOptions", option)
+                  }
+                />
+                {radioOptions.tradeOptions.find((option) => option.checked)?.value ==
+                  "Accepting Trades" && (
+                  <div className="accepting-trades-container">
+                    <label>What would you trade for? (Optional)</label>
+
+                    <input
+                      placeholder="..."
+                      value={acceptedTrades}
+                      onChange={(e) => setAcceptedTrades(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -1347,40 +1402,32 @@ export const Sell = () => {
 
           <div className="submit-container">
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
-              <div className="field-errors">
-                <div className="header">
-                  <p className="small-text bold">Complete these to submit</p>
-                  <p className="small-text">(Click one to mark and jump to it)</p>
-                </div>
-                {fieldErrors
-                  .filter((fieldError) => fieldError.active)
-                  .map((fieldError) => (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        fieldError.onClick(e);
-                        setMarkedFieldKey(fieldError.fieldKey);
-                      }}
-                    >
-                      {/* <PenIcon /> */}
-                      <JumpToIcon />
-                      {fieldError.warningText}
-
-                      {/* <div className='jump-to'> */}
-                      {/* </div> */}
-                    </button>
-                  ))}
-              </div>
+              // <div className="field-errors">
+              //   <div className="header">
+              //     <p className="small-text bold">Complete these to submit</p>
+              //     <p className="small-text">(Click one to mark and jump to it)</p>
+              //   </div>
+              //   {fieldErrors
+              //     .filter((fieldError) => fieldError.active)
+              //     .map((fieldError) => (
+              //       <button
+              //         type="button"
+              //         onClick={(e) => {
+              //           fieldError.onClick(e);
+              //           setMarkedFieldKey(fieldError.fieldKey);
+              //         }}
+              //       >
+              //         <JumpToIcon />
+              //         {fieldError.warningText}
+              //       </button>
+              //     ))}
+              // </div>
+              <FieldErrorButtons
+                fieldErrors={fieldErrors}
+                setMarkedFieldKey={setMarkedFieldKey}
+              />
             )}
 
-            {/* {warnings?.map((warning) => (
-              <p className="warning"></p>
-            ))}
-            {photos?.length == 0 && (
-              <p className="warning">
-                Please upload at least 1 photo of the item you're selling
-              </p>
-            )} */}
             <button type="submit" disabled={submitDisabled}>
               {submitLoading ? "Submitting" : "Submit"}
             </button>

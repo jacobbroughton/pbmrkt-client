@@ -1,0 +1,56 @@
+
+.field-error-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.field-error-buttons div.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.field-error-buttons div.header p:first-child {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.field-error-buttons div.header p:nth-child(2) {
+  color: grey;
+}
+
+.field-error-buttons button {
+  font-size: 0.875rem;
+  color: white;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #555;
+  border-left: 3px solid var(--red);
+  padding: 3px 10px;
+  border-radius: 3px;
+  background-color: #2f2f2f;
+  cursor: pointer;
+  transition: 0.1s ease background-color, 0.1s ease border-color;
+  text-align: start;
+}
+
+.field-error-buttons button:hover {
+  background-color: #3b3b3b;
+}
+
+/* .field-error-buttons button .jump-to {
+  border: 1px solid #555;
+  background-color: #444;
+  padding: 2px 5px;
+} */
+
+.field-error-buttons button svg {
+  width: 10px;
+  fill: whitesmoke;
+}

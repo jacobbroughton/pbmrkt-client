@@ -86,6 +86,7 @@ const CategoryButton = ({ category, handleCategoryClick, showResultNumbers }) =>
           categories={category.children}
           handleCategoryClick={handleCategoryClick}
           isNested={true}
+          showResultNumbers={showResultNumbers}
         />
       )}
     </button>

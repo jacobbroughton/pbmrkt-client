@@ -304,6 +304,7 @@ export const EditItemModal = ({ item, setItem }) => {
   }
 
   const submitDisabled =
+  
     item.info.brand == brand &&
     item.info.model == model &&
     item.info.price == price &&

@@ -159,70 +159,91 @@
   gap: 3px;
 }
 
-.sell > form .form-group.marked,
-.sell > form .custom-photo-upload.marked {
-  padding: 5px;
-  border: 1px solid var(--red);
-  border-radius: 5px;
-}
-
 .sell > form .form-group:first-child {
   flex-grow: 0;
 }
 
-.sell > form .form-group .trade-options {
+.sell > form .form-group .option-buttons {
   display: flex;
   flex-direction: column;
-  border: 1px solid #666;
+  /* border: 1px solid #666; */
   border-radius: 3px;
   overflow: hidden;
   width: 100%;
 }
 
-.sell > form .form-group .trade-options button {
+.sell > form .form-group .option-buttons button {
   /* padding: 10px; */
   border: 0;
-  background-color:transparent;
+  background-color: #4b4b4b;
   appearance: none;
   display: flex;
   flex-direction: row;
   /* gap: 10px; */
   border-left: 2px solid transparent;
   border-radius: 0;
+  cursor: pointer;
+  width: 100%;
+  font-size: 0.875rem;
 }
 
-.sell > form .form-group .trade-options button:not(:disabled).selected {
+.sell > form .form-group .option-buttons button:not(:disabled).selected {
   border-left: 2px solid var(--lightgreen);
 }
 
-.sell > form .form-group .trade-options button:not(:last-child) {
+.sell > form .form-group .option-buttons button:not(:last-child) {
   border-bottom: 1px solid #666;
 }
 
-.sell > form .form-group .trade-options button .radio-icon-container {
+.sell > form .form-group .option-buttons button:not(:disabled):hover {
+  background-color: #4b4b4b;
+}
+
+.sell > form .form-group .option-buttons button:not(:disabled):active {
+  background-color: #4d4d4d;
+}
+
+.sell > form .form-group .option-buttons button .radio-icon-container {
   display: flex;
   border-right: 1px solid #555;
   height: 100%;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 5px;
 }
 
-
-.sell > form .form-group .trade-options button .option-content {
+.sell > form .form-group .option-buttons button .option-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px;
+  /* padding: 10px; */
+  width: 100%;
 }
 
-.sell > form .form-group .trade-options button svg {
+.sell > form .form-group .radio-options,
+.accepting-trades-container {
+  /* border: 1px solid #4b4b4b; */
+  /* padding: 10px; */
+  /* border-radius: 5px; */
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  width: 100%;
+}
+
+.accepting-trades-container {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+}
+
+.sell > form .form-group .option-buttons button svg {
   width: 15px;
   fill: grey;
 }
 
-.sell > form .form-group .trade-options button:not(:disabled).selected svg {
+.sell > form .form-group .option-buttons button:not(:disabled).selected svg {
   fill: var(--lightgreen);
 }
 
@@ -606,60 +627,6 @@
   color: var(--red);
 }
 
-.field-errors {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  margin-bottom: 20px;
-}
-
-.field-errors .header {
-  display: flex;
-  flex-direction: column;
-}
-
-.field-errors .header p:first-child {
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.field-errors .header p:nth-child(2) {
-  color: grey;
-}
-
-.field-errors button {
-  font-size: 0.875rem;
-  color: white;
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid #555;
-  border-left: 3px solid var(--red);
-  padding: 3px 10px;
-  border-radius: 3px;
-  background-color: #2f2f2f;
-  cursor: pointer;
-  transition: 0.1s ease background-color, 0.1s ease border-color;
-  text-align: start;
-}
-
-.field-errors button:hover {
-  background-color: #3b3b3b;
-}
-
-/* .field-errors button .jump-to {
-  border: 1px solid #555;
-  background-color: #444;
-  padding: 2px 5px;
-} */
-
-.field-errors button svg {
-  width: 10px;
-  fill: whitesmoke;
-}
 
 .sell > form button[type="submit"] {
   background-color: var(--lightgreen);

@@ -515,32 +515,25 @@ export const Item = () => {
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
-                  {/* <div className="like-and-dislike">
-                    <button onClick={handleItemUpvote}>
-                      <Arrow direction="up" />
-                    </button>
-                    <span>{votes}</span>
-                    <button onClick={handleItemDownvote}>
-                      <Arrow direction="down" />
-                    </button>
-                  </div> */}
-                  <div className="like-and-dislike">
-                    <button
-                      disabled={false}
-                      onClick={(e) => handleItemUpvote(e)}
-                      className={`up ${existingVote == "Up" ? "selected" : ""}`}
-                    >
-                      <Arrow direction="up" />
-                    </button>
-                    <span>{votes}</span>
-                    <button
-                      disabled={false}
-                      onClick={(e) => handleItemDownvote(e)}
-                      className={`down ${existingVote == "Down" ? "selected" : ""}`}
-                    >
-                      <Arrow direction="down" />
-                    </button>
-                  </div>
+                  {isAdmin ? (
+                    <div className="like-and-dislike">
+                      <button
+                        disabled={false}
+                        onClick={(e) => handleItemUpvote(e)}
+                        className={`up ${existingVote == "Up" ? "selected" : ""}`}
+                      >
+                        <Arrow direction="up" />
+                      </button>
+                      <span>{votes}</span>
+                      <button
+                        disabled={false}
+                        onClick={(e) => handleItemDownvote(e)}
+                        className={`down ${existingVote == "Down" ? "selected" : ""}`}
+                      >
+                        <Arrow direction="down" />
+                      </button>
+                    </div>
+                  ) : false}
                   <div className="primary-info">
                     {editItemMenuToggled && <div></div>}
                     <h1>{item.info.what_is_this}</h1>

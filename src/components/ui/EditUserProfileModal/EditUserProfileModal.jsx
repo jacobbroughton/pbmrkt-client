@@ -1,18 +1,27 @@
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords } from "../../../utils/usefulFunctions.js";
+import {
+  capitalizeWords,
+  isValidEmail,
+  isValidPhoneNumber,
+} from "../../../utils/usefulFunctions.js";
 import { supabase } from "../../../utils/supabase.js";
 import { setUser } from "../../../redux/auth.js";
-import {EditIcon} from "../Icons/EditIcon.jsx";
+import { EditIcon } from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
-import {XIcon} from "../Icons/XIcon.jsx";
+import { XIcon } from "../Icons/XIcon.jsx";
 import "./EditUserProfileModal.css";
+import { MagicWand } from "../Icons/MagicWand.jsx";
+import { Arrow } from "../Icons/Arrow.jsx";
+import { SortIcon } from "../Icons/SortIcon.jsx";
 // import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
 
 export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const dispatch = useDispatch();
+
+  const cityRef = useRef(null);
 
   const [firstName, setFirstName] = useState(localUser.first_name || "");
   const [lastName, setLastName] = useState(localUser.last_name || "");
@@ -24,6 +33,8 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const [error, setError] = useState(null);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [newProfilePictureUrl, setNewProfilePictureUrl] = useState(null);
+  const [markedFieldKey, setMarkedFieldKey] = useState(null);
+  const [cantFindCity, setCantFindCity] = useState(false);
 
   // mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
@@ -141,13 +152,15 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   }
 
   const submitDisabled =
-    firstName == localUser.first_name &&
-    lastName == localUser.last_name &&
-    city == localUser.city &&
-    state == localUser.state &&
-    bio == localUser.bio &&
-    phoneNumber == localUser.phone_number &&
-    email == localUser.email;
+    !isValidPhoneNumber(phoneNumber) ||
+    !isValidEmail(email) ||
+    (firstName == localUser.first_name &&
+      lastName == localUser.last_name &&
+      city == localUser.city &&
+      state == localUser.state &&
+      bio == localUser.bio &&
+      phoneNumber == localUser.phone_number &&
+      email == localUser.email);
 
   return (
     <div className="modal edit-user-profile-modal">
@@ -202,18 +215,23 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">State</label>
-            <select
-              onChange={(e) => setState(e.target.value == "All" ? null : e.target.value)}
-              value={state}
-            >
-              {["Select One", ...states].map((childState) => (
-                <option value={childState} key={childState}>
-                  {childState}
-                </option>
-              ))}
-            </select>
+            <div className="select-container">
+              <SortIcon />
+              <select
+                onChange={(e) =>
+                  setState(e.target.value == "All" ? null : e.target.value)
+                }
+                value={state}
+              >
+                {["Select One", ...states].map((childState) => (
+                  <option value={childState} key={childState}>
+                    {childState}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="email">City</label>
             <select
               disabled={!state}
@@ -224,6 +242,56 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
                 <option value={innerCity}>{capitalizeWords(innerCity)}</option>
               ))}
             </select>
+          </div> */}
+          <div
+            className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
+              !state ? "disabled" : ""
+            }`}
+            ref={cityRef}
+          >
+            <label htmlFor="city">City</label>
+            {cantFindCity ? (
+              <>
+                <input
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Enter your city"
+                />{" "}
+                <button
+                  className="cant-find-city-toggle"
+                  type="button"
+                  onClick={() => setCantFindCity(false)}
+                >
+                  <Arrow direction={"left"} /> Go back
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="select-container">
+                  <select
+                    disabled={!state}
+                    onChange={(e) =>
+                      setCity(
+                        ["All", "Select One"].includes(e.target.value)
+                          ? null
+                          : e.target.value
+                      )
+                    }
+                    value={city?.toUpperCase()}
+                  >
+                    {statesAndCities[state]?.map((innerCity) => (
+                      <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                    ))}
+                  </select>
+                  <SortIcon />
+                </div>
+                <button
+                  onClick={() => setCantFindCity(true)}
+                  className="cant-find-city-toggle"
+                >
+                  Can't find your city?
+                </button>
+              </>
+            )}
           </div>
         </div>
 

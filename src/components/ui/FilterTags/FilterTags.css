@@ -3,11 +3,6 @@
   flex-direction: column;
   gap: 3px;
   border-top: 1px solid #444;
-  padding-top: 5px;
-}
-
-.filter-tags-parent > p {
-  font-size: 0.875rem;
 }
 
 .filter-tags-parent .filter-tags {
@@ -15,8 +10,9 @@
   gap: 15px;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  padding-bottom: 10px;
+  padding: 10px 0;
   border-bottom: 1px solid #444;
+  margin-top: 15px;
 }
 
 .filter-tags-parent .filter-tags .filter-tag {
@@ -26,12 +22,32 @@
   gap: 10px;
   white-space: nowrap;
   padding: 2px 7px;
-  border-left: 2px solid var(--lightgreen);
-  border-radius: 5px 100px 100px 5px;
+  /* border-left: 2px solid var(--lightgreen); */
+  /* border-radius: 5px 100px 100px 5px; */
   font-size: 0.875rem;
-  border-right: 1px solid #555;
+  /* border-right: 1px solid #555;
   border-bottom: 1px solid #555;
-  border-top: 1px solid #555;
+  border-top: 1px solid #555; */
+  position: relative;
+  background-color: darkcyan;
+  border-radius: 3px;
+}
+
+.filter-tags-parent .filter-tags .filter-tag span.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  position: absolute;
+  background-color: transparent;
+  bottom: 100%;
+  z-index: -1;
+  left: -2px;
+  padding: 1px 3px;
+  border-radius: 1px;
+}
+
+.filter-tags-parent .filter-tags .filter-tag p.value {
+  font-weight: 600;
+  text-shadow: 1px 1px  rgba(0, 0, 0, 0.206);
 }
 
 .filter-tags-parent .filter-tags .filter-tag button {
@@ -43,10 +59,10 @@
 }
 
 .filter-tags-parent .filter-tags .filter-tag button svg {
-  fill: grey;
+  fill: white;
   width: 13px;
 }
 
 .filter-tags-parent .filter-tags .filter-tag button:hover svg {
-  fill: #aaa;
+  fill: lightgrey;
 }

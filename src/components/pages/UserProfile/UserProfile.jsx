@@ -367,7 +367,7 @@ export const UserProfile = () => {
         )}
         {sellerReviewsModalToggled && (
           <>
-            <SellerReviewsModal seller={localUser} reviews={reviews} />
+            <SellerReviewsModal seller={localUser} reviews={reviews} zIndex={6} />
             <ModalOverlay zIndex={5} />
           </>
         )}

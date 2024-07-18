@@ -1,20 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./RegisterModal.css";
-import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
-import {ModalOverlay} from "../../ui/ModalOverlay/ModalOverlay";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { setSession } from "../../../redux/auth";
-import {EyeIcon} from "../../ui/Icons/EyeIcon";
-import {Chevron} from "../../ui/Icons/Chevron";
+import { EyeIcon } from "../../ui/Icons/EyeIcon";
+import { Chevron } from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords, isValidEmail, isValidUsername } from "../../../utils/usefulFunctions.js";
-import {Footer} from "../../ui/Footer/Footer.jsx";
-import {SortIcon} from "../../ui/Icons/SortIcon.jsx";
-import {CityStateFieldset} from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
+import {
+  capitalizeWords,
+  isValidEmail,
+  isValidUsername,
+} from "../../../utils/usefulFunctions.js";
+import { Footer } from "../../ui/Footer/Footer.jsx";
+import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
+import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
+import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons.jsx";
+import { smoothScrollOptions } from "../../../utils/constants.js";
 
 export const RegisterModal = () => {
   const navigate = useNavigate();
@@ -37,6 +43,11 @@ export const RegisterModal = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [optionalFieldsShowing, setOptionalFieldsShowing] = useState(false);
+  const [markedFieldKey, setMarkedFieldKey] = useState(null);
+
+  const emailRef = useRef(null);
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
 
   useEffect(() => {
     const debounceFn = setTimeout(() => {
@@ -146,7 +157,37 @@ export const RegisterModal = () => {
     }
   }
 
-
+  const fieldErrors = [
+    {
+      fieldKey: "email",
+      warningText: "Add your email",
+      // active: !sellerName,
+      active: true,
+      onClick: (e) => {
+        e.preventDefault();
+        emailRef.current.scrollIntoView(smoothScrollOptions);
+      },
+    },
+    {
+      fieldKey: "password",
+      warningText: "Fill in the 'password' field",
+      active: true,
+      onClick: (e) => {
+        e.preventDefault();
+        passwordRef.current.scrollIntoView(smoothScrollOptions);
+      },
+    },
+    {
+      fieldKey: "username",
+      warningText: "Add your username",
+      // active: !sellerName,
+      active: true,
+      onClick: (e) => {
+        e.preventDefault();
+        usernameRef.current.scrollIntoView(smoothScrollOptions);
+      },
+    },
+  ];
 
   const submitDisabled =
     !isValidEmail(email) ||
@@ -176,7 +217,10 @@ export const RegisterModal = () => {
 
           <div className="form-block">
             <div className="form-groups-parent">
-              <div className="form-group">
+              <div
+                className={`form-group ${markedFieldKey == "email" ? "marked" : ""}`}
+                ref={emailRef}
+              >
                 <label htmlFor="email">Email</label>
                 <input
                   placeholder="Email"
@@ -195,7 +239,10 @@ export const RegisterModal = () => {
                   false
                 )}
               </div>
-              <div className="form-group">
+              <div
+                className={`form-group ${markedFieldKey == "password" ? "marked" : ""}`}
+                ref={passwordRef}
+              >
                 <label htmlFor="password">Password</label>
                 <div className="input-and-visible-toggle">
                   <input
@@ -213,7 +260,8 @@ export const RegisterModal = () => {
                   </button>
                 </div>
               </div>
-              <div className="form-group">
+              <div  className={`form-group ${markedFieldKey == "username" ? "marked" : ""}`}
+                ref={usernameRef}>
                 <label htmlFor="username">Username</label>
                 <input
                   placeholder="Username"
@@ -309,6 +357,11 @@ export const RegisterModal = () => {
               </div>
             )}
           </div>
+
+          <FieldErrorButtons
+            fieldErrors={fieldErrors}
+            setMarkedFieldKey={setMarkedFieldKey}
+          />
 
           <button type="submit" disabled={submitDisabled}>
             Submit

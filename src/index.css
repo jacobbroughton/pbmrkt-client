@@ -23,6 +23,7 @@ main {
   --lightgreen: #4ad493;
   --red: #ff607d;
   --yellow: var(--lightgreen);
+  --orange: #ff9400;
 
   color: var(--text-color);
   background-color: var(--bg-primary);

@@ -169,7 +169,7 @@ export const Navbar = () => {
         >
           PBMRKT
         </Link>
-        {location.pathname == "/" && (
+        {location.pathname == "/" && isOnMobile() && (
           <button
             className="filters-toggle-button"
             onClick={() =>

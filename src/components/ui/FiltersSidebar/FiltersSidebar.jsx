@@ -154,40 +154,22 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
     <aside className={`sidebar ${windowSize.width <= 625 ? "over-nav" : ""}`}>
       <div className="sidebar-container">
         <form className="filters" onSubmit={handleFiltersApply}>
-          <div className="apply-and-reset">
-            {/* {windowSize.width <= 625 && (
-            <button
-              onClick={() =>
-                dispatch(toggleModal({ key: "filtersSidebar", value: false }))
-              }
-              type="button"
-              className="close-sidebar-button"
-              tabIndex="0"
-            >
-              <DoubleArrow direction="left" />
-            </button>
-          )} */}
-            {/* {!resetButtonHidden && ( */}
+          <div className="listing-count-and-reset">
+            <p>13 Listings</p>
             <button
               onClick={() => {
                 if (resetButtonDisabled) return;
                 dispatch(resetFilters());
                 dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-                // if (windowSize.width <= 625) {
-                //   dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-                // }
               }}
               type="button"
               className={`reset-button`}
               disabled={resetButtonDisabled}
               title="Reset all of your filters back to their original state"
             >
-              <UndoIcon />
+              {/* <UndoIcon /> */}
+              Reset All
             </button>
-            {/* )} */}
-            {/* <button className="apply-button" type="submit" disabled={applyButtonDisabled}>
-            Apply
-          </button> */}
           </div>
           <div className="filter-items">
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
@@ -214,7 +196,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 type="button"
                 title={`Click this to open a menu and select an item category to filter your results on`}
               >
-                <SortIcon/>
+                <SortIcon />
                 <span className="current-category">
                   {filters.saved.category?.plural_name ?? "Select a Category"}
                 </span>
@@ -319,7 +301,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                     <option key={state}>{state}</option>
                   ))}
                 </select>
-                <SortIcon/>
+                <SortIcon />
               </div>
             </div>
 

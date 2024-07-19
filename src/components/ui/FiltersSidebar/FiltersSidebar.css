@@ -7,11 +7,11 @@
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  border-right: #555 1px solid;
+  /* border-right: #555 1px solid; */
   overflow: visible;
   background-color: var(--bg-primary);
   max-width: 240px;
-  width: 100%
+  width: 100%;
 }
 
 .home .sidebar.over-nav {
@@ -20,11 +20,11 @@
   position: fixed;
   left: 0;
   top: 0;
-  padding-top: 70px
+  padding-top: 70px;
 }
 
 .home .sidebar .sidebar-container {
-  padding: 15px 0;
+  padding: 10px 0 15px 0;
   /* padding-top: 70px; */
   height: 100%;
   width: 100%;
@@ -94,56 +94,46 @@
   position: relative;
 }
 
-.filters .apply-and-reset {
+.filters .listing-count-and-reset {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
-  padding: 0 15px;
-}
-
-.filters .apply-and-reset .apply-button {
-  background-color: var(--lightgreen);
-  padding: 7px 15px;
-  align-self: flex-start;
+  padding: 0 0px 0 10px;
+  background-color: #333;
+  border: 1px solid #444;
+  border-left: 5px solid #444;
+  margin: 0 10px;
   border-radius: 3px;
-  font-size: 1rem;
-  color: #212529;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.1s ease filter;
-  width: 100%;
-  color: white;
-  text-shadow: 1px 1px 3px #21252953;
-  font-weight: 600;
-  transition: color 0.1s ease, background-color 0.1s ease;
-  /* position: absolute; */
+  height: 33px;
+  position: relative;
+  overflow: hidden;
 }
 
-.filters .apply-and-reset .apply-button:disabled {
-  color: grey;
-  background-color: #444;
-  cursor: not-allowed;
+
+
+.filters .listing-count-and-reset > p {
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
-.filters .apply-and-reset .apply-button:not(:disabled):hover {
-  filter: brightness(1.1);
-}
-
-.filters .apply-and-reset .close-sidebar-button {
-  align-self: flex-start;
-  fill: white;
-  cursor: pointer;
-  display: flex;
-  font-size: 1rem;
-  color: white;
-  /* background-color: #444; */
-  /* border: 1px solid grey; */
-  border: 0;
+.filters .listing-count-and-reset > .reset-button {
   background-color: transparent;
-  border-radius: 3px;
-  /* padding: 7px 15px; */
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: 0.1s ease background-color;
+  color: white;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid #444;
+  padding: 0 10px;
+  height: 100%
 }
 
 .home .close-sidebar-button:hover svg {
@@ -155,50 +145,44 @@
   width: 25px;
 }
 
-.filters .apply-and-reset .reset-button {
-  background-color: transparent;
-  border: 0;
-  padding: 0;
-  display: flex;
-  align-self: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.filters .apply-and-reset .reset-button:hover {
+.filters .listing-count-and-reset .reset-button:not(:disabled):hover {
   text-decoration: underline;
 }
 
-.filters .apply-and-reset .reset-button:disabled {
+.filters .listing-count-and-reset .reset-button:disabled {
   cursor: not-allowed;
+  color: grey
+
 }
 
-.filters .apply-and-reset .reset-button svg {
+.filters .listing-count-and-reset .reset-button svg {
   width: 25px;
   fill: white;
 }
 
-.filters .apply-and-reset .reset-button:disabled svg {
+.filters .listing-count-and-reset .reset-button:disabled svg {
   fill: grey;
 }
 
-.filters .apply-and-reset .reset-button:not(:disabled):hover svg {
+.filters .listing-count-and-reset .reset-button:not(:disabled):hover svg {
   fill: var(--yellow);
 }
 
 .filters > .filter-items {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .filters > .filter-items .filter-item {
-  border-top: 1px solid #555;
   display: flex;
   flex-direction: column;
-  padding: 15px ;
+  padding: 15px;
+  margin: 0 10px;
   gap: 2px;
+  background-color: #2b2b2b;
+  border: 1px solid #333;
+  border-radius: 3px;
 }
 
 .filters > .filter-items .filter-item .select-container {
@@ -411,10 +395,18 @@
 }
 
 @media screen and (max-device-width: 480px) {
+  .home .sidebar.over-nav {
+    width: 100%;
+    border-right: #555 1px solid;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   .home .sidebar .sidebar-fixed-wrapper {
   }
   .home .sidebar .sidebar-fixed-wrapper .sidebar-toggle-button {
     margin-top: 100px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   .home .sidebar .sidebar-container {

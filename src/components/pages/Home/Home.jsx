@@ -422,7 +422,7 @@ export function Listings() {
                 </button>
               ))}
             </div>
-            <div className="control-group sort">
+            {view != 'Overview' && <div className="control-group sort">
               <select
                 id="sort-select"
                 onChange={(e) => setSort(e.target.value)}
@@ -436,7 +436,7 @@ export function Listings() {
                 <option>Date Listed (Old-New)</option>
               </select>
               <SortIcon />
-            </div>
+            </div>}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />

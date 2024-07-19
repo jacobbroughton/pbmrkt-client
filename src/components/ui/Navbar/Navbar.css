@@ -102,7 +102,7 @@ nav.desktop button.menu-button {
 }
 
 nav.desktop button.menu-button.toggled {
-  border: 1px solid var(--lightgreen);
+  /* border: 1px solid var(--lightgreen); */
 }
 
 nav.desktop button.menu-button.toggled svg {

@@ -17,7 +17,7 @@ const Overview = ({ setLoading }) => {
   const [flatCategories, setFlatCategories] = useState(null);
   const [initiallyLoading, setInitiallyLoading] = useState(true); // initial load and between tabs currently
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
-  const [viewAllCount, setViewAllCount] = useState(0)
+  const [viewAllCount, setViewAllCount] = useState(0);
 
   async function getCategories() {
     try {
@@ -77,10 +77,9 @@ const Overview = ({ setLoading }) => {
         p_category_id: filters.saved.category?.id || null,
       });
 
-      if (error2) throw error2.message
+      if (error2) throw error2.message;
 
-      setViewAllCount(data2[0].num_results)
-
+      setViewAllCount(data2[0].num_results);
     } catch (error) {
       console.log(error);
       setError(error.toString());
@@ -107,8 +106,13 @@ const Overview = ({ setLoading }) => {
         <SkeletonsOverview />
       ) : (
         <>
-          <button className="view-all" onClick={() => dispatch(setView('Grid'))}>
-            View All <span>({viewAllCount})</span>
+          <button className="view-all" onClick={() => dispatch(setView("Grid"))}>
+            View All{" "}
+            {subsequentlyLoading ? (
+              <div className="loading-result-number"></div>
+            ) : (
+              <span>({viewAllCount})</span>
+            )}
           </button>
           <ul className="overview-option-list main tier-0">
             {nestedCategories?.map((category) => {

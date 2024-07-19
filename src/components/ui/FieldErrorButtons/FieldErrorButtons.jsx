@@ -1,7 +1,7 @@
 import { JumpToIcon } from "../Icons/JumpToIcon";
 import "./FieldErrorButtons.css"
 
-export const FieldErrorButtons = ({fieldErrors, setMarkedFieldKey}) => {
+export const FieldErrorButtons = ({ fieldErrors, setMarkedFieldKey}) => {
   return (
     <div className="field-error-buttons">
       <div className="header">

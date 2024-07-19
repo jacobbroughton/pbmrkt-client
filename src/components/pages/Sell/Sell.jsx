@@ -1402,26 +1402,6 @@ export const Sell = () => {
 
           <div className="submit-container">
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
-              // <div className="field-errors">
-              //   <div className="header">
-              //     <p className="small-text bold">Complete these to submit</p>
-              //     <p className="small-text">(Click one to mark and jump to it)</p>
-              //   </div>
-              //   {fieldErrors
-              //     .filter((fieldError) => fieldError.active)
-              //     .map((fieldError) => (
-              //       <button
-              //         type="button"
-              //         onClick={(e) => {
-              //           fieldError.onClick(e);
-              //           setMarkedFieldKey(fieldError.fieldKey);
-              //         }}
-              //       >
-              //         <JumpToIcon />
-              //         {fieldError.warningText}
-              //       </button>
-              //     ))}
-              // </div>
               <FieldErrorButtons
                 fieldErrors={fieldErrors}
                 setMarkedFieldKey={setMarkedFieldKey}

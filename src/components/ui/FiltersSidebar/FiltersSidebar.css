@@ -148,7 +148,7 @@
 }
 
 .filters .listing-count-and-reset .reset-button:not(:disabled):hover {
-  text-decoration: underline;
+ background-color: #3b3b3b;
 }
 
 .filters .listing-count-and-reset .reset-button:disabled {
@@ -418,5 +418,9 @@
 
   .home .sidebar .sidebar-container {
     padding-top: 0;
+  }
+
+  .home .sidebar .filter-item {
+    padding: 10px 10px;
   }
 }

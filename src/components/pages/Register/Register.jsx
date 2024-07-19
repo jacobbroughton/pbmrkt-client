@@ -226,7 +226,7 @@ export const Register = () => {
                     </div>
                   ) : !isValidUsername(username) ? (
                     <p className="small-text error-text">
-                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt; [space]
                     </p>
                   ) : !usernameIsInitial ? (
                     <p className="small-text">You're good to use this username</p>

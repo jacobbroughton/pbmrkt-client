@@ -160,41 +160,40 @@ export const RegisterModal = () => {
   const fieldErrors = [
     {
       fieldKey: "email",
-      warningText: "Add your email",
-      // active: !sellerName,
-      active: true,
+      warningText: "Add a valid email",
+      active: !isValidEmail(email),
       onClick: (e) => {
         e.preventDefault();
         emailRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
-      fieldKey: "password",
-      warningText: "Fill in the 'password' field",
-      active: true,
-      onClick: (e) => {
-        e.preventDefault();
-        passwordRef.current.scrollIntoView(smoothScrollOptions);
-      },
-    },
-    {
       fieldKey: "username",
-      warningText: "Add your username",
+      warningText: "Create your username",
       // active: !sellerName,
-      active: true,
+      active: !isValidUsername(username) || usernameExists || !username,
       onClick: (e) => {
         e.preventDefault();
         usernameRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
+    {
+      fieldKey: "password",
+      warningText: "Create your password",
+      active: !password,
+      onClick: (e) => {
+        e.preventDefault();
+        passwordRef.current.scrollIntoView(smoothScrollOptions);
+      },
+    },
   ];
 
   const submitDisabled =
+    usernameExists ||
     !isValidEmail(email) ||
     !isValidUsername(username) ||
     username === "" ||
-    password === "" ||
-    password.length <= 6; //|| phoneNumber == "";
+    password === "";
 
   return (
     <>
@@ -240,28 +239,9 @@ export const RegisterModal = () => {
                 )}
               </div>
               <div
-                className={`form-group ${markedFieldKey == "password" ? "marked" : ""}`}
-                ref={passwordRef}
+                className={`form-group ${markedFieldKey == "username" ? "marked" : ""}`}
+                ref={usernameRef}
               >
-                <label htmlFor="password">Password</label>
-                <div className="input-and-visible-toggle">
-                  <input
-                    placeholder="Password"
-                    type={passwordVisible ? "text" : "password"}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete="current-password"
-                  />
-                  <button
-                    onClick={() => setPasswordVisible(!passwordVisible)}
-                    type="button"
-                    className="button"
-                  >
-                    <EyeIcon closed={passwordVisible} />
-                  </button>
-                </div>
-              </div>
-              <div  className={`form-group ${markedFieldKey == "username" ? "marked" : ""}`}
-                ref={usernameRef}>
                 <label htmlFor="username">Username</label>
                 <input
                   placeholder="Username"
@@ -286,13 +266,34 @@ export const RegisterModal = () => {
                     </div>
                   ) : !isValidUsername(username) ? (
                     <p className="small-text error-text">
-                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt; [space]
                     </p>
                   ) : !usernameIsInitial ? (
                     <p className="small-text">You're good to use this username</p>
                   ) : (
                     false
                   ))}
+              </div>
+              <div
+                className={`form-group ${markedFieldKey == "password" ? "marked" : ""}`}
+                ref={passwordRef}
+              >
+                <label htmlFor="password">Password</label>
+                <div className="input-and-visible-toggle">
+                  <input
+                    placeholder="Password"
+                    type={passwordVisible ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    type="button"
+                    className="button"
+                  >
+                    <EyeIcon closed={passwordVisible} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -358,10 +359,10 @@ export const RegisterModal = () => {
             )}
           </div>
 
-          <FieldErrorButtons
+          {fieldErrors.filter(fieldError => fieldError.active).length >= 1 ? <FieldErrorButtons
             fieldErrors={fieldErrors}
             setMarkedFieldKey={setMarkedFieldKey}
-          />
+          /> : false}
 
           <button type="submit" disabled={submitDisabled}>
             Submit

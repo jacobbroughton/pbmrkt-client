@@ -250,5 +250,5 @@ export const isValidEmail = (email) => {
 
 // { } | \ ” % ~ # < >
 export const isValidUsername = (username) => {
-  return !String(username).match(/\.|[{]|[}]|\||\\|["]|[%]|[~]|[#]|[<]|[>]/g);
+  return !String(username).match(/\.|[{]|[}]|\||\\|["]|[%]|[~]|[#]|[<]|[>]|[\s]/g);
 };

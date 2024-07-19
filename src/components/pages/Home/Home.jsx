@@ -61,6 +61,7 @@ export function Listings() {
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
+  const [totalListings, setTotalListings] = useState(null)
   // const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
@@ -76,6 +77,7 @@ export function Listings() {
 
   async function getListings(searchValue = "") {
     try {
+      // if (totalListings) setTotalListings(null)
       // if (!listingsInitiallyLoading && listingsLoading) {
       setListingsLoading(true);
       // }
@@ -125,6 +127,39 @@ export function Listings() {
       });
 
       setListings(data);
+
+      let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
+        p_search_value: searchValue,
+        p_brand: filters.saved.brand,
+        p_model: filters.saved.model,
+        p_min_price: filters.saved.minPrice || 0,
+        p_max_price: filters.saved.maxPrice,
+        p_state: filters.saved.state == "All" ? null : filters.saved.state,
+        p_condition: filters.saved.conditionOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_shipping: filters.saved.shippingOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_trades: filters.saved.tradeOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_negotiable: filters.saved.negotiableOptions
+          .filter((option) => option.checked)
+          .map((option) => option.value),
+        p_seller_id: null,
+        p_city: filters.saved.city == "All" ? null : filters.saved.city,
+        p_category_id: filters.saved.category?.id || null,
+      });
+
+      if (error2) {
+        throw error2.message;
+      }
+
+      console.log(data2)
+
+      setTotalListings(data2[0].num_results)
+
 
       if (isInitialLoad) setIsInitialLoad(false);
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
@@ -390,8 +425,9 @@ export function Listings() {
           <>
             <FiltersSidebar
               allFiltersDisabled={false}
-              categories={categories}
-              setCategories={setCategories}
+              // categories={categories}
+              // setCategories={setCategories}
+              totalListings={totalListings}
             />
             {windowSize.width <= 625 && (
               <ModalOverlay
@@ -422,21 +458,23 @@ export function Listings() {
                 </button>
               ))}
             </div>
-            {view != 'Overview' && <div className="control-group sort">
-              <select
-                id="sort-select"
-                onChange={(e) => setSort(e.target.value)}
-                value={sort}
-              >
-                <option>Alphabetically (A-Z)</option>
-                <option>Alphabetically (Z-A)</option>
-                <option>Price (Low-High)</option>
-                <option>Price (High-Low)</option>
-                <option>Date Listed (New-Old)</option>
-                <option>Date Listed (Old-New)</option>
-              </select>
-              <SortIcon />
-            </div>}
+            {view != "Overview" && (
+              <div className="control-group sort">
+                <select
+                  id="sort-select"
+                  onChange={(e) => setSort(e.target.value)}
+                  value={sort}
+                >
+                  <option>Alphabetically (A-Z)</option>
+                  <option>Alphabetically (Z-A)</option>
+                  <option>Price (Low-High)</option>
+                  <option>Price (High-Low)</option>
+                  <option>Date Listed (New-Old)</option>
+                  <option>Date Listed (Old-New)</option>
+                </select>
+                <SortIcon />
+              </div>
+            )}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />

@@ -23,7 +23,7 @@ import { Arrow } from "../Icons/Arrow.jsx";
 import "./FiltersSidebar.css";
 import { SortIcon } from "../Icons/SortIcon.jsx";
 
-export const FiltersSidebar = ({ allFiltersDisabled }) => {
+export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const filters = useSelector((state) => state.filters);
@@ -155,11 +155,12 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
       <div className="sidebar-container">
         <form className="filters" onSubmit={handleFiltersApply}>
           <div className="listing-count-and-reset">
-            <p>13 Listings</p>
+            <p>{totalListings} Listings</p>
             <button
               onClick={() => {
                 if (resetButtonDisabled) return;
                 dispatch(resetFilters());
+                dispatch(setFiltersUpdated(true));
                 dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
               }}
               type="button"
@@ -174,7 +175,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
           <div className="filter-items">
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By Category</label>
+                <label>Category</label>
                 {filters.saved.category && (
                   <button
                     type="button"
@@ -197,8 +198,8 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                 title={`Click this to open a menu and select an item category to filter your results on`}
               >
                 <SortIcon />
-                <span className="current-category">
-                  {filters.saved.category?.plural_name ?? "Select a Category"}
+                <span className={`current-category ${filters.saved.category?.plural_name == null ? 'empty' : ''}`}>
+                  {filters.saved.category?.plural_name ?? "Markers, Loaders, Etc."}
                 </span>
               </button>
             </div>
@@ -274,7 +275,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By State</label>
+                <label>State</label>
                 {filters.draft.state != "All" && (
                   <button
                     title="Reset the state filter"
@@ -311,7 +312,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
               }`}
             >
               <div className="label-and-reset">
-                <label>By City</label>
+                <label>City</label>
                 {filters.draft.city != "All" && filters.draft.state != "All" && (
                   <button
                     title="Reset the city filter"
@@ -351,7 +352,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By Condition</label>
+                <label>Condition</label>
                 {filters.draft.conditionOptions.find((op) => !op.checked) && (
                   <button
                     className="reset-button"
@@ -378,7 +379,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By Shipping</label>
+                <label>Shipping</label>
                 {filters.draft.shippingOptions.find((op) => !op.checked) && (
                   <button
                     className="reset-button"
@@ -404,7 +405,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
 
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By Trades</label>
+                <label>Trades</label>
                 {filters.draft.tradeOptions.find((op) => !op.checked) && (
                   <button
                     className="reset-button"
@@ -428,7 +429,7 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
-                <label>By Negotiable</label>
+                <label>Negotiability</label>
                 {filters.draft.negotiableOptions.find((op) => !op.checked) && (
                   <button
                     className="reset-button"

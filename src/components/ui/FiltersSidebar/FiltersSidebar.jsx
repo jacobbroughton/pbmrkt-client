@@ -11,6 +11,7 @@ import {
   resetFilters,
   setFilters,
   setFiltersUpdated,
+  uncheckFilter,
 } from "../../../redux/filters.js";
 import "./FiltersSidebar.css";
 import { Checkboxes } from "../Checkboxes/Checkboxes.jsx";
@@ -381,6 +382,9 @@ export const FiltersSidebar = ({ allFiltersDisabled }) => {
                     Reset
                   </button>
                 )}
+                {/* <button className='reset-button' onClick={() => dispatch(uncheckFilter('conditionOptions'))}>
+                  Uncheck All
+                </button> */}
               </div>
               <Checkboxes
                 options={filters.draft.conditionOptions}

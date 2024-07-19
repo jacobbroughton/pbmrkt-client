@@ -270,7 +270,8 @@ export function Listings() {
       active: search.savedSearchValue != "",
     },
     {
-      label: `Category: ${filters.saved?.category?.plural_name}`,
+      label: `Category`,
+      value: filters.saved?.category?.plural_name,
       onDeleteClick: () => {
         // dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
         // dispatch(resetFilter("category"));
@@ -330,12 +331,13 @@ export function Listings() {
     },
     {
       label: `Shipping`,
-      value: checkedShippingOptions.length == 0
-      ? "None"
-      : `${filters.saved.shippingOptions
-        .filter((option) => option.checked)
-        .map((option) => option.value)
-        .join(", ")}`,
+      value:
+        checkedShippingOptions.length == 0
+          ? "None"
+          : `${filters.saved.shippingOptions
+              .filter((option) => option.checked)
+              .map((option) => option.value)
+              .join(", ")}`,
       onDeleteClick: () => {
         dispatch(resetFilter("shippingOptions"));
         dispatch(setFiltersUpdated(true));
@@ -344,12 +346,13 @@ export function Listings() {
     },
     {
       label: `Trades`,
-      value: checkedTradeOptions.length == 0
-      ? "None"
-      : `${filters.saved.tradeOptions
-        .filter((option) => option.checked)
-        .map((option) => option.value)
-        .join(", ")}`,
+      value:
+        checkedTradeOptions.length == 0
+          ? "None"
+          : `${filters.saved.tradeOptions
+              .filter((option) => option.checked)
+              .map((option) => option.value)
+              .join(", ")}`,
       onDeleteClick: () => {
         dispatch(resetFilter("tradeOptions"));
         dispatch(setFiltersUpdated(true));
@@ -358,17 +361,18 @@ export function Listings() {
     },
     {
       label: `Negotiability`,
-      value: checkedNegotiableOptions.length == 0
-      ? "None"
-      :  `${filters.saved.negotiableOptions
-        .filter((option) => option.checked)
-        .map((option) => option.value)
-        .join(", ")}`,
+      value:
+        checkedNegotiableOptions.length == 0
+          ? "None"
+          : `${filters.saved.negotiableOptions
+              .filter((option) => option.checked)
+              .map((option) => option.value)
+              .join(", ")}`,
       onDeleteClick: () => {
         dispatch(resetFilter("negotiableOptions"));
         dispatch(setFiltersUpdated(true));
       },
-      active: checkedNegotiableOptions.length !== filters.saved.negotiableOptions.length
+      active: checkedNegotiableOptions.length !== filters.saved.negotiableOptions.length,
     },
   ];
 

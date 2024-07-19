@@ -27,7 +27,7 @@ import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { ImagesIcons } from "../../ui/Icons/ImagesIcons.jsx";
 import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
 import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
-import FieldErrorButtons from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
+import {FieldErrorButtons} from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { smoothScrollOptions } from "../../../utils/constants.js";
 
 const brandArr = [

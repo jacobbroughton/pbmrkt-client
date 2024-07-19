@@ -3,6 +3,7 @@
   padding: 5px;
   flex-direction: column;
   gap: 5px;
+
 }
 .checkbox-options > .checkbox-option {
   display: flex;
@@ -11,6 +12,25 @@
   gap: 10px;
   padding: 3px 0;
   cursor: pointer;
+}
+
+.checkbox-options > .checkbox-option .box-container {
+  width: 20px;
+  height: 20px;
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+
+
+}
+
+.checkbox-options > .checkbox-option .box-container .box {
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  border-radius: 1px;
 }
 
 .checkbox-options > .checkbox-option label {

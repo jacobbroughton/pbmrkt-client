@@ -122,9 +122,66 @@ const filtersSlice = createSlice({
         filtersUpdated: false,
       };
     },
+    uncheckFilter: (state, { payload }) => {
+      const filterKey = payload;
+
+      console.log(filterKey);
+
+      // if (filterKey == "category") {
+      //   return {
+      //     ...state,
+      //     draft: {
+      //       ...state.draft,
+      //       category: initialFilters.category,
+      //       categories: resetCategories(state.saved.categories),
+      //     },
+      //     saved: {
+      //       ...state.saved,
+      //       category: initialFilters.category,
+      //       categories: resetCategories(state.saved.categories),
+      //     },
+      //   };
+      // }
+
+      // if (filterKey == "priceOptions") {
+      //   return {
+      //     ...state,
+      //     draft: {
+      //       ...state.draft,
+      //       priceOptions: initialFilters.priceOptions,
+      //       minPrice: initialFilters.minPrice,
+      //       maxPrice: initialFilters.maxPrice,
+      //     },
+      //     saved: {
+      //       ...state.saved,
+      //       priceOptions: initialFilters.priceOptions,
+      //       minPrice: initialFilters.minPrice,
+      //       maxPrice: initialFilters.maxPrice,
+      //     },
+      //   };
+      // }
+
+      return {
+        ...state,
+        draft: {
+          ...state.draft,
+          [filterKey]: state.draft[filterKey].map(option => ({
+            ...option,
+            checked: false
+          })),
+        },
+        saved: {
+          ...state.saved,
+          [filterKey]: state.saved[filterKey].map(option => ({
+            ...option,
+            checked: false
+          })),
+        },
+      };
+    },
   },
 });
 
-export const { setFilters, setFiltersUpdated, resetFilters, resetFilter } =
+export const { setFilters, setFiltersUpdated, resetFilters, resetFilter, uncheckFilter } =
   filtersSlice.actions;
 export default filtersSlice.reducer;

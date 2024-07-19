@@ -40,6 +40,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   font-size: 0.875rem;
@@ -51,7 +52,6 @@
   margin-bottom: 5px;
   background-color: var(--bg-primary);
   padding-top: 10px;
-
   position: sticky;
   padding-bottom: 10px;
   top: 47px !important;
@@ -230,6 +230,11 @@
 }
 
 @media only screen and (max-device-width: 480px) {
+
+  .home .listings-section .listings-controls {
+    justify-content:  flex-end;
+  }
+
   .home .listings-controls .control-group.home {
     display: flex;
   }

@@ -61,7 +61,7 @@ export function Listings() {
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-  const [totalListings, setTotalListings] = useState(null)
+  const [totalListings, setTotalListings] = useState(null);
   // const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
@@ -156,10 +156,9 @@ export function Listings() {
         throw error2.message;
       }
 
-      console.log(data2)
+      console.log(data2);
 
-      setTotalListings(data2[0].num_results)
-
+      setTotalListings(data2[0].num_results);
 
       if (isInitialLoad) setIsInitialLoad(false);
       // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
@@ -306,7 +305,7 @@ export function Listings() {
     },
     {
       label: `Category`,
-      value: filters.saved?.category?.plural_name,
+      value: filters.saved.category?.plural_name,
       onDeleteClick: () => {
         // dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
         // dispatch(resetFilter("category"));
@@ -561,7 +560,12 @@ export function Listings() {
                   ...filters,
                   draft: {
                     ...filters.draft,
-                    category,
+                    category:
+                      category.id == filters.draft.category?.id
+                        ? null
+                        : category.checked
+                        ? null
+                        : category,
                     categories: setCategoryChecked(category, filters.draft.categories),
                   },
                 })
@@ -581,7 +585,8 @@ export function Listings() {
             )
           }
           handleApply={handleCategorySelectorApply}
-          applyDisabled={!filters.draft.category || filters.draft.category?.is_folder}
+          applyDisabled={!filters.draft.category}
+          // applyDisabled={true}
           handleExpandAll={() => {
             dispatch(
               setFilters({

@@ -3,8 +3,7 @@ import { supabase } from "../../../utils/supabase";
 import "./ListingList.css";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
-const ListingList = ({ listings, loading }) => {
-  console.log("listings", listings);
+const ListingList = ({ listings }) => {
   return (
     <ul className="listing-list">
       {listings.map((listing) => {

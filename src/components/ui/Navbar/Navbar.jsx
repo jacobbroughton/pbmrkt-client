@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "../../../redux/modals";
+import { closeAllModals, toggleModal } from "../../../redux/modals";
 import { resetFilters } from "../../../redux/filters";
 import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -165,6 +165,7 @@ export const Navbar = () => {
           onClick={() => {
             dispatch(resetFilters());
             dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
+            dispatch(closeAllModals())
           }}
         >
           PBMRKT

@@ -585,7 +585,7 @@ export function Listings() {
             )
           }
           handleApply={handleCategorySelectorApply}
-          applyDisabled={!filters.draft.category}
+          applyDisabled={!filters.draft.category || filters.draft.category.id == filters.saved.category.id}
           // applyDisabled={true}
           handleExpandAll={() => {
             dispatch(

@@ -34,7 +34,7 @@ const modalsSlice = createSlice({
     closeAllModals: (state, { payload }) => {
       return {
         ...initialState,
-        filtersSidebarToggled: isOnMobile() ? false : true
+        filtersSidebarToggled: false
       }
     }
   },

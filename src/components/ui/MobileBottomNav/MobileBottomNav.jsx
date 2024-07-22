@@ -127,6 +127,7 @@ export function MobileBottomNav() {
   function handleSearchToggle(e) {
     e.stopPropagation();
     if (filtersSidebarToggled)  dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+    dispatch(closeAllModals())
     dispatch(toggleModal({ key: "searchModal", value: !searchModalToggled }));
     dispatch(setSearchBarToggled(!search.searchBarToggled));
   }

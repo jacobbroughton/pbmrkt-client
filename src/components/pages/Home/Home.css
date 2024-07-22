@@ -292,3 +292,36 @@
     align-items: flex-end;
   } */
 }
+
+/* TODO - Delete me if not needed */
+/* .animated-banner {
+  height: 100px;
+  width: 100%;
+  background-color: blue;
+  position: relative;
+}
+
+.animated-banner::after {
+  content: "";
+  position: absolute;
+  left: -4rem;
+  top: 0;
+  width: calc(100% + 5rem);
+  height: 100%;
+  background-image: url("/svgs/dash.svg");
+  background-size: 5rem 20rem;
+  -webkit-animation-name: a-dash;
+  animation-name: a-dash;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+} */

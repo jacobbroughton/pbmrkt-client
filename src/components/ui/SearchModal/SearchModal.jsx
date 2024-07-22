@@ -277,7 +277,7 @@ export const SearchModal = () => {
         </div>
       </div>
       <ModalOverlay
-        zIndex={5}
+        zIndex={6}
         onClick={() => {
           dispatch(toggleModal({ key: "searchModal", value: false }));
           dispatch(setDraftSearchValue(""));

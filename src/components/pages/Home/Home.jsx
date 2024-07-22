@@ -419,6 +419,7 @@ export function Listings() {
 
   return (
     <div className="home">
+      {/* // TODO - Delete this <div className='animated-banner'></div> */}
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>

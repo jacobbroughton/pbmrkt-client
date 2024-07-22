@@ -110,9 +110,9 @@ export const LoginModal = () => {
 
           <button
             type="submit"
-            disabled={email === "" || password === "" || !isValidEmail(email)}
+            disabled={email === "" || password === "" || !isValidEmail(email) ||  loading}
           >
-            Submit
+            {loading ? "Logging you in..." : "Submit"}
           </button>
 
           <p>
@@ -131,13 +131,13 @@ export const LoginModal = () => {
             </button>
           </p>
         </form>
-        {loading && (
+        {/* {loading && (
           <LoadingOverlay
             message="Logging you in..."
             zIndex={5}
             verticalAlignment={"center"}
           />
-        )}
+        )} */}
       </div>
       <ModalOverlay
         zIndex={6}

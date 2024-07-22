@@ -11,7 +11,11 @@ import { EyeIcon } from "../../ui/Icons/EyeIcon";
 import { Chevron } from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords, isValidEmail, isValidUsername } from "../../../utils/usefulFunctions.js";
+import {
+  capitalizeWords,
+  isValidEmail,
+  isValidUsername,
+} from "../../../utils/usefulFunctions.js";
 import { Footer } from "../../ui/Footer/Footer.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
@@ -37,7 +41,7 @@ export const Register = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [optionalFieldsShowing, setOptionalFieldsShowing] = useState(false);
-  const [human, setHuman] = useState("");
+  const [humanTest, setHumanTest] = useState("");
 
   useEffect(() => {
     const debounceFn = setTimeout(() => {
@@ -144,7 +148,6 @@ export const Register = () => {
     }
   }
 
-
   const submitDisabled =
     !isValidEmail(email) ||
     !isValidUsername(username) ||
@@ -226,7 +229,8 @@ export const Register = () => {
                     </div>
                   ) : !isValidUsername(username) ? (
                     <p className="small-text error-text">
-                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt; [space]
+                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                      [space]
                     </p>
                   ) : !usernameIsInitial ? (
                     <p className="small-text">You're good to use this username</p>
@@ -235,17 +239,14 @@ export const Register = () => {
                   ))}
               </div>
               <div className="form-group">
-                <label htmlFor="username">Human?</label>
+                <label htmlFor="human-test">(Robot Test) What's the value of 15 - 9?</label>
                 <input
-                  placeholder="...?"
+                  placeholder="..."
                   onChange={(e) => {
-                    // setUsernameIsInitial(true);
-                    setHuman(e.target.value);
-                    // checkForExistingMatchingUsername(e.target.value);
+                    setHumanTest(e.target.value);
                   }}
-                  value={human}
+                  value={humanTest}
                 />
-                human?
               </div>
             </div>
           </div>

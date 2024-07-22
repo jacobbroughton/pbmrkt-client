@@ -9,7 +9,7 @@ nav.desktop {
   /* bottom: 0; */
   right: 0;
   left: 0;
-  z-index: 7;
+  z-index: 8;
   gap: 15px;
   border-bottom: #444 1px solid;
 }

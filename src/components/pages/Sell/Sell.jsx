@@ -64,7 +64,7 @@ const initialRadioOptions = {
   conditionOptions: [
     { id: 0, value: "Brand New", title: "Brand New", description: "", checked: false },
     { id: 1, value: "Like New", title: "Like New", description: "", checked: false },
-    { id: 2, value: "Used", title: "Used", description: "", checked: false },
+    { id: 2, value: "Used", title: "Used", description: "", checked: true },
     {
       id: 3,
       value: "Not Functional",
@@ -90,7 +90,7 @@ const initialRadioOptions = {
     },
   ],
   tradeOptions: [
-    { id: 0, value: "No Trades", title: "No Trades", description: "", checked: false },
+    { id: 0, value: "No Trades", title: "No Trades", description: "", checked: true },
     {
       id: 1,
       value: "Accepting Trades",
@@ -121,14 +121,14 @@ export const Sell = () => {
   );
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
-  const [brand, setBrand] = useState(randomBrand);
-  const [model, setModel] = useState(randomModel);
-  const [price, setPrice] = useState(randomPrice);
+  const [brand, setBrand] = useState(''); // TODO -- delete this and references to it in backend
+  const [model, setModel] = useState(''); // TODO -- delete this and references to it in backend
+  const [price, setPrice] = useState(null);
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
   const [contactPhoneNumber, setContactPhoneNumber] = useState("");
-  const [sellerName, setSellerName] = useState("Jacob Broughton");
+  const [sellerName, setSellerName] = useState("");
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -136,11 +136,10 @@ export const Sell = () => {
   const [listedItemID, setListedItemID] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [whatIsThisItem, setWhatIsThisItem] = useState(randomBrand + " " + randomModel);
+  const [whatIsThisItem, setWhatIsThisItem] = useState('');
   const [radioOptions, setRadioOptions] = useState(initialRadioOptions);
   const [draggingPhotos, setDraggingPhotos] = useState(false);
   const [numPhotosUploaded, setNumPhotosUploaded] = useState(0);
-  const [batchFile, setBatchFile] = useState(null);
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
   const [totalPhotos, setTotalPhotos] = useState(null);
@@ -266,18 +265,18 @@ export const Sell = () => {
           setCity(capitalizeWords(defaultCity));
         }
 
-        if (defaultTrades) {
-          localGeneratedFilters.trades = true;
-          const correspondingTradesOption = radioOptions.tradeOptions.find(
-            (op) => op.value == defaultTrades
-          );
-          localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
-            return {
-              ...op,
-              checked: op.value == correspondingTradesOption.value,
-            };
-          });
-        }
+        // if (defaultTrades) {
+        //   localGeneratedFilters.trades = true;
+        //   const correspondingTradesOption = radioOptions.tradeOptions.find(
+        //     (op) => op.value == defaultTrades
+        //   );
+        //   localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
+        //     return {
+        //       ...op,
+        //       checked: op.value == correspondingTradesOption.value,
+        //     };
+        //   });
+        // }
 
         if (defaultShipping) {
           localGeneratedFilters.shipping = true;
@@ -680,7 +679,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "category",
-      warningText: "Include a category for your item",
+      warningText: "Select the most accurate category for your item",
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
@@ -689,7 +688,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "shipping",
-      warningText: "Select an option for shipping",
+      warningText: "Select whether you'll be willing to ship or not",
       active: !radioOptions.shippingOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -698,7 +697,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "trades",
-      warningText: "Select an option for trades",
+      warningText: "Select an option for 'Trades'",
       active: !radioOptions.tradeOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -707,7 +706,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "condition",
-      warningText: "Select an option for condition",
+      warningText: "Select an option for 'Condition'",
       active: !radioOptions.conditionOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
@@ -776,8 +775,8 @@ export const Sell = () => {
 
   const detailsPlaceholderText = `(Example) 
 - Planet Eclipse CS1
-- Comes with a .685 freak insert, parts kit, tools, barrel sock.
-- Small leak in solenoid area. Can still use about 4 pods in a point.`;
+- Comes with a .685 insert, parts kit, tools, barrel sock.
+- Small leak in solenoid area`;
 
   if (!whatIsThisItem) warnings.push("");
 
@@ -791,7 +790,7 @@ export const Sell = () => {
           autoComplete="off"
           // className="standard"
         >
-          <div className="form-block photos">
+          <div className={`form-block photos ${markedFieldKey == 'images' ? 'marked' : ''}`}>
             {/* <div className="header">
               <h2>Photos</h2>
             </div> */}
@@ -1064,12 +1063,12 @@ export const Sell = () => {
                   ref={categoryRef}
                 >
                   <label>Select the most accurate category for this item</label>
-                  {console.log(categories)}
+            
                   <button
                     onClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
                     }
-                    className="select-category-modal-toggle"
+                    className={`${categories.saved?.selected == null ? 'empty' : ''} select-category-modal-toggle`}
                     type="button"
                     title={`Click this to open a menu and select an item category to filter your results on`}
                   >

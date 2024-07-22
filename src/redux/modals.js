@@ -32,9 +32,11 @@ const modalsSlice = createSlice({
       };
     },
     closeAllModals: (state, { payload }) => {
+      
+      const { keepSidebarOpen = false } = payload
       return {
         ...initialState,
-        filtersSidebarToggled: false
+        filtersSidebarToggled: keepSidebarOpen 
       }
     }
   },

@@ -165,7 +165,7 @@ export const Navbar = () => {
           onClick={() => {
             dispatch(resetFilters());
             dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-            dispatch(closeAllModals())
+            dispatch(closeAllModals({ keepSidebarOpen: false }));
           }}
         >
           PBMRKT
@@ -215,6 +215,7 @@ export const Navbar = () => {
           className="sell-link"
           onClick={() => {
             if (!user) {
+              dispatch(closeAllModals({ keepSidebarOpen: true }));
               dispatch(toggleModal({ key: "loginModal", value: true }));
               return;
             }

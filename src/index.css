@@ -175,6 +175,14 @@ form.standard .form-block .custom-photo-upload.marked {
   border-radius: 5px;
 }
 
+form .form-block .form-group.marked,
+form .form-block .custom-photo-upload.marked {
+  padding: 5px;
+  border: 1px solid var(--red);
+  border-radius: 5px;
+}
+
+
 /* .modal.add-review form .form-group,
 .reset-password form .form-group,
 .update-password form .form-group,

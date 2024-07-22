@@ -90,7 +90,7 @@
 }
 
 .overview-option-list:not(.main).tier-1 li.has-children {
-  border-left: 1px solid #333;
+  border-left: 2px solid #333;
   margin-bottom: 10px;
   margin-left: 5px;
   padding-top: 0;

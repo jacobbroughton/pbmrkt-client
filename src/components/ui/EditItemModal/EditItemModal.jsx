@@ -321,8 +321,8 @@ export const EditItemModal = ({ item, setItem }) => {
   
     const detailsPlaceholderText = `(Example) 
   - Planet Eclipse CS1
-  - Comes with a .685 freak insert, parts kit, tools, barrel sock.
-  - Small leak in solenoid area. Can still use about 4 pods in a point.`;
+  - Comes with a .685 insert, parts kit, tools, barrel sock.
+  - Small leak in solenoid area.`;
 
   return (
     <>

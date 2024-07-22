@@ -180,7 +180,6 @@ export function MobileBottomNav() {
         to="/sell"
         className="sell-link"
         onClick={() => {
-          // dispatch(closeAllModals());
           if (rightSideMenuToggled)
             unauthenticatedOptionsMenuToggled,
               notificationsMenuToggled,

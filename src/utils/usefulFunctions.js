@@ -27,19 +27,21 @@ export function getTimeAgo(date) {
   const now = new Date();
   const seconds = Math.floor((now - date) / 1000);
   const intervals = {
-    year: 31536000,
-    month: 2592000,
-    week: 604800,
-    day: 86400,
-    hour: 3600,
-    minute: 60,
-    second: 1,
+    year: { suffix: "y", value: 31536000 },
+    month: { suffix: "mon", value: 2592000 },
+    week: { suffix: "w", value: 604800 },
+    day: { suffix: "d", value: 86400 },
+    hour: { suffix: "h", value: 3600 },
+    minute: { suffix: "m", value: 60 },
+    second: { suffix: "s", value: 1 },
   };
 
-  for (const [unit, value] of Object.entries(intervals)) {
-    const count = Math.floor(seconds / value);
+  for (const [unit, info] of Object.entries(intervals)) {
+    console.log(unit, info);
+    const count = Math.floor(seconds / info.value);
     if (count > 0) {
-      return `${count}${unit.charAt(0)} ago`;
+      // return `${count}${determinePrefix(unit.charAt(0))} ago`;
+      return `${count}${info.suffix} ago`;
     }
   }
 

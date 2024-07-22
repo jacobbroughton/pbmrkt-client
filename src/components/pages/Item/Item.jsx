@@ -533,7 +533,7 @@ export const Item = () => {
                         ${item.info.price}
                         {item.info.shipping_cost
                           ? ` + $${item.info.shipping_cost} shipping`
-                          : " + Free Shipping"}{" "}
+                          : " w/ Free Shipping"}{" "}
                       </p>
                       {/* {priceChangeHistory?.length >= 1 && (
                         <button

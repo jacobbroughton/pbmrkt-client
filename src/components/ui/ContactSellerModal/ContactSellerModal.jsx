@@ -9,14 +9,19 @@ import { supabase } from "../../../utils/supabase";
 const ContactSellerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState(
+    user ? user.first_name + " " + user.last_name : ""
+  );
+  const [email, setEmail] = useState(user ? user.email : '');
   const [offer, setOffer] = useState(0);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    setSubmitLoading(true);
     try {
       const { data, error } = await supabase.rpc("add_contact_inquiry", {
         p_full_name: fullName,
@@ -29,7 +34,6 @@ const ContactSellerModal = ({ contactInfo }) => {
 
       if (error) throw error.message;
 
-
       setFullName("");
       setEmail("");
       setOffer(0);
@@ -39,9 +43,11 @@ const ContactSellerModal = ({ contactInfo }) => {
       console.error(error);
       setError(error.toString());
     }
+
+    setSubmitLoading(false);
   }
 
-  const submitDisabled = !fullName || !isValidEmail(email) || !offer;
+  const submitDisabled = !fullName || !isValidEmail(email) || !offer || submitLoading;
 
   return (
     <>
@@ -53,7 +59,7 @@ const ContactSellerModal = ({ contactInfo }) => {
           {error && <p className="error-text small-text">{error.toString()}</p>}
           <form className="standard" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="full-name">Full Name</label>
+              <label htmlFor="full-name">Your Full Name</label>
               <input
                 placeholder="Full Name"
                 id="full-name"
@@ -62,7 +68,7 @@ const ContactSellerModal = ({ contactInfo }) => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">Your Email</label>
               <input
                 placeholder="Email"
                 id="email"
@@ -75,7 +81,7 @@ const ContactSellerModal = ({ contactInfo }) => {
               <label htmlFor="offer">Offer</label>
               <div className="input-container">
                 <input
-                  onChange={(e) => setOffer(parseInt(e.target.value))}
+                  onChange={(e) => setOffer(parseFloat(e.target.value))}
                   type="number"
                   step={0.01}
                   value={offer}
@@ -87,7 +93,7 @@ const ContactSellerModal = ({ contactInfo }) => {
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="message">Message</label>
+              <label htmlFor="message">Message to seller about this listing</label>
               <textarea
                 placeholder="Message"
                 id="message"
@@ -96,7 +102,7 @@ const ContactSellerModal = ({ contactInfo }) => {
               />
             </div>
             <button type="submit" disabled={submitDisabled}>
-              Submit
+              {submitLoading ? "Submitting..." : "Submit"}
             </button>
           </form>
         </div>

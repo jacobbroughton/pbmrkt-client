@@ -120,15 +120,12 @@
   gap: 15px;
 }
 
-.sell > form fieldset.prices {
-}
-
-.sell > form fieldset.prices .input-container {
+.sell > form .input-container {
   width: 100%;
   position: relative;
 }
 
-.sell > form fieldset.prices .input-container::before {
+.sell > form .input-container::before {
   content: "$";
   position: absolute;
   left: 10px;
@@ -145,7 +142,7 @@
   align-items: center;
 }
 
-.sell > form fieldset.prices .input-container input {
+.sell > form .input-container input {
   padding-left: 37px !important;
   position: relative;
 }
@@ -626,7 +623,6 @@
   font-size: 0.875rem;
   color: var(--red);
 }
-
 
 .sell > form button[type="submit"] {
   background-color: var(--lightgreen);

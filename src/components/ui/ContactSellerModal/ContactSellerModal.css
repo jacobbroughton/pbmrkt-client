@@ -9,10 +9,13 @@
 .modal.contact-seller .header {
   padding: 10px;
   border-bottom: 1px solid #555;
+  flex-direction: column ;
+  align-items: flex-start;
 }
 
 .modal.modal.contact-seller .content {
   padding: 10px;
+  justify-content: flex-start;
 }
 
 .modal.modal.contact-seller .input-container {

@@ -106,7 +106,7 @@ const initialRadioOptions = {
       value: "OBO/Negotiable",
       title: "OBO/Negotiable",
       description: "",
-      checked: false,
+      checked: true,
     },
   ],
 };
@@ -183,6 +183,7 @@ export const Sell = () => {
   const negotiableRef = useRef(null);
   const detailsRef = useRef(null);
   const priceRef = useRef(null);
+  const shippingCostRef = useRef(null)
 
   useEffect(() => {
     const getItemCategories = async () => {
@@ -280,35 +281,35 @@ export const Sell = () => {
         //   });
         // }
 
-        if (defaultShipping) {
-          localGeneratedFilters.shipping = true;
-          const correspondingShippingOption = radioOptions.shippingOptions.find(
-            (op) => op.value == defaultShipping
-          );
-          localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
-            (op) => {
-              return {
-                ...op,
-                checked: op.value == correspondingShippingOption.value,
-              };
-            }
-          );
-        }
+        // if (defaultShipping) {
+        //   localGeneratedFilters.shipping = true;
+        //   const correspondingShippingOption = radioOptions.shippingOptions.find(
+        //     (op) => op.value == defaultShipping
+        //   );
+        //   localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
+        //     (op) => {
+        //       return {
+        //         ...op,
+        //         checked: op.value == correspondingShippingOption.value,
+        //       };
+        //     }
+        //   );
+        // }
 
-        if (defaultNegotiable) {
-          localGeneratedFilters.negotiable = true;
-          const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
-            (op) => op.value == defaultNegotiable
-          );
-          localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
-            (op) => {
-              return {
-                ...op,
-                checked: op.value == correspondingNegotiableOption.value,
-              };
-            }
-          );
-        }
+        // if (defaultNegotiable) {
+        //   localGeneratedFilters.negotiable = true;
+        //   const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
+        //     (op) => op.value == defaultNegotiable
+        //   );
+        //   localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
+        //     (op) => {
+        //       return {
+        //         ...op,
+        //         checked: op.value == correspondingNegotiableOption.value,
+        //       };
+        //     }
+        //   );
+        // }
 
         setRadioOptions(localRadioOptions);
         setGeneratedFilters(localGeneratedFilters);
@@ -328,11 +329,19 @@ export const Sell = () => {
       markedFieldKey == "condition" ||
       details != "" ||
       whatIsThisItem != "" ||
-      price != ""
+      price != "" || (buyerPaysShipping && !shippingCost)
     ) {
       setMarkedFieldKey(null);
     }
-  }, [categories.saved.selected, radioOptions.conditionOptions, details, whatIsThisItem, price]);
+  }, [
+    categories.saved.selected,
+    radioOptions.conditionOptions,
+    details,
+    whatIsThisItem,
+    price,
+    buyerPaysShipping,
+    shippingCost,
+  ]);
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -736,6 +745,15 @@ export const Sell = () => {
       },
     },
     {
+      fieldKey: "shippingCost",
+      warningText: "Add the extra cost of shipping that the buyer will need to pay",
+      active: buyerPaysShipping && !shippingCost,
+      onClick: (e) => {
+        e.preventDefault();
+        shippingCostRef.current.scrollIntoView(smoothScrollOptions);
+      },
+    },
+    {
       fieldKey: "details",
       warningText: "Add some details about your item",
       active: !details,
@@ -1130,6 +1148,49 @@ export const Sell = () => {
             </div>
             <div className="form-content">
               <div
+                className={`form-group shipping ${
+                  markedFieldKey == "price" ? "marked" : ""
+                }`}
+                ref={priceRef}
+              >
+                <label>Price (Not including shipping cost)</label>
+                <div className="input-container">
+                  <input
+                    onChange={(e) => setPrice(e.target.value)}
+                    type="number"
+                    step={0.01}
+                    value={price}
+                    placeholder="11.50"
+                    className="dollars"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* </fieldset> */}
+              <div
+                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
+              >
+                <label>
+                  Is this price negotiable?{" "}
+                  {generatedFilters.negotiable && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+
+                <RadioOptions
+                  options={radioOptions.negotiableOptions}
+                  handleRadioOptionClick={(option) =>
+                    handleRadioSelect("negotiableOptions", option)
+                  }
+                />
+              </div>
+              <div
                 className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
                 ref={shippingRef}
               >
@@ -1153,39 +1214,39 @@ export const Sell = () => {
                 />
 
                 {/* <div className="option-buttons">
-                  {radioOptions.shippingOptions.map((option) => {
-                    return (
-                      <button
-                        className={`${option.checked ? "selected" : ""}`}
-                        onClick={() => handleRadioSelect("shippingOptions", option)}
-                      >
-                        <div className="radio-icon-container">
-                          <RadioIcon checked={option.checked} />
-                        </div>
-                        <div className="option-content">
-                          {option.value}
-                          {option.value == "Accepting Trades" && (
-                            <div className="accepting-trades-container">
-                              <label>What would you trade for? (Optional)</label>
-
-                              <input
-                                placeholder="..."
-                                value={acceptedTrades}
-                                onChange={(e) => setAcceptedTrades(e.target.value)}
-                              />
+                      {radioOptions.shippingOptions.map((option) => {
+                        return (
+                          <button
+                            className={`${option.checked ? "selected" : ""}`}
+                            onClick={() => handleRadioSelect("shippingOptions", option)}
+                          >
+                            <div className="radio-icon-container">
+                              <RadioIcon checked={option.checked} />
                             </div>
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div> */}
+                            <div className="option-content">
+                              {option.value}
+                              {option.value == "Accepting Trades" && (
+                                <div className="accepting-trades-container">
+                                  <label>What would you trade for? (Optional)</label>
+    
+                                  <input
+                                    placeholder="..."
+                                    value={acceptedTrades}
+                                    onChange={(e) => setAcceptedTrades(e.target.value)}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div> */}
                 {/* <RadioOptions
-                  options={radioOptions.shippingOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("shippingOptions", option)
-                  }
-                /> */}
+                      options={radioOptions.shippingOptions}
+                      handleRadioOptionClick={(option) =>
+                        handleRadioSelect("shippingOptions", option)
+                      }
+                    /> */}
               </div>
 
               {noShipping ? (
@@ -1236,83 +1297,39 @@ export const Sell = () => {
 
               {/* </fieldset> */}
 
-              <fieldset className="prices">
+              {/* <fieldset className="prices"> */}
+
+              {!noShipping && (
                 <div
-                  className={`form-group shipping ${
-                    markedFieldKey == "price" ? "marked" : ""
-                  }`}
-                  ref={priceRef}
+                ref={shippingCostRef}
+                  className={`form-group shipping-cost ${
+                    buyerPaysShipping ? "" : "disabled"
+                  } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}
+                  title={
+                    buyerPaysShipping
+                      ? "Adjust the cost of shipping for this item"
+                      : "Toggle 'buyer pays shipping' for this to be interactive"
+                  }
                 >
                   <label>
-                    How much are you selling this for?
-                    {noShipping ? "" : ", without shipping"}
+                    {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
                   </label>
                   <div className="input-container">
                     <input
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => {
+                        setShippingCost(e.target.value);
+                      }}
                       type="number"
                       step={0.01}
-                      value={price}
-                      placeholder="Price"
-                      className="dollars"
+                      value={shippingCost}
+                      placeholder="$0"
                       required
+                      className="dollars"
+                      disabled={!buyerPaysShipping}
                     />
                   </div>
                 </div>
-
-                {!noShipping && (
-                  <div
-                    className={`form-group shipping-cost ${
-                      buyerPaysShipping ? "" : "disabled"
-                    }`}
-                    title={
-                      buyerPaysShipping
-                        ? "Adjust the cost of shipping for this item"
-                        : "Toggle 'buyer pays shipping' for this to be interactive"
-                    }
-                  >
-                    <label>
-                      {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
-                    </label>
-                    <div className="input-container">
-                      <input
-                        onChange={(e) => {
-                          setShippingCost(e.target.value);
-                        }}
-                        type="number"
-                        step={0.01}
-                        value={shippingCost}
-                        placeholder="$0"
-                        required
-                        className="dollars"
-                        disabled={!buyerPaysShipping}
-                      />
-                    </div>
-                  </div>
-                )}
-              </fieldset>
-              <div
-                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
-              >
-                <label>
-                  Is this price negotiable?{" "}
-                  {generatedFilters.negotiable && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label>
-
-                <RadioOptions
-                  options={radioOptions.negotiableOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("negotiableOptions", option)
-                  }
-                />
-              </div>
+              )}
             </div>
           </div>
 
@@ -1400,7 +1417,7 @@ export const Sell = () => {
                 (${parseFloat(price).toLocaleString("en-US") || 0}
                 {buyerPaysShipping && shippingCost
                   ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
-                  : " + Free Shipping"})
+                  : " w/ Free Shipping"})
               </p>
             </div> */}
 

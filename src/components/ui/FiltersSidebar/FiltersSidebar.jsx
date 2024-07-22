@@ -43,6 +43,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   }, [windowSize.width]);
 
   function handlePriceFilterSelect(selectedOption) {
+    console.log(filters.draft, selectedOption)
     const newDraft = {
       ...filters.draft,
       minPrice: selectedOption.minValue,

@@ -502,6 +502,7 @@ export const Item = () => {
               )}
             </div>
             <div className="info">
+             <p>{item.info.id}</p>
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
                   {isAdmin ? (

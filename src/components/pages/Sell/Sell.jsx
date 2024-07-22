@@ -79,22 +79,22 @@ const initialRadioOptions = {
       value: "Willing to Ship",
       title: "Yes, I will ship this item if needed",
       description: "",
-      checked: false,
+      checked: true,
     },
     {
       id: 1,
       value: "Local Only",
-      title: "No, local only",
+      title: "No, local meetups only",
       description: "",
       checked: false,
     },
   ],
   tradeOptions: [
-    { id: 0, value: "No Trades", title: "No Trades", description: "", checked: true },
+    { id: 0, value: "No Trades", title: "No, for sale only", description: "", checked: true },
     {
       id: 1,
       value: "Accepting Trades",
-      title: "Accepting Trades",
+      title: "Yes, i would consider trade offers",
       description: "",
       checked: false,
     },
@@ -168,6 +168,18 @@ export const Sell = () => {
   const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
   const [cantFindCity, setCantFindCity] = useState(false);
   const [acceptedTrades, setAcceptedTrades] = useState("");
+
+  const submitDisabled =
+    submitLoading ||
+    !isValidPhoneNumber(contactPhoneNumber) ||
+    !categories.saved?.selected ||
+    photos.length == 0 ||
+    !state ||
+    !city ||
+    !radioOptions.conditionOptions.find((option) => option.checked) ||
+    !radioOptions.shippingOptions.find((option) => option.checked) ||
+    !radioOptions.tradeOptions.find((option) => option.checked) ||
+    !radioOptions.negotiableOptions.find((option) => option.checked);
 
   // * Form group refs
   const imagesRef = useRef(null);
@@ -764,17 +776,7 @@ export const Sell = () => {
     },
   ];
 
-  const submitDisabled =
-    submitLoading ||
-    !isValidPhoneNumber(contactPhoneNumber) ||
-    !categories.saved?.selected ||
-    photos.length == 0 ||
-    !state ||
-    !city ||
-    !radioOptions.conditionOptions.find((option) => option.checked) ||
-    !radioOptions.shippingOptions.find((option) => option.checked) ||
-    !radioOptions.tradeOptions.find((option) => option.checked) ||
-    !radioOptions.negotiableOptions.find((option) => option.checked);
+  
 
   const imagesStillUploading = imagesUploading && !numPhotosUploaded;
   const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;

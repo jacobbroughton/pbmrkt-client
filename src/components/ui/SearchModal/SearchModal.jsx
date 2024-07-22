@@ -55,7 +55,6 @@ export const SearchModal = () => {
     if (e) e.preventDefault();
 
     try {
-      console.log({ searchValue });
       if (searchValue.draft == "") throw "Cannot search without a query";
 
       if (location.pathname !== "/") navigate("/");
@@ -68,8 +67,6 @@ export const SearchModal = () => {
         });
 
         if (error) throw error.message;
-
-        console.log(data);
       } else {
         alert("No user, no search history"); // TODO - fix and delete
       }
@@ -117,7 +114,7 @@ export const SearchModal = () => {
       });
       setSearchIsInitial(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.toString());
     }
 
@@ -200,7 +197,6 @@ export const SearchModal = () => {
           {searchValue.saved == "" && searchHistory?.length >= 1 ? (
             <div className="recent-searches">
               <p className="label">Recent Searches</p>
-              {console.log(searchHistory)}
               <ul className="search-list">
                 {searchHistory.length >= 1 ? (
                   searchHistory?.map((searchHistoryItem, i) => (
@@ -254,7 +250,6 @@ export const SearchModal = () => {
                         <div className="image-container">
                           <img src={listing.image_url} />
                         </div>
-                        {console.log(listing)}
                         <div className="listing-info">
                           <p className="what-is-this">{listing.what_is_this}</p>
 

@@ -150,7 +150,6 @@ export const RegisterModal = () => {
       });
       if (error) throw error.message;
 
-      console.log("resend email", data);
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());

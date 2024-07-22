@@ -17,7 +17,7 @@ const ListingList = ({ listings }) => {
         }
 
         return (
-          <li>
+          <li key={listing.id}>
             <div className="image-wrapper">
               <Link className="image-container" to={`/listing/${listing.id}`}>
                 <img src={imageUrl} />

@@ -32,7 +32,6 @@ export const Login = () => {
         throw error.message;
       }
 
-      console.log("Signed in", data);
 
       // TODO - Check for user in tbl_user, decline with support message
       const { data: data2, error: error2 } = await supabase.rpc(

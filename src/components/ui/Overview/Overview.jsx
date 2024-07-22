@@ -81,7 +81,7 @@ const Overview = ({ setLoading }) => {
 
       setViewAllCount(data2[0].num_results);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.toString());
     }
 
@@ -91,7 +91,6 @@ const Overview = ({ setLoading }) => {
   }
 
   useEffect(() => {
-    console.log("initial render");
     getCategories();
   }, []);
 
@@ -117,7 +116,7 @@ const Overview = ({ setLoading }) => {
           <ul className="overview-option-list main tier-0">
             {nestedCategories?.map((category) => {
               return (
-                <li>
+                <li key={category.id}>
                   <p className="label">{category.plural_name}</p>
                   <OverviewOptionList
                     options={category.children}
@@ -156,7 +155,7 @@ const OverviewOptionList = ({ options, level, loading }) => {
       dispatch(setFiltersUpdated(true));
       dispatch(setView("Grid"));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

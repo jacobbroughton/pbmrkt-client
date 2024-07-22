@@ -66,7 +66,6 @@ const filtersSlice = createSlice({
     resetFilter: (state, { payload }) => {
       const filterKey = payload;
 
-      console.log(filterKey);
 
       if (filterKey == "category") {
         return {
@@ -125,7 +124,6 @@ const filtersSlice = createSlice({
     uncheckFilter: (state, { payload }) => {
       const filterKey = payload;
 
-      console.log(filterKey);
 
       // if (filterKey == "category") {
       //   return {

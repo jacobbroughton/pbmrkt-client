@@ -41,7 +41,6 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
       if (!data) throw "Something happened when trying to read the notification";
 
-      console.log(data[0]);
 
       setNotifications(
         notifications.map((notif) => ({
@@ -92,7 +91,6 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
       <ul>
         {notifications?.length != 0 ? (
           notifications?.map((notification) => {
-            console.log(notification);
             const { data, error } = supabase.storage
               .from("profile_pictures")
               .getPublicUrl(

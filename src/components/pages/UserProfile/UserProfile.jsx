@@ -60,7 +60,6 @@ export const UserProfile = () => {
         throw error.message;
       }
 
-      console.log(data[0]);
 
       const { data: data3, error: error3 } = supabase.storage
         .from("profile_pictures")
@@ -139,7 +138,6 @@ export const UserProfile = () => {
 
     if (!data2) throw "No listings available";
 
-    console.log(data2);
 
     data2 = data2.map((item) => {
       const { data, error } = supabase.storage
@@ -175,7 +173,6 @@ export const UserProfile = () => {
         throw error.message;
       }
 
-      console.log(data);
 
       if (!data.path) throw "New profile picture path not found";
 

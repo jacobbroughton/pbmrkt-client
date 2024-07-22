@@ -33,9 +33,7 @@ const FeedbackModal = () => {
 
       setFeedbackBody("");
 
-      console.log("add_feedback", data);
     } catch (error) {
-      console.log(error);
       setError(error.toString());
     }
 

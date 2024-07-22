@@ -27,7 +27,7 @@ import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { ImagesIcons } from "../../ui/Icons/ImagesIcons.jsx";
 import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
 import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
-import {FieldErrorButtons} from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
+import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { smoothScrollOptions } from "../../../utils/constants.js";
 
 const brandArr = [
@@ -121,14 +121,16 @@ export const Sell = () => {
   );
   const imageInputRef = useRef(null);
   const [imagesUploading, setImagesUploading] = useState(false);
-  const [brand, setBrand] = useState(''); // TODO -- delete this and references to it in backend
-  const [model, setModel] = useState(''); // TODO -- delete this and references to it in backend
+  const [brand, setBrand] = useState(""); // TODO -- delete this and references to it in backend
+  const [model, setModel] = useState(""); // TODO -- delete this and references to it in backend
   const [price, setPrice] = useState(null);
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
   const [contactPhoneNumber, setContactPhoneNumber] = useState("");
-  const [sellerName, setSellerName] = useState("");
+  const [sellerName, setSellerName] = useState(
+    user ? user.first_name + " " + user.last_name : ""
+  );
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -136,7 +138,7 @@ export const Sell = () => {
   const [listedItemID, setListedItemID] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [whatIsThisItem, setWhatIsThisItem] = useState('');
+  const [whatIsThisItem, setWhatIsThisItem] = useState("");
   const [radioOptions, setRadioOptions] = useState(initialRadioOptions);
   const [draggingPhotos, setDraggingPhotos] = useState(false);
   const [numPhotosUploaded, setNumPhotosUploaded] = useState(0);
@@ -324,11 +326,13 @@ export const Sell = () => {
     if (
       markedFieldKey == "category" ||
       markedFieldKey == "condition" ||
-      (markedFieldKey == "details" && details != "")
+      details != "" ||
+      whatIsThisItem != "" ||
+      price != ""
     ) {
       setMarkedFieldKey(null);
     }
-  }, [categories.saved.selected, radioOptions.conditionOptions, details]);
+  }, [categories.saved.selected, radioOptions.conditionOptions, details, whatIsThisItem, price]);
 
   function handleDragEnter(e) {
     e.preventDefault();
@@ -724,7 +728,7 @@ export const Sell = () => {
     },
     {
       fieldKey: "price",
-      warningText: "Select an option for condition",
+      warningText: "Add a price for your item",
       active: !price,
       onClick: (e) => {
         e.preventDefault();
@@ -790,7 +794,9 @@ export const Sell = () => {
           autoComplete="off"
           // className="standard"
         >
-          <div className={`form-block photos ${markedFieldKey == 'images' ? 'marked' : ''}`}>
+          <div
+            className={`form-block photos ${markedFieldKey == "images" ? "marked" : ""}`}
+          >
             {/* <div className="header">
               <h2>Photos</h2>
             </div> */}
@@ -832,7 +838,8 @@ export const Sell = () => {
                 <div className="image-input-and-prompt">
                   {(imagesStillUploading || imageSkeletonsShowing) && (
                     <p className="small-text">
-                      {numPhotosUploaded}/{totalPhotos} Uploaded
+                      {numPhotosUploaded}/{totalPhotos} Image{totalPhotos > 1 ? "s" : ""}{" "}
+                      Uploaded
                     </p>
                   )}
                   {imagesStillUploading ? (
@@ -1063,12 +1070,14 @@ export const Sell = () => {
                   ref={categoryRef}
                 >
                   <label>Select the most accurate category for this item</label>
-            
+
                   <button
                     onClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
                     }
-                    className={`${categories.saved?.selected == null ? 'empty' : ''} select-category-modal-toggle`}
+                    className={`${
+                      categories.saved?.selected == null ? "empty" : ""
+                    } select-category-modal-toggle`}
                     type="button"
                     title={`Click this to open a menu and select an item category to filter your results on`}
                   >
@@ -1145,7 +1154,6 @@ export const Sell = () => {
 
                 {/* <div className="option-buttons">
                   {radioOptions.shippingOptions.map((option) => {
-                    console.log(option);
                     return (
                       <button
                         className={`${option.checked ? "selected" : ""}`}
@@ -1330,7 +1338,6 @@ export const Sell = () => {
                 </label> */}
                 {/* <div className="option-buttons">
                   {radioOptions.tradeOptions.map((option) => {
-                    console.log(option);
                     return (
                       <button
                         className={`${option.checked ? "selected" : ""}`}
@@ -1429,7 +1436,6 @@ export const Sell = () => {
               categories={categories.draft.all}
               setCategories={setCategories}
               handleCategoryClick={(category) => {
-                console.log(category);
                 // setSelectedCategory(category);
                 if (category.is_folder) {
                   setCategories({
@@ -1455,7 +1461,6 @@ export const Sell = () => {
                 // TODO - reset draft categories
               }}
               handleApply={() => {
-                console.log(categories);
                 setCategories({
                   ...categories,
                   saved: {

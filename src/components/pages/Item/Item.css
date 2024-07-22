@@ -263,6 +263,7 @@
   font-size: 0.875rem;
   position: relative;
   /* line-height: 1rem; */
+  white-space: pre-wrap;
 }
 
 .item .details label {

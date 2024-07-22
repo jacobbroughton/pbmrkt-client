@@ -101,7 +101,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
 
   function handleFiltersApply(e) {
     e.preventDefault();
-    console.log("wassup wassup youtube");
 
     dispatch(setFilters({ ...filters, saved: filters.draft }));
     dispatch(setFiltersUpdated(true));
@@ -110,7 +109,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   }
 
   // function handleMousePosition(e) {
-  //   console.log("mousemove", e);
   //   if (isDragging)
   //     setSidebarTogglePositionY(
   //       Math.round(((e.pageY - 30) / e.view.innerHeight) * 98 + 1)
@@ -459,7 +457,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
             draggable={true}
             className="sidebar-toggle-button"
             onClick={() => {
-              console.log("toggled");
               dispatch(toggleModal({ key: "filtersSidebar", value: false }));
             }}
             style={{

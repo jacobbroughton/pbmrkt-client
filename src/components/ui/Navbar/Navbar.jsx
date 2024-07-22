@@ -65,7 +65,6 @@ export const Navbar = () => {
       if (error) throw error.message;
 
       let localNotifications = data.map((notif) => {
-        console.log(notif.profile_picture_path);
         const { data: data2, error: error2 } = supabase.storage
           .from("profile_pictures")
           .getPublicUrl(notif.profile_picture_path || "placeholders/user-placeholder");
@@ -100,7 +99,7 @@ export const Navbar = () => {
         )
         .subscribe((status, err) => {
           if (status === "SUBSCRIBED") {
-            console.log("Connected!");
+            console.log("Subscribed to comment notifications!");
           }
 
           if (status === "CHANNEL_ERROR") {
@@ -125,14 +124,14 @@ export const Navbar = () => {
   useEffect(() => {
     if (user) handleNotificationsSubscribe();
 
-    function handleKeyDownEvent(e) {
-      if (e.code == "Slash" && !searchModalToggled)
-        dispatch(toggleModal({ key: "searchModal", value: true }));
-    }
+    // function handleKeyDownEvent(e) {
+    //   if (e.code == "Slash" && !searchModalToggled)
+    //     dispatch(toggleModal({ key: "searchModal", value: true }));
+    // }
 
-    document.addEventListener("keydown", handleKeyDownEvent);
+    // document.addEventListener("keydown", handleKeyDownEvent);
 
-    return () => document.removeEventListener("keydown", handleKeyDownEvent);
+    // return () => document.removeEventListener("keydown", handleKeyDownEvent);
   }, [user]);
 
   const unreadNotificationCount = notifications?.filter(
@@ -214,8 +213,8 @@ export const Navbar = () => {
         <button
           className="sell-link"
           onClick={() => {
+            dispatch(closeAllModals({ keepSidebarOpen: true }));
             if (!user) {
-              dispatch(closeAllModals({ keepSidebarOpen: true }));
               dispatch(toggleModal({ key: "loginModal", value: true }));
               return;
             }

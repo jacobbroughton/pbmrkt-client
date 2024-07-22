@@ -11,7 +11,6 @@ export const UnauthenticatedOptionsMenu = () => {
 
   useEffect(() => {
     function handler(e) {
-      console.log(e.target.contains(menuRef.current));
       if (menuRef.current && !menuRef.current.contains(e.target))
         dispatch(toggleModal({ key: "unauthenticatedOptionsMenu", value: false }));
     }

@@ -77,7 +77,6 @@ export const Comment = ({
 
       if (error2) throw error2.message;
 
-      console.log("added comment notification", data2);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
@@ -103,7 +102,6 @@ export const Comment = ({
 
       if (error) throw error.message;
 
-      console.log(data);
       if (!existingVote) {
       setVotes((prevVotes) => (prevVotes -= 1));
       } else if (existingVote == "Up") {
@@ -128,7 +126,6 @@ export const Comment = ({
 
       if (error2) throw error2.message;
 
-      console.log("added comment notification", data2);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);

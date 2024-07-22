@@ -16,7 +16,6 @@ export const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
 
   useEffect(() => {
     function handler(e) {
-      console.log(e.target);
       if (
         modalRef.current &&
         !modalRef.current.contains(e.target) &&
@@ -33,7 +32,6 @@ export const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
       window.removeEventListener("click", handler);
     };
   });
-  console.log(reviews);
 
   return (
     <div ref={modalRef} className="modal seller-reviews" style={{ zIndex }}>

@@ -156,7 +156,6 @@ export function Listings() {
         throw error2.message;
       }
 
-      console.log(data2);
 
       setTotalListings(data2[0].num_results);
 
@@ -209,7 +208,6 @@ export function Listings() {
   }, [sort]);
 
   useEffect(() => {
-    console.log("filtersUpdated", filters.filtersUpdated);
     if (view == "Overview" && filters.filtersUpdated) getItemCategories();
     if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
@@ -453,6 +451,7 @@ export function Listings() {
                     dispatch(setView(viewOption));
                   }}
                   className={`view-option ${viewOption == view ? "selected" : ""}`}
+                  key={viewOption}
                 >
                   {viewOption}
                 </button>

@@ -85,7 +85,6 @@ export function App() {
     }
   }
 
-  // console.log('gang')
 
   // useEffect(() => {
   //   setSessionLoading(true);
@@ -120,7 +119,6 @@ export function App() {
   // }, []);
 
   const onAuthStateChange = (callback) => {
-    console.log(callback);
     let currentSession;
     return supabase.auth.onAuthStateChange((event, _session) => {
       if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
@@ -147,7 +145,6 @@ export function App() {
           dispatch(setUser(null));
         }
 
-        console.log(event);
         return () => {
           subscription.unsubscribe();
         };

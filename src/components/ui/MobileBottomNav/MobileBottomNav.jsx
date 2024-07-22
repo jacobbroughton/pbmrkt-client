@@ -69,7 +69,6 @@ export function MobileBottomNav() {
       if (error) throw error.message;
 
       let localNotifications = data.map((notif) => {
-        console.log(notif.profile_picture_path);
         const { data: data2, error: error2 } = supabase.storage
           .from("profile_pictures")
           .getPublicUrl(notif.profile_picture_path || "placeholders/user-placeholder");
@@ -95,7 +94,6 @@ export function MobileBottomNav() {
             filter: `related_user_id=eq.${user.auth_id}`,
           },
           (payload) => {
-            console.log("Change received!", payload);
             if (payload.new.related_user_id != user.auth_id) {
               localNotifications.unshift(payload.new);
               setNotifications(localNotifications);
@@ -104,19 +102,15 @@ export function MobileBottomNav() {
         )
         .subscribe((status, err) => {
           if (status === "SUBSCRIBED") {
-            console.log("Connected!");
           }
 
           if (status === "CHANNEL_ERROR") {
-            console.log(`There was an error subscribing to channel: ${err.message}`);
           }
 
           if (status === "TIMED_OUT") {
-            console.log("Realtime server did not respond in time.");
           }
 
           if (status === "CLOSED") {
-            console.log("Realtime channel was unexpectedly closed.");
           }
         });
     } catch (error) {

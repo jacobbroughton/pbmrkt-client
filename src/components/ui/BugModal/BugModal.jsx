@@ -31,11 +31,10 @@ const BugModal = () => {
 
       if (error) throw error.message;
 
-      console.log("add_bug", data);
 
       setBugBody("");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.toString());
     }
 

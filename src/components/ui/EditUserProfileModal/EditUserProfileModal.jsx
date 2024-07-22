@@ -62,14 +62,12 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       // p_city character varying,
       // p_bio character varying
       if (error) throw error.message;
-      console.log("edit_user_profile", data);
 
       const newUser = {
         ...data[0],
         profile_picture_url: localUser.profile_picture_url,
       };
 
-      console.log(newUser);
       setLocalUser(newUser);
       dispatch(setUser(newUser));
       dispatch(toggleModal({ key: "editUserProfileModal", value: false }));
@@ -97,7 +95,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         throw error.message;
       }
 
-      console.log(data);
 
       if (!data.path) throw "New profile picture path not found";
 
@@ -124,7 +121,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       //   })
       // );
 
-      console.log(data3);
 
       const { data: data4, error: error4 } = supabase.storage
         .from("profile_pictures")

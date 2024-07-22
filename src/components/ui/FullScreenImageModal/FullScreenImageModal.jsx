@@ -24,10 +24,8 @@ export const FullScreenImageModal = ({ photos, selectedPhoto }) => {
       : null
   );
 
-  console.log(selectedPhotoLocal);
 
   useEffect(() => {
-    console.log("asdf");
   }, [selectedPhotoLocal]);
 
   function handlePreviousPhoto() {

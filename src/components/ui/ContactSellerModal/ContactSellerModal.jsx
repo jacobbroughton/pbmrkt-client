@@ -29,7 +29,6 @@ const ContactSellerModal = ({ contactInfo }) => {
 
       if (error) throw error.message;
 
-      console.log("add_contact_inquiry", data);
 
       setFullName("");
       setEmail("");

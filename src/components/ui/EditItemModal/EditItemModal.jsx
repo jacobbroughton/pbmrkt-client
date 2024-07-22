@@ -103,20 +103,20 @@ export const EditItemModal = ({ item, setItem }) => {
   const [cantFindCity, setCantFindCity] = useState(false);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
 
-    // * Form group refs
-    const imagesRef = useRef(null);
-    const fullNameRef = useRef(null);
-    const contactPhoneNumberRef = useRef(null);
-    const stateRef = useRef(null);
-    const cityRef = useRef(null);
-    const whatIsThisRef = useRef(null);
-    const categoryRef = useRef(null);
-    const shippingRef = useRef(null);
-    const tradesRef = useRef(null);
-    const conditionRef = useRef(null);
-    const negotiableRef = useRef(null);
-    const detailsRef = useRef(null);
-    const priceRef = useRef(null);
+  // * Form group refs
+  const imagesRef = useRef(null);
+  const fullNameRef = useRef(null);
+  const contactPhoneNumberRef = useRef(null);
+  const stateRef = useRef(null);
+  const cityRef = useRef(null);
+  const whatIsThisRef = useRef(null);
+  const categoryRef = useRef(null);
+  const shippingRef = useRef(null);
+  const tradesRef = useRef(null);
+  const conditionRef = useRef(null);
+  const negotiableRef = useRef(null);
+  const detailsRef = useRef(null);
+  const priceRef = useRef(null);
 
   useEffect(() => {
     getItemCategories();
@@ -148,8 +148,6 @@ export const EditItemModal = ({ item, setItem }) => {
 
       if (error) throw error.message;
 
-      console.log(data);
-
       if (item.info.price != price) {
         // TODO - Add price change here
         const { data, error } = await supabase.rpc("add_price_change", {
@@ -162,8 +160,6 @@ export const EditItemModal = ({ item, setItem }) => {
         });
 
         if (error) throw error.message;
-
-        console.log(data);
       }
 
       const { data: data2, error: error3 } = supabase.storage
@@ -171,8 +167,6 @@ export const EditItemModal = ({ item, setItem }) => {
         .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
       if (error3) throw error.message;
-
-      console.log(data[0]);
 
       setItem({
         info: { ...data[0], profile_picture_url: data2?.publicUrl },
@@ -231,7 +225,6 @@ export const EditItemModal = ({ item, setItem }) => {
 
     //     if (error) throw error.message;
 
-    //     console.log(data);
     //   }
 
     //   const { data: data2, error: error3 } = supabase.storage
@@ -244,8 +237,6 @@ export const EditItemModal = ({ item, setItem }) => {
     //   photos: data,
     //   info: { ...data[0], profile_picture_url: data2?.publicUrl },
     // });
-
-    //   console.log(data[0]);
 
     // setItem({
     //   info: { ...data[0], profile_picture_url: data2?.publicUrl },
@@ -264,8 +255,6 @@ export const EditItemModal = ({ item, setItem }) => {
       const { data, error } = await supabase.rpc("get_item_categories");
 
       if (error) throw error.message;
-
-      console.log("categories", data);
 
       const { nestedCategories, preSelectedCategory } = nestItemCategoriesExperimental(
         data,
@@ -293,7 +282,6 @@ export const EditItemModal = ({ item, setItem }) => {
   }
 
   function handleRadioSelect(optionTypeKey, selectedOption) {
-    console.log(radioOptions);
     setRadioOptions({
       ...radioOptions,
       [optionTypeKey]: radioOptions[optionTypeKey].map((option) => ({
@@ -304,7 +292,6 @@ export const EditItemModal = ({ item, setItem }) => {
   }
 
   const submitDisabled =
-  
     item.info.brand == brand &&
     item.info.model == model &&
     item.info.price == price &&
@@ -316,10 +303,10 @@ export const EditItemModal = ({ item, setItem }) => {
     item.info.negotiable == negotiable &&
     item.info.what_is_this == whatIsThisItem;
 
-    const noShipping =
+  const noShipping =
     radioOptions.shippingOptions.find((option) => option.checked)?.value == "Local Only";
-  
-    const detailsPlaceholderText = `(Example) 
+
+  const detailsPlaceholderText = `(Example) 
   - Planet Eclipse CS1
   - Comes with a .685 insert, parts kit, tools, barrel sock.
   - Small leak in solenoid area.`;
@@ -366,7 +353,6 @@ export const EditItemModal = ({ item, setItem }) => {
                   ref={categoryRef}
                 >
                   <label>Select the most accurate category for this item</label>
-                  {console.log(categories)}
                   <button
                     onClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
@@ -609,7 +595,6 @@ export const EditItemModal = ({ item, setItem }) => {
           </button>
         </div>
       </div>
-      {console.log(categories)}
       {categorySelectorModalToggled && (
         <>
           <CategorySelectorModal
@@ -651,7 +636,6 @@ export const EditItemModal = ({ item, setItem }) => {
               categories.draft?.selected?.id == categories.saved?.selected?.id
             }
             handleExpandAll={() => {
-              console.log(categories);
               setCategories({
                 ...categories,
                 draft: {
@@ -661,7 +645,6 @@ export const EditItemModal = ({ item, setItem }) => {
               });
             }}
             handleCollapseAll={() => {
-              console.log(categories);
               setCategories({
                 ...categories,
                 draft: {

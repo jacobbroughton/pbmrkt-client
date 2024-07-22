@@ -37,7 +37,6 @@ export function getTimeAgo(date) {
   };
 
   for (const [unit, info] of Object.entries(intervals)) {
-    console.log(unit, info);
     const count = Math.floor(seconds / info.value);
     if (count > 0) {
       // return `${count}${determinePrefix(unit.charAt(0))} ago`;

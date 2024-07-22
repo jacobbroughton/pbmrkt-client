@@ -40,8 +40,6 @@ export const MapboxLocationSearch = () => {
 
           const data = await response.json();
 
-          console.log(data);
-
           const postcodeData = data.features[0];
           const placeData = data.features[1];
 
@@ -63,8 +61,6 @@ export const MapboxLocationSearch = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
-
       if (map.current) return; // initialize map only once
 
       map.current = new mapboxgl.Map({
@@ -79,8 +75,6 @@ export const MapboxLocationSearch = () => {
         map.current.resize();
 
         map.current.on("move", async (e) => {
-          console.log(e);
-
           if (coordsAreInitial) setCoordsAreInitial(false);
 
           const newLng = map.current.getCenter().lng.toFixed(4);
@@ -113,8 +107,6 @@ export const MapboxLocationSearch = () => {
           // );
 
           // const data = await response.json();
-
-          // console.log(data);
 
           // const postcodeData = data.features[0];
           // const placeData = data.features[1];
@@ -167,9 +159,7 @@ export const MapboxLocationSearch = () => {
         });
 
         // map.current.on("click", async (e) => {
-        //   console.log(e);
 
-        //   console.log(e)
         //   try {
         //     const response = await fetch(
         //       `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${
@@ -181,7 +171,6 @@ export const MapboxLocationSearch = () => {
 
         //     const data = await response.json();
 
-        //     console.log(data);
         //   } catch (error) {
         //     console.error(error);
         //   }
@@ -200,7 +189,6 @@ export const MapboxLocationSearch = () => {
   async function handleSearchInputChange(val) {
     try {
       if (val == "") {
-        console.log();
         setSuggestions([]);
         return;
       }
@@ -212,7 +200,6 @@ export const MapboxLocationSearch = () => {
 
       const data = await response.json();
 
-      console.log(data);
       setSuggestions(data.suggestions || []);
     } catch (error) {
       console.error(error);
@@ -249,7 +236,7 @@ export const MapboxLocationSearch = () => {
       <div className="location-selector">
         {mapLoading ? (
           <div className="skeleton blinking map-loading">
-            <p className='skeleton blinking selected-location'></p>
+            <p className="skeleton blinking selected-location"></p>
           </div>
         ) : (
           <p className="small-text selected-location">

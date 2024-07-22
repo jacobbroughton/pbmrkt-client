@@ -26,14 +26,9 @@ export const CommentsList = ({
     setLocalComments(passedComments);
   }, [passedComments]);
 
-  useEffect(() => {
-    console.log(localComments)
-  }, [localComments])
-
   async function handleReplySubmit(e, repliedComment) {
     e.preventDefault();
 
-    console.log(repliedComment);
     try {
       const { data, error } = await supabase.rpc("add_comment", {
         p_body: newReplyBody,
@@ -53,8 +48,6 @@ export const CommentsList = ({
         profile_picture_url: data3.publicUrl,
       };
 
-      console.log(data[0]);
-
       if (error3) throw error.message;
 
       if (repliedComment.created_by_id != user.auth_id) {
@@ -72,8 +65,6 @@ export const CommentsList = ({
         );
 
         if (error2) throw error2.message;
-
-        console.log("added comment notification", data2);
       }
 
       setCommentWithReplyWindowID(null);
@@ -99,7 +90,6 @@ export const CommentsList = ({
   async function handleRepliesClick(e, commentWithReplies) {
     e.preventDefault();
     try {
-      console.log(commentWithReplies);
       if (!commentWithReplies.repliesToggled) {
         setRepliesLoading(true);
         const { data, error } = await supabase.rpc("get_child_comments", {
@@ -108,7 +98,6 @@ export const CommentsList = ({
         });
 
         const replies = data.map((comment) => {
-          console.log(comment.profile_picture_path);
           const { data: data2, error: error2 } = supabase.storage
             .from("profile_pictures")
             .getPublicUrl(
@@ -158,8 +147,6 @@ export const CommentsList = ({
     } catch (error) {
       setError(error.toString());
     }
-
-    console.log("child");
 
     setRepliesLoading(false);
   }

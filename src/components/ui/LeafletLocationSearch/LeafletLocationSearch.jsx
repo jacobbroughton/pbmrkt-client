@@ -16,10 +16,8 @@ export const LeafletLocationSearch = () => {
   useEffect(() => {
     const map = L.map(mapContainer.current, { attributionControl: false });
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
 
       map.setView([position.coords.latitude, position.coords.longitude], 13);
-      console.log(map.get);
 
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 7,
@@ -64,7 +62,6 @@ export const LeafletLocationSearch = () => {
       map.addEventListener("zoom", addCircleAndRadius);
 
       const centerCoords = map.getCenter();
-      console.log(centerCoords);
 
       function addCircleAndRadius() {
         const centerCoords = map.getCenter();
@@ -78,7 +75,6 @@ export const LeafletLocationSearch = () => {
           fillOpacity: 0.2,
           radius: radiusInMiles / 10,
         }).addTo(markersLayerGroup);
-        console.log(smallCircle);
 
         const bigCircle = L.circleMarker([centerCoords.lat, centerCoords.lng], {
           color: "red",
@@ -86,7 +82,6 @@ export const LeafletLocationSearch = () => {
           fillOpacity: 0.2,
           radius: radiusInMiles,
         }).addTo(circlesLayerGroup);
-        console.log({ smallCircle, bigCircle });
 
         setLocation({
           coords: { lng: centerCoords.lng, lat: centerCoords.lat },

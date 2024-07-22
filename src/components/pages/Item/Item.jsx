@@ -157,8 +157,6 @@ export const Item = () => {
         p_parent_id: null,
       });
 
-      console.log(data);
-
       if (error) throw error.message;
       if (user.auth_id != item.info.created_by_id) {
         const { error: error2 } = await supabase.rpc("add_comment_notification", {
@@ -172,8 +170,6 @@ export const Item = () => {
         });
 
         if (error2) throw error2.message;
-
-        console.log("added comment notification");
       }
       getComments();
       setNewCommentBody("");
@@ -190,8 +186,6 @@ export const Item = () => {
       });
 
       if (error) throw error.message;
-
-      console.log(data);
 
       setPriceChangeHistory(data);
     } catch (error) {
@@ -278,7 +272,6 @@ export const Item = () => {
   }
 
   async function handleRepliesClick(e, commentWithReplies) {
-    console.log("root");
     e.preventDefault();
     if (!commentWithReplies.repliesToggled) {
       setCommentIdWithRepliesOpening(commentWithReplies.id);
@@ -348,8 +341,6 @@ export const Item = () => {
 
       if (error) throw error.message;
 
-      console.log("downvote", data);
-
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes -= 1));
       } else if (existingVote == "Up") {
@@ -374,8 +365,6 @@ export const Item = () => {
       });
 
       if (error) throw error.message;
-
-      console.log("upvote", data);
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes += 1));
@@ -533,7 +522,9 @@ export const Item = () => {
                         <Arrow direction="down" />
                       </button>
                     </div>
-                  ) : false}
+                  ) : (
+                    false
+                  )}
                   <div className="primary-info">
                     {editItemMenuToggled && <div></div>}
                     <h1>{item.info.what_is_this}</h1>

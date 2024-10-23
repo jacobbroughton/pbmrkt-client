@@ -14,34 +14,31 @@ import { BellIcon } from "../Icons/BellIcon";
 import { supabase } from "../../../utils/supabase";
 import React, { useEffect, useState } from "react";
 import { Caret } from "../Icons/Caret";
-import { SearchModal } from "../SearchModal/SearchModal";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { SearchIcon } from "../Icons/SearchIcon";
 import { DesktopSearchToggle } from "../DesktopSearchToggle/DesktopSearchToggle";
 import "./Navbar.css";
 import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
+import { AddNewMenu } from "../AddNewMenu/AddNewMenu";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
   const {
-    searchModalToggled,
     filtersSidebarToggled,
     rightSideMenuToggled,
     notificationsMenuToggled,
+    addNewMenuToggled,
   } = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
-  const [testState, setTestState] = useState("on");
-
-  const windowSize = useWindowSize();
-  const navigate = useNavigate();
 
   function handleRightSideMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    dispatch(toggleModal({ key: "addNewMenu", value: false }));
     dispatch(toggleModal({ key: "notificationsMenu", value: false }));
     dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
   }
@@ -49,8 +46,8 @@ export const Navbar = () => {
   function handleNotificationsMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
+    dispatch(toggleModal({ key: "addNewMenu", value: false }));
     dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-
     dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled }));
   }
 
@@ -207,21 +204,22 @@ export const Navbar = () => {
         ) : (
           <DesktopSearchToggle />
         )}
-        {/* <Link to="/sell" className="sell-link">
-          <PlusIcon />
-        </Link> */}
+
         <button
-          className="sell-link"
-          onClick={() => {
-            dispatch(closeAllModals({ keepSidebarOpen: true }));
-            if (!user) {
-              dispatch(toggleModal({ key: "loginModal", value: true }));
-              return;
-            }
+          className={`add-new-menu-toggle ${addNewMenuToggled ? 'toggled' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation()
+            // dispatch(closeAllModals({ keepSidebarOpen: true }));
+            // if (!user) {
+            //   dispatch(toggleModal({ key: "loginModal", value: true }));
+            //   return;
+            // }
 
-            if (location.pathname == "/sell") return;
+            dispatch(toggleModal({ key: "addNewMenu", value: !addNewMenuToggled }));
 
-            navigate("/sell");
+            // if (location.pathname == "/sell") return;
+
+            // navigate("/sell");
           }}
         >
           <PlusIcon />
@@ -281,6 +279,7 @@ export const Navbar = () => {
         {/* <button></button> */}
       </div>
 
+      {addNewMenuToggled && <AddNewMenu />}
       {rightSideMenuToggled && <RightSideMenu />}
       {notificationsMenuToggled && user && (
         <NotificationsMenu

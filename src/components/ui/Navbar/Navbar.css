@@ -88,7 +88,7 @@ nav.desktop .right-side {
   justify-content: flex-end;
 }
 
-nav.desktop .right-side button.sell-link,
+nav.desktop .right-side button.add-new-menu-toggle ,
 nav.desktop button.menu-button {
   border-radius: 5px;
   height: 32px;
@@ -110,23 +110,32 @@ nav.desktop button.menu-button.toggled svg {
   /* fill: var(--lightgreen); */
 }
 
-nav.desktop .right-side button.sell-link,
+nav.desktop .right-side button.add-new-menu-toggle ,
 nav.desktop button.menu-button  {
   color: white;
   font-weight: 600;
 }
 
-nav.desktop .right-side button.sell-link:hover,
+nav.desktop .right-side button.add-new-menu-toggle :hover,
 nav.desktop button.menu-button:hover {
   text-decoration: none;
 }
 
-nav.desktop .right-side button.sell-link svg,
+nav.desktop .right-side button.add-new-menu-toggle  svg,
 nav.desktop button.menu-button svg {
   width: 17px;
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.15));
   fill: white;
 }
+
+nav.desktop .right-side button.add-new-menu-toggle.toggled {
+  border: 1px solid var(--lightgreen);
+}
+
+nav.desktop .right-side button.add-new-menu-toggle.toggled svg {
+  fill: var(--lightgreen);
+}
+
 
 nav.desktop .right-side .notifications-menu-toggle {
   border: 0;
@@ -146,9 +155,14 @@ nav.desktop .right-side .notifications-menu-toggle {
 }
 
 nav.desktop .right-side .notifications-menu-toggle:hover,
-nav.desktop .right-side button.sell-link:hover,
+nav.desktop .right-side button.add-new-menu-toggle:hover,
 nav.desktop .left-side button.search-toggle:hover {
   background-color: #2f2f2f;
+}
+
+nav.desktop .right-side .notifications-menu-toggle:hover,
+nav.desktop .right-side button.add-new-menu-toggle:not(.toggled):hover,
+nav.desktop .left-side button.search-toggle:hover {
   border-color: #555;
 }
 

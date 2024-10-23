@@ -1,0 +1,93 @@
+.wanted {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.wanted  h1 {
+  font-size: 1.5rem;
+  margin-bottom: -10px
+}
+
+.wanted form .input-container {
+  width: 100%;
+  position: relative;
+}
+
+.wanted form .input-container::before {
+  content: "$";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 2;
+  color: grey;
+  transform: translateY(-50%);
+  top: 50%;
+  border-right: 1px solid grey;
+  padding-right: 10px;
+  height: calc(100% - 2px);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.wanted form .input-container input {
+  padding-left: 37px !important;
+  position: relative;
+  width: 100%;
+}
+
+.wanted form .form-block {
+  padding: 0 !important;
+}
+
+.wanted form .form-block .header {
+  border-bottom: 1px solid #555;
+  border-left: 5px solid #666;
+  padding: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.wanted form .form-block .content {
+  padding: 10px;
+}
+
+.wanted form .select-category-modal-toggle {
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px 5px 35px;
+  position: relative;
+  background-color: #3b3b3b;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.05s ease background-color;
+  color: whitesmoke;
+  text-align: left;
+  padding-left: 30px;
+  z-index: 1;
+  border: 1px solid #555;
+  font-size: 1rem;
+}
+
+.wanted form .select-category-modal-toggle.empty {
+  color: #ffffff60;
+}
+
+.wanted form .select-category-modal-toggle:hover {
+  border: 1px solid #666;
+}
+
+.wanted form .select-category-modal-toggle > svg {
+  position: absolute;
+  width: 10px;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: whitesmoke;
+  z-index: 2;
+  width: 10px;
+}

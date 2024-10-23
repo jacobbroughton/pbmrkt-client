@@ -132,6 +132,7 @@ export const RegisterModal = () => {
 
       setUsernameExists(data);
     } catch (error) {
+      console.error(error)
       setRegisterError(error.toString());
     }
 

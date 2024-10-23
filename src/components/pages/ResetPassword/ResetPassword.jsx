@@ -40,6 +40,7 @@ export const ResetPassword = () => {
       // navigate("/update-password");
       dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
     setTimeout(() => {

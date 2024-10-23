@@ -145,6 +145,7 @@ export const CommentsList = ({
         setLocalComments(updatedComments);
       }
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
 

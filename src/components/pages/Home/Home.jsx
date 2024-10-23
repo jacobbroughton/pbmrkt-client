@@ -193,6 +193,7 @@ export function Listings() {
         if (view == "Overview") dispatch(setView("Grid"));
       }
     } catch (error) {
+      console.error(error)
       setError(error);
     }
   }

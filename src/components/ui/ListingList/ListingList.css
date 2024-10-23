@@ -3,6 +3,7 @@ ul.listing-list {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding-bottom: 100px;
 }
 
 ul.listing-list li {

@@ -30,7 +30,12 @@ export const CategorySelector = ({
   );
 };
 
-const CategoriesList = ({ categories, isNested, handleCategoryClick, showResultNumbers }) => {
+const CategoriesList = ({
+  categories,
+  isNested,
+  handleCategoryClick,
+  showResultNumbers,
+}) => {
   return (
     <div className={`categories-list-container ${isNested ? "is-nested" : ""}`}>
       <div className="list-and-nest-bar">
@@ -56,7 +61,9 @@ const CategoryButton = ({ category, handleCategoryClick, showResultNumbers }) =>
 
   return (
     <button
-      className={`category-button ${category.is_folder ? "is-folder" : ""}`}
+      className={`category-button ${category.is_folder ? "is-folder" : ""} ${
+        category.checked ? "selected" : ""
+      }`}
       type="button"
       onClick={(e) => {
         e.stopPropagation();

@@ -25,10 +25,10 @@
   gap: 10px;
   position: sticky;
   top: 0;
-  background-color: #444;
   padding: 3px;
   z-index: 2;
   margin-bottom: 5px;
+  border-bottom: 1px solid #555;
 }
 
 .category-selector .category-list-buttons .selected-category {
@@ -106,8 +106,6 @@
   font-size: 1rem;
   color: white;
   border-radius: 2px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   padding-right: 0;
   margin-right: 3px;
 }
@@ -116,8 +114,15 @@
   .categories-list-container
   button.category-button:hover:not(:has(button:hover)) {
   color: var(--lightgreen);
-  background-color: #555;
+  background-color: #444;
 }
+
+.category-selector .categories-list-container button.category-button.selected {
+  background-color: #444;
+  border-radius: 2px;
+}
+
+.category-selector .categories-list-container button.category-button:not(.selected)
 
 .category-selector
   .categories-list-container

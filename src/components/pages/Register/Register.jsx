@@ -123,6 +123,7 @@ export const Register = () => {
 
       setUsernameExists(data);
     } catch (error) {
+      console.error(error)
       setRegisterError(error.toString());
     }
 

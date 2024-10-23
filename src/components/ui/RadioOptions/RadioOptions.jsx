@@ -12,7 +12,7 @@ export const RadioOptions = ({ options, handleRadioOptionClick, disabled }) => {
             handleRadioOptionClick(option);
           }}
           key={option.id}
-          title={`Choose ${option.value}`}
+          title={`Choose ${option.title}`}
         >
           <RadioIcon checked={option.checked} />
           <label>{option.title}</label>

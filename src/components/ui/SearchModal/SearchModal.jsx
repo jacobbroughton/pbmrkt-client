@@ -47,6 +47,7 @@ export const SearchModal = () => {
 
       setSearchHistory(data);
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
   }

@@ -14,6 +14,7 @@ export const FieldErrorButtons = ({ fieldErrors, setMarkedFieldKey}) => {
           <button
             type="button"
             onClick={(e) => {
+              e.preventDefault()
               fieldError.onClick(e);
               setMarkedFieldKey(fieldError.fieldKey);
             }}

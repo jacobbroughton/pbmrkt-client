@@ -21,6 +21,8 @@ import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPass
 import FeedbackModal from "./components/ui/FeedbackModal/FeedbackModal.jsx";
 import BugModal from "./components/ui/BugModal/BugModal.jsx";
 import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
+import { CreateWantedItem } from "./components/pages/CreateWantedItem/CreateWantedItem.jsx";
+import { WantedItem } from "./components/pages/WantedItem/WantedItem.jsx";
 
 export function App() {
   const dispatch = useDispatch();
@@ -84,7 +86,6 @@ export function App() {
       setSessionLoading(false);
     }
   }
-
 
   // useEffect(() => {
   //   setSessionLoading(true);
@@ -168,17 +169,18 @@ export function App() {
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>
-          // Use it in this way, and it should work:
           <Route path="*" element={<p>Page not found</p>} />
           <Route element={<Listings />} path="/" />
           <Route element={<Register />} path="/register" />
           <Route element={<Login />} path="/login" />
           <Route element={<PrivateRoutes />}>
             <Route path="/sell" element={<Sell />} />
+            <Route path="/wanted" element={<CreateWantedItem />} />
             <Route path="/update-password" element={<UpdatePassword />} />
           </Route>
           <Route path="/user/:username" element={<UserProfile />} />
           <Route element={<Item />} path="/listing/:itemID" />
+          <Route element={<WantedItem />} path="/wanted/:wantedItemID" />
           <Route element={<ResetPassword />} path="/reset-password" />
         </Routes>
         {loginModalToggled && <LoginModal />}

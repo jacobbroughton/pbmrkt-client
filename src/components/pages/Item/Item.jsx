@@ -118,6 +118,7 @@ export const Item = () => {
         setExistingVote(data[0].existing_vote);
         setSelectedPhoto(data2[0]);
       } catch (error) {
+        console.error(error)
         setError(error.toString());
       }
       setLoading(false);

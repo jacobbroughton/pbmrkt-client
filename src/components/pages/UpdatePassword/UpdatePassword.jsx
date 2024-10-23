@@ -21,6 +21,7 @@ export const UpdatePassword = () => {
 
       // navigate("/update-password");
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
     setLoading(false);

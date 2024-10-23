@@ -86,17 +86,18 @@ export const RightSideMenu = () => {
         <HomeIcon />
         <label>Home</label>
       </Link>
-      <Link
+      {/* <Link
         to={`/sell`}
         className={`menu-item ${location.pathname == "/sell" ? "current" : ""}`}
         onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
       >
         <DollarBillIcon />
         <label>Sell</label>
-      </Link>
+      </Link> */}
       <button
         className="menu-item"
         onClick={() => {
+          dispatch(toggleModal({ key: "feedbackModal", value: false }));
           dispatch(toggleModal({ key: "bugModal", value: true }));
           dispatch(toggleModal({ key: "rightSideMenu", value: false }));
         }}
@@ -108,6 +109,7 @@ export const RightSideMenu = () => {
         className="menu-item"
         onClick={() => {
           dispatch(toggleModal({ key: "feedbackModal", value: true }));
+          dispatch(toggleModal({ key: "bugModal", value: true }));
           dispatch(toggleModal({ key: "rightSideMenu", value: false }));
         }}
       >

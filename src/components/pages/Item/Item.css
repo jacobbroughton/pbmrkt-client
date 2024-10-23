@@ -384,18 +384,12 @@
 
 .item .images-and-content .content .info {
   display: flex;
-  /* flex-direction: row; */
   flex-direction: column;
   gap: 25px;
   padding: 10px;
   background-color: #2f2f2f;
   border: 1px solid #444;
   border-radius: 5px;
-  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
-  /* margin-bottom: 50px; */
-  /* 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); */
 }
 
 .item .images-and-content .content .info-and-contact {

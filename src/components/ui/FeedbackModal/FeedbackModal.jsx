@@ -34,6 +34,7 @@ const FeedbackModal = () => {
       setFeedbackBody("");
 
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
 

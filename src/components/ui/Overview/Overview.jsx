@@ -100,13 +100,13 @@ const Overview = ({ setLoading }) => {
 
   return (
     <div className="overview">
-      {/* {initiallyLoading ? ( */}
       {initiallyLoading ? (
+      // {true ? (
         <SkeletonsOverview />
       ) : (
         <>
           <button className="view-all" onClick={() => dispatch(setView("Grid"))}>
-            View All{" "}
+            <p>View All</p>{" "}
             {subsequentlyLoading ? (
               <div className="loading-result-number"></div>
             ) : (

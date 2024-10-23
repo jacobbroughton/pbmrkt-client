@@ -1,14 +1,13 @@
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import { SortIcon } from "../Icons/SortIcon";
-import { MagicWand } from "../Icons/MagicWand";
 import { states, statesAndCities } from "../../../utils/statesAndCities";
 import { capitalizeWords } from "../../../utils/usefulFunctions";
 import { Arrow } from "../Icons/Arrow";
 import "./CityStateFieldset.css";
 
 export const CityStateFieldset = () => {
-  const [state, setState] = useState();
-  const [city, setCity] = useState();
+  const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
   const [cantFindCity, setCantFindCity] = useState(false);
 
   return (

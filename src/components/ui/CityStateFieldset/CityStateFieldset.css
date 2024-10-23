@@ -45,3 +45,9 @@ fieldset.city-state .cant-find-city-toggle svg {
   fill: whitesmoke;
   width: 9px;
 }
+
+
+fieldset.city-state .select-container svg {
+  fill: whitesmoke;
+  width: 9px;
+}

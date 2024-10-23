@@ -90,7 +90,13 @@ const initialRadioOptions = {
     },
   ],
   tradeOptions: [
-    { id: 0, value: "No Trades", title: "No, for sale only", description: "", checked: true },
+    {
+      id: 0,
+      value: "No Trades",
+      title: "No, for sale only",
+      description: "",
+      checked: true,
+    },
     {
       id: 1,
       value: "Accepting Trades",
@@ -195,7 +201,7 @@ export const Sell = () => {
   const negotiableRef = useRef(null);
   const detailsRef = useRef(null);
   const priceRef = useRef(null);
-  const shippingCostRef = useRef(null)
+  const shippingCostRef = useRef(null);
 
   useEffect(() => {
     const getItemCategories = async () => {
@@ -341,7 +347,8 @@ export const Sell = () => {
       markedFieldKey == "condition" ||
       details != "" ||
       whatIsThisItem != "" ||
-      price != "" || (buyerPaysShipping && !shippingCost)
+      price != "" ||
+      (buyerPaysShipping && !shippingCost)
     ) {
       setMarkedFieldKey(null);
     }
@@ -776,17 +783,8 @@ export const Sell = () => {
     },
   ];
 
-  
-
-  const imagesStillUploading = imagesUploading && !numPhotosUploaded;
-  const imageSkeletonsShowing = imagesUploading && numPhotosUploaded;
-
-  const missingUserInfo =
-    !user.phone_number ||
-    !user.first_name ||
-    !user.last_name ||
-    !user.state ||
-    !user.city;
+  const imagesLoadingInitially = imagesUploading && !numPhotosUploaded;
+  const imagesLoadingSubsequently = imagesUploading && numPhotosUploaded;
 
   let warnings = [];
 
@@ -856,17 +854,17 @@ export const Sell = () => {
               )}
               {photos.length == 0 ? (
                 <div className="image-input-and-prompt">
-                  {(imagesStillUploading || imageSkeletonsShowing) && (
+                  {(imagesLoadingInitially || imagesLoadingSubsequently) && (
                     <p className="small-text">
                       {numPhotosUploaded}/{totalPhotos} Image{totalPhotos > 1 ? "s" : ""}{" "}
                       Uploaded
                     </p>
                   )}
-                  {imagesStillUploading ? (
+                  {imagesLoadingInitially ? (
                     <div className="image-skeletons">
                       <div className="image-skeleton">&nbsp;</div>
                     </div>
-                  ) : imageSkeletonsShowing ? (
+                  ) : imagesLoadingSubsequently ? (
                     <div className="image-skeletons">
                       {Array.from(Array(numPhotosUploaded)).map((item, i) => (
                         <div key={i} className="image-skeleton">
@@ -1303,7 +1301,7 @@ export const Sell = () => {
 
               {!noShipping && (
                 <div
-                ref={shippingCostRef}
+                  ref={shippingCostRef}
                   className={`form-group shipping-cost ${
                     buyerPaysShipping ? "" : "disabled"
                   } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}

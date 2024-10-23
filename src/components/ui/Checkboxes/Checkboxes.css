@@ -15,23 +15,38 @@
 }
 
 .checkbox-options > .checkbox-option .box-container {
-  width: 20px;
-  height: 20px;
   border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 2px;
+}
 
+.checkbox-options > .checkbox-option.medium .box-container {
+  width: 20px;
+  height: 20px;
+}
 
+.checkbox-options > .checkbox-option.small .box-container {
+  width: 15px;
+  height: 15px;
 }
 
 .checkbox-options > .checkbox-option .box-container .box {
-  width: 14px;
-  height: 14px;
   background-color: white;
   border-radius: 1px;
 }
+
+.checkbox-options > .checkbox-option .box-container .box {
+  width: 70%;
+  height: 70%;
+}
+
+/* .checkbox-options > .checkbox-option.small .box-container .box {
+  width: 7px;
+  height: 7px;
+} */
+
 
 .checkbox-options > .checkbox-option label {
   font-size: 0.875rem;

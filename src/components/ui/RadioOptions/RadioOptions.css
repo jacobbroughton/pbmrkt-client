@@ -13,11 +13,17 @@
   align-items: center;
   gap: 10px;
   padding: 3px 0;
+}
+
+.radio-options:not(.disabled) > .radio-option {
   cursor: pointer;
 }
 
 .radio-options > .radio-option label {
   font-size: 0.875rem;
+}
+
+.radio-options:not(.disabled) > .radio-option label {
   cursor: pointer;
 }
 
@@ -32,7 +38,7 @@
   fill: white;
 }
 
-.radio-options > .radio-option:hover > svg:not(.checked) {
+.radio-options:not(.disabled) > .radio-option:hover > svg:not(.checked) {
   fill: var(--lightgreen);
 }
 

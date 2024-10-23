@@ -43,6 +43,7 @@ export const ResetPasswordModal = () => {
       // navigate("/update-password");
       dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
   }
@@ -62,6 +63,7 @@ export const ResetPasswordModal = () => {
 
       setIsVerifying(true);
     } catch (error) {
+      console.error(error)
       setError(error.toString());
     }
 

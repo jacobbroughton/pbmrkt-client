@@ -43,7 +43,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   }, [windowSize.width]);
 
   function handlePriceFilterSelect(selectedOption) {
-    console.log(filters.draft, selectedOption)
+    console.log(filters.draft, selectedOption);
     const newDraft = {
       ...filters.draft,
       minPrice: selectedOption.minValue,
@@ -197,7 +197,11 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                 title={`Click this to open a menu and select an item category to filter your results on`}
               >
                 <SortIcon />
-                <span className={`current-category ${filters.saved.category?.plural_name == null ? 'empty' : ''}`}>
+                <span
+                  className={`current-category ${
+                    filters.saved.category?.plural_name == null ? "empty" : ""
+                  }`}
+                >
                   {filters.saved.category?.plural_name ?? "Markers, Loaders, Etc."}
                 </span>
               </button>
@@ -370,6 +374,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
               </div>
               <Checkboxes
                 options={filters.draft.conditionOptions}
+                size="medium"
                 handleCheckboxOptionClick={(option) =>
                   handleRadioFilterSelect("conditionOptions", option)
                 }
@@ -395,6 +400,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
 
               <Checkboxes
                 options={filters.draft.shippingOptions}
+                size="medium"
                 handleCheckboxOptionClick={(option) =>
                   handleRadioFilterSelect("shippingOptions", option)
                 }
@@ -420,6 +426,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
 
               <Checkboxes
                 options={filters.draft.tradeOptions}
+                size="medium"
                 handleCheckboxOptionClick={(option) =>
                   handleRadioFilterSelect("tradeOptions", option)
                 }
@@ -444,6 +451,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
 
               <Checkboxes
                 options={filters.draft.negotiableOptions}
+                size="medium"
                 handleCheckboxOptionClick={(option) =>
                   handleRadioFilterSelect("negotiableOptions", option)
                 }

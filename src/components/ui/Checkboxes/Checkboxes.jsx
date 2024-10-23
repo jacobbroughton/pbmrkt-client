@@ -16,7 +16,6 @@ export const Checkboxes = ({
           key={option.id}
           title={`${option.checked ? "Uncheck" : "Check"} "${option.value}"`}
         >
-          {/* <Checkbox checked={option.checked} /> */}
           <div className="box-container">
             {option.checked ? <div className="box"></div> : false}
           </div>

@@ -14,7 +14,6 @@ export const DesktopSearchToggle = () => {
       }}
     >
       <SearchIcon />
-      {/* Type <span className="slash-with-border">/</span> to search */}
       <span className="search-span">Search for anything</span>
     </button>
   );

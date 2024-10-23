@@ -123,7 +123,7 @@ export const Register = () => {
 
       setUsernameExists(data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setRegisterError(error.toString());
     }
 
@@ -141,7 +141,6 @@ export const Register = () => {
         },
       });
       if (error) throw error.message;
-
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());
@@ -225,7 +224,6 @@ export const Register = () => {
                       <p className="small-text error-text">
                         This username is already attached to an account{" "}
                       </p>
-                      {/* <button className="button">Options</button> */}
                     </div>
                   ) : !isValidUsername(username) ? (
                     <p className="small-text error-text">
@@ -239,7 +237,9 @@ export const Register = () => {
                   ))}
               </div>
               <div className="form-group">
-                <label htmlFor="human-test">(Robot Test) What's the value of 15 - 9?</label>
+                <label htmlFor="human-test">
+                  (Robot Test) What's the value of 15 - 9?
+                </label>
                 <input
                   placeholder="..."
                   onChange={(e) => {
@@ -344,7 +344,6 @@ export const Register = () => {
         )}
       </div>
 
-      {/* <Footer marginTop={200} /> */}
     </>
   );
 };

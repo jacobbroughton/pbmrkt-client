@@ -34,7 +34,6 @@ export const LoginModal = () => {
         throw error.message;
       }
 
-
       // TODO - Check for user in tbl_user, decline with support message
       const { data: data2, error: error2 } = await supabase.rpc(
         "check_for_user_in_local_db",
@@ -64,7 +63,6 @@ export const LoginModal = () => {
         <h1>Login</h1>
         <form onSubmit={handleSubmit} className="standard">
           <p>
-            {/* Need to create an account? <Link to="/register">Register here</Link> */}
             Need to create an account?{" "}
             <button
               type="button"
@@ -109,15 +107,12 @@ export const LoginModal = () => {
 
           <button
             type="submit"
-            disabled={email === "" || password === "" || !isValidEmail(email) ||  loading}
+            disabled={email === "" || password === "" || !isValidEmail(email) || loading}
           >
             {loading ? "Logging you in..." : "Submit"}
           </button>
 
           <p>
-            {/* <Link type="button" to={`/reset-password`}>
-              Forgot password?
-            </Link> */}
             <button
               type="button"
               className="link-button"
@@ -130,13 +125,6 @@ export const LoginModal = () => {
             </button>
           </p>
         </form>
-        {/* {loading && (
-          <LoadingOverlay
-            message="Logging you in..."
-            zIndex={5}
-            verticalAlignment={"center"}
-          />
-        )} */}
       </div>
       <ModalOverlay
         zIndex={6}

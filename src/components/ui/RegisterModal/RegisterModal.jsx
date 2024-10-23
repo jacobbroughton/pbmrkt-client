@@ -132,7 +132,7 @@ export const RegisterModal = () => {
 
       setUsernameExists(data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setRegisterError(error.toString());
     }
 
@@ -150,7 +150,6 @@ export const RegisterModal = () => {
         },
       });
       if (error) throw error.message;
-
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());
@@ -202,7 +201,7 @@ export const RegisterModal = () => {
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="standard">
           <p>
-            Have an account already? {/* <Link to="/login">Sign in</Link> */}
+            Have an account already?
             <button
               className="link-button"
               onClick={() => {
@@ -262,11 +261,11 @@ export const RegisterModal = () => {
                       <p className="small-text error-text">
                         This username is already attached to an account{" "}
                       </p>
-                      {/* <button className="button">Options</button> */}
                     </div>
                   ) : !isValidUsername(username) ? (
                     <p className="small-text error-text">
-                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt; [space]
+                      Can't include these characters: {"{ }"} | \ ” % ~ # &lt; &gt;
+                      [space]
                     </p>
                   ) : !usernameIsInitial ? (
                     <p className="small-text">You're good to use this username</p>
@@ -359,10 +358,14 @@ export const RegisterModal = () => {
             )}
           </div>
 
-          {fieldErrors.filter(fieldError => fieldError.active).length >= 1 ? <FieldErrorButtons
-            fieldErrors={fieldErrors}
-            setMarkedFieldKey={setMarkedFieldKey}
-          /> : false}
+          {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 ? (
+            <FieldErrorButtons
+              fieldErrors={fieldErrors}
+              setMarkedFieldKey={setMarkedFieldKey}
+            />
+          ) : (
+            false
+          )}
 
           <button type="submit" disabled={submitDisabled}>
             Submit

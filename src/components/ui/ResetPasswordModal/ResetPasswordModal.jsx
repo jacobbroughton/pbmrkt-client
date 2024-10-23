@@ -85,7 +85,7 @@ export const ResetPasswordModal = () => {
         <h1>Reset Password</h1>
         <form onSubmit={handleRequestEmail} className="standard">
           <p>
-            Need to create an account? {/* <Link to="/register">Register here</Link> */}
+            Need to create an account? 
             <button
               onClick={() => {
                 dispatch(toggleModal({ key: "resetPasswordModal", value: false }));
@@ -97,7 +97,6 @@ export const ResetPasswordModal = () => {
               Register Here
             </button>
           </p>
-          {/* <button className='google-auth-button' onClick={handleGoogleAuth} type="button">Sign in with Google</button> */}
           <div className="form-block">
             <>
               <div className="form-group">

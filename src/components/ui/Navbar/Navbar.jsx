@@ -120,15 +120,6 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (user) handleNotificationsSubscribe();
-
-    // function handleKeyDownEvent(e) {
-    //   if (e.code == "Slash" && !searchModalToggled)
-    //     dispatch(toggleModal({ key: "searchModal", value: true }));
-    // }
-
-    // document.addEventListener("keydown", handleKeyDownEvent);
-
-    // return () => document.removeEventListener("keydown", handleKeyDownEvent);
   }, [user]);
 
   const unreadNotificationCount = notifications?.filter(
@@ -137,7 +128,6 @@ export const Navbar = () => {
 
   return (
     <nav className="desktop">
-      {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       <div className="left-side">
         {location.pathname == "/" && (
           <button
@@ -186,7 +176,6 @@ export const Navbar = () => {
             <FilterIcon />
           </button>
         )}
-        {/* <SearchBar handleSearchSubmit={handleSearchSubmit} /> */}
       </div>
 
       <div className="right-side">
@@ -206,29 +195,16 @@ export const Navbar = () => {
         )}
 
         <button
-          className={`add-new-menu-toggle ${addNewMenuToggled ? 'toggled' : ''}`}
+          className={`add-new-menu-toggle ${addNewMenuToggled ? "toggled" : ""}`}
           onClick={(e) => {
-            e.stopPropagation()
-            // dispatch(closeAllModals({ keepSidebarOpen: true }));
-            // if (!user) {
-            //   dispatch(toggleModal({ key: "loginModal", value: true }));
-            //   return;
-            // }
-
+            e.stopPropagation();
             dispatch(toggleModal({ key: "addNewMenu", value: !addNewMenuToggled }));
-
-            // if (location.pathname == "/sell") return;
-
-            // navigate("/sell");
           }}
         >
           <PlusIcon />
         </button>
 
-        {/* Before experimenting below */}
-        {/* {user ? ( */}
         <>
-          {/* {((isOnMobile() && search.searchBarToggled) || true) && ( */}
           {user && (
             <button
               type="button"
@@ -245,7 +221,6 @@ export const Navbar = () => {
               )}
             </button>
           )}
-          {/* )} */}
           <button
             onClick={handleRightSideMenuToggle}
             type="button"
@@ -261,22 +236,6 @@ export const Navbar = () => {
             />
           </button>
         </>
-        {/* ) : ( */}
-        {/* // <Link to="/login" className="login-link">
-          //   Login
-          // </Link>
-          // <button */}
-        {/* //   className="login-link"
-          //   onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
-          // >
-          //   Login
-          // </button> */}
-        {/* false */}
-        {/* )} */}
-
-        {/* Before experimenting above */}
-
-        {/* <button></button> */}
       </div>
 
       {addNewMenuToggled && <AddNewMenu />}
@@ -287,7 +246,6 @@ export const Navbar = () => {
           setNotifications={setNotifications}
         />
       )}
-      {/* {searchModalToggled && <SearchModal />} */}
     </nav>
   );
 };

@@ -164,8 +164,6 @@ export function App() {
   return (
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
-      {/* {isOnMobile() ? false : <IconSidebar/>} */}
-      {/* <Navbar/> */}
       <main>
         {error && <p className="error-text small-text">{error.toString()}</p>}
         <Routes>

@@ -220,7 +220,6 @@ export const MapboxLocationSearch = () => {
           />
         </div>
       </form>
-      {/* {suggestions.length >= 1 ? ( */}
       <ul className="suggestion-list">
         {suggestions.map((suggestion) => (
           <li>
@@ -228,11 +227,7 @@ export const MapboxLocationSearch = () => {
           </li>
         ))}
       </ul>
-      {/* ) */}
-      {/* //  : (
-      //   <p className="small-text no-suggestions">No suggestions found</p>
-      // ) */}
-      {/* } */}
+
       <div className="location-selector">
         {mapLoading ? (
           <div className="skeleton blinking map-loading">

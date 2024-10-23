@@ -112,7 +112,6 @@ export const Login = () => {
           verticalAlignment={"center"}
         />
       )}
-      {/* <Footer /> */}
     </>
   );
 };

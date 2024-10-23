@@ -45,8 +45,8 @@ export const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    getListings(user)
-  }, [sort])
+    getListings(user);
+  }, [sort]);
 
   async function getProfile() {
     try {
@@ -59,7 +59,6 @@ export const UserProfile = () => {
         console.error(error);
         throw error.message;
       }
-
 
       const { data: data3, error: error3 } = supabase.storage
         .from("profile_pictures")
@@ -138,7 +137,6 @@ export const UserProfile = () => {
 
     if (!data2) throw "No listings available";
 
-
     data2 = data2.map((item) => {
       const { data, error } = supabase.storage
         .from("profile_pictures")
@@ -172,7 +170,6 @@ export const UserProfile = () => {
         console.error(error);
         throw error.message;
       }
-
 
       if (!data.path) throw "New profile picture path not found";
 
@@ -255,25 +252,7 @@ export const UserProfile = () => {
                   Edit Profile
                 </button>
               )}
-
-              {/* <button
-              className="stars-button"
-              onClick={() =>
-                dispatch(toggleModal({ key: "userReviewsModal", value: true }))
-              }
-              disabled={reviews.count == 0}
-            >
-              <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
-            </button> */}
             </div>
-            {/* <button
-            className="edit-button"
-            onClick={() =>
-              dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-            }
-          >
-            <ThreeDots />
-          </button> */}
           </div>
           <div className="user-info-containers">
             <div className="user-info-container">
@@ -369,7 +348,6 @@ export const UserProfile = () => {
           </>
         )}
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

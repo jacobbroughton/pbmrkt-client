@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
 import "./SearchModal.css";
+import { XIcon } from "../Icons/XIcon";
 
 export const SearchModal = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ export const SearchModal = () => {
 
       setSearchHistory(data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
   }
@@ -125,7 +126,6 @@ export const SearchModal = () => {
   useEffect(() => {
     const debounceFn = setTimeout(() => {
       if (searchValue.draft == "" && searchIsInitial) return;
-      // dispatch(setSavedSearchValue(searchValue.draft));
       setSearchValue({ ...searchValue, saved: searchValue.draft });
       handleOnInputSearch(searchValue.draft);
     }, 500);
@@ -165,36 +165,6 @@ export const SearchModal = () => {
           </form>
         </div>
         <div className="search-results-container">
-          {/* <div className="search-types-list">
-            {searchTypes.map((searchType) => (
-              <button
-                id={searchType.label}
-                className={`${searchType.toggled ? "toggled" : ""}`}
-                onClick={() => {
-                  setSearchTypes(
-                    searchTypes.map((innerSearchType) => ({
-                      ...innerSearchType,
-                      toggled: innerSearchType.id == searchType.id,
-                    }))
-                  );
-
-                  if (
-                    searchType.id !== selectedSearchType?.id &&
-                    search.savedSearchValue !== ""
-                  ) {
-                    setResultsLoading(true);
-                    setTimeout(() => {
-                      setResultsLoading(false);
-                      // * Api call would be here instead of the settimeout
-                    }, 1000);
-                  }
-                }}
-              >
-                {searchType.label}
-              </button>
-            ))}
-          </div> */}
-
           {searchValue.saved == "" && searchHistory?.length >= 1 ? (
             <div className="recent-searches">
               <p className="label">Recent Searches</p>
@@ -213,7 +183,10 @@ export const SearchModal = () => {
                       }}
                     >
                       <p>{searchHistoryItem.search_value}</p>
-                      <Arrow direction={"right"} />
+                      <div className="right-side">
+                        <Arrow direction={"right"} />
+                        <button><XIcon/></button>
+                      </div>
                     </li>
                   ))
                 ) : (

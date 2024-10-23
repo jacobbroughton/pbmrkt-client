@@ -1,6 +1,6 @@
 .edit-item.modal {
   position: fixed;
-  z-index: 6;
+  z-index: 9;
   top: 30px;
   transform: translateX(-50%);
   left: 50%;

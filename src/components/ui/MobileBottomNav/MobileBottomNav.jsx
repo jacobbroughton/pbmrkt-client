@@ -120,8 +120,9 @@ export function MobileBottomNav() {
 
   function handleSearchToggle(e) {
     e.stopPropagation();
-    if (filtersSidebarToggled)  dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-    dispatch(closeAllModals())
+    if (filtersSidebarToggled)
+      dispatch(toggleModal({ key: "filtersSidebar", value: false }));
+    dispatch(closeAllModals());
     dispatch(toggleModal({ key: "searchModal", value: !searchModalToggled }));
     dispatch(setSearchBarToggled(!search.searchBarToggled));
   }
@@ -140,7 +141,6 @@ export function MobileBottomNav() {
 
   return (
     <nav className="mobile-nav">
-      {/* {isOnMobile() && <h1>You're on mobile!</h1>} */}
       {location.pathname == "/" ? (
         <button
           className={`sidebar-toggle-button ${filtersSidebarToggled ? "active" : ""}`}
@@ -184,7 +184,6 @@ export function MobileBottomNav() {
         {isOnMobile() ? <PlusIcon /> : "Sell"}
       </Link>
 
-      {/* {session?.user ? ( */}
       <>
         {user && (
           <button
@@ -212,11 +211,6 @@ export function MobileBottomNav() {
           </div>
         </button>
       </>
-      {/* ) : (
-        <Link to="/login" className="login-link">
-          Login
-        </Link>
-      )} */}
 
       {rightSideMenuToggled && <RightSideMenu />}
       {unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
@@ -226,7 +220,6 @@ export function MobileBottomNav() {
           setNotifications={setNotifications}
         />
       )}
-      {/* {searchModalToggled && <SearchModal />} */}
     </nav>
   );
 }

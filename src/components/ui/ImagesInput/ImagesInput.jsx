@@ -1,8 +1,14 @@
 import { useSelector } from "react-redux";
 import { ImagesIcons } from "../Icons/ImagesIcons";
+import { StarIcon } from "../Icons/StarIcon";
 
 export const ImagesInput = ({ images, marked }) => {
   const { user } = useSelector((state) => state.auth);
+
+  function handleNewCoverImage() {
+    alert("handleNewCoverImage doesn't do anything")
+  }
+
   return (
     <div>
       {images.length != 0 && (
@@ -22,17 +28,6 @@ export const ImagesInput = ({ images, marked }) => {
                 <img
                   src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                 />
-                {/* <div className="image-overlay">
-            <div className="buttons">
-              <button
-                className="delete-button"
-                type="button"
-                onClick={(e) => handleImageDelete(image)}
-              >
-                Delete
-              </button>
-            </div>
-          </div> */}
               </div>
             );
           })}

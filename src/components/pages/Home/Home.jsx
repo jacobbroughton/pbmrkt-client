@@ -293,7 +293,8 @@ export function Listings() {
 
   let filterTags = [
     {
-      label: `Search: ${search.savedSearchValue}`,
+      label: `Search:`,
+      value: `${search.savedSearchValue}`,
       onDeleteClick: () => {
         dispatch(setDraftSearchValue(""));
         dispatch(setSavedSearchValue(""));
@@ -418,7 +419,6 @@ export function Listings() {
 
   return (
     <div className="home">
-      {/* // TODO - Delete this <div className='animated-banner'></div> */}
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>

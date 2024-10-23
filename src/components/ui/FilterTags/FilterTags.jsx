@@ -4,7 +4,6 @@ import "./FilterTags.css";
 export const FilterTags = ({ filterTags }) => {
   return (
     <div className="filter-tags-parent">
-      {/* <p>Results are currently filtered by:</p> */}
       <div className="filter-tags">
         {filterTags
           .filter((filter) => filter.active)

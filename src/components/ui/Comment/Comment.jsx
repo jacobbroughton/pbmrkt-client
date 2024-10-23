@@ -77,7 +77,6 @@ export const Comment = ({
 
       if (error2) throw error2.message;
 
-
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
     } catch (error) {
@@ -103,12 +102,12 @@ export const Comment = ({
       if (error) throw error.message;
 
       if (!existingVote) {
-      setVotes((prevVotes) => (prevVotes -= 1));
+        setVotes((prevVotes) => (prevVotes -= 1));
       } else if (existingVote == "Up") {
         setVotes((prevVotes) => (prevVotes -= 2));
       } else if (existingVote == "Down") {
         setVotes((prevVotes) => (prevVotes += 1));
-        setUserVote(null)
+        setUserVote(null);
       }
 
       const { data: data2, error: error2 } = await supabase.rpc(
@@ -126,7 +125,6 @@ export const Comment = ({
 
       if (error2) throw error2.message;
 
-
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
     } catch (error) {
@@ -135,24 +133,11 @@ export const Comment = ({
     }
   }
 
-
   return (
-    <div
-      key={comment.id}
-      className={`comment ${isRootLevel ? "is-root-level" : ""}`}
-      // style={{marginLeft: `${comment.depth * 15}px`}}
-    >
-      {/* {repliesLoading.toString()} */}
+    <div key={comment.id} className={`comment ${isRootLevel ? "is-root-level" : ""}`}>
       <div className="bars-and-content">
-        {/* {[...new Array(comment.depth)].map((depthIndex) => (
-          <div className="depth-bar" id={depthIndex}></div>
-        ))} */}
         <div className="profile-picture-container">
-          <Link
-            to={`/user/${comment.username}`}
-            className="profile-picture-link"
-            // onClick={(e) => handleRepliesClick(e, comment)}
-          >
+          <Link to={`/user/${comment.username}`} className="profile-picture-link">
             <img className="profile-picture" src={comment.profile_picture_url} />
           </Link>
           {comment.reply_count >= 1 && (
@@ -185,7 +170,6 @@ export const Comment = ({
               {getTimeAgo(new Date(comment.created_dttm))}
             </p>
           </div>
-          {/* <p className="tiny-text">{comment.eff_status ? false : <span>DELETED</span>}</p> */}
           <p className={`comment-body ${comment.eff_status ? "" : "deleted"}`}>
             {comment.eff_status ? comment.body : "This comment has been deleted"}
           </p>

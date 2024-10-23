@@ -815,9 +815,6 @@ export const Sell = () => {
           <div
             className={`form-block photos ${markedFieldKey == "images" ? "marked" : ""}`}
           >
-            {/* <div className="header">
-              <h2>Photos</h2>
-            </div> */}
             <div className="form-content">
               {photos.length != 0 && (
                 <div className="selling-item-images">
@@ -836,17 +833,6 @@ export const Sell = () => {
                         <img
                           src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                         />
-                        {/* <div className="image-overlay">
-                      <div className="buttons">
-                        <button
-                          className="delete-button"
-                          type="button"
-                          onClick={(e) => handleImageDelete(image)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div> */}
                       </div>
                     );
                   })}
@@ -923,7 +909,6 @@ export const Sell = () => {
             </div>
 
             <div className="form-content">
-              {/* For edit page, copy from here down */}
               <fieldset>
                 <div
                   className={`form-group ${markedFieldKey == "fullName" ? "marked" : ""}`}
@@ -1057,8 +1042,6 @@ export const Sell = () => {
                 </div>
               </fieldset>
             </div>
-            {/* <MapboxLocationSearch/> */}
-            {/* <LeafletLocationSearch /> */}
           </div>
 
           <div className="form-block item-details">
@@ -1075,7 +1058,6 @@ export const Sell = () => {
                 <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
                   What is this item?
                 </label>
-                {/* <label>Examples: 'Planet Eclipse LV1 Dynasty Waffle Cut', 'Valken Rolling Gear Bag', 'Infamous Pro DNA Barrel Kit'</label> */}
                 <input
                   onChange={(e) => setWhatIsThisItem(e.target.value)}
                   value={whatIsThisItem}
@@ -1105,10 +1087,6 @@ export const Sell = () => {
                 </div>
               </fieldset>
 
-              {/* <fieldset className="radio-form-groups"> */}
-
-              {/* </fieldset> */}
-              {/* <fieldset className="radio-form-groups"> */}
               <div
                 className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
                 ref={conditionRef}
@@ -1122,8 +1100,6 @@ export const Sell = () => {
                   }
                 />
               </div>
-
-              {/* </fieldset> */}
 
               <div
                 className={`form-group ${markedFieldKey == "details" ? "marked" : ""}`}
@@ -1167,7 +1143,6 @@ export const Sell = () => {
                 </div>
               </div>
 
-              {/* </fieldset> */}
               <div
                 className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
               >
@@ -1212,123 +1187,65 @@ export const Sell = () => {
                     handleRadioSelect("shippingOptions", option)
                   }
                 />
-
-                {/* <div className="option-buttons">
-                      {radioOptions.shippingOptions.map((option) => {
-                        return (
-                          <button
-                            className={`${option.checked ? "selected" : ""}`}
-                            onClick={() => handleRadioSelect("shippingOptions", option)}
-                          >
-                            <div className="radio-icon-container">
-                              <RadioIcon checked={option.checked} />
-                            </div>
-                            <div className="option-content">
-                              {option.value}
-                              {option.value == "Accepting Trades" && (
-                                <div className="accepting-trades-container">
-                                  <label>What would you trade for? (Optional)</label>
-    
-                                  <input
-                                    placeholder="..."
-                                    value={acceptedTrades}
-                                    onChange={(e) => setAcceptedTrades(e.target.value)}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div> */}
-                {/* <RadioOptions
-                      options={radioOptions.shippingOptions}
-                      handleRadioOptionClick={(option) =>
-                        handleRadioSelect("shippingOptions", option)
-                      }
-                    /> */}
               </div>
 
-              {noShipping ? (
-                // <div className="form-group">
-                //   <label>Shipping</label>
-                //   <p>No shipping, local only</p>
-                //   <button
-                //     className="button"
-                //     onClick={() =>
-                //       handleRadioSelect("shippingOptions", {
-                //         id: 0,
-                //         value: "Willing to Ship",
-                //         checked: true,
-                //       })
-                //     }
-                //   >
-                //     Change to <i>"Willing to Ship"</i>
-                //   </button>
-                // </div>
-                false
-              ) : (
-                <div className="form-group shipping">
-                  <label>Are you covering the shipping cost?</label>
-                  <div className="shipping-selector-and-input">
-                    <div className="shipping-selector">
-                      <button
-                        className={`shipping-toggle-button ${
-                          !buyerPaysShipping ? "selected" : ""
-                        }`}
-                        type="button"
-                        onClick={() => setBuyerPaysShipping(false)}
-                      >
-                        <RadioIcon checked={!buyerPaysShipping} /> Free/Included
-                      </button>
-                      <button
-                        className={`shipping-toggle-button ${
-                          buyerPaysShipping ? "selected" : ""
-                        }`}
-                        type="button"
-                        onClick={() => setBuyerPaysShipping(true)}
-                      >
-                        <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
-                      </button>
+              {!noShipping && (
+                <>
+                  <div className="form-group shipping">
+                    <label>Are you covering the shipping cost?</label>
+                    <div className="shipping-selector-and-input">
+                      <div className="shipping-selector">
+                        <button
+                          className={`shipping-toggle-button ${
+                            !buyerPaysShipping ? "selected" : ""
+                          }`}
+                          type="button"
+                          onClick={() => setBuyerPaysShipping(false)}
+                        >
+                          <RadioIcon checked={!buyerPaysShipping} /> Free/Included
+                        </button>
+                        <button
+                          className={`shipping-toggle-button ${
+                            buyerPaysShipping ? "selected" : ""
+                          }`}
+                          type="button"
+                          onClick={() => setBuyerPaysShipping(true)}
+                        >
+                          <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* </fieldset> */}
-
-              {/* <fieldset className="prices"> */}
-
-              {!noShipping && (
-                <div
-                  ref={shippingCostRef}
-                  className={`form-group shipping-cost ${
-                    buyerPaysShipping ? "" : "disabled"
-                  } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}
-                  title={
-                    buyerPaysShipping
-                      ? "Adjust the cost of shipping for this item"
-                      : "Toggle 'buyer pays shipping' for this to be interactive"
-                  }
-                >
-                  <label>
-                    {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
-                  </label>
-                  <div className="input-container">
-                    <input
-                      onChange={(e) => {
-                        setShippingCost(e.target.value);
-                      }}
-                      type="number"
-                      step={0.01}
-                      value={shippingCost}
-                      placeholder="$0"
-                      required
-                      className="dollars"
-                      disabled={!buyerPaysShipping}
-                    />
+                  <div
+                    ref={shippingCostRef}
+                    className={`form-group shipping-cost ${
+                      buyerPaysShipping ? "" : "disabled"
+                    } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}
+                    title={
+                      buyerPaysShipping
+                        ? "Adjust the cost of shipping for this item"
+                        : "Toggle 'buyer pays shipping' for this to be interactive"
+                    }
+                  >
+                    <label>
+                      {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
+                    </label>
+                    <div className="input-container">
+                      <input
+                        onChange={(e) => {
+                          setShippingCost(e.target.value);
+                        }}
+                        type="number"
+                        step={0.01}
+                        value={shippingCost}
+                        placeholder="$0"
+                        required
+                        className="dollars"
+                        disabled={!buyerPaysShipping}
+                      />
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </div>
@@ -1342,49 +1259,6 @@ export const Sell = () => {
                 className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
                 ref={tradesRef}
               >
-                {/* <label>
-                  Trades{" "}
-                  {generatedFilters.trades && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label> */}
-                {/* <div className="option-buttons">
-                  {radioOptions.tradeOptions.map((option) => {
-                    return (
-                      <button
-                        className={`${option.checked ? "selected" : ""}`}
-                        onClick={() => handleRadioSelect("tradeOptions", option)}
-                      >
-                        <div className="radio-icon-container">
-                          <RadioIcon checked={option.checked} />
-                        </div>
-                        <div className="option-content">
-                          <div className="title-and-description">
-                            <p>{option.title}</p>
-                            <p>{option.description}</p>
-                          </div>
-                          {option.value == "Accepting Trades" && option.checked && (
-                            <div className="accepting-trades-container">
-                              <label>What would you trade for? (Optional)</label>
-
-                              <input
-                                placeholder="..."
-                                value={acceptedTrades}
-                                onChange={(e) => setAcceptedTrades(e.target.value)}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div> */}
-
                 <RadioOptions
                   options={radioOptions.tradeOptions}
                   handleRadioOptionClick={(option) =>
@@ -1406,22 +1280,6 @@ export const Sell = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="what-the-buyer-sees">
-              <p>
-                Buyer Sees $
-                {(
-                  parseFloat(price) +
-                    parseFloat(buyerPaysShipping ? shippingCost || 0 : 0) || 0
-                ).toLocaleString("en-US")}{" "}
-                (${parseFloat(price).toLocaleString("en-US") || 0}
-                {buyerPaysShipping && shippingCost
-                  ? ` + $${parseFloat(shippingCost).toLocaleString("en-US")} shipping`
-                  : " w/ Free Shipping"})
-              </p>
-            </div> */}
-
-          {/* For edit page, copy from here up */}
 
           <div className="submit-container">
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
@@ -1471,7 +1329,6 @@ export const Sell = () => {
                       all: setCategoryChecked(category, categories.draft.all),
                     },
                   });
-                  // setCategories(setCategoryChecked(category, categories));
                 }
               }}
               handleModalClick={() => {
@@ -1514,8 +1371,6 @@ export const Sell = () => {
         )}
         {loading && <LoadingOverlay message="Listing your item for sale..." />}
       </div>
-      {/* {missingUserInfo && <MissingUserInfoModal />} */}
-      {/* <Footer /> */}
     </>
   );
 };

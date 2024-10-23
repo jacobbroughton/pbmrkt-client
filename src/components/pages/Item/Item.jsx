@@ -118,7 +118,7 @@ export const Item = () => {
         setExistingVote(data[0].existing_vote);
         setSelectedPhoto(data2[0]);
       } catch (error) {
-        console.error(error)
+        console.error(error);
         setError(error.toString());
       }
       setLoading(false);
@@ -414,13 +414,6 @@ export const Item = () => {
                 dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
               }
             >
-              {/* <div className="double-click-overlay">
-                <button
-                  // onDoubleClick={() =>
-                  //   dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
-                  // }
-                >asdf</button>
-              </div> */}
               {selectedPhoto ? (
                 <img className="item-main-image" src={selectedPhoto.url} />
               ) : (
@@ -536,91 +529,15 @@ export const Item = () => {
                           ? ` + $${item.info.shipping_cost} shipping`
                           : " w/ Free Shipping"}{" "}
                       </p>
-                      {/* {priceChangeHistory?.length >= 1 && (
-                        <button
-                          className="button price-change-modal-toggle"
-                          onClick={() =>
-                            dispatch(
-                              toggleModal({ key: "priceChangeModal", value: true })
-                            )
-                          }
-                        >
-                          <ChartIcon />
-                        </button>
-                      )} */}
                     </div>
                     <div className="status-as-of-container">
                       <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
                         {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                        {item.info.status} {/* as of {getTimeAgo(new Date())} */}
+                        {item.info.status}
                       </p>
-                      {/* {isAdmin && (
-                        <button
-                          className="status-change-button"
-                          onClick={() =>
-                            handleStatusChange(
-                              item.info.status == "Available" ? "Sold" : "Available"
-                            )
-                          }
-                        >
-                          Mark as "
-                          {item.info.status == "Available" ? "Sold" : "Available"}"
-                        </button>
-                      )} */}
                     </div>
                   </div>
                 </div>
-
-                {/* <div className="horizontal-divider"></div> */}
-                {/* {isAdmin && (
-                  <button
-                    title="Modify the properties of this item"
-                    type="button"
-                    className="edit-item-menu-toggle"
-                    onClick={() =>
-                      dispatch(
-                        toggleModal({
-                          key: "editItemModal",
-                          value: !editItemMenuToggled,
-                        })
-                      )
-                    }
-                  >
-                    <ThreeDots />
-                  </button>
-                )} */}
-
-                {/* <button
-                      onClick={() =>
-                        dispatch(toggleModal({ key: "contactSellerModal", value: true }))
-                      }
-                    >
-                      <MessageIcon />
-                      <p>Contact</p>
-                    </button> */}
-                {/* <div className="contact-option">
-                      <PhoneIcon />{" "}
-                      <p className="phone">
-                        {user ? (
-                          item.info.phone_number || "N/A"
-                        ) : (
-                          <div className="placeholder phone"></div>
-                        )}
-                      </p>
-                    </div>
-                    <div className="contact-option">
-                      <EmailIcon />
-                      <p className="email">
-                        {user ? (
-                          item.info.created_by_email || "N/A"
-                        ) : (
-                          <div className="placeholder email"></div>
-                        )}
-                      </p>
-                    </div> */}
-                {/* {!user && <p className="small-text">Must be signed in to view</p>} */}
-                {/* </div>
-                </div> */}
               </div>
 
               {item.info.details ? (
@@ -640,7 +557,6 @@ export const Item = () => {
                 </div>
               )}
 
-              {/* Metadata */}
               <div className="metadata-table-and-label">
                 <div className="metadata-table-container">
                   <table className="metadata">
@@ -675,7 +591,6 @@ export const Item = () => {
                 </div>
               </div>
 
-              {/* Seller Info */}
               <div className="seller-info">
                 <div className="profile-picture-container">
                   <img className="profile-picture" src={item.info.profile_picture_url} />
@@ -691,7 +606,6 @@ export const Item = () => {
                     {item.info.city}, {item.info.state}
                   </p>
 
-                  {/* <Stars rating={item.info.seller_rating} /> ({sellerReviews.count}) */}
                   <button
                     className="stars-button"
                     onClick={(e) => {
@@ -711,8 +625,6 @@ export const Item = () => {
         </div>
 
         <div className="comments-section">
-          {/* <div className="horizontal-divider"></div> */}
-          {/* <h3>Comments</h3> */}
           {user ? (
             <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
               <textarea
@@ -795,7 +707,6 @@ export const Item = () => {
           </>
         )}
         {contactSellerModalToggled && <ContactSellerModal contactInfo={item.info} />}
-        {/* <Footer marginTop={150} /> */}
       </div>
     </>
   );

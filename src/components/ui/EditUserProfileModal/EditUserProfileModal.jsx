@@ -95,7 +95,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         throw error.message;
       }
 
-
       if (!data.path) throw "New profile picture path not found";
 
       const { data: data2, error: error2 } = supabase.storage
@@ -120,7 +119,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       //     profile_picture_url: newProfilePictureUrlLocal,
       //   })
       // );
-
 
       const { data: data4, error: error4 } = supabase.storage
         .from("profile_pictures")
@@ -227,18 +225,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
               </select>
             </div>
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="email">City</label>
-            <select
-              disabled={!state}
-              onChange={(e) => setCity(e.target.value == "All" ? null : e.target.value)}
-              value={city?.toUpperCase()}
-            >
-              {statesAndCities[state]?.map((innerCity) => (
-                <option value={innerCity}>{capitalizeWords(innerCity)}</option>
-              ))}
-            </select>
-          </div> */}
+
           <div
             className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
               !state ? "disabled" : ""
@@ -300,10 +287,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
             onChange={(e) => setBio(e.target.value)}
           />
         </div>
-        {/* <div className="form-group">
-          <label>Location</label>
-          <MapboxLocationSearch/>
-        </div> */}
+
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">Phone Number</label>

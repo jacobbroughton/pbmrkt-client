@@ -86,14 +86,7 @@ export const RightSideMenu = () => {
         <HomeIcon />
         <label>Home</label>
       </Link>
-      {/* <Link
-        to={`/sell`}
-        className={`menu-item ${location.pathname == "/sell" ? "current" : ""}`}
-        onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
-      >
-        <DollarBillIcon />
-        <label>Sell</label>
-      </Link> */}
+
       <button
         className="menu-item"
         onClick={() => {
@@ -122,26 +115,7 @@ export const RightSideMenu = () => {
           Logout
         </button>
       )}
-      {/* <Link
-        className={`menu-item`}
-        to="/register"
-        onClick={() => {
-          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-        }}
-      >
-        <IDCardIcon />
-        Register
-      </Link>
-      <Link
-        className={`menu-item`}
-        to="/login"
-        onClick={() => {
-          dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-        }}
-      >
-        <ArrowRightToBracket />
-        Login
-      </Link> */}
+
       {!user && (
         <>
           <button

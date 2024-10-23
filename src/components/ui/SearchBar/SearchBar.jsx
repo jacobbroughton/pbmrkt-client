@@ -4,7 +4,7 @@ import {
   setSavedSearchValue,
   setSearchBarToggled,
 } from "../../../redux/search";
-import {SearchIcon} from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon";
 import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
 import { setFlag } from "../../../redux/flags";
@@ -55,14 +55,6 @@ export const SearchBar = () => {
           >
             <SearchIcon />
           </button>
-          {/* {search.searchBarToggled && (
-            <input
-              placeholder="Search for anything (ex. Planet Eclipse, LTR, Sandana)"
-              value={search.draftSearchValue}
-              onChange={(e) => dispatch(setDraftSearchValue(e.target.value))}
-              ref={searchRef}
-            />
-          )} */}
         </div>
         {error && <p className="error-text tiny text">{error}</p>}
       </form>

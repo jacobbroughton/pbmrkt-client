@@ -61,7 +61,6 @@ export const ResetPassword = () => {
         <p>
           Need to create an account? <Link to="/register">Register here</Link>
         </p>
-        {/* <button className='google-auth-button' onClick={handleGoogleAuth} type="button">Sign in with Google</button> */}
         <div className="form-block">
           <>
             <div className="form-group">

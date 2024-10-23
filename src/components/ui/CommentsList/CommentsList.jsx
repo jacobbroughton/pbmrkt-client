@@ -145,7 +145,7 @@ export const CommentsList = ({
         setLocalComments(updatedComments);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
 
@@ -158,9 +158,6 @@ export const CommentsList = ({
           <CommentsIcon />
           <p>No Comments Yet</p>
           <p>Be the first to share what you think!</p>
-          {/* <div className="frog-icon-container">
-            <FrogIcon />
-          </div> */}
         </div>
       ) : (
         localComments.map((comment) => {

@@ -167,7 +167,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
               disabled={resetButtonDisabled}
               title="Reset all of your filters back to their original state"
             >
-              {/* <UndoIcon /> */}
               Reset All
             </button>
           </div>
@@ -235,46 +234,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                 handleRadioOptionClick={(option) => handlePriceFilterSelect(option)}
                 disabled={allFiltersDisabled}
               />
-              {/* <div className="min-max-price-inputs">
-              <div className="min-max-input-container">
-                <label>Min. $</label>
-                <input
-                  type="number"
-                  placeholder="$15"
-                  onChange={(e) =>
-                    dispatch(
-                      setFilters({
-                        ...filters,
-                        draft: { ...filters.draft, minPrice: e.target.value },
-                      })
-                    )
-                  }
-                  value={filters.draft.minPrice}
-                />
-              </div>
-              <div className="min-max-input-container">
-                <label>Max $</label>
-                <input
-                  type="number"
-                  placeholder="$450"
-                  className={`${
-                    parseFloat(filters.draft.minPrice) >
-                    parseFloat(filters.draft.maxPrice)
-                      ? "error"
-                      : ""
-                  }`}
-                  onChange={(e) =>
-                    dispatch(
-                      setFilters({
-                        ...filters,
-                        draft: { ...filters.draft, maxPrice: e.target.value },
-                      })
-                    )
-                  }
-                  value={filters.draft.maxPrice}
-                />
-              </div>
-            </div> */}
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
@@ -368,9 +327,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     Reset
                   </button>
                 )}
-                {/* <button className='reset-button' onClick={() => dispatch(uncheckFilter('conditionOptions'))}>
-                  Uncheck All
-                </button> */}
               </div>
               <Checkboxes
                 options={filters.draft.conditionOptions}
@@ -460,25 +416,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
             </div>
           </div>
         </form>
-        {/* <div className="sidebar-fixed-wrapper">
-          <div className="dotted-track"></div>
-          <button
-            draggable={true}
-            className="sidebar-toggle-button"
-            onClick={() => {
-              dispatch(toggleModal({ key: "filtersSidebar", value: false }));
-            }}
-            style={{
-              ...(isOnMobile() ? { bottom: "200px" } : { top: "65px" }),
-            }}
-          >
-            {filtersSidebarToggled ? (
-              <Arrow direction="left" />
-            ) : (
-              <Arrow direction="right" />
-            )}
-          </button>
-        </div> */}
       </div>
     </aside>
   );

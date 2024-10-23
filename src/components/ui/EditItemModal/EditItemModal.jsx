@@ -327,9 +327,6 @@ export const EditItemModal = ({ item, setItem }) => {
         <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
           {error && <p className="small-text error-text">{error.toString()}</p>}
           <div className="form-block">
-            {/* <div className="header">
-              <h2>Item Details</h2>
-            </div> */}
             <div className="form-content">
               <div
                 className={`form-group ${
@@ -340,7 +337,6 @@ export const EditItemModal = ({ item, setItem }) => {
                 <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
                   What is this item?
                 </label>
-                {/* <label>Examples: 'Planet Eclipse LV1 Dynasty Waffle Cut', 'Valken Rolling Gear Bag', 'Infamous Pro DNA Barrel Kit'</label> */}
                 <input
                   onChange={(e) => setWhatIsThisItem(e.target.value)}
                   value={whatIsThisItem}
@@ -475,9 +471,6 @@ export const EditItemModal = ({ item, setItem }) => {
             </div>
           </div>
           <div className="form-block">
-            {/* <div className="header">
-              <h2>Price</h2>
-            </div> */}
             <div className="form-content">
               {noShipping ? (
                 <div className="form-group">
@@ -511,8 +504,6 @@ export const EditItemModal = ({ item, setItem }) => {
                   </div>
                 </div>
               )}
-
-              {/* </fieldset> */}
 
               <fieldset className="prices">
                 <div
@@ -571,16 +562,6 @@ export const EditItemModal = ({ item, setItem }) => {
               </fieldset>
             </div>
           </div>
-          {/* <div className="horizontal-divider"></div> */}
-          {/* <div className="controls">
-              {loading ? (
-                <p>Submitting...</p>
-              ) : (
-                <button type="submit" disabled={submitDisabled}>
-                  Submit
-                </button>
-              )}
-            </div> */}
         </form>
         <div className="controls">
           <button
@@ -601,7 +582,6 @@ export const EditItemModal = ({ item, setItem }) => {
             categories={categories.draft.all}
             setCategories={setCategories}
             handleCategoryClick={(category) => {
-              // setSelectedCategory(category);
               if (category.is_folder) {
                 setCategories({
                   ...categories,
@@ -619,7 +599,6 @@ export const EditItemModal = ({ item, setItem }) => {
                     all: setCategoryChecked(category, categories.draft.all),
                   },
                 });
-                // setCategories(setCategoryChecked(category, categories));
               }
             }}
             handleModalClick={() => {

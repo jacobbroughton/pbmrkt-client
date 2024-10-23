@@ -191,9 +191,6 @@ export const CreateWantedItem = () => {
       <h1>Create Wanted Post</h1>
       <form className="standard" onSubmit={handleSubmit}>
         <div className="form-block">
-          {/* <div className="header">
-            <h2>Info about your request</h2>
-          </div> */}
           <div className="content">
             <div className="form-groups-parent">
               <div
@@ -247,24 +244,6 @@ export const CreateWantedItem = () => {
                   />
                 </div>
               </div>
-              {/* <RadioOptions
-                disabled={!budget}
-                options={radioOptions.buyingNegotiableOptions}
-                handleRadioOptionClick={(clickedOption) =>
-                  setRadioOptions({
-                    ...radioOptions,
-                    buyingNegotiableOptions: radioOptions.buyingNegotiableOptions.map(
-                      (option) => {
-                        return {
-                          ...option,
-                          checked: clickedOption.id == option.id,
-                        };
-                      }
-                    ),
-                  })
-                }
-              /> */}
-
               <div className="form-group">
                 <label>Describe what you're looking for (optional)</label>
                 <textarea
@@ -287,7 +266,6 @@ export const CreateWantedItem = () => {
                   })
                 }
               />
-              {/* {okWithShipping && <CityStateFieldset />} */}
             </div>
           </div>
         </div>

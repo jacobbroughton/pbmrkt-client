@@ -216,6 +216,10 @@
   cursor: pointer;
 }
 
+.search-modal .search-results-container .recent-searches ul li .right-side > button:hover {
+  background-color: #555;
+}
+
 .search-modal .search-results-container .recent-searches ul li p {
 }
 

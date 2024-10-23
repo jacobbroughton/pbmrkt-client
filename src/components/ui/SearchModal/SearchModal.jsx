@@ -123,6 +123,23 @@ export const SearchModal = () => {
     setResultsLoading(false);
   }
 
+  async function deleteRecentSearch(e, recentSearch) {
+    e.stopPropagation()
+    try {
+      let { data, error } = await supabase.rpc("delete_search", {
+        p_search_id: recentSearch.id,
+      });
+
+    if (error) throw error.message;
+
+    setSearchHistory(searchHistory.filter(searchHistoryItem => searchHistoryItem.id !== recentSearch.id))
+      console.log(data, recentSearch);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
   useEffect(() => {
     const debounceFn = setTimeout(() => {
       if (searchValue.draft == "" && searchIsInitial) return;
@@ -185,7 +202,9 @@ export const SearchModal = () => {
                       <p>{searchHistoryItem.search_value}</p>
                       <div className="right-side">
                         <Arrow direction={"right"} />
-                        <button><XIcon/></button>
+                        <button className='delete-search-history-button' onClick={(e) => deleteRecentSearch(e, searchHistoryItem)}>
+                          <XIcon />
+                        </button>
                       </div>
                     </li>
                   ))

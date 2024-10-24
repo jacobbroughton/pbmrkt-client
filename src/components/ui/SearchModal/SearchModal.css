@@ -242,7 +242,8 @@
   display: flex;
 }
 
-.search-modal .search-results-container ul.listings li:not(:last-child) {
+.search-modal .search-results-container ul.listings li:not(:last-child),
+.search-modal .search-results-container ul.listings li:has(:only-child){
   border-bottom: 1px solid #555;
 }
 

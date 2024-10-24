@@ -73,6 +73,7 @@ export const SearchModal = () => {
         alert("No user, no search history"); // TODO - fix and delete
       }
 
+      console.log('clicked here swag')
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
@@ -124,15 +125,19 @@ export const SearchModal = () => {
   }
 
   async function deleteRecentSearch(e, recentSearch) {
-    e.stopPropagation()
+    e.stopPropagation();
     try {
       let { data, error } = await supabase.rpc("delete_search", {
         p_search_id: recentSearch.id,
       });
 
-    if (error) throw error.message;
+      if (error) throw error.message;
 
-    setSearchHistory(searchHistory.filter(searchHistoryItem => searchHistoryItem.id !== recentSearch.id))
+      setSearchHistory(
+        searchHistory.filter(
+          (searchHistoryItem) => searchHistoryItem.id !== recentSearch.id
+        )
+      );
       console.log(data, recentSearch);
     } catch (error) {
       console.error(error);
@@ -202,7 +207,10 @@ export const SearchModal = () => {
                       <p>{searchHistoryItem.search_value}</p>
                       <div className="right-side">
                         <Arrow direction={"right"} />
-                        <button className='delete-search-history-button' onClick={(e) => deleteRecentSearch(e, searchHistoryItem)}>
+                        <button
+                          className="delete-search-history-button"
+                          onClick={(e) => deleteRecentSearch(e, searchHistoryItem)}
+                        >
                           <XIcon />
                         </button>
                       </div>
@@ -269,7 +277,7 @@ export const SearchModal = () => {
         onClick={() => {
           dispatch(toggleModal({ key: "searchModal", value: false }));
           dispatch(setDraftSearchValue(""));
-          dispatch(setSavedSearchValue(""));
+          // dispatch(setSavedSearchValue(""));
         }}
       />
     </>

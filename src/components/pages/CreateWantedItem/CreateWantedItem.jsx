@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
 import { supabase } from "../../../utils/supabase";
@@ -12,13 +14,16 @@ import {
 } from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal";
 import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons";
-import { SortIcon } from "../../ui/Icons/SortIcon";
+import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
-import "./CreateWantedItem.css";
-import { useNavigate } from "react-router-dom";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
+import "./CreateWantedItem.css";
 
 export const CreateWantedItem = () => {
+  const photosRef = useRef(null);
+  const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
+  const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
+  const [photos, setPhotos] = useState([]);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
   const [whatIsIt, setWhatIsIt] = useState("");
   const [radioOptions, setRadioOptions] = useState({
@@ -139,26 +144,18 @@ export const CreateWantedItem = () => {
       try {
         const { data, error } = await supabase.rpc("get_item_categories", {
           p_search_value: "",
-          p_brand: filters.saved.brand,
-          p_model: filters.saved.model,
-          p_min_price: filters.saved.minPrice || 0,
-          p_max_price: filters.saved.maxPrice,
+          p_min_budget: filters.saved.minPrice || 0,
+          p_max_budget: filters.saved.maxPrice,
+          p_city: filters.saved.city == "All" ? null : filters.saved.city,
           p_state: filters.saved.state == "All" ? null : filters.saved.state,
+          p_category_id: filters.saved.category?.id || null,
           p_condition: filters.saved.conditionOptions
             .filter((option) => option.checked)
             .map((option) => option.value),
           p_shipping: filters.saved.shippingOptions
             .filter((option) => option.checked)
             .map((option) => option.value),
-          p_trades: filters.saved.tradeOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_negotiable: filters.saved.negotiableOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
           p_seller_id: null,
-          p_city: filters.saved.city == "All" ? null : filters.saved.city,
-          p_category_id: filters.saved.category?.id || null,
         });
 
         if (error) throw error.message;
@@ -187,10 +184,20 @@ export const CreateWantedItem = () => {
   const submitDisabled = !whatIsIt || !budget;
 
   return (
-    <div className="wanted">
+    <div className="create-wanted-item">
       {error && <p className="error-text small-text">{error}</p>}
       <h1>Create Wanted Post</h1>
       <form className="standard" onSubmit={handleSubmit}>
+        <PhotoUpload
+          ref={photosRef}
+          generatedGroupId={generatedGroupId}
+          photos={photos}
+          setPhotos={setPhotos}
+          markedFieldKey={markedFieldKey}
+          newCoverPhotoId={newCoverPhotoId}
+          setNewCoverPhotoId={setNewCoverPhotoId}
+          setError={setError}
+        />
         <div className="form-block">
           <div className="content">
             <div className="form-groups-parent">

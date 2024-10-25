@@ -38,17 +38,19 @@ export const Navbar = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(toggleModal({ key: "addNewMenu", value: false }));
-    dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-    dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled }));
+    // dispatch(toggleModal({ key: "addNewMenu", value: false }));
+    // dispatch(toggleModal({ key: "notificationsMenu", value: false }));
+    // dispatch(toggleModal({ key: "searchModal", value: false }));
+    dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled, closeAll: true }));
   }
 
   function handleNotificationsMenuToggle(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(toggleModal({ key: "addNewMenu", value: false }));
-    dispatch(toggleModal({ key: "rightSideMenu", value: false }));
-    dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled }));
+    // dispatch(toggleModal({ key: "addNewMenu", value: false }));
+    // dispatch(toggleModal({ key: "rightSideMenu", value: false }));
+    // dispatch(toggleModal({ key: "searchModal", value: false }));
+    dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled, closeAll: true }));
   }
 
   async function handleNotificationsSubscribe() {
@@ -198,7 +200,7 @@ export const Navbar = () => {
           className={`add-new-menu-toggle ${addNewMenuToggled ? "toggled" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(toggleModal({ key: "addNewMenu", value: !addNewMenuToggled }));
+            dispatch(toggleModal({ key: "addNewMenu", value: !addNewMenuToggled, closeAll: true}));
           }}
         >
           <PlusIcon />

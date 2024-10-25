@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 30px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -35,13 +35,13 @@
 }
 
 .create-wanted-item form .input-container input {
-  padding-left: 37px !important;
+  padding-left: 37px;
   position: relative;
   width: 100%;
 }
 
 .create-wanted-item form .form-block {
-  padding: 0 !important;
+  padding: 0;
 }
 
 .create-wanted-item form .form-block .header {

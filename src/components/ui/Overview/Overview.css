@@ -16,6 +16,7 @@
   border-radius: 1px;
   font-size: 0.875rem;
   align-items: center;
+  border-radius: 3px;
 }
 
 .overview .view-all:hover {
@@ -77,6 +78,7 @@
 
 .overview-option-list.main > li {
   padding: 5px;
+  border-radius: 3px;
 }
 
 .overview-option-list.main li p.label {

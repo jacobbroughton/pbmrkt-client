@@ -1,0 +1,46 @@
+
+.photo-upload {
+  height: 60px;
+  border: 1px solid #555;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  /* height: 100%; */
+  background-color: #4f4f4f;
+  width: 100%;
+  min-height: 100px;
+}
+
+.photo-upload svg {
+  width: 51px;
+  fill: whitesmoke;
+  margin-right: 15px;
+}
+
+.photo-upload p:first-child {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.photo-upload input[type="file"] {
+  display: none;
+}
+
+.photo-upload.secondary {
+  background-color: #4f4f4f;
+  padding: 0;
+  font-weight: 500;
+}
+
+.photo-upload.secondary:hover {
+  text-decoration: underline;
+}
+
+.photo-upload.dragging {
+  border-color: #666;
+}

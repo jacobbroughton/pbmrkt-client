@@ -26,6 +26,7 @@ import { ForSaleViews } from "../../ui/ForSaleViews/ForSaleViews.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import "./Home.css";
+import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -525,7 +526,7 @@ export function Listings() {
           {view.type === "For Sale" ? (
             <ForSaleViews sort={sort} setTotalListings={setTotalListings} />
           ) : view.type === "Wanted" ? (
-            <p>Wanted</p>
+            <WantedViews sort={sort} setTotalListings={setTotalListings}/>
           ) : (
             false
           )}

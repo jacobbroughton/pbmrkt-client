@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
-import { Link, useNavigate } from "react-router-dom";
-import "./Sell.css";
-import { supabase } from "../../../utils/supabase";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { toggleModal } from "../../../redux/modals.js";
+import { smoothScrollOptions } from "../../../utils/constants.js";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import { supabase } from "../../../utils/supabase";
 import {
   capitalizeWords,
   collapseAllCategoryFolders,
@@ -14,22 +15,17 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-import { toggleModal } from "../../../redux/modals.js";
-import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
-import { TrashIcon } from "../../ui/Icons/TrashIcon";
-import { StarIcon } from "../../ui/Icons/StarIcon";
+import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { Arrow } from "../../ui/Icons/Arrow";
-import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
 import { RadioIcon } from "../../ui/Icons/RadioIcon.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
-import { ImagesIcons } from "../../ui/Icons/ImagesIcons.jsx";
-import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
-import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
-import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
-import { smoothScrollOptions } from "../../../utils/constants.js";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
+import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload.jsx";
+import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
+import "./Sell.css";
 
 const brandArr = [
   "Planet Eclipse",
@@ -126,8 +122,6 @@ export const Sell = () => {
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
-  const imageInputRef = useRef(null);
-  const [imagesUploading, setImagesUploading] = useState(false);
   const [brand, setBrand] = useState(""); // TODO -- delete this and references to it in backend
   const [model, setModel] = useState(""); // TODO -- delete this and references to it in backend
   const [price, setPrice] = useState(null);
@@ -141,17 +135,16 @@ export const Sell = () => {
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
   const [photos, setPhotos] = useState([]);
-  const [sellError, setSellError] = useState("");
+  const [error, setError] = useState("");
   const [listedItemID, setListedItemID] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [whatIsThisItem, setWhatIsThisItem] = useState("");
   const [radioOptions, setRadioOptions] = useState(initialRadioOptions);
-  const [draggingPhotos, setDraggingPhotos] = useState(false);
-  const [numPhotosUploaded, setNumPhotosUploaded] = useState(0);
+  const photosRef = useRef(null);
+
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
-  const [totalPhotos, setTotalPhotos] = useState(null);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
   const [generatedFilters, setGeneratedFilters] = useState({
     phoneNumber: false,
@@ -171,8 +164,7 @@ export const Sell = () => {
       selected: null,
     },
   });
-  // const [selectedCategory, setSelectedCategory] = useState(null);
-  const [discardImagesLoading, setDiscardImagesLoading] = useState(false);
+
   const [cantFindCity, setCantFindCity] = useState(false);
   const [acceptedTrades, setAcceptedTrades] = useState("");
 
@@ -247,7 +239,7 @@ export const Sell = () => {
         });
       } catch (error) {
         console.error(error);
-        setSellError(error);
+        setError(error);
       }
     };
 
@@ -287,54 +279,11 @@ export const Sell = () => {
           setCity(capitalizeWords(defaultCity));
         }
 
-        // if (defaultTrades) {
-        //   localGeneratedFilters.trades = true;
-        //   const correspondingTradesOption = radioOptions.tradeOptions.find(
-        //     (op) => op.value == defaultTrades
-        //   );
-        //   localRadioOptions.tradeOptions = localRadioOptions.tradeOptions.map((op) => {
-        //     return {
-        //       ...op,
-        //       checked: op.value == correspondingTradesOption.value,
-        //     };
-        //   });
-        // }
-
-        // if (defaultShipping) {
-        //   localGeneratedFilters.shipping = true;
-        //   const correspondingShippingOption = radioOptions.shippingOptions.find(
-        //     (op) => op.value == defaultShipping
-        //   );
-        //   localRadioOptions.shippingOptions = localRadioOptions.shippingOptions.map(
-        //     (op) => {
-        //       return {
-        //         ...op,
-        //         checked: op.value == correspondingShippingOption.value,
-        //       };
-        //     }
-        //   );
-        // }
-
-        // if (defaultNegotiable) {
-        //   localGeneratedFilters.negotiable = true;
-        //   const correspondingNegotiableOption = radioOptions.negotiableOptions.find(
-        //     (op) => op.value == defaultNegotiable
-        //   );
-        //   localRadioOptions.negotiableOptions = localRadioOptions.negotiableOptions.map(
-        //     (op) => {
-        //       return {
-        //         ...op,
-        //         checked: op.value == correspondingNegotiableOption.value,
-        //       };
-        //     }
-        //   );
-        // }
-
         setRadioOptions(localRadioOptions);
         setGeneratedFilters(localGeneratedFilters);
       } catch (error) {
         console.error(error);
-        setSellError(error.toString());
+        setError(error.toString());
       }
     };
 
@@ -362,27 +311,6 @@ export const Sell = () => {
     buyerPaysShipping,
     shippingCost,
   ]);
-
-  function handleDragEnter(e) {
-    e.preventDefault();
-    setDraggingPhotos(true);
-  }
-
-  function handleDragLeave(e) {
-    e.preventDefault();
-    setDraggingPhotos(false);
-  }
-
-  function handleDrop(e) {
-    e.preventDefault();
-    setDraggingPhotos(false);
-
-    if (e.dataTransfer.files) {
-      handleImageUpload(e.dataTransfer.files);
-    } else {
-      throw "Something happened while dropping images";
-    }
-  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -450,118 +378,13 @@ export const Sell = () => {
       navigate(`/listing/${data}`);
     } catch (error) {
       console.error(error);
-      setSellError(error.toString());
+      setError(error.toString());
       setLoading(false);
     }
   }
 
-  // async function handleBatchFileUploadDrop(file) {
-  //   try {
-  //     const newFile = await (await fetch(file.name)).arrayBuffer();
-  //     if (!file) throw "No batch file provided";
-
-  //     const reader = new FileReader();
-
-  //     reader.onload = function (e) {
-  //       const data = e.target.result;
-  //       const workbook = read(data);
-
-  //     };
-
-  //     // const workbook = read(file.name);
-  //     reader.readAsArrayBuffer(file);
-  //   } catch (error) {
-  //     setSellError(error.toString());
-  //   }
-  // }
-
-  let index = 0;
-  async function handleImageUpload(imageFiles) {
-    try {
-      if (imageFiles.length > 5) {
-        throw "Too many files uploaded, maximum: 5";
-      }
-
-      const tempImages = [];
-
-      setTotalPhotos(imageFiles.length);
-
-      setImagesUploading(true);
-
-      for (let i = 0; i < imageFiles.length; i++) {
-        const thisUploadUUID = uuidv4();
-        const file = imageFiles[i];
-        const { data, error } = await supabase.storage
-          .from("item_images")
-          .upload(`temp/${user.auth_id}/${generatedGroupId}/${thisUploadUUID}`, file, {
-            cacheControl: "3600",
-            upsert: false,
-          });
-
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
-
-        const { data: data22, error: error2 } = await supabase.rpc(
-          "add_item_photo_temp",
-          {
-            p_group_id: generatedGroupId,
-            p_generated_id: data.id,
-            p_full_path: data.fullPath,
-            p_path: data.path,
-            p_is_cover: i == 0 ? 1 : 0,
-            p_created_by_id: user.auth_id,
-          }
-        );
-        if (error2) throw error2.message;
-
-        tempImages.push(data22[0]);
-
-        index += 1;
-        setNumPhotosUploaded(index);
-      }
-
-      const { data, error } = await supabase.storage
-        .from("item_images")
-        .list(`temp/${user.auth_id}/${generatedGroupId}/`, {
-          limit: 100,
-          offset: 0,
-        });
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-
-      setNewCoverPhotoId(data[0].id);
-      setPhotos(
-        data.map((photo, i) => ({
-          ...photo,
-          is_cover: i == 0,
-        }))
-      );
-
-      setImagesUploading(false);
-      // }
-    } catch (error) {
-      console.error(error);
-      setSellError(error.toString());
-    }
-  }
-
-  function handleNewCoverImage(clickedPhoto) {
-    setNewCoverPhotoId(clickedPhoto.id);
-    setPhotos(
-      photos.map((photo) => ({
-        ...photo,
-        is_cover: photo.id == clickedPhoto.id,
-      }))
-    );
-  }
-
   function handleStateReset() {
-    setImagesUploading(false);
+    // setImagesUploading(false);
     setBrand(randomBrand);
     setModel(randomModel);
     setPrice(randomPrice);
@@ -571,61 +394,11 @@ export const Sell = () => {
     setGeneratedGroupId(uuidv4());
     setNewCoverPhotoId(null);
     setPhotos([]);
-    setSellError("");
+    setError("");
     setListedItemID(false);
     setLoading(false);
     setWhatIsThisItem(randomBrand + " " + randomModel);
     setRadioOptions(initialRadioOptions);
-  }
-
-  async function handleImageDelete(image) {
-    const { data, error } = await supabase.rpc("delete_temp_image", {
-      p_image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
-    });
-
-    if (error) throw error.message;
-
-    const photosLeft = photos.filter((photo) => photo.id != image.id);
-
-    if (!error) setPhotos(photosLeft);
-
-    if (photosLeft.length === 0 && imageInputRef.current)
-      imageInputRef.current.value = "";
-
-    // TODO - need to delete from storage as well
-  }
-
-  async function handleDiscardImages(e) {
-    try {
-      e.preventDefault();
-      // todo - need to delete from tables as well
-      setDiscardImagesLoading(true);
-
-      const paths = photos.map(
-        (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
-      );
-
-      const { data, error } = await supabase.storage.from("item_images").remove(paths);
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-
-      const { error: error2 } = await supabase.rpc("delete_temp_images", {
-        p_user_id: user.auth_id,
-        p_group_id: generatedGroupId,
-      });
-
-      if (error2) throw error2.message;
-
-      setPhotos([]);
-      setNumPhotosUploaded(0);
-      setDiscardImagesLoading(false);
-    } catch (error) {
-      console.error(error);
-      setSellError(error.toString());
-    }
   }
 
   function handleRadioSelect(optionTypeKey, selectedOption) {
@@ -784,9 +557,6 @@ export const Sell = () => {
     },
   ];
 
-  const imagesLoadingInitially = imagesUploading && !numPhotosUploaded;
-  const imagesLoadingSubsequently = imagesUploading && numPhotosUploaded;
-
   let warnings = [];
 
   const noShipping =
@@ -806,103 +576,23 @@ export const Sell = () => {
   return (
     <>
       <div className="sell">
-        {sellError && <p className="error-text">{sellError}</p>}
+        {error && <p className="error-text">{error}</p>}
         <h1>Create a new listing</h1>
         <form
           onSubmit={handleSubmit}
           autoComplete="off"
           // className="standard"
         >
-          <div
-            className={`form-block photos ${markedFieldKey == "images" ? "marked" : ""}`}
-          >
-            <div className="form-content">
-              {photos.length != 0 && (
-                <div className="selling-item-images">
-                  {photos?.map((image) => {
-                    return (
-                      <div
-                        key={image.id}
-                        className={`image-container ${
-                          image.id == newCoverPhotoId ? "cover" : ""
-                        }`}
-                        onClick={() => handleNewCoverImage(image)}
-                      >
-                        {image.is_cover && (
-                          <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
-                        )}
-                        <img
-                          src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-              {photos.length == 0 ? (
-                <div className="image-input-and-prompt">
-                  {(imagesLoadingInitially || imagesLoadingSubsequently) && (
-                    <p className="small-text">
-                      {numPhotosUploaded}/{totalPhotos} Image{totalPhotos > 1 ? "s" : ""}{" "}
-                      Uploaded
-                    </p>
-                  )}
-                  {imagesLoadingInitially ? (
-                    <div className="image-skeletons">
-                      <div className="image-skeleton">&nbsp;</div>
-                    </div>
-                  ) : imagesLoadingSubsequently ? (
-                    <div className="image-skeletons">
-                      {Array.from(Array(numPhotosUploaded)).map((item, i) => (
-                        <div key={i} className="image-skeleton">
-                          &nbsp;
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <label
-                      className={`custom-photo-upload ${
-                        markedFieldKey == "images" ? "marked" : ""
-                      } ${photos.length > 0 ? "secondary" : ""} ${
-                        draggingPhotos ? "dragging" : ""
-                      }`}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDragEnter={handleDragEnter}
-                      onDragLeave={handleDragLeave}
-                      onDrop={handleDrop}
-                      ref={imagesRef}
-                    >
-                      <ImagesIcons />
-                      <div className="text">
-                        <p>Add Photos (Up to 5)</p>
-                        <p>or drag and drop</p>
-                      </div>
-                      <input
-                        onChange={(e) => handleImageUpload(e.target.files)}
-                        type="file"
-                        multiple
-                        accept=".jpg"
-                        name="photos"
-                        ref={imageInputRef}
-                        capture
-                      />
-                    </label>
-                  )}
-                </div>
-              ) : (
-                <button
-                  onClick={handleDiscardImages}
-                  className="reset-images-button"
-                  disabled={discardImagesLoading}
-                >
-                  <TrashIcon />{" "}
-                  {discardImagesLoading
-                    ? "Discarding Images..."
-                    : "Discard & Upload New Images"}
-                </button>
-              )}
-            </div>
-          </div>
+          <PhotoUpload
+            ref={photosRef}
+            generatedGroupId={generatedGroupId}
+            photos={photos}
+            setPhotos={setPhotos}
+            markedFieldKey={markedFieldKey}
+            newCoverPhotoId={newCoverPhotoId}
+            setNewCoverPhotoId={setNewCoverPhotoId}
+            setError={setError}
+          />
 
           <div className="form-block seller-info">
             <div className="header">

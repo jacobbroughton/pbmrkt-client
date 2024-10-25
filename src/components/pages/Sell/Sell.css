@@ -105,9 +105,7 @@
   /* fill: white; */
 }
 
-.images-uploading {
-  font-size: 0.875rem;
-}
+
 
 .image-skeletons {
   display: flex;
@@ -298,52 +296,6 @@
   background-color: blue;
 } */
 
-.sell > form .custom-photo-upload,
-.images-uploading {
-  height: 60px;
-  border: 1px solid #555;
-  display: flex;
-  flex-direction: row;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  padding: 3px 5px;
-  cursor: pointer;
-  border-radius: 3px;
-  /* height: 100%; */
-  background-color: #4f4f4f;
-  width: 100%;
-  min-height: 100px;
-}
-
-.sell > form .custom-photo-upload svg {
-  width: 51px;
-  fill: whitesmoke;
-  margin-right: 15px;
-}
-
-.sell > form .custom-photo-upload p:first-child {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.sell > form .custom-photo-upload input[type="file"] {
-  display: none;
-}
-
-.sell > form .custom-photo-upload.secondary {
-  background-color: #4f4f4f;
-  padding: 0;
-  font-weight: 500;
-}
-
-.sell > form .custom-photo-upload.secondary:hover {
-  text-decoration: underline;
-}
-
-.sell > form .custom-photo-upload.dragging {
-  border-color: #666;
-}
 
 .sell > form .form-group.year,
 .sell > form .form-group.price {

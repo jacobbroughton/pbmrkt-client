@@ -29,6 +29,7 @@ import { JumpToIcon } from "../../ui/Icons/JumpToIcon.jsx";
 import { MissingUserInfoModal } from "../../ui/MissingUserInfoModal/MissingUserInfoModal.jsx";
 import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { smoothScrollOptions } from "../../../utils/constants.js";
+import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
 
 const brandArr = [
   "Planet Eclipse",
@@ -1071,19 +1072,15 @@ export const Sell = () => {
                 >
                   <label>Select the most accurate category for this item</label>
 
-                  <button
-                    onClick={() =>
+                  <SelectCategoryToggle
+                    label={categories.saved?.selected?.plural_name}
+                    handleOnClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
                     }
-                    className={`${
-                      categories.saved?.selected == null ? "empty" : ""
-                    } select-category-modal-toggle`}
-                    type="button"
-                    title={`Click this to open a menu and select an item category to filter your results on`}
-                  >
-                    {categories.saved?.selected?.plural_name ?? "No Category Selected"}{" "}
-                    <SortIcon />{" "}
-                  </button>
+                    noCategorySelected={categories.saved?.selected == null}
+                    title="Click this to open a menu and select an item category to filter your results on"
+                    emptyLabel="No Category Selected"
+                  />
                 </div>
               </fieldset>
 

@@ -21,6 +21,7 @@ import {
 } from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../CategorySelectorModal/CategorySelectorModal";
 import { SortIcon } from "../Icons/SortIcon";
+import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle";
 
 export const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
@@ -349,17 +350,15 @@ export const EditItemModal = ({ item, setItem }) => {
                   ref={categoryRef}
                 >
                   <label>Select the most accurate category for this item</label>
-                  <button
-                    onClick={() =>
+                  <SelectCategoryToggle
+                    handleOnClick={() =>
                       dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
                     }
-                    className="select-category-modal-toggle"
-                    type="button"
-                    title={`Click this to open a menu and select an item category to filter your results on`}
-                  >
-                    {categories.saved?.selected?.value ?? "No Category Selected"}{" "}
-                    <SortIcon />{" "}
-                  </button>
+                    label={categories.saved?.selected?.value}
+                    noCategorySelected={!categories.saved?.selected}
+                    title="Click this to open a menu and select an item category to filter your results on"
+                    emptyLabel="No Category Selected"
+                  />
                 </div>
               </fieldset>
 

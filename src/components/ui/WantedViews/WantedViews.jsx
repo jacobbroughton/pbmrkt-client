@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
-import "./ForSaleViews.css";
+import "./WantedViews.css";
 
-export function ForSaleViews({ sort, setTotalListings }) {
+export function WantedViews({ sort, setTotalListings }) {
   const view = useSelector((state) => state.view);
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
@@ -44,7 +44,7 @@ export function ForSaleViews({ sort, setTotalListings }) {
       setListingsLoading(true);
       // }
 
-      let { data, error } = await supabase.rpc("get_items", {
+      let { data, error } = await supabase.rpc("get_wanted_items", {
         p_search_value: searchValue,
         p_brand: filters.saved.brand,
         p_model: filters.saved.model,

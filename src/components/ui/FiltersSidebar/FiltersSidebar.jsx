@@ -24,6 +24,7 @@ import "./FiltersSidebar.css";
 import { SortIcon } from "../Icons/SortIcon.jsx";
 import { RadioIcon } from "../Icons/RadioIcon.jsx";
 import { setViewType } from "../../../redux/view.js";
+import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle.jsx";
 
 export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   const dispatch = useDispatch();
@@ -213,23 +214,16 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                   </button>
                 )}
               </div>
-              <button
-                onClick={() =>
+
+              <SelectCategoryToggle
+                handleOnClick={() =>
                   dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
                 }
-                className="button select-category-modal-toggle"
-                type="button"
-                title={`Click this to open a menu and select an item category to filter your results on`}
-              >
-                <SortIcon />
-                <span
-                  className={`current-category ${
-                    filters.saved.category?.plural_name == null ? "empty" : ""
-                  }`}
-                >
-                  {filters.saved.category?.plural_name ?? "Markers, Loaders, Etc."}
-                </span>
-              </button>
+                label={filters.saved.category?.plural_name}
+                noCategorySelected={!filters.saved.category}
+                title="Click this to open a menu and select an item category to filter your results on"
+                emptyLabel="Markers/Barrels/Etc"
+              />
             </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">

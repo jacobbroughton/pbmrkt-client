@@ -203,17 +203,26 @@
   cursor: pointer;
 }
 
-
 .filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button > svg {
-  width: 14px; 
+  width: 14px;
   fill: white;
 }
 
-.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button:not(.selected) > svg {
+.filters
+  > .filter-items
+  > .filter-item
+  > .wanted-or-for-sale-buttons
+  > button:not(.selected)
+  > svg {
   fill: grey;
 }
 
-.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button:not(.selected):hover > svg {
+.filters
+  > .filter-items
+  > .filter-item
+  > .wanted-or-for-sale-buttons
+  > button:not(.selected):hover
+  > svg {
   fill: lightgreen;
 }
 
@@ -246,7 +255,9 @@
 .filters
   > .filter-items
   > .filter-item
-  > .wanted-or-for-sale-buttons > button.for-sale > p {
+  > .wanted-or-for-sale-buttons
+  > button.for-sale
+  > p {
   /* background-color: #D5272D; */
   font-weight: 600;
 }
@@ -309,35 +320,6 @@
   text-decoration: underline;
 }
 
-.filters > .filter-items .filter-item .select-category-modal-toggle {
-  justify-content: space-between;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  gap: 10px;
-  /* width: 200px; */
-}
-
-.filters > .filter-items .filter-item .select-category-modal-toggle .current-category {
-  width: 100%;
-  text-align: start;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.filters
-  > .filter-items
-  .filter-item
-  .select-category-modal-toggle
-  .current-category.empty {
-  color: #ffffff60;
-}
-
-.filters > .filter-items .filter-item .select-category-modal-toggle svg {
-  width: 9px;
-  min-width: 9px;
-}
-
 .filters > .filter-items .filter-item.disabled label {
   color: grey;
 }
@@ -363,28 +345,6 @@
   flex-direction: column;
   font-size: 0.875rem;
 }
-
-/* .home
-  .filters
-  > .filter-items
-  .filter-item
-  > .checkbox-options
-  > .checkbox-option
-  > label {
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.filters > .filter-items .filter-item > .checkbox-options > .checkbox-option {
-  display: flex;
-  gap: 5px;
-  font-size: 0.875rem;
-  cursor: pointer !important;
-}
-
-.filters > .filter-items .filter-item > .checkbox-options > .checkbox-option:hover {
-  border-color: #aaa;
-} */
 
 .filters > .filter-items .filter-item select {
   max-width: 100%;

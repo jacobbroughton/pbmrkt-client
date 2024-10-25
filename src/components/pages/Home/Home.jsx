@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase.js";
-import { useWindowSize } from "../../../utils/useWindowSize";
-import { ListingGrid } from "../../ui/ListingGrid/ListingGrid.jsx";
-import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "../../../redux/modals.js";
-import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import { Caret } from "../../ui/Icons/Caret.jsx";
-import { setFlag } from "../../../redux/flags.js";
 import {
   resetFilter,
   resetFilters,
   setFilters,
   setFiltersUpdated,
 } from "../../../redux/filters.js";
-import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid.jsx";
-import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
-import { FilterIcon } from "../../ui/Icons/FilterIcon.jsx";
+import { setFlag } from "../../../redux/flags.js";
+import { toggleModal } from "../../../redux/modals.js";
+import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
+import { setViewLayout } from "../../../redux/view.js";
+import { supabase } from "../../../utils/supabase.js";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
@@ -24,19 +18,14 @@ import {
   setCategoryChecked,
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions.js";
-import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
-import { Footer } from "../../ui/Footer/Footer.jsx";
+import { useWindowSize } from "../../../utils/useWindowSize";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
+import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
+import { ForSaleViews } from "../../ui/ForSaleViews/ForSaleViews.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
-import { Link } from "react-router-dom";
-import { HomeIcon } from "../../ui/Icons/HomeIcon.jsx";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import "./Home.css";
-import { Arrow } from "../../ui/Icons/Arrow.jsx";
-import ListingList from "../../ui/ListingList/ListingList.jsx";
-import { setView } from "../../../redux/view.js";
-import Overview from "../../ui/Overview/Overview.jsx";
-import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsListingList.jsx";
-import { SkeletonsOverview } from "../../ui/SkeletonsOverview/SkeletonsOverview.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -51,11 +40,11 @@ export function Listings() {
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [listings, setListings] = useState([]);
-  const [listingsLoading, setListingsLoading] = useState(true);
-  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [isInitialLoad, setIsInitialLoad] = useState(true);
+  // const [listings, setListings] = useState([]);
+  // const [listingsLoading, setListingsLoading] = useState(true);
+  // const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
+  // const [error, setError] = useState(null);
   const [categories, setCategories] = useState(null);
   const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
@@ -75,103 +64,102 @@ export function Listings() {
     }
   }, [windowSize.width]);
 
-  async function getListings(searchValue = "") {
-    try {
-      // if (totalListings) setTotalListings(null)
-      // if (!listingsInitiallyLoading && listingsLoading) {
-      setListingsLoading(true);
-      // }
+  // async function getListings(searchValue = "") {
+  //   try {
+  //     // if (totalListings) setTotalListings(null)
+  //     // if (!listingsInitiallyLoading && listingsLoading) {
+  //     setListingsLoading(true);
+  //     // }
 
-      let { data, error } = await supabase.rpc("get_items", {
-        p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_sort: sort,
-        p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
-      });
+  //     let { data, error } = await supabase.rpc("get_items", {
+  //       p_search_value: searchValue,
+  //       p_brand: filters.saved.brand,
+  //       p_model: filters.saved.model,
+  //       p_min_price: filters.saved.minPrice || 0,
+  //       p_max_price: filters.saved.maxPrice,
+  //       p_state: filters.saved.state == "All" ? null : filters.saved.state,
+  //       p_condition: filters.saved.conditionOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_shipping: filters.saved.shippingOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_trades: filters.saved.tradeOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_negotiable: filters.saved.negotiableOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_sort: sort,
+  //       p_seller_id: null,
+  //       p_city: filters.saved.city == "All" ? null : filters.saved.city,
+  //       p_category_id: filters.saved.category?.id || null,
+  //     });
 
-      if (error) {
-        throw error.message;
-      }
+  //     if (error) {
+  //       throw error.message;
+  //     }
 
-      if (!data) throw "No listings available";
+  //     if (!data) throw "No listings available";
 
-      data = data.map((item) => {
-        const { data, error } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
+  //     data = data.map((item) => {
+  //       const { data, error } = supabase.storage
+  //         .from("profile_pictures")
+  //         .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
 
-        if (error) throw error.message;
+  //       if (error) throw error.message;
 
-        return {
-          ...item,
-          profile_picture: data.publicUrl,
-        };
-      });
+  //       return {
+  //         ...item,
+  //         profile_picture: data.publicUrl,
+  //       };
+  //     });
 
-      setListings(data);
+  //     setListings(data);
 
-      let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
-        p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
-      });
+  //     let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
+  //       p_search_value: searchValue,
+  //       p_brand: filters.saved.brand,
+  //       p_model: filters.saved.model,
+  //       p_min_price: filters.saved.minPrice || 0,
+  //       p_max_price: filters.saved.maxPrice,
+  //       p_state: filters.saved.state == "All" ? null : filters.saved.state,
+  //       p_condition: filters.saved.conditionOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_shipping: filters.saved.shippingOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_trades: filters.saved.tradeOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_negotiable: filters.saved.negotiableOptions
+  //         .filter((option) => option.checked)
+  //         .map((option) => option.value),
+  //       p_seller_id: null,
+  //       p_city: filters.saved.city == "All" ? null : filters.saved.city,
+  //       p_category_id: filters.saved.category?.id || null,
+  //     });
 
-      if (error2) {
-        throw error2.message;
-      }
+  //     if (error2) {
+  //       throw error2.message;
+  //     }
 
+  //     setTotalListings(data2[0].num_results);
 
-      setTotalListings(data2[0].num_results);
+  //     if (isInitialLoad) setIsInitialLoad(false);
+  //     // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
+  //     if (flags.searchedListingsNeedUpdate)
+  //       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: false }));
+  //     dispatch(setFiltersUpdated(false));
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError(error.toString());
+  //   }
 
-      if (isInitialLoad) setIsInitialLoad(false);
-      // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
-      if (flags.searchedListingsNeedUpdate)
-        dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: false }));
-      dispatch(setFiltersUpdated(false));
-    } catch (error) {
-      console.error(error);
-      setError(error.toString());
-    }
-
-    setListingsLoading(false);
-    setListingsInitiallyLoading(false);
-  }
+  //   setListingsLoading(false);
+  //   setListingsInitiallyLoading(false);
+  // }
 
   function handleCategorySelectorApply() {
     try {
@@ -190,10 +178,10 @@ export function Listings() {
         );
         dispatch(setFiltersUpdated(true));
         dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
-        if (view == "Overview") dispatch(setView("Grid"));
+        if (view.layout == "Overview") dispatch(setViewLayout({ layout: "Grid" }));
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error);
     }
   }
@@ -205,17 +193,16 @@ export function Listings() {
 
   useEffect(() => {
     getItemCategories();
-    getListings(search.savedSearchValue);
   }, [sort]);
 
   useEffect(() => {
-    if (view == "Overview" && filters.filtersUpdated) getItemCategories();
-    if (filters.filtersUpdated) getListings(search.savedSearchValue);
+    if (view.layout == "Overview" && filters.filtersUpdated) getItemCategories();
+    // if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
 
-  useEffect(() => {
-    if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
-  }, [flags.searchedListingsNeedUpdate]);
+  // useEffect(() => {
+  //   if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
+  // }, [flags.searchedListingsNeedUpdate]);
 
   // function handleSearchSubmit(e) {
   //   e.preventDefault();
@@ -410,9 +397,6 @@ export function Listings() {
     },
   ];
 
-  const isInitiallyLoading = isInitialLoad && listingsLoading;
-  const loadedWithNoResults = !isInitialLoad && listings.length === 0;
-
   useEffect(() => {
     return () => dispatch(resetFilters());
   }, []);
@@ -448,10 +432,10 @@ export function Listings() {
               {["Overview", "Grid", "List"].map((viewOption) => (
                 <button
                   onClick={() => {
-                    localStorage.setItem("pbmrkt_view", viewOption);
-                    dispatch(setView(viewOption));
+                    localStorage.setItem("pbmrkt_view_layout", viewOption);
+                    dispatch(setViewLayout(viewOption));
                   }}
-                  className={`view-option ${viewOption == view ? "selected" : ""}`}
+                  className={`view-option ${viewOption == view.layout ? "selected" : ""}`}
                   key={viewOption}
                 >
                   {viewOption}
@@ -480,10 +464,10 @@ export function Listings() {
             <FilterTags filterTags={filterTags} />
           )}
 
-          {error ? (
+          {/* {error ? (
             <p className="small-text error-text">{error}</p>
           ) : isInitiallyLoading ? (
-            view == "Grid" ? (
+            view.layout == "Grid" ? (
               <SkeletonsListingGrid
                 accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
                 hasOverlay={false}
@@ -491,15 +475,15 @@ export function Listings() {
                 blinking={true}
                 heightPx={null}
               />
-            ) : view == "List" ? (
+            ) : view.layout == "List" ? (
               <SkeletonsListingList />
-            ) : view == "Overview" ? (
+            ) : view.layout == "Overview" ? (
               <SkeletonsOverview />
             ) : (
               false
             )
           ) : loadedWithNoResults ? (
-            view == "Grid" ? (
+            view.layout == "Grid" ? (
               <SkeletonsListingGrid
                 message={"No listings found, try adjusting your search or filters."}
                 accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
@@ -509,12 +493,12 @@ export function Listings() {
                 heightPx={null}
                 loading={false}
               />
-            ) : view == "List" ? (
+            ) : view.layout == "List" ? (
               <SkeletonsListingList
                 hasOverlay={true}
                 message={"No listings found, try adjusting your search or filters."}
               />
-            ) : view == "Overview" ? (
+            ) : view.layout == "Overview" ? (
               <Overview
                 loading={listingsLoading}
                 setLoading={(value) => setListingsLoading(value)}
@@ -522,19 +506,26 @@ export function Listings() {
             ) : (
               true
             )
-          ) : view == "Grid" ? (
+          ) : view.layout == "Grid" ? (
             <ListingGrid
               listings={listings}
               accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
               loading={false}
             />
-          ) : view == "List" ? (
+          ) : view.layout == "List" ? (
             <ListingList listings={listings} />
-          ) : view == "Overview" ? (
+          ) : view.layout == "Overview" ? (
             <Overview
               loading={listingsLoading}
               setLoading={(value) => setListingsLoading(value)}
             />
+          ) : (
+            false
+          )} */}
+          {view.type === "For Sale" ? (
+            <ForSaleViews sort={sort} setTotalListings={setTotalListings} />
+          ) : view.type === "Wanted" ? (
+            <p>Wanted</p>
           ) : (
             false
           )}
@@ -586,7 +577,10 @@ export function Listings() {
             )
           }
           handleApply={handleCategorySelectorApply}
-          applyDisabled={!filters.draft.category || filters.draft.category?.id == filters.saved.category?.id}
+          applyDisabled={
+            !filters.draft.category ||
+            filters.draft.category?.id == filters.saved.category?.id
+          }
           // applyDisabled={true}
           handleExpandAll={() => {
             dispatch(

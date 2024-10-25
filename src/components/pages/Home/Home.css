@@ -68,10 +68,9 @@
   /* padding: 5px */
   height: 33px;
   overflow: hidden;
-
 }
 
-.home .listings-controls .view-selector button {
+.home .listings-controls .view-selector button.view-option {
   border: 0;
   background-color: transparent;
   padding: 3px 15px;
@@ -81,23 +80,25 @@
   overflow: hidden;
 }
 
-.home .listings-controls .view-selector button:not(:first-child) {
+.home .listings-controls .view-selector button.view-option:not(:first-child) {
   border-left: 1px solid #444;
 }
 
-
-.home .listings-controls .view-selector button:not(:disabled):not(.selected):hover {
+.home
+  .listings-controls
+  .view-selector
+  button.view-option:not(:disabled):not(.selected):hover {
   background-color: #3b3b3b;
 }
 
-.home .listings-controls .view-selector button.selected {
-   background-color: #4b4b4b;
- position: relative;
- overflow: hidden;
+.home .listings-controls .view-selector button.view-option.selected {
+  background-color: #4b4b4b;
+  position: relative;
+  overflow: hidden;
 }
 
-.home .listings-controls .view-selector button.selected::before {
-  content: '';
+.home .listings-controls .view-selector button.view-option.selected::before {
+  content: "";
   position: absolute;
   background-color: var(--lightgreen);
   width: 10px;
@@ -107,7 +108,7 @@
   transform: rotate(-45deg);
 }
 
-.home .listings-controls .view-selector button:not(:disabled).selected:hover {
+.home .listings-controls .view-selector button.view-option:not(:disabled).selected:hover {
   background-color: #5b5b5b;
 }
 
@@ -230,9 +231,8 @@
 }
 
 @media only screen and (max-device-width: 480px) {
-
   .home .listings-section .listings-controls {
-    justify-content:  flex-end;
+    justify-content: flex-end;
     position: sticky;
     padding-bottom: 10px;
     top: 0 !important;
@@ -279,7 +279,6 @@
 }
 
 @media screen and (max-device-width: 480px) {
-
   .home {
     height: auto;
   }

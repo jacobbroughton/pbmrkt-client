@@ -185,6 +185,72 @@
   border-radius: 3px;
 }
 
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button {
+  font-size: 0.875rem;
+  height: 23px;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button > svg {
+  width: 14px; 
+  fill: white;
+}
+
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button:not(.selected) > svg {
+  fill: grey;
+}
+
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button:not(.selected):hover > svg {
+  fill: lightgreen;
+}
+
+.filters > .filter-items > .filter-item > .wanted-or-for-sale-buttons > button > p {
+  border-radius: 3px;
+  background-color: #444;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 1px solid #555;
+}
+
+.filters
+  > .filter-items
+  > .filter-item
+  > .wanted-or-for-sale-buttons
+  > button.wanted
+  > p {
+  font-family: "WesternFont";
+  background-color: #e8d49f;
+  color: #060204;
+  background-image: url("../../../assets//background-images/old-paper-background.jpg");
+  background-position: center;
+  background-size: cover;
+  border: 0;
+}
+
+.filters
+  > .filter-items
+  > .filter-item
+  > .wanted-or-for-sale-buttons > button.for-sale > p {
+  /* background-color: #D5272D; */
+  font-weight: 600;
+}
+
 .filters > .filter-items .filter-item .select-container {
   display: flex;
   width: 100%;
@@ -264,7 +330,7 @@
   .filter-item
   .select-category-modal-toggle
   .current-category.empty {
- color: #ffffff60;
+  color: #ffffff60;
 }
 
 .filters > .filter-items .filter-item .select-category-modal-toggle svg {

@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "WesternFont";
+  src: url("../../../assets/fonts/Kleader.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ForSaleFont";
+  src: url("../../../assets/fonts/Thanks.ttf") format("TrueType");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.wanted-poster {
+  font-family: "WesternFont", sans-serif;
+  background-color: grey;
+  padding: 5px 10px;
+  text-align: center;
+  color: #060204;
+  background: #e8d49f; /* Light tan background color */
+  border: 5px solid #4d3b20; /* Dark brown border */
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+  position: relative; /* For positioning decorations */
+  background-image: url(../../../assets/background-images/old-paper-background.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.wanted-poster > h1 {
+  font-size: clamp(1rem, 14.28vw, 5rem);
+  line-height: clamp(1rem, 14.28vw, 5rem);
+}
+
+.wanted-poster > p {
+  font-size: clamp(0.875rem, 10vw, 2rem);
+  line-height: clamp(0.875rem, 10vw, 2rem);
+}

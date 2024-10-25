@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./Overview.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
-import { setView } from "../../../redux/view";
+import { setViewLayout } from "../../../redux/view";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 
 const Overview = ({ setLoading }) => {
@@ -17,7 +17,7 @@ const Overview = ({ setLoading }) => {
   const [flatCategories, setFlatCategories] = useState(null);
   const [initiallyLoading, setInitiallyLoading] = useState(true); // initial load and between tabs currently
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
-  const [viewAllCount, setViewAllCount] = useState(0);
+  const [viewAllCount, setListingsViewAllCount] = useState(0);
 
   async function getCategories() {
     try {
@@ -79,7 +79,7 @@ const Overview = ({ setLoading }) => {
 
       if (error2) throw error2.message;
 
-      setViewAllCount(data2[0].num_results);
+      setListingsViewAllCount(data2[0].num_results);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -105,7 +105,7 @@ const Overview = ({ setLoading }) => {
         <SkeletonsOverview />
       ) : (
         <>
-          <button className="view-all" onClick={() => dispatch(setView("Grid"))}>
+          <button className="view-all" onClick={() => dispatch(setViewLayout("Grid"))}>
             <p>View All</p>{" "}
             {subsequentlyLoading ? (
               <div className="loading-result-number"></div>
@@ -152,7 +152,7 @@ const OverviewOptionList = ({ options, level, loading }) => {
         })
       );
       dispatch(setFiltersUpdated(true));
-      dispatch(setView("Grid"));
+      dispatch(setViewLayout("Grid"));
     } catch (error) {
       console.error(error);
     }

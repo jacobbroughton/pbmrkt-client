@@ -1,5 +1,5 @@
 /* * Grid */
-.grid {
+div.grid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -12,15 +12,15 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-.grid a {
+div.grid a {
   text-decoration: none;
 }
 
-.grid a:hover {
+div.grid a:hover {
   text-decoration: none;
 }
 
-.grid .grid-item {
+div.grid .grid-item {
   color: white;
   cursor: pointer;
   text-decoration: none;
@@ -28,12 +28,12 @@
   height: 280px;
 }
 
-.grid .grid-item:hover .image-container {
+div.grid .grid-item:hover .image-container {
   /* transform: translateY(-1px); */
   border: 1px solid var(--lightgreen);
 }
 
-.grid .grid-item > .image-container {
+div.grid .grid-item > .image-container {
   max-width: 100%;
   max-height: 200px;
   width: 100%;
@@ -48,7 +48,7 @@
   transition: background-color 0.1s ease;
 }
 
-.grid .grid-item > .image-container .indicators {
+div.grid .grid-item > .image-container .indicators {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -58,7 +58,7 @@
   align-items: flex-start;
 }
 
-.grid .grid-item > .image-container p {
+div.grid .grid-item > .image-container p {
   border-radius: 3px;
   padding: 1px 5px;
   font-size: 0.75rem;
@@ -71,18 +71,18 @@
 
 
 
-.grid .grid-item > .image-container p.free-shipping {
+div.grid .grid-item > .image-container p.free-shipping {
   border-left: 3px solid var(--lightgreen);
 }
 
-.grid .grid-item > .image-container p.trades {
+div.grid .grid-item > .image-container p.trades {
   border-left: 3px solid orange;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 
-.grid .grid-item > .image-container p.trades p.info-bubble {
+div.grid .grid-item > .image-container p.trades p.info-bubble {
   background-color: #333;
   width: 15px;
   max-width: 15px;
@@ -95,7 +95,7 @@
   cursor: help;
 }
 
-.grid .grid-item > .image-container > img {
+div.grid .grid-item > .image-container > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -105,11 +105,11 @@
   border-radius: 2px;
 }
 
-.grid .grid-item > .image-container.cover {
+div.grid .grid-item > .image-container.cover {
   border: 1px solid lightgrey;
 }
 
-.grid .grid-item > .listing-card-info {
+div.grid .grid-item > .listing-card-info {
   /* position: absolute; */
   /* z-index: 2; */
   /* bottom: -40px; */
@@ -120,7 +120,7 @@
   align-items: flex-start;
 }
 
-.grid .grid-item > .listing-card-info .price-and-name {
+div.grid .grid-item > .listing-card-info .price-and-name {
   display: flex;
   flex-direction: column;
   /* gap: 5px;
@@ -128,36 +128,36 @@
   width: 100%; */
 }
 
-.grid .grid-item > .listing-card-info .what-is-this,
-.grid .grid-item > .listing-card-info .price {
+div.grid .grid-item > .listing-card-info .what-is-this,
+div.grid .grid-item > .listing-card-info .price {
   font-size: 0.875rem;
   text-decoration: none !important;
 }
 
-.grid .grid-item > .listing-card-info a {
+div.grid .grid-item > .listing-card-info a {
   color: white;
 }
 
-.grid .grid-item > .listing-card-info a:hover,
-.grid .grid-item > .listing-card-info a:focus {
+div.grid .grid-item > .listing-card-info a:hover,
+div.grid .grid-item > .listing-card-info a:focus {
   text-decoration: underline;
 }
 
-.grid .grid-item > .listing-card-info .price {
+div.grid .grid-item > .listing-card-info .price {
   border-top-right-radius: 3px;
   font-weight: 600;
 }
 
-.grid .grid-item:hover > .listing-card-info .what-is-this {
+div.grid .grid-item:hover > .listing-card-info .what-is-this {
   text-decoration: none !important;
 }
 
-.grid .grid-item > .listing-card-info .location {
+div.grid .grid-item > .listing-card-info .location {
   font-size: 0.875rem;
   color: grey;
 }
 
-.grid .grid-item > .listing-card-info > .profile {
+div.grid .grid-item > .listing-card-info > .profile {
   /* display: flex; */
   display: none;
   gap: 5px;
@@ -165,7 +165,7 @@
   margin-top: 3px;
 }
 
-.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-container {
+div.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-container {
   position: relative;
   width: 23px;
   height: 23px;
@@ -215,7 +215,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .grid {
+  div.grid {
     grid-template-columns: repeat(4, 1fr);
   }
 
@@ -225,7 +225,7 @@
 }
 
 @media screen and (max-width: 750px) {
-  .grid {
+  div.grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -235,7 +235,7 @@
 }
 
 @media screen and (max-width: 625px) {
-  .grid {
+  div.grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -245,7 +245,7 @@
 }
 
 @media screen and (max-width: 530px) {
-  .grid {
+  div.grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -259,13 +259,13 @@
 }
 
 @media screen and (max-width: 325px) {
-  .grid {
+  div.grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media only screen and (max-device-width: 480px) {
-  .grid .grid-item:hover .image-container {
+  div.grid .grid-item:hover .image-container {
     transform: none;
     border: 1px solid transparent;
   }

@@ -22,14 +22,18 @@ import { EditIcon } from "../Icons/EditIcon.jsx";
 import { Arrow } from "../Icons/Arrow.jsx";
 import "./FiltersSidebar.css";
 import { SortIcon } from "../Icons/SortIcon.jsx";
+import { RadioIcon } from "../Icons/RadioIcon.jsx";
+import { setViewType } from "../../../redux/view.js";
 
 export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
+  const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const { filtersSidebarToggled } = useSelector((state) => state.modals);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [sidebarTogglePositionY, setSidebarTogglePositionY] = useState(50); // percentage
+  const [wantedOrForSale, setWantedOrForSale] = useState("for sale");
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -171,6 +175,28 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
             </button>
           </div>
           <div className="filter-items">
+            <div className="filter-item">
+              <div className="wanted-or-for-sale-buttons">
+                {[
+                  { label: "Wanted", class: "wanted" },
+                  { label: "For Sale", class: "for-sale" },
+                ].map((viewType) => (
+                  <button
+                    type="button"
+                    className={`${viewType.class} ${
+                      view.type === viewType.label ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      localStorage.setItem("pbmrkt_view_type", viewType.label);
+                      dispatch(setViewType(viewType.label));
+                    }}
+                  >
+                    <RadioIcon checked={view.type == viewType.label} />{" "}
+                    <p>{viewType.label}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
                 <label>Category</label>

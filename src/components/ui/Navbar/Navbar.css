@@ -48,7 +48,6 @@ nav.desktop .left-side a.home-link {
   color: white;
   text-decoration: none;
   font-size: 1.15rem;
-
 }
 
 nav.desktop .left-side button.search-toggle svg,
@@ -88,7 +87,7 @@ nav.desktop .right-side {
   justify-content: flex-end;
 }
 
-nav.desktop .right-side button.add-new-menu-toggle ,
+nav.desktop .right-side button.add-new-menu-toggle,
 nav.desktop button.menu-button {
   border-radius: 5px;
   height: 32px;
@@ -101,17 +100,20 @@ nav.desktop button.menu-button {
   cursor: pointer;
 }
 
-nav.desktop button.menu-button.toggled {
-  /* border: 1px solid var(--lightgreen); */
+nav.desktop button.menu-button:hover {
+  background-color: #2f2f2f;
+  border-color: #555;
 }
+
+
 
 nav.desktop button.menu-button.toggled svg {
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.45));
   /* fill: var(--lightgreen); */
 }
 
-nav.desktop .right-side button.add-new-menu-toggle ,
-nav.desktop button.menu-button  {
+nav.desktop .right-side button.add-new-menu-toggle,
+nav.desktop button.menu-button {
   color: white;
   font-weight: 600;
 }
@@ -121,7 +123,7 @@ nav.desktop button.menu-button:hover {
   text-decoration: none;
 }
 
-nav.desktop .right-side button.add-new-menu-toggle  svg,
+nav.desktop .right-side button.add-new-menu-toggle svg,
 nav.desktop button.menu-button svg {
   width: 17px;
   filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.15));
@@ -135,7 +137,6 @@ nav.desktop .right-side button.add-new-menu-toggle.toggled {
 nav.desktop .right-side button.add-new-menu-toggle.toggled svg {
   fill: var(--lightgreen);
 }
-
 
 nav.desktop .right-side .notifications-menu-toggle {
   border: 0;
@@ -220,7 +221,6 @@ nav.desktop .right-side .right-side-menu-button:hover {
   border: 1px solid #777;
 }
 
-
 nav.desktop .right-side .right-side-menu-button .profile-picture {
   height: 100%;
   width: 100%;
@@ -230,12 +230,21 @@ nav.desktop .right-side .right-side-menu-button .profile-picture {
 
 @media only screen and (max-device-width: 480px) {
   nav.desktop .left-side a.home-link {
-
     width: 100%;
     border-radius: 50%;
     width: 32px;
     height: 32px;
     min-width: 32px;
+  }
+}
+
+@media only screen and (max-width: 625px) {
+  nav.desktop button.menu-button.toggled {
+    border: 1px solid var(--lightgreen);
+  }
+
+  nav.desktop button.menu-button.toggled > svg {
+    fill: lightgreen;
   }
 }
 

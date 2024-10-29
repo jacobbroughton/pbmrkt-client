@@ -27,6 +27,7 @@ export const Comment = ({
   setError,
   getComments,
   repliesLoading,
+  postType
 }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -170,14 +171,14 @@ export const Comment = ({
               {getTimeAgo(new Date(comment.created_dttm))}
             </p>
           </div>
-          <p className={`comment-body ${comment.eff_status ? "" : "deleted"}`}>
-            {comment.eff_status ? comment.body : "This comment has been deleted"}
+          <p className={`comment-body ${comment.is_deleted ? "deleted" : ""}`}>
+            {comment.is_deleted ? "This comment has been deleted" : comment.body}
           </p>
           {comment.id != commentWithReplyWindowID ? (
             <div className="controls">
               <div className="like-and-dislike">
                 <button
-                  disabled={!comment.eff_status}
+                  disabled={comment.is_deleted}
                   onClick={(e) => handleUpvote(e, comment)}
                   className={`up ${existingVote == "Up" ? "selected" : ""}`}
                 >
@@ -185,14 +186,14 @@ export const Comment = ({
                 </button>
                 <span>{votes}</span>
                 <button
-                  disabled={!comment.eff_status}
+                  disabled={comment.is_deleted}
                   onClick={(e) => handleDownvote(e, comment)}
                   className={`down ${existingVote == "Down" ? "selected" : ""}`}
                 >
                   <Arrow direction="down" />
                 </button>
               </div>
-              {comment.eff_status ? (
+              {!comment.is_deleted ? (
                 <>
                   <button
                     className="button"
@@ -274,6 +275,7 @@ export const Comment = ({
                 setError={setError}
                 getComments={getComments}
                 repliesLoadingFromRootLevel={false}
+                postType={postType}
               />
             </div>
           )}

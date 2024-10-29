@@ -46,8 +46,6 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       let { data, error } = await supabase.rpc("get_items", {
         p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,
@@ -92,8 +90,6 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
         p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,

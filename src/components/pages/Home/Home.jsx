@@ -41,18 +41,13 @@ export function Listings() {
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
-  // const [isInitialLoad, setIsInitialLoad] = useState(true);
-  // const [listings, setListings] = useState([]);
-  // const [listingsLoading, setListingsLoading] = useState(true);
-  // const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  // const [error, setError] = useState(null);
+
   const [categories, setCategories] = useState(null);
   const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [totalListings, setTotalListings] = useState(null);
-  // const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -64,103 +59,6 @@ export function Listings() {
       setSidebarNeedsUpdate(false);
     }
   }, [windowSize.width]);
-
-  // async function getListings(searchValue = "") {
-  //   try {
-  //     // if (totalListings) setTotalListings(null)
-  //     // if (!listingsInitiallyLoading && listingsLoading) {
-  //     setListingsLoading(true);
-  //     // }
-
-  //     let { data, error } = await supabase.rpc("get_items", {
-  //       p_search_value: searchValue,
-  //       p_brand: filters.saved.brand,
-  //       p_model: filters.saved.model,
-  //       p_min_price: filters.saved.minPrice || 0,
-  //       p_max_price: filters.saved.maxPrice,
-  //       p_state: filters.saved.state == "All" ? null : filters.saved.state,
-  //       p_condition: filters.saved.conditionOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_shipping: filters.saved.shippingOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_trades: filters.saved.tradeOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_negotiable: filters.saved.negotiableOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_sort: sort,
-  //       p_seller_id: null,
-  //       p_city: filters.saved.city == "All" ? null : filters.saved.city,
-  //       p_category_id: filters.saved.category?.id || null,
-  //     });
-
-  //     if (error) {
-  //       throw error.message;
-  //     }
-
-  //     if (!data) throw "No listings available";
-
-  //     data = data.map((item) => {
-  //       const { data, error } = supabase.storage
-  //         .from("profile_pictures")
-  //         .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
-
-  //       if (error) throw error.message;
-
-  //       return {
-  //         ...item,
-  //         profile_picture: data.publicUrl,
-  //       };
-  //     });
-
-  //     setListings(data);
-
-  //     let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
-  //       p_search_value: searchValue,
-  //       p_brand: filters.saved.brand,
-  //       p_model: filters.saved.model,
-  //       p_min_price: filters.saved.minPrice || 0,
-  //       p_max_price: filters.saved.maxPrice,
-  //       p_state: filters.saved.state == "All" ? null : filters.saved.state,
-  //       p_condition: filters.saved.conditionOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_shipping: filters.saved.shippingOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_trades: filters.saved.tradeOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_negotiable: filters.saved.negotiableOptions
-  //         .filter((option) => option.checked)
-  //         .map((option) => option.value),
-  //       p_seller_id: null,
-  //       p_city: filters.saved.city == "All" ? null : filters.saved.city,
-  //       p_category_id: filters.saved.category?.id || null,
-  //     });
-
-  //     if (error2) {
-  //       throw error2.message;
-  //     }
-
-  //     setTotalListings(data2[0].num_results);
-
-  //     if (isInitialLoad) setIsInitialLoad(false);
-  //     // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
-  //     if (flags.searchedListingsNeedUpdate)
-  //       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: false }));
-  //     dispatch(setFiltersUpdated(false));
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError(error.toString());
-  //   }
-
-  //   setListingsLoading(false);
-  //   setListingsInitiallyLoading(false);
-  // }
 
   function handleCategorySelectorApply() {
     try {
@@ -198,26 +96,12 @@ export function Listings() {
 
   useEffect(() => {
     if (view.layout == "Overview" && filters.filtersUpdated) getItemCategories();
-    // if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
-
-  // useEffect(() => {
-  //   if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
-  // }, [flags.searchedListingsNeedUpdate]);
-
-  // function handleSearchSubmit(e) {
-  //   e.preventDefault();
-  //   setSearchValue(draftSearchValue);
-
-  //   getListings(draftSearchValue);
-  // }
 
   async function getItemCategories() {
     try {
       const { data, error } = await supabase.rpc("get_item_categories", {
         p_search_value: "",
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,
@@ -295,11 +179,6 @@ export function Listings() {
       label: `Category`,
       value: filters.saved.category?.plural_name,
       onDeleteClick: () => {
-        // dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-        // dispatch(resetFilter("category"));
-        // dispatch(setFiltersUpdated(true));
-        // setSelectedCategory(null)
-        // dispatch(setSelectedCategory(null));
         dispatch(resetFilter("category"));
         dispatch(setFiltersUpdated(true));
         setCategories(initialCategories);
@@ -334,7 +213,6 @@ export function Listings() {
       active: !filters.saved.priceOptions.find((op) => op.id == 0).checked,
     },
     {
-      // label: `Condition (${numChecked.conditionOptions}/${filters.saved.conditionOptions.length})`,
       label: `Condition`,
       value:
         checkedConditionOptions.length == 0
@@ -407,12 +285,7 @@ export function Listings() {
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>
-            <FiltersSidebar
-              allFiltersDisabled={false}
-              // categories={categories}
-              // setCategories={setCategories}
-              totalListings={totalListings}
-            />
+            <FiltersSidebar allFiltersDisabled={false} totalListings={totalListings} />
             {windowSize.width <= 625 && (
               <ModalOverlay
                 zIndex={5}
@@ -465,68 +338,10 @@ export function Listings() {
             <FilterTags filterTags={filterTags} />
           )}
 
-          {/* {error ? (
-            <p className="small-text error-text">{error}</p>
-          ) : isInitiallyLoading ? (
-            view.layout == "Grid" ? (
-              <SkeletonsListingGrid
-                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-                hasOverlay={false}
-                numSkeletons={20}
-                blinking={true}
-                heightPx={null}
-              />
-            ) : view.layout == "List" ? (
-              <SkeletonsListingList />
-            ) : view.layout == "Overview" ? (
-              <SkeletonsOverview />
-            ) : (
-              false
-            )
-          ) : loadedWithNoResults ? (
-            view.layout == "Grid" ? (
-              <SkeletonsListingGrid
-                message={"No listings found, try adjusting your search or filters."}
-                accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-                hasOverlay={true}
-                numSkeletons={20}
-                blinking={false}
-                heightPx={null}
-                loading={false}
-              />
-            ) : view.layout == "List" ? (
-              <SkeletonsListingList
-                hasOverlay={true}
-                message={"No listings found, try adjusting your search or filters."}
-              />
-            ) : view.layout == "Overview" ? (
-              <Overview
-                loading={listingsLoading}
-                setLoading={(value) => setListingsLoading(value)}
-              />
-            ) : (
-              true
-            )
-          ) : view.layout == "Grid" ? (
-            <ListingGrid
-              listings={listings}
-              accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
-              loading={false}
-            />
-          ) : view.layout == "List" ? (
-            <ListingList listings={listings} />
-          ) : view.layout == "Overview" ? (
-            <Overview
-              loading={listingsLoading}
-              setLoading={(value) => setListingsLoading(value)}
-            />
-          ) : (
-            false
-          )} */}
           {view.type === "For Sale" ? (
             <ForSaleViews sort={sort} setTotalListings={setTotalListings} />
           ) : view.type === "Wanted" ? (
-            <WantedViews sort={sort} setTotalListings={setTotalListings}/>
+            <WantedViews sort={sort} setTotalListings={setTotalListings} />
           ) : (
             false
           )}
@@ -582,7 +397,6 @@ export function Listings() {
             !filters.draft.category ||
             filters.draft.category?.id == filters.saved.category?.id
           }
-          // applyDisabled={true}
           handleExpandAll={() => {
             dispatch(
               setFilters({

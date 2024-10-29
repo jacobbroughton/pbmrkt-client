@@ -182,7 +182,6 @@ form .form-block .custom-photo-upload.marked {
   border-radius: 5px;
 }
 
-
 /* .modal.add-review form .form-group,
 .reset-password form .form-group,
 .update-password form .form-group,
@@ -259,7 +258,7 @@ form .select-container {
   position: relative;
 }
 
-form  .form-group .select-container > select {
+form .form-group .select-container > select {
   /* background-color: transparent; */
   /* border: 0; */
   background-color: #3b3b3b;

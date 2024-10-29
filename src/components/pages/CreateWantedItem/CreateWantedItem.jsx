@@ -5,9 +5,12 @@ import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
 import { supabase } from "../../../utils/supabase";
+import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import {
+  capitalizeWords,
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
+  isValidPhoneNumber,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
@@ -18,9 +21,33 @@ import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
 import "./CreateWantedItem.css";
+import { SortIcon } from "../../ui/Icons/SortIcon";
+import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
+import { Arrow } from "../../ui/Icons/Arrow.jsx";
 
 export const CreateWantedItem = () => {
+  const filters = useSelector((state) => state.filters);
+  const { categorySelectorModalToggled } = useSelector((state) => state.modals);
+  const { user } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const whatIsItRef = useRef(null);
+  const budgetRef = useRef(null);
+  const categoryRef = useRef(null);
   const photosRef = useRef(null);
+  const fullNameRef = useRef(null);
+  const contactPhoneNumberRef = useRef(null);
+  const stateRef = useRef(null);
+  const cityRef = useRef(null);
+
+  const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
+  const [contactPhoneNumber, setContactPhoneNumber] = useState("");
+  const [sellerName, setSellerName] = useState(
+    user ? user.first_name + " " + user.last_name : ""
+  );
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -44,6 +71,7 @@ export const CreateWantedItem = () => {
       },
     ],
   });
+
   const [budget, setBudget] = useState(null);
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
@@ -57,17 +85,16 @@ export const CreateWantedItem = () => {
       selected: null,
     },
   });
+  const [generatedFilters, setGeneratedFilters] = useState({
+    phoneNumber: false,
+    city: false,
+    state: false,
+    shipping: false,
+    trades: false,
+    negotiable: false,
+  });
 
-  const filters = useSelector((state) => state.filters);
-  const { categorySelectorModalToggled } = useSelector((state) => state.modals);
-  const { session } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const whatIsItRef = useRef(null);
-  const budgetRef = useRef(null);
-  const categoryRef = useRef(null);
+  const [cantFindCity, setCantFindCity] = useState(false);
 
   const fieldErrors = [
     {
@@ -104,7 +131,7 @@ export const CreateWantedItem = () => {
 
     try {
       const checkedShippingValue = radioOptions.shippingOptions.find((op) => op.checked);
-      let okWithShipping = checkedShippingValue.value === "Ok with shipping" ? 1 : 0;
+      let okWithShipping = checkedShippingValue.value === "Ok with shipping";
       const {
         data: [createdWantedItem],
         error,
@@ -114,7 +141,7 @@ export const CreateWantedItem = () => {
         p_budget: budget,
         p_shipping_ok: okWithShipping,
         p_category_id: categories.saved.selected?.id,
-        p_created_by_id: session.user.auth_id,
+        p_created_by_id: user.auth_id,
       });
 
       if (error) throw error.message;
@@ -144,8 +171,8 @@ export const CreateWantedItem = () => {
       try {
         const { data, error } = await supabase.rpc("get_item_categories", {
           p_search_value: "",
-          p_min_budget: filters.saved.minPrice || 0,
-          p_max_budget: filters.saved.maxPrice,
+          p_min_price: filters.saved.minPrice || 0,
+          p_max_price: filters.saved.maxPrice,
           p_city: filters.saved.city == "All" ? null : filters.saved.city,
           p_state: filters.saved.state == "All" ? null : filters.saved.state,
           p_category_id: filters.saved.category?.id || null,
@@ -153,6 +180,12 @@ export const CreateWantedItem = () => {
             .filter((option) => option.checked)
             .map((option) => option.value),
           p_shipping: filters.saved.shippingOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_negotiable: filters.saved.negotiableOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_trades: filters.saved.tradeOptions
             .filter((option) => option.checked)
             .map((option) => option.value),
           p_seller_id: null,
@@ -178,6 +211,51 @@ export const CreateWantedItem = () => {
       }
     };
 
+    const getDefaultSelections = async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_default_seller_inputs", {
+          p_user_id: user.auth_id,
+        });
+
+        if (error) throw error.message;
+
+        if (!data[0]) return;
+
+        const {
+          phone_number: defaultPhoneNumber,
+          state: defaultState,
+          city: defaultCity,
+          trades: defaultTrades,
+          shipping: defaultShipping,
+          negotiable: defaultNegotiable,
+        } = data[0];
+
+        let localGeneratedFilters = { ...generatedFilters };
+        let localRadioOptions = { ...radioOptions };
+
+        if (defaultPhoneNumber) {
+          localGeneratedFilters.phoneNumber = defaultPhoneNumber;
+          setContactPhoneNumber(defaultPhoneNumber);
+        }
+
+        if (defaultState) {
+          localGeneratedFilters.state = true;
+          setState(defaultState);
+        }
+        if (defaultState && defaultCity) {
+          localGeneratedFilters.city = true;
+          setCity(capitalizeWords(defaultCity));
+        }
+
+        setRadioOptions(localRadioOptions);
+        setGeneratedFilters(localGeneratedFilters);
+      } catch (error) {
+        console.error(error);
+        setError(error.toString());
+      }
+    };
+
+    getDefaultSelections();
     getItemCategories();
   }, []);
 
@@ -187,9 +265,10 @@ export const CreateWantedItem = () => {
     <div className="create-wanted-item">
       {error && <p className="error-text small-text">{error}</p>}
       <h1>Create Wanted Post</h1>
-      <form className="standard" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <PhotoUpload
           ref={photosRef}
+          isForWantedItem={true}
           generatedGroupId={generatedGroupId}
           photos={photos}
           setPhotos={setPhotos}
@@ -198,64 +277,206 @@ export const CreateWantedItem = () => {
           setNewCoverPhotoId={setNewCoverPhotoId}
           setError={setError}
         />
-        <div className="form-block">
-          <div className="content">
-            <div className="form-groups-parent">
+        <div className="form-block seller-info">
+          <div className="header">
+            <h2>Your Info</h2>
+          </div>
+
+          <div className="form-content">
+            <fieldset>
               <div
-                className={`form-group ${markedFieldKey == "whatIsIt" ? "marked" : ""}`}
-                ref={whatIsItRef}
+                className={`form-group ${markedFieldKey == "fullName" ? "marked" : ""}`}
+                ref={fullNameRef}
               >
-                <label>What are you looking for?</label>
+                <label>Full Name (First/Last)</label>
                 <input
-                  placeholder="What you're looking for"
-                  value={whatIsIt}
-                  onChange={(e) => setWhatIsIt(e.target.value)}
+                  onChange={(e) => setSellerName(e.target.value)}
+                  value={sellerName}
+                  placeholder="Seller's Name"
+                  required
                 />
               </div>
-
               <div
-                className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
-                ref={categoryRef}
+                className={`form-group ${
+                  markedFieldKey == "contactPhoneNumber" ? "marked" : ""
+                }`}
+                ref={contactPhoneNumberRef}
               >
-                <label>Select the most accurate category for this item</label>
-
-                <SelectCategoryToggle
-                  label={categories.saved?.selected?.plural_name}
-                  handleOnClick={() =>
-                    dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
-                  }
-                  noCategorySelected={categories.saved?.selected == null}
-                  title="Click this to open a menu and select an item category to filter your results on"
-                  emptyLabel="No Category Selected"
+                <label>Contact Phone Number </label>
+                <input
+                  type="tel"
+                  onChange={(e) => setContactPhoneNumber(e.target.value)}
+                  value={contactPhoneNumber}
+                  placeholder="Contact Phone Number"
+                  required
                 />
+                {contactPhoneNumber && !isValidPhoneNumber(contactPhoneNumber) && (
+                  <p className="small-text error-text">Invalid phone number</p>
+                )}
               </div>
+            </fieldset>
 
+            <fieldset>
               <div
-                className={`form-group ${markedFieldKey == "budget" ? "marked" : ""}`}
-                ref={budgetRef}
+                className={`form-group ${markedFieldKey == "state" ? "marked" : ""}`}
+                ref={stateRef}
               >
-                <label>Enter your budget (optional)</label>
-                <div className="input-container">
-                  <input
-                    onChange={(e) => setBudget(parseFloat(e.target.value))}
-                    type="number"
-                    step={0.01}
-                    value={budget}
-                    placeholder="Budget"
-                    className="dollars"
-                    id="budget"
-                    required
-                  />
+                <label>
+                  State
+                  {state && generatedFilters.state && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+                <div className="select-container">
+                  <select
+                    onChange={(e) =>
+                      setState(
+                        ["All", "Select One"].includes(e.target.value)
+                          ? null
+                          : e.target.value
+                      )
+                    }
+                    value={state}
+                  >
+                    {["Select One", ...states].map((childState) => (
+                      <option value={childState} key={childState}>
+                        {childState}
+                      </option>
+                    ))}
+                  </select>
+                  <SortIcon />
                 </div>
               </div>
-              <div className="form-group">
-                <label>Describe what you're looking for (optional)</label>
-                <textarea
-                  placeholder="..."
-                  onChange={(e) => setDescription(e.target.value)}
+              <div
+                className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
+                  !state ? "disabled" : ""
+                }`}
+                ref={cityRef}
+              >
+                <label>
+                  City
+                  {city && generatedFilters.city && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+                {cantFindCity ? (
+                  <>
+                    <input
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="Enter your city"
+                    />{" "}
+                    <button
+                      className="cant-find-city-toggle"
+                      type="button"
+                      onClick={() => setCantFindCity(false)}
+                    >
+                      <Arrow direction={"left"} /> Go back
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="select-container">
+                      <select
+                        disabled={!state}
+                        onChange={(e) =>
+                          setCity(
+                            ["All", "Select One"].includes(e.target.value)
+                              ? null
+                              : e.target.value
+                          )
+                        }
+                        value={city?.toUpperCase()}
+                      >
+                        {statesAndCities[state]?.map((innerCity) => (
+                          <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                        ))}
+                      </select>
+                      <SortIcon />
+                    </div>
+                    <button
+                      onClick={() => setCantFindCity(true)}
+                      className="cant-find-city-toggle"
+                    >
+                      Can't find your city?
+                    </button>
+                  </>
+                )}
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div className="form-block">
+          <div className="header">
+            <h2>Item Info</h2>
+          </div>
+          <div className="form-content">
+            <div
+              className={`form-group ${markedFieldKey == "whatIsIt" ? "marked" : ""}`}
+              ref={whatIsItRef}
+            >
+              <label>What are you looking for?</label>
+              <input
+                placeholder="What you're looking for"
+                value={whatIsIt}
+                onChange={(e) => setWhatIsIt(e.target.value)}
+              />
+            </div>
+
+            <div
+              className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
+              ref={categoryRef}
+            >
+              <label>Select the most accurate category for this item</label>
+
+              <SelectCategoryToggle
+                label={categories.saved?.selected?.plural_name}
+                handleOnClick={() =>
+                  dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+                }
+                noCategorySelected={categories.saved?.selected == null}
+                title="Click this to open a menu and select an item category to filter your results on"
+                emptyLabel="No Category Selected"
+              />
+            </div>
+
+            <div
+              className={`form-group ${markedFieldKey == "budget" ? "marked" : ""}`}
+              ref={budgetRef}
+            >
+              <label>Enter your budget (optional)</label>
+              <div className="input-container">
+                <input
+                  onChange={(e) => setBudget(parseFloat(e.target.value))}
+                  type="number"
+                  step={0.01}
+                  value={budget}
+                  placeholder="Budget"
+                  className="dollars"
+                  id="budget"
+                  required
                 />
               </div>
+            </div>
+            <div className="form-group">
+              <label>Describe what you're looking for (optional)</label>
+              <textarea
+                placeholder="..."
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
 
+            <div className="form-group">
+              <label>Are you open to shipping?</label>
               <RadioOptions
                 options={radioOptions.shippingOptions}
                 handleRadioOptionClick={(clickedOption) =>
@@ -273,19 +494,20 @@ export const CreateWantedItem = () => {
             </div>
           </div>
         </div>
+        <div className="submit-container">
+          {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 ? (
+            <FieldErrorButtons
+              fieldErrors={fieldErrors}
+              setMarkedFieldKey={setMarkedFieldKey}
+            />
+          ) : (
+            false
+          )}
 
-        {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 ? (
-          <FieldErrorButtons
-            fieldErrors={fieldErrors}
-            setMarkedFieldKey={setMarkedFieldKey}
-          />
-        ) : (
-          false
-        )}
-
-        <button type="submit" disabled={submitDisabled}>
-          Submit
-        </button>
+          <button type="submit" disabled={submitDisabled}>
+            Submit
+          </button>
+        </div>
       </form>
 
       {categorySelectorModalToggled && (
@@ -350,6 +572,7 @@ export const CreateWantedItem = () => {
               });
             }}
             showResultNumbers={false}
+            zIndex={3}
           />
         </>
       )}

@@ -43,17 +43,14 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  max-width: 600px;
   width: 100%;
 }
 
 .sell > form .form-block {
   background-color: #444;
-  /* padding: 10px; */
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  /* gap: 20px; */
 }
 
 .sell > form .form-block .header {
@@ -74,38 +71,6 @@
   flex-direction: column;
   gap: 20px;
 }
-
-.sell > form .form-block .image-input-and-prompt {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 5px;
-}
-
-.sell > form .form-block .reset-images-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  margin-top: -10px;
-  align-self: flex-start;
-  border: 1px solid #555;
-  padding: 3px 5px;
-  background-color: #4f4f4f;
-  color: white;
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.sell > form .form-block .reset-images-button svg {
-  width: 15px;
-  fill: var(--red);
-  /* fill: white; */
-}
-
-
 
 .image-skeletons {
   display: flex;
@@ -278,23 +243,6 @@
   fill: grey;
   width: 12px;
 }
-
-/* .sell > form .form-group .price-and-shipping-input {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 3px;
-}
-
-.sell > form .form-group .price-and-shipping-input p {
-  white-space: nowrap;
-}
-
-.sell > form .form-group .price-and-shipping-input input {
-  max-width: 100px;
-  min-width: 100px;
-  background-color: blue;
-} */
 
 
 .sell > form .form-group.year,
@@ -598,109 +546,6 @@
   color: grey;
   background-color: #444;
   cursor: not-allowed;
-}
-
-.sell > form .selling-item-images,
-.image-skeletons {
-  display: flex;
-  flex-direction: row;
-  gap: 3px;
-  flex-wrap: wrap;
-  flex-grow: 0;
-}
-
-.sell > form .selling-item-images .image-container,
-.sell > form .image-skeletons .image-skeleton {
-  height: 75px;
-  width: 75px;
-  border: 2px solid transparent;
-  transition: 0.05s ease border;
-  border-radius: 5px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: #666;
-}
-
-.sell > form .image-skeletons .image-skeleton {
-  animation: brightenAnimation 0.5s infinite alternate;
-}
-
-@keyframes brightenAnimation {
-  0% {
-    filter: brightness(1); /* Original brightness */
-  }
-  100% {
-    filter: brightness(1.5); /* Brighter */
-  }
-}
-
-.sell > form .selling-item-images .image-container.cover {
-  border: 2px solid var(--lightgreen);
-}
-
-.sell > form .selling-item-images .image-container svg {
-  width: 15px;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  cursor: help !important;
-  fill: var(--lightgreen);
-  z-index: 3;
-  /* fill: none; */
-  stroke: #646464;
-  stroke-width: 1px;
-  stroke-dasharray: 2, 2;
-  stroke-linejoin: round;
-
-  filter: drop-shadow(0px 0px 5px black);
-  /* drop-shadow(2px -1px 0px #3e68ff) 
-    drop-shadow(2px 2px 0px #3e68ff)
-    drop-shadow(-1px 2px 0px #3e68ff) */
-}
-
-.sell > form .selling-item-images .image-container img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.sell > form .selling-item-images .image-container .image-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 2;
-}
-
-.sell > form .selling-item-images .image-container:hover .image-overlay {
-  opacity: 1;
-  visibility: visible;
-}
-
-.sell > form .selling-item-images .image-container .buttons {
-  position: absolute;
-  bottom: 2px;
-  left: 2px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.sell > form .selling-item-images .image-container button {
-  border: 1px solid #555;
-  border-radius: 2px;
-  padding: 1px 4px;
-}
-
-.sell > form .selling-item-images .image-container .delete-button:hover {
-  border-color: #666;
-  cursor: pointer;
-}
-
-.sell > form .selling-item-images .image-container .cover-button:hover {
-  border-color: #666;
-  cursor: pointer;
 }
 
 @media screen and (max-width: 610px) {

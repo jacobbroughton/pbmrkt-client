@@ -15,6 +15,7 @@ export const CommentsList = ({
   getComments,
   repliesLoadingFromRootLevel,
   commentIdWithRepliesOpening,
+  postType,
 }) => {
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
@@ -95,6 +96,7 @@ export const CommentsList = ({
         const { data, error } = await supabase.rpc("get_child_comments", {
           p_item_id: commentWithReplies.item_id,
           p_parent_comment_id: commentWithReplies.id,
+          p_post_type,
         });
 
         const replies = data.map((comment) => {
@@ -184,6 +186,7 @@ export const CommentsList = ({
                       repliesLoadingFromRootLevel
                     : repliesLoading
                 }
+                postType={postType}
               />
             </>
           );

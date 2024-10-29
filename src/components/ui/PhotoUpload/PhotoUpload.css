@@ -1,5 +1,12 @@
+/* div.form-block.photo-uploader.photo-uploader > div.form-content {
+  padding: 0;
+} */
 
-.photo-upload {
+div.form-block.photo-uploader.photo-uploader  {
+  padding: 0 !important;
+}
+
+div.form-block.photo-uploader label.photo-upload {
   height: 60px;
   border: 1px solid #555;
   display: flex;
@@ -16,31 +23,165 @@
   min-height: 100px;
 }
 
-.photo-upload svg {
+div.form-block.photo-uploader label.photo-upload svg {
   width: 51px;
   fill: whitesmoke;
   margin-right: 15px;
 }
 
-.photo-upload p:first-child {
+div.form-block.photo-uploader label.photo-upload p:first-child {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.photo-upload input[type="file"] {
+div.form-block.photo-uploader label.photo-upload input[type="file"] {
   display: none;
 }
 
-.photo-upload.secondary {
+div.form-block.photo-uploader label.photo-upload.secondary {
   background-color: #4f4f4f;
   padding: 0;
   font-weight: 500;
 }
 
-.photo-upload.secondary:hover {
+div.form-block.photo-uploader label.photo-upload.secondary:hover {
   text-decoration: underline;
 }
 
-.photo-upload.dragging {
+div.form-block.photo-uploader label.photo-upload.dragging {
   border-color: #666;
+}
+
+div.form-block.photo-uploader label.photo-upload .image-input-and-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+div.form-block.photo-uploader  .reset-images-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: -10px;
+  align-self: flex-start;
+  border: 1px solid #555;
+  padding: 3px 5px;
+  background-color: #4f4f4f;
+  color: white;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+div.form-block.photo-uploader  .reset-images-button svg {
+  width: 15px;
+  fill: var(--red);
+  /* fill: white; */
+}
+
+
+div.form-block.photo-uploader .selling-item-images,
+.image-skeletons {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  flex-wrap: wrap;
+  flex-grow: 0;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container,
+div.form-block.photo-uploader .image-skeletons .image-skeleton {
+  height: 75px;
+  width: 75px;
+  border: 2px solid transparent;
+  transition: 0.05s ease border;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #666;
+}
+
+div.form-block.photo-uploader .image-skeletons .image-skeleton {
+  animation: brightenAnimation 0.5s infinite alternate;
+}
+
+@keyframes brightenAnimation {
+  0% {
+    filter: brightness(1); /* Original brightness */
+  }
+  100% {
+    filter: brightness(1.5); /* Brighter */
+  }
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container.cover {
+  border: 2px solid var(--lightgreen);
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container svg {
+  width: 15px;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: help !important;
+  fill: var(--lightgreen);
+  z-index: 3;
+  /* fill: none; */
+  stroke: #646464;
+  stroke-width: 1px;
+  stroke-dasharray: 2, 2;
+  stroke-linejoin: round;
+
+  filter: drop-shadow(0px 0px 5px black);
+  /* drop-shadow(2px -1px 0px #3e68ff) 
+    drop-shadow(2px 2px 0px #3e68ff)
+    drop-shadow(-1px 2px 0px #3e68ff) */
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container .image-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 2;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container:hover .image-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container .buttons {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container button {
+  border: 1px solid #555;
+  border-radius: 2px;
+  padding: 1px 4px;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container .delete-button:hover {
+  border-color: #666;
+  cursor: pointer;
+}
+
+div.form-block.photo-uploader .selling-item-images .image-container .cover-button:hover {
+  border-color: #666;
+  cursor: pointer;
 }

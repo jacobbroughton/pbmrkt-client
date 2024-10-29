@@ -46,23 +46,10 @@ export function WantedViews({ sort, setTotalListings }) {
 
       let { data, error } = await supabase.rpc("get_wanted_items", {
         p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
+        p_min_budget: filters.saved.minPrice || 0,
+        p_max_budget: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_shipping_ok: true,
         p_sort: sort,
         p_seller_id: null,
         p_city: filters.saved.city == "All" ? null : filters.saved.city,
@@ -92,8 +79,6 @@ export function WantedViews({ sort, setTotalListings }) {
 
       let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
         p_search_value: searchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,
@@ -162,7 +147,7 @@ export function WantedViews({ sort, setTotalListings }) {
   ) : loadedWithNoResults ? (
     view.layout == "Grid" ? (
       <SkeletonsListingGrid
-        message={"No listings found, try adjusting your search or filters."}
+        message={"No wanted listings found, try adjusting your search or filters."}
         accountsForSidebar={windowSize.width > 225 && filtersSidebarToggled}
         hasOverlay={true}
         numSkeletons={20}
@@ -173,7 +158,7 @@ export function WantedViews({ sort, setTotalListings }) {
     ) : view.layout == "List" ? (
       <SkeletonsListingList
         hasOverlay={true}
-        message={"No listings found, try adjusting your search or filters."}
+        message={"No wanted listings found, try adjusting your search or filters."}
       />
     ) : view.layout == "Overview" ? (
       <Overview

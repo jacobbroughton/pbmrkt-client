@@ -8,9 +8,10 @@ import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setViewLayout } from "../../../redux/view";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 
-const Overview = ({ setLoading }) => {
+const Overview = () => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters);
+  const view = useSelector((state) => state.view);
   const { savedSearchValue } = useSelector((state) => state.search);
   const [error, setError] = useState();
   const [nestedCategories, setNestedCategories] = useState(null);
@@ -24,8 +25,6 @@ const Overview = ({ setLoading }) => {
       setSubsequentlyLoading(true);
       const { data, error } = await supabase.rpc("get_item_categories", {
         p_search_value: savedSearchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
         p_min_price: filters.saved.minPrice || 0,
         p_max_price: filters.saved.maxPrice,
         p_state: filters.saved.state == "All" ? null : filters.saved.state,
@@ -53,29 +52,48 @@ const Overview = ({ setLoading }) => {
       const { nestedCategories } = nestItemCategoriesExperimental(data, null);
       setNestedCategories(nestedCategories);
 
-      const { data: data2, error: error2 } = await supabase.rpc("get_view_all_count", {
+      let params = {
         p_search_value: savedSearchValue,
-        p_brand: filters.saved.brand,
-        p_model: filters.saved.model,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
         p_seller_id: null,
         p_city: filters.saved.city == "All" ? null : filters.saved.city,
+        p_state: filters.saved.state == "All" ? null : filters.saved.state,
         p_category_id: filters.saved.category?.id || null,
-      });
+      };
+
+      if (view.type === "Wanted") {
+        params = {
+          ...params,
+          p_min_budget: filters.saved.minPrice || 0,
+          p_max_budget: filters.saved.maxPrice,
+          p_shipping_ok: true,
+        };
+      } else {
+        params = {
+          ...params,
+          p_min_price: filters.saved.minPrice || 0,
+          p_max_price: filters.saved.maxPrice,
+          p_condition: filters.saved.conditionOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_shipping: filters.saved.shippingOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_trades: filters.saved.tradeOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_negotiable: filters.saved.negotiableOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value),
+          p_seller_id: null,
+          p_city: filters.saved.city == "All" ? null : filters.saved.city,
+          p_category_id: filters.saved.category?.id || null,
+        };
+      }
+
+      const { data: data2, error: error2 } = await supabase.rpc(
+        view.type === "Wanted" ? "get_view_all_wanted_count" : "get_view_all_count",
+        params
+      );
 
       if (error2) throw error2.message;
 
@@ -101,7 +119,7 @@ const Overview = ({ setLoading }) => {
   return (
     <div className="overview">
       {initiallyLoading ? (
-      // {true ? (
+        // {true ? (
         <SkeletonsOverview />
       ) : (
         <>

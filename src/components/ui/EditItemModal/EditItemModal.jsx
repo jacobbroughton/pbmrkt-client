@@ -132,7 +132,6 @@ export const EditItemModal = ({ item, setItem }) => {
       const { data, error } = await supabase.rpc("edit_item", {
         p_item_id: item.info.id,
         p_trades: radioOptions.tradeOptions.find((op) => op.checked).value,
-        p_brand: brand,
         p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
         p_details: details,
         p_state: "NC",
@@ -197,11 +196,9 @@ export const EditItemModal = ({ item, setItem }) => {
     //   const { data, error } = await supabase.rpc("edit_item", {
     //     p_item_id: item.info.id,
     //     p_trades: trades,
-    //     p_brand: brand,
     //     p_condition: condition,
     //     p_details: details,
     //     p_state: "NC",
-    //     p_model: model,
     //     p_price: price,
     //     p_shipping_cost: shippingCost, // TODO - Add this to supabase function
     //     p_status: "Available",

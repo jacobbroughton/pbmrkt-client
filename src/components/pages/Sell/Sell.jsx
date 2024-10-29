@@ -201,8 +201,6 @@ export const Sell = () => {
       try {
         const { data, error } = await supabase.rpc("get_item_categories", {
           p_search_value: "",
-          p_brand: filters.saved.brand,
-          p_model: filters.saved.model,
           p_min_price: filters.saved.minPrice || 0,
           p_max_price: filters.saved.maxPrice,
           p_state: filters.saved.state == "All" ? null : filters.saved.state,
@@ -319,11 +317,9 @@ export const Sell = () => {
       setSubmitLoading(true);
 
       const { data, error } = await supabase.rpc("add_item", {
-        p_brand: brand,
         p_created_by_id: user.auth_id,
         p_details: details,
         p_state: state,
-        p_model: model,
         p_price: price,
         p_status: "Available",
         p_what_is_this: whatIsThisItem,
@@ -585,6 +581,7 @@ export const Sell = () => {
         >
           <PhotoUpload
             ref={photosRef}
+            isForWantedItem={false}
             generatedGroupId={generatedGroupId}
             photos={photos}
             setPhotos={setPhotos}

@@ -238,7 +238,7 @@ export const Item = () => {
           return {
             ...comment,
             ...(comment.id == commentId && {
-              eff_status: 0,
+              is_deleted: true,
             }),
           };
         })
@@ -281,6 +281,7 @@ export const Item = () => {
         p_item_id: item.info.id,
         p_parent_comment_id: commentWithReplies.id,
         p_user_id: user?.auth_id,
+        p_post_type: 'For Sale'
       });
 
       if (error) {
@@ -389,7 +390,7 @@ export const Item = () => {
   const isAdmin = user && item.info?.created_by_id == user?.auth_id;
 
   if (error) return <p className="error-text small-text">{error.toString()}</p>;
-  if (!item.info?.eff_status) return <p>This item was deleted.</p>;
+  if (item.info?.is_deleted) return <p>This item was deleted.</p>;
 
   return (
     <>
@@ -667,6 +668,7 @@ export const Item = () => {
             getComments={getComments}
             repliesLoadingFromRootLevel={repliesLoading}
             commentIdWithRepliesOpening={commentIdWithRepliesOpening}
+            postType="For Sale"
           />
         </div>
         {editItemModalToggled ? (

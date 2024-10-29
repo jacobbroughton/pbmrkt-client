@@ -9,6 +9,7 @@ import "./PhotoUpload.css";
 
 export function PhotoUpload({
   ref,
+  isForWantedItem,
   generatedGroupId,
   photos,
   setPhotos,
@@ -63,7 +64,7 @@ export function PhotoUpload({
         const thisUploadUUID = uuidv4();
         const file = imageFiles[i];
         const { data, error } = await supabase.storage
-          .from("item_images")
+          .from(isForWantedItem ? "wanted_item_images" : "item_images")
           .upload(`temp/${user.auth_id}/${generatedGroupId}/${thisUploadUUID}`, file, {
             cacheControl: "3600",
             upsert: false,
@@ -75,13 +76,13 @@ export function PhotoUpload({
         }
 
         const { data: data22, error: error2 } = await supabase.rpc(
-          "add_item_photo_temp",
+          isForWantedItem ? "add_wanted_item_photo_temp" : "add_item_photo_temp",
           {
             p_group_id: generatedGroupId,
             p_generated_id: data.id,
             p_full_path: data.fullPath,
             p_path: data.path,
-            p_is_cover: i == 0 ? 1 : 0,
+            p_is_cover: i == 0,
             p_created_by_id: user.auth_id,
           }
         );
@@ -94,7 +95,7 @@ export function PhotoUpload({
       }
 
       const { data, error } = await supabase.storage
-        .from("item_images")
+        .from(isForWantedItem ? "wanted_item_images" : "item_images")
         .list(`temp/${user.auth_id}/${generatedGroupId}/`, {
           limit: 100,
           offset: 0,
@@ -131,7 +132,7 @@ export function PhotoUpload({
   }
 
   async function handleImageDelete(image) {
-    const { data, error } = await supabase.rpc("delete_temp_image", {
+    const { data, error } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_image" : "delete_temp_item_image", {
       p_image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
     });
 
@@ -157,14 +158,14 @@ export function PhotoUpload({
         (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
-      const { data, error } = await supabase.storage.from("item_images").remove(paths);
+      const { data, error } = await supabase.storage.from(isForWantedItem ? "wanted_item_images" : "item_images").remove(paths);
 
       if (error) {
         console.error(error);
         throw error.message;
       }
 
-      const { error: error2 } = await supabase.rpc("delete_temp_images", {
+      const { error: error2 } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_images" : "delete_temp_item_images", {
         p_user_id: user.auth_id,
         p_group_id: generatedGroupId,
       });
@@ -184,7 +185,7 @@ export function PhotoUpload({
   const imagesLoadingSubsequently = imagesUploading && numPhotosUploaded;
 
   return (
-    <div className={`form-block photos ${markedFieldKey == "images" ? "marked" : ""}`}>
+    <div className={`form-block photo-uploader ${markedFieldKey == "images" ? "marked" : ""}`}>
       <div className="form-content">
         {photos.length != 0 && (
           <div className="selling-item-images">
@@ -201,7 +202,7 @@ export function PhotoUpload({
                     <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
                   )}
                   <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
+                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${isForWantedItem ? "wanted_item_images" : "item_images"}/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
                   />
                 </div>
               );

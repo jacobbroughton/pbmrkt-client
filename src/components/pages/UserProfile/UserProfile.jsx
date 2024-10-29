@@ -81,8 +81,6 @@ export const UserProfile = () => {
 
       setLocalUser(data[0]);
 
-      // (p_brand, p_category_id, p_city, p_condition, p_max_price, p_min_price, p_model, p_negotiable, p_search_value, p_seller_id, p_shipping, p_sort, p_state, p_trades)
-
       getListings(data[0]);
     } catch (error) {
       console.error(error);
@@ -95,8 +93,6 @@ export const UserProfile = () => {
   async function getListings(passedUser) {
     let { data: data2, error: error2 } = await supabase.rpc("get_items", {
       p_search_value: "",
-      p_brand: "",
-      p_model: "",
       p_min_price: 0,
       p_max_price: null,
       p_state: null,

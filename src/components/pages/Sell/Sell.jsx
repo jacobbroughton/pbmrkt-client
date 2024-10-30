@@ -27,35 +27,8 @@ import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
 import "./Sell.css";
 
-const brandArr = [
-  "Planet Eclipse",
-  "Dye Precision",
-  "Empire Paintball",
-  "Field One Paintball",
-  "DLX Technologies",
-  "MacDev",
-  "Virtue Paintball",
-  "Shocker Paintball",
-  "Tiberius Arms",
-  "Dangerous Power",
-];
-const modelArr = [
-  "CS2",
-  "M3+",
-  "Vanquish GT",
-  "Luxe X",
-  "Etha 2",
-  "DSR",
-  "Axe Pro",
-  "Luxe Ice",
-  "Geo 4",
-  "CZR",
-];
-
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 
-const randomBrand = brandArr[Math.floor(Math.random() * brandArr.length)];
-const randomModel = modelArr[Math.floor(Math.random() * modelArr.length)];
 const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
 const initialRadioOptions = {
   conditionOptions: [
@@ -122,15 +95,15 @@ export const Sell = () => {
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
-  const [brand, setBrand] = useState(""); // TODO -- delete this and references to it in backend
-  const [model, setModel] = useState(""); // TODO -- delete this and references to it in backend
   const [price, setPrice] = useState(null);
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
   const [shippingCost, setShippingCost] = useState(0);
   const [contactPhoneNumber, setContactPhoneNumber] = useState("");
   const [sellerName, setSellerName] = useState(
-    user ? user.first_name + " " + user.last_name : ""
+    user && user.first_name && user.last_name
+      ? user.first_name + " " + user.last_name
+      : ""
   );
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
@@ -199,27 +172,7 @@ export const Sell = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_item_categories", {
-          p_search_value: "",
-          p_min_price: filters.saved.minPrice || 0,
-          p_max_price: filters.saved.maxPrice,
-          p_state: filters.saved.state == "All" ? null : filters.saved.state,
-          p_condition: filters.saved.conditionOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_shipping: filters.saved.shippingOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_trades: filters.saved.tradeOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_negotiable: filters.saved.negotiableOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_seller_id: null,
-          p_city: filters.saved.city == "All" ? null : filters.saved.city,
-          p_category_id: filters.saved.category?.id || null,
-        });
+        const { data, error } = await supabase.rpc("get_all_item_categories");
 
         if (error) throw error.message;
 
@@ -369,20 +322,20 @@ export const Sell = () => {
           .move(`temp/${path}`, `saved/${path}`);
         if (error) throw error.message;
       });
-      setSubmitLoading(true);
       setListedItemID(data);
       navigate(`/listing/${data}`);
     } catch (error) {
       console.error(error);
       setError(error.toString());
+    }
+    finally {
+      setSubmitLoading(false)
       setLoading(false);
     }
   }
 
   function handleStateReset() {
     // setImagesUploading(false);
-    setBrand(randomBrand);
-    setModel(randomModel);
     setPrice(randomPrice);
     setDetails("");
     setContactPhoneNumber("7047708371");
@@ -393,7 +346,6 @@ export const Sell = () => {
     setError("");
     setListedItemID(false);
     setLoading(false);
-    setWhatIsThisItem(randomBrand + " " + randomModel);
     setRadioOptions(initialRadioOptions);
   }
 
@@ -572,7 +524,7 @@ export const Sell = () => {
   return (
     <>
       <div className="sell">
-        {error && <p className="error-text">{error}</p>}
+        {error && <p className="error-text">{error.toString()}</p>}
         <h1>Create a new listing</h1>
         <form
           onSubmit={handleSubmit}

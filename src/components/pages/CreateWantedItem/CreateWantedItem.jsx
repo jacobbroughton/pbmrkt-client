@@ -30,6 +30,8 @@ export const CreateWantedItem = () => {
   const { categorySelectorModalToggled } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
 
+  console.log(user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,7 +48,9 @@ export const CreateWantedItem = () => {
   const [city, setCity] = useState(null);
   const [contactPhoneNumber, setContactPhoneNumber] = useState("");
   const [sellerName, setSellerName] = useState(
-    user ? user.first_name + " " + user.last_name : ""
+    user && user.first_name && user.last_name
+      ? user.first_name + " " + user.last_name
+      : ""
   );
   const [generatedGroupId, setGeneratedGroupId] = useState(uuidv4());
   const [newCoverPhotoId, setNewCoverPhotoId] = useState(null);
@@ -142,11 +146,43 @@ export const CreateWantedItem = () => {
         p_shipping_ok: okWithShipping,
         p_category_id: categories.saved.selected?.id,
         p_created_by_id: user.auth_id,
+        p_state: state,
+        p_city: city,
       });
 
       if (error) throw error.message;
 
       if (!createdWantedItem) throw new Error("No new wanted post was created");
+
+      if (newCoverPhotoId) {
+        const { error } = await supabase.rpc("update_wanted_cover_photo", {
+          p_item_id: createdWantedItem.id,
+          p_image_id: newCoverPhotoId,
+        });
+
+        if (error) {
+          console.error(error);
+          throw error.message;
+        }
+      }
+
+      const imagePaths = photos.map(
+        (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
+      );
+
+      const { data: movedImagesFromTempTableData, error: error2 } = await supabase.rpc(
+        "move_wanted_item_images_from_temp",
+        { p_item_id: createdWantedItem.id, p_group_id: generatedGroupId }
+      );
+
+      if (error2) throw error2.message;
+
+      imagePaths.forEach(async (path) => {
+        const { error } = await supabase.storage
+          .from("wanted_item_images")
+          .move(`temp/${path}`, `saved/${path}`);
+        if (error) throw error.message;
+      });
 
       console.log("add_item_request", createdWantedItem);
       navigate(`/wanted/${createdWantedItem.id}`);
@@ -169,27 +205,7 @@ export const CreateWantedItem = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_item_categories", {
-          p_search_value: "",
-          p_min_price: filters.saved.minPrice || 0,
-          p_max_price: filters.saved.maxPrice,
-          p_city: filters.saved.city == "All" ? null : filters.saved.city,
-          p_state: filters.saved.state == "All" ? null : filters.saved.state,
-          p_category_id: filters.saved.category?.id || null,
-          p_condition: filters.saved.conditionOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_shipping: filters.saved.shippingOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_negotiable: filters.saved.negotiableOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_trades: filters.saved.tradeOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_seller_id: null,
-        });
+        const { data, error } = await supabase.rpc("get_all_item_categories");
 
         if (error) throw error.message;
 

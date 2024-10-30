@@ -1,24 +1,21 @@
-import { Link, useParams } from "react-router-dom";
-import "./UserProfile.css";
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
-import { ListingGrid } from "../../ui/ListingGrid/ListingGrid";
-import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
-import { Stars } from "../../ui/Stars/Stars";
-import { toggleModal } from "../../../redux/modals";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { EditIcon } from "../../ui/Icons/EditIcon";
-import { ItemSkeleton } from "../../ui/Skeletons/ItemSkeleton/ItemSkeleton";
-import { Footer } from "../../ui/Footer/Footer";
-import { ThreeDots } from "../../ui/Icons/ThreeDots";
-import { EditUserProfileModal } from "../../ui/EditUserProfileModal/EditUserProfileModal";
-import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
-import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
+import { toggleModal } from "../../../redux/modals";
+import { supabase } from "../../../utils/supabase";
 import { capitalizeWords, getTimeAgo } from "../../../utils/usefulFunctions";
 import { AddReviewModal } from "../../ui/AddReviewModal/AddReviewModal";
-import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import { EditUserProfileModal } from "../../ui/EditUserProfileModal/EditUserProfileModal";
+import { EditIcon } from "../../ui/Icons/EditIcon";
 import { SortIcon } from "../../ui/Icons/SortIcon";
+import { ListingGrid } from "../../ui/ListingGrid/ListingGrid";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
+import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
+import { Stars } from "../../ui/Stars/Stars";
+import "./UserProfile.css";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -45,8 +42,8 @@ export const UserProfile = () => {
   }, []);
 
   useEffect(() => {
-    getListings(user);
-  }, [sort]);
+    if (localUser) getListings(localUser);
+  }, [localUser, sort]);
 
   async function getProfile() {
     try {
@@ -59,6 +56,8 @@ export const UserProfile = () => {
         console.error(error);
         throw error.message;
       }
+
+      if (!data[0]) throw new Error("No profile was found");
 
       const { data: data3, error: error3 } = supabase.storage
         .from("profile_pictures")
@@ -207,6 +206,8 @@ export const UserProfile = () => {
 
   if (loading)
     return <LoadingOverlay message="Loading user..." verticalAlignment={"center"} />;
+
+  if (error) return <p className="error-text">{error.toString()}</p>;
 
   return (
     <>

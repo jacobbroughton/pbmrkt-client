@@ -250,7 +250,7 @@ export const EditItemModal = ({ item, setItem }) => {
 
   async function getItemCategories() {
     try {
-      const { data, error } = await supabase.rpc("get_item_categories");
+      const { data, error } = await supabase.rpc("get_all_item_categories");
 
       if (error) throw error.message;
 

@@ -11,6 +11,9 @@ import { supabase } from "../../../utils/supabase";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
 import "./WantedViews.css";
+import { WantedListingGrid } from "../WantedListingGrid/WantedListingGrid";
+import { WantedListingList } from "../WantedListingList/WantedListingList";
+import { WantedOverview } from "../WantedOverview/WantedOverview";
 
 export function WantedViews({ sort, setTotalListings }) {
   const view = useSelector((state) => state.view);
@@ -44,16 +47,28 @@ export function WantedViews({ sort, setTotalListings }) {
       setListingsLoading(true);
       // }
 
+      // p_search_value text,
+      // p_min_budget float,
+      // p_max_budget float,
+      // p_shipping_ok boolean,
+      // p_sort varchar(20),
+      // p_seller_id uuid,
+      // p_state text,
+      // p_city text,
+      // p_category_id bigint
+
       let { data, error } = await supabase.rpc("get_wanted_items", {
         p_search_value: searchValue,
-        p_min_budget: filters.saved.minPrice || 0,
-        p_max_budget: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
+        p_min_budget: filters.saved["Wanted"].minBudget || 0,
+        p_max_budget: filters.saved["Wanted"].maxBudget,
+        p_state:
+          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
         p_shipping_ok: true,
         p_sort: sort,
         p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
+        p_city:
+          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+        p_category_id: filters.saved["Wanted"].category?.id || null,
       });
 
       if (error) {
@@ -75,28 +90,22 @@ export function WantedViews({ sort, setTotalListings }) {
         };
       });
 
+      console.log(data)
+
       setListings(data);
 
-      let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
+
+      let { data: data2, error: error2 } = await supabase.rpc("get_view_all_wanted_count", {
         p_search_value: searchValue,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_min_budget: filters.saved["Wanted"].minBudget || 0,
+        p_max_budget: filters.saved["Wanted"].maxBudget,
+        p_state:
+          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
+        p_shipping_ok: true,
         p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
+        p_city:
+          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+        p_category_id: filters.saved["Wanted"].category?.id || null,
       });
 
       if (error2) {
@@ -161,7 +170,7 @@ export function WantedViews({ sort, setTotalListings }) {
         message={"No wanted listings found, try adjusting your search or filters."}
       />
     ) : view.layout == "Overview" ? (
-      <Overview
+      <WantedOverview
         loading={listingsLoading}
         setLoading={(value) => setListingsLoading(value)}
       />
@@ -169,15 +178,15 @@ export function WantedViews({ sort, setTotalListings }) {
       true
     )
   ) : view.layout == "Grid" ? (
-    <ListingGrid
+    <WantedListingGrid
       listings={listings}
       accountForSidebar={windowSize.width > 225 && filtersSidebarToggled}
       loading={false}
     />
   ) : view.layout == "List" ? (
-    <ListingList listings={listings} />
+    <WantedListingList listings={listings} />
   ) : view.layout == "Overview" ? (
-    <Overview
+    <WantedOverview
       loading={listingsLoading}
       setLoading={(value) => setListingsLoading(value)}
     />

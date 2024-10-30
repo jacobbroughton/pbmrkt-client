@@ -46,25 +46,25 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       let { data, error } = await supabase.rpc("get_items", {
         p_search_value: searchValue,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
+        p_min_price: filters.saved["For Sale"].minPrice || 0,
+        p_max_price: filters.saved["For Sale"].maxPrice,
+        p_state: filters.saved["For Sale"].state == "All" ? null : filters.saved["For Sale"].state,
+        p_condition: filters.saved["For Sale"].conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
+        p_shipping: filters.saved["For Sale"].shippingOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
+        p_trades: filters.saved["For Sale"].tradeOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
+        p_negotiable: filters.saved["For Sale"].negotiableOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_sort: sort,
         p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
+        p_city: filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
+        p_category_id: filters.saved["For Sale"].category?.id || null,
       });
 
       if (error) {
@@ -90,29 +90,31 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
         p_search_value: searchValue,
-        p_min_price: filters.saved.minPrice || 0,
-        p_max_price: filters.saved.maxPrice,
-        p_state: filters.saved.state == "All" ? null : filters.saved.state,
-        p_condition: filters.saved.conditionOptions
+        p_min_price: filters.saved["For Sale"].minPrice || 0,
+        p_max_price: filters.saved["For Sale"].maxPrice,
+        p_state: filters.saved["For Sale"].state == "All" ? null : filters.saved["For Sale"].state,
+        p_condition: filters.saved["For Sale"].conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_shipping: filters.saved.shippingOptions
+        p_shipping: filters.saved["For Sale"].shippingOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_trades: filters.saved.tradeOptions
+        p_trades: filters.saved["For Sale"].tradeOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_negotiable: filters.saved.negotiableOptions
+        p_negotiable: filters.saved["For Sale"].negotiableOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_seller_id: null,
-        p_city: filters.saved.city == "All" ? null : filters.saved.city,
-        p_category_id: filters.saved.category?.id || null,
+        p_city: filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
+        p_category_id: filters.saved["For Sale"].category?.id || null,
       });
 
       if (error2) {
         throw error2.message;
       }
+
+      console.log(data2)
 
       setTotalListings(data2[0].num_results);
 

@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
-import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
-import { Link } from "react-router-dom";
-import "./Overview.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setViewLayout } from "../../../redux/view";
+import { supabase } from "../../../utils/supabase";
+import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
+import "./WantedOverview.css";
 
-const Overview = () => {
+export const WantedOverview = () => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters);
-  const view = useSelector((state) => state.view);
   const { savedSearchValue } = useSelector((state) => state.search);
   const [error, setError] = useState();
   const [nestedCategories, setNestedCategories] = useState(null);
@@ -23,30 +21,17 @@ const Overview = () => {
   async function getCategories() {
     try {
       setSubsequentlyLoading(true);
-      const { data, error } = await supabase.rpc("get_item_categories", {
+      const { data, error } = await supabase.rpc("get_wanted_item_categories", {
         p_search_value: savedSearchValue,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_condition: filters.saved["For Sale"].conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_min_budget: filters.saved["Wanted"].minPrice || 0,
+        p_max_budget: filters.saved["Wanted"].maxPrice,
+        p_shipping_ok: true,
         p_seller_id: null,
+        p_state:
+          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
         p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
+          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+        p_category_id: filters.saved["Wanted"].category?.id || null,
       });
 
       if (error) throw error.message;
@@ -56,34 +41,21 @@ const Overview = () => {
       const { nestedCategories } = nestItemCategoriesExperimental(data, null);
       setNestedCategories(nestedCategories);
 
-      let params = {
+      const params = {
         p_search_value: savedSearchValue,
         p_seller_id: null,
         p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
+          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
         p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_condition: filters.saved["For Sale"].conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
+        p_category_id: filters.saved["Wanted"].category?.id || null,
+        p_min_budget: filters.saved["Wanted"].minPrice || 0,
+        p_max_budget: filters.saved["Wanted"].maxPrice,
+        p_shipping_ok: true,
       };
 
       const { data: data2, error: error2 } = await supabase.rpc(
-        "get_view_all_count",
+        "get_view_all_wanted_count",
         params
       );
 
@@ -142,7 +114,6 @@ const Overview = () => {
     </div>
   );
 };
-export default Overview;
 
 const OverviewOptionList = ({ options, level, loading }) => {
   const dispatch = useDispatch();
@@ -155,7 +126,7 @@ const OverviewOptionList = ({ options, level, loading }) => {
         setFilters({
           ...filters,
           saved: {
-            ...filters.saved["For Sale"],
+            ...filters.saved["Wanted"],
             categories: options,
             category: category,
           },

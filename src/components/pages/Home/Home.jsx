@@ -244,6 +244,15 @@ export function Listings() {
 
     filterTags.push(
       {
+        label: "Budget Range",
+        value: filters.saved[view.type].priceOptions.find((op) => op.checked).value,
+        onDeleteClick: () => {
+          dispatch(resetFilter({ filterKey: "priceOptions", viewType: view.type }));
+          dispatch(setFiltersUpdated(true));
+        },
+        active: !filters.saved[view.type].priceOptions.find((op) => op.id == 0).checked,
+      },
+      {
         label: `Condition`,
         value:
           checkedConditionOptions.length == 0

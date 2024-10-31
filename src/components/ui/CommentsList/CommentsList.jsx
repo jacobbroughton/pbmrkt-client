@@ -36,6 +36,7 @@ export const CommentsList = ({
         p_created_by_id: user.auth_id,
         p_item_id: repliedComment.item_id,
         p_parent_id: repliedComment.id,
+        p_post_type: postType
       });
 
       if (error) throw error.message;

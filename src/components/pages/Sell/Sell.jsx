@@ -1002,6 +1002,7 @@ export const Sell = () => {
                 });
               }}
               showResultNumbers={false}
+              zIndex={3}
             />
           </>
         )}

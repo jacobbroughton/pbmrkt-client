@@ -156,6 +156,7 @@ export const Item = () => {
         p_created_by_id: user.auth_id,
         p_item_id: itemID,
         p_parent_id: null,
+        p_post_type: "For Sale"
       });
 
       if (error) throw error.message;

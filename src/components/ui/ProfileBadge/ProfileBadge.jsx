@@ -27,15 +27,14 @@ export function ProfileBadge({
         <p>
           {userInfo.city}, {userInfo.state}
         </p>
-
         <button
           className="stars-button"
           onClick={(e) => {
             e.stopPropagation();
-            if (userInfo.sellerReviewCount.count <= 0) return;
+            if (userInfo.sellerReviewCount <= 0) return;
             dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
           }}
-          disabled={userInfo.sellerReviewCount.count == 0}
+          disabled={userInfo.sellerReviewCount == 0}
         >
           <Stars rating={userInfo.sellerRating} />{" "}
           <span>({userInfo.sellerReviewCount})</span>

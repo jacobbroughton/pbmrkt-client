@@ -254,7 +254,6 @@ export const UserProfile = () => {
           <div className="user-info-containers">
             <div className="user-info-container">
               <label>Buyer Reviews</label>
-
               <button
                 className="stars-button"
                 onClick={(e) => {

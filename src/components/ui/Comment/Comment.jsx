@@ -27,7 +27,7 @@ export const Comment = ({
   setError,
   getComments,
   repliesLoading,
-  postType
+  postType,
 }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -135,7 +135,12 @@ export const Comment = ({
   }
 
   return (
-    <div key={comment.id} className={`comment ${isRootLevel ? "is-root-level" : ""}`}>
+    <div
+      key={comment.id}
+      className={`comment ${comment.is_deleted ? "deleted" : ""} ${
+        isRootLevel ? "is-root-level" : ""
+      }`}
+    >
       <div className="bars-and-content">
         <div className="profile-picture-container">
           <Link to={`/user/${comment.username}`} className="profile-picture-link">
@@ -171,7 +176,7 @@ export const Comment = ({
               {getTimeAgo(new Date(comment.created_dttm))}
             </p>
           </div>
-          <p className={`comment-body ${comment.is_deleted ? "deleted" : ""}`}>
+          <p className="comment-body">
             {comment.is_deleted ? "This comment has been deleted" : comment.body}
           </p>
           {comment.id != commentWithReplyWindowID ? (

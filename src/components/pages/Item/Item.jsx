@@ -1,33 +1,24 @@
-import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
-import { EditItemModal } from "../../ui/EditItemModal/EditItemModal";
-import { CommentsList } from "../../ui/CommentsList/CommentsList";
-import { Footer } from "../../ui/Footer/Footer";
-import { Stars } from "../../ui/Stars/Stars";
-import { SendIcon } from "../../ui/Icons/SendIcon";
-import { CheckIcon } from "../../ui/Icons/CheckIcon";
-import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
-import { ChartIcon } from "../../ui/Icons/ChartIcon";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { supabase } from "../../../utils/supabase";
+import { Link, useParams } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
-import { getTimeAgo } from "../../../utils/usefulFunctions";
-import { XIcon } from "../../ui/Icons/XIcon";
-import { ThreeDots } from "../../ui/Icons/ThreeDots";
-import { WarningCircle } from "../../ui/Icons/WarningCircle";
-import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
-import { PhoneIcon } from "../../ui/Icons/PhoneIcon";
-import { EmailIcon } from "../../ui/Icons/EmailIcon";
-import { ExpandIcon } from "../../ui/Icons/ExpandIcon";
-import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
-import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
-import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
-import "./Item.css";
-import { Arrow } from "../../ui/Icons/Arrow";
+import { supabase } from "../../../utils/supabase";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
-import MessageIcon from "../../ui/Icons/MessageIcon";
-import { EditIcon } from "../../ui/Icons/EditIcon";
+import { EditItemModal } from "../../ui/EditItemModal/EditItemModal";
+import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
+import { CheckIcon } from "../../ui/Icons/CheckIcon";
+import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
+import { XIcon } from "../../ui/Icons/XIcon";
+import { ItemCommentsSection } from "../../ui/ItemCommentsSection/ItemCommentsSection";
+import { ItemImages } from "../../ui/ItemImages/ItemImages";
+import { ItemVotes } from "../../ui/ItemVotes/ItemVotes";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
+import { MetadataTable } from "../../ui/MetadataTable/MetadataTable";
+import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
+import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
+import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
+import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
+import "./Item.css";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -45,13 +36,13 @@ export const Item = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState(true);
   const [deletedModalShowing, setDeletedModalShowing] = useState(false);
-  const [newCommentBody, setNewCommentBody] = useState("");
-  const [localComments, setLocalComments] = useState(null);
+  // const [newCommentBody, setNewCommentBody] = useState("");
+  // const [localComments, setLocalComments] = useState(null);
+  // const [repliesLoading, setRepliesLoading] = useState(false);
+  // const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
-  const [repliesLoading, setRepliesLoading] = useState(false);
-  const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
   const [sellerReviews, setSellerReviews] = useState();
   const [existingVote, setExistingVote] = useState(null);
   const [votes, setVotes] = useState(null);
@@ -125,61 +116,7 @@ export const Item = () => {
     }
 
     getItem();
-    getComments();
   }, [itemID]);
-
-  async function handleDelete() {
-    setLoading(true);
-    try {
-      const { error } = await supabase.rpc("delete_item", {
-        p_item_id: item.info.id,
-      });
-
-      if (error) throw error.message;
-
-      setDeletedModalShowing(true);
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-    setLoading(false);
-  }
-
-  async function handleNewCommentSubmit(e) {
-    e.preventDefault();
-
-    try {
-      if (!newCommentBody) throw "Cannot add comment, body empty";
-
-      const { data, error } = await supabase.rpc("add_comment", {
-        p_body: newCommentBody,
-        p_created_by_id: user.auth_id,
-        p_item_id: itemID,
-        p_parent_id: null,
-        p_post_type: "For Sale"
-      });
-
-      if (error) throw error.message;
-      if (user.auth_id != item.info.created_by_id) {
-        const { error: error2 } = await supabase.rpc("add_comment_notification", {
-          p_message: newCommentBody,
-          p_type: "Comment",
-          p_url: "",
-          p_item_id: itemID,
-          p_comment_id: data[0].id,
-          p_user_id: user.auth_id,
-          p_related_user_id: item.info.created_by_id,
-        });
-
-        if (error2) throw error2.message;
-      }
-      getComments();
-      setNewCommentBody("");
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }
 
   async function getPriceChangeHistory(itemId) {
     try {
@@ -194,64 +131,6 @@ export const Item = () => {
       console.error(error);
       setError(error.toString());
     }
-  }
-
-  async function getComments() {
-    try {
-      const { data, error } = await supabase.rpc("get_comments_experimental", {
-        p_item_id: itemID,
-        p_user_id: user?.auth_id,
-      });
-
-      if (error) throw error.message;
-
-      const comments = data.map((comment) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
-        return {
-          ...comment,
-          replies: [],
-          repliesToggled: false,
-          profile_picture_url: data2.publicUrl,
-        };
-      });
-
-      setLocalComments(comments);
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }
-
-  async function handleDeleteComment(e, commentId) {
-    e.preventDefault();
-    try {
-      await supabase.rpc("delete_comment", {
-        p_comment_id: commentId,
-      });
-
-      setLocalComments(
-        localComments.map((comment) => {
-          return {
-            ...comment,
-            ...(comment.id == commentId && {
-              is_deleted: true,
-            }),
-          };
-        })
-      );
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }
-
-  function handleEditButtonClick() {
-    dispatch(toggleModal({ key: "editItemModal", value: !editItemModalToggled }));
   }
 
   async function handleStatusChange(newStatus) {
@@ -271,117 +150,6 @@ export const Item = () => {
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
     setMarkAsSoldLoading(false);
-  }
-
-  async function handleRepliesClick(e, commentWithReplies) {
-    e.preventDefault();
-    if (!commentWithReplies.repliesToggled) {
-      setCommentIdWithRepliesOpening(commentWithReplies.id);
-      setRepliesLoading(true);
-      const { data, error } = await supabase.rpc("get_child_comments", {
-        p_item_id: item.info.id,
-        p_parent_comment_id: commentWithReplies.id,
-        p_user_id: user?.auth_id,
-        p_post_type: 'For Sale'
-      });
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-      const replies = data.map((comment) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
-        return {
-          ...comment,
-          profile_picture_url: data2.publicUrl,
-        };
-      });
-
-      setLocalComments(
-        localComments.map((comm) => {
-          return {
-            ...comm,
-            tier: 0,
-            ...(comm.id == commentWithReplies.id && {
-              replies: replies,
-              repliesToggled: !comm.repliesToggled,
-              reply_count: replies.length,
-            }),
-          };
-        })
-      );
-    } else {
-      setCommentIdWithRepliesOpening(null);
-      setLocalComments(
-        localComments.map((comm) => {
-          return {
-            ...comm,
-            tier: 0,
-            ...(comm.id == commentWithReplies.id && {
-              replies: [],
-              repliesToggled: false,
-              // reply_count: replies.length,
-            }),
-          };
-        })
-      );
-    }
-    setRepliesLoading(false);
-  }
-
-  async function handleItemDownvote() {
-    try {
-      const { data, error } = await supabase.rpc("add_item_vote", {
-        p_item_id: item.info.id,
-        p_vote_direction: "Down",
-        p_user_id: user?.auth_id,
-      });
-
-      if (error) throw error.message;
-
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes -= 1));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 2));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 1));
-      }
-
-      setExistingVote(data[0]?.vote_direction);
-    } catch (error) {
-      console.error(error);
-      setError(error.toString());
-    }
-  }
-
-  async function handleItemUpvote() {
-    try {
-      const { data, error } = await supabase.rpc("add_item_vote", {
-        p_item_id: item.info.id,
-        p_vote_direction: "Up",
-        p_user_id: user?.auth_id,
-      });
-
-      if (error) throw error.message;
-
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes += 1));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 2));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 1));
-      }
-
-      setExistingVote(data[0]?.vote_direction);
-    } catch (error) {
-      console.error(error);
-      setError(error.toString());
-    }
   }
 
   if (!item && loading)
@@ -409,50 +177,11 @@ export const Item = () => {
           </>
         )}
         <div className="images-and-content">
-          <div className="item-images">
-            <div
-              className="main-image-parent"
-              onDoubleClick={() =>
-                dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
-              }
-            >
-              {selectedPhoto ? (
-                <img className="item-main-image" src={selectedPhoto.url} />
-              ) : (
-                <div className="main-image-placeholder"></div>
-              )}
-              <button
-                className="expand-image-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "fullScreenImageModal", value: true }))
-                }
-              >
-                <ExpandIcon />
-              </button>
-            </div>
-            {item.photos.length > 1 && (
-              <div className="item-thumbnails">
-                {item.photos.map((photo) => (
-                  <div className="item-thumbnail-image-container">
-                    <img
-                      key={photo.id}
-                      className={`item-thumbnail-image ${
-                        photo.id === selectedPhoto?.id ? "selected" : ""
-                      }`}
-                      onClick={() => setSelectedPhoto(photo)}
-                      onDoubleClick={() => {
-                        setSelectedPhoto(photo);
-                        dispatch(
-                          toggleModal({ key: "fullScreenImageModal", value: true })
-                        );
-                      }}
-                      src={photo.url}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ItemImages
+            photos={item.photos}
+            selectedPhoto={selectedPhoto}
+            setSelectedPhoto={setSelectedPhoto}
+          />
           <div className="content">
             <div className="header-buttons">
               <button
@@ -501,23 +230,13 @@ export const Item = () => {
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
                   {isAdmin ? (
-                    <div className="like-and-dislike">
-                      <button
-                        disabled={false}
-                        onClick={(e) => handleItemUpvote(e)}
-                        className={`up ${existingVote == "Up" ? "selected" : ""}`}
-                      >
-                        <Arrow direction="up" />
-                      </button>
-                      <span>{votes}</span>
-                      <button
-                        disabled={false}
-                        onClick={(e) => handleItemDownvote(e)}
-                        className={`down ${existingVote == "Down" ? "selected" : ""}`}
-                      >
-                        <Arrow direction="down" />
-                      </button>
-                    </div>
+                    <ItemVotes
+                      itemId={item.info.id}
+                      existingVote={existingVote}
+                      setExistingVote={setExistingVote}
+                      votes={votes}
+                      setVotes={setVotes}
+                    />
                   ) : (
                     false
                   )}
@@ -559,119 +278,39 @@ export const Item = () => {
                 </div>
               )}
 
-              <div className="metadata-table-and-label">
-                <div className="metadata-table-container">
-                  <table className="metadata">
-                    <tbody>
-                      <tr>
-                        <td>Condition</td>
-                        <td>{item.info.condition}</td>
-                      </tr>
-                      <tr>
-                        <td>Shipping</td>
-                        <td>{item.info.shipping}</td>
-                      </tr>
-                      <tr>
-                        <td>Negotiable</td>
-                        <td>{item.info.negotiable}</td>
-                      </tr>
-                      <tr>
-                        <td>Trades</td>
-                        <td>
-                          <p>{item.info.trades}</p>
-                          {item.info.accepted_trades ? (
-                            <p>
-                              <i>"{item.info.accepted_trades}"</i>
-                            </p>
-                          ) : (
-                            false
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <MetadataTable
+                rows={[
+                  { label: "Condition", values: [{ text: item.info.condition }] },
+                  { label: "Shipping", values: [{ text: item.info.shipping }] },
+                  { label: "Negotiable", values: [{ text: item.info.negotiable }] },
+                  {
+                    label: "Trades",
+                    values: [
+                      { text: item.info.trades },
+                      { text: `"${item.info.accepted_trades}"`, style: "italic" },
+                    ],
+                  },
+                ]}
+              />
 
-              <div className="seller-info">
-                <div className="profile-picture-container">
-                  <img className="profile-picture" src={item.info.profile_picture_url} />
-                </div>
-                <div className="text">
-                  <Link
-                    to={`/user/${item.info.created_by_username}`}
-                    className="user-link"
-                  >
-                    {item.info.created_by_username}
-                  </Link>
-                  <p>
-                    {item.info.city}, {item.info.state}
-                  </p>
-
-                  <button
-                    className="stars-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (sellerReviews.count <= 0) return;
-                      dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
-                    }}
-                    disabled={sellerReviews.count == 0}
-                  >
-                    <Stars rating={item.info.seller_rating} />{" "}
-                    <span>({sellerReviews.count})</span>
-                  </button>
-                </div>
-              </div>
+              <ProfileBadge
+                userInfo={{
+                  profilePictureUrl: item.info.profile_picture_url,
+                  username: item.info.created_by_username,
+                  city: item.info.city,
+                  state: item.info.state,
+                  sellerReviewCount: sellerReviews.count,
+                  sellerRating: item.info.seller_rating,
+                }}
+              />
             </div>
           </div>
         </div>
 
-        <div className="comments-section">
-          {user ? (
-            <form onSubmit={(e) => handleNewCommentSubmit(e)} className="comment-form">
-              <textarea
-                placeholder="Write Something"
-                onChange={(e) => setNewCommentBody(e.target.value)}
-                value={newCommentBody}
-              />
-              <button type="submit" disabled={!newCommentBody}>
-                Submit <SendIcon />
-              </button>
-            </form>
-          ) : (
-            <p className="login-or-signup">
-              <button
-                className="link-button"
-                onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
-              >
-                Login
-              </button>{" "}
-              or{" "}
-              <button
-                className="link-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "registerModal", value: true }))
-                }
-              >
-                Sign Up
-              </button>{" "}
-              to leave a comment.
-            </p>
-          )}
-          <CommentsList
-            passedComments={localComments}
-            handleCommentSubmit={handleNewCommentSubmit}
-            handleRepliesClickFromRootLevel={handleRepliesClick}
-            handleDeleteComment={handleDeleteComment}
-            isRootLevel={true}
-            setRootLevelComments={setLocalComments}
-            setError={setError}
-            getComments={getComments}
-            repliesLoadingFromRootLevel={repliesLoading}
-            commentIdWithRepliesOpening={commentIdWithRepliesOpening}
-            postType="For Sale"
-          />
-        </div>
+        <ItemCommentsSection
+          itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
+          setError={setError}
+        />
         {editItemModalToggled ? (
           <EditItemModal
             item={item}

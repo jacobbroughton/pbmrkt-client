@@ -36,7 +36,7 @@ export const CommentsList = ({
         p_created_by_id: user.auth_id,
         p_item_id: repliedComment.item_id,
         p_parent_id: repliedComment.id,
-        p_post_type: postType
+        p_post_type: postType,
       });
 
       if (error) throw error.message;
@@ -97,7 +97,7 @@ export const CommentsList = ({
         const { data, error } = await supabase.rpc("get_child_comments", {
           p_item_id: commentWithReplies.item_id,
           p_parent_comment_id: commentWithReplies.id,
-          p_post_type,
+          p_post_type: postType,
         });
 
         const replies = data.map((comment) => {

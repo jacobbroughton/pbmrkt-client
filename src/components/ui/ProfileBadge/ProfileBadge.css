@@ -1,0 +1,58 @@
+
+.profile-badge {
+  /* border: 1px solid #444; */
+  /* background-color: #2f2f2f; */
+  display: flex;
+  /* border: 1px solid var(--lightgreen); */
+  /* border: 1px solid #444; */
+  border-radius: 5px;
+  /* padding: 7px; */
+  font-size: 0.875rem;
+  width: min-content;
+  /* border-top:  */
+  /* border-top: 1px solid #33 3; */
+  white-space: pre-wrap;
+  position: relative;
+  width: 100%;
+  /* filter: var(--drop-shadow); */
+}
+
+.profile-badge .user-link {
+  display: block;
+}
+
+.profile-badge .profile-picture-container {
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.profile-badge .profile-picture-container .profile-picture {
+  background-color: #666;
+  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.profile-badge .stars-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  gap: 3px;
+  font-size: 1rem;
+  /* margin-top: 10px */
+}
+
+.profile-badge .stars-button:not(:disabled) {
+  cursor: pointer;
+}
+
+.profile-badge .stars-button span {
+  color: white;
+}
+
+.profile-badge .stars-button:not(:disabled):hover span {
+  text-decoration: underline;
+}

@@ -1,0 +1,28 @@
+
+.item .comment-form button {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.item .comment-form button svg {
+  width: 14px;
+}
+
+.item .comment-form button:not(:disabled) svg {
+  fill: white;
+}
+
+.item .comment-form button:not(:disabled) {
+  color: white;
+}
+
+.item .comment-form button:disabled {
+  fill: grey;
+  color: grey;
+}

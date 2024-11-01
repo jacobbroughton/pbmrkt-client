@@ -41,7 +41,6 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
       if (!data) throw "Something happened when trying to read the notification";
 
-
       setNotifications(
         notifications.map((notif) => ({
           ...notif,
@@ -89,7 +88,8 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
         </button>
       </div>
       <ul>
-        {notifications?.length != 0 ? (
+        {console.log({ notifications })}
+        {notifications && notifications?.length != 0 ? (
           notifications?.map((notification) => {
             const { data, error } = supabase.storage
               .from("profile_pictures")
@@ -124,7 +124,7 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                     ) : (
                       false
                     )}
-              
+
                     <p className="time-ago">
                       {getTimeAgo(new Date(notification.created_at))}
                     </p>

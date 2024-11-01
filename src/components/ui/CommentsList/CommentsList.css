@@ -33,12 +33,29 @@
 
 }
 
+.item .comments-section .comment-form button[type="submit"] {
+  display: flex;
+  gap: 5px;
+  font-size: 1rem;
+  align-items: center;
+}
+
 .item .comments-section .comment-form button[type="submit"]:not(:disabled) {
   cursor: pointer;
 }
 
 .item .comments-section .comment-form button[type="submit"]:disabled {
   fill: grey !important;
+}
+
+.item .comments-section .comment-form button[type="submit"] > svg {
+  width: 13px;
+  fill: white;
+}
+
+
+.item .comments-section .comment-form button[type="submit"]:disabled > svg {
+  fill: grey;
 }
 
 .item .comments-section h3 {

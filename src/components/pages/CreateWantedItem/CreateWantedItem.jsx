@@ -30,8 +30,6 @@ export const CreateWantedItem = () => {
   const { categorySelectorModalToggled } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
 
-  console.log(user);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -184,7 +182,6 @@ export const CreateWantedItem = () => {
         if (error) throw error.message;
       });
 
-      console.log("add_item_request", createdWantedItem);
       navigate(`/wanted/${createdWantedItem.id}`);
     } catch (error) {
       console.error(error);
@@ -193,7 +190,6 @@ export const CreateWantedItem = () => {
   }
 
   useEffect(() => {
-    console.log(markedFieldKey);
     if (
       (markedFieldKey == "whatIsIt" && whatIsIt != "") ||
       (markedFieldKey == "budget" && budget) ||

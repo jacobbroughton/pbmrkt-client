@@ -1,0 +1,41 @@
+.item-like-and-dislike {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* padding-right: 10px; */
+  /* border-right: 1px solid #555; */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: #333;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.item-like-and-dislike button {
+  border-radius: 5px;
+  width: 35px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #333;
+  border: 1px solid #555;
+}
+
+.item-like-and-dislike button:hover {
+  background-color: #3b3b3b;
+}
+
+.item-like-and-dislike button svg {
+  fill: white;
+  width: 10px;
+}
+
+.item-like-and-dislike button.up.selected svg {
+  fill: orange;
+}
+
+.item-like-and-dislike button.down.selected svg {
+  fill: teal;
+}

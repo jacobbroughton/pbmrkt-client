@@ -123,7 +123,6 @@
   /* transform: translateX(-50%) !important; */
 }
 
-
 .comment .bars-and-content .profile-picture-container svg:hover {
   background-color: #555;
   border: 1px solid #666;
@@ -135,7 +134,7 @@
 }
 
 .comment .bars-and-content .profile-picture-container .thread-bar svg.down {
-  fill:var(--yellow);
+  fill: var(--yellow);
   transform: translateX(-50%) rotate(0deg) !important;
 }
 
@@ -144,7 +143,7 @@
 }
 
 .thread-bar-target:hover + .thread-bar svg {
-  fill:var(--yellow);
+  fill: var(--yellow);
 }
 
 .comment .bars-and-content .comment-contents {
@@ -175,29 +174,24 @@
   margin-top: 5px;
 }
 
-.comment-form textarea {
+.comment-form > textarea {
   font-family: Arial, Helvetica, sans-serif;
   width: 100%;
   font-size: 1rem;
   padding: 6px;
 }
 
-.comment-form .buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.comment .comment-body.deleted {
+.comment.deleted .comment-body {
   color: #aaa;
 }
 
-.comment .controls {
+.comment > .bars-and-content > .comment-contents > .controls {
   display: flex;
   gap: 10px;
   margin-top: 5px;
 }
 
-.comment .controls .like-and-dislike {
+.comment > .bars-and-content > .comment-contents > .controls > .like-and-dislike {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -206,7 +200,7 @@
   margin-left: -10px;
 }
 
-.comment .controls .like-and-dislike button {
+.comment > .bars-and-content > .comment-contents > .controls > .like-and-dislike button {
   width: 30px;
   height: 30px;
   background-color: transparent;
@@ -216,35 +210,82 @@
   justify-content: center;
 }
 
-.comment .controls .like-and-dislike button:disabled {
+.comment.deleted
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  > span {
+  color: #aaa;
+}
+
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button:disabled {
   cursor: not-allowed;
 }
 
-.comment .controls .like-and-dislike button:disabled:hover {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button:disabled:hover {
   background-color: transparent;
   border-color: transparent;
 }
 
-
-.comment .controls .like-and-dislike button:hover {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button:hover {
   background-color: #444;
   border: 1px solid #555;
 }
 
-.comment .controls .like-and-dislike button svg {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button
+  svg {
   width: 12px;
-  height: 12px;;
+  height: 12px;
 }
 
-.comment .controls .like-and-dislike button:disabled svg {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button:disabled
+  svg {
   fill: grey;
 }
 
-.comment .controls .like-and-dislike button.up.selected svg {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button.up.selected
+  svg {
   fill: orange;
 }
 
-.comment .controls .like-and-dislike button.down.selected svg {
+.comment
+  > .bars-and-content
+  > .comment-contents
+  > .controls
+  > .like-and-dislike
+  button.down.selected
+  svg {
   fill: teal;
 }
 
@@ -254,7 +295,7 @@
   width: 100%;
 }
 
-.comment .controls button,
+.comment > .bars-and-content > .comment-contents > .controls button,
 .comment .comment-form .buttons button {
   background-color: transparent;
   padding: 0;
@@ -267,21 +308,21 @@
   align-items: center;
 }
 
-.comment .controls button:hover,
+.comment > .bars-and-content > .comment-contents > .controls button:hover,
 .comment .comment-form .buttons button:hover {
   background-color: transparent;
 }
 
-.comment .controls button:not(:disabled),
+.comment > .bars-and-content > .comment-contents > .controls button:not(:disabled),
 .comment .comment-form .buttons button:not(:disabled) {
   color: white;
 }
-.comment .controls button svg,
+.comment > .bars-and-content > .comment-contents > .controls button svg,
 .comment .comment-form .buttons button svg {
   width: 14px;
 }
 
-.comment .controls button:not(:disabled) svg,
+.comment > .bars-and-content > .comment-contents > .controls button:not(:disabled) svg,
 .comment .comment-form .buttons button:not(:disabled) svg {
   fill: white;
 }

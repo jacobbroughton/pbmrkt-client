@@ -161,7 +161,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
         <form className="filters" onSubmit={handleFiltersApply}>
           <div className="listing-count-and-reset">
             <p>
-              {totalListings} Listing{totalListings > 1 ? "s" : ""}
+              {totalListings} Listing{totalListings !== 1 ? "s" : ""}
             </p>
             <button
               onClick={() => {

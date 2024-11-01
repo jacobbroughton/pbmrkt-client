@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Stars } from "../Stars/Stars";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch } from "react-redux";
-import "./ProfileBadge.css"
+import "./ProfileBadge.css";
 
 export function ProfileBadge({
   userInfo = {
@@ -10,8 +10,8 @@ export function ProfileBadge({
     username: "",
     city: "",
     state: "",
-    sellerReviewCount: 0,
-    sellerRating: 0,
+    reviewCount: 0,
+    rating: 0,
   },
 }) {
   const dispatch = useDispatch();
@@ -31,13 +31,12 @@ export function ProfileBadge({
           className="stars-button"
           onClick={(e) => {
             e.stopPropagation();
-            if (userInfo.sellerReviewCount <= 0) return;
+            if (userInfo.reviewCount <= 0) return;
             dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
           }}
-          disabled={userInfo.sellerReviewCount == 0}
+          disabled={userInfo.reviewCount == 0}
         >
-          <Stars rating={userInfo.sellerRating} />{" "}
-          <span>({userInfo.sellerReviewCount})</span>
+          <Stars rating={userInfo.rating} /> <span>({userInfo.reviewCount})</span>
         </button>
       </div>
     </div>

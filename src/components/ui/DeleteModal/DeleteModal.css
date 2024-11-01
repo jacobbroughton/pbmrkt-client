@@ -1,0 +1,117 @@
+.delete-modal {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  background-color: var(--popup-menu-bg-color);
+  /* border: 1px solid var(--popup-menu-border-color); */
+  box-shadow: var(--popup-menu-box-shadow);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  width: calc(100% - 20px);
+  max-width: 350px;
+  z-index: 4;
+}
+
+.delete-modal > .header,
+.delete-modal > .content,
+.delete-modal > .controls {
+  padding: 10px;
+}
+
+.delete-modal > .header,
+.delete-modal > .content {
+  border-bottom: 1px solid #555;
+}
+
+/* Header */
+.delete-modal > .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--popup-menu-header-bg-color);
+  gap: 50px;
+}
+
+.delete-modal > .header > h1 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.delete-modal > .header > button {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.delete-modal > .header > button:hover {
+  border: 1px solid var(--button-default-border-color-hover);
+  background-color: var(--button-default-bg-color-hover);
+}
+
+.delete-modal > .header > button > svg {
+  width: 15px;
+  fill: whitesmoke;
+}
+
+/* Content */
+.delete-modal > .content {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 25px;
+}
+
+.delete-modal > .content > p {
+  text-align: start;
+  opacity: 0.8;
+}
+
+/* Controls */
+.delete-modal > .controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.delete-modal > .controls > button {
+  border: 1px solid var(--button-default-border-color);
+  background-color: var(--button-default-bg-color);
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.delete-modal > .controls > button.delete {
+  background-color: crimson;
+  border: transparent 1px solid;
+}
+
+.delete-modal > .controls > button:not(:disabled):not(.delete):hover {
+  background-color: var(--button-default-bg-color-hover);
+  border-color: var(--button-default-border-color-hover);
+}
+
+.delete-modal > .controls > button.delete:not(:disabled):hover {
+  background-color: hsl(348, 83%, 55%);
+}
+
+.delete-modal-overlay {
+  z-index: 3;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}

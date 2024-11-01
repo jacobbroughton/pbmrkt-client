@@ -37,7 +37,7 @@ export const ImagesInput = ({ images, marked }) => {
         <div className="image-input-and-prompt">
           {(imagesStillUploading || imageSkeletonsShowing) && (
             <p className="small-text">
-              {numPhotosUploaded}/{totalPhotos} Image{totalPhotos > 1 ? "s" : ""} Uploaded
+              {numPhotosUploaded}/{totalPhotos} Image{totalPhotos !== 1 ? "s" : ""} Uploaded
             </p>
           )}
           {imagesStillUploading ? (

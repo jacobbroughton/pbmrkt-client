@@ -17,7 +17,8 @@ const initialState = {
   resetPasswordModalToggled: false,
   loginModalToggled: false,
   registerModalToggled: false,
-  addNewMenuToggled: false
+  addNewMenuToggled: false,
+  deleteModalToggled: false
 };
 
 const modalsSlice = createSlice({

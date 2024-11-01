@@ -19,6 +19,7 @@ import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceC
 import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import "./Item.css";
+import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const Item = () => {
     fullScreenImageModalToggled,
     sellerReviewsModalToggled,
     contactSellerModalToggled,
+    deleteModalToggled,
   } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
   const { itemID } = useParams();
@@ -46,6 +48,7 @@ export const Item = () => {
   const [sellerReviews, setSellerReviews] = useState();
   const [existingVote, setExistingVote] = useState(null);
   const [votes, setVotes] = useState(null);
+  const [deleteItemLoading, setDeleteItemLoading] = useState(false);
 
   useEffect(() => {
     async function getItem() {
@@ -164,17 +167,31 @@ export const Item = () => {
   return (
     <>
       <div className="item">
-        {deletedModalShowing && (
-          <>
-            <div className="modal deleted-modal">
-              <h3>This item was deleted</h3>
-              <div className="links">
-                <Link to="/">Return home</Link>
-                <Link to="/sell">Create a new listing</Link>
-              </div>
-            </div>
-            <div className="modal-overlay"></div>
-          </>
+        {deleteModalToggled && (
+          <DeleteModal
+            label="Delete this listing?"
+            deleteLoading={deleteItemLoading}
+            handleDeleteClick={async () => {
+              try {
+                setDeleteItemLoading(true);
+                const { error, data } = await supabase.rpc("delete_item", {
+                  p_item_id: item.info.id,
+                });
+
+                if (error) throw error;
+
+                console.log(data);
+                setItem({
+                  ...item,
+                  info: { ...item.info, is_deleted: true },
+                });
+              } catch (error) {
+                console.error(error);
+              } finally {
+                setDeleteItemLoading(false);
+              }
+            }}
+          />
         )}
         <div className="images-and-content">
           <ItemImages
@@ -212,6 +229,14 @@ export const Item = () => {
                     Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
                   </button>
                   <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(toggleModal({ key: "deleteModal", value: true }));
+                    }}
+                  >
+                    Delete Listing
+                  </button>
+                  <button
                     onClick={() =>
                       dispatch(
                         toggleModal({
@@ -229,16 +254,15 @@ export const Item = () => {
             <div className="info">
               <div className="info-and-contact">
                 <div className="primary-info-and-votes">
-                  {isAdmin ? (
+                  {isAdmin && (
                     <ItemVotes
                       itemId={item.info.id}
                       existingVote={existingVote}
                       setExistingVote={setExistingVote}
                       votes={votes}
                       setVotes={setVotes}
+                      postType="For Sale"
                     />
-                  ) : (
-                    false
                   )}
                   <div className="primary-info">
                     {editItemMenuToggled && <div></div>}

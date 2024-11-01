@@ -1,9 +1,16 @@
 import { useSelector } from "react-redux";
 import { supabase } from "../../../utils/supabase";
 import { Arrow } from "../Icons/Arrow";
-import "./ItemVotes.css"
+import "./ItemVotes.css";
 
-export function ItemVotes({ itemId, existingVote, setExistingVote, votes, setVotes }) {
+export function ItemVotes({
+  itemId,
+  existingVote,
+  setExistingVote,
+  votes,
+  setVotes,
+  postType,
+}) {
   const { user } = useSelector((state) => state.auth);
 
   async function handleItemDownvote() {
@@ -12,6 +19,7 @@ export function ItemVotes({ itemId, existingVote, setExistingVote, votes, setVot
         p_item_id: itemId,
         p_vote_direction: "Down",
         p_user_id: user?.auth_id,
+        p_post_type: postType,
       });
 
       if (error) throw error.message;
@@ -37,6 +45,7 @@ export function ItemVotes({ itemId, existingVote, setExistingVote, votes, setVot
         p_item_id: itemId,
         p_vote_direction: "Up",
         p_user_id: user?.auth_id,
+        p_post_type: postType,
       });
 
       if (error) throw error.message;
@@ -58,6 +67,7 @@ export function ItemVotes({ itemId, existingVote, setExistingVote, votes, setVot
 
   return (
     <div className="item-like-and-dislike">
+      
       <button
         disabled={false}
         onClick={(e) => handleItemUpvote(e)}

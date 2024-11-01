@@ -213,7 +213,7 @@ export function PhotoUpload({
           <div className="image-input-and-prompt">
             {(imagesLoadingInitially || imagesLoadingSubsequently) && (
               <p className="small-text">
-                {numPhotosUploaded}/{totalPhotos} Image{totalPhotos > 1 ? "s" : ""}{" "}
+                {numPhotosUploaded}/{totalPhotos} Image{totalPhotos !== 0 ? "s" : ""}{" "}
                 Uploaded
               </p>
             )}

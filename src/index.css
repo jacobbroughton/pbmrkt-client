@@ -25,6 +25,35 @@ main {
   --yellow: var(--lightgreen);
   --orange: #ff9400;
 
+  --nav-bg-color: #151b23;
+  --main-bg-color: #212830;
+
+  --shadow-tail-down: 0px 10px 12px -3px #1c212866;
+  --shadow-extended-border: 0px 0px 0px 1px #3d444d;
+
+  --popup-menu-header-bg-color: #2b2b2b;
+  --popup-menu-bg-color: #2f2f2f;
+  --popup-menu-border-color: #3d444d;
+  --popup-menu-box-shadow: var(--shadow-extended-border), var(--shadow-tail-down);
+
+  --button-default-bg-color: #333;
+  --button-default-bg-color-hover: #3b3b3b;
+  --button-default-border-color: #3d444d;
+  --button-default-border-color-hover: #3d444d;
+  --button-green-bg-color: #357e3a;
+  --button-green-bg-color-hover: #3c9042;
+
+  --input-default-border-color: #3d444d;
+  --input-default-border-color-hover: #3d444d;
+
+  --text-color-white: #d1d7e0;
+  --text-color-muted: #9198a1;
+  --text-color-error: rgb(218, 76, 104);
+  --text-color-green: lightgreen;
+
+  --container-bg-color: #2a313c;
+  --container-border-color: #3d444d;
+
   color: var(--text-color);
   background-color: var(--bg-primary);
 }

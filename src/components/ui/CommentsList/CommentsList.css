@@ -1,4 +1,4 @@
-.item .comments-section {
+.comments-section {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -10,13 +10,13 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.item .comments-section .login-or-signup {
+.comments-section .login-or-signup {
   border: 1px solid #444;
   padding: 5px 10px;
   border-radius: 3px;
 }
 
-.item .comments-section .comment-form {
+.comments-section .comment-form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -28,41 +28,41 @@
   border-radius: 5px;
 }
 
-.item .comments-section .comments-list.is-root-level {
+.comments-section .comments-list.is-root-level {
   /* margin-top: 30px; */
 
 }
 
-.item .comments-section .comment-form button[type="submit"] {
+.comments-section .comment-form button[type="submit"] {
   display: flex;
   gap: 5px;
   font-size: 1rem;
   align-items: center;
 }
 
-.item .comments-section .comment-form button[type="submit"]:not(:disabled) {
+.comments-section .comment-form button[type="submit"]:not(:disabled) {
   cursor: pointer;
 }
 
-.item .comments-section .comment-form button[type="submit"]:disabled {
+.comments-section .comment-form button[type="submit"]:disabled {
   fill: grey !important;
 }
 
-.item .comments-section .comment-form button[type="submit"] > svg {
+.comments-section .comment-form button[type="submit"] > svg {
   width: 13px;
   fill: white;
 }
 
 
-.item .comments-section .comment-form button[type="submit"]:disabled > svg {
+.comments-section .comment-form button[type="submit"]:disabled > svg {
   fill: grey;
 }
 
-.item .comments-section h3 {
+.comments-section h3 {
   margin-bottom: 10px;
 }
 
-.item .comments-section .no-comments-container {
+.comments-section .no-comments-container {
   font-size: 0.875rem;
   /* padding: 10px; */
   border-radius: 3px;
@@ -76,23 +76,23 @@
   padding: 10px;
 }
 
-.item .comments-section .no-comments-container p:nth-child(2) {
+.comments-section .no-comments-container p:nth-child(2) {
   font-size: 1.15rem;
   font-weight: 500;
 }
 
-.item .comments-section .no-comments-container svg {
+.comments-section .no-comments-container svg {
   width: 35px;
   fill: white;
   cursor: help;
   position: relative;
 }
 
-.item .comments-section .no-comments-container .frog-icon-container {
+.comments-section .no-comments-container .frog-icon-container {
   position: relative;
 }
 
-.item .comments-section .no-comments-container .frog-icon-container:hover::before {
+.comments-section .no-comments-container .frog-icon-container:hover::before {
   content: "Hey, how's it going";
   white-space: nowrap;
   position: absolute;
@@ -112,5 +112,5 @@
   z-index: 1000;
 }
 
-.item .comments-section .no-comments-container svg::before {
+.comments-section .no-comments-container svg::before {
 }

@@ -249,41 +249,7 @@ s
   fill: white;
   width: 14px;
 }
-/* 
-.item .images-and-content .content .info .contact-options .contact-option {
-  display: flex;
-  gap: 15px;
-  font-size: 0.875rem;
-  display: flex;
-  justify-content: flex-start;
-}
 
-.item .images-and-content .content .info .contact-options .contact-option p {
-  max-width: 25ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.item .images-and-content .content .info .contact-options .contact-option .placeholder {
-  background-color: #555;
-  border-radius: 3px;
-  height: 0.875rem;
-  width: 100%;
-}
-
-.item .images-and-content .content .info .contact-options .contact-option .placeholder.phone {
-  width: 12ch;
-}
-
-.item .images-and-content .content .info .contact-options .contact-option .placeholder.email {
-  width: 15ch;
-}
-
-.item .images-and-content .content .info .contact-options .contact-option svg {
-  fill: white;
-  width: 15px;
-  min-width: 15px;
-} */
 
 .item .images-and-content .content .horizontal-divider.extra-top-margin {
   margin-top: 15px;

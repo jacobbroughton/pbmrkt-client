@@ -155,9 +155,12 @@ const OverviewOptionList = ({ options, level, loading }) => {
         setFilters({
           ...filters,
           saved: {
-            ...filters.saved["For Sale"],
-            categories: options,
-            category: category,
+            ...filters.saved,
+            ["For Sale"]: {
+              ...filters.saved["For Sale"],
+              categories: options,
+              category: category,
+            },
           },
         })
       );

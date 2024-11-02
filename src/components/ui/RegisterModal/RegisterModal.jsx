@@ -358,13 +358,11 @@ export const RegisterModal = () => {
             )}
           </div>
 
-          {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 ? (
+          {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
             <FieldErrorButtons
               fieldErrors={fieldErrors}
               setMarkedFieldKey={setMarkedFieldKey}
             />
-          ) : (
-            false
           )}
 
           <button type="submit" disabled={submitDisabled}>

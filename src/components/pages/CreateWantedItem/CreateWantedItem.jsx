@@ -97,6 +97,7 @@ export const CreateWantedItem = () => {
   });
 
   const [cantFindCity, setCantFindCity] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const fieldErrors = [
     {
@@ -132,6 +133,8 @@ export const CreateWantedItem = () => {
     e.preventDefault();
 
     try {
+      setSubmitLoading(true)
+
       const checkedShippingValue = radioOptions.shippingOptions.find((op) => op.checked);
       let okWithShipping = checkedShippingValue.value === "Ok with shipping";
       const {
@@ -180,12 +183,13 @@ export const CreateWantedItem = () => {
           .from("wanted_item_images")
           .move(`temp/${path}`, `saved/${path}`);
         if (error) throw error.message;
+        navigate(`/wanted/${createdWantedItem.id}`);
       });
-
-      navigate(`/wanted/${createdWantedItem.id}`);
     } catch (error) {
       console.error(error);
       setError(error.toString());
+    } finally {
+      setSubmitLoading(false)
     }
   }
 
@@ -271,7 +275,7 @@ export const CreateWantedItem = () => {
     getItemCategories();
   }, []);
 
-  const submitDisabled = !whatIsIt || !budget;
+  const submitDisabled = !whatIsIt || !budget || submitLoading;
 
   return (
     <div className="create-wanted-item">
@@ -517,7 +521,7 @@ export const CreateWantedItem = () => {
           )}
 
           <button type="submit" disabled={submitDisabled}>
-            Submit
+            {submitLoading ? "Submitting" : "Submit"}
           </button>
         </div>
       </form>

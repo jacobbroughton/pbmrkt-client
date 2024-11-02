@@ -18,7 +18,9 @@ const initialState = {
   loginModalToggled: false,
   registerModalToggled: false,
   addNewMenuToggled: false,
-  deleteModalToggled: false
+  deleteModalToggled: false,
+  contactSellerModalToggled: false,
+  contactBuyerModalToggled: false,
 };
 
 const modalsSlice = createSlice({
@@ -34,13 +36,12 @@ const modalsSlice = createSlice({
       };
     },
     closeAllModals: (state, { payload }) => {
-      
-      const { keepSidebarOpen = false } = payload
+      const { keepSidebarOpen = false } = payload;
       return {
         ...initialState,
-        filtersSidebarToggled: keepSidebarOpen 
-      }
-    }
+        filtersSidebarToggled: keepSidebarOpen,
+      };
+    },
   },
 });
 

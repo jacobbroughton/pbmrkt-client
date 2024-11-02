@@ -63,7 +63,8 @@ export const Item = () => {
           console.error(error);
           throw error.message;
         }
-        if (!data) throw "Item not found";
+        if (!data[0]) throw "Item not found";
+
 
         getPriceChangeHistory(itemID);
 

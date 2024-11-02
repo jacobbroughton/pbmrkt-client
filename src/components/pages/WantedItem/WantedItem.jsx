@@ -19,6 +19,7 @@ import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceC
 import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import "./WantedItem.css";
+import ContactBuyerModal from "../../ui/ContactBuyerModal/ContactBuyerModal";
 
 export function WantedItem() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export function WantedItem() {
     priceChangeModalToggled,
     fullScreenImageModalToggled,
     sellerReviewsModalToggled,
-    contactSellerModalToggled,
+    contactBuyerModalToggled,
     deleteModalToggled,
   } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
@@ -137,16 +138,18 @@ export function WantedItem() {
     <>
       <div className="wanted-item">
         <div className="images-and-content">
-          <ItemImages
-            photos={item.photos}
-            selectedPhoto={selectedPhoto}
-            setSelectedPhoto={setSelectedPhoto}
-          />
+          {item.photos.length > 0 && (
+            <ItemImages
+              photos={item.photos}
+              selectedPhoto={selectedPhoto}
+              setSelectedPhoto={setSelectedPhoto}
+            />
+          )}
           <div className="content">
             <div className="header-buttons">
               <button
                 onClick={() =>
-                  dispatch(toggleModal({ key: "contactSellerModal", value: true }))
+                  dispatch(toggleModal({ key: "contactBuyerModal", value: true }))
                 }
               >
                 Contact
@@ -324,7 +327,7 @@ export function WantedItem() {
             <ModalOverlay zIndex={6} />
           </>
         )}
-        {contactSellerModalToggled && <ContactSellerModal contactInfo={item.info} />}
+        {contactBuyerModalToggled && <ContactBuyerModal contactInfo={item.info} />}
         {deleteModalToggled && (
           <DeleteModal
             label="Delete this listing?"

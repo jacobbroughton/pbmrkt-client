@@ -11,6 +11,7 @@ import { supabase } from "../../../utils/supabase";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
 import "./ForSaleViews.css";
+import { getCheckedOps } from "../../../utils/usefulFunctions";
 
 export function ForSaleViews({ sort, setTotalListings }) {
   const view = useSelector((state) => state.view);
@@ -23,6 +24,13 @@ export function ForSaleViews({ sort, setTotalListings }) {
   const flags = useSelector((state) => state.flags);
   const windowSize = useWindowSize();
 
+  const [listings, setListings] = useState([]);
+  const [listingsLoading, setListingsLoading] = useState(true);
+  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
@@ -31,13 +39,6 @@ export function ForSaleViews({ sort, setTotalListings }) {
     if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
   }, [flags.searchedListingsNeedUpdate]);
 
-  const [listings, setListings] = useState([]);
-  const [listingsLoading, setListingsLoading] = useState(true);
-  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch();
-
   async function getListings(searchValue = "") {
     try {
       // if (totalListings) setTotalListings(null)
@@ -45,31 +46,21 @@ export function ForSaleViews({ sort, setTotalListings }) {
       setListingsLoading(true);
       // }
 
+      const FSFilters = filters.saved["For Sale"];
+
       let { data, error } = await supabase.rpc("get_items", {
         p_search_value: searchValue,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_condition: filters.saved["For Sale"].conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_min_price: FSFilters.minPrice || 0,
+        p_max_price: FSFilters.maxPrice,
+        p_state: FSFilters.state == "All" ? null : FSFilters.state,
+        p_condition: getCheckedOps(FSFilters.conditionOptions),
+        p_shipping: getCheckedOps(FSFilters.shippingOptions),
+        p_trades: getCheckedOps(FSFilters.tradeOptions),
+        p_negotiable: getCheckedOps(FSFilters.negotiableOptions),
         p_sort: sort,
         p_seller_id: null,
-        p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
+        p_city: FSFilters.city == "All" ? null : FSFilters.city,
+        p_category_id: FSFilters.category?.id || null,
       });
 
       if (error) {
@@ -95,40 +86,25 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
         p_search_value: searchValue,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_condition: filters.saved["For Sale"].conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_min_price: FSFilters.minPrice || 0,
+        p_max_price: FSFilters.maxPrice,
+        p_state: FSFilters.state == "All" ? null : FSFilters.state,
+        p_condition: getCheckedOps(FSFilters.conditionOptions),
+        p_shipping: getCheckedOps(FSFilters.shippingOptions),
+        p_trades: getCheckedOps(FSFilters.tradeOptions),
+        p_negotiable: getCheckedOps(FSFilters.negotiableOptions),
         p_seller_id: null,
-        p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
+        p_city: FSFilters.city == "All" ? null : FSFilters.city,
+        p_category_id: FSFilters.category?.id || null,
       });
 
       if (error2) {
         throw error2.message;
       }
 
-      console.log(data2);
-
       setTotalListings(data2[0].num_results);
 
       if (isInitialLoad) setIsInitialLoad(false);
-      // if (filters.filtersUpdated) dispatch(setFiltersUpdated(false));
       if (flags.searchedListingsNeedUpdate)
         dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: false }));
       dispatch(setFiltersUpdated(false));
@@ -147,7 +123,10 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
   const isInitiallyLoading =
     isInitialLoad && listingsLoading && !overviewCategories.nestedCategories.length;
+  const isSubsequentlyLoading = !isInitialLoad && listingsLoading;
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
+
+  if (isSubsequentlyLoading) return <p>Is subsequently loading</p>;
 
   return error ? (
     <p className="small-text error-text">{error}</p>

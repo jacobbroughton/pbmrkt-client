@@ -30,10 +30,9 @@
 
 .comments-section .comments-list.is-root-level {
   /* margin-top: 30px; */
-
 }
 
-.comments-section .comment-form button[type="submit"] {
+.comments-section .comment-form > button[type="submit"] {
   display: flex;
   gap: 5px;
   font-size: 1rem;
@@ -46,13 +45,13 @@
 
 .comments-section .comment-form button[type="submit"]:disabled {
   fill: grey !important;
+  color: grey !important; 
 }
 
 .comments-section .comment-form button[type="submit"] > svg {
   width: 13px;
   fill: white;
 }
-
 
 .comments-section .comment-form button[type="submit"]:disabled > svg {
   fill: grey;

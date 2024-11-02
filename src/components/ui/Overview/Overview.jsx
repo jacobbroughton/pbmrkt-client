@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
-import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
+import {
+  getCheckedOps,
+  nestItemCategoriesExperimental,
+} from "../../../utils/usefulFunctions";
 import { Link } from "react-router-dom";
 import "./Overview.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,18 +36,10 @@ const Overview = () => {
         p_min_price: forSaleFilters.minPrice || 0,
         p_max_price: forSaleFilters.maxPrice,
         p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
-        p_condition: forSaleFilters.conditionOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_shipping: forSaleFilters.shippingOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_trades: forSaleFilters.tradeOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
-        p_negotiable: forSaleFilters.negotiableOptions
-          .filter((option) => option.checked)
-          .map((option) => option.value),
+        p_condition: getCheckedOps(forSaleFilters.conditionOptions),
+        p_shipping: getCheckedOps(forSaleFilters.shippingOptions),
+        p_trades: getCheckedOps(forSaleFilters.tradeOptions),
+        p_negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
         p_seller_id: null,
         p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
         p_category_id: forSaleFilters.category?.id || null,

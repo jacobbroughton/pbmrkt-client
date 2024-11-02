@@ -321,15 +321,14 @@ export const Sell = () => {
           .from("item_images")
           .move(`temp/${path}`, `saved/${path}`);
         if (error) throw error.message;
+        setListedItemID(data);
+        navigate(`/listing/${data}`);
       });
-      setListedItemID(data);
-      navigate(`/listing/${data}`);
     } catch (error) {
       console.error(error);
       setError(error.toString());
-    }
-    finally {
-      setSubmitLoading(false)
+    } finally {
+      setSubmitLoading(false);
       setLoading(false);
     }
   }

@@ -14,6 +14,7 @@ import { supabase } from "../../../utils/supabase.js";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
+  getCheckedOps,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
@@ -222,10 +223,7 @@ export function Listings() {
         value:
           checkedConditionOptions.length == 0
             ? "None"
-            : `${filters.saved[view.type].conditionOptions
-                .filter((option) => option.checked)
-                .map((option) => option.value)
-                .join(", ")}`,
+            : `${getCheckedOps(filters.saved[view.type].conditionOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "conditionOptions", viewType: view.type }));
           dispatch(setFiltersUpdated(true));
@@ -240,10 +238,7 @@ export function Listings() {
         value:
           checkedShippingOptions.length == 0
             ? "None"
-            : `${filters.saved[view.type].shippingOptions
-                .filter((option) => option.checked)
-                .map((option) => option.value)
-                .join(", ")}`,
+            : `${getCheckedOps(filters.saved[view.type].shippingOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "shippingOptions", viewType: view.type }));
           dispatch(setFiltersUpdated(true));
@@ -257,10 +252,7 @@ export function Listings() {
         value:
           checkedTradeOptions.length == 0
             ? "None"
-            : `${filters.saved[view.type].tradeOptions
-                .filter((option) => option.checked)
-                .map((option) => option.value)
-                .join(", ")}`,
+            : `${getCheckedOps(filters.saved[view.type].tradeOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "tradeOptions", viewType: view.type }));
           dispatch(setFiltersUpdated(true));
@@ -273,10 +265,7 @@ export function Listings() {
         value:
           checkedNegotiableOptions.length == 0
             ? "None"
-            : `${filters.saved[view.type].negotiableOptions
-                .filter((option) => option.checked)
-                .map((option) => option.value)
-                .join(", ")}`,
+            : `${getCheckedOps(filters.saved[view.type].negotiableOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "negotiableOptions", viewType: view.type }));
           dispatch(setFiltersUpdated(true));

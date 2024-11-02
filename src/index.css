@@ -197,15 +197,15 @@ form.standard .form-block fieldset {
   gap: 15px;
 }
 
-form.standard .form-block .form-group.marked,
-form.standard .form-block .custom-photo-upload.marked {
+form.standard .form-group.marked,
+form.standard .custom-photo-upload.marked {
   padding: 5px;
   border: 1px solid var(--red);
   border-radius: 5px;
 }
 
-form .form-block .form-group.marked,
-form .form-block .custom-photo-upload.marked {
+form .form-group.marked,
+form .custom-photo-upload.marked {
   padding: 5px;
   border: 1px solid var(--red);
   border-radius: 5px;

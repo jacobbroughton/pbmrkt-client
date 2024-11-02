@@ -1,4 +1,4 @@
-.modal.contact-seller {
+.modal.contact-buyer {
   max-width: 500px;
   z-index: 7;
   padding: 0;
@@ -6,24 +6,24 @@
   transform: translateX(-50%);
 }
 
-.modal.contact-seller > .header {
+.modal.contact-buyer>  .header {
   padding: 10px;
   border-bottom: 1px solid #555;
   flex-direction: column ;
   align-items: flex-start;
 }
 
-.modal.modal.contact-seller .content {
+.modal.modal.contact-buyer .content {
   padding: 10px;
   justify-content: flex-start;
 }
 
-.modal.modal.contact-seller .input-container {
+.modal.modal.contact-buyer .input-container {
   width: 100%;
   position: relative;
 }
 
-.modal.modal.contact-seller .input-container::before {
+.modal.modal.contact-buyer .input-container::before {
   content: "$";
   position: absolute;
   left: 10px;
@@ -40,7 +40,7 @@
   align-items: center;
 }
 
-.modal.modal.contact-seller .input-container input {
+.modal.modal.contact-buyer .input-container input {
   padding-left: 37px !important;
   position: relative;
   width: 100%;

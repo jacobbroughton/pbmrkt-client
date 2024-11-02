@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
-import { capitalizeWords, getTimeAgo } from "../../../utils/usefulFunctions";
+import {
+  capitalizeWords,
+  getCheckedOps,
+  getTimeAgo,
+} from "../../../utils/usefulFunctions";
 import { AddReviewModal } from "../../ui/AddReviewModal/AddReviewModal";
 import { EditUserProfileModal } from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import { EditIcon } from "../../ui/Icons/EditIcon";
@@ -95,33 +99,25 @@ export const UserProfile = () => {
       p_min_price: 0,
       p_max_price: null,
       p_state: null,
-      p_condition: [
+      p_condition: getCheckedOps([
         { id: 0, value: "Brand New", checked: true },
         { id: 1, value: "Like New", checked: true },
         { id: 2, value: "Used", checked: true },
         { id: 3, value: "Heavily Used", checked: true },
         { id: 4, value: "Not Functional", checked: true },
-      ]
-        .filter((option) => option.checked)
-        .map((option) => option.value),
-      p_shipping: [
+      ]),
+      p_shipping: getCheckedOps([
         { id: 0, value: "Willing to Ship", checked: true },
         { id: 1, value: "Local Only", checked: true },
-      ]
-        .filter((option) => option.checked)
-        .map((option) => option.value),
-      p_trades: [
+      ]),
+      p_trades: getCheckedOps([
         { id: 0, value: "Accepting Trades", checked: true },
         { id: 1, value: "No Trades", checked: true },
-      ]
-        .filter((option) => option.checked)
-        .map((option) => option.value),
-      p_negotiable: [
+      ]),
+      p_negotiable: getCheckedOps([
         { id: 0, value: "Firm", checked: true },
         { id: 1, value: "OBO/Negotiable", checked: true },
-      ]
-        .filter((option) => option.checked)
-        .map((option) => option.value),
+      ]),
       p_sort: sort,
       p_seller_id: passedUser?.auth_id,
       p_city: null,

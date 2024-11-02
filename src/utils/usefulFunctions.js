@@ -253,3 +253,7 @@ export const isValidEmail = (email) => {
 export const isValidUsername = (username) => {
   return !String(username).match(/\.|[{]|[}]|\||\\|["]|[%]|[~]|[#]|[<]|[>]|[\s]/g);
 };
+
+export function getCheckedOps(options) {
+  return options.filter((option) => option.checked).map((option) => option.value);
+}

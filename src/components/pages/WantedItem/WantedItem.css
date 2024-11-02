@@ -19,7 +19,7 @@
   text-align: center;
   color: #060204;
   background: #e8d49f; /* Light tan background color */
-  border: 1px solid #4d3b20; 
+  border: 1px solid #4d3b20;
   /* padding: 20px; */
   width: 100%;
   max-width: 900px;
@@ -30,7 +30,6 @@
   background-size: cover;
   background-position: center;
   border-radius: 5px;
-  
 }
 
 .wanted-poster > h1 {
@@ -58,9 +57,7 @@
   flex-direction: column;
 }
 
-.wanted-item input,
-.wanted-item button,
-.wanted-item select {
+.wanted-item > .images-and-content > .content >.header-buttons > button {
   border-radius: 3px;
   border: 1px solid #555;
   padding: 3px 5px;

@@ -1,21 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
-import "./ContactSellerModal.css";
+import "./ContactBuyerModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { useRef, useState } from "react";
 import { isValidEmail } from "../../../utils/usefulFunctions";
 import { supabase } from "../../../utils/supabase";
-import { smoothScrollOptions } from "../../../utils/constants";
+import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
+import { smoothScrollOptions } from "../../../utils/constants";
 
-const ContactSellerModal = ({ contactInfo }) => {
+const ContactBuyerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [fullName, setFullName] = useState(
     user ? user.first_name + " " + user.last_name : ""
   );
   const [email, setEmail] = useState(user ? user.email : "");
-  const [offer, setOffer] = useState(0);
+  const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -23,7 +24,7 @@ const ContactSellerModal = ({ contactInfo }) => {
 
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
-  const offerRef = useRef(null);
+  const priceRef = useRef(null);
   const messageRef = useRef(null);
 
   async function handleSubmit(e) {
@@ -31,10 +32,10 @@ const ContactSellerModal = ({ contactInfo }) => {
 
     setSubmitLoading(true);
     try {
-      const { data, error } = await supabase.rpc("add_contact_inquiry", {
+      const { data, error } = await supabase.rpc("add_wanted_contact_inquiry", {
         p_full_name: fullName,
         p_email: email,
-        p_offer: offer,
+        p_price: price,
         p_message: message,
         p_user_id: user?.auth_id,
         p_related_user_id: contactInfo.created_by_id,
@@ -44,9 +45,9 @@ const ContactSellerModal = ({ contactInfo }) => {
 
       setFullName("");
       setEmail("");
-      setOffer(0);
+      setPrice(0);
       setMessage("");
-      dispatch(toggleModal({ key: "contactSellerModal", value: false }));
+      dispatch(toggleModal({ key: "contactBuyerModal", value: false }));
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -75,12 +76,12 @@ const ContactSellerModal = ({ contactInfo }) => {
       },
     },
     {
-      fieldKey: "offer",
-      warningText: "Add your offer",
-      active: !offer || offer == 0,
+      fieldKey: "price",
+      warningText: "Add a price",
+      active: !price || price == 0,
       onClick: (e) => {
         e.preventDefault();
-        offerRef.current.scrollIntoView(smoothScrollOptions);
+        priceRef.current.scrollIntoView(smoothScrollOptions);
       },
     },
     {
@@ -94,20 +95,20 @@ const ContactSellerModal = ({ contactInfo }) => {
     },
   ];
 
-  const submitDisabled = !fullName || !isValidEmail(email) || !offer || submitLoading;
+  const submitDisabled = !fullName || !isValidEmail(email) || !price || submitLoading;
 
   return (
     <>
-      <div className="contact-seller modal">
+      <div className="contact-buyer modal">
         <div className="header">
-          <h3>Contact this Seller</h3>
+          <h3>Contact this Buyer</h3>
         </div>
         <div className="content">
           {error && <p className="error-text small-text">{error.toString()}</p>}
           <form className="standard" onSubmit={handleSubmit}>
             <div
               ref={fullNameRef}
-              className={`form-group ${markedFieldKey === "fullName" ? "marked" : ""}`}
+              className={`form-group ${markedFieldKey == "fullName" ? "marked" : ""}`}
             >
               <label htmlFor="full-name">Your Full Name</label>
               <input
@@ -119,7 +120,7 @@ const ContactSellerModal = ({ contactInfo }) => {
             </div>
             <div
               ref={emailRef}
-              className={`form-group ${markedFieldKey === "email" ? "marked" : ""}`}
+              className={`form-group ${markedFieldKey == "email" ? "marked" : ""}`}
             >
               <label htmlFor="email">Your Email</label>
               <input
@@ -131,28 +132,28 @@ const ContactSellerModal = ({ contactInfo }) => {
               />
             </div>
             <div
-              ref={offerRef}
-              className={`form-group ${markedFieldKey === "offer" ? "marked" : ""}`}
+              ref={priceRef}
+              className={`form-group ${markedFieldKey == "price" ? "marked" : ""}`}
             >
-              <label htmlFor="offer">Offer</label>
+              <label htmlFor="price">Your Price</label>
               <div className="input-container">
                 <input
-                  onChange={(e) => setOffer(parseFloat(e.target.value))}
+                  onChange={(e) => setPrice(parseFloat(e.target.value))}
                   type="number"
                   step={0.01}
-                  value={offer}
-                  placeholder="Offer"
+                  value={price}
+                  placeholder="Your Price"
                   className="dollars"
-                  id="offer"
+                  id="price"
                   required
                 />
               </div>
             </div>
             <div
               ref={messageRef}
-              className={`form-group ${markedFieldKey === "message" ? "marked" : ""}`}
+              className={`form-group ${markedFieldKey == "message" ? "marked" : ""}`}
             >
-              <label htmlFor="message">Message to seller about this listing</label>
+              <label htmlFor="message">Message to buyer about this listing</label>
               <textarea
                 placeholder="Message"
                 id="message"
@@ -160,7 +161,6 @@ const ContactSellerModal = ({ contactInfo }) => {
                 value={message}
               />
             </div>
-
             {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
               <FieldErrorButtons
                 fieldErrors={fieldErrors}
@@ -175,10 +175,10 @@ const ContactSellerModal = ({ contactInfo }) => {
         </div>
       </div>
       <ModalOverlay
-        onClick={() => dispatch(toggleModal({ key: "contactSellerModal", value: false }))}
+        onClick={() => dispatch(toggleModal({ key: "contactBuyerModal", value: false }))}
         zIndex={6}
       />
     </>
   );
 };
-export default ContactSellerModal;
+export default ContactBuyerModal;

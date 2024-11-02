@@ -45,6 +45,10 @@
 }
 
 @media screen and (max-width: 800px) {
+  .overview-skeletons .view-all-skeleton {
+    width: 49.5%;
+  }
+
   .overview-skeletons .grid {
     grid-template-columns: repeat(2, 1fr);
   }

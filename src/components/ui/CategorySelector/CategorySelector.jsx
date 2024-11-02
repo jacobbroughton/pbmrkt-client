@@ -74,9 +74,9 @@ const CategoryButton = ({ category, handleCategoryClick, showResultNumbers }) =>
         <span>
           {category.isIndex ? "..." : category.plural_name}
           {showResultNumbers
-            ? !category.is_folder
-              ? ` (${category.num_results})`
-              : ` (${totalChildrenNumResults})`
+            ? category.is_folder
+              ? ` (${totalChildrenNumResults})`
+              : ` (${category.num_results})`
             : false}
         </span>
         {category.is_folder ? (

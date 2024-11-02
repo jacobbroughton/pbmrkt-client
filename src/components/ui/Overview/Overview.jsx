@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setViewLayout } from "../../../redux/view";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
+import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";
 
 const Overview = () => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters);
   const view = useSelector((state) => state.view);
+  const overviewCategories = useSelector((state) => state.overviewCategories);
   const { savedSearchValue } = useSelector((state) => state.search);
   const [error, setError] = useState();
   const [nestedCategories, setNestedCategories] = useState(null);
@@ -20,64 +22,71 @@ const Overview = () => {
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
   const [viewAllCount, setListingsViewAllCount] = useState(0);
 
-  async function getCategories() {
+  async function getItemCategoryResultsCount() {
     try {
       setSubsequentlyLoading(true);
-      const { data, error } = await supabase.rpc("get_item_categories", {
+
+      const forSaleFilters = filters.saved["For Sale"];
+
+      const { data, error } = await supabase.rpc("get_item_category_result_counts", {
         p_search_value: savedSearchValue,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_condition: filters.saved["For Sale"].conditionOptions
+        p_min_price: forSaleFilters.minPrice || 0,
+        p_max_price: forSaleFilters.maxPrice,
+        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        p_condition: forSaleFilters.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
+        p_shipping: forSaleFilters.shippingOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
+        p_trades: forSaleFilters.tradeOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
+        p_negotiable: forSaleFilters.negotiableOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_seller_id: null,
-        p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
+        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        p_category_id: forSaleFilters.category?.id || null,
       });
 
       if (error) throw error.message;
 
-      setFlatCategories(data);
+      console.log("getItemCategoryResultsCount", data);
 
-      const { nestedCategories } = nestItemCategoriesExperimental(data, null);
-      setNestedCategories(nestedCategories);
+      const hashedData = {};
+
+      for (let i = 0; i < data.length; i++) {
+        hashedData[data[i].id] = data[i];
+      }
+
+      dispatch(addCountsToOverviewCategories(hashedData));
+
+      // setFlatCategories(data);
+
+      // const { nestedCategories } = nestItemCategoriesExperimental(data, null);
+      // setNestedCategories(nestedCategories);
+
+      console.log(nestedCategories);
 
       let params = {
         p_search_value: savedSearchValue,
         p_seller_id: null,
-        p_city:
-          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
-        p_state:
-          filters.saved["For Sale"].state == "All"
-            ? null
-            : filters.saved["For Sale"].state,
-        p_category_id: filters.saved["For Sale"].category?.id || null,
-        p_min_price: filters.saved["For Sale"].minPrice || 0,
-        p_max_price: filters.saved["For Sale"].maxPrice,
-        p_condition: filters.saved["For Sale"].conditionOptions
+        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        p_category_id: forSaleFilters.category?.id || null,
+        p_min_price: forSaleFilters.minPrice || 0,
+        p_max_price: forSaleFilters.maxPrice,
+        p_condition: forSaleFilters.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_shipping: filters.saved["For Sale"].shippingOptions
+        p_shipping: forSaleFilters.shippingOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_trades: filters.saved["For Sale"].tradeOptions
+        p_trades: forSaleFilters.tradeOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_negotiable: filters.saved["For Sale"].negotiableOptions
+        p_negotiable: forSaleFilters.negotiableOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
       };
@@ -97,48 +106,49 @@ const Overview = () => {
 
     setSubsequentlyLoading(false);
     setInitiallyLoading(false);
-    // dispatch(setFiltersUpdated(false));
   }
 
   useEffect(() => {
-    getCategories();
+    getItemCategoryResultsCount();
   }, []);
 
   useEffect(() => {
-    if (filters.filtersUpdated) getCategories();
+    if (filters.filtersUpdated) getItemCategoryResultsCount();
   }, [filters.filtersUpdated]);
+
+  // if (initiallyLoading) return <p>Yep initially loading</p>;
 
   return (
     <div className="overview">
-      {initiallyLoading ? (
+      {/* {initiallyLoading ? (
         // {true ? (
         <SkeletonsOverview />
-      ) : (
-        <>
-          <button className="view-all" onClick={() => dispatch(setViewLayout("Grid"))}>
-            <p>View All</p>{" "}
-            {subsequentlyLoading ? (
-              <div className="loading-result-number"></div>
-            ) : (
-              <span>({viewAllCount})</span>
-            )}
-          </button>
-          <ul className="overview-option-list main tier-0">
-            {nestedCategories?.map((category) => {
-              return (
-                <li key={category.id}>
-                  <p className="label">{category.plural_name}</p>
-                  <OverviewOptionList
-                    options={category.children}
-                    level={0}
-                    loading={subsequentlyLoading}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+      ) : ( */}
+      <>
+        <button className="view-all" onClick={() => dispatch(setViewLayout("Grid"))}>
+          <p>View All</p>{" "}
+          {subsequentlyLoading ? (
+            <div className="loading-result-number"></div>
+          ) : (
+            <span>({viewAllCount})</span>
+          )}
+        </button>
+        <ul className="overview-option-list main tier-0">
+          {overviewCategories.nestedCategories?.map((category) => {
+            return (
+              <li key={category.id}>
+                <p className="label">{category.plural_name}</p>
+                <OverviewOptionList
+                  options={category.children}
+                  level={0}
+                  loading={subsequentlyLoading}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </>
+      {/* )} */}
     </div>
   );
 };

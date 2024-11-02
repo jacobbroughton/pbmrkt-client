@@ -7,7 +7,6 @@ import "./CategorySelectorModal.css";
 
 export const CategorySelectorModal = ({
   categories,
-  setCategories,
   handleCategoryClick = () => null,
   handleModalClick = () => null,
   handleApply = () => null,
@@ -37,7 +36,6 @@ export const CategorySelectorModal = ({
         <CategorySelector
           forModal={true}
           categories={categories}
-          setCategories={setCategories}
           handleCategoryClick={handleCategoryClick}
           handleExpandAll={handleExpandAll}
           handleCollapseAll={handleCollapseAll}

@@ -14,6 +14,7 @@ import "./ForSaleViews.css";
 
 export function ForSaleViews({ sort, setTotalListings }) {
   const view = useSelector((state) => state.view);
+  const overviewCategories = useSelector((state) => state.overviewCategories);
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
   );
@@ -48,7 +49,10 @@ export function ForSaleViews({ sort, setTotalListings }) {
         p_search_value: searchValue,
         p_min_price: filters.saved["For Sale"].minPrice || 0,
         p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state: filters.saved["For Sale"].state == "All" ? null : filters.saved["For Sale"].state,
+        p_state:
+          filters.saved["For Sale"].state == "All"
+            ? null
+            : filters.saved["For Sale"].state,
         p_condition: filters.saved["For Sale"].conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
@@ -63,7 +67,8 @@ export function ForSaleViews({ sort, setTotalListings }) {
           .map((option) => option.value),
         p_sort: sort,
         p_seller_id: null,
-        p_city: filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
+        p_city:
+          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
         p_category_id: filters.saved["For Sale"].category?.id || null,
       });
 
@@ -92,7 +97,10 @@ export function ForSaleViews({ sort, setTotalListings }) {
         p_search_value: searchValue,
         p_min_price: filters.saved["For Sale"].minPrice || 0,
         p_max_price: filters.saved["For Sale"].maxPrice,
-        p_state: filters.saved["For Sale"].state == "All" ? null : filters.saved["For Sale"].state,
+        p_state:
+          filters.saved["For Sale"].state == "All"
+            ? null
+            : filters.saved["For Sale"].state,
         p_condition: filters.saved["For Sale"].conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
@@ -106,7 +114,8 @@ export function ForSaleViews({ sort, setTotalListings }) {
           .filter((option) => option.checked)
           .map((option) => option.value),
         p_seller_id: null,
-        p_city: filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
+        p_city:
+          filters.saved["For Sale"].city == "All" ? null : filters.saved["For Sale"].city,
         p_category_id: filters.saved["For Sale"].category?.id || null,
       });
 
@@ -114,7 +123,7 @@ export function ForSaleViews({ sort, setTotalListings }) {
         throw error2.message;
       }
 
-      console.log(data2)
+      console.log(data2);
 
       setTotalListings(data2[0].num_results);
 
@@ -136,7 +145,8 @@ export function ForSaleViews({ sort, setTotalListings }) {
     getListings(search.savedSearchValue);
   }, [sort]);
 
-  const isInitiallyLoading = isInitialLoad && listingsLoading;
+  const isInitiallyLoading =
+    isInitialLoad && listingsLoading && !overviewCategories.nestedCategories.length;
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
 
   return error ? (

@@ -5,52 +5,57 @@ import { setViewLayout } from "../../../redux/view";
 import { supabase } from "../../../utils/supabase";
 import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
+import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";
 import "./WantedOverview.css";
 
 export const WantedOverview = () => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters);
   const { savedSearchValue } = useSelector((state) => state.search);
+  const overviewCategories = useSelector((state) => state.overviewCategories);
   const [error, setError] = useState();
-  const [nestedCategories, setNestedCategories] = useState(null);
-  const [flatCategories, setFlatCategories] = useState(null);
   const [initiallyLoading, setInitiallyLoading] = useState(true); // initial load and between tabs currently
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
   const [viewAllCount, setListingsViewAllCount] = useState(0);
 
-  async function getCategories() {
+  async function getItemCategoryResultsCount() {
     try {
       setSubsequentlyLoading(true);
-      const { data, error } = await supabase.rpc("get_wanted_item_categories", {
-        p_search_value: savedSearchValue,
-        p_min_budget: filters.saved["Wanted"].minPrice || 0,
-        p_max_budget: filters.saved["Wanted"].maxPrice,
-        p_shipping_ok: true,
-        p_seller_id: null,
-        p_state:
-          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
-        p_city:
-          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
-        p_category_id: filters.saved["Wanted"].category?.id || null,
-      });
+
+      const wantedFilters = filters.saved["Wanted"];
+
+      const { data, error } = await supabase.rpc(
+        "get_wanted_item_category_result_counts",
+        {
+          p_search_value: savedSearchValue,
+          p_min_budget: wantedFilters.minPrice || 0,
+          p_max_budget: wantedFilters.maxPrice,
+          p_shipping_ok: true,
+          p_seller_id: null,
+          p_state: wantedFilters.state == "All" ? null : wantedFilters.state,
+          p_city: wantedFilters.city == "All" ? null : wantedFilters.city,
+          p_category_id: wantedFilters.category?.id || null,
+        }
+      );
 
       if (error) throw error.message;
 
-      setFlatCategories(data);
+      const hashedData = {};
 
-      const { nestedCategories } = nestItemCategoriesExperimental(data, null);
-      setNestedCategories(nestedCategories);
+      for (let i = 0; i < data.length; i++) {
+        hashedData[data[i].id] = data[i];
+      }
+
+      dispatch(addCountsToOverviewCategories(hashedData));
 
       const params = {
         p_search_value: savedSearchValue,
         p_seller_id: null,
-        p_city:
-          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
-        p_state:
-          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
-        p_category_id: filters.saved["Wanted"].category?.id || null,
-        p_min_budget: filters.saved["Wanted"].minPrice || 0,
-        p_max_budget: filters.saved["Wanted"].maxPrice,
+        p_city: wantedFilters.city == "All" ? null : wantedFilters.city,
+        p_state: wantedFilters.state == "All" ? null : wantedFilters.state,
+        p_category_id: wantedFilters.category?.id || null,
+        p_min_budget: wantedFilters.minPrice || 0,
+        p_max_budget: wantedFilters.maxPrice,
         p_shipping_ok: true,
       };
 
@@ -73,44 +78,39 @@ export const WantedOverview = () => {
   }
 
   useEffect(() => {
-    getCategories();
+    getItemCategoryResultsCount();
   }, []);
 
   useEffect(() => {
-    if (filters.filtersUpdated) getCategories();
+    if (filters.filtersUpdated) getItemCategoryResultsCount();
   }, [filters.filtersUpdated]);
 
   return (
     <div className="overview">
-      {initiallyLoading ? (
-        // {true ? (
-        <SkeletonsOverview />
-      ) : (
-        <>
-          <button className="view-all" onClick={() => dispatch(setViewLayout("Grid"))}>
-            <p>View All</p>{" "}
-            {subsequentlyLoading ? (
-              <div className="loading-result-number"></div>
-            ) : (
-              <span>({viewAllCount})</span>
-            )}
-          </button>
-          <ul className="overview-option-list main tier-0">
-            {nestedCategories?.map((category) => {
-              return (
-                <li key={category.id}>
-                  <p className="label">{category.plural_name}</p>
-                  <OverviewOptionList
-                    options={category.children}
-                    level={0}
-                    loading={subsequentlyLoading}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+      <>
+        <button className="view-all" onClick={() => dispatch(setViewLayout("Grid"))}>
+          <p>View All</p>{" "}
+          {subsequentlyLoading ? (
+            <div className="loading-result-number"></div>
+          ) : (
+            <span>({viewAllCount})</span>
+          )}
+        </button>
+        <ul className="overview-option-list main tier-0">
+          {overviewCategories.nestedCategories?.map((category) => {
+            return (
+              <li key={category.id}>
+                <p className="label">{category.plural_name}</p>
+                <OverviewOptionList
+                  options={category.children}
+                  level={0}
+                  loading={subsequentlyLoading}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </>
     </div>
   );
 };
@@ -143,7 +143,6 @@ const OverviewOptionList = ({ options, level, loading }) => {
   }
 
   return (
-    <>
       <ul className={`overview-option-list tier-${level + 1}`}>
         {options?.map((category, id) => {
           let newLevel = level + 2;
@@ -181,6 +180,5 @@ const OverviewOptionList = ({ options, level, loading }) => {
           );
         })}
       </ul>
-    </>
   );
 };

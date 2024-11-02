@@ -5,7 +5,8 @@ import filtersReducer from "./filters";
 import flagsReducer from "./flags";
 import searchReducer from "./search";
 import loadingReducer from "./loading";
-import viewReducer from "./view"
+import viewReducer from "./view";
+import overviewCategoriesReducer from "./overviewCategories";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     flags: flagsReducer,
     search: searchReducer,
     loading: loadingReducer,
-    view: viewReducer
+    view: viewReducer,
+    overviewCategories: overviewCategoriesReducer,
   },
 });
 

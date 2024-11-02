@@ -16,6 +16,7 @@ import { WantedListingList } from "../WantedListingList/WantedListingList";
 import { WantedOverview } from "../WantedOverview/WantedOverview";
 
 export function WantedViews({ sort, setTotalListings }) {
+  const overviewCategories = useSelector(state => state.overviewCategories)
   const view = useSelector((state) => state.view);
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
@@ -42,20 +43,7 @@ export function WantedViews({ sort, setTotalListings }) {
 
   async function getListings(searchValue = "") {
     try {
-      // if (totalListings) setTotalListings(null)
-      // if (!listingsInitiallyLoading && listingsLoading) {
       setListingsLoading(true);
-      // }
-
-      // p_search_value text,
-      // p_min_budget float,
-      // p_max_budget float,
-      // p_shipping_ok boolean,
-      // p_sort varchar(20),
-      // p_seller_id uuid,
-      // p_state text,
-      // p_city text,
-      // p_category_id bigint
 
       let { data, error } = await supabase.rpc("get_wanted_items", {
         p_search_value: searchValue,
@@ -90,23 +78,25 @@ export function WantedViews({ sort, setTotalListings }) {
         };
       });
 
-      console.log(data)
+      console.log(data);
 
       setListings(data);
 
-
-      let { data: data2, error: error2 } = await supabase.rpc("get_view_all_wanted_count", {
-        p_search_value: searchValue,
-        p_min_budget: filters.saved["Wanted"].minBudget || 0,
-        p_max_budget: filters.saved["Wanted"].maxBudget,
-        p_state:
-          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
-        p_shipping_ok: true,
-        p_seller_id: null,
-        p_city:
-          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
-        p_category_id: filters.saved["Wanted"].category?.id || null,
-      });
+      let { data: data2, error: error2 } = await supabase.rpc(
+        "get_view_all_wanted_count",
+        {
+          p_search_value: searchValue,
+          p_min_budget: filters.saved["Wanted"].minBudget || 0,
+          p_max_budget: filters.saved["Wanted"].maxBudget,
+          p_state:
+            filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
+          p_shipping_ok: true,
+          p_seller_id: null,
+          p_city:
+            filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+          p_category_id: filters.saved["Wanted"].category?.id || null,
+        }
+      );
 
       if (error2) {
         throw error2.message;
@@ -132,8 +122,12 @@ export function WantedViews({ sort, setTotalListings }) {
     getListings(search.savedSearchValue);
   }, [sort]);
 
-  const isInitiallyLoading = isInitialLoad && listingsLoading;
+  const isInitiallyLoading =
+    isInitialLoad && listingsLoading && !overviewCategories.nestedCategories.length;
+  const subsequentlyLoading = !isInitialLoad && listingsLoading;
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
+
+  // if (subsequentlyLoading) return <p>Subsequently loooooaaaaddddddiiiiiiinnnnnggggg</p>
 
   return error ? (
     <p className="small-text error-text">{error}</p>

@@ -27,6 +27,7 @@ import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import "./Home.css";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
+import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -42,8 +43,8 @@ export function Listings() {
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
 
-  const [categories, setCategories] = useState(null);
-  const [initialCategories, setInitialCategories] = useState(null);
+  // const [categories, setCategories] = useState(null);
+  // const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
@@ -94,62 +95,26 @@ export function Listings() {
   }, []);
 
   useEffect(() => {
+    console.log("Swag");
     getItemCategories(view.type);
   }, [sort]);
 
   useEffect(() => {
-    if (view.layout == "Overview" && filters.filtersUpdated) getItemCategories(view.type);
-  }, [filters.filtersUpdated]);
+    if (view.layout == "Overview" && filters.filtersUpdated) {
+      getItemCategories(view.type);
+    }
+  }, []);
 
   async function getItemCategories(viewType) {
     try {
-      let params = {
-        p_search_value: "",
-        p_seller_id: null,
-        p_category_id: filters.saved[viewType].category?.id || null,
-        p_state:
-          filters.saved[viewType].state == "All" ? null : filters.saved[viewType].state,
-        p_city:
-          filters.saved[viewType].city == "All" ? null : filters.saved[viewType].city,
-      };
-
-      if (viewType === "Wanted") {
-        params = {
-          ...params,
-          p_min_budget: filters.saved[viewType].minBudget || 0,
-          p_max_budget: filters.saved[viewType].maxBudget,
-          p_shipping_ok: filters.saved[viewType].shippingOk,
-        };
-      } else if (viewType === "For Sale") {
-        params = {
-          ...params,
-          p_min_price: filters.saved[viewType].minPrice || 0,
-          p_max_price: filters.saved[viewType].maxPrice,
-          p_condition: filters.saved[viewType].conditionOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_shipping: filters.saved[viewType].shippingOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_trades: filters.saved[viewType].tradeOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-          p_negotiable: filters.saved[viewType].negotiableOptions
-            .filter((option) => option.checked)
-            .map((option) => option.value),
-        };
-      }
-      const { data, error } = await supabase.rpc(
-        viewType === "Wanted" ? "get_wanted_item_categories" : "get_item_categories",
-        params
-      );
+      const { data, error } = await supabase.rpc("get_item_categories");
 
       if (error) throw error.message;
 
       const nestedItemCategories = nestItemCategories(data, null);
 
-      setInitialCategories(nestedItemCategories);
-      setCategories(nestedItemCategories);
+      dispatch(setOverviewCategories({ flat: data, nested: nestedItemCategories }));
+
       dispatch(
         setFilters({
           ...filters,
@@ -194,7 +159,7 @@ export function Listings() {
       onDeleteClick: () => {
         dispatch(resetFilter({ filterKey: "category", viewType: view.type }));
         dispatch(setFiltersUpdated(true));
-        setCategories(initialCategories);
+        // setCategories(initialCategories);
       },
       active: filters.saved[view.type].category,
     },
@@ -397,7 +362,6 @@ export function Listings() {
       {categorySelectorModalToggled && (
         <CategorySelectorModal
           categories={filters.draft[view.type].categories}
-          setCategories={setCategories}
           handleCategoryClick={(category) => {
             if (category.is_folder) {
               dispatch(

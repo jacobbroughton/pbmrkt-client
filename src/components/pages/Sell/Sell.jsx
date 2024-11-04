@@ -26,6 +26,7 @@ import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload.jsx";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
 import "./Sell.css";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 
@@ -523,7 +524,12 @@ export const Sell = () => {
   return (
     <>
       <div className="sell">
-        {error && <p className="error-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <h1>Create a new listing</h1>
         <form
           onSubmit={handleSubmit}

@@ -1,26 +1,24 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { closeAllModals, toggleModal } from "../../../redux/modals";
-import filters, { resetFilters } from "../../../redux/filters";
-import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
-import { HomeIcon } from "../Icons/HomeIcon";
-import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
-import { setSearchBarToggled } from "../../../redux/search";
-import { setFlag } from "../../../redux/flags";
-import { isOnMobile } from "../../../utils/usefulFunctions";
-import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
-import { BellIcon } from "../Icons/BellIcon";
-import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
-import { SearchModal } from "../SearchModal/SearchModal";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { resetFilters } from "../../../redux/filters";
+import { setFlag } from "../../../redux/flags";
+import { closeAllModals, toggleModal } from "../../../redux/modals";
+import { setSearchBarToggled } from "../../../redux/search";
+import { supabase } from "../../../utils/supabase";
+import { isOnMobile } from "../../../utils/usefulFunctions";
+import { BellIcon } from "../Icons/BellIcon";
+import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
+import { HomeIcon } from "../Icons/HomeIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
-import { SearchIcon } from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon.tsx";
+import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
+import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
 import { UnauthenticatedOptionsMenu } from "../UnauthenticatedOptionsMenu/UnauthenticatedOptionsMenu";
 import "./MobileBottomNav.css";
 
 export function MobileBottomNav() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const {
     rightSideMenuToggled,
@@ -144,6 +142,7 @@ export function MobileBottomNav() {
           className={`sidebar-toggle-button ${filtersSidebarToggled ? "active" : ""}`}
           onClick={() => {
             // if (location.pathname != '/') navigate('/')
+            dispatch(closeAllModals());
             dispatch(
               toggleModal({ key: "filtersSidebar", value: !filtersSidebarToggled })
             );
@@ -172,11 +171,7 @@ export function MobileBottomNav() {
         to="/sell"
         className="sell-link"
         onClick={() => {
-          if (rightSideMenuToggled)
-            unauthenticatedOptionsMenuToggled,
-              notificationsMenuToggled,
-              searchModalToggled;
-          filtersSidebarToggled;
+          dispatch(closeAllModals());
         }}
       >
         {isOnMobile() ? <PlusIcon /> : "Sell"}

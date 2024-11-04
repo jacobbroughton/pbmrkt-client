@@ -24,6 +24,7 @@ import "./CreateWantedItem.css";
 import { SortIcon } from "../../ui/Icons/SortIcon";
 import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
 import { Arrow } from "../../ui/Icons/Arrow.jsx";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 
 export const CreateWantedItem = () => {
   const filters = useSelector((state) => state.filters);
@@ -133,7 +134,7 @@ export const CreateWantedItem = () => {
     e.preventDefault();
 
     try {
-      setSubmitLoading(true)
+      setSubmitLoading(true);
 
       const checkedShippingValue = radioOptions.shippingOptions.find((op) => op.checked);
       let okWithShipping = checkedShippingValue.value === "Ok with shipping";
@@ -189,7 +190,7 @@ export const CreateWantedItem = () => {
       console.error(error);
       setError(error.toString());
     } finally {
-      setSubmitLoading(false)
+      setSubmitLoading(false);
     }
   }
 
@@ -279,7 +280,9 @@ export const CreateWantedItem = () => {
 
   return (
     <div className="create-wanted-item">
-      {error && <p className="error-text small-text">{error}</p>}
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
       <h1>Create Wanted Post</h1>
       <form onSubmit={handleSubmit}>
         <PhotoUpload

@@ -15,7 +15,7 @@ import { supabase } from "../../../utils/supabase";
 import React, { useEffect, useState } from "react";
 import { Caret } from "../Icons/Caret";
 import { PlusIcon } from "../Icons/PlusIcon";
-import { SearchIcon } from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon.tsx";
 import { DesktopSearchToggle } from "../DesktopSearchToggle/DesktopSearchToggle";
 import "./Navbar.css";
 import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";

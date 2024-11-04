@@ -99,17 +99,21 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
     dispatch(setFiltersUpdated(true));
   }
 
-  function handleRadioFilterSelect(filterTypeKey, selectedOption) {
+  function handleRadioFilterSelect(filterTypeKey, selectedOption, viewType) {
     if (allFiltersDisabled) return;
 
     const newDraft = {
       ...filters.draft,
-      [filterTypeKey]: filters.draft[filterTypeKey]?.map((option) => ({
-        ...option,
-        ...(option.id == selectedOption.id && {
-          checked: !selectedOption.checked,
-        }),
-      })),
+      // TODO - fix this
+      [viewType]: {
+        ...filters.draft[viewType],
+        [filterTypeKey]: filters.draft[viewType][filterTypeKey]?.map((option) => ({
+          ...option,
+          ...(option.id == selectedOption.id && {
+            checked: !selectedOption.checked,
+          }),
+        })),
+      },
     };
 
     dispatch(setFilters({ ...filters, draft: newDraft, saved: newDraft }));
@@ -514,11 +518,12 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                       </button>
                     )}
                   </div>
+                  {console.log(filters.draft["For Sale"].conditionOptions)}
                   <Checkboxes
                     options={filters.draft["For Sale"].conditionOptions}
                     size="medium"
                     handleCheckboxOptionClick={(option) =>
-                      handleRadioFilterSelect("conditionOptions", option)
+                      handleRadioFilterSelect("conditionOptions", option, view.type)
                     }
                     disabled={allFiltersDisabled}
                   />
@@ -551,7 +556,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     options={filters.draft["For Sale"].shippingOptions}
                     size="medium"
                     handleCheckboxOptionClick={(option) =>
-                      handleRadioFilterSelect("shippingOptions", option)
+                      handleRadioFilterSelect("shippingOptions", option, view.type)
                     }
                     disabled={allFiltersDisabled}
                   />
@@ -582,7 +587,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     options={filters.draft["For Sale"].tradeOptions}
                     size="medium"
                     handleCheckboxOptionClick={(option) =>
-                      handleRadioFilterSelect("tradeOptions", option)
+                      handleRadioFilterSelect("tradeOptions", option, view.type)
                     }
                     disabled={allFiltersDisabled}
                   />
@@ -614,7 +619,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     options={filters.draft["For Sale"].negotiableOptions}
                     size="medium"
                     handleCheckboxOptionClick={(option) =>
-                      handleRadioFilterSelect("negotiableOptions", option)
+                      handleRadioFilterSelect("negotiableOptions", option, view.type)
                     }
                     disabled={allFiltersDisabled}
                   />

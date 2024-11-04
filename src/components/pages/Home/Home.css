@@ -49,7 +49,7 @@
   z-index: 2;
   width: 100%;
   z-index: 4;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
   background-color: var(--bg-primary);
   padding-top: 10px;
   position: sticky;
@@ -68,6 +68,7 @@
   /* padding: 5px */
   height: 33px;
   overflow: hidden;
+  background-color: #333;
 }
 
 .home .listings-controls .view-selector button.view-option {
@@ -78,6 +79,7 @@
   font-size: 0.875rem;
   color: white;
   overflow: hidden;
+
 }
 
 .home .listings-controls .view-selector button.view-option:not(:first-child) {
@@ -122,56 +124,6 @@
   /* background-color: #5f5f5f; */
   color: var(--yellow);
   fill: var(--yellow);
-}
-
-.home .listings-controls .control-group.sort {
-  display: flex;
-  font-size: 1rem;
-  gap: 10px;
-  align-self: flex-end;
-  align-items: center;
-  justify-content: flex-end;
-  position: relative;
-  /* margin-bottom: 10px; */
-}
-
-.home .listings-controls .control-group.sort svg {
-  width: 9px;
-  min-width: none;
-  fill: #ddd;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.home .listings-controls .control-group.sort select {
-  background-color: transparent;
-  border: 0;
-  border-radius: 3px;
-  /* border-left: 2px solid ; */
-  /* padding: 5px 7px; */
-  cursor: pointer;
-  transition: 0.05s ease background-color;
-  color: white;
-  padding-left: 30px;
-  z-index: 1;
-  border: 1px solid transparent;
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
-  background-color: #2f2f2f;
-  border: 1px solid #444;
-  font-size: 0.875rem;
-  height: 33px;
-}
-
-.home .listings-controls .control-group.sort select:hover {
-  color: white;
-  background-color: #3b3b3b;
-}
-
-.home .listings-controls .control-group.sort p {
-  font-weight: 600;
 }
 
 .home .listings-controls .control-group.home {
@@ -225,36 +177,38 @@
     /* padding-top: 56px; */
   }
 
-  .home .listings-section .listings-controls {
+  .home .listings-section > .listings-controls {
     top: 56px;
   }
 }
 
 @media only screen and (max-device-width: 480px) {
-  .home .listings-section .listings-controls {
-    justify-content: flex-end;
+  .home .listings-section > .listings-controls {
+    justify-content: space-between;
     position: sticky;
     padding-bottom: 10px;
     top: 0 !important;
-    flex-direction: column;
-    justify-content: flex-end;
+    /* flex-direction: column; */
+    flex-direction: row;
     align-items: flex-end;
+    flex-wrap: nowrap;
   }
 
-  .home .listings-section .listings-controls .view-selector {
-    align-self: flex-end;
+  .home .listings-section > .listings-controls > .view-selector > button  {
+    /* align-self: flex-end; */
+    padding: 3px 10px;
   }
 
-  .home .listings-section .listings-controls .control-group.home {
+  .home .listings-section > .listings-controls .control-group.home {
     display: flex;
   }
 
   .home > .sidebar-and-grid .sidebar {
-    z-index: 8;
+    z-index: 10;
   }
 
   .home > .sidebar-and-grid .modal-overlay {
-    z-index: 7 !important;
+    z-index: 9 !important;
   }
 
   /* .home .listings-section .listings-controls .control-group.sort select {

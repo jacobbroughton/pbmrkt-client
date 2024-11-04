@@ -1,0 +1,22 @@
+button.search-button {
+  width: calc(100% - 20px);
+  border: 1px solid #444;
+  background-color: transparent;
+  /* margin: 10px; */
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  text-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: grey;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+}
+
+button.search-button > svg {
+  width: 15px;
+  fill: grey;
+}

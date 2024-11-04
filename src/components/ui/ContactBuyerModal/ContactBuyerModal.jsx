@@ -9,6 +9,7 @@ import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
 import "./ContactBuyerModal.css";
 import { useNotification } from "../../../hooks/useNotification";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 const ContactBuyerModal = ({ contactInfo }) => {
   const { createNotification } = useNotification();
@@ -110,11 +111,16 @@ const ContactBuyerModal = ({ contactInfo }) => {
   return (
     <>
       <div className="contact-buyer modal">
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="header">
           <h3>Contact this Buyer</h3>
         </div>
         <div className="content">
-          {error && <p className="error-text small-text">{error.toString()}</p>}
           <form className="standard" onSubmit={handleSubmit}>
             <div
               ref={fullNameRef}

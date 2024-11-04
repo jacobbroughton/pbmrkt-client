@@ -12,6 +12,7 @@ import BugIcon from "../Icons/BugIcon";
 import FeedbackIcon from "../Icons/FeedbackIcon";
 import ArrowRightToBracket from "../Icons/ArrowRightToBracket";
 import IDCardIcon from "../Icons/IDCardIcon";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 export const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -62,7 +63,12 @@ export const RightSideMenu = () => {
 
   return (
     <div className="right-side-menu" ref={rightSideMenuRef}>
-      {error && <p className="error-text small-text">{error.toString()}</p>}
+       {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
       {user && (
         <Link
           to={`/user/${user.username}`}

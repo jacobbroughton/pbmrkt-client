@@ -22,6 +22,7 @@ import {
 import { CategorySelectorModal } from "../CategorySelectorModal/CategorySelectorModal";
 import { SortIcon } from "../Icons/SortIcon";
 import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 export const EditItemModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
@@ -312,6 +313,12 @@ export const EditItemModal = ({ item, setItem }) => {
   return (
     <>
       <div className="modal edit-item">
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="header">
           <h2>Edit/Modify This Listing</h2>
           <button
@@ -323,7 +330,6 @@ export const EditItemModal = ({ item, setItem }) => {
           </button>
         </div>
         <form onSubmit={handleSubmit} id="edit-item-form" ref={formRef}>
-          {error && <p className="small-text error-text">{error.toString()}</p>}
           <div className="form-block">
             <div className="form-content">
               <div

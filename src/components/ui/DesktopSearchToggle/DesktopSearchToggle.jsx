@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { SearchIcon } from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon.tsx";
 import "./DesktopSearchToggle.css";
 import { closeAllModals, toggleModal } from "../../../redux/modals";
 

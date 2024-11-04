@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch, useSelector } from "react-redux";
-import {Star} from "../Icons/Star";
-import {XIcon} from "../Icons/XIcon";
+import { Star } from "../Icons/Star";
+import { XIcon } from "../Icons/XIcon";
 import { supabase } from "../../../utils/supabase";
 import { setFlag } from "../../../redux/flags";
 import "./AddReviewModal.css";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
@@ -78,7 +79,9 @@ export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
 
   return (
     <div className="add-review modal" ref={modalRef}>
-      {error && <p className="error-text">{error}</p>}
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
       <div className="header">
         <h2>Give {seller.username} a review</h2>
         <button

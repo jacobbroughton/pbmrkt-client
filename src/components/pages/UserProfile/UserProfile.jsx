@@ -20,6 +20,8 @@ import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsMod
 import { SkeletonsListingGrid } from "../../ui/SkeletonsListingGrid/SkeletonsListingGrid";
 import { Stars } from "../../ui/Stars/Stars";
 import "./UserProfile.css";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
+import { SortSelect } from "../../ui/SortSelect/SortSelect";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -38,7 +40,7 @@ export const UserProfile = () => {
     count: 0,
     list: [],
   });
-  const [sort, setSort] = useState("Date Listed (New-Old)");
+  const [sort, setSort] = useState("Date (New-Old)");
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
 
   useEffect(() => {
@@ -208,7 +210,12 @@ export const UserProfile = () => {
   return (
     <>
       <div className="user-profile-page">
-        {error && <p className="error-text small-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="info-section">
           <div className="picture-and-info">
             <div className="profile-picture-container">
@@ -283,21 +290,7 @@ export const UserProfile = () => {
         {listings?.length ? (
           <div className="listings-wrapper">
             <div className="listing-controls">
-              <div className="select-container">
-                <select
-                  id="sort-select"
-                  onChange={(e) => setSort(e.target.value)}
-                  value={sort}
-                >
-                  <option>Alphabetically (A-Z)</option>
-                  <option>Alphabetically (Z-A)</option>
-                  <option>Price (Low-High)</option>
-                  <option>Price (High-Low)</option>
-                  <option>Date Listed (New-Old)</option>
-                  <option>Date Listed (Old-New)</option>
-                </select>
-                <SortIcon />
-              </div>
+              <SortSelect />
             </div>
             <ListingGrid listings={listings} />
           </div>

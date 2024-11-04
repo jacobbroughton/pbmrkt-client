@@ -1,0 +1,50 @@
+.error-banner {
+  border: 1px solid #ff607d;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+  height: 47px;
+  overflow: hidden;
+}
+
+.error-banner > .content {
+  padding: 3px 5px;
+  height: 100%;
+  width: calc(100% - 35px);
+}
+
+.error-banner > .content > p:not(:first-child) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  cursor: help;
+}
+
+.error-banner > button {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #444;
+  border: 0;
+  height: 100%;
+  width: 35px;
+  border-left: #555 1px solid;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.error-banner > button:hover {
+  background-color: #4f4f4f;
+}
+
+.error-banner > button > svg {
+  width: 15px;
+  fill: white;
+}

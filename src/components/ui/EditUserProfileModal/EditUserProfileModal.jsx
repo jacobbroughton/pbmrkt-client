@@ -11,11 +11,12 @@ import { supabase } from "../../../utils/supabase";
 import { setUser } from "../../../redux/auth.js";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
-import { XIcon } from "../Icons/XIcon.jsx";
+import { XIcon } from "../Icons/XIcon";
 import "./EditUserProfileModal.css";
 import { MagicWand } from "../Icons/MagicWand.jsx";
 import { Arrow } from "../Icons/Arrow.jsx";
 import { SortIcon } from "../Icons/SortIcon.jsx";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 // import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
 
 export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
@@ -158,7 +159,12 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
 
   return (
     <div className="modal edit-user-profile-modal">
-      {error && <p className="small-text error-text">{error.toString()}</p>}
+       {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
       <div className="header">
         <h2>Edit profile</h2>
         <button

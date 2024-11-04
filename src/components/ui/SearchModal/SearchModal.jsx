@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { Arrow } from "../Icons/Arrow";
 import { toggleModal } from "../../../redux/modals";
-import { SearchIcon } from "../Icons/SearchIcon";
+import { SearchIcon } from "../Icons/SearchIcon.tsx";
 import { useEffect, useRef, useState } from "react";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
 import { setFlag } from "../../../redux/flags";
@@ -11,6 +11,7 @@ import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
 import "./SearchModal.css";
 import { XIcon } from "../Icons/XIcon";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 export const SearchModal = () => {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ export const SearchModal = () => {
         alert("No user, no search history"); // TODO - fix and delete
       }
 
-      console.log('clicked here swag')
+      console.log("clicked here swag");
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
@@ -171,7 +172,12 @@ export const SearchModal = () => {
   return (
     <>
       <div className="modal search-modal">
-        {error && <p className="small-text error-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="search-input-container">
           <SearchIcon />
           <form onSubmit={(e) => handleSearch(e, "Search Input")}>

@@ -1,5 +1,5 @@
 import {FilterIcon} from "../Icons/FilterIcon"
-import {SearchIcon} from "../Icons/SearchIcon"
+import {SearchIcon} from "../Icons/SearchIcon.tsx"
 import "./IconSidebar.css"
 
 export const IconSidebar = () => {

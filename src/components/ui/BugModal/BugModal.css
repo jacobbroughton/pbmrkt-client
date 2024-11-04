@@ -6,12 +6,12 @@
   transform: translateX(-50%);
 }
 
-.modal.bug .header {
+.modal.bug > .header {
   padding: 10px;
   border-bottom: 1px solid #555;
 }
 
-.modal.bug .content {
+.modal.bug > .content {
   gap: 0;
   padding: 10px;
 }

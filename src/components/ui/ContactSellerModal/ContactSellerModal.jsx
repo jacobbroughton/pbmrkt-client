@@ -8,6 +8,7 @@ import { supabase } from "../../../utils/supabase";
 import { smoothScrollOptions } from "../../../utils/constants";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 const ContactSellerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
@@ -59,8 +60,9 @@ const ContactSellerModal = ({ contactInfo }) => {
   const fieldErrors = [
     {
       fieldKey: "fullName",
-      warningText: fullName.length == 1 ? "C'mon now, that ain't your name" : "Add your name",
-      active: fullName === "" || fullName.length ==1,
+      warningText:
+        fullName.length == 1 ? "C'mon now, that ain't your name" : "Add your name",
+      active: fullName === "" || fullName.length == 1,
       onClick: (e) => {
         e.preventDefault();
         fullNameRef.current.scrollIntoView(smoothScrollOptions);
@@ -100,11 +102,16 @@ const ContactSellerModal = ({ contactInfo }) => {
   return (
     <>
       <div className="contact-seller modal">
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="header">
           <h3>Contact this Seller</h3>
         </div>
         <div className="content">
-          {error && <p className="error-text small-text">{error.toString()}</p>}
           <form className="standard" onSubmit={handleSubmit}>
             <div
               ref={fullNameRef}
@@ -169,9 +176,13 @@ const ContactSellerModal = ({ contactInfo }) => {
               />
             )}
 
-            {user ? <button type="submit" disabled={submitDisabled}>
-              {submitLoading ? "Submitting..." : "Submit"}
-            </button> : <LoginPrompt message={"to contact this seller"}/>}
+            {user ? (
+              <button type="submit" disabled={submitDisabled}>
+                {submitLoading ? "Submitting..." : "Submit"}
+              </button>
+            ) : (
+              <LoginPrompt message={"to contact this seller"} />
+            )}
           </form>
         </div>
       </div>

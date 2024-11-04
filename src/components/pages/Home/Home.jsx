@@ -15,6 +15,7 @@ import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
   getCheckedOps,
+  isOnMobile,
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
@@ -30,6 +31,8 @@ import "./Home.css";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 import { useSearchParams } from "../../../hooks/useSearchParams";
+import { MobileSearchBar } from "../../ui/MobileSearchBar/MobileSearchBar";
+import { SortSelect } from "../../ui/SortSelect/SortSelect";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -44,8 +47,8 @@ export function Listings() {
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
 
-  const {searchParams, addSearchParam} = useSearchParams();
-  const [sort, setSort] = useState("Date Listed (New-Old)");
+  const { searchParams, addSearchParam } = useSearchParams();
+  const [sort, setSort] = useState("Date (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [totalListings, setTotalListings] = useState(null);
@@ -79,7 +82,7 @@ export function Listings() {
 
     if (viewLayoutFromSearch !== view.layout)
       dispatch(setViewLayout(viewLayoutFromSearch));
-  }, [searchParams.get("view-type"), searchParams.get('view-layout')]);
+  }, [searchParams.get("view-type"), searchParams.get("view-layout")]);
 
   // useEffect(() => {
   //   dispatch(
@@ -326,6 +329,7 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
+          {isOnMobile() ? <MobileSearchBar /> : false}
           <div className="listings-controls">
             <div className="view-selector">
               {["Overview", "Grid", "List"].map((viewOption) => (
@@ -342,23 +346,7 @@ export function Listings() {
                 </button>
               ))}
             </div>
-            {view != "Overview" && (
-              <div className="control-group sort">
-                <select
-                  id="sort-select"
-                  onChange={(e) => setSort(e.target.value)}
-                  value={sort}
-                >
-                  <option>Alphabetically (A-Z)</option>
-                  <option>Alphabetically (Z-A)</option>
-                  <option>Price (Low-High)</option>
-                  <option>Price (High-Low)</option>
-                  <option>Date Listed (New-Old)</option>
-                  <option>Date Listed (Old-New)</option>
-                </select>
-                <SortIcon />
-              </div>
-            )}
+            {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />

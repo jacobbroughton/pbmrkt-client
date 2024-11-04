@@ -3,11 +3,9 @@
   flex-direction: column;
   gap: 3px;
   /* border: 1px solid #444; */
-  background: #2b2b2b;
-  padding: 0 10px;;
+  /* background: #2b2b2b; */
+  /* padding: 0 10px; */
   margin-bottom: 10px;
-  border-radius: 1px;
-  
 }
 
 .filter-tags-parent .filter-tags {
@@ -15,27 +13,17 @@
   gap: 15px;
   flex-wrap: wrap;
   /* margin-bottom: 10px; */
-  padding: 10px 0;
-  margin-top: 15px;
+  /* padding: 10px 0; */
+  /* margin-top: 15px; */
 }
 
 .filter-tags-parent .filter-tags .filter-tag {
-  background-color: #2f2f2f;
+  /* background-color: #2f2f2f; */
   display: flex;
   align-items: center;
-  /* gap: 10px; */
   white-space: nowrap;
-  /* padding: 2px 7px; */
-  /* border-left: 2px solid var(--lightgreen); */
-  /* border-radius: 5px 100px 100px 5px; */
   font-size: 0.875rem;
-  /* border-right: 1px solid #555;
-  border-bottom: 1px solid #555;
-  border-top: 1px solid #555; */
   position: relative;
-  background-color: darkcyan;
-  background-color: #555;
-  /* background-color: slategray; */
   border-radius: 3px;
   z-index: 1;
 }
@@ -48,15 +36,15 @@
   bottom: 100%;
   z-index: -1;
   left: -2px;
-  
+
   border-radius: 1px;
 }
 
 .filter-tags-parent .filter-tags .filter-tag p.value {
   font-weight: 500;
-  text-shadow: 1px 1px  rgba(0, 0, 0, 0.206);
-  padding: 3px 7px;
-
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.206);
+  /* padding: 3px 7px; */
+  color: whitesmoke;
 }
 
 .filter-tags-parent .filter-tags .filter-tag button {
@@ -65,27 +53,21 @@
   padding: 0;
   display: flex;
   cursor: pointer;
-  width: 35px;
-  border-left: 1px solid grey;
+  width: 25px;
+  /* border-left: 1px solid grey; */
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
   border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px
+  border-bottom-right-radius: 3px;
 }
 
 .filter-tags-parent .filter-tags .filter-tag button svg {
-  fill: white;
+  fill: grey;
   width: 13px;
-
-}
-
-
-.filter-tags-parent .filter-tags .filter-tag button:hover {
-  background-color: #666;
 }
 
 .filter-tags-parent .filter-tags .filter-tag button:hover svg {
-  fill: lightgrey;
+  fill: whitesmoke;
 }

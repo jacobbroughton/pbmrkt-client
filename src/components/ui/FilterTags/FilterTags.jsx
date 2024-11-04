@@ -10,7 +10,7 @@ export const FilterTags = ({ filterTags }) => {
           .map((filter) => {
             return (
               <div className="filter-tag" key={filter.label}>
-                <span className="label">{filter.label}</span>
+                {/* <span className="label">{filter.label}</span> */}
                 <p className="value">{filter.value}</p>
                 <button onClick={filter.onDeleteClick}>
                   <XIcon />

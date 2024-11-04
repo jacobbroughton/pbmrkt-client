@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { toggleModal } from "../../../redux/modals";
 import { XIcon } from "../Icons/XIcon";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 const FeedbackModal = () => {
   const dispatch = useDispatch();
@@ -32,9 +33,8 @@ const FeedbackModal = () => {
       if (error) throw error.message;
 
       setFeedbackBody("");
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
 
@@ -44,7 +44,12 @@ const FeedbackModal = () => {
   return (
     <>
       <div className="feedback modal">
-        {error && <p className="small-text error-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="header">
           <h2>Feedback</h2>
           <button
@@ -57,7 +62,7 @@ const FeedbackModal = () => {
         </div>
         <div className="content">
           <form onSubmit={handleSubmit} className="standard">
-          <div className="form-group">
+            <div className="form-group">
               <label>Description</label>
               <textarea
                 value={feedbackBody}
@@ -81,7 +86,7 @@ const FeedbackModal = () => {
                 placeholder="johnsmith@gmail.com"
               />
             </div>
-            
+
             <button type="submit" className="button" disabled={!feedbackBody}>
               Submit{submitLoading ? " (Loading)" : ""}
             </button>

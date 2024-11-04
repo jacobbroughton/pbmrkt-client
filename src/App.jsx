@@ -23,6 +23,8 @@ import BugModal from "./components/ui/BugModal/BugModal.jsx";
 import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
 import { CreateWantedItem } from "./components/pages/CreateWantedItem/CreateWantedItem.jsx";
 import { WantedItem } from "./components/pages/WantedItem/WantedItem.jsx";
+import { ErrorBanner } from "./components/ui/ErrorBanner/ErrorBanner";
+import { MobileSearchBar } from "./components/ui/MobileSearchBar/MobileSearchBar";
 
 export function App() {
   const dispatch = useDispatch();
@@ -165,7 +167,12 @@ export function App() {
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
       <main>
-        {error && <p className="error-text small-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <Routes>
           <Route path="*" element={<p>Page not found</p>} />
           <Route element={<Listings />} path="/" />

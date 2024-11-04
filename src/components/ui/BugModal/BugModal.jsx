@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { toggleModal } from "../../../redux/modals";
 import { XIcon } from "../Icons/XIcon";
+import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
 const BugModal = () => {
   const dispatch = useDispatch();
@@ -26,11 +27,10 @@ const BugModal = () => {
         p_body: bugBody,
         p_name: name,
         p_email: email,
-        p_user_id: user.auth_id,
+        p_user_id: user?.auth_id,
       });
 
       if (error) throw error.message;
-
 
       setBugBody("");
     } catch (error) {
@@ -44,7 +44,12 @@ const BugModal = () => {
   return (
     <>
       <div className="bug modal">
-        {error && <p className="small-text error-text">{error.toString()}</p>}
+        {error && (
+          <ErrorBanner
+            error={error.toString()}
+            handleCloseBanner={() => setError(null)}
+          />
+        )}
         <div className="header">
           <h2>Find a bug?</h2>
           <button
@@ -57,7 +62,7 @@ const BugModal = () => {
         </div>
         <div className="content">
           <form onSubmit={handleSubmit} className="standard">
-          <div className="form-group">
+            <div className="form-group">
               <label>Description</label>
               <textarea
                 value={bugBody}
@@ -81,7 +86,7 @@ const BugModal = () => {
                 placeholder="johnsmith@gmail.com"
               />
             </div>
-            
+
             <button type="submit" className="button" disabled={!bugBody}>
               Submit{submitLoading ? " (Loading)" : ""}
             </button>

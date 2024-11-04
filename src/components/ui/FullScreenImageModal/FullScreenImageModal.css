@@ -35,6 +35,8 @@
   transition: 0.1s ease background-color;
   color: white;
   z-index: 3;
+  padding: 3px 5px;
+  border-radius: 3px;
 }
 
 .modal.full-screen-image-modal .close-button:hover {

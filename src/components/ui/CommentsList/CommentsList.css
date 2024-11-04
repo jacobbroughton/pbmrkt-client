@@ -37,6 +37,10 @@
   gap: 5px;
   font-size: 1rem;
   align-items: center;
+  padding: 3px 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  border-radius: 3px;
 }
 
 .comments-section .comment-form button[type="submit"]:not(:disabled) {

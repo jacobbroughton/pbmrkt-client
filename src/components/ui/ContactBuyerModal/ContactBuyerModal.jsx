@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
-import "./ContactBuyerModal.css";
-import { toggleModal } from "../../../redux/modals";
 import { useRef, useState } from "react";
-import { isValidEmail } from "../../../utils/usefulFunctions";
-import { supabase } from "../../../utils/supabase";
-import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
-import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
+import { supabase } from "../../../utils/supabase";
+import { isValidEmail } from "../../../utils/usefulFunctions";
+import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
+import "./ContactBuyerModal.css";
 
 const ContactBuyerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
@@ -16,8 +16,8 @@ const ContactBuyerModal = ({ contactInfo }) => {
     user ? user.first_name + " " + user.last_name : ""
   );
   const [email, setEmail] = useState(user ? user.email : "");
-  const [price, setPrice] = useState(0);
-  const [message, setMessage] = useState("");
+  const [price, setPrice] = useState(Math.floor(Math.random() * 1000));
+  const [message, setMessage] = useState("Hi, i would like to buy this");
   const [error, setError] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
@@ -32,13 +32,13 @@ const ContactBuyerModal = ({ contactInfo }) => {
 
     setSubmitLoading(true);
     try {
-      const { data, error } = await supabase.rpc("add_wanted_contact_inquiry", {
+      const { data, error } = await supabase.rpc("add_wanted_inquiry", {
         p_full_name: fullName,
         p_email: email,
         p_price: price,
         p_message: message,
         p_user_id: user?.auth_id,
-        p_related_user_id: contactInfo.created_by_id,
+        p_buyer_id: contactInfo.created_by_id,
       });
 
       if (error) throw error.message;
@@ -59,8 +59,9 @@ const ContactBuyerModal = ({ contactInfo }) => {
   const fieldErrors = [
     {
       fieldKey: "fullName",
-      warningText: "Add your name",
-      active: fullName === "",
+      warningText:
+        fullName.length == 1 ? "C'mon now, that ain't your name" : "Add your name",
+      active: fullName === "" || fullName.length == 1,
       onClick: (e) => {
         e.preventDefault();
         fullNameRef.current.scrollIntoView(smoothScrollOptions);
@@ -168,9 +169,9 @@ const ContactBuyerModal = ({ contactInfo }) => {
               />
             )}
 
-            <button type="submit" disabled={submitDisabled}>
+            {user ? <button type="submit" disabled={submitDisabled}>
               {submitLoading ? "Submitting..." : "Submit"}
-            </button>
+            </button> : <LoginPrompt  message={"to contact this buyer"}/>}
           </form>
         </div>
       </div>

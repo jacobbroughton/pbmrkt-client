@@ -324,8 +324,8 @@ export const Item = () => {
                   username: item.info.created_by_username,
                   city: item.info.city,
                   state: item.info.state,
-                  sellerReviewCount: sellerReviews.count,
-                  sellerRating: item.info.seller_rating,
+                  reviewCount: sellerReviews.count,
+                  rating: item.info.seller_rating,
                 }}
               />
             </div>

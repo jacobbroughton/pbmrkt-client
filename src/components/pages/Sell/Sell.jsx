@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { toggleModal } from "../../../redux/modals.js";
+import { toggleModal } from "../../../redux/modals.ts";
 import { smoothScrollOptions } from "../../../utils/constants.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { supabase } from "../../../utils/supabase";
@@ -20,7 +20,7 @@ import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.
 import { Arrow } from "../../ui/Icons/Arrow";
 import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
 import { RadioIcon } from "../../ui/Icons/RadioIcon.jsx";
-import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
+import { SortIcon } from "../../ui/Icons/SortIcon.tsx";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
 import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload.jsx";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";

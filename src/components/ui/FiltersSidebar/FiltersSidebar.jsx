@@ -5,7 +5,7 @@ import { UndoIcon } from "../Icons/UndoIcon";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import { capitalizeWords, isOnMobile } from "../../../utils/usefulFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "../../../redux/modals.js";
+import { toggleModal } from "../../../redux/modals.ts";
 import {
   resetFilter,
   resetFilters,
@@ -16,14 +16,14 @@ import {
 import "./FiltersSidebar.css";
 import { Checkboxes } from "../Checkboxes/Checkboxes.jsx";
 import { RadioOptions } from "../RadioOptions/RadioOptions.jsx";
-import { setFlag } from "../../../redux/flags.js";
+import { setFlag } from "../../../redux/flags.ts";
 import { WarningCircle } from "../Icons/WarningCircle.jsx";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { Arrow } from "../Icons/Arrow.jsx";
 import "./FiltersSidebar.css";
-import { SortIcon } from "../Icons/SortIcon.jsx";
+import { SortIcon } from "../Icons/SortIcon.tsx";
 import { RadioIcon } from "../Icons/RadioIcon.jsx";
-import { setViewType } from "../../../redux/view.js";
+import { setViewType } from "../../../redux/view.ts";
 import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "../../../hooks/useSearchParams";

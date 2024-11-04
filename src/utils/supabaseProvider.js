@@ -2,16 +2,16 @@ import { createClient } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function SupabaseProvider({ children }: { children}) {
+export function SupabaseProvider({ children }) {
   const supabase = createClient(
     "https://mrczauafzaqkmjtqioan.supabase.co",
     import.meta.env.VITE_SUPABASE_API_KEY,
     { multiTab: false }
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const onAuthStateChange = (callback: (event) => void) => {
-    let currentSession: Session | null;
+  const onAuthStateChange = (callback) => {
+    let currentSession;
     return supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user?.id == currentSession?.user?.id) return;
       currentSession = session;
@@ -25,10 +25,10 @@ export function SupabaseProvider({ children }: { children}) {
     } = onAuthStateChange((event) => {
       switch (event) {
         case "SIGNED_OUT":
-          navigate("auth/login")
+          navigate("auth/login");
           break;
         case "SIGNED_IN":
-          navigate("/")
+          navigate("/");
           break;
         default:
           // router.refresh()

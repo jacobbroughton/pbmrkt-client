@@ -8,16 +8,16 @@ import {
   isValidPhoneNumber,
 } from "../../../utils/usefulFunctions";
 import { supabase } from "../../../utils/supabase";
-import { setUser } from "../../../redux/auth.js";
+import { setUser } from "../../../redux/auth.ts";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
 import { XIcon } from "../Icons/XIcon";
 import "./EditUserProfileModal.css";
 import { MagicWand } from "../Icons/MagicWand.jsx";
 import { Arrow } from "../Icons/Arrow.jsx";
-import { SortIcon } from "../Icons/SortIcon.jsx";
+import { SortIcon } from "../Icons/SortIcon.tsx";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
-// import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationSearch.jsx";
+// import MapboxLocationSearch from "../MapboxLocationSearch/MapboxLocationsearch.tsx";
 
 export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const dispatch = useDispatch();

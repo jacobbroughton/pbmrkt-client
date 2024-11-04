@@ -409,6 +409,7 @@ s .item .details p {
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 0.875rem;
 }
 
 /* No details Advice */

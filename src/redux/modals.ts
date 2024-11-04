@@ -21,6 +21,8 @@ const initialState = {
   deleteModalToggled: false,
   contactSellerModalToggled: false,
   contactBuyerModalToggled: false,
+  feedbackModalToggled: false,
+  bugModalToggled: false,
 };
 
 const modalsSlice = createSlice({
@@ -38,7 +40,7 @@ const modalsSlice = createSlice({
         [`${key}Toggled`]: value,
       };
     },
-    closeAllModals: (state, { payload }) => {
+    closeAllModals: () => {
       return {
         ...initialState,
         filtersSidebarToggled: false,

@@ -1,43 +1,45 @@
-import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
-import { Listings } from "./components/pages/Home/Home";
-import { Navbar } from "./components/ui/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSession, setUser } from "./redux/auth.js";
-import { Sell } from "./components/pages/Sell/Sell.jsx";
+import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { CreateWantedItem } from "./components/pages/CreateWantedItem/CreateWantedItem.jsx";
+import { Listings } from "./components/pages/Home/Home.jsx";
 import { Item } from "./components/pages/Item/Item.jsx";
-import { supabase } from "./utils/supabase";
 import { Login } from "./components/pages/Login/Login.jsx";
 import { Register } from "./components/pages/Register/Register.jsx";
-import { UserProfile } from "./components/pages/UserProfile/UserProfile.jsx";
 import { ResetPassword } from "./components/pages/ResetPassword/ResetPassword.jsx";
+import { Sell } from "./components/pages/Sell/Sell.jsx";
 import { UpdatePassword } from "./components/pages/UpdatePassword/UpdatePassword.jsx";
+import { UserProfile } from "./components/pages/UserProfile/UserProfile.jsx";
+import { WantedItem } from "./components/pages/WantedItem/WantedItem.jsx";
+import BugModal from "./components/ui/BugModal/BugModal.jsx";
+import { ErrorBanner } from "./components/ui/ErrorBanner/ErrorBanner.tsx";
+import FeedbackModal from "./components/ui/FeedbackModal/FeedbackModal.jsx";
 import { LoadingOverlay } from "./components/ui/LoadingOverlay/LoadingOverlay.jsx";
-import { isOnMobile } from "./utils/usefulFunctions";
-import { MobileBottomNav } from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
 import { LoginModal } from "./components/ui/LoginModal/LoginModal.jsx";
+import { MobileBottomNav } from "./components/ui/MobileBottomNav/MobileBottomNav.jsx";
+import { Navbar } from "./components/ui/Navbar/Navbar.jsx";
 import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
 import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
-import FeedbackModal from "./components/ui/FeedbackModal/FeedbackModal.jsx";
-import BugModal from "./components/ui/BugModal/BugModal.jsx";
 import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
-import { CreateWantedItem } from "./components/pages/CreateWantedItem/CreateWantedItem.jsx";
-import { WantedItem } from "./components/pages/WantedItem/WantedItem.jsx";
-import { ErrorBanner } from "./components/ui/ErrorBanner/ErrorBanner";
-import { MobileSearchBar } from "./components/ui/MobileSearchBar/MobileSearchBar";
+import { setSession, setUser } from "./redux/auth.ts";
+import { supabase } from "./utils/supabase.ts";
+import { isOnMobile } from "./utils/usefulFunctions.js";
 
 export function App() {
   const dispatch = useDispatch();
 
-  const session = useSelector((state) => state.auth.session);
-  const resetPasswordModalToggled = useSelector(
-    (state) => state.modals.resetPasswordModalToggled
+  const session = useSelector(state => state.auth.session);
+
+  const {
+    resetPasswordModalToggled,
+    registerModalToggled,
+    loginModalToggled,
+    feedbackModalToggled,
+    bugModalToggled,
+  } = useSelector(state => state.modals);
+  const searchModalToggled = useSelector(
+    state => state.modals.searchModalToggled
   );
-  const registerModalToggled = useSelector((state) => state.modals.registerModalToggled);
-  const loginModalToggled = useSelector((state) => state.modals.loginModalToggled);
-  const bugModalToggled = useSelector((state) => state.modals.bugModalToggled);
-  const feedbackModalToggled = useSelector((state) => state.modals.feedbackModalToggled);
-  const searchModalToggled = useSelector((state) => state.modals.searchModalToggled);
   const navigate = useNavigate();
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,13 +61,11 @@ export function App() {
         return;
       }
 
-      const { data: data2, error: error2 } = supabase.storage
+      const { data: data2 } = supabase.storage
         .from("profile_pictures")
         .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
 
-      if (error2) throw error2.message;
-
-      let newUser = {
+      const newUser = {
         ...passedSession.user,
         ...data[0],
         profile_picture_url: data2.publicUrl,
@@ -84,7 +84,7 @@ export function App() {
       setSessionLoading(false);
     } catch (error) {
       console.error(error);
-      setError(error);
+      setError(error.toString());
       setSessionLoading(false);
     }
   }
@@ -156,7 +156,9 @@ export function App() {
   }, []);
 
   if (sessionLoading)
-    return <LoadingOverlay message={"Loading..."} verticalAlignment={"center"} />;
+    return (
+      <LoadingOverlay message={"Loading..."} verticalAlignment={"center"} zIndex={3} />
+    );
 
   const PrivateRoutes = () => {
     const userAuthenticated = session && !sessionLoading;

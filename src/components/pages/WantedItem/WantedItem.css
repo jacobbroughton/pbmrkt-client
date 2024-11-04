@@ -57,7 +57,7 @@
   flex-direction: column;
 }
 
-.wanted-item > .images-and-content > .content >.header-buttons > button {
+.wanted-item > .images-and-content > .content > .header-buttons > button {
   border-radius: 3px;
   border: 1px solid #555;
   padding: 3px 5px;
@@ -403,7 +403,6 @@ s .wanted-item .details p {
   /* border: 1px solid grey; */
   /* border-radius: 3px; */
   /* max-width: 375px; */
-  border: var(--yellow) 2px solid;
   background-color: #2f2f2f;
   border: #444 1px solid;
   border-radius: 3px;
@@ -435,15 +434,13 @@ s .wanted-item .details p {
 }
 
 .wanted-item .images-and-content .content .no-details-warning svg {
-  fill: var(--red);
+  fill: orange;
   width: 15px;
 }
 
 /* No details were provided */
 .wanted-item .images-and-content .content .no-details-warning p:first-child {
-  font-size: 1rem;
-  /* border-left: 3px solid var(--yellow); */
-  /* padding-left: 5px; */
+  font-size: 0.875rem;
   font-weight: 500;
   display: flex;
   align-items: center;

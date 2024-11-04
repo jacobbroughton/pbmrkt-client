@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState: { session: null | object; user: null | object; loading: boolean } = {
+  session: null,
+  user: null,
+  loading: true,
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    session: null,
-    user: null,
-    loading: true,
-  },
+  initialState,
   reducers: {
     setSession: (state, { payload }) => {
       return {

@@ -1,6 +1,6 @@
 import { matchRoutes, useLocation } from "react-router-dom";
 
-export function capitalizeWords(str: string) {
+export function capitalizeWords(str) {
   return str
     .toLowerCase()
     .split(" ")
@@ -8,7 +8,7 @@ export function capitalizeWords(str: string) {
     .join(" ");
 }
 
-export function determineStarFillArray(sellerRating: number) {
+export function determineStarFillArray(sellerRating) {
   const stars = ["empty", "empty", "empty", "empty", "empty"];
 
   if (sellerRating) {
@@ -49,7 +49,7 @@ export function getTimeAgo(date) {
   return "just now";
 }
 
-export function formatDollars(dollars: number) {
+export function formatDollars(dollars) {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -98,33 +98,33 @@ export function nestItemCategories(flatCategories, defaultCheckedID) {
   return nest(null);
 }
 
-type FlatCategoryType = {
-  created_at: string;
-  id: number;
-  is_deleted: boolean;
-  is_folder: boolean;
-  num_results: number;
-  parent_id: number | number;
-  plural_name: string;
-  singular_name: string;
-};
+// type FlatCategoryType = {
+//   created_at: string;
+//   id: number;
+//   is_deleted: boolean;
+//   is_folder: boolean;
+//   num_results: number;
+//   parent_id: number | number;
+//   plural_name: string;
+//   singular_name: string;
+// };
 
-interface NestedCategoryType extends FlatCategoryType {
-  toggled: boolean;
-  checked: boolean;
-  children: NestedCategoryType[];
-}
+// interface NestedCategoryType extends FlatCategoryType {
+//   toggled: boolean;
+//   checked: boolean;
+//   children: NestedCategoryType[];
+// }
 
 export function nestItemCategoriesExperimental(
-  flatCategories: FlatCategoryType[],
-  defaultCheckedID: null | number
+  flatCategories,
+  defaultCheckedID
 ) {
   console.log({ flatCategories });
   const pathArr = [];
-  let lastParentId: number | null = null;
+  let lastParentId = null;
   let preSelectedCategory = null;
 
-  function nest(parentId: number | null): NestedCategoryType[] {
+  function nest(parentId){
     let self = null;
 
     if (parentId && parentId == lastParentId) {

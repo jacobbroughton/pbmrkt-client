@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 import {
   resetFilter,
   resetFilters,
   setFilters,
   setFiltersUpdated,
 } from "../../../redux/filters.js";
-import { setFlag } from "../../../redux/flags.js";
-import { toggleModal } from "../../../redux/modals.js";
-import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
-import { setViewLayout, setViewType } from "../../../redux/view.js";
-import { supabase } from "../../../utils/supabase";
+import { setFlag } from "../../../redux/flags.ts";
+import { toggleModal } from "../../../redux/modals.ts";
+import { setOverviewCategories } from "../../../redux/overviewCategories.js";
+import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.ts";
+import { RootState } from "../../../redux/store.ts";
+import { setViewLayout, setViewType } from "../../../redux/view.ts";
+import { supabase } from "../../../utils/supabase.ts";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
@@ -19,20 +22,17 @@ import {
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
-} from "../../../utils/usefulFunctions";
-import { useWindowSize } from "../../../utils/useWindowSize";
+} from "../../../utils/usefulFunctions.js";
+import { useWindowSize } from "../../../utils/useWindowSize.js";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
 import { ForSaleViews } from "../../ui/ForSaleViews/ForSaleViews.jsx";
-import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
+import { MobileSearchBar } from "../../ui/MobileSearchBar/MobileSearchBar.jsx";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
-import "./Home.css";
+import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
-import { setOverviewCategories } from "../../../redux/overviewCategories.js";
-import { useSearchParams } from "../../../hooks/useSearchParams";
-import { MobileSearchBar } from "../../ui/MobileSearchBar/MobileSearchBar";
-import { SortSelect } from "../../ui/SortSelect/SortSelect";
+import "./Home.css";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -169,7 +169,7 @@ export function Listings() {
     }
   }
 
-  let filterTags = [
+  const filterTags = [
     {
       label: `Search:`,
       value: `${search.savedSearchValue}`,

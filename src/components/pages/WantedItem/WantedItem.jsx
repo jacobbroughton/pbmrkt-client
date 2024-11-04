@@ -251,26 +251,10 @@ export function WantedItem() {
                     <WarningTriangle /> No details were provided
                   </p>
                   <p>
-                    Make sure to request more info from the seller prior to purchasing, so
-                    there are no surprises.
+                    Make sure to be clear to the buyer about what it is you're selling. E.g. condition, extra shipping cost, etc..
                   </p>
                 </div>
               )}
-
-              {/* <MetadataTable
-                rows={[
-                  { label: "Condition", values: [{ text: item.info.condition }] },
-                  { label: "Shipping", values: [{ text: item.info.shipping }] },
-                  { label: "Negotiable", values: [{ text: item.info.negotiable }] },
-                  {
-                    label: "Trades",
-                    values: [
-                      { text: item.info.trades },
-                      { text: `"${item.info.accepted_trades}"`, style: "italic" },
-                      ],
-                      },
-                      ]}
-                      /> */}
 
               <ProfileBadge
                 userInfo={{

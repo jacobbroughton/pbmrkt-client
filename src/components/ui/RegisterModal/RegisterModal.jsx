@@ -1,26 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import "./RegisterModal.css";
+import { useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
-import { Link, useNavigate } from "react-router-dom";
-// import { setUser } from "../../../redux/auth";
+import "./RegisterModal.css";
 import { useDispatch, useSelector } from "react-redux";
-import { supabase } from "../../../utils/supabase";
-import { setSession } from "../../../redux/auth";
-import { EyeIcon } from "../../ui/Icons/EyeIcon";
-import { Chevron } from "../../ui/Icons/Chevron";
 import { toggleModal } from "../../../redux/modals";
-import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import {
-  capitalizeWords,
-  isValidEmail,
-  isValidUsername,
-} from "../../../utils/usefulFunctions";
-import { Footer } from "../../ui/Footer/Footer.jsx";
-import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
-import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
-import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons.jsx";
 import { smoothScrollOptions } from "../../../utils/constants.js";
+import { supabase } from "../../../utils/supabase";
+import { isValidEmail, isValidUsername } from "../../../utils/usefulFunctions";
+import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
+import { Chevron } from "../../ui/Icons/Chevron";
+import { EyeIcon } from "../../ui/Icons/EyeIcon";
+import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons.jsx";
 
 export const RegisterModal = () => {
   const navigate = useNavigate();
@@ -335,7 +326,12 @@ export const RegisterModal = () => {
                     />
                   </div>
                 </fieldset>
-                <CityStateFieldset />
+                <CityStateFieldset
+                  state={state}
+                  city={city}
+                  setCity={setCity}
+                  setState={setState}
+                />
                 <div className="form-group">
                   <label htmlFor="phone-number">Phone Number</label>
                   <input

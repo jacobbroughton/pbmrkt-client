@@ -17,7 +17,7 @@ import {
   isValidUsername,
 } from "../../../utils/usefulFunctions";
 import { Footer } from "../../ui/Footer/Footer.jsx";
-import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
+import { SortIcon } from "../../ui/Icons/SortIcon.tsx";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
 
 export const Register = () => {
@@ -308,7 +308,12 @@ export const Register = () => {
                   />
                 </div>
 
-                <CityStateFieldset />
+                <CityStateFieldset
+                  state={state}
+                  city={city}
+                  setCity={setCity}
+                  setState={setState}
+                />
               </div>
             )}
           </div>
@@ -343,7 +348,6 @@ export const Register = () => {
           />
         )}
       </div>
-
     </>
   );
 };

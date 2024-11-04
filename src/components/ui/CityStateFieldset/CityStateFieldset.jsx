@@ -5,9 +5,7 @@ import { capitalizeWords } from "../../../utils/usefulFunctions";
 import { Arrow } from "../Icons/Arrow";
 import "./CityStateFieldset.css";
 
-export const CityStateFieldset = () => {
-  const [state, setState] = useState(null);
-  const [city, setCity] = useState(null);
+export const CityStateFieldset = ({ state, city, setCity, setState }) => {
   const [cantFindCity, setCantFindCity] = useState(false);
 
   return (

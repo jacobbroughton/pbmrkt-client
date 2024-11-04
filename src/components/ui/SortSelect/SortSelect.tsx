@@ -1,4 +1,4 @@
-import { SortIcon } from "../Icons/SortIcon";
+import { SortIcon } from "../Icons/SortIcon.tsx";
 import "./SortSelect.css";
 export function SortSelect({
   sort,

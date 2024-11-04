@@ -16,7 +16,7 @@ import { WantedListingList } from "../WantedListingList/WantedListingList";
 import { WantedOverview } from "../WantedOverview/WantedOverview";
 
 export function WantedViews({ sort, setTotalListings }) {
-  const overviewCategories = useSelector(state => state.overviewCategories)
+  const overviewCategories = useSelector((state) => state.overviewCategories);
   const view = useSelector((state) => state.view);
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
@@ -26,6 +26,13 @@ export function WantedViews({ sort, setTotalListings }) {
   const flags = useSelector((state) => state.flags);
   const windowSize = useWindowSize();
 
+  const [listings, setListings] = useState([]);
+  const [listingsLoading, setListingsLoading] = useState(true);
+  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (filters.filtersUpdated) getListings(search.savedSearchValue);
   }, [filters.filtersUpdated]);
@@ -33,13 +40,6 @@ export function WantedViews({ sort, setTotalListings }) {
   useEffect(() => {
     if (flags.searchedListingsNeedUpdate) getListings(search.savedSearchValue);
   }, [flags.searchedListingsNeedUpdate]);
-
-  const [listings, setListings] = useState([]);
-  const [listingsLoading, setListingsLoading] = useState(true);
-  const [listingsInitiallyLoading, setListingsInitiallyLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch();
 
   async function getListings(searchValue = "") {
     try {
@@ -77,8 +77,6 @@ export function WantedViews({ sort, setTotalListings }) {
           profile_picture: data.publicUrl,
         };
       });
-
-      console.log(data);
 
       setListings(data);
 

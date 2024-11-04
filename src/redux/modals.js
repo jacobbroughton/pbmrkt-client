@@ -31,7 +31,10 @@ const modalsSlice = createSlice({
       const { key, value, closeAll = false } = payload;
       return {
         ...state,
-        ...(closeAll && initialState),
+        ...(closeAll && {
+          ...initialState,
+          filtersSidebarToggled: state.filtersSidebarToggled,
+        }),
         [`${key}Toggled`]: value,
       };
     },

@@ -130,13 +130,10 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                     ) : (
                       false
                     )}
-
                     <p className="time-ago">{getTimeAgo(new Date(notif.created_at))}</p>
                   </div>
                   <div
-                    className={`read-circle ${
-                      notif.is_read ? "read" : "unread"
-                    }`}
+                    className={`read-circle ${notif.is_read ? "read" : "unread"}`}
                     title={`This notification${
                       notif.status == "Read"
                         ? `was read at ${notif.read_at}`

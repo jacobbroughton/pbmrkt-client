@@ -127,6 +127,8 @@ export function WantedViews({ sort, setTotalListings }) {
 
   // if (subsequentlyLoading) return <p>Subsequently loooooaaaaddddddiiiiiiinnnnnggggg</p>
 
+  console.log({listings})
+
   return error ? (
     <p className="small-text error-text">{error}</p>
   ) : isInitiallyLoading ? (

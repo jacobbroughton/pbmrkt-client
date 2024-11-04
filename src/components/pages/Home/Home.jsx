@@ -39,13 +39,10 @@ export function Listings() {
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
   );
-  const flags = useSelector((state) => state.flags);
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
 
-  // const [categories, setCategories] = useState(null);
-  // const [initialCategories, setInitialCategories] = useState(null);
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
@@ -82,7 +79,7 @@ export function Listings() {
         );
         dispatch(setFiltersUpdated(true));
         dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
-        if (view.layout == "Overview") dispatch(setViewLayout({ layout: "Grid" }));
+        if (view.layout == "Overview") dispatch(setViewLayout("Grid"));
       }
     } catch (error) {
       console.error(error);
@@ -420,7 +417,9 @@ export function Listings() {
                   ...filters.draft,
                   [view.type]: {
                     ...filters.draft[view.type],
-                    categories: expandAllCategoryFolders(categories),
+                    categories: expandAllCategoryFolders(
+                      filters.saved[view.type].categories
+                    ),
                   },
                 },
               })
@@ -434,7 +433,9 @@ export function Listings() {
                   ...filters.draft,
                   [view.type]: {
                     ...filters.draft[view.type],
-                    categories: collapseAllCategoryFolders(categories),
+                    categories: collapseAllCategoryFolders(
+                      filters.saved[view.type].categories
+                    ),
                   },
                 },
               })

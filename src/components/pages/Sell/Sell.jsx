@@ -946,7 +946,6 @@ export const Sell = () => {
               categories={categories.draft.all}
               setCategories={setCategories}
               handleCategoryClick={(category) => {
-                // setSelectedCategory(category);
                 if (category.is_folder) {
                   setCategories({
                     ...categories,

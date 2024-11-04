@@ -206,7 +206,7 @@ const filtersSlice = createSlice({
             [viewType]: {
               ...state.draft[viewType],
               category: initialFilters[viewType].category,
-              categories: resetCategories(state.saved.categories),
+              categories: resetCategories(state.saved[viewType].categories),
             },
           },
           saved: {
@@ -214,7 +214,7 @@ const filtersSlice = createSlice({
             [viewType]: {
               ...state.saved[viewType],
               category: initialFilters[viewType].category,
-              categories: resetCategories(state.saved.categories),
+              categories: resetCategories(state.saved[viewType].categories),
             },
           },
         };

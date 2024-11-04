@@ -209,6 +209,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                 ))}
               </div>
             </div>
+
             <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
               <div className="label-and-reset">
                 <label>Category</label>
@@ -228,15 +229,19 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                 )}
               </div>
 
-              <SelectCategoryToggle
-                handleOnClick={() =>
-                  dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
-                }
-                label={filters.saved[view.type].category?.plural_name}
-                noCategorySelected={!filters.saved[view.type].category}
-                title="Click this to open a menu and select an item category to filter your results on"
-                emptyLabel="Markers/Barrels/Etc"
-              />
+              {view.layout === "Overview" ? (
+                <p className='small-text'>Only on Grid & List views</p>
+              ) : (
+                <SelectCategoryToggle
+                  handleOnClick={() =>
+                    dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
+                  }
+                  label={filters.saved[view.type].category?.plural_name}
+                  noCategorySelected={!filters.saved[view.type].category}
+                  title="Click this to open a menu and select an item category to filter your results on"
+                  emptyLabel="Markers/Barrels/Etc"
+                />
+              )}
             </div>
             {view.type === "Wanted" ? (
               <>

@@ -3,7 +3,7 @@ import { useWindowSize } from "../../../utils/useWindowSize.js";
 import { DoubleArrow } from "../Icons/DoubleArrow.jsx";
 import { UndoIcon } from "../Icons/UndoIcon";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { capitalizeWords, isOnMobile } from "../../../utils/usefulFunctions.js";
+import { capitalizeWords, isOnMobile } from "../../../utils/usefulFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals.js";
 import {
@@ -25,15 +25,16 @@ import { SortIcon } from "../Icons/SortIcon.jsx";
 import { RadioIcon } from "../Icons/RadioIcon.jsx";
 import { setViewType } from "../../../redux/view.js";
 import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle.jsx";
+import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "../../../hooks/useSearchParams";
 
 export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
+  const { searchParams, addSearchParam } = useSearchParams();
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
-  const { filtersSidebarToggled } = useSelector((state) => state.modals);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
-  const [sidebarTogglePositionY, setSidebarTogglePositionY] = useState(50); // percentage
 
   useEffect(() => {
     if (windowSize.width > 625) {
@@ -193,6 +194,9 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     onClick={() => {
                       localStorage.setItem("pbmrkt_view_type", viewType.label);
                       dispatch(setViewType(viewType.label));
+
+                      // navigate(`/${viewType.class}`);
+                      addSearchParam("view-type", viewType.class);
                     }}
                   >
                     <RadioIcon checked={view.type == viewType.label} />{" "}

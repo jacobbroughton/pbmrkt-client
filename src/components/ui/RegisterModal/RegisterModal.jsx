@@ -15,7 +15,7 @@ import {
   capitalizeWords,
   isValidEmail,
   isValidUsername,
-} from "../../../utils/usefulFunctions.js";
+} from "../../../utils/usefulFunctions";
 import { Footer } from "../../ui/Footer/Footer.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.jsx";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";

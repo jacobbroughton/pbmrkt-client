@@ -9,7 +9,7 @@ import {
 import { setFlag } from "../../../redux/flags.js";
 import { toggleModal } from "../../../redux/modals.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
-import { setViewLayout } from "../../../redux/view.js";
+import { setViewLayout, setViewType } from "../../../redux/view.js";
 import { supabase } from "../../../utils/supabase";
 import {
   collapseAllCategoryFolders,
@@ -18,7 +18,7 @@ import {
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
-} from "../../../utils/usefulFunctions.js";
+} from "../../../utils/usefulFunctions";
 import { useWindowSize } from "../../../utils/useWindowSize";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
@@ -29,6 +29,7 @@ import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import "./Home.css";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
+import { useSearchParams } from "../../../hooks/useSearchParams";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export function Listings() {
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
 
+  const {searchParams, addSearchParam} = useSearchParams();
   const [sort, setSort] = useState("Date Listed (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
@@ -58,6 +60,32 @@ export function Listings() {
       setSidebarNeedsUpdate(false);
     }
   }, [windowSize.width]);
+
+  useEffect(() => {
+    const viewTypeFromSearchRaw = searchParams.get("view-type");
+    const viewLayoutFromSearchRaw = searchParams.get("view-layout");
+
+    const viewTypeFromSearch = viewTypeFromSearchRaw === "wanted" ? "Wanted" : "For Sale";
+    const viewLayoutFromSearch =
+      viewLayoutFromSearchRaw === "overview"
+        ? "Overview"
+        : viewLayoutFromSearchRaw === "grid"
+        ? "Grid"
+        : viewLayoutFromSearchRaw === "list"
+        ? "List"
+        : "Overview";
+
+    if (viewTypeFromSearch !== view.type) dispatch(setViewType(viewTypeFromSearch));
+
+    if (viewLayoutFromSearch !== view.layout)
+      dispatch(setViewLayout(viewLayoutFromSearch));
+  }, [searchParams.get("view-type"), searchParams.get('view-layout')]);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     setViewLayout(searchParams.get("view-type") === "wanted" ? "Wanted" : "For Sale")
+  //   );
+  // }, [searchParams.get("view-type")]);
 
   function handleCategorySelectorApply() {
     try {
@@ -93,7 +121,6 @@ export function Listings() {
   }, []);
 
   useEffect(() => {
-    console.log("Swag");
     getItemCategories(view.type);
   }, [sort]);
 
@@ -306,6 +333,7 @@ export function Listings() {
                   onClick={() => {
                     localStorage.setItem("pbmrkt_view_layout", viewOption);
                     dispatch(setViewLayout(viewOption));
+                    addSearchParam("view-layout", viewOption.toLowerCase());
                   }}
                   className={`view-option ${viewOption == view.layout ? "selected" : ""}`}
                   key={viewOption}

@@ -1,4 +1,6 @@
-export function capitalizeWords(str) {
+import { matchRoutes, useLocation } from "react-router-dom";
+
+export function capitalizeWords(str: string) {
   return str
     .toLowerCase()
     .split(" ")
@@ -6,8 +8,8 @@ export function capitalizeWords(str) {
     .join(" ");
 }
 
-export function determineStarFillArray(sellerRating) {
-  let stars = ["empty", "empty", "empty", "empty", "empty"];
+export function determineStarFillArray(sellerRating: number) {
+  const stars = ["empty", "empty", "empty", "empty", "empty"];
 
   if (sellerRating) {
     let remainingRating = sellerRating;
@@ -36,7 +38,7 @@ export function getTimeAgo(date) {
     second: { suffix: "s", value: 1 },
   };
 
-  for (const [unit, info] of Object.entries(intervals)) {
+  for (const [, info] of Object.entries(intervals)) {
     const count = Math.floor(seconds / info.value);
     if (count > 0) {
       // return `${count}${determinePrefix(unit.charAt(0))} ago`;
@@ -47,7 +49,7 @@ export function getTimeAgo(date) {
   return "just now";
 }
 
-export function formatDollars(dollars) {
+export function formatDollars(dollars: number) {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -56,8 +58,6 @@ export function formatDollars(dollars) {
 
   return formatter.format(dollars);
 }
-
-import { matchRoutes, useLocation } from "react-router-dom";
 
 const routes = [{ path: "/members/:id" }];
 
@@ -69,7 +69,7 @@ export const useCurrentPath = () => {
 };
 
 export function nestItemCategories(flatCategories, defaultCheckedID) {
-  let pathArr = [];
+  const pathArr = [];
   let lastParentId = null;
 
   function nest(parentId) {
@@ -98,17 +98,39 @@ export function nestItemCategories(flatCategories, defaultCheckedID) {
   return nest(null);
 }
 
-export function nestItemCategoriesExperimental(flatCategories, defaultCheckedID) {
-  let pathArr = [];
-  let lastParentId = null;
+type FlatCategoryType = {
+  created_at: string;
+  id: number;
+  is_deleted: boolean;
+  is_folder: boolean;
+  num_results: number;
+  parent_id: number | number;
+  plural_name: string;
+  singular_name: string;
+};
+
+interface NestedCategoryType extends FlatCategoryType {
+  toggled: boolean;
+  checked: boolean;
+  children: NestedCategoryType[];
+}
+
+export function nestItemCategoriesExperimental(
+  flatCategories: FlatCategoryType[],
+  defaultCheckedID: null | number
+) {
+  console.log({ flatCategories });
+  const pathArr = [];
+  let lastParentId: number | null = null;
   let preSelectedCategory = null;
 
-  function nest(parentId) {
+  function nest(parentId: number | null): NestedCategoryType[] {
     let self = null;
 
     if (parentId && parentId == lastParentId) {
       self = flatCategories.find((cat) => cat.id == parentId);
-      pathArr.push(self.value);
+      console.log("here!! self:", self);
+      if (self) pathArr.push(self.value);
     }
 
     const children = flatCategories.filter((cat) => cat.parent_id == parentId);
@@ -132,7 +154,7 @@ export function nestItemCategoriesExperimental(flatCategories, defaultCheckedID)
 }
 
 export function toggleCategoryFolder(clickedFolder, nestedCategories) {
-  let categories = [...nestedCategories];
+  const categories = [...nestedCategories];
 
   function searchCategories(categoriesToSearch) {
     return categoriesToSearch.map((cat) => {
@@ -148,7 +170,7 @@ export function toggleCategoryFolder(clickedFolder, nestedCategories) {
 }
 
 export function setCategoryChecked(clickedCategory, nestedCategories) {
-  let categories = [...nestedCategories];
+  const categories = [...nestedCategories];
 
   function searchCategories(categoriesToSearch) {
     return categoriesToSearch.map((cat) => {
@@ -167,7 +189,7 @@ export function setCategoryChecked(clickedCategory, nestedCategories) {
 
 export function collapseAllCategoryFolders(passedCategories) {
   if (!passedCategories || passedCategories?.length == 0) return [];
-  let categories = [...(passedCategories || [])];
+  const categories = [...(passedCategories || [])];
 
   function searchCategories(categoriesToSearch) {
     return categoriesToSearch.map((cat) => {
@@ -187,7 +209,7 @@ export function collapseAllCategoryFolders(passedCategories) {
 export function expandAllCategoryFolders(passedCategories) {
   if (!passedCategories || passedCategories?.length == 0) return [];
 
-  let categories = [...(passedCategories || [])];
+  const categories = [...(passedCategories || [])];
 
   function searchCategories(categoriesToSearch) {
     return categoriesToSearch.map((cat) => {
@@ -206,7 +228,7 @@ export function expandAllCategoryFolders(passedCategories) {
 
 export function resetCategories(passedCategories) {
   if (!passedCategories || passedCategories?.length == 0) return [];
-  let categories = [...(passedCategories || [])];
+  const categories = [...(passedCategories || [])];
 
   function searchCategories(categoriesToSearch) {
     return categoriesToSearch.map((cat) => {

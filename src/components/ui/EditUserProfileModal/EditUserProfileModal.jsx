@@ -6,7 +6,7 @@ import {
   capitalizeWords,
   isValidEmail,
   isValidPhoneNumber,
-} from "../../../utils/usefulFunctions.js";
+} from "../../../utils/usefulFunctions";
 import { supabase } from "../../../utils/supabase";
 import { setUser } from "../../../redux/auth.js";
 import { EditIcon } from "../Icons/EditIcon.jsx";

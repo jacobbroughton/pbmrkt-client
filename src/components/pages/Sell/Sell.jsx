@@ -14,7 +14,7 @@ import {
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
-} from "../../../utils/usefulFunctions.js";
+} from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { Arrow } from "../../ui/Icons/Arrow";

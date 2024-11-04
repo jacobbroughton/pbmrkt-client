@@ -10,7 +10,7 @@ import { setFlag } from "../../../redux/flags.js";
 import { toggleModal } from "../../../redux/modals.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.js";
 import { setViewLayout } from "../../../redux/view.js";
-import { supabase } from "../../../utils/supabase.js";
+import { supabase } from "../../../utils/supabase";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,

@@ -32,20 +32,17 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
   async function handleNotificationRead(notification) {
     try {
-      if (notification.status == "Read") return;
-      const { data, error } = await supabase.rpc("read_notification", {
+      const { error } = await supabase.rpc("read_notification", {
         p_notification_id: notification.id,
       });
 
       if (error) throw error.message;
 
-      if (!data) throw "Something happened when trying to read the notification";
-
       setNotifications(
         notifications.map((notif) => ({
           ...notif,
           ...(notif.id == notification.id && {
-            ...data[0],
+            is_read: true,
           }),
         }))
       );
@@ -90,52 +87,59 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
       <ul>
         {console.log({ notifications })}
         {notifications && notifications?.length != 0 ? (
-          notifications?.map((notification) => {
+          notifications?.map((notif) => {
             const { data, error } = supabase.storage
               .from("profile_pictures")
               .getPublicUrl(
-                notification.profile_picture_path || "placeholders/user-placeholder"
+                notif.actor_profile_picture_path || "placeholders/user-placeholder"
               );
 
             if (error) throw error.message;
 
             const profile_picture_url = data.publicUrl;
             return (
-              <li key={notification.id}>
+              <li key={notif.id}>
                 <Link
-                  to={`/listing/${notification.item_id}`}
+                  to={`/listing/${notif.item_id}`}
                   onClick={() => {
                     dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-                    handleNotificationRead(notification);
+                    if (!notif.is_read) handleNotificationRead(notif);
                   }}
                 >
                   <div className="profile-picture-container">
                     <img className="profile-picture" src={profile_picture_url} />
                   </div>
                   <div className="notification-body">
-                    {notification.type == "Comment" ? (
-                      <p>{notification.username} commented on your post</p>
-                    ) : notification.type == "Reply" ? (
-                      <p>{notification.username} replied to your comment</p>
-                    ) : notification.type == "Up Vote" ? (
-                      <p>{notification.username} liked your comment</p>
-                    ) : notification.type == "Down Vote" ? (
-                      <p>{notification.username} disliked your comment</p>
+                    {notif.entity_type_id == 1 ? (
+                      <p>{notif.actor_username} commented on your post</p>
+                    ) : notif.entity_type_id == 2 ? (
+                      <p>{notif.actor_username} replied to your comment</p>
+                    ) : notif.entity_type_id == 3 ? (
+                      <p>{notif.actor_username} liked your comment</p>
+                    ) : notif.entity_type_id == 4 ? (
+                      <p>{notif.actor_username} disliked your comment</p>
+                    ) : notif.entity_type_id == 5 ? (
+                      <p>
+                        {notif.actor_username} sent you an inquiry for your 'Wanted' post
+                      </p>
+                    ) : notif.entity_type_id == 6 ? (
+                      <p>
+                        {notif.actor_username} sent you an inquiry for your 'For sale'
+                        post'
+                      </p>
                     ) : (
                       false
                     )}
 
-                    <p className="time-ago">
-                      {getTimeAgo(new Date(notification.created_at))}
-                    </p>
+                    <p className="time-ago">{getTimeAgo(new Date(notif.created_at))}</p>
                   </div>
                   <div
                     className={`read-circle ${
-                      notification.status == "Read" ? "read" : "unread"
+                      notif.is_read ? "read" : "unread"
                     }`}
                     title={`This notification${
-                      notification.status == "Read"
-                        ? `was read at ${notification.read_at}`
+                      notif.status == "Read"
+                        ? `was read at ${notif.read_at}`
                         : " has not been read yet"
                     }`}
                   ></div>

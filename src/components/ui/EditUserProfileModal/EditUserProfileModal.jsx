@@ -7,7 +7,7 @@ import {
   isValidEmail,
   isValidPhoneNumber,
 } from "../../../utils/usefulFunctions.js";
-import { supabase } from "../../../utils/supabase.js";
+import { supabase } from "../../../utils/supabase";
 import { setUser } from "../../../redux/auth.js";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";

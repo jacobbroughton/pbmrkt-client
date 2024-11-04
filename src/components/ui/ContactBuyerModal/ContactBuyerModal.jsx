@@ -8,8 +8,10 @@ import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
 import "./ContactBuyerModal.css";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ContactBuyerModal = ({ contactInfo }) => {
+  const { createNotification } = useNotification();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [fullName, setFullName] = useState(
@@ -42,6 +44,13 @@ const ContactBuyerModal = ({ contactInfo }) => {
       });
 
       if (error) throw error.message;
+
+      await createNotification(
+        user?.auth_id,
+        contactInfo.created_by_id,
+        contactInfo.id,
+        5
+      );
 
       setFullName("");
       setEmail("");
@@ -169,9 +178,13 @@ const ContactBuyerModal = ({ contactInfo }) => {
               />
             )}
 
-            {user ? <button type="submit" disabled={submitDisabled}>
-              {submitLoading ? "Submitting..." : "Submit"}
-            </button> : <LoginPrompt  message={"to contact this buyer"}/>}
+            {user ? (
+              <button type="submit" disabled={submitDisabled}>
+                {submitLoading ? "Submitting..." : "Submit"}
+              </button>
+            ) : (
+              <LoginPrompt message={"to contact this buyer"} />
+            )}
           </form>
         </div>
       </div>

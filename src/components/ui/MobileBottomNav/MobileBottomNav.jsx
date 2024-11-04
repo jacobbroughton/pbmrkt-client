@@ -135,9 +135,7 @@ export function MobileBottomNav() {
   //   return () => alert("hello")
   // }, [])
 
-  const unreadNotificationCount = notifications?.filter(
-    (notif) => notif.status == "Unread"
-  ).length;
+  const unreadNotificationCount = notifications?.filter((notif) => notif.is_read).length;
 
   return (
     <nav className="mobile-nav">

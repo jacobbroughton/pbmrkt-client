@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession, setUser } from "./redux/auth.js";
 import { Sell } from "./components/pages/Sell/Sell.jsx";
 import { Item } from "./components/pages/Item/Item.jsx";
-import { supabase } from "./utils/supabase.js";
+import { supabase } from "./utils/supabase";
 import { Login } from "./components/pages/Login/Login.jsx";
 import { Register } from "./components/pages/Register/Register.jsx";
 import { UserProfile } from "./components/pages/UserProfile/UserProfile.jsx";

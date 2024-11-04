@@ -12,6 +12,7 @@ import { Arrow } from "../Icons/Arrow";
 import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import { useEffect, useState } from "react";
+import { useNotification } from "../../../hooks/useNotification";
 
 export const Comment = ({
   comment,
@@ -36,6 +37,8 @@ export const Comment = ({
   const [existingVote, setExistingVote] = useState(comment.existing_vote || null);
   const [userVote, setUserVote] = useState(comment.existing_vote || null);
   const [voteNeedsUpdate, setVoteNeedsUpdate] = useState(false);
+
+  const { createNotification } = useNotification();
 
   async function handleUpvote(e, comment) {
     try {
@@ -63,20 +66,24 @@ export const Comment = ({
         setUserVote(null);
       }
 
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "add_comment_notification",
-        {
-          p_message: "Upvoted",
-          p_type: "Up Vote",
-          p_url: "",
-          p_item_id: comment.item_id,
-          p_comment_id: data[0].id,
-          p_user_id: user.auth_id,
-          p_related_user_id: comment.created_by_id,
-        }
-      );
+      // const { data: data2, error: error2 } = await supabase.rpc(
+      //   "add_comment_notification",
+      //   {
+      //     p_message: "Upvoted",
+      //     p_type: "Up Vote",
+      //     p_url: "",
+      //     p_item_id: comment.item_id,
+      //     p_comment_id: data[0].id,
+      //     p_user_id: user.auth_id,
+      //     p_related_user_id: comment.created_by_id,
+      //   }
+      // );
 
-      if (error2) throw error2.message;
+      // if (error2) throw error2.message;
+
+      const commentId = data[0].id
+
+      await createNotification(user.auth_id, comment.created_by_id, commentId, 3)
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);

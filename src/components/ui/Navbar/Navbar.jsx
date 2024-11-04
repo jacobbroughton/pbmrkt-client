@@ -125,7 +125,7 @@ export const Navbar = () => {
   }, [user]);
 
   const unreadNotificationCount = notifications?.filter(
-    (notif) => notif.status == "Unread"
+    (notif) => notif.is_read
   ).length;
 
   return (

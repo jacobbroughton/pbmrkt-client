@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { SendIcon } from "../Icons/SendIcon";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
+import { useNotification } from "../../../hooks/useNotification";
 
 export function ItemCommentsSection({
   itemInfo = { id: null, createdById: null },
@@ -12,6 +13,7 @@ export function ItemCommentsSection({
   },
 }) {
   const { user } = useSelector((state) => state.auth);
+  const { createNotification } = useNotification();
 
   const [newCommentBody, setNewCommentBody] = useState("");
   const [localComments, setLocalComments] = useState(null);
@@ -34,17 +36,7 @@ export function ItemCommentsSection({
 
       if (error) throw error.message;
       if (user.auth_id != itemInfo.id) {
-        const { error: error2 } = await supabase.rpc("add_comment_notification", {
-          p_message: newCommentBody,
-          p_type: "Comment",
-          p_url: "",
-          p_item_id: itemInfo.id,
-          p_comment_id: data[0].id,
-          p_user_id: user.auth_id,
-          p_related_user_id: itemInfo.createdById,
-        });
-
-        if (error2) throw error2.message;
+        await createNotification(user.auth_id, itemInfo.createdById, data[0].id, 1);
       }
       getComments();
       setNewCommentBody("");

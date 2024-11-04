@@ -11,7 +11,6 @@ import { setFlag } from "../../../redux/flags.ts";
 import { toggleModal } from "../../../redux/modals.ts";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.ts";
-import { RootState } from "../../../redux/store.ts";
 import { setViewLayout, setViewType } from "../../../redux/view.ts";
 import { supabase } from "../../../utils/supabase.ts";
 import {

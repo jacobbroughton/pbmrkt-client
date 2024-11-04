@@ -4,6 +4,7 @@ import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import { CommentsIcon } from "../Icons/CommentsIcon";
 import "./CommentsList.css";
+import { useNotification } from "../../../hooks/useNotification";
 
 export const CommentsList = ({
   passedComments,
@@ -17,6 +18,7 @@ export const CommentsList = ({
   commentIdWithRepliesOpening,
   postType,
 }) => {
+  const { createNotification } = useNotification();
   const [localComments, setLocalComments] = useState(passedComments);
   const [commentWithReplyWindowID, setCommentWithReplyWindowID] = useState(null);
   const [newReplyBody, setNewReplyBody] = useState("");
@@ -53,20 +55,7 @@ export const CommentsList = ({
       if (error3) throw error.message;
 
       if (repliedComment.created_by_id != user.auth_id) {
-        const { data: data2, error: error2 } = await supabase.rpc(
-          "add_comment_notification",
-          {
-            p_message: newReplyBody,
-            p_type: "Reply",
-            p_url: "",
-            p_item_id: repliedComment.item_id,
-            p_comment_id: data[0].id,
-            p_user_id: user.auth_id,
-            p_related_user_id: repliedComment.created_by_id,
-          }
-        );
-
-        if (error2) throw error2.message;
+        await createNotification(user.auth_id, repliedComment.createdById, data[0].id, 2);
       }
 
       setCommentWithReplyWindowID(null);

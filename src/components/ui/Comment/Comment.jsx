@@ -66,20 +66,7 @@ export const Comment = ({
         setUserVote(null);
       }
 
-      // const { data: data2, error: error2 } = await supabase.rpc(
-      //   "add_comment_notification",
-      //   {
-      //     p_message: "Upvoted",
-      //     p_type: "Up Vote",
-      //     p_url: "",
-      //     p_item_id: comment.item_id,
-      //     p_comment_id: data[0].id,
-      //     p_user_id: user.auth_id,
-      //     p_related_user_id: comment.created_by_id,
-      //   }
-      // );
-
-      // if (error2) throw error2.message;
+   
 
       const commentId = data[0].id;
 

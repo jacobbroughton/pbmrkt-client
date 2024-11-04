@@ -260,6 +260,7 @@
   > p {
   /* background-color: #D5272D; */
   font-weight: 600;
+  color: white;
 }
 
 .filters > .filter-items .filter-item .select-container {

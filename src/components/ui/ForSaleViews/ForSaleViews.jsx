@@ -126,7 +126,7 @@ export function ForSaleViews({ sort, setTotalListings }) {
   const isSubsequentlyLoading = !isInitialLoad && listingsLoading;
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
 
-  if (isSubsequentlyLoading) return <p>Is subsequently loading</p>;
+  // if (isSubsequentlyLoading) return <p>Is subsequently loading</p>;
 
   return error ? (
     <p className="small-text error-text">{error}</p>

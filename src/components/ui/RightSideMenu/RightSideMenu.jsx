@@ -108,7 +108,7 @@ export const RightSideMenu = () => {
         className="menu-item"
         onClick={() => {
           dispatch(toggleModal({ key: "feedbackModal", value: true }));
-          dispatch(toggleModal({ key: "bugModal", value: true }));
+          dispatch(toggleModal({ key: "bugModal", value: false }));
           dispatch(toggleModal({ key: "rightSideMenu", value: false }));
         }}
       >

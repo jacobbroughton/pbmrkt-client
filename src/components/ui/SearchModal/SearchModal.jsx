@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
-import { Arrow } from "../Icons/Arrow";
-import { toggleModal } from "../../../redux/modals";
-import { SearchIcon } from "../Icons/SearchIcon.tsx";
 import { useEffect, useRef, useState } from "react";
-import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
-import { setFlag } from "../../../redux/flags";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { setFlag } from "../../../redux/flags";
+import { toggleModal } from "../../../redux/modals";
+import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
 import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
-import "./SearchModal.css";
-import { XIcon } from "../Icons/XIcon";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
+import { Arrow } from "../Icons/Arrow";
+import { SearchIcon } from "../Icons/SearchIcon.tsx";
+import { XIcon } from "../Icons/XIcon";
+import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
+import "./SearchModal.css";
 
 export const SearchModal = () => {
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ export const SearchModal = () => {
 
         if (error) throw error.message;
       } else {
-        alert("No user, no search history"); // TODO - fix and delete
+        console.log("No user, no search history"); // TODO - fix and delete
       }
 
       console.log("clicked here swag");
@@ -163,7 +163,7 @@ export const SearchModal = () => {
 
   useEffect(() => {
     if (user) getRecentSearches();
-    if (!isOnMobile()) searchRef.current.focus();
+    searchRef.current.focus();
   }, []);
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);
@@ -279,7 +279,7 @@ export const SearchModal = () => {
         </div>
       </div>
       <ModalOverlay
-        zIndex={6}
+        zIndex={8}
         onClick={() => {
           dispatch(toggleModal({ key: "searchModal", value: false }));
           dispatch(setDraftSearchValue(""));

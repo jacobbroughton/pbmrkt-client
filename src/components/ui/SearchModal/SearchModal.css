@@ -4,7 +4,7 @@
   gap: 15px;
   max-height: 500px;
   max-width: 600px;
-  z-index: 7;
+  z-index: 9;
 }
 
 .search-modal .header {
@@ -216,7 +216,13 @@
   cursor: pointer;
 }
 
-.search-modal .search-results-container .recent-searches ul li .right-side > button:hover {
+.search-modal
+  .search-results-container
+  .recent-searches
+  ul
+  li
+  .right-side
+  > button:hover {
   background-color: #555;
 }
 
@@ -243,7 +249,7 @@
 }
 
 .search-modal .search-results-container ul.listings li:not(:last-child),
-.search-modal .search-results-container ul.listings li:has(:only-child){
+.search-modal .search-results-container ul.listings li:has(:only-child) {
   border-bottom: 1px solid #555;
 }
 
@@ -297,6 +303,10 @@
 
 /* Phones */
 @media only screen and (max-device-width: 480px) {
+  .modal.search-modal {
+    top: 15px;
+  }
+
   .search-modal .search-results-container .search-types-list {
     min-width: 65px;
   }

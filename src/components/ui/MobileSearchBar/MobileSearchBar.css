@@ -1,6 +1,6 @@
 button.search-button {
   width: calc(100% - 20px);
-  border: 1px solid #444;
+  border: 1px solid #555;
   background-color: transparent;
   /* margin: 10px; */
   width: 100%;
@@ -11,9 +11,10 @@ button.search-button {
   align-items: center;
   justify-content: space-between;
   color: grey;
-  border-radius: 20px;
+  border-radius: 5px;
   font-size: 0.875rem;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  box-shadow: #222 0px 2px 8px 0px;
 }
 
 button.search-button > svg {

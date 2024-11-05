@@ -142,20 +142,55 @@ export function Listings() {
 
       dispatch(setOverviewCategories({ flat: data, nested: nestedItemCategories }));
 
+      console.log("getItemCategories", {
+        ...filters,
+        saved: {
+          ...filters.saved,
+          ["Wanted"]: {
+            ...filters.saved["Wanted"],
+            categories: nestedItemCategories,
+          },
+          ["For Sale"]: {
+            ...filters.saved["For Sale"],
+            categories: nestedItemCategories,
+          },
+        },
+        draft: {
+          ...filters.draft,
+          ["Wanted"]: {
+            ...filters.draft["Wanted"],
+            categories: nestedItemCategories,
+          },
+          ["For Sale"]: {
+            ...filters.draft["For Sale"],
+            categories: nestedItemCategories,
+          },
+        },
+        filtersUpdated: false,
+      });
+
       dispatch(
         setFilters({
           ...filters,
           saved: {
             ...filters.saved,
-            [viewType]: {
-              ...filters.saved[viewType],
+            ["Wanted"]: {
+              ...filters.saved["Wanted"],
+              categories: nestedItemCategories,
+            },
+            ["For Sale"]: {
+              ...filters.saved["For Sale"],
               categories: nestedItemCategories,
             },
           },
           draft: {
             ...filters.draft,
-            [viewType]: {
-              ...filters.draft[viewType],
+            ["Wanted"]: {
+              ...filters.draft["Wanted"],
+              categories: nestedItemCategories,
+            },
+            ["For Sale"]: {
+              ...filters.draft["For Sale"],
               categories: nestedItemCategories,
             },
           },

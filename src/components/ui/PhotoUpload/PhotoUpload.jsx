@@ -132,7 +132,7 @@ export function PhotoUpload({
   }
 
   async function handleImageDelete(image) {
-    const { data, error } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_image" : "delete_temp_item_image", {
+    const { data, error } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_image" : "delete_temp_image", {
       p_image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
     });
 
@@ -165,7 +165,7 @@ export function PhotoUpload({
         throw error.message;
       }
 
-      const { error: error2 } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_images" : "delete_temp_item_images", {
+      const { error: error2 } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_images" : "delete_temp_images", {
         p_user_id: user.auth_id,
         p_group_id: generatedGroupId,
       });

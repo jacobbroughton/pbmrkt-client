@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./UpdatePassword.css";
 import { Link, useNavigate } from "react-router-dom";
-import {LoadingOverlay} from "../../ui/LoadingOverlay/LoadingOverlay";
+import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
 
 export const UpdatePassword = () => {
@@ -17,18 +17,21 @@ export const UpdatePassword = () => {
 
       const { data, error } = await supabase.auth.updateUser({ password: newPassword });
 
-      if (error) { console.error(error); throw error.message; }
+      if (error) {
+        console.error(error);
+        throw error.message;
+      }
 
       // navigate("/update-password");
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
     setLoading(false);
   }
 
   return (
-    <div className="reset-password">
+    <main className="reset-password">
       {error && <div className="error-text">{error}</div>}
       <h1>Reset Password</h1>
       <form onSubmit={handleSubmit} className="standard">
@@ -52,6 +55,6 @@ export const UpdatePassword = () => {
         </button>
       </form>
       {loading && <LoadingOverlay message="Updating your password..." />}
-    </div>
+    </main>
   );
 };

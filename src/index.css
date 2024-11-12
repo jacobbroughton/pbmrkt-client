@@ -1,7 +1,6 @@
 html,
 body,
-#root,
-main {
+#root {
   height: 100%;
 }
 :root {
@@ -65,14 +64,6 @@ main {
   outline-color: var(--lightgreen);
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  padding-top: 65px;
-  max-width: 1265px; /* same as stack overflow */
-  margin: 0 auto;
-}
 
 input[type="radio"] {
   accent-color: var(--lightgreen);
@@ -286,7 +277,11 @@ form .select-container {
   display: flex;
   width: 100%;
   position: relative;
-  width: 30px;
+  
+}
+
+form .select-container > select {
+  padding: 5px 10px 5px 30px;
 }
 
 form .form-group .select-container > select.sort-select {
@@ -304,6 +299,7 @@ form .form-group .select-container > select.sort-select {
   z-index: 1;
   border: 1px solid #555;
   width: 100%;
+  padding-left: 30px !important;
   /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
 

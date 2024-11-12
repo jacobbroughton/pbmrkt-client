@@ -135,210 +135,205 @@ export function WantedItem() {
   if (item.info?.is_deleted) return <p>This item was deleted.</p>;
 
   return (
-    <>
-      <div className="wanted-item">
-        <div className="images-and-content">
-          {item.photos.length > 0 && (
-            <ItemImages
-              photos={item.photos}
-              selectedPhoto={selectedPhoto}
-              setSelectedPhoto={setSelectedPhoto}
-            />
-          )}
-          <div className="content">
-            <div className="header-buttons">
+    <main className="wanted-item">
+      <div className="images-and-content">
+        {item.photos.length > 0 && (
+          <ItemImages
+            photos={item.photos}
+            selectedPhoto={selectedPhoto}
+            setSelectedPhoto={setSelectedPhoto}
+          />
+        )}
+        <div className="content">
+          <div className="header-buttons">
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "contactBuyerModal", value: true }))
+              }
+            >
+              Contact
+            </button>
+            {priceChangeHistory?.length >= 1 && (
               <button
                 onClick={() =>
-                  dispatch(toggleModal({ key: "contactBuyerModal", value: true }))
+                  dispatch(toggleModal({ key: "priceChangeModal", value: true }))
                 }
               >
-                Contact
+                Price Change History
               </button>
-              {priceChangeHistory?.length >= 1 && (
+            )}
+            {isAdmin && (
+              <>
                 <button
                   onClick={() =>
-                    dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                    handleStatusChange(
+                      item.info.status == "Still Searching" ? "Sold" : "Still Searching"
+                    )
                   }
                 >
-                  Price Change History
+                  Mark as "
+                  {item.info.status == "Still Searching" ? "Sold" : "Still Searching"}"
                 </button>
-              )}
-              {isAdmin && (
-                <>
-                  <button
-                    onClick={() =>
-                      handleStatusChange(
-                        item.info.status == "Still Searching" ? "Sold" : "Still Searching"
-                      )
-                    }
-                  >
-                    Mark as "
-                    {item.info.status == "Still Searching" ? "Sold" : "Still Searching"}"
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(toggleModal({ key: "deleteModal", value: true }));
-                    }}
-                  >
-                    Delete Listing
-                  </button>
-                  <button
-                    onClick={() =>
-                      dispatch(
-                        toggleModal({
-                          key: "editItemModal",
-                          value: !editItemMenuToggled,
-                        })
-                      )
-                    }
-                  >
-                    Edit/Modify Listing
-                  </button>
-                </>
-              )}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(toggleModal({ key: "deleteModal", value: true }));
+                  }}
+                >
+                  Delete Listing
+                </button>
+                <button
+                  onClick={() =>
+                    dispatch(
+                      toggleModal({
+                        key: "editItemModal",
+                        value: !editItemMenuToggled,
+                      })
+                    )
+                  }
+                >
+                  Edit/Modify Listing
+                </button>
+              </>
+            )}
+          </div>
+          <div className="info">
+            <div className="wanted-poster">
+              <h1>Wanted</h1>
             </div>
-            <div className="info">
-              <div className="wanted-poster">
-                <h1>Wanted</h1>
-              </div>
-              <div className="info-and-contact">
-                <div className="primary-info-and-votes">
-                  {isAdmin && (
-                    <ItemVotes
-                      itemId={item.info.id}
-                      existingVote={existingVote}
-                      setExistingVote={setExistingVote}
-                      votes={votes}
-                      setVotes={setVotes}
-                      postType="Wanted"
-                    />
-                  )}
-                  <div className="primary-info">
-                    <h1>{item.info.title}</h1>
-                    <div className="price-and-toggle">
-                      <p>
-                        <strong>Budget:</strong> ${item.info.budget}
-                      </p>
-                    </div>
-                    <div className="status-as-of-container">
-                      <p
-                        className={`status-as-of ${item.info.status
-                          .split(" ")
-                          .join("-")
-                          .toLowerCase()}`}
-                      >
-                        {item.info.status == "Still Searching" ? (
-                          <CheckIcon />
-                        ) : (
-                          <XIcon />
-                        )}
-                        {item.info.status}
-                      </p>
-                    </div>
+            <div className="info-and-contact">
+              <div className="primary-info-and-votes">
+                {isAdmin && (
+                  <ItemVotes
+                    itemId={item.info.id}
+                    existingVote={existingVote}
+                    setExistingVote={setExistingVote}
+                    votes={votes}
+                    setVotes={setVotes}
+                    postType="Wanted"
+                  />
+                )}
+                <div className="primary-info">
+                  <h1>{item.info.title}</h1>
+                  <div className="price-and-toggle">
+                    <p>
+                      <strong>Budget:</strong> ${item.info.budget}
+                    </p>
+                  </div>
+                  <div className="status-as-of-container">
+                    <p
+                      className={`status-as-of ${item.info.status
+                        .split(" ")
+                        .join("-")
+                        .toLowerCase()}`}
+                    >
+                      {item.info.status == "Still Searching" ? <CheckIcon /> : <XIcon />}
+                      {item.info.status}
+                    </p>
                   </div>
                 </div>
               </div>
-
-              {item.info.description ? (
-                <div className="details">
-                  <label>Details from the seller</label>
-                  <p>{item.info.description}</p>
-                </div>
-              ) : (
-                <div className="no-details-warning">
-                  <p>
-                    <WarningTriangle /> No details were provided
-                  </p>
-                  <p>
-                    Make sure to be clear to the buyer about what it is you're selling. E.g. condition, extra shipping cost, etc..
-                  </p>
-                </div>
-              )}
-
-              <ProfileBadge
-                userInfo={{
-                  profilePictureUrl: item.info.profile_picture_url,
-                  username: item.info.created_by_username,
-                  city: item.info.city,
-                  state: item.info.state,
-                  reviewCount: buyerReviews.count,
-                  rating: item.info.seller_rating,
-                }}
-              />
             </div>
+
+            {item.info.description ? (
+              <div className="details">
+                <label>Details from the seller</label>
+                <p>{item.info.description}</p>
+              </div>
+            ) : (
+              <div className="no-details-warning">
+                <p>
+                  <WarningTriangle /> No details were provided
+                </p>
+                <p>
+                  Make sure to be clear to the buyer about what it is you're selling. E.g.
+                  condition, extra shipping cost, etc..
+                </p>
+              </div>
+            )}
+
+            <ProfileBadge
+              userInfo={{
+                profilePictureUrl: item.info.profile_picture_url,
+                username: item.info.created_by_username,
+                city: item.info.city,
+                state: item.info.state,
+                reviewCount: buyerReviews.count,
+                rating: item.info.seller_rating,
+              }}
+            />
           </div>
         </div>
-
-        <ItemCommentsSection
-          itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
-          setError={setError}
-        />
-        {editItemModalToggled ? (
-          <EditItemModal
-            item={item}
-            setItem={(newItem) => {
-              setItem(newItem);
-            }}
-          />
-        ) : (
-          false
-        )}
-        {priceChangeModalToggled ? (
-          <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
-        ) : (
-          false
-        )}
-        {fullScreenImageModalToggled ? (
-          <FullScreenImageModal
-            photos={item.photos}
-            setSelectedPhoto={setSelectedPhoto}
-            selectedPhoto={selectedPhoto}
-          />
-        ) : (
-          false
-        )}
-        {sellerReviewsModalToggled && (
-          <>
-            <SellerReviewsModal
-              seller={{
-                username: item.info.created_by_username,
-                auth_id: item.info.created_by_id,
-              }}
-              reviews={buyerReviews}
-              zIndex={7}
-            />
-            <ModalOverlay zIndex={6} />
-          </>
-        )}
-        {contactBuyerModalToggled && <ContactBuyerModal contactInfo={item.info} />}
-        {deleteModalToggled && (
-          <DeleteModal
-            label="Delete this listing?"
-            deleteLoading={deleteItemLoading}
-            handleDeleteClick={async () => {
-              try {
-                setDeleteItemLoading(true);
-                const { error, data } = await supabase.rpc("delete_item", {
-                  p_item_id: item.info.id,
-                });
-
-                if (error) throw error;
-
-                console.log(data);
-                setItem({
-                  ...item,
-                  info: { ...item.info, is_deleted: true },
-                });
-              } catch (error) {
-                console.error(error);
-              } finally {
-                setDeleteItemLoading(false);
-              }
-            }}
-          />
-        )}
       </div>
-    </>
+
+      <ItemCommentsSection
+        itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
+        setError={setError}
+      />
+      {editItemModalToggled ? (
+        <EditItemModal
+          item={item}
+          setItem={(newItem) => {
+            setItem(newItem);
+          }}
+        />
+      ) : (
+        false
+      )}
+      {priceChangeModalToggled ? (
+        <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
+      ) : (
+        false
+      )}
+      {fullScreenImageModalToggled ? (
+        <FullScreenImageModal
+          photos={item.photos}
+          setSelectedPhoto={setSelectedPhoto}
+          selectedPhoto={selectedPhoto}
+        />
+      ) : (
+        false
+      )}
+      {sellerReviewsModalToggled && (
+        <>
+          <SellerReviewsModal
+            seller={{
+              username: item.info.created_by_username,
+              auth_id: item.info.created_by_id,
+            }}
+            reviews={buyerReviews}
+            zIndex={7}
+          />
+          <ModalOverlay zIndex={6} />
+        </>
+      )}
+      {contactBuyerModalToggled && <ContactBuyerModal contactInfo={item.info} />}
+      {deleteModalToggled && (
+        <DeleteModal
+          label="Delete this listing?"
+          deleteLoading={deleteItemLoading}
+          handleDeleteClick={async () => {
+            try {
+              setDeleteItemLoading(true);
+              const { error, data } = await supabase.rpc("delete_item", {
+                p_item_id: item.info.id,
+              });
+
+              if (error) throw error;
+
+              console.log(data);
+              setItem({
+                ...item,
+                info: { ...item.info, is_deleted: true },
+              });
+            } catch (error) {
+              console.error(error);
+            } finally {
+              setDeleteItemLoading(false);
+            }
+          }}
+        />
+      )}
+    </main>
   );
 }

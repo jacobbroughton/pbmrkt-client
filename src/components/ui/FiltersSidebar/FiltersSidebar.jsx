@@ -210,28 +210,29 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
               </div>
             </div>
 
-            <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
-              <div className="label-and-reset">
-                <label>Category</label>
-                {filters.saved.category && (
-                  <button
-                    type="button"
-                    className="reset-button"
-                    onClick={() => {
-                      dispatch(
-                        resetFilter({ filterKey: "category", viewType: view.type })
-                      );
-                      dispatch(setFiltersUpdated(true));
-                    }}
-                  >
-                    Reset
-                  </button>
-                )}
-              </div>
+            {view.layout !== "Overview" && (
+              <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+                <div className="label-and-reset">
+                  <label>Category</label>
+                  {filters.saved.category && (
+                    <button
+                      type="button"
+                      className="reset-button"
+                      onClick={() => {
+                        dispatch(
+                          resetFilter({ filterKey: "category", viewType: view.type })
+                        );
+                        dispatch(setFiltersUpdated(true));
+                      }}
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
 
-              {view.layout === "Overview" ? (
+                {/* {view.layout === "Overview" ? (
                 <p className='small-text'>Only on Grid & List views</p>
-              ) : (
+              ) : ( */}
                 <SelectCategoryToggle
                   handleOnClick={() =>
                     dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
@@ -241,8 +242,9 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                   title="Click this to open a menu and select an item category to filter your results on"
                   emptyLabel="Markers/Barrels/Etc"
                 />
-              )}
-            </div>
+                {/* )} */}
+              </div>
+            )}
             {view.type === "Wanted" ? (
               <>
                 <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>

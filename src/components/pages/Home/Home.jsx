@@ -343,7 +343,7 @@ export function Listings() {
   }, []);
 
   return (
-    <div className="home">
+    <main className="home">
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>
@@ -369,6 +369,16 @@ export function Listings() {
               {["Overview", "Grid", "List"].map((viewOption) => (
                 <button
                   onClick={() => {
+                    if (viewOption === 'Overview' && filters.saved[view.type].category) dispatch(setFilters({
+                      ...filters,
+                      saved: {
+                        ...filters.saved,
+                        [view.type]: {
+                          ...filters.saved[view.type],
+                          category: null
+                        }
+                      }
+                    }))
                     localStorage.setItem("pbmrkt_view_layout", viewOption);
                     dispatch(setViewLayout(viewOption));
                     addSearchParam("view-layout", viewOption.toLowerCase());
@@ -495,6 +505,6 @@ export function Listings() {
           showResultNumbers={true}
         />
       )}
-    </div>
+    </main>
   );
 }

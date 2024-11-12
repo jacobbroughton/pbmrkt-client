@@ -279,7 +279,7 @@ export const CreateWantedItem = () => {
   const submitDisabled = !whatIsIt || !budget || submitLoading;
 
   return (
-    <div className="create-wanted-item">
+    <main className="create-wanted-item">
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
@@ -595,6 +595,6 @@ export const CreateWantedItem = () => {
           />
         </>
       )}
-    </div>
+    </main>
   );
 };

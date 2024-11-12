@@ -1,4 +1,11 @@
-.sell {
+main.sell {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+  
   max-width: 620px;
   margin: 0 auto;
   display: flex;
@@ -7,6 +14,8 @@
   padding-bottom: 100px;
   width: 100%;
 }
+
+
 
 .sell h1 {
   font-size: 1.5rem;
@@ -461,7 +470,6 @@
 .sell > form .form-group textarea,
 .sell > form .form-group select {
   width: 100%;
-  padding: 5px 10px;
   font-family: inherit;
   font-size: 1rem;
   background-color: #3b3b3b;
@@ -469,6 +477,12 @@
   color: white;
   border-radius: 3px;
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
+}
+
+.sell > form .form-group input:not([type="radio"]):not([type="file"]),
+.sell > form .form-group textarea {
+  padding: 5px 10px;
+
 }
 
 .sell > form .form-group.disabled input:not([type="radio"]):not([type="file"]) {

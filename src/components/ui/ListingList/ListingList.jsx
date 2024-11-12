@@ -3,7 +3,7 @@ import { supabase } from "../../../utils/supabase";
 import "./ListingList.css";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
-export const ListingList = ({ listings }) => {
+export const ListingList = ({ listings, isOnUserProfile }) => {
   return (
     <ul className="listing-list">
       {listings.map((listing) => {
@@ -13,7 +13,7 @@ export const ListingList = ({ listings }) => {
         let truncatedDetailsText = listing.details;
 
         if (truncatedDetailsText.length > 200) {
-          truncatedDetailsText = truncatedDetailsText.slice(0, 199).trim() + "...";
+          truncatedDetailsText = truncatedDetailsText.slice(0, 150).trim() + "...";
         }
 
         return (
@@ -34,13 +34,17 @@ export const ListingList = ({ listings }) => {
               <p className="small-text condition">
                 <strong>Condition:</strong> {listing.condition}
               </p>
-              <p className="small-text location">
-                <strong>Location:</strong> {listing.city}, {listing.state}
-              </p>
-              <p className="seller small-text">
-                <strong>Seller: </strong>
-                <Link to={`/user/${listing.username}`}>{listing.username}</Link>
-              </p>
+              {!isOnUserProfile && (
+                <>
+                  <p className="small-text location">
+                    <strong>Location:</strong> {listing.city}, {listing.state}
+                  </p>
+                  <p className="seller small-text">
+                    <strong>Seller: </strong>
+                    <Link to={`/user/${listing.username}`}>{listing.username}</Link>
+                  </p>
+                </>
+              )}
               <p className="small-text">
                 <strong>Listed </strong> {getTimeAgo(new Date(listing.created_dttm))}
               </p>

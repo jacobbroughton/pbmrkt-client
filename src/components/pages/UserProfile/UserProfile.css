@@ -1,16 +1,76 @@
-.user-profile-page {
+main.user-profile-page {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  padding: 15px;
+  padding-top: 65px;
+  margin: 0 auto;
+  
+  display: flex;
+  flex-direction: column;
+  /* gap: 35px; */
   margin-top: 5px;
   position: relative;
 }
 
-.user-profile-page .listing-controls {
+
+
+.user-profile-page > section.main-profile-content {
+  display: flex;
+  gap: 20px;
+}
+
+.user-profile-page > section.cover-container {
+  height: 200px;
+  width: 100vw;
+  position: absolute;
+  margin-top: -25px;
+  left: 0;
+}
+
+.user-profile-page > section.cover-container img.cover-photo {
+  background-color: #555;
+  height: 100%;
+  width: 100%;
+  appearance: none;
+}
+
+.user-profile-page > .main-profile-content > .listings-wrapper {
+  margin-top: 200px;
+  width: 100%;
+}
+
+.user-profile-page > .main-profile-content > .listings-wrapper > div.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.user-profile-page > .main-profile-content > .listings-wrapper > div.tabs > button {
+  padding-bottom: 5px;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.user-profile-page > .main-profile-content > .listings-wrapper > div.tabs > button.selected {
+  border-color: white;
+}
+
+.user-profile-page > .main-profile-content > .listings-wrapper > .listing-controls {
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.user-profile-page
+  > .main-profile-content
+  > .listings-wrapper
+  > .listing-controls
+  > p.my-listings {
+  font-weight: 500;
 }
 
 .user-profile-page .select-container {
@@ -55,36 +115,27 @@
   background-color: #3b3b3b;
 }
 
-
-.user-profile-page .picture-and-info {
+.user-profile-page .info-section {
+  padding-top: 100px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 15px;
+  max-width: 250px;
   display: flex;
   gap: 20px;
   /* width: 100%; */
   /* max-width: 600px; */
   margin: 0 auto;
-  background-color: #2f2f2f;
+  /* background-color: #2f2f2f; */
   border-radius: 5px;
-  padding: 15px;
-  border: 1px solid #444;
+  /* padding: 15px; */
+  /* border: 1px solid #444; */
   position: relative;
   height: fit-content;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-}
-
-.user-profile-page .info-section {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  gap: 15px;
-  max-width: 700px;
-  margin: 0 auto;
-  
-}
-
-.user-profile-page .picture-and-info {
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
   flex-direction: column;
   align-items: flex-start;
-  background-color: #2f2f2f;
 }
 
 .user-profile-page .user-info-containers {
@@ -93,8 +144,9 @@
   gap: 15px;
   width: 100%;
   height: fit-content;
+  margin-top: 100px;
 
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; */
 }
 
 .user-profile-page .user-info-container {
@@ -111,9 +163,9 @@
 .user-profile-page .user-info-containers {
   border-radius: 5px;
   padding: 15px;
-  border: 1px solid #444;
+  /* border: 1px solid #444; */
   /* width: 100%; */
-  background-color:  #2f2f2f;;
+  /* background-color: #2f2f2f; */
   /* max-width: 400px; */
 }
 
@@ -131,18 +183,22 @@
   white-space: pre-wrap;
 }
 
-.user-profile-page .picture-and-info .profile-picture-container {
-  width: 200px;
-  height: 200px;
-  min-width: 200px;
-  border-radius: 500px;
+.user-profile-page > .main-profile-content > .info-section .profile-picture-container {
+  width: 125px;
+  height: 125px;
+  min-width: 125px;
+  border-radius: 100%;
   /* overflow: hidden; */
   display: flex;
+  border: 3px solid var(--bg-primary);
   position: relative;
-  
 }
 
-.user-profile-page  .picture-and-info .profile-picture-container .profile-picture {
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  .profile-picture-container
+  .profile-picture {
   background-color: white;
   height: 100%;
   width: 100%;
@@ -150,7 +206,11 @@
   object-fit: cover;
 }
 
-.user-profile-page .picture-and-info .profile-picture-container label {
+.user-profile-page
+  > .main-profile-content
+  > .info-section
+  .profile-picture-container
+  label {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -167,76 +227,118 @@
   transition: background-color 0.05s ease, border 0.05s ease;
 }
 
-.user-profile-page .picture-and-info .profile-picture-container label:hover {
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  .profile-picture-container
+  label:hover {
   background-color: #4449;
-  border: 1px solid #5559
+  border: 1px solid #5559;
 }
 
-.user-profile-page .picture-and-info .profile-picture-container label input[type="file"] {
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  .profile-picture-container
+  label
+  input[type="file"] {
   display: none;
 }
 
-.user-profile-page .picture-and-info .profile-picture-container label svg {
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  .profile-picture-container
+  label
+  svg {
   width: 20px;
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
   fill: white;
   transition: fill 0.1s ease, filter 0.1s ease;
 }
 
-/* .user-profile-page .picture-and-info .profile-picture-container label:hover svg {
-  filter: none;
-  fill: #eee;
-} */
 
-.user-profile-page .picture-and-info .info .buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.user-profile-page .picture-and-info .info .buttons button {
-  background-color: transparent;
-  border: 0;
-  font-size: 1rem;
-}
-
-.user-profile-page .picture-and-info .info {
+.user-profile-page > .main-profile-content > .info-section > .info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 15px;
+
 }
 
-.user-profile-page .picture-and-info .info .name {
+.user-profile-page > .main-profile-content > .info-section > .info .name {
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.user-profile-page .picture-and-info .info .username {
+.user-profile-page > .main-profile-content > .info-section > .info .username {
   font-weight: 500;
   color: grey;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.user-profile-page .picture-and-info .info .member-since {
+.user-profile-page > .main-profile-content > .info-section > .info > div.key-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-profile-page > .main-profile-content > .info-section > .info > div.key-info > p {
   font-size: 0.875rem;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
 }
 
-.user-profile-page .picture-and-info .info .edit-profile-button {
+.user-profile-page
+  > .main-profile-content
+  > .info-section
+  > .info
+  > div.key-info
+  > p
+  > svg {
+  width: 10px;
+  fill: grey;
+  margin-right: 7px;
+}
+
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  > .info
+  > .info-item-container
+  > label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  > .info
+  > .info-item-container
+  > p {
+  font-size: 0.875rem;
+}
+
+.user-profile-page > .main-profile-content > .info-section > .info .edit-profile-button {
   padding: 5px;
   font-size: 0.875rem;
   border-radius: 3px;
-  border: 1px solid #555;;
+  border: 1px solid #555;
   background-color: #444;
-  margin-top: 10px;
   color: white;
   cursor: pointer;
   transition: background-color 0.05s ease;
 }
 
-.user-profile-page .picture-and-info .info .edit-profile-button:hover {
+.user-profile-page
+  .main-profile-content
+  > .info-section
+  > .info
+  .edit-profile-button:hover {
   background-color: #5a5a5a;
 }
 
@@ -267,7 +369,7 @@
   width:
 } */
 
-.user-profile-page .picture-and-info .edit-button {
+.user-profile-page > .main-profile-content > .info-section .edit-button {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -275,25 +377,29 @@
   border: 0;
 }
 
-.user-profile-page .picture-and-info .edit-button:not(:disabled) {
+.user-profile-page > .main-profile-content > .info-section .edit-button:not(:disabled) {
   cursor: pointer;
 }
 
-.user-profile-page .picture-and-info .edit-button svg {
+.user-profile-page > .main-profile-content > .info-section .edit-button svg {
   width: 20px;
   fill: white;
 }
 
-.user-profile-page .picture-and-info .edit-button:hover svg {
+.user-profile-page > .main-profile-content > .info-section .edit-button:hover svg {
   fill: var(--yellow);
 }
 
 @media screen and (max-width: 600px) {
-  .user-profile-page .info-section .picture-and-info {
+  .user-profile-page .info-section {
     width: auto;
   }
 
-  .user-profile-page .picture-and-info .profile-picture-container {
+  .user-profile-page
+    > .main-profile-content
+    > .info-section
+    > .picture-and-info
+    .profile-picture-container {
     width: 150px;
     height: 150px;
     max-width: 150px;
@@ -303,14 +409,14 @@
 
 @media screen and (max-width: 500px) {
   .user-profile-page .info-section {
-    flex-direction: column ;
+    flex-direction: column;
   }
 
-  .user-profile-page .info-section .picture-and-info {
+  .user-profile-page .info-section {
     width: 100%;
   }
 
-  .user-profile-page .picture-and-info .profile-picture-container {
+  .user-profile-page > .main-profile-content > .info-section .profile-picture-container {
     width: 125px;
     height: 125px;
     max-width: 125px;
@@ -319,7 +425,7 @@
 }
 
 @media screen and (max-width: 475px) {
-  .user-profile-page .picture-and-info {
+  .user-profile-page > .main-profile-content > .info-sectio {
     flex-direction: column;
     align-items: flex-start;
   }

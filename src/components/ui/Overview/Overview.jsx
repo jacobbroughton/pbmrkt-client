@@ -11,6 +11,7 @@ import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setViewLayout } from "../../../redux/view";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";
+import { StarIcon } from "../Icons/StarIcon";
 
 const Overview = () => {
   const dispatch = useDispatch();
@@ -194,7 +195,7 @@ const OverviewOptionList = ({ options, level, loading }) => {
                   onClick={() => handleCategoryClick(category)}
                   id={id}
                 >
-                  {category.plural_name}{" "}
+                    {category.plural_name}{" "}
                   <span>
                     {loading ? (
                       <div className="loading-result-number"></div>

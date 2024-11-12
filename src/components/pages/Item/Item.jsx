@@ -65,7 +65,6 @@ export const Item = () => {
         }
         if (!data[0]) throw "Item not found";
 
-
         getPriceChangeHistory(itemID);
 
         let { data: data2, error: error2 } = await supabase.rpc(
@@ -166,215 +165,213 @@ export const Item = () => {
   if (item.info?.is_deleted) return <p>This item was deleted.</p>;
 
   return (
-    <>
-      <div className="item">
-        {deleteModalToggled && (
-          <DeleteModal
-            label="Delete this listing?"
-            deleteLoading={deleteItemLoading}
-            handleDeleteClick={async () => {
-              try {
-                setDeleteItemLoading(true);
-                const { error, data } = await supabase.rpc("delete_item", {
-                  p_item_id: item.info.id,
-                });
+    <main className="item">
+      {deleteModalToggled && (
+        <DeleteModal
+          label="Delete this listing?"
+          deleteLoading={deleteItemLoading}
+          handleDeleteClick={async () => {
+            try {
+              setDeleteItemLoading(true);
+              const { error, data } = await supabase.rpc("delete_item", {
+                p_item_id: item.info.id,
+              });
 
-                if (error) throw error;
+              if (error) throw error;
 
-                console.log(data);
-                setItem({
-                  ...item,
-                  info: { ...item.info, is_deleted: true },
-                });
-              } catch (error) {
-                console.error(error);
-              } finally {
-                setDeleteItemLoading(false);
+              console.log(data);
+              setItem({
+                ...item,
+                info: { ...item.info, is_deleted: true },
+              });
+            } catch (error) {
+              console.error(error);
+            } finally {
+              setDeleteItemLoading(false);
+            }
+          }}
+        />
+      )}
+      <div className="images-and-content">
+        <ItemImages
+          photos={item.photos}
+          selectedPhoto={selectedPhoto}
+          setSelectedPhoto={setSelectedPhoto}
+        />
+        <div className="content">
+          <div className="header-buttons">
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ key: "contactSellerModal", value: true }))
               }
-            }}
-          />
-        )}
-        <div className="images-and-content">
-          <ItemImages
-            photos={item.photos}
-            selectedPhoto={selectedPhoto}
-            setSelectedPhoto={setSelectedPhoto}
-          />
-          <div className="content">
-            <div className="header-buttons">
+            >
+              Contact
+            </button>
+            {priceChangeHistory?.length >= 1 && (
               <button
                 onClick={() =>
-                  dispatch(toggleModal({ key: "contactSellerModal", value: true }))
+                  dispatch(toggleModal({ key: "priceChangeModal", value: true }))
                 }
               >
-                Contact
+                Price Change History
               </button>
-              {priceChangeHistory?.length >= 1 && (
+            )}
+            {isAdmin && (
+              <>
                 <button
                   onClick={() =>
-                    dispatch(toggleModal({ key: "priceChangeModal", value: true }))
+                    handleStatusChange(
+                      item.info.status == "Available" ? "Sold" : "Available"
+                    )
                   }
                 >
-                  Price Change History
+                  Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
                 </button>
-              )}
-              {isAdmin && (
-                <>
-                  <button
-                    onClick={() =>
-                      handleStatusChange(
-                        item.info.status == "Available" ? "Sold" : "Available"
-                      )
-                    }
-                  >
-                    Mark as "{item.info.status == "Available" ? "Sold" : "Available"}"
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(toggleModal({ key: "deleteModal", value: true }));
-                    }}
-                  >
-                    Delete Listing
-                  </button>
-                  <button
-                    onClick={() =>
-                      dispatch(
-                        toggleModal({
-                          key: "editItemModal",
-                          value: !editItemMenuToggled,
-                        })
-                      )
-                    }
-                  >
-                    Edit/Modify Listing
-                  </button>
-                </>
-              )}
-            </div>
-            <div className="info">
-              <div className="info-and-contact">
-                <div className="primary-info-and-votes">
-                  {isAdmin && (
-                    <ItemVotes
-                      itemId={item.info.id}
-                      existingVote={existingVote}
-                      setExistingVote={setExistingVote}
-                      votes={votes}
-                      setVotes={setVotes}
-                      postType="For Sale"
-                    />
-                  )}
-                  <div className="primary-info">
-                    {editItemMenuToggled && <div></div>}
-                    <h1>{item.info.what_is_this}</h1>
-                    <div className="price-and-toggle">
-                      <p>
-                        ${item.info.price}
-                        {item.info.shipping_cost
-                          ? ` + $${item.info.shipping_cost} shipping`
-                          : " w/ Free Shipping"}{" "}
-                      </p>
-                    </div>
-                    <div className="status-as-of-container">
-                      <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
-                        {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
-                        {item.info.status}
-                      </p>
-                    </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(toggleModal({ key: "deleteModal", value: true }));
+                  }}
+                >
+                  Delete Listing
+                </button>
+                <button
+                  onClick={() =>
+                    dispatch(
+                      toggleModal({
+                        key: "editItemModal",
+                        value: !editItemMenuToggled,
+                      })
+                    )
+                  }
+                >
+                  Edit/Modify Listing
+                </button>
+              </>
+            )}
+          </div>
+          <div className="info">
+            <div className="info-and-contact">
+              <div className="primary-info-and-votes">
+                {isAdmin && (
+                  <ItemVotes
+                    itemId={item.info.id}
+                    existingVote={existingVote}
+                    setExistingVote={setExistingVote}
+                    votes={votes}
+                    setVotes={setVotes}
+                    postType="For Sale"
+                  />
+                )}
+                <div className="primary-info">
+                  {editItemMenuToggled && <div></div>}
+                  <h1>{item.info.what_is_this}</h1>
+                  <div className="price-and-toggle">
+                    <p>
+                      ${item.info.price}
+                      {item.info.shipping_cost
+                        ? ` + $${item.info.shipping_cost} shipping`
+                        : " w/ Free Shipping"}{" "}
+                    </p>
+                  </div>
+                  <div className="status-as-of-container">
+                    <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                      {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
+                      {item.info.status}
+                    </p>
                   </div>
                 </div>
               </div>
-
-              {item.info.details ? (
-                <div className="details">
-                  <label>Details from the seller</label>
-                  <p>{item.info.details}</p>
-                </div>
-              ) : (
-                <div className="no-details-warning">
-                  <p>
-                    <WarningTriangle /> No details were provided
-                  </p>
-                  <p>
-                    Make sure to request more info from the seller prior to purchasing, so
-                    there are no surprises.
-                  </p>
-                </div>
-              )}
-
-              <MetadataTable
-                rows={[
-                  { label: "Condition", values: [{ text: item.info.condition }] },
-                  { label: "Shipping", values: [{ text: item.info.shipping }] },
-                  { label: "Negotiable", values: [{ text: item.info.negotiable }] },
-                  {
-                    label: "Trades",
-                    values: [
-                      { text: item.info.trades },
-                      { text: `"${item.info.accepted_trades}"`, style: "italic" },
-                    ],
-                  },
-                ]}
-              />
-
-              <ProfileBadge
-                userInfo={{
-                  profilePictureUrl: item.info.profile_picture_url,
-                  username: item.info.created_by_username,
-                  city: item.info.city,
-                  state: item.info.state,
-                  reviewCount: sellerReviews.count,
-                  rating: item.info.seller_rating,
-                }}
-              />
             </div>
+
+            {item.info.details ? (
+              <div className="details">
+                <label>Details from the seller</label>
+                <p>{item.info.details}</p>
+              </div>
+            ) : (
+              <div className="no-details-warning">
+                <p>
+                  <WarningTriangle /> No details were provided
+                </p>
+                <p>
+                  Make sure to request more info from the seller prior to purchasing, so
+                  there are no surprises.
+                </p>
+              </div>
+            )}
+
+            <MetadataTable
+              rows={[
+                { label: "Condition", values: [{ text: item.info.condition }] },
+                { label: "Shipping", values: [{ text: item.info.shipping }] },
+                { label: "Negotiable", values: [{ text: item.info.negotiable }] },
+                {
+                  label: "Trades",
+                  values: [
+                    { text: item.info.trades },
+                    { text: `"${item.info.accepted_trades}"`, style: "italic" },
+                  ],
+                },
+              ]}
+            />
+
+            <ProfileBadge
+              userInfo={{
+                profilePictureUrl: item.info.profile_picture_url,
+                username: item.info.created_by_username,
+                city: item.info.city,
+                state: item.info.state,
+                reviewCount: sellerReviews.count,
+                rating: item.info.seller_rating,
+              }}
+            />
           </div>
         </div>
-
-        <ItemCommentsSection
-          itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
-          setError={setError}
-        />
-        {editItemModalToggled ? (
-          <EditItemModal
-            item={item}
-            setItem={(newItem) => {
-              setItem(newItem);
-            }}
-          />
-        ) : (
-          false
-        )}
-        {priceChangeModalToggled ? (
-          <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
-        ) : (
-          false
-        )}
-        {fullScreenImageModalToggled ? (
-          <FullScreenImageModal
-            photos={item.photos}
-            setSelectedPhoto={setSelectedPhoto}
-            selectedPhoto={selectedPhoto}
-          />
-        ) : (
-          false
-        )}
-        {sellerReviewsModalToggled && (
-          <>
-            <SellerReviewsModal
-              seller={{
-                username: item.info.created_by_username,
-                auth_id: item.info.created_by_id,
-              }}
-              reviews={sellerReviews}
-              zIndex={7}
-            />
-            <ModalOverlay zIndex={6} />
-          </>
-        )}
-        {contactSellerModalToggled && <ContactSellerModal contactInfo={item.info} />}
       </div>
-    </>
+
+      <ItemCommentsSection
+        itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
+        setError={setError}
+      />
+      {editItemModalToggled ? (
+        <EditItemModal
+          item={item}
+          setItem={(newItem) => {
+            setItem(newItem);
+          }}
+        />
+      ) : (
+        false
+      )}
+      {priceChangeModalToggled ? (
+        <PriceChangeHistoryModal item={item} priceChangeHistory={priceChangeHistory} />
+      ) : (
+        false
+      )}
+      {fullScreenImageModalToggled ? (
+        <FullScreenImageModal
+          photos={item.photos}
+          setSelectedPhoto={setSelectedPhoto}
+          selectedPhoto={selectedPhoto}
+        />
+      ) : (
+        false
+      )}
+      {sellerReviewsModalToggled && (
+        <>
+          <SellerReviewsModal
+            seller={{
+              username: item.info.created_by_username,
+              auth_id: item.info.created_by_id,
+            }}
+            reviews={sellerReviews}
+            zIndex={7}
+          />
+          <ModalOverlay zIndex={6} />
+        </>
+      )}
+      {contactSellerModalToggled && <ContactSellerModal contactInfo={item.info} />}
+    </main>
   );
 };

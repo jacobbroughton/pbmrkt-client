@@ -522,496 +522,490 @@ export const Sell = () => {
   if (!whatIsThisItem) warnings.push("");
 
   return (
-    <>
-      <div className="sell">
-        {error && (
-          <ErrorBanner
-            error={error.toString()}
-            handleCloseBanner={() => setError(null)}
-          />
-        )}
-        <h1>Create a new listing</h1>
-        <form
-          onSubmit={handleSubmit}
-          autoComplete="off"
-          // className="standard"
-        >
-          <PhotoUpload
-            ref={photosRef}
-            isForWantedItem={false}
-            generatedGroupId={generatedGroupId}
-            photos={photos}
-            setPhotos={setPhotos}
-            markedFieldKey={markedFieldKey}
-            newCoverPhotoId={newCoverPhotoId}
-            setNewCoverPhotoId={setNewCoverPhotoId}
-            setError={setError}
-          />
+    <main className="sell">
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
+      <h1>Create a new listing</h1>
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        // className="standard"
+      >
+        <PhotoUpload
+          ref={photosRef}
+          isForWantedItem={false}
+          generatedGroupId={generatedGroupId}
+          photos={photos}
+          setPhotos={setPhotos}
+          markedFieldKey={markedFieldKey}
+          newCoverPhotoId={newCoverPhotoId}
+          setNewCoverPhotoId={setNewCoverPhotoId}
+          setError={setError}
+        />
 
-          <div className="form-block seller-info">
-            <div className="header">
-              <h2>Your Info</h2>
-            </div>
-
-            <div className="form-content">
-              <fieldset>
-                <div
-                  className={`form-group ${markedFieldKey == "fullName" ? "marked" : ""}`}
-                  ref={fullNameRef}
-                >
-                  <label>Full Name (First/Last)</label>
-                  <input
-                    onChange={(e) => setSellerName(e.target.value)}
-                    value={sellerName}
-                    placeholder="Seller's Name"
-                    required
-                  />
-                </div>
-                <div
-                  className={`form-group ${
-                    markedFieldKey == "contactPhoneNumber" ? "marked" : ""
-                  }`}
-                  ref={contactPhoneNumberRef}
-                >
-                  <label>Contact Phone Number </label>
-                  <input
-                    type="tel"
-                    onChange={(e) => setContactPhoneNumber(e.target.value)}
-                    value={contactPhoneNumber}
-                    placeholder="Contact Phone Number"
-                    required
-                  />
-                  {contactPhoneNumber && !isValidPhoneNumber(contactPhoneNumber) && (
-                    <p className="small-text error-text">Invalid phone number</p>
-                  )}
-                </div>
-              </fieldset>
-
-              <fieldset>
-                <div
-                  className={`form-group ${markedFieldKey == "state" ? "marked" : ""}`}
-                  ref={stateRef}
-                >
-                  <label>
-                    State
-                    {state && generatedFilters.state && (
-                      <span
-                        className="auto-completed-span"
-                        title="This has been automatically filled out based on your last listing"
-                      >
-                        <MagicWand />
-                      </span>
-                    )}
-                  </label>
-                  <div className="select-container">
-                    <select
-                      onChange={(e) =>
-                        setState(
-                          ["All", "Select One"].includes(e.target.value)
-                            ? null
-                            : e.target.value
-                        )
-                      }
-                      value={state}
-                    >
-                      {["Select One", ...states].map((childState) => (
-                        <option value={childState} key={childState}>
-                          {childState}
-                        </option>
-                      ))}
-                    </select>
-                    <SortIcon />
-                  </div>
-                </div>
-                <div
-                  className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
-                    !state ? "disabled" : ""
-                  }`}
-                  ref={cityRef}
-                >
-                  <label>
-                    City
-                    {city && generatedFilters.city && (
-                      <span
-                        className="auto-completed-span"
-                        title="This has been automatically filled out based on your last listing"
-                      >
-                        <MagicWand />
-                      </span>
-                    )}
-                  </label>
-                  {cantFindCity ? (
-                    <>
-                      <input
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder="Enter your city"
-                      />{" "}
-                      <button
-                        className="cant-find-city-toggle"
-                        type="button"
-                        onClick={() => setCantFindCity(false)}
-                      >
-                        <Arrow direction={"left"} /> Go back
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div className="select-container">
-                        <select
-                          disabled={!state}
-                          onChange={(e) =>
-                            setCity(
-                              ["All", "Select One"].includes(e.target.value)
-                                ? null
-                                : e.target.value
-                            )
-                          }
-                          value={city?.toUpperCase()}
-                        >
-                          {statesAndCities[state]?.map((innerCity) => (
-                            <option value={innerCity}>
-                              {capitalizeWords(innerCity)}
-                            </option>
-                          ))}
-                        </select>
-                        <SortIcon />
-                      </div>
-                      <button
-                        onClick={() => setCantFindCity(true)}
-                        className="cant-find-city-toggle"
-                      >
-                        Can't find your city?
-                      </button>
-                    </>
-                  )}
-                </div>
-              </fieldset>
-            </div>
+        <div className="form-block seller-info">
+          <div className="header">
+            <h2>Your Info</h2>
           </div>
 
-          <div className="form-block item-details">
-            <div className="header">
-              <h2>Item Details</h2>
-            </div>
-            <div className="form-content">
+          <div className="form-content">
+            <fieldset>
+              <div
+                className={`form-group ${markedFieldKey == "fullName" ? "marked" : ""}`}
+                ref={fullNameRef}
+              >
+                <label>Full Name (First/Last)</label>
+                <input
+                  onChange={(e) => setSellerName(e.target.value)}
+                  value={sellerName}
+                  placeholder="Seller's Name"
+                  required
+                />
+              </div>
               <div
                 className={`form-group ${
-                  markedFieldKey == "whatIsThis" ? "marked" : ""
-                } required`}
-                ref={whatIsThisRef}
+                  markedFieldKey == "contactPhoneNumber" ? "marked" : ""
+                }`}
+                ref={contactPhoneNumberRef}
               >
-                <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
-                  What is this item?
-                </label>
+                <label>Contact Phone Number </label>
                 <input
-                  onChange={(e) => setWhatIsThisItem(e.target.value)}
-                  value={whatIsThisItem}
-                  placeholder='e.g. "GI Cut Planet Eclipse LV1"'
+                  type="tel"
+                  onChange={(e) => setContactPhoneNumber(e.target.value)}
+                  value={contactPhoneNumber}
+                  placeholder="Contact Phone Number"
+                  required
                 />
+                {contactPhoneNumber && !isValidPhoneNumber(contactPhoneNumber) && (
+                  <p className="small-text error-text">Invalid phone number</p>
+                )}
               </div>
-              <fieldset>
-                <div
-                  className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
-                  ref={categoryRef}
-                >
-                  <label>Select the most accurate category for this item</label>
+            </fieldset>
 
-                  <SelectCategoryToggle
-                    label={categories.saved?.selected?.plural_name}
-                    handleOnClick={() =>
-                      dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
-                    }
-                    noCategorySelected={categories.saved?.selected == null}
-                    title="Click this to open a menu and select an item category to filter your results on"
-                    emptyLabel="No Category Selected"
-                  />
-                </div>
-              </fieldset>
-
+            <fieldset>
               <div
-                className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
-                ref={conditionRef}
-              >
-                <label>Condition</label>
-
-                <RadioOptions
-                  options={radioOptions.conditionOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("conditionOptions", option)
-                  }
-                />
-              </div>
-
-              <div
-                className={`form-group ${markedFieldKey == "details" ? "marked" : ""}`}
-                ref={detailsRef}
+                className={`form-group ${markedFieldKey == "state" ? "marked" : ""}`}
+                ref={stateRef}
               >
                 <label>
-                  Add some details to help the buyer understand what you're selling.
-                  (what's included, condition details, etc.)
+                  State
+                  {state && generatedFilters.state && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
                 </label>
-                <textarea
-                  onChange={(e) => setDetails(e.target.value)}
-                  value={details}
-                  placeholder={detailsPlaceholderText}
+                <div className="select-container">
+                  <select
+                    onChange={(e) =>
+                      setState(
+                        ["All", "Select One"].includes(e.target.value)
+                          ? null
+                          : e.target.value
+                      )
+                    }
+                    value={state}
+                  >
+                    {["Select One", ...states].map((childState) => (
+                      <option value={childState} key={childState}>
+                        {childState}
+                      </option>
+                    ))}
+                  </select>
+                  <SortIcon />
+                </div>
+              </div>
+              <div
+                className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
+                  !state ? "disabled" : ""
+                }`}
+                ref={cityRef}
+              >
+                <label>
+                  City
+                  {city && generatedFilters.city && (
+                    <span
+                      className="auto-completed-span"
+                      title="This has been automatically filled out based on your last listing"
+                    >
+                      <MagicWand />
+                    </span>
+                  )}
+                </label>
+                {cantFindCity ? (
+                  <>
+                    <input
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="Enter your city"
+                    />{" "}
+                    <button
+                      className="cant-find-city-toggle"
+                      type="button"
+                      onClick={() => setCantFindCity(false)}
+                    >
+                      <Arrow direction={"left"} /> Go back
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="select-container">
+                      <select
+                        disabled={!state}
+                        onChange={(e) =>
+                          setCity(
+                            ["All", "Select One"].includes(e.target.value)
+                              ? null
+                              : e.target.value
+                          )
+                        }
+                        value={city?.toUpperCase()}
+                      >
+                        {statesAndCities[state]?.map((innerCity) => (
+                          <option value={innerCity}>{capitalizeWords(innerCity)}</option>
+                        ))}
+                      </select>
+                      <SortIcon />
+                    </div>
+                    <button
+                      onClick={() => setCantFindCity(true)}
+                      className="cant-find-city-toggle"
+                    >
+                      Can't find your city?
+                    </button>
+                  </>
+                )}
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div className="form-block item-details">
+          <div className="header">
+            <h2>Item Details</h2>
+          </div>
+          <div className="form-content">
+            <div
+              className={`form-group ${
+                markedFieldKey == "whatIsThis" ? "marked" : ""
+              } required`}
+              ref={whatIsThisRef}
+            >
+              <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
+                What is this item?
+              </label>
+              <input
+                onChange={(e) => setWhatIsThisItem(e.target.value)}
+                value={whatIsThisItem}
+                placeholder='e.g. "GI Cut Planet Eclipse LV1"'
+              />
+            </div>
+            <fieldset>
+              <div
+                className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
+                ref={categoryRef}
+              >
+                <label>Select the most accurate category for this item</label>
+
+                <SelectCategoryToggle
+                  label={categories.saved?.selected?.plural_name}
+                  handleOnClick={(e) => {
+                    e.preventDefault();
+                    dispatch(toggleModal({ key: "categorySelectorModal", value: true }));
+                  }}
+                  noCategorySelected={categories.saved?.selected == null}
+                  title="Click this to open a menu and select an item category to filter your results on"
+                  emptyLabel="No Category Selected"
                 />
               </div>
+            </fieldset>
+
+            <div
+              className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
+              ref={conditionRef}
+            >
+              <label>Condition</label>
+
+              <RadioOptions
+                options={radioOptions.conditionOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("conditionOptions", option)
+                }
+              />
+            </div>
+
+            <div
+              className={`form-group ${markedFieldKey == "details" ? "marked" : ""}`}
+              ref={detailsRef}
+            >
+              <label>
+                Add some details to help the buyer understand what you're selling. (what's
+                included, condition details, etc.)
+              </label>
+              <textarea
+                onChange={(e) => setDetails(e.target.value)}
+                value={details}
+                placeholder={detailsPlaceholderText}
+              />
             </div>
           </div>
+        </div>
 
-          <div className="form-block price">
-            <div className="header">
-              <h2>Price & Shipping</h2>
+        <div className="form-block price">
+          <div className="header">
+            <h2>Price & Shipping</h2>
+          </div>
+          <div className="form-content">
+            <div
+              className={`form-group shipping ${
+                markedFieldKey == "price" ? "marked" : ""
+              }`}
+              ref={priceRef}
+            >
+              <label>Price (Not including shipping cost)</label>
+              <div className="input-container">
+                <input
+                  onChange={(e) => setPrice(e.target.value)}
+                  type="number"
+                  step={0.01}
+                  value={price}
+                  placeholder="11.50"
+                  className="dollars"
+                  required
+                />
+              </div>
             </div>
-            <div className="form-content">
-              <div
-                className={`form-group shipping ${
-                  markedFieldKey == "price" ? "marked" : ""
-                }`}
-                ref={priceRef}
-              >
-                <label>Price (Not including shipping cost)</label>
-                <div className="input-container">
+
+            <div
+              className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
+            >
+              <label>
+                Is this price negotiable?{" "}
+                {generatedFilters.negotiable && (
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
+
+              <RadioOptions
+                options={radioOptions.negotiableOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("negotiableOptions", option)
+                }
+              />
+            </div>
+            <div
+              className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
+              ref={shippingRef}
+            >
+              <label>
+                Are you willing to ship this item?{" "}
+                {generatedFilters.shipping && (
+                  <span
+                    className="auto-completed-span"
+                    title="This has been automatically filled out based on your last listing"
+                  >
+                    <MagicWand />
+                  </span>
+                )}
+              </label>
+
+              <RadioOptions
+                options={radioOptions.shippingOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("shippingOptions", option)
+                }
+              />
+            </div>
+
+            {!noShipping && (
+              <>
+                <div className="form-group shipping">
+                  <label>Are you covering the shipping cost?</label>
+                  <div className="shipping-selector-and-input">
+                    <div className="shipping-selector">
+                      <button
+                        className={`shipping-toggle-button ${
+                          !buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(false)}
+                      >
+                        <RadioIcon checked={!buyerPaysShipping} /> Free/Included
+                      </button>
+                      <button
+                        className={`shipping-toggle-button ${
+                          buyerPaysShipping ? "selected" : ""
+                        }`}
+                        type="button"
+                        onClick={() => setBuyerPaysShipping(true)}
+                      >
+                        <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  ref={shippingCostRef}
+                  className={`form-group shipping-cost ${
+                    buyerPaysShipping ? "" : "disabled"
+                  } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}
+                  title={
+                    buyerPaysShipping
+                      ? "Adjust the cost of shipping for this item"
+                      : "Toggle 'buyer pays shipping' for this to be interactive"
+                  }
+                >
+                  <label>
+                    {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
+                  </label>
+                  <div className="input-container">
+                    <input
+                      onChange={(e) => {
+                        setShippingCost(e.target.value);
+                      }}
+                      type="number"
+                      step={0.01}
+                      value={shippingCost}
+                      placeholder="$0"
+                      required
+                      className="dollars"
+                      disabled={!buyerPaysShipping}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="form-block price">
+          <div className="header">
+            <h2>Trades</h2>
+          </div>
+          <div className="form-content">
+            <div
+              className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
+              ref={tradesRef}
+            >
+              <RadioOptions
+                options={radioOptions.tradeOptions}
+                handleRadioOptionClick={(option) =>
+                  handleRadioSelect("tradeOptions", option)
+                }
+              />
+              {radioOptions.tradeOptions.find((option) => option.checked)?.value ==
+                "Accepting Trades" && (
+                <div className="accepting-trades-container">
+                  <label>What would you trade for? (Optional)</label>
+
                   <input
-                    onChange={(e) => setPrice(e.target.value)}
-                    type="number"
-                    step={0.01}
-                    value={price}
-                    placeholder="11.50"
-                    className="dollars"
-                    required
+                    placeholder="..."
+                    value={acceptedTrades}
+                    onChange={(e) => setAcceptedTrades(e.target.value)}
                   />
                 </div>
-              </div>
-
-              <div
-                className={`form-group ${markedFieldKey == "negotiable" ? "marked" : ""}`}
-              >
-                <label>
-                  Is this price negotiable?{" "}
-                  {generatedFilters.negotiable && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label>
-
-                <RadioOptions
-                  options={radioOptions.negotiableOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("negotiableOptions", option)
-                  }
-                />
-              </div>
-              <div
-                className={`form-group ${markedFieldKey == "shipping" ? "marked" : ""}`}
-                ref={shippingRef}
-              >
-                <label>
-                  Are you willing to ship this item?{" "}
-                  {generatedFilters.shipping && (
-                    <span
-                      className="auto-completed-span"
-                      title="This has been automatically filled out based on your last listing"
-                    >
-                      <MagicWand />
-                    </span>
-                  )}
-                </label>
-
-                <RadioOptions
-                  options={radioOptions.shippingOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("shippingOptions", option)
-                  }
-                />
-              </div>
-
-              {!noShipping && (
-                <>
-                  <div className="form-group shipping">
-                    <label>Are you covering the shipping cost?</label>
-                    <div className="shipping-selector-and-input">
-                      <div className="shipping-selector">
-                        <button
-                          className={`shipping-toggle-button ${
-                            !buyerPaysShipping ? "selected" : ""
-                          }`}
-                          type="button"
-                          onClick={() => setBuyerPaysShipping(false)}
-                        >
-                          <RadioIcon checked={!buyerPaysShipping} /> Free/Included
-                        </button>
-                        <button
-                          className={`shipping-toggle-button ${
-                            buyerPaysShipping ? "selected" : ""
-                          }`}
-                          type="button"
-                          onClick={() => setBuyerPaysShipping(true)}
-                        >
-                          <RadioIcon checked={buyerPaysShipping} /> Buyer Pays
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    ref={shippingCostRef}
-                    className={`form-group shipping-cost ${
-                      buyerPaysShipping ? "" : "disabled"
-                    } ${markedFieldKey == "shippingCost" ? "marked" : ""}`}
-                    title={
-                      buyerPaysShipping
-                        ? "Adjust the cost of shipping for this item"
-                        : "Toggle 'buyer pays shipping' for this to be interactive"
-                    }
-                  >
-                    <label>
-                      {!buyerPaysShipping ? "(Disabled)" : ""} Added price of shipping
-                    </label>
-                    <div className="input-container">
-                      <input
-                        onChange={(e) => {
-                          setShippingCost(e.target.value);
-                        }}
-                        type="number"
-                        step={0.01}
-                        value={shippingCost}
-                        placeholder="$0"
-                        required
-                        className="dollars"
-                        disabled={!buyerPaysShipping}
-                      />
-                    </div>
-                  </div>
-                </>
               )}
             </div>
           </div>
+        </div>
 
-          <div className="form-block price">
-            <div className="header">
-              <h2>Trades</h2>
-            </div>
-            <div className="form-content">
-              <div
-                className={`form-group ${markedFieldKey == "trades" ? "marked" : ""}`}
-                ref={tradesRef}
-              >
-                <RadioOptions
-                  options={radioOptions.tradeOptions}
-                  handleRadioOptionClick={(option) =>
-                    handleRadioSelect("tradeOptions", option)
-                  }
-                />
-                {radioOptions.tradeOptions.find((option) => option.checked)?.value ==
-                  "Accepting Trades" && (
-                  <div className="accepting-trades-container">
-                    <label>What would you trade for? (Optional)</label>
-
-                    <input
-                      placeholder="..."
-                      value={acceptedTrades}
-                      onChange={(e) => setAcceptedTrades(e.target.value)}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="submit-container">
-            {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
-              <FieldErrorButtons
-                fieldErrors={fieldErrors}
-                setMarkedFieldKey={setMarkedFieldKey}
-              />
-            )}
-
-            <button type="submit" disabled={submitDisabled}>
-              {submitLoading ? "Submitting" : "Submit"}
-            </button>
-          </div>
-        </form>
-        {listedItemID && (
-          <>
-            <div className="success-modal">
-              <h2>Success</h2>
-              <Link to={`/${listedItemID}`}>Go To Listing</Link>
-              <Link to="/">View All Listings</Link>
-              <button onClick={() => handleStateReset()}>Create Another Listing</button>
-            </div>
-            <div className="success-modal-overlay"></div>
-          </>
-        )}
-        {categorySelectorModalToggled && (
-          <>
-            <CategorySelectorModal
-              categories={categories.draft.all}
-              setCategories={setCategories}
-              handleCategoryClick={(category) => {
-                if (category.is_folder) {
-                  setCategories({
-                    ...categories,
-                    draft: {
-                      ...categories.draft,
-                      all: toggleCategoryFolder(category, categories.draft.all),
-                    },
-                  });
-                } else {
-                  setCategories({
-                    ...categories,
-                    draft: {
-                      ...categories.draft,
-                      selected: category.checked ? null : category,
-                      all: setCategoryChecked(category, categories.draft.all),
-                    },
-                  });
-                }
-              }}
-              handleModalClick={() => {
-                // TODO - reset draft categories
-              }}
-              handleApply={() => {
-                setCategories({
-                  ...categories,
-                  saved: {
-                    all: categories.draft.all,
-                    selected: categories.draft.selected,
-                  },
-                });
-                dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
-              }}
-              applyDisabled={
-                categories.draft?.selected?.id == categories.saved?.selected?.id
-              }
-              handleExpandAll={() => {
-                setCategories({
-                  ...categories,
-                  draft: {
-                    ...categories.draft,
-                    all: expandAllCategoryFolders(categories.draft.all),
-                  },
-                });
-              }}
-              handleCollapseAll={() => {
-                setCategories({
-                  ...categories,
-                  draft: {
-                    ...categories.draft,
-                    all: collapseAllCategoryFolders(categories.draft.all),
-                  },
-                });
-              }}
-              showResultNumbers={false}
-              zIndex={3}
+        <div className="submit-container">
+          {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
+            <FieldErrorButtons
+              fieldErrors={fieldErrors}
+              setMarkedFieldKey={setMarkedFieldKey}
             />
-          </>
-        )}
-        {loading && <LoadingOverlay message="Listing your item for sale..." />}
-      </div>
-    </>
+          )}
+
+          <button type="submit" disabled={submitDisabled}>
+            {submitLoading ? "Submitting" : "Submit"}
+          </button>
+        </div>
+      </form>
+      {listedItemID && (
+        <>
+          <div className="success-modal">
+            <h2>Success</h2>
+            <Link to={`/${listedItemID}`}>Go To Listing</Link>
+            <Link to="/">View All Listings</Link>
+            <button onClick={() => handleStateReset()}>Create Another Listing</button>
+          </div>
+          <div className="success-modal-overlay"></div>
+        </>
+      )}
+      {categorySelectorModalToggled && (
+        <>
+          <CategorySelectorModal
+            categories={categories.draft.all}
+            setCategories={setCategories}
+            handleCategoryClick={(category) => {
+              if (category.is_folder) {
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    all: toggleCategoryFolder(category, categories.draft.all),
+                  },
+                });
+              } else {
+                setCategories({
+                  ...categories,
+                  draft: {
+                    ...categories.draft,
+                    selected: category.checked ? null : category,
+                    all: setCategoryChecked(category, categories.draft.all),
+                  },
+                });
+              }
+            }}
+            handleModalClick={() => {
+              // TODO - reset draft categories
+            }}
+            handleApply={() => {
+              setCategories({
+                ...categories,
+                saved: {
+                  all: categories.draft.all,
+                  selected: categories.draft.selected,
+                },
+              });
+              dispatch(toggleModal({ key: "categorySelectorModal", value: false }));
+            }}
+            applyDisabled={
+              categories.draft?.selected?.id == categories.saved?.selected?.id
+            }
+            handleExpandAll={() => {
+              setCategories({
+                ...categories,
+                draft: {
+                  ...categories.draft,
+                  all: expandAllCategoryFolders(categories.draft.all),
+                },
+              });
+            }}
+            handleCollapseAll={() => {
+              setCategories({
+                ...categories,
+                draft: {
+                  ...categories.draft,
+                  all: collapseAllCategoryFolders(categories.draft.all),
+                },
+              });
+            }}
+            showResultNumbers={false}
+            zIndex={3}
+          />
+        </>
+      )}
+      {loading && <LoadingOverlay message="Listing your item for sale..." />}
+    </main>
   );
 };

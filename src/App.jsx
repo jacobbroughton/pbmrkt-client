@@ -28,18 +28,17 @@ import { isOnMobile } from "./utils/usefulFunctions.js";
 export function App() {
   const dispatch = useDispatch();
 
-  const session = useSelector(state => state.auth.session);
+  const session = useSelector((state) => state.auth.session);
 
-  const {
-    resetPasswordModalToggled,
-    registerModalToggled,
-    loginModalToggled,
-    feedbackModalToggled,
-    bugModalToggled,
-  } = useSelector(state => state.modals);
-  const searchModalToggled = useSelector(
-    state => state.modals.searchModalToggled
+  const resetPasswordModalToggled = useSelector(
+    (state) => state.modals.resetPasswordModalToggled
   );
+  const registerModalToggled = useSelector((state) => state.modals.registerModalToggled);
+  const loginModalToggled = useSelector((state) => state.modals.loginModalToggled);
+  const feedbackModalToggled = useSelector((state) => state.modals.feedbackModalToggled);
+  const bugModalToggled = useSelector((state) => state.modals.bugModalToggled);
+  const searchModalToggled = useSelector((state) => state.modals.searchModalToggled);
+
   const navigate = useNavigate();
   const [sessionLoading, setSessionLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -168,7 +167,7 @@ export function App() {
   return (
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
-      <main>
+      {/* <main> */}
         {error && (
           <ErrorBanner
             error={error.toString()}
@@ -196,7 +195,7 @@ export function App() {
         {bugModalToggled && <BugModal />}
         {feedbackModalToggled && <FeedbackModal />}
         {searchModalToggled && <SearchModal />}
-      </main>
+      {/* </main> */}
     </>
   );
 }

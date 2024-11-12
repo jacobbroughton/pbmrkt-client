@@ -22,6 +22,10 @@ import { Stars } from "../../ui/Stars/Stars";
 import "./UserProfile.css";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 import { SortSelect } from "../../ui/SortSelect/SortSelect";
+import { LocationIcon } from "../../ui/Icons/LocationIcon";
+import { CalendarIcon } from "../../ui/Icons/CalendarIcon";
+import { ListingList } from "../../ui/ListingList/ListingList";
+import { CommentIcon } from "../../ui/Icons/CommentIcon";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -42,6 +46,7 @@ export const UserProfile = () => {
   });
   const [sort, setSort] = useState("Date (New-Old)");
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("My Listings");
 
   useEffect(() => {
     getProfile();
@@ -208,54 +213,55 @@ export const UserProfile = () => {
   if (error) return <p className="error-text">{error.toString()}</p>;
 
   return (
-    <>
-      <div className="user-profile-page">
-        {error && (
-          <ErrorBanner
-            error={error.toString()}
-            handleCloseBanner={() => setError(null)}
-          />
-        )}
+    <main className="user-profile-page">
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
+      <section className="cover-container">
+        <img className="cover-photo" />
+      </section>
+      <section className="main-profile-content">
         <div className="info-section">
-          <div className="picture-and-info">
-            <div className="profile-picture-container">
-              <img className="profile-picture" src={localUser.profile_picture_url} />
-              {isAdmin && (
-                <label htmlFor="change-profile-picture">
-                  <input
-                    type="file"
-                    className=""
-                    title="Edit profile picture"
-                    id="change-profile-picture"
-                    onChange={uploadProfilePicture}
-                  />
-                  {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
-                </label>
-              )}
-            </div>
-            <div className="info">
-              <h2 className="name">
-                {localUser.first_name} {localUser.last_name}
-              </h2>
-              <h3 className="username">{localUser.username}</h3>
-              <p className="member-since" title="">
-                Joined {getTimeAgo(new Date(localUser.created_at))} |{" "}
-                {new Date(localUser.created_at).toLocaleDateString()}
-              </p>
-              {isAdmin && (
-                <button
-                  className="edit-profile-button"
-                  onClick={() =>
-                    dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-                  }
-                >
-                  Edit Profile
-                </button>
-              )}
-            </div>
+          <div className="profile-picture-container">
+            <img className="profile-picture" src={localUser.profile_picture_url} />
+            {isAdmin && (
+              <label htmlFor="change-profile-picture">
+                <input
+                  type="file"
+                  className=""
+                  title="Edit profile picture"
+                  id="change-profile-picture"
+                  onChange={uploadProfilePicture}
+                />
+                {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+              </label>
+            )}
           </div>
-          <div className="user-info-containers">
-            <div className="user-info-container">
+          <div className="info">
+            <h2 className="name">
+              {localUser.first_name} {localUser.last_name}
+            </h2>
+            {/* <p className="username">{localUser.username}</p> */}
+            <div className="key-info">
+              <p>
+                <LocationIcon />
+                {!localUser.city || !localUser.state ? (
+                  "No location has been added"
+                ) : (
+                  <>
+                    {capitalizeWords(localUser.city)}, {localUser.state}
+                  </>
+                )}
+              </p>
+              <p title={new Date(localUser.created_at).toLocaleDateString()}>
+                <CalendarIcon />
+                Joined {getTimeAgo(new Date(localUser.created_at))}
+              </p>
+              <p>
+                <CommentIcon /> No headline added
+              </p>
+            </div>
+            <div className="info-item-container">
               <label>Buyer Reviews</label>
               <button
                 className="stars-button"
@@ -269,30 +275,39 @@ export const UserProfile = () => {
                 <Stars rating={localUser.rating} /> <span>({reviews.count})</span>
               </button>
             </div>
-            <div className="user-info-container">
-              <label>Location</label>
-              <p>
-                {!localUser.city || !localUser.state ? (
-                  "No location has been added"
-                ) : (
-                  <>
-                    {capitalizeWords(localUser.city)}, {localUser.state}
-                  </>
-                )}
-              </p>
-            </div>
-            <div className="user-info-container bio ">
+            <div className="info-item-container">
               <label>Bio</label>
               <p>{localUser.bio ? localUser.bio?.trim() : "No bio has been added"}</p>
             </div>
+            {isAdmin && (
+              <button
+                className="edit-profile-button"
+                onClick={() =>
+                  dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+                }
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
         </div>
         {listings?.length ? (
           <div className="listings-wrapper">
-            <div className="listing-controls">
-              <SortSelect />
+            <div className="tabs">
+              {["My Listings", "Saved Listings"].map((label) => (
+                <button
+                  onClick={() => setSelectedTab(label)}
+                  className={`${label === selectedTab ? "selected" : ""}`}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
-            <ListingGrid listings={listings} />
+            <div className="listing-controls">
+              {/* <p className="my-listings">My Listings</p> */}
+              <SortSelect sort={sort} setSort={setSort} />
+            </div>
+            <ListingList listings={listings} isOnUserProfile={true} />
           </div>
         ) : (
           <SkeletonsListingGrid
@@ -303,36 +318,36 @@ export const UserProfile = () => {
             numSkeletons={10}
           />
         )}
+      </section>
 
-        {editUserProfileModalToggled && (
-          <>
-            <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
-            <ModalOverlay
-              zIndex={5}
-              onClick={() =>
-                dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
-              }
-            />
-          </>
-        )}
-        {addReviewModalToggled && (
-          <>
-            <AddReviewModal
-              seller={localUser}
-              setReviews={setReviews}
-              reviews={reviews}
-              setSeller={setLocalUser}
-            />
-            <ModalOverlay zIndex={3} />
-          </>
-        )}
-        {sellerReviewsModalToggled && (
-          <>
-            <SellerReviewsModal seller={localUser} reviews={reviews} zIndex={6} />
-            <ModalOverlay zIndex={5} />
-          </>
-        )}
-      </div>
-    </>
+      {editUserProfileModalToggled && (
+        <>
+          <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
+          <ModalOverlay
+            zIndex={5}
+            onClick={() =>
+              dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
+            }
+          />
+        </>
+      )}
+      {addReviewModalToggled && (
+        <>
+          <AddReviewModal
+            seller={localUser}
+            setReviews={setReviews}
+            reviews={reviews}
+            setSeller={setLocalUser}
+          />
+          <ModalOverlay zIndex={3} />
+        </>
+      )}
+      {sellerReviewsModalToggled && (
+        <>
+          <SellerReviewsModal seller={localUser} reviews={reviews} zIndex={6} />
+          <ModalOverlay zIndex={5} />
+        </>
+      )}
+    </main>
   );
 };

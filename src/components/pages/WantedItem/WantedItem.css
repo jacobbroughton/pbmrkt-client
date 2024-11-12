@@ -12,6 +12,15 @@
   font-style: normal;
 }
 
+main.wanted-poster {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+}
+
 .wanted-poster {
   font-family: "WesternFont", sans-serif;
   background-color: grey;

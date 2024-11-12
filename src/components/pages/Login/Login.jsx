@@ -32,7 +32,6 @@ export const Login = () => {
         throw error.message;
       }
 
-
       // TODO - Check for user in tbl_user, decline with support message
       const { data: data2, error: error2 } = await supabase.rpc(
         "check_for_user_in_local_db",
@@ -55,56 +54,54 @@ export const Login = () => {
   }
 
   return (
-    <>
-      <div className="login">
-        {loginError && <div className="error-text">{loginError}</div>}
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit} className="standard">
-          <p>
-            Need to create an account? <Link to="/register">Register here</Link>
-          </p>
-          <div className="form-block">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
+    <main className="login">
+      {loginError && <div className="error-text">{loginError}</div>}
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit} className="standard">
+        <p>
+          Need to create an account? <Link to="/register">Register here</Link>
+        </p>
+        <div className="form-block">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              placeholder="Email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <div className="input-and-visible-toggle">
               <input
-                placeholder="Email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Password"
+                type={passwordVisible ? "text" : "password"}
+                onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-and-visible-toggle">
-                <input
-                  placeholder="Password"
-                  type={passwordVisible ? "text" : "password"}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  type="button"
-                  className="button"
-                >
-                  <EyeIcon closed={passwordVisible} />
-                </button>
-              </div>
+              <button
+                onClick={() => setPasswordVisible(!passwordVisible)}
+                type="button"
+                className="button"
+              >
+                <EyeIcon closed={passwordVisible} />
+              </button>
             </div>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            disabled={email === "" || password === "" || !isValidEmail(email)}
-          >
-            Submit
-          </button>
+        <button
+          type="submit"
+          disabled={email === "" || password === "" || !isValidEmail(email)}
+        >
+          Submit
+        </button>
 
-          <p>
-            <Link type="button" to={`/reset-password`}>
-              Forgot password?
-            </Link>
-          </p>
-        </form>
-      </div>
+        <p>
+          <Link type="button" to={`/reset-password`}>
+            Forgot password?
+          </Link>
+        </p>
+      </form>
       {loading && (
         <LoadingOverlay
           message="Logging you in..."
@@ -112,6 +109,6 @@ export const Login = () => {
           verticalAlignment={"center"}
         />
       )}
-    </>
+    </main>
   );
 };

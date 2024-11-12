@@ -155,8 +155,8 @@ export const Register = () => {
     password.length <= 6; //|| phoneNumber == "";
 
   return (
-    <>
-      <div className="register">
+    <main className="register">
+
         {registerError && <div className="error-text">{registerError}</div>}
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="standard">
@@ -347,7 +347,6 @@ export const Register = () => {
             message={verifyUserCheckedEmailModalToggled ? "" : "Creating your account"}
           />
         )}
-      </div>
-    </>
+    </main>
   );
 };

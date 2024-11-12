@@ -1,4 +1,11 @@
-.create-wanted-item {
+main.create-wanted-item {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+
   max-width: 620px;
   margin: 0 auto;
   display: flex;
@@ -17,7 +24,6 @@
   flex-direction: column;
   gap: 30px;
 }
-
 
 .create-wanted-item > form fieldset {
   border: 0;
@@ -173,11 +179,9 @@
   border-color: #666;
 }
 
-c> form .form-group select:not(:disabled) {
+c > form .form-group select:not(:disabled) {
   cursor: pointer;
 }
-
-
 
 .create-wanted-item > form .submit-container {
   display: flex;

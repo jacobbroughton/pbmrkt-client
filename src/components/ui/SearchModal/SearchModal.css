@@ -1,5 +1,5 @@
 .modal.search-modal {
-  top: 65px;
+  top: 10px;
   transform: translateX(-50%);
   gap: 15px;
   max-height: 500px;

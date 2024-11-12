@@ -50,7 +50,7 @@ export const UserProfile = () => {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [usernameFromURL]);
 
   useEffect(() => {
     if (localUser) getListings(localUser);
@@ -310,13 +310,15 @@ export const UserProfile = () => {
             <ListingList listings={listings} isOnUserProfile={true} />
           </div>
         ) : (
-          <SkeletonsListingGrid
-            message={`${localUser.username} hasn't created any listings yet!`}
-            // link={{ url: "/sell", label: "Sell something" }}
-            blinking={false}
-            hasOverlay={true}
-            numSkeletons={10}
-          />
+          <div className="listings-wrapper">
+            <SkeletonsListingGrid
+              message={`${localUser.username} hasn't created any listings yet!`}
+              // link={{ url: "/sell", label: "Sell something" }}
+              blinking={false}
+              hasOverlay={true}
+              numSkeletons={10}
+            />
+          </div>
         )}
       </section>
 

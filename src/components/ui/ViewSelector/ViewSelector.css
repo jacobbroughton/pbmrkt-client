@@ -1,0 +1,55 @@
+.view-selector {
+  display: flex;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  /* background-color: #333; */
+  border: 1px solid #444;
+  border-radius: 3px;
+  /* padding: 5px */
+  height: 33px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.view-selector button.view-option {
+  border: 0;
+  background-color: transparent;
+  padding: 3px 15px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: white;
+  overflow: hidden;
+}
+
+.view-selector button.view-option:not(:first-child) {
+  border-left: 1px solid #444;
+}
+
+.home
+  .listings-controls
+  .view-selector
+  button.view-option:not(:disabled):not(.selected):hover {
+  background-color: #3b3b3b;
+}
+
+.view-selector button.view-option.selected {
+  background-color: #4b4b4b;
+  position: relative;
+  overflow: hidden;
+}
+
+.view-selector button.view-option.selected::before {
+  content: "";
+  position: absolute;
+  background-color: var(--lightgreen);
+  width: 10px;
+  top: -5px;
+  left: -5px;
+  height: 10px;
+  transform: rotate(-45deg);
+}
+
+.view-selector button.view-option:not(:disabled).selected:hover {
+  background-color: #5b5b5b;
+}

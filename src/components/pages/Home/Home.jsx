@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 import {
   resetFilter,
   resetFilters,
@@ -11,7 +10,7 @@ import { setFlag } from "../../../redux/flags.ts";
 import { toggleModal } from "../../../redux/modals.ts";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.ts";
-import { setViewLayout, setViewType } from "../../../redux/view.ts";
+import { setViewLayout } from "../../../redux/view.ts";
 import { supabase } from "../../../utils/supabase.ts";
 import {
   collapseAllCategoryFolders,
@@ -30,6 +29,7 @@ import { ForSaleViews } from "../../ui/ForSaleViews/ForSaleViews.jsx";
 import { MobileSearchBar } from "../../ui/MobileSearchBar/MobileSearchBar.jsx";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
 import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
+import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
 
@@ -46,7 +46,7 @@ export function Listings() {
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
 
-  const { searchParams, addSearchParam } = useSearchParams();
+  // const { searchParams } = useSearchParams();
   const [sort, setSort] = useState("Date (New-Old)");
   const windowSize = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
@@ -62,32 +62,6 @@ export function Listings() {
       setSidebarNeedsUpdate(false);
     }
   }, [windowSize.width]);
-
-  useEffect(() => {
-    const viewTypeFromSearchRaw = searchParams.get("view-type");
-    const viewLayoutFromSearchRaw = searchParams.get("view-layout");
-
-    const viewTypeFromSearch = viewTypeFromSearchRaw === "wanted" ? "Wanted" : "For Sale";
-    const viewLayoutFromSearch =
-      viewLayoutFromSearchRaw === "overview"
-        ? "Overview"
-        : viewLayoutFromSearchRaw === "grid"
-        ? "Grid"
-        : viewLayoutFromSearchRaw === "list"
-        ? "List"
-        : "Overview";
-
-    if (viewTypeFromSearch !== view.type) dispatch(setViewType(viewTypeFromSearch));
-
-    if (viewLayoutFromSearch !== view.layout)
-      dispatch(setViewLayout(viewLayoutFromSearch));
-  }, [searchParams.get("view-type"), searchParams.get("view-layout")]);
-
-  // useEffect(() => {
-  //   dispatch(
-  //     setViewLayout(searchParams.get("view-type") === "wanted" ? "Wanted" : "For Sale")
-  //   );
-  // }, [searchParams.get("view-type")]);
 
   function handleCategorySelectorApply() {
     try {
@@ -132,7 +106,7 @@ export function Listings() {
     }
   }, []);
 
-  async function getItemCategories(viewType) {
+  async function getItemCategories() {
     try {
       const { data, error } = await supabase.rpc("get_item_categories");
 
@@ -365,31 +339,7 @@ export function Listings() {
         >
           {isOnMobile() ? <MobileSearchBar /> : false}
           <div className="listings-controls">
-            <div className="view-selector">
-              {["Overview", "Grid", "List"].map((viewOption) => (
-                <button
-                  onClick={() => {
-                    if (viewOption === 'Overview' && filters.saved[view.type].category) dispatch(setFilters({
-                      ...filters,
-                      saved: {
-                        ...filters.saved,
-                        [view.type]: {
-                          ...filters.saved[view.type],
-                          category: null
-                        }
-                      }
-                    }))
-                    localStorage.setItem("pbmrkt_view_layout", viewOption);
-                    dispatch(setViewLayout(viewOption));
-                    addSearchParam("view-layout", viewOption.toLowerCase());
-                  }}
-                  className={`view-option ${viewOption == view.layout ? "selected" : ""}`}
-                  key={viewOption}
-                >
-                  {viewOption}
-                </button>
-              ))}
-            </div>
+            <ViewSelector />
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (

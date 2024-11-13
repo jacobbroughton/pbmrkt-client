@@ -230,9 +230,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                   )}
                 </div>
 
-                {/* {view.layout === "Overview" ? (
-                <p className='small-text'>Only on Grid & List views</p>
-              ) : ( */}
                 <SelectCategoryToggle
                   handleOnClick={() =>
                     dispatch(toggleModal({ key: "categorySelectorModal", value: true }))
@@ -242,7 +239,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                   title="Click this to open a menu and select an item category to filter your results on"
                   emptyLabel="Markers/Barrels/Etc"
                 />
-                {/* )} */}
               </div>
             )}
             {view.type === "Wanted" ? (

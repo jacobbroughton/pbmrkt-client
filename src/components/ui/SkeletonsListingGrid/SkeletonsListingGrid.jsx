@@ -4,13 +4,13 @@ import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
 import "./SkeletonsListingGrid.css";
 
 export const SkeletonsListingGrid = ({
-  message,
+  message = '',
   link,
-  accountsForSidebar,
+  accountsForSidebar = false,
   hasOverlay,
-  blinking,
-  numSkeletons,
-  heightPx,
+  blinking = false,
+  numSkeletons = 10,
+  heightPx = 10,
   loading,
 }) => {
   return (

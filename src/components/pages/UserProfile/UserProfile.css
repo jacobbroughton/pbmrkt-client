@@ -12,12 +12,12 @@ main.user-profile-page {
   max-width: 1300px;
 }
 
-.user-profile-page > section.main-profile-content {
+main.user-profile-page > section.main-profile-content {
   display: flex;
   gap: 20px;
 }
 
-.user-profile-page > section.cover-container {
+main.user-profile-page > section.cover-container {
   height: 200px;
   width: calc(100% - 30px);
   position: absolute;
@@ -25,7 +25,11 @@ main.user-profile-page {
   overflow: hidden;
 }
 
-.user-profile-page > section.cover-container img.cover-photo {
+main.user-profile-page > section.cover-container > img.cover-photo {
+  border-radius: 0;
+}
+
+main.user-profile-page > section.cover-container > img.cover-photo {
   background-color: #555;
   height: 100%;
   width: 100%;
@@ -34,18 +38,26 @@ main.user-profile-page {
   overflow: hidden;
 }
 
-.user-profile-page > .main-profile-content > .listings-wrapper {
+main.user-profile-page > .main-profile-content > .controls-and-listings {
   margin-top: 220px;
   width: 100%;
 }
 
-.user-profile-page > .main-profile-content > .listings-wrapper > div.tabs {
+.user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > div.listing-controls
+  > div.tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
 }
 
-.user-profile-page > .main-profile-content > .listings-wrapper > div.tabs > button {
+.user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > div.listing-controls
+  > div.tabs
+  > button {
   padding-bottom: 5px;
   background-color: transparent;
   border: 0;
@@ -56,13 +68,17 @@ main.user-profile-page {
 
 .user-profile-page
   > .main-profile-content
-  > .listings-wrapper
+  > .controls-and-listings
+  > div.listing-controls
   > div.tabs
   > button.selected {
   border-color: white;
 }
 
-.user-profile-page > .main-profile-content > .listings-wrapper > .listing-controls {
+main.user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > .listing-controls {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -187,7 +203,10 @@ main.user-profile-page {
   white-space: pre-wrap;
 }
 
-.user-profile-page > .main-profile-content > .info-section .profile-picture-container {
+main.user-profile-page
+  > .main-profile-content
+  > .info-section
+  .profile-picture-container {
   width: 125px;
   height: 125px;
   min-width: 125px;
@@ -261,32 +280,37 @@ main.user-profile-page {
   transition: fill 0.1s ease, filter 0.1s ease;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info {
+main.user-profile-page > .main-profile-content > .info-section > .info {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info .name {
+main.user-profile-page > .main-profile-content > .info-section > .info .name {
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info .username {
+main.user-profile-page > .main-profile-content > .info-section > .info .username {
   font-weight: 500;
   color: grey;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info > div.key-info {
+main.user-profile-page > .main-profile-content > .info-section > .info > div.key-info {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info > div.key-info > p {
+main.user-profile-page
+  > .main-profile-content
+  > .info-section
+  > .info
+  > div.key-info
+  > p {
   font-size: 0.875rem;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -325,7 +349,11 @@ main.user-profile-page {
   font-size: 0.875rem;
 }
 
-.user-profile-page > .main-profile-content > .info-section > .info .edit-profile-button {
+main.user-profile-page
+  > .main-profile-content
+  > .info-section
+  > .info
+  .edit-profile-button {
   padding: 5px;
   font-size: 0.875rem;
   border-radius: 3px;
@@ -371,7 +399,7 @@ main.user-profile-page {
   width:
 } */
 
-.user-profile-page > .main-profile-content > .info-section .edit-button {
+main.user-profile-page > .main-profile-content > .info-section .edit-button {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -379,17 +407,57 @@ main.user-profile-page {
   border: 0;
 }
 
-.user-profile-page > .main-profile-content > .info-section .edit-button:not(:disabled) {
+main.user-profile-page
+  > .main-profile-content
+  > .info-section
+  .edit-button:not(:disabled) {
   cursor: pointer;
 }
 
-.user-profile-page > .main-profile-content > .info-section .edit-button svg {
+main.user-profile-page > .main-profile-content > .info-section .edit-button svg {
   width: 20px;
   fill: white;
 }
 
-.user-profile-page > .main-profile-content > .info-section .edit-button:hover svg {
+main.user-profile-page > .main-profile-content > .info-section .edit-button:hover svg {
   fill: var(--yellow);
+}
+
+@media screen and (max-width: 650px) {
+  main.user-profile-page {
+    padding-bottom: 0;
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 47px;
+  }
+
+  main.user-profile-page > section.main-profile-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  main.user-profile-page > section.main-profile-content > .info-section {
+    padding: 50px 15px 0 15px;
+  }
+
+  main.user-profile-page > section.main-profile-content > .controls-and-listings {
+    padding: 0 15px 15px 15px;
+  }
+
+  main.user-profile-page > section.main-profile-content > .info-section,
+  main.user-profile-page > section.main-profile-content > .controls-and-listings {
+    margin: 0;
+  }
+
+  main.user-profile-page > section.cover-container {
+    width: 100%;
+    border-radius: 0;
+    height: 100px;
+  }
+
+  main.user-profile-page > section.cover-container > img.cover-photo {
+    border-radius: 0;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -418,7 +486,10 @@ main.user-profile-page {
     width: 100%;
   }
 
-  .user-profile-page > .main-profile-content > .info-section .profile-picture-container {
+  main.user-profile-page
+    > .main-profile-content
+    > .info-section
+    .profile-picture-container {
     width: 125px;
     height: 125px;
     max-width: 125px;
@@ -427,7 +498,7 @@ main.user-profile-page {
 }
 
 @media screen and (max-width: 475px) {
-  .user-profile-page > .main-profile-content > .info-sectio {
+  main.user-profile-page > .main-profile-content > .info-section {
     flex-direction: column;
     align-items: flex-start;
   }

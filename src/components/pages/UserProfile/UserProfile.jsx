@@ -26,6 +26,7 @@ import { LocationIcon } from "../../ui/Icons/LocationIcon";
 import { CalendarIcon } from "../../ui/Icons/CalendarIcon";
 import { ListingList } from "../../ui/ListingList/ListingList";
 import { CommentIcon } from "../../ui/Icons/CommentIcon";
+import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsListingList";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -37,6 +38,7 @@ export const UserProfile = () => {
     sellerReviewsModalToggled,
   } = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
+  const [listingsLoading, setListingsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [localUser, setLocalUser] = useState(null);
@@ -101,54 +103,61 @@ export const UserProfile = () => {
   }
 
   async function getListings(passedUser) {
-    let { data: data2, error: error2 } = await supabase.rpc("get_items", {
-      p_search_value: "",
-      p_min_price: 0,
-      p_max_price: null,
-      p_state: null,
-      p_condition: getCheckedOps([
-        { id: 0, value: "Brand New", checked: true },
-        { id: 1, value: "Like New", checked: true },
-        { id: 2, value: "Used", checked: true },
-        { id: 3, value: "Heavily Used", checked: true },
-        { id: 4, value: "Not Functional", checked: true },
-      ]),
-      p_shipping: getCheckedOps([
-        { id: 0, value: "Willing to Ship", checked: true },
-        { id: 1, value: "Local Only", checked: true },
-      ]),
-      p_trades: getCheckedOps([
-        { id: 0, value: "Accepting Trades", checked: true },
-        { id: 1, value: "No Trades", checked: true },
-      ]),
-      p_negotiable: getCheckedOps([
-        { id: 0, value: "Firm", checked: true },
-        { id: 1, value: "OBO/Negotiable", checked: true },
-      ]),
-      p_sort: sort,
-      p_seller_id: passedUser?.auth_id,
-      p_city: null,
-      p_category_id: null,
-    });
+    try {
+      setListingsLoading(true);
+      let { data: data2, error: error2 } = await supabase.rpc("get_items", {
+        p_search_value: "",
+        p_min_price: 0,
+        p_max_price: null,
+        p_state: null,
+        p_condition: getCheckedOps([
+          { id: 0, value: "Brand New", checked: true },
+          { id: 1, value: "Like New", checked: true },
+          { id: 2, value: "Used", checked: true },
+          { id: 3, value: "Heavily Used", checked: true },
+          { id: 4, value: "Not Functional", checked: true },
+        ]),
+        p_shipping: getCheckedOps([
+          { id: 0, value: "Willing to Ship", checked: true },
+          { id: 1, value: "Local Only", checked: true },
+        ]),
+        p_trades: getCheckedOps([
+          { id: 0, value: "Accepting Trades", checked: true },
+          { id: 1, value: "No Trades", checked: true },
+        ]),
+        p_negotiable: getCheckedOps([
+          { id: 0, value: "Firm", checked: true },
+          { id: 1, value: "OBO/Negotiable", checked: true },
+        ]),
+        p_sort: sort,
+        p_seller_id: passedUser?.auth_id,
+        p_city: null,
+        p_category_id: null,
+      });
 
-    if (error2) throw error2.message;
+      if (error2) throw error2.message;
 
-    if (!data2) throw "No listings available";
+      if (!data2) throw "No listings available";
 
-    data2 = data2.map((item) => {
-      const { data, error } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
+      data2 = data2.map((item) => {
+        const { data, error } = supabase.storage
+          .from("profile_pictures")
+          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
 
-      if (error) throw error.message;
+        if (error) throw error.message;
 
-      return {
-        ...item,
-        profile_picture: data.publicUrl,
-      };
-    });
+        return {
+          ...item,
+          profile_picture: data.publicUrl,
+        };
+      });
 
-    setListings(data2);
+      setListings(data2);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setListingsLoading(false);
+    }
   }
 
   async function uploadProfilePicture(e) {
@@ -291,10 +300,10 @@ export const UserProfile = () => {
             )}
           </div>
         </div>
-        {listings?.length ? (
-          <div className="listings-wrapper">
+        <div className="controls-and-listings">
+          <div className="listing-controls">
             <div className="tabs">
-              {["My Listings", "Saved Listings"].map((label) => (
+              {["For Sale", "Sold", "Wanted", "Saved"].map((label) => (
                 <button
                   onClick={() => setSelectedTab(label)}
                   className={`${label === selectedTab ? "selected" : ""}`}
@@ -303,23 +312,26 @@ export const UserProfile = () => {
                 </button>
               ))}
             </div>
-            <div className="listing-controls">
-              {/* <p className="my-listings">My Listings</p> */}
-              <SortSelect sort={sort} setSort={setSort} />
+            {/* <p className="my-listings">My Listings</p> */}
+            <SortSelect sort={sort} setSort={setSort} />
+          </div>
+          {listingsLoading ? (
+            <div className="listings-wrapper">
+              <SkeletonsListingList hasOverlay={false} />
             </div>
-            <ListingList listings={listings} isOnUserProfile={true} />
-          </div>
-        ) : (
-          <div className="listings-wrapper">
-            <SkeletonsListingGrid
-              message={`${localUser.username} hasn't created any listings yet!`}
-              // link={{ url: "/sell", label: "Sell something" }}
-              blinking={false}
-              hasOverlay={true}
-              numSkeletons={10}
-            />
-          </div>
-        )}
+          ) : listings?.length ? (
+            <div className="listings-wrapper">
+              <ListingList listings={listings} isOnUserProfile={true} />
+            </div>
+          ) : (
+            <div className="listings-wrapper">
+              <SkeletonsListingList
+                message={`${localUser.username} hasn't created any listings yet!`}
+                hasOverlay={true}
+              />
+            </div>
+          )}
+        </div>
       </section>
 
       {editUserProfileModalToggled && (

@@ -22,7 +22,7 @@ main.user-profile-page > section.cover-container {
   width: calc(100% - 30px);
   position: absolute;
   border-radius: 3px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 main.user-profile-page > section.cover-container > img.cover-photo {
@@ -61,36 +61,47 @@ main.user-profile-page > section.cover-container > .edit-cover-photo-button > sv
   fill: white;
 }
 
-main.user-profile-page > section.cover-container label {
+main.user-profile-page > section.cover-container > .edit-cover-photo-container {
+  height: 100%;
+  width: 100%;
   position: absolute;
+  top: 0;
+}
+main.user-profile-page > section.cover-container button.edit-cover-photo {
+  position: absolute;
+  white-space: nowrap;
   bottom: 5px;
   right: 5px;
-  /* background-color: orange; */
+  background-color: whitesmoke;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 5px;
   z-index: 3;
   /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
   cursor: pointer;
   border: 1px solid transparent;
   transition: background-color 0.05s ease, border 0.05s ease;
+  color: black;
+  font-weight: 600;
+  gap: 10px;
+  font-size: 0.875rem;
+  border: 1px solid grey;
 }
 
-main.user-profile-page > section.cover-container label:hover {
+/* main.user-profile-page > section.cover-container label:hover {
   background-color: #4449;
   border: 1px solid #5559;
-}
+} */
 
 main.user-profile-page > section.cover-container label input[type="file"] {
   display: none;
 }
 
-main.user-profile-page > section.cover-container label svg {
-  width: 20px;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
-  fill: white;
+main.user-profile-page > section.cover-container button.edit-cover-photo svg {
+  width: 15px;
+  fill: black;
   transition: fill 0.1s ease, filter 0.1s ease;
 }
 
@@ -513,7 +524,6 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
 
   main.user-profile-page > section.cover-container > img.cover-photo {
     border-radius: 0;
-    
   }
 }
 

@@ -1,0 +1,65 @@
+.edit-cover-photo-menu {
+  /* padding: 10px; */
+  /* z-index: 5; */
+  border: 1px solid #555;
+  background-color: #2f2f2f;
+  border-radius: 3px;
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 5px;
+  box-shadow: -3px 3px 5px #18181877;
+  overflow: hidden;
+  z-index: 10 !important;
+}
+
+.edit-cover-photo-menu .error-text {
+  margin: 5px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.edit-cover-photo-menu .menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
+  gap: 10px;
+  color: white;
+  background-color: #2f2f2f;
+  border: 0;
+  font-size: 1rem;
+}
+
+.edit-cover-photo-menu .menu-item:hover {
+  background-color: #444;
+  text-decoration: none;
+}
+
+.edit-cover-photo-menu .menu-item:active {
+  background-color: #6f6f6f;
+}
+
+.edit-cover-photo-menu .menu-item label {
+  pointer-events: none;
+}
+
+.edit-cover-photo-menu .menu-item svg {
+  fill: white;
+  width: 15px;
+}
+
+/* @media screen and (max-width: 500px) {
+  .edit-cover-photo-menu .menu-item.sell {
+    display: flex;
+  }
+} */
+
+/* Phones */
+@media only screen and (max-device-width: 480px) {
+  .edit-cover-photo-menu {
+    top: initial;
+    bottom: 78px;
+  }
+}

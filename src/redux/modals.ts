@@ -23,6 +23,7 @@ const initialState = {
   contactBuyerModalToggled: false,
   feedbackModalToggled: false,
   bugModalToggled: false,
+  editCoverPhotoMenuToggled: false
 };
 
 const modalsSlice = createSlice({

@@ -27,6 +27,8 @@ import { CalendarIcon } from "../../ui/Icons/CalendarIcon";
 import { ListingList } from "../../ui/ListingList/ListingList";
 import { CommentIcon } from "../../ui/Icons/CommentIcon";
 import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsListingList";
+import { ImageIcon } from "../../ui/Icons/ImageIcon";
+import { EditCoverPhotoMenu } from "../../ui/EditCoverPhotoMenu/EditCoverPhotoMenu";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -36,6 +38,7 @@ export const UserProfile = () => {
     editUserProfileModalToggled,
     addReviewModalToggled,
     sellerReviewsModalToggled,
+    editCoverPhotoMenuToggled,
   } = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
   const [listingsLoading, setListingsLoading] = useState(false);
@@ -223,59 +226,59 @@ export const UserProfile = () => {
     setNewProfilePictureLoading(false);
   }
 
-  async function uploadCoverPhoto(e) {
-    try {
-      setNewCoverPhotoLoading(true);
+  // async function uploadCoverPhoto(e) {
+  //   try {
+  //     setNewCoverPhotoLoading(true);
 
-      const thisUploadUUID = uuidv4();
-      const file = e.target.files[0];
-      const { data, error } = await supabase.storage
-        .from("cover_photos")
-        .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+  //     const thisUploadUUID = uuidv4();
+  //     const file = e.target.files[0];
+  //     const { data, error } = await supabase.storage
+  //       .from("cover_photos")
+  //       .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
+  //         cacheControl: "3600",
+  //         upsert: false,
+  //       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+  //     if (error) {
+  //       console.error(error);
+  //       throw error.message;
+  //     }
 
-      if (!data.path) throw "New profile picture path not found";
+  //     if (!data.path) throw "New profile picture path not found";
 
-      const { data: data2, error: error2 } = supabase.storage
-        .from("cover_photos")
-        .getPublicUrl(data.path);
+  //     const { data: data2, error: error2 } = supabase.storage
+  //       .from("cover_photos")
+  //       .getPublicUrl(data.path);
 
-      if (error2) throw error2.message;
+  //     if (error2) throw error2.message;
 
-      let newCoverPhotoUrl = data2.publicUrl;
+  //     let newCoverPhotoUrl = data2.publicUrl;
 
-      const { data: data3, error: error3 } = await supabase.rpc("add_cover_photo", {
-        p_generated_id: data.id,
-        p_full_path: data.fullPath,
-        p_path: data.path,
-        p_user_id: user.auth_id,
-      });
-      if (error3) throw error3.message;
+  //     const { data: data3, error: error3 } = await supabase.rpc("add_cover_photo", {
+  //       p_generated_id: data.id,
+  //       p_full_path: data.fullPath,
+  //       p_path: data.path,
+  //       p_user_id: user.auth_id,
+  //     });
+  //     if (error3) throw error3.message;
 
-      setLocalUser({
-        ...localUser,
-        cover_photo_url: newCoverPhotoUrl,
-      });
+  //     setLocalUser({
+  //       ...localUser,
+  //       cover_photo_url: newCoverPhotoUrl,
+  //     });
 
-      // dispatch(
-      //   setUserCoverPhoto(newCoverPhotoUrl)
-      // );
+  //     // dispatch(
+  //     //   setUserCoverPhoto(newCoverPhotoUrl)
+  //     // );
 
-      // setCoverPhoto(data2[0].full_path);
-    } catch (error) {
-      console.error(error);
-      setError(error.toString());
-    }
+  //     // setCoverPhoto(data2[0].full_path);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError(error.toString());
+  //   }
 
-    setNewCoverPhotoLoading(false);
-  }
+  //   setNewCoverPhotoLoading(false);
+  // }
 
   const isAdmin = user?.auth_id == localUser?.auth_id;
 
@@ -290,8 +293,8 @@ export const UserProfile = () => {
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
       <section className="cover-container">
-        <img className="cover-photo" src={localUser.cover_photo_url}/>
-        <label htmlFor="edit-cover-photo">
+        <img className="cover-photo" src={localUser.cover_photo_url} />
+        {/* <label htmlFor="edit-cover-photo">
           <input
             type="file"
             className=""
@@ -299,8 +302,27 @@ export const UserProfile = () => {
             id="edit-cover-photo"
             onChange={uploadCoverPhoto}
           />
-          {newCoverPhotoLoading ? <p>...</p> : <EditIcon />}
-        </label>
+          Edit Cover Photo {newCoverPhotoLoading ? <p>...</p> : <EditIcon />}
+        </label> */}
+        <div className="edit-cover-photo-container">
+          <button
+            className="edit-cover-photo"
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(toggleModal({ key: "editCoverPhotoMenu", value: !editCoverPhotoMenuToggled }));
+            }}
+          >
+            <ImageIcon /> Edit Cover Photo
+          </button>
+          {editCoverPhotoMenuToggled && (
+            <EditCoverPhotoMenu
+              localUser={localUser}
+              setLocalUser={setLocalUser}
+              newCoverPhotoLoading={newCoverPhotoLoading}
+              setNewCoverPhotoLoading={setNewCoverPhotoLoading}
+            />
+          )}
+        </div>
       </section>
       <section className="main-profile-content">
         <div className="info-section">
@@ -319,6 +341,7 @@ export const UserProfile = () => {
               </label>
             )}
           </div>
+
           <div className="info">
             <h2 className="name">
               {localUser.first_name} {localUser.last_name}

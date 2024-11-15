@@ -20,6 +20,7 @@ import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import "./WantedItem.css";
 import ContactBuyerModal from "../../ui/ContactBuyerModal/ContactBuyerModal";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export function WantedItem() {
   const dispatch = useDispatch();
@@ -136,6 +137,7 @@ export function WantedItem() {
 
   return (
     <main className="wanted-item">
+      <PageTitle title={`Wanted: ${item.info.title}`} />
       <div className="images-and-content">
         {item.photos.length > 0 && (
           <ItemImages

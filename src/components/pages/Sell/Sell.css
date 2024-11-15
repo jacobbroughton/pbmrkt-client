@@ -60,6 +60,7 @@ main.sell {
   border-radius: 3px;
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
 .sell > form .form-block .header {
@@ -496,7 +497,7 @@ main.sell {
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .sell > form .form-group textarea:not(:disabled):hover,
 .sell > form .form-group select:not(:disabled):hover,
-.sell > form .custom-photo-upload:not(:disabled):not(.marked):hover,
+.sell > form .photo-upload:not(:disabled):not(.marked):hover,
 .sell > form .form-block .reset-images-button:not(:disabled):hover,
 .sell
   form

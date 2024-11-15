@@ -12,12 +12,11 @@
   font-style: normal;
 }
 
-main.wanted-poster {
+main.wanted-item {
   display: flex;
   flex-direction: column;
   padding: 15px;
   padding-top: 65px;
-  max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
 }
 

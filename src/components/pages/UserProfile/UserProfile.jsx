@@ -30,6 +30,7 @@ import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsLis
 import { ImageIcon } from "../../ui/Icons/ImageIcon";
 import { EditCoverPhotoMenu } from "../../ui/EditCoverPhotoMenu/EditCoverPhotoMenu";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -96,7 +97,7 @@ export const UserProfile = () => {
 
       const { data: data5, error: error5 } = supabase.storage
         .from("cover_photos")
-        .getPublicUrl(data[0].cover_photo_path || "placeholders/user-placeholder");
+        .getPublicUrl(data[0].cover_photo_path || "placeholders/user-cover-placeholder.png");
 
       if (error5) throw error5.message;
 
@@ -293,6 +294,7 @@ export const UserProfile = () => {
 
   return (
     <main className="user-profile-page">
+      <PageTitle title="Profile" />
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
@@ -302,7 +304,7 @@ export const UserProfile = () => {
              dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
              dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
       }}>
-        <img className="cover-photo" src={localUser.cover_photo_url} />
+        <img className="cover-photo" src={localUser.cover_photo_url || "../../../assets/background-images/placeholder-cover-photo.png"} />
         {/* <label htmlFor="edit-cover-photo">
           <input
             type="file"

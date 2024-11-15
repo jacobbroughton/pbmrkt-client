@@ -28,15 +28,17 @@ import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
 import { ForSaleViews } from "../../ui/ForSaleViews/ForSaleViews.jsx";
 import { MobileSearchBar } from "../../ui/MobileSearchBar/MobileSearchBar.jsx";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay.jsx";
+import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
 import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
-import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
+import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 
 export function Listings() {
   const dispatch = useDispatch();
 
+  const { addSearchParam } = useSearchParams();
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
@@ -314,12 +316,13 @@ export function Listings() {
   }
 
   useEffect(() => {
+    addSearchParam("view-type", view.type.toLowerCase().split(' ').join('-'));
     return () => dispatch(resetFilters());
   }, []);
 
   return (
     <main className="home">
-      <PageTitle title="Home" />
+      <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
       {isOnMobile() ? (
         <div>
           <h1>PBMRKT</h1>

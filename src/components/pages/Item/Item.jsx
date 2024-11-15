@@ -174,7 +174,7 @@ export const Item = () => {
   return (
     <main className="item">
       {item.info?.is_deleted && <p>This item was deleted</p>}
-      <PageTitle title="Home" />
+      <PageTitle title={`For Sale: ${item.info.what_is_this}`} />
       {deleteModalToggled && (
         <DeleteModal
           label="Delete this listing?"

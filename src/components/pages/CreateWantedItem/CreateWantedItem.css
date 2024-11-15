@@ -217,3 +217,8 @@ c > form .form-group select:not(:disabled) {
   background-color: #444;
   cursor: not-allowed;
 }
+
+div.form-block.photo-uploader label.photo-upload:not(:disabled):not(.marked):hover,
+.create-wanted-item > form .form-group input:not([type="radio"]):not([type="file"]):not(.marked):hover {
+  border-color: #666;
+}

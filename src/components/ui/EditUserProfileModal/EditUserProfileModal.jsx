@@ -31,6 +31,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const [bio, setBio] = useState(localUser.bio || "");
   const [phoneNumber, setPhoneNumber] = useState(localUser.phone_number || "");
   const [email, setEmail] = useState(localUser.email || "");
+  const [headline, setHeadline] = useState(localUser.headline || "");
   const [error, setError] = useState(null);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [newProfilePictureUrl, setNewProfilePictureUrl] = useState(null);
@@ -285,11 +286,20 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         </div>
 
         <div className="form-group">
+            <label htmlFor="email">Headline</label>
+            <input
+              placeholder='"Premier paintball trader since 2007"'
+              value={headline}
+              onChange={(e) => setHeadline(e.target.value)}
+            />
+          </div>
+
+        <div className="form-group">
           <label htmlFor="bio">Details about you?</label>
           <textarea
             id="bio"
             value={bio}
-            placeholder="Add some details about you"
+            placeholder="I'm 25, i've been playing paintball since i was 15 around the western PA area."
             onChange={(e) => setBio(e.target.value)}
           />
         </div>

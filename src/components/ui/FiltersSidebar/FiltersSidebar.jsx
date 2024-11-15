@@ -136,6 +136,12 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   //     );
   // }
 
+  console.log("first", filters.saved["For Sale"].conditionOptions);
+
+  const noConditionOptionsChecked =
+    filters.saved["For Sale"].conditionOptions.filter((op) => op.checked).length === 0;
+
+  console.log({ noConditionOptionsChecked });
   let resetButtonDisabled =
     !filters.saved["Wanted"].category &&
     filters.saved["Wanted"].city == filters.initial["Wanted"].city &&
@@ -498,12 +504,14 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     </select>
                   )}
                 </div>
-                <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+                <div
+                  className={`filter-item ${allFiltersDisabled ? "disabled" : ""} ${
+                    noConditionOptionsChecked ? "has-error" : ""
+                  }`}
+                >
                   <div className="label-and-reset">
                     <label>Condition</label>
-                    {filters.draft["For Sale"].conditionOptions.find(
-                      (op) => !op.checked
-                    ) && (
+                    {noConditionOptionsChecked && (
                       <button
                         className="reset-button"
                         type="button"
@@ -521,7 +529,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                       </button>
                     )}
                   </div>
-                  {console.log(filters.draft["For Sale"].conditionOptions)}
+
                   <Checkboxes
                     options={filters.draft["For Sale"].conditionOptions}
                     size="medium"
@@ -530,6 +538,12 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     }
                     disabled={allFiltersDisabled}
                   />
+
+                  {noConditionOptionsChecked && (
+                    <p className="no-options-checked-warning small-text error-text">
+                      <WarningCircle /> No conditions checked
+                    </p>
+                  )}
                 </div>
                 <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
                   <div className="label-and-reset">

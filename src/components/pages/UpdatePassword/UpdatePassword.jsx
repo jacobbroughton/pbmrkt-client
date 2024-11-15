@@ -3,6 +3,7 @@ import "./UpdatePassword.css";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { supabase } from "../../../utils/supabase";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const UpdatePassword = () => {
   const [error, setError] = useState(null);
@@ -32,6 +33,7 @@ export const UpdatePassword = () => {
 
   return (
     <main className="reset-password">
+      <PageTitle title="Update password" />
       {error && <div className="error-text">{error}</div>}
       <h1>Reset Password</h1>
       <form onSubmit={handleSubmit} className="standard">

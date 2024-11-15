@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "../../../hooks/useSearchParams";
 
 export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
-  const { searchParams, addSearchParam } = useSearchParams();
+  const { searchParams, addSearchParams } = useSearchParams();
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const view = useSelector((state) => state.view);
@@ -136,12 +136,9 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   //     );
   // }
 
-  console.log("first", filters.saved["For Sale"].conditionOptions);
-
   const noConditionOptionsChecked =
     filters.saved["For Sale"].conditionOptions.filter((op) => op.checked).length === 0;
 
-  console.log({ noConditionOptionsChecked });
   let resetButtonDisabled =
     !filters.saved["Wanted"].category &&
     filters.saved["Wanted"].city == filters.initial["Wanted"].city &&
@@ -206,7 +203,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                       dispatch(setViewType(viewType.label));
 
                       // navigate(`/${viewType.class}`);
-                      addSearchParam("view-type", viewType.class);
+                      addSearchParams([["view-type", viewType.class]]);
                     }}
                   >
                     <RadioIcon checked={view.type == viewType.label} />{" "}

@@ -119,7 +119,6 @@ export function nestItemCategoriesExperimental(
   flatCategories,
   defaultCheckedID
 ) {
-  console.log({ flatCategories });
   const pathArr = [];
   let lastParentId = null;
   let preSelectedCategory = null;
@@ -129,7 +128,6 @@ export function nestItemCategoriesExperimental(
 
     if (parentId && parentId == lastParentId) {
       self = flatCategories.find((cat) => cat.id == parentId);
-      console.log("here!! self:", self);
       if (self) pathArr.push(self.value);
     }
 

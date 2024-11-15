@@ -49,17 +49,3 @@
   fill: white;
   width: 15px;
 }
-
-/* @media screen and (max-width: 500px) {
-  .edit-cover-photo-menu .menu-item.sell {
-    display: flex;
-  }
-} */
-
-/* Phones */
-@media only screen and (max-device-width: 480px) {
-  .edit-cover-photo-menu {
-    top: initial;
-    bottom: 78px;
-  }
-}

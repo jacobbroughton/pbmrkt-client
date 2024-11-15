@@ -51,8 +51,8 @@ main.user-profile-page > section.cover-container > .edit-cover-photo-button {
   z-index: 3;
   /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
   cursor: pointer;
-  border: 1px solid transparent;
-  background-color: transparent;
+  border: 1px solid #555;
+  background-color: #333;
   transition: background-color 0.05s ease, border 0.05s ease;
 }
 
@@ -72,7 +72,7 @@ main.user-profile-page > section.cover-container button.edit-cover-photo {
   white-space: nowrap;
   bottom: 5px;
   right: 5px;
-  background-color: whitesmoke;
+  background-color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,11 +83,11 @@ main.user-profile-page > section.cover-container button.edit-cover-photo {
   cursor: pointer;
   border: 1px solid transparent;
   transition: background-color 0.05s ease, border 0.05s ease;
-  color: black;
+  color: whitesmoke;
+  border: 1px solid #555;
   font-weight: 600;
   gap: 10px;
   font-size: 0.875rem;
-  border: 1px solid grey;
 }
 
 /* main.user-profile-page > section.cover-container label:hover {
@@ -101,7 +101,7 @@ main.user-profile-page > section.cover-container label input[type="file"] {
 
 main.user-profile-page > section.cover-container button.edit-cover-photo svg {
   width: 15px;
-  fill: black;
+  fill: whitesmoke;
   transition: fill 0.1s ease, filter 0.1s ease;
 }
 
@@ -126,6 +126,7 @@ main.user-profile-page > .main-profile-content > .controls-and-listings {
   > div.tabs
   > button {
   padding-bottom: 5px;
+  white-space: nowrap;
   color: white;
   background-color: transparent;
   border: 0;
@@ -151,6 +152,7 @@ main.user-profile-page
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 10px;
+  gap: 15px;
 }
 
 .user-profile-page
@@ -450,10 +452,11 @@ main.user-profile-page
   > .main-profile-content
   > .info-section
   > .info
-  .edit-profile-button > svg {
-    width: 15px;
-    fill: whitesmoke;
-  }
+  .edit-profile-button
+  > svg {
+  width: 15px;
+  fill: whitesmoke;
+}
 
 .user-profile-page .stars-button {
   display: flex;
@@ -507,6 +510,55 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
 }
 
 @media screen and (max-width: 650px) {
+  main.user-profile-page {
+    padding-bottom: 0;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 47px;
+  }
+
+  main.user-profile-page > section.cover-container {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+  }
+
+  main.user-profile-page > section.cover-container > img.cover-photo {
+    border-radius: 0;
+  }
+
+  .user-profile-page > .main-profile-content {
+    flex-direction: column;
+  }
+
+  .user-profile-page > .main-profile-content > .info-section {
+    margin-left: 0;
+  }
+
+  main.user-profile-page > section.main-profile-content > .controls-and-listings {
+    padding-top: 0;
+    margin-top: 30px;
+  }
+
+  .user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > div.listing-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > div.listing-controls > div.control-group.sort {
+    align-self: flex-start;
+  }
+}
+
+@media screen and (max-device-width: 650px) {
   main.user-profile-page {
     padding-bottom: 0;
     padding-right: 0;

@@ -35,17 +35,18 @@ import PageTitle from "../../ui/PageTitle/PageTitle";
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
   const dispatch = useDispatch();
-  
+
   const { user } = useSelector((state) => state.auth);
   const {
     editUserProfileModalToggled,
     addReviewModalToggled,
     sellerReviewsModalToggled,
     editCoverPhotoMenuToggled,
-    fullScreenImageModalToggled
+    fullScreenImageModalToggled,
   } = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
-  const [coverPhotoStagedForFullScreen, setCoverPhotoStagedForFullScreen] = useState(false);
+  const [coverPhotoStagedForFullScreen, setCoverPhotoStagedForFullScreen] =
+    useState(false);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -97,7 +98,9 @@ export const UserProfile = () => {
 
       const { data: data5, error: error5 } = supabase.storage
         .from("cover_photos")
-        .getPublicUrl(data[0].cover_photo_path || "placeholders/user-cover-placeholder.png");
+        .getPublicUrl(
+          data[0].cover_photo_path || "placeholders/user-cover-placeholder.png"
+        );
 
       if (error5) throw error5.message;
 
@@ -298,13 +301,22 @@ export const UserProfile = () => {
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
-      <section className="cover-container" onDoubleClick={e => {
-        e.stopPropagation()
-             setCoverPhotoStagedForFullScreen(true);
-             dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
-             dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
-      }}>
-        <img className="cover-photo" src={localUser.cover_photo_url || "../../../assets/background-images/placeholder-cover-photo.png"} />
+      <section
+        className="cover-container"
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          setCoverPhotoStagedForFullScreen(true);
+          dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
+          dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
+        }}
+      >
+        <img
+          className="cover-photo"
+          src={
+            localUser.cover_photo_url ||
+            "../../../assets/background-images/placeholder-cover-photo.png"
+          }
+        />
         {/* <label htmlFor="edit-cover-photo">
           <input
             type="file"
@@ -408,7 +420,7 @@ export const UserProfile = () => {
                   dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
                 }
               >
-                <EditIcon/> Edit Profile
+                <EditIcon /> Edit Profile
               </button>
             )}
           </div>
@@ -439,7 +451,17 @@ export const UserProfile = () => {
           ) : (
             <div className="listings-wrapper">
               <SkeletonsListingList
-                message={`${localUser.username} hasn't created any listings yet!`}
+                message={
+                  selectedTab === "For Sale"
+                    ? `${localUser.username} hasn't created any for sale listings yet!`
+                    : selectedTab === "Wanted"
+                    ? `${localUser.username} hasn't created any wanted listings yet!`
+                    : selectedTab === "Sold"
+                    ? `${localUser.username} hasn't marked any listings as sold yet`
+                    : selectedTab === "Saved"
+                    ? `${localUser.username} hasn't saved any listings yet`
+                    : ""
+                }
                 hasOverlay={true}
               />
             </div>

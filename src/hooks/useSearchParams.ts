@@ -3,13 +3,15 @@ import { useSearchParams as useSearchParamsReactRouter } from "react-router-dom"
 export function useSearchParams() {
   const [searchParams, setSearchParams] = useSearchParamsReactRouter();
 
-  function addSearchParam(key: string, value: string) {
+  function addSearchParams(keyValuePairs: [string, string | number | boolean][]) {
     const newSearchParams = new URLSearchParams(searchParams);
 
-    newSearchParams.set(key, value);
+    keyValuePairs.forEach(([key, value]) => {
+      newSearchParams.set(key, `${value}`);
+    });
 
     setSearchParams(newSearchParams);
   }
 
-  return { searchParams, addSearchParam };
+  return { searchParams, addSearchParams };
 }

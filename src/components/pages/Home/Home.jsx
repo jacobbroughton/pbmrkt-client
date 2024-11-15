@@ -38,7 +38,7 @@ import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 export function Listings() {
   const dispatch = useDispatch();
 
-  const { addSearchParam } = useSearchParams();
+  const { addSearchParams } = useSearchParams();
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
@@ -118,33 +118,6 @@ export function Listings() {
       const nestedItemCategories = nestItemCategories(data, null);
 
       dispatch(setOverviewCategories({ flat: data, nested: nestedItemCategories }));
-
-      console.log("getItemCategories", {
-        ...filters,
-        saved: {
-          ...filters.saved,
-          ["Wanted"]: {
-            ...filters.saved["Wanted"],
-            categories: nestedItemCategories,
-          },
-          ["For Sale"]: {
-            ...filters.saved["For Sale"],
-            categories: nestedItemCategories,
-          },
-        },
-        draft: {
-          ...filters.draft,
-          ["Wanted"]: {
-            ...filters.draft["Wanted"],
-            categories: nestedItemCategories,
-          },
-          ["For Sale"]: {
-            ...filters.draft["For Sale"],
-            categories: nestedItemCategories,
-          },
-        },
-        filtersUpdated: false,
-      });
 
       dispatch(
         setFilters({
@@ -316,7 +289,10 @@ export function Listings() {
   }
 
   useEffect(() => {
-    addSearchParam("view-type", view.type.toLowerCase().split(' ').join('-'));
+    addSearchParams([
+      ["view-type", view.type.toLowerCase().split(" ").join("-")],
+      ["view-layout", view.layout.toLowerCase().split(" ").join("-")],
+    ]);
     return () => dispatch(resetFilters());
   }, []);
 

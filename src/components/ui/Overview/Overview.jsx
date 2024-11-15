@@ -48,8 +48,6 @@ const Overview = () => {
 
       if (error) throw error.message;
 
-      console.log("getItemCategoryResultsCount", data);
-
       const hashedData = {};
 
       for (let i = 0; i < data.length; i++) {
@@ -62,8 +60,6 @@ const Overview = () => {
 
       // const { nestedCategories } = nestItemCategoriesExperimental(data, null);
       // setNestedCategories(nestedCategories);
-
-      console.log(nestedCategories);
 
       let params = {
         p_search_value: savedSearchValue,
@@ -195,7 +191,7 @@ const OverviewOptionList = ({ options, level, loading }) => {
                   onClick={() => handleCategoryClick(category)}
                   id={id}
                 >
-                    {category.plural_name}{" "}
+                  {category.plural_name}{" "}
                   <span>
                     {loading ? (
                       <div className="loading-result-number"></div>

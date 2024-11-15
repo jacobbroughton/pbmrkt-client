@@ -9,7 +9,7 @@ export function ViewSelector() {
   const dispatch = useDispatch();
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
-  const { searchParams, addSearchParam } = useSearchParams();
+  const { searchParams, addSearchParams } = useSearchParams();
 
   useEffect(() => {
     const viewTypeFromSearchRaw = searchParams.get("view-type");
@@ -50,7 +50,7 @@ export function ViewSelector() {
               );
             localStorage.setItem("pbmrkt_view_layout", viewOption);
             dispatch(setViewLayout(viewOption));
-            addSearchParam("view-layout", viewOption.toLowerCase());
+            addSearchParams([["view-layout", viewOption.toLowerCase()]]);
           }}
           className={`view-option ${viewOption == view.layout ? "selected" : ""}`}
           key={viewOption}

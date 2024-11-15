@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
-import { supabase } from "../../../utils/supabase";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
+import { supabase } from "../../../utils/supabase";
 import {
   capitalizeWords,
   collapseAllCategoryFolders,
@@ -16,15 +16,16 @@ import {
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons";
+import { FormSelect } from "../../ui/FormSelect/FormSelect.jsx";
+import { Arrow } from "../../ui/Icons/Arrow.jsx";
+import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
+import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
 import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
 import "./CreateWantedItem.css";
-import { SortIcon } from "../../ui/Icons/SortIcon";
-import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
-import { Arrow } from "../../ui/Icons/Arrow.jsx";
-import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 
 export const CreateWantedItem = () => {
   const filters = useSelector((state) => state.filters);
@@ -74,6 +75,8 @@ export const CreateWantedItem = () => {
       },
     ],
   });
+
+  useEffect(() => {}, []);
 
   const [budget, setBudget] = useState(null);
   const [description, setDescription] = useState("");
@@ -188,7 +191,7 @@ export const CreateWantedItem = () => {
       });
     } catch (error) {
       console.error(error);
-      setError(error.toString());
+      setError("1" + error.toString());
     } finally {
       setSubmitLoading(false);
     }
@@ -272,6 +275,7 @@ export const CreateWantedItem = () => {
       }
     };
 
+    console.log("render");
     getDefaultSelections();
     getItemCategories();
   }, []);
@@ -280,10 +284,12 @@ export const CreateWantedItem = () => {
 
   return (
     <main className="create-wanted-item">
+      <PageTitle title="Create wanted listing" />
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
       <h1>Create Wanted Post</h1>
+
       <form onSubmit={handleSubmit}>
         <PhotoUpload
           ref={photosRef}
@@ -351,25 +357,17 @@ export const CreateWantedItem = () => {
                     </span>
                   )}
                 </label>
-                <div className="select-container">
-                  <select
-                    onChange={(e) =>
-                      setState(
-                        ["All", "Select One"].includes(e.target.value)
-                          ? null
-                          : e.target.value
-                      )
-                    }
-                    value={state}
-                  >
-                    {["Select One", ...states].map((childState) => (
-                      <option value={childState} key={childState}>
-                        {childState}
-                      </option>
-                    ))}
-                  </select>
-                  <SortIcon />
-                </div>
+                <FormSelect
+                  options={["Select One", ...states]}
+                  selectedOption={state}
+                  handleChange={(e) =>
+                    setState(
+                      ["All", "Select One"].includes(e.target.value)
+                        ? null
+                        : e.target.value
+                    )
+                  }
+                />
               </div>
               <div
                 className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
@@ -404,7 +402,7 @@ export const CreateWantedItem = () => {
                   </>
                 ) : (
                   <>
-                    <div className="select-container">
+                    {/* <div className="select-container">
                       <select
                         disabled={!state}
                         onChange={(e) =>
@@ -421,7 +419,21 @@ export const CreateWantedItem = () => {
                         ))}
                       </select>
                       <SortIcon />
-                    </div>
+                    </div> */}
+                    <FormSelect
+                      options={statesAndCities[state]?.map((city) =>
+                        capitalizeWords(city)
+                      )}
+                      selectedOption={city}
+                      handleChange={(e) => {
+                        setCity(
+                          ["All", "Select One"].includes(e.target.value)
+                            ? null
+                            : e.target.value
+                        );
+                      }}
+                      disabled={!state}
+                    />
                     <button
                       onClick={() => setCantFindCity(true)}
                       className="cant-find-city-toggle"

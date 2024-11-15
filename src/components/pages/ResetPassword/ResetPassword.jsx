@@ -6,6 +6,7 @@ import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ export const ResetPassword = () => {
 
   return (
     <main>
+      <PageTitle title="Reset Password" />
       <div className="reset-password">
         {error && <div className="error-text">{error}</div>}
         <h1>Reset Password</h1>

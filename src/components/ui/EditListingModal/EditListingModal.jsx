@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import "./EditItemModal.css";
+import "./EditListingModal.css";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../../utils/supabase";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
@@ -24,7 +24,7 @@ import { SortIcon } from "../Icons/SortIcon";
 import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryToggle";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 
-export const EditItemModal = ({ item, setItem }) => {
+export const EditListingModal = ({ item, setItem }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formRef = useRef();
@@ -175,7 +175,7 @@ export const EditItemModal = ({ item, setItem }) => {
       });
 
       setLoading(false);
-      dispatch(toggleModal({ key: "editItemModal", value: false }));
+      dispatch(toggleModal({ key: "editListingModal", value: false }));
 
       navigate(`/listing/${data[0].id}`);
     } catch (error) {
@@ -242,7 +242,7 @@ export const EditItemModal = ({ item, setItem }) => {
     //   photos: item.photos,
     // });
     // setLoading(false);
-    // dispatch(toggleModal({ key: "editItemModal", value: false }));
+    // dispatch(toggleModal({ key: "editListingModal", value: false }));
     // } catch (error) {
     //   console.error(error);
     //   setError(error.toString());
@@ -322,7 +322,7 @@ export const EditItemModal = ({ item, setItem }) => {
         <div className="header">
           <h2>Edit/Modify This Listing</h2>
           <button
-            onClick={() => dispatch(toggleModal({ key: "editItemModal", value: false }))}
+            onClick={() => dispatch(toggleModal({ key: "editListingModal", value: false }))}
             type="button"
             className="button close"
           >
@@ -648,7 +648,7 @@ export const EditItemModal = ({ item, setItem }) => {
       <ModalOverlay
         zIndex={5}
         onClick={() => {
-          dispatch(toggleModal({ key: "editItemModal", value: false }));
+          dispatch(toggleModal({ key: "editListingModal", value: false }));
         }}
       />
     </>

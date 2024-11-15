@@ -126,9 +126,10 @@ main.user-profile-page > .main-profile-content > .controls-and-listings {
   > div.tabs
   > button {
   padding-bottom: 5px;
+  color: white;
   background-color: transparent;
   border: 0;
-  border-bottom: 3px solid transparent;
+  border-bottom: 2px solid transparent;
   font-size: 0.875rem;
   cursor: pointer;
 }
@@ -421,14 +422,20 @@ main.user-profile-page
   > .info-section
   > .info
   .edit-profile-button {
-  padding: 5px;
+  /* padding: 3px 5px; */
   font-size: 0.875rem;
   border-radius: 3px;
   border: 1px solid #555;
+  text-align: start;
+  display: flex;
   background-color: #444;
+  border: 0;
+  background-color: transparent;
   color: white;
   cursor: pointer;
   transition: background-color 0.05s ease;
+  gap: 10px;
+  font-weight: 600;
 }
 
 .user-profile-page
@@ -436,8 +443,17 @@ main.user-profile-page
   > .info-section
   > .info
   .edit-profile-button:hover {
-  background-color: #5a5a5a;
+  color: lightgrey;
 }
+
+main.user-profile-page
+  > .main-profile-content
+  > .info-section
+  > .info
+  .edit-profile-button > svg {
+    width: 15px;
+    fill: whitesmoke;
+  }
 
 .user-profile-page .stars-button {
   display: flex;
@@ -495,7 +511,7 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
     padding-bottom: 0;
     padding-right: 0;
     padding-left: 0;
-    padding-top: 47px;
+    padding-top: 0;
   }
 
   main.user-profile-page > section.main-profile-content {

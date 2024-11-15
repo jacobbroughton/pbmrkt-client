@@ -32,6 +32,7 @@ import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
+import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -318,6 +319,14 @@ export function Listings() {
 
   return (
     <main className="home">
+      <PageTitle title="Home" />
+      {isOnMobile() ? (
+        <div>
+          <h1>PBMRKT</h1>
+        </div>
+      ) : (
+        false
+      )}
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>
@@ -345,7 +354,6 @@ export function Listings() {
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />
           )}
-
           {view.type === "For Sale" ? (
             <ForSaleViews sort={sort} setTotalListings={setTotalListings} />
           ) : view.type === "Wanted" ? (

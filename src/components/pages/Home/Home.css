@@ -130,6 +130,11 @@ main.home {
 }
 
 @media only screen and (max-device-width: 480px) {
+  main.home {
+    padding-top: 10px;
+    gap: 0;
+  }
+
   .home .listings-section > .listings-controls {
     justify-content: space-between;
     position: sticky;

@@ -29,18 +29,22 @@ import { CommentIcon } from "../../ui/Icons/CommentIcon";
 import { SkeletonsListingList } from "../../ui/SkeletonsListingList/SkeletonsListingList";
 import { ImageIcon } from "../../ui/Icons/ImageIcon";
 import { EditCoverPhotoMenu } from "../../ui/EditCoverPhotoMenu/EditCoverPhotoMenu";
+import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
   const dispatch = useDispatch();
+  
   const { user } = useSelector((state) => state.auth);
   const {
     editUserProfileModalToggled,
     addReviewModalToggled,
     sellerReviewsModalToggled,
     editCoverPhotoMenuToggled,
+    fullScreenImageModalToggled
   } = useSelector((state) => state.modals);
   const [listings, setListings] = useState(null);
+  const [coverPhotoStagedForFullScreen, setCoverPhotoStagedForFullScreen] = useState(false);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -292,7 +296,12 @@ export const UserProfile = () => {
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
-      <section className="cover-container">
+      <section className="cover-container" onDoubleClick={e => {
+        e.stopPropagation()
+             setCoverPhotoStagedForFullScreen(true);
+             dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
+             dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
+      }}>
         <img className="cover-photo" src={localUser.cover_photo_url} />
         {/* <label htmlFor="edit-cover-photo">
           <input
@@ -309,7 +318,12 @@ export const UserProfile = () => {
             className="edit-cover-photo"
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(toggleModal({ key: "editCoverPhotoMenu", value: !editCoverPhotoMenuToggled }));
+              dispatch(
+                toggleModal({
+                  key: "editCoverPhotoMenu",
+                  value: !editCoverPhotoMenuToggled,
+                })
+              );
             }}
           >
             <ImageIcon /> Edit Cover Photo
@@ -320,6 +334,7 @@ export const UserProfile = () => {
               setLocalUser={setLocalUser}
               newCoverPhotoLoading={newCoverPhotoLoading}
               setNewCoverPhotoLoading={setNewCoverPhotoLoading}
+              setCoverPhotoStagedForFullScreen={setCoverPhotoStagedForFullScreen}
             />
           )}
         </div>
@@ -391,7 +406,7 @@ export const UserProfile = () => {
                   dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
                 }
               >
-                Edit Profile
+                <EditIcon/> Edit Profile
               </button>
             )}
           </div>
@@ -434,7 +449,7 @@ export const UserProfile = () => {
         <>
           <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
           <ModalOverlay
-            zIndex={5}
+            zIndex={9}
             onClick={() =>
               dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
             }
@@ -457,6 +472,12 @@ export const UserProfile = () => {
           <SellerReviewsModal seller={localUser} reviews={reviews} zIndex={6} />
           <ModalOverlay zIndex={5} />
         </>
+      )}
+      {coverPhotoStagedForFullScreen && fullScreenImageModalToggled && (
+        <FullScreenImageModal
+          photos={[{ url: localUser.cover_photo_url }]}
+          selectedPhoto={{ url: localUser.cover_photo_url }}
+        />
       )}
     </main>
   );

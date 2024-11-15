@@ -3,7 +3,7 @@
   width: 100%;
   padding: 5px 10px 5px 35px;
   position: relative;
-  background-color: #3b3b3b;
+  background-color: #333;
   border-radius: 3px;
   cursor: pointer;
   transition: 0.05s ease background-color;

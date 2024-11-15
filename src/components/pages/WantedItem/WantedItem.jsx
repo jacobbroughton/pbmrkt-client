@@ -5,7 +5,7 @@ import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
-import { EditItemModal } from "../../ui/EditItemModal/EditItemModal";
+import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
 import { CheckIcon } from "../../ui/Icons/CheckIcon";
 import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
@@ -24,7 +24,7 @@ import ContactBuyerModal from "../../ui/ContactBuyerModal/ContactBuyerModal";
 export function WantedItem() {
   const dispatch = useDispatch();
   const {
-    editItemModalToggled,
+    editListingModalToggled,
     priceChangeModalToggled,
     fullScreenImageModalToggled,
     sellerReviewsModalToggled,
@@ -180,13 +180,13 @@ export function WantedItem() {
                     dispatch(toggleModal({ key: "deleteModal", value: true }));
                   }}
                 >
-                  Delete Listing
+                  Delete Delete
                 </button>
                 <button
                   onClick={() =>
                     dispatch(
                       toggleModal({
-                        key: "editItemModal",
+                        key: "editListingModal",
                         value: !editItemMenuToggled,
                       })
                     )
@@ -270,8 +270,8 @@ export function WantedItem() {
         itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
         setError={setError}
       />
-      {editItemModalToggled ? (
-        <EditItemModal
+      {editListingModalToggled ? (
+        <EditListingModal
           item={item}
           setItem={(newItem) => {
             setItem(newItem);

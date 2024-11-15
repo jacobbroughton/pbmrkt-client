@@ -15,6 +15,7 @@ export const EditCoverPhotoMenu = ({
   setLocalUser,
   newCoverPhotoLoading,
   setNewCoverPhotoLoading,
+  setCoverPhotoStagedForFullScreen,
 }) => {
   const dispatch = useDispatch();
   const editCoverPhotoMenuRef = useRef(null);
@@ -117,6 +118,8 @@ export const EditCoverPhotoMenu = ({
       <button
         className="menu-item"
         onClick={() => {
+          setCoverPhotoStagedForFullScreen(true);
+          dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
           dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
         }}
       >

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { isOnMobile } from "../utils/usefulFunctions";
 
 const initialState = {
-  editItemModalToggled: false,
+  editListingModalToggled: false,
   filtersSidebarToggled: isOnMobile() ? false : true,
   rightSideMenuToggled: false,
   verifyUserCheckedEmailModalToggled: false,
@@ -23,7 +23,7 @@ const initialState = {
   contactBuyerModalToggled: false,
   feedbackModalToggled: false,
   bugModalToggled: false,
-  editCoverPhotoMenuToggled: false
+  editCoverPhotoMenuToggled: false,
 };
 
 const modalsSlice = createSlice({
@@ -41,10 +41,10 @@ const modalsSlice = createSlice({
         [`${key}Toggled`]: value,
       };
     },
-    closeAllModals: () => {
+    closeAllModals: (state, { payload }) => {
       return {
         ...initialState,
-        filtersSidebarToggled: false,
+        filtersSidebarToggled: payload?.keepSidebarOpen || false,
       };
     },
   },

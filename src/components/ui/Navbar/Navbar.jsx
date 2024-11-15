@@ -153,7 +153,7 @@ export const Navbar = () => {
           onClick={() => {
             dispatch(resetFilters());
             dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
-            dispatch(closeAllModals({ keepSidebarOpen: false }));
+            dispatch(closeAllModals({ keepSidebarOpen: true }));
           }}
         >
           PBMRKT

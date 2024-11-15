@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
-import { EditItemModal } from "../../ui/EditItemModal/EditItemModal";
+import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
 import { CheckIcon } from "../../ui/Icons/CheckIcon";
 import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
@@ -20,11 +20,12 @@ import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import "./Item.css";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const Item = () => {
   const dispatch = useDispatch();
   const {
-    editItemModalToggled,
+    editListingModalToggled,
     priceChangeModalToggled,
     fullScreenImageModalToggled,
     sellerReviewsModalToggled,
@@ -162,16 +163,25 @@ export const Item = () => {
   const isAdmin = user && item.info?.created_by_id == user?.auth_id;
 
   if (error) return <p className="error-text small-text">{error.toString()}</p>;
-  if (item.info?.is_deleted) return <p>This item was deleted.</p>;
+  console.log("item", item);
+  if (item.info?.is_deleted)
+    return (
+      <main className="item">
+        <p>This listing has been deleted</p>
+      </main>
+    );
 
   return (
     <main className="item">
+      {item.info?.is_deleted && <p>This item was deleted</p>}
+      <PageTitle title="Home" />
       {deleteModalToggled && (
         <DeleteModal
           label="Delete this listing?"
           deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
+              console.log("Swag");
               setDeleteItemLoading(true);
               const { error, data } = await supabase.rpc("delete_item", {
                 p_item_id: item.info.id,
@@ -239,7 +249,7 @@ export const Item = () => {
                   onClick={() =>
                     dispatch(
                       toggleModal({
-                        key: "editItemModal",
+                        key: "editListingModal",
                         value: !editItemMenuToggled,
                       })
                     )
@@ -303,14 +313,16 @@ export const Item = () => {
 
             <MetadataTable
               rows={[
-                { label: "Condition", values: [{ text: item.info.condition }] },
-                { label: "Shipping", values: [{ text: item.info.shipping }] },
-                { label: "Negotiable", values: [{ text: item.info.negotiable }] },
+                { label: "Condition", values: [item.info.condition] },
+                { label: "Shipping", values: [item.info.shipping] },
+                { label: "Negotiable", values: [item.info.negotiable] },
                 {
                   label: "Trades",
                   values: [
-                    { text: item.info.trades },
-                    { text: `"${item.info.accepted_trades}"`, style: "italic" },
+                    item.info.trades,
+                    ...(item.info.accepted_trades
+                      ? `"${item.info.accepted_trades}"`
+                      : []),
                   ],
                 },
               ]}
@@ -334,8 +346,8 @@ export const Item = () => {
         itemInfo={{ id: item.info.id, createdById: item.info.created_by_id }}
         setError={setError}
       />
-      {editItemModalToggled ? (
-        <EditItemModal
+      {editListingModalToggled ? (
+        <EditListingModal
           item={item}
           setItem={(newItem) => {
             setItem(newItem);

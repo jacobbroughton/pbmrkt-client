@@ -154,6 +154,10 @@ export function App() {
     }, 0);
   }, []);
 
+  useEffect(() => {
+    console.log("render from app.jsx");
+  }, []);
+
   if (sessionLoading)
     return (
       <LoadingOverlay message={"Loading..."} verticalAlignment={"center"} zIndex={3} />
@@ -167,34 +171,30 @@ export function App() {
   return (
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
-      {/* <main> */}
-        {error && (
-          <ErrorBanner
-            error={error.toString()}
-            handleCloseBanner={() => setError(null)}
-          />
-        )}
-        <Routes>
-          <Route path="*" element={<p>Page not found</p>} />
-          <Route element={<Listings />} path="/" />
-          <Route element={<Register />} path="/register" />
-          <Route element={<Login />} path="/login" />
-          <Route element={<PrivateRoutes />}>
-            <Route path="/sell" element={<Sell />} />
-            <Route path="/wanted" element={<CreateWantedItem />} />
-            <Route path="/update-password" element={<UpdatePassword />} />
-          </Route>
-          <Route path="/user/:username" element={<UserProfile />} />
-          <Route element={<Item />} path="/listing/:itemID" />
-          <Route element={<WantedItem />} path="/wanted/:wantedItemID" />
-          <Route element={<ResetPassword />} path="/reset-password" />
-        </Routes>
-        {loginModalToggled && <LoginModal />}
-        {registerModalToggled && <RegisterModal />}
-        {resetPasswordModalToggled && <ResetPasswordModal />}
-        {bugModalToggled && <BugModal />}
-        {feedbackModalToggled && <FeedbackModal />}
-        {searchModalToggled && <SearchModal />}
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
+      <Routes>
+        <Route path="*" element={<p>Page not found</p>} />
+        <Route element={<Listings />} path="/" />
+        <Route element={<Register />} path="/register" />
+        <Route element={<Login />} path="/login" />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/sell" element={<Sell />} />
+          <Route path="/wanted" element={<CreateWantedItem />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+        </Route>
+        <Route path="/user/:username" element={<UserProfile />} />
+        <Route element={<Item />} path="/listing/:itemID" />
+        <Route element={<WantedItem />} path="/wanted/:wantedItemID" />
+        <Route element={<ResetPassword />} path="/reset-password" />
+      </Routes>
+      {loginModalToggled && <LoginModal />}
+      {registerModalToggled && <RegisterModal />}
+      {resetPasswordModalToggled && <ResetPasswordModal />}
+      {bugModalToggled && <BugModal />}
+      {feedbackModalToggled && <FeedbackModal />}
+      {searchModalToggled && <SearchModal />}
       {/* </main> */}
     </>
   );

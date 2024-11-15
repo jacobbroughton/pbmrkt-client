@@ -27,6 +27,7 @@ import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
 import "./Sell.css";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
+import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
 
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 
@@ -523,6 +524,7 @@ export const Sell = () => {
 
   return (
     <main className="sell">
+      <PageTitle title="Sell | PBMRKT" />
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}

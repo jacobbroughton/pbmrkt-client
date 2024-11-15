@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import "./Login.css";
 import { isValidEmail } from "../../../utils/usefulFunctions";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export const Login = () => {
 
   return (
     <main className="login">
+      <PageTitle title="Log In to PBMRKT" />
       {loginError && <div className="error-text">{loginError}</div>}
       <h1>Login</h1>
       <form onSubmit={handleSubmit} className="standard">

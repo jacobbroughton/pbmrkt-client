@@ -16,6 +16,7 @@ import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
 import { RightSideMenu } from "../RightSideMenu/RightSideMenu";
 import { UnauthenticatedOptionsMenu } from "../UnauthenticatedOptionsMenu/UnauthenticatedOptionsMenu";
 import "./MobileBottomNav.css";
+import { AddNewMenu } from "../AddNewMenu/AddNewMenu.jsx";
 
 export function MobileBottomNav() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export function MobileBottomNav() {
     notificationsMenuToggled,
     searchModalToggled,
     filtersSidebarToggled,
+    addNewMenuToggled,
   } = useSelector((state) => state.modals);
   const search = useSelector((state) => state.search);
   const [notifications, setNotifications] = useState(null);
@@ -167,15 +169,17 @@ export function MobileBottomNav() {
         <SearchIcon />
       </button>
 
-      <Link
-        to="/sell"
-        className="sell-link"
-        onClick={() => {
-          dispatch(closeAllModals());
+      <button
+        className={`add-new-menu-toggle ${addNewMenuToggled ? "toggled" : ""}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(
+            toggleModal({ key: "addNewMenu", value: !addNewMenuToggled, closeAll: true })
+          );
         }}
       >
-        {isOnMobile() ? <PlusIcon /> : "Sell"}
-      </Link>
+        <PlusIcon />
+      </button>
 
       <>
         {user && (
@@ -205,6 +209,7 @@ export function MobileBottomNav() {
         </button>
       </>
 
+      {addNewMenuToggled && <AddNewMenu />}
       {rightSideMenuToggled && <RightSideMenu />}
       {unauthenticatedOptionsMenuToggled && <UnauthenticatedOptionsMenu />}
       {notificationsMenuToggled && user && (

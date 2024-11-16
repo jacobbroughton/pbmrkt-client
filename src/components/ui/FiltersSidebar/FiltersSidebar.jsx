@@ -139,6 +139,15 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   const noConditionOptionsChecked =
     filters.saved["For Sale"].conditionOptions.filter((op) => op.checked).length === 0;
 
+  const noShippingOptionsChecked =
+    filters.saved["For Sale"].shippingOptions.filter((op) => op.checked).length === 0;
+
+  const noTradeOptionsChecked =
+    filters.saved["For Sale"].tradeOptions.filter((op) => op.checked).length === 0;
+
+  const noNegotiabilityOptionsChecked =
+    filters.saved["For Sale"].negotiableOptions.filter((op) => op.checked).length === 0;
+
   let resetButtonDisabled =
     !filters.saved["Wanted"].category &&
     filters.saved["Wanted"].city == filters.initial["Wanted"].city &&
@@ -538,11 +547,15 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
 
                   {noConditionOptionsChecked && (
                     <p className="no-options-checked-warning small-text error-text">
-                      <WarningCircle /> No conditions checked
+                      <WarningCircle /> No options checked
                     </p>
                   )}
                 </div>
-                <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+                <div
+                  className={`filter-item ${allFiltersDisabled ? "disabled" : ""} ${
+                    noShippingOptionsChecked ? "has-error" : ""
+                  }`}
+                >
                   <div className="label-and-reset">
                     <label>Shipping</label>
                     {filters.draft["For Sale"].shippingOptions.find(
@@ -574,9 +587,19 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     }
                     disabled={allFiltersDisabled}
                   />
+
+                  {noShippingOptionsChecked && (
+                    <p className="no-options-checked-warning small-text error-text">
+                      <WarningCircle /> No options checked
+                    </p>
+                  )}
                 </div>
 
-                <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+                <div
+                  className={`filter-item ${allFiltersDisabled ? "disabled" : ""} ${
+                    noTradeOptionsChecked ? "has-error" : ""
+                  }`}
+                >
                   <div className="label-and-reset">
                     <label>Trades</label>
                     {filters.draft["For Sale"].tradeOptions.find((op) => !op.checked) && (
@@ -605,8 +628,18 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     }
                     disabled={allFiltersDisabled}
                   />
+
+                  {noTradeOptionsChecked && (
+                    <p className="no-options-checked-warning small-text error-text">
+                      <WarningCircle /> No options checked
+                    </p>
+                  )}
                 </div>
-                <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
+                <div
+                  className={`filter-item ${allFiltersDisabled ? "disabled" : ""} ${
+                    noNegotiabilityOptionsChecked ? "has-error" : ""
+                  }`}
+                >
                   <div className="label-and-reset">
                     <label>Negotiability</label>
                     {filters.draft["For Sale"].negotiableOptions.find(
@@ -637,6 +670,12 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                     }
                     disabled={allFiltersDisabled}
                   />
+
+                  {noNegotiabilityOptionsChecked && (
+                    <p className="no-options-checked-warning small-text error-text">
+                      <WarningCircle /> No options checked
+                    </p>
+                  )}
                 </div>
               </>
             ) : (

@@ -233,7 +233,7 @@ export function Listings() {
         label: `Condition`,
         value:
           checkedConditionOptions.length == 0
-            ? "None"
+            ? "Conditions: N/A"
             : `${getCheckedOps(filters.saved[view.type].conditionOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "conditionOptions", viewType: view.type }));
@@ -248,7 +248,7 @@ export function Listings() {
         label: `Shipping`,
         value:
           checkedShippingOptions.length == 0
-            ? "None"
+            ? "Shipping: N/A"
             : `${getCheckedOps(filters.saved[view.type].shippingOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "shippingOptions", viewType: view.type }));
@@ -262,7 +262,7 @@ export function Listings() {
         label: `Trades`,
         value:
           checkedTradeOptions.length == 0
-            ? "None"
+            ? "Trades: N/A"
             : `${getCheckedOps(filters.saved[view.type].tradeOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "tradeOptions", viewType: view.type }));
@@ -275,7 +275,7 @@ export function Listings() {
         label: `Negotiability`,
         value:
           checkedNegotiableOptions.length == 0
-            ? "None"
+            ? "Negotiable: N/A"
             : `${getCheckedOps(filters.saved[view.type].negotiableOptions).join(", ")}`,
         onDeleteClick: () => {
           dispatch(resetFilter({ filterKey: "negotiableOptions", viewType: view.type }));

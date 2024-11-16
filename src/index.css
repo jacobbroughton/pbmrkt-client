@@ -18,14 +18,18 @@ body,
 
   --shadow-subtle: 0 1px 2px #000000;
   --text-color: #ffffffde;
-  --bg-primary: #242424;
   --lightgreen: #4ad493;
   --red: #ff607d;
   --yellow: var(--lightgreen);
   --orange: #ff9400;
+  
+  
+  --bg-primary: #242424;
+
+  --bg-container: #2b2b2b;
+  --container-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
   --nav-bg-color: #151b23;
-  --main-bg-color: #212830;
 
   --shadow-tail-down: 0px 10px 12px -3px #1c212866;
   --shadow-extended-border: 0px 0px 0px 1px #3d444d;
@@ -172,7 +176,7 @@ form.standard {
 }
 
 form.standard .form-block {
-  background-color: #444;
+  background-color: #3b3b3b;
   border: 1px solid #555;
   padding: 10px;
   border-radius: 3px;

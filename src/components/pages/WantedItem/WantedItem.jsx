@@ -139,13 +139,18 @@ export function WantedItem() {
     <main className="wanted-item">
       <PageTitle title={`Wanted: ${item.info.title}`} />
       <div className="images-and-content">
-        {item.photos.length > 0 && (
-          <ItemImages
-            photos={item.photos}
-            selectedPhoto={selectedPhoto}
-            setSelectedPhoto={setSelectedPhoto}
-          />
-        )}
+        <div className="images-and-wanted-poster">
+          <div className="wanted-poster">
+            <h1>Wanted</h1>
+          </div>
+          {item.photos.length > 0 && (
+            <ItemImages
+              photos={item.photos}
+              selectedPhoto={selectedPhoto}
+              setSelectedPhoto={setSelectedPhoto}
+            />
+          )}
+        </div>
         <div className="content">
           <div className="header-buttons">
             <button
@@ -200,9 +205,6 @@ export function WantedItem() {
             )}
           </div>
           <div className="info">
-            <div className="wanted-poster">
-              <h1>Wanted</h1>
-            </div>
             <div className="info-and-contact">
               <div className="primary-info-and-votes">
                 {isAdmin && (

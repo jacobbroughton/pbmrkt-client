@@ -105,14 +105,14 @@
 }
 
 @media screen and (max-width: 600px) {
-  .item .item-images {
+  .item-images {
     width: 100%;
     max-width: none;
     position: static !important;
     top: initial;
   }
 
-  .item .images-and-content .content > .info > .item-images > .main-image-parent {
+  .images-and-content .content > .info > .item-images > .main-image-parent {
     width: 100%;
     max-width: none;
   }

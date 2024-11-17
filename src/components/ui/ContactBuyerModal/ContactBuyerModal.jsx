@@ -33,6 +33,8 @@ const ContactBuyerModal = ({ contactInfo }) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!price || !email || !name || !message) return 
+
     setSubmitLoading(true);
     try {
       const { data, error } = await supabase.rpc("add_wanted_inquiry", {

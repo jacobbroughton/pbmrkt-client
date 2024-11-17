@@ -22,8 +22,7 @@ body,
   --red: #ff607d;
   --yellow: var(--lightgreen);
   --orange: #ff9400;
-  
-  
+
   --bg-primary: #242424;
 
   --bg-container: #2b2b2b;
@@ -67,7 +66,6 @@ body,
   box-sizing: border-box;
   outline-color: var(--lightgreen);
 }
-
 
 input[type="radio"] {
   accent-color: var(--lightgreen);
@@ -276,12 +274,10 @@ select {
   font-size: 1rem;
 }
 
-
 form .select-container {
   display: flex;
   width: 100%;
   position: relative;
-  
 }
 
 form .select-container > select {
@@ -428,6 +424,13 @@ button.link-button {
   padding: 0;
   font-size: 1rem;
   cursor: pointer;
+}
+
+button.link-button:focus,
+button.link-button:focus-visible,
+button.link-button:focus-within,
+button.link-button:active{
+  background-color: green;
 }
 
 button.link-button:not(:disabled):hover,

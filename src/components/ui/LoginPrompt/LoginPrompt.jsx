@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import "./LoginPrompt.css"
+import "./LoginPrompt.css";
 
 export function LoginPrompt({ message }) {
   const dispatch = useDispatch();
@@ -8,7 +8,9 @@ export function LoginPrompt({ message }) {
     <p className="login-prompt">
       <button
         className="link-button"
-        onClick={() => dispatch(toggleModal({ key: "loginModal", value: true }))}
+        onClick={() => {
+          dispatch(toggleModal({ key: "loginModal", value: true }));
+        }}
       >
         Login
       </button>{" "}

@@ -47,3 +47,12 @@
 .add-new-menu a.menu-item.current {
   border-left: 2px solid var(--lightgreen);
 }
+
+@media only screen and (max-device-width: 480px) {
+  .add-new-menu {
+    bottom: 80px;
+    left: 10px;
+    right: 10px;
+    top: auto;
+  }
+}

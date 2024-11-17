@@ -18,7 +18,7 @@ nav.mobile-nav {
 
 nav.mobile-nav .filters-toggle-button,
 nav.mobile-nav .home-link,
-nav.mobile-nav .sell-link,
+nav.mobile-nav .add-new-menu-toggle,
 nav.mobile-nav .search-toggle,
 nav.mobile-nav .right-side-menu-button,
 nav.mobile-nav .notifications-menu-toggle,
@@ -35,7 +35,7 @@ nav.mobile-nav .sidebar-toggle-button {
   border: 0;
 }
 
-nav.mobile-nav .sell-link {
+nav.mobile-nav .add-new-menu-toggle {
   border: 0;
 }
 
@@ -45,18 +45,16 @@ nav.mobile-nav .right-side-menu-button {
 }
 
 nav.mobile-nav .search-toggle svg,
-nav.mobile-nav .sell-link svg,
+nav.mobile-nav .add-new-menu-toggle svg,
 nav.mobile-nav .notifications-menu-toggle svg,
 nav.mobile-nav .filters-toggle-button svg,
 nav.mobile-nav .home-link svg:not(.caret),
-nav.mobile-nav .sidebar-toggle-button svg{
+nav.mobile-nav .sidebar-toggle-button svg {
   width: 22px;
   min-width: 22px;
   fill: whitesmoke;
   filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
-
-
 
 nav.mobile-nav .notifications-menu-toggle.toggled svg,
 nav.mobile-nav .sidebar-toggle-button.active svg {
@@ -103,14 +101,27 @@ nav.mobile-nav .right-side-menu-button .profile-picture {
   justify-content: center;
 }
 
-nav.mobile-nav .sell-link {
+nav.mobile-nav .add-new-menu-toggle {
   color: white;
-  background-color: var(--lightgreen);
+  transition: 0.1s ease background-color, 0.1s ease border-color;
+  background-color:transparent;
+  border: 1px solid var(--lightgreen);
 }
 
-nav.mobile-nav .sell-link svg {
-  fill: white;
+nav.mobile-nav .add-new-menu-toggle.toggled {
+  
+  background-color: var(--lightgreen);
+  border: 1px solid transparent;
+
+}
+
+nav.mobile-nav .add-new-menu-toggle svg {
   filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+  fill: var(--lightgreen);
+}
+
+nav.mobile-nav .add-new-menu-toggle.toggled svg {
+  fill: white;
 }
 
 nav.mobile-nav .search-bar .search-input-container .search-input-toggle svg {

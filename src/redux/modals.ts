@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { isOnMobile } from "../utils/usefulFunctions";
 
 const initialState = {
+  // editListingModalToggled: {
+  //   toggled: false,
+  //   zIndex: 8
+  // }
   editListingModalToggled: false,
   filtersSidebarToggled: isOnMobile() ? false : true,
   rightSideMenuToggled: false,
@@ -42,8 +46,8 @@ const modalsSlice = createSlice({
       };
     },
     closeAllModals: (state, { payload }) => {
-      console.log("state at close all modals", state)
-      
+      console.log("state at close all modals", state);
+
       return {
         ...initialState,
         filtersSidebarToggled: payload?.keepSidebarOpen || false,

@@ -21,3 +21,10 @@ button.search-button > svg {
   width: 15px;
   fill: grey;
 }
+
+@media screen and (max-device-width: 480px) { 
+  button.search-button {
+    margin: 0 10px;
+    width: calc(100% - 20px);
+  }
+}

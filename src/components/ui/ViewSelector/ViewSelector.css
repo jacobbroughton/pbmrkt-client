@@ -26,7 +26,7 @@
 }
 
 .home
-  .listings-controls
+  .listing-controls
   .view-selector
   button.view-option:not(:disabled):not(.selected):hover {
   background-color: #3b3b3b;

@@ -1,7 +1,7 @@
 main.home {
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  /* padding: 15px; */
   padding-top: 65px;
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
@@ -39,7 +39,7 @@ main.home {
   color: #181818;
 }
 
-.home .listings-controls {
+.home .listing-controls {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -60,30 +60,29 @@ main.home {
   top: 47px !important;
 }
 
-
-.home .listings-controls .control-group select label {
+.home .listing-controls .control-group select label {
   background-color: lightblue;
   width: 100%;
 }
 
-.home .listings-controls .control-group select:hover,
-.home .listings-controls .filters-button:hover svg {
+.home .listing-controls .control-group select:hover,
+.home .listing-controls .filters-button:hover svg {
   /* background-color: #5f5f5f; */
   color: var(--yellow);
   fill: var(--yellow);
 }
 
-.home .listings-controls .control-group.home {
+.home .listing-controls .control-group.home {
   display: none;
 }
 
-.home .listings-controls .control-group.home .home-link {
+.home .listing-controls .control-group.home .home-link {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.home .listings-controls .control-group.home svg {
+.home .listing-controls .control-group.home svg {
   width: 25px;
   fill: white;
 }
@@ -124,7 +123,7 @@ main.home {
     /* padding-top: 56px; */
   }
 
-  .home .listings-section > .listings-controls {
+  .home .listings-section > .listing-controls {
     top: 56px;
   }
 }
@@ -135,23 +134,23 @@ main.home {
     gap: 0;
   }
 
-  .home .listings-section > .listings-controls {
+  .home .listings-section > .listing-controls {
     justify-content: space-between;
     position: sticky;
     padding-bottom: 10px;
+    padding: 0;
     top: 0 !important;
-    /* flex-direction: column; */
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-end;
     flex-wrap: nowrap;
   }
 
-  .home .listings-section > .listings-controls > .view-selector > button {
+  .home .listings-section > .listing-controls > .view-selector > button {
     /* align-self: flex-end; */
     padding: 3px 10px;
   }
 
-  .home .listings-section > .listings-controls .control-group.home {
+  .home .listings-section > .listing-controls .control-group.home {
     display: flex;
   }
 
@@ -163,7 +162,7 @@ main.home {
     z-index: 9 !important;
   }
 
-  /* .home .listings-section .listings-controls .control-group.sort select {
+  /* .home .listings-section .listing-controls .control-group.sort select {
     height: 32px;
   } */
 
@@ -188,45 +187,12 @@ main.home {
   .home {
     height: auto;
   }
-  /* .home .listings-controls {
-    position: sticky;
-    padding-bottom: 10px;
-    top: 0 !important;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-  } */
-}
 
-/* TODO - Delete me if not needed */
-/* .animated-banner {
-  height: 100px;
-  width: 100%;
-  background-color: blue;
-  position: relative;
-}
+  .home > h1 {
+    padding: 0 10px 0px 10px;
+  }
 
-.animated-banner::after {
-  content: "";
-  position: absolute;
-  left: -4rem;
-  top: 0;
-  width: calc(100% + 5rem);
-  height: 100%;
-  background-image: url("/svgs/dash.svg");
-  background-size: 5rem 20rem;
-  -webkit-animation-name: a-dash;
-  animation-name: a-dash;
-  -webkit-animation-duration: 2s;
-  animation-duration: 2s;
-  -webkit-animation-delay: 0s;
-  animation-delay: 0s;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-direction: normal;
-  animation-direction: normal;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-} */
+  .home .listings-section > .listing-controls {
+    margin-bottom: 10px;
+  }
+}

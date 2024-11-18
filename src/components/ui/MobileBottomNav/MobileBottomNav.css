@@ -24,24 +24,31 @@ nav.mobile-nav .right-side-menu-button,
 nav.mobile-nav .notifications-menu-toggle,
 nav.mobile-nav .sidebar-toggle-button {
   display: flex;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 50px;
   width: 100%;
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid #555;
   border: 0;
+  position: relative;
 }
 
 nav.mobile-nav .add-new-menu-toggle {
   border: 0;
+  border-radius: 5px;
+  position: relative;
 }
 
 nav.mobile-nav .right-side-menu-button {
   border: 0;
   box-shadow: none;
+}
+
+nav.mobile-nav .right-side-menu-button.toggled {
+  /* border-bottom: 3px solid var(--lightgreen); */
 }
 
 nav.mobile-nav .search-toggle svg,
@@ -56,6 +63,8 @@ nav.mobile-nav .sidebar-toggle-button svg {
   filter: drop-shadow(rgba(0, 0, 0, 0.24) 0px 3px 8px);
 }
 
+
+nav.mobile-nav .search-toggle.toggled svg,
 nav.mobile-nav .notifications-menu-toggle.toggled svg,
 nav.mobile-nav .sidebar-toggle-button.active svg {
   fill: var(--lightgreen);
@@ -65,10 +74,13 @@ nav.mobile-nav .right-side-menu-button .profile-picture-container {
   height: 40px;
   width: 40px;
   min-width: 40px;
-  border: 1px solid #555;
+  border: 2px solid #555;
   border-radius: 50%;
-  border: 1px solid #555;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+nav.mobile-nav .right-side-menu-button.toggled .profile-picture-container {
+  border-color: var(--lightgreen);
 }
 
 nav.mobile-nav .right-side-menu-button .profile-picture {
@@ -104,15 +116,13 @@ nav.mobile-nav .right-side-menu-button .profile-picture {
 nav.mobile-nav .add-new-menu-toggle {
   color: white;
   transition: 0.1s ease background-color, 0.1s ease border-color;
-  background-color:transparent;
+  background-color: transparent;
   border: 1px solid var(--lightgreen);
 }
 
 nav.mobile-nav .add-new-menu-toggle.toggled {
-  
   background-color: var(--lightgreen);
   border: 1px solid transparent;
-
 }
 
 nav.mobile-nav .add-new-menu-toggle svg {

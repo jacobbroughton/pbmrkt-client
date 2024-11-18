@@ -299,13 +299,7 @@ export function Listings() {
   return (
     <main className="home">
       <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
-      {isOnMobile() ? (
-        <div>
-          <h1>PBMRKT</h1>
-        </div>
-      ) : (
-        false
-      )}
+      {isOnMobile() ? <h1>PBMRKT</h1> : false}
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>
@@ -326,7 +320,7 @@ export function Listings() {
           } listings-section`}
         >
           {isOnMobile() ? <MobileSearchBar /> : false}
-          <div className="listings-controls">
+          <div className="listing-controls">
             <ViewSelector />
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>

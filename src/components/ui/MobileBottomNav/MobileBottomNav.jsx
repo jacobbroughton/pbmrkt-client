@@ -165,7 +165,10 @@ export function MobileBottomNav() {
         </Link>
       )}
 
-      <button className="search-toggle" onClick={handleSearchToggle}>
+      <button
+        className={`search-toggle ${searchModalToggled ? "toggled" : ""}`}
+        onClick={handleSearchToggle}
+      >
         <SearchIcon />
       </button>
 
@@ -196,7 +199,10 @@ export function MobileBottomNav() {
             )}
           </button>
         )}
-        <button onClick={handleRightSideMenuToggle} className="right-side-menu-button">
+        <button
+          onClick={handleRightSideMenuToggle}
+          className={`right-side-menu-button ${rightSideMenuToggled ? "toggled" : ""}`}
+        >
           <div className="profile-picture-container">
             <img
               className="profile-picture"

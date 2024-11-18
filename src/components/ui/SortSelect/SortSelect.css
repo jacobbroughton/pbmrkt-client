@@ -46,3 +46,20 @@
 .control-group.sort p {
   font-weight: 600;
 }
+
+
+@media only screen and (max-device-width: 450px) {
+  .control-group.sort {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .control-group.sort > select{
+    width: 100%;
+    min-width: 100%;
+    background: transparent;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+}

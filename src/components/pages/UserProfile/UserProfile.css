@@ -638,3 +638,12 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
     align-items: flex-start;
   }
 }
+
+@media screen and (max-device-width: 480px) {
+  main.user-profile-page
+  > .main-profile-content
+  > .controls-and-listings
+  > .listing-controls {
+    padding: 10px;
+  }
+}

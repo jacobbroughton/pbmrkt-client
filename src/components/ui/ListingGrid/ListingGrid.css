@@ -265,6 +265,11 @@ div.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-conta
 }
 
 @media only screen and (max-device-width: 480px) {
+  div.grid {
+
+    padding: 0 10px;
+  }
+
   div.grid .grid-item:hover .image-container {
     transform: none;
     border: 1px solid transparent;

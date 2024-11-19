@@ -135,6 +135,10 @@ main.home {
     gap: 0;
   }
 
+  .home .listings-section {
+    padding: 0
+  }
+
   .home .listings-section > .listing-controls {
     justify-content: space-between;
     position: sticky;
@@ -146,10 +150,7 @@ main.home {
     flex-wrap: nowrap;
   }
 
-  .home .listings-section > .listing-controls > .view-selector > button {
-    /* align-self: flex-end; */
-    padding: 3px 10px;
-  }
+
 
   .home .listings-section > .listing-controls .control-group.home {
     display: flex;

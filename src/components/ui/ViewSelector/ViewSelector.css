@@ -61,18 +61,33 @@
     border: 0;
     padding: 0;
     height: auto;
+    gap: 10px;
   }
 
   .view-selector button.view-option {
     padding: 0;
+    padding-bottom: 2px;
+    /* margin-bottom: -2px; */
     border-radius: 3px;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
+    
   }
 
   .view-selector button.view-option:not(:first-child) {
     border-left: 0;
   }
 
+  .view-selector button.view-option.selected::before {
+    display: none;
+  }
+
   .view-selector button.view-option:not(:disabled).selected {
-    /* background-color: transparent; */
+    background-color: transparent;
+    border-bottom: 1px solid var(--lightgreen);
+  }
+
+  .view-selector button.view-option:not(:disabled).selected:hover {
+    background-color: transparent;
   }
 }

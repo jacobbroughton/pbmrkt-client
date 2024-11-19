@@ -52,3 +52,27 @@
 .view-selector button.view-option:not(:disabled).selected:hover {
   background-color: #5b5b5b;
 }
+
+@media only screen and (max-device-width: 480px) {
+  .view-selector {
+    align-self: flex-start;
+    margin: 0px 10px;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    height: auto;
+  }
+
+  .view-selector button.view-option {
+    padding: 0;
+    border-radius: 3px;
+  }
+
+  .view-selector button.view-option:not(:first-child) {
+    border-left: 0;
+  }
+
+  .view-selector button.view-option:not(:disabled).selected {
+    /* background-color: transparent; */
+  }
+}

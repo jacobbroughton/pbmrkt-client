@@ -4,6 +4,7 @@
   border-radius: 5px;
   /* margin-top: 20px; */
   /* padding: 15px; */
+  padding: 0 10px;
 }
 
 .skeletons-grid .overlay-content {
@@ -12,7 +13,7 @@
   left: 50%;
   top: 35px;
   z-index: 3;
-  width: calc(100% - 30px);
+  width: calc(100% - 40px);
   max-width: 400px;
   background-color: #333;
   border: 1px solid #555;

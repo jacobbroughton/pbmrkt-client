@@ -3,14 +3,14 @@ main.home {
   flex-direction: column;
   /* padding: 15px; */
   padding-top: 65px;
-  max-width: 1265px; /* same as stack overflow */
+  max-width: 1265px;
   margin: 0 auto;
   gap: 20px;
 }
 
 .home .listings-section {
   width: 100%; /* this breaks the page on safari */
-  /* margin-left: 241px; */
+  padding-right: 10px;
 }
 
 .home .listings-section.has-sidebar-margin {
@@ -114,6 +114,7 @@ main.home {
 @media screen and (max-width: 625px) {
   .home .listings-section {
     margin-left: 0;
+    padding: 0 10px;
   }
 }
 
@@ -193,6 +194,7 @@ main.home {
   }
 
   .home .listings-section > .listing-controls {
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 }

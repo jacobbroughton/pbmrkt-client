@@ -321,7 +321,7 @@ export function Listings() {
         >
           {isOnMobile() ? <MobileSearchBar /> : false}
           <div className="listing-controls">
-            <ViewSelector />
+            <ViewSelector /> 
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (

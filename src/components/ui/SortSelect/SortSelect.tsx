@@ -12,6 +12,7 @@ export function SortSelect({
   return (
     <>
       <div className="control-group sort">
+        {/* Sort: */}
         <div className="mobile-icon-parent">
           <SlidersIcon />
         </div>

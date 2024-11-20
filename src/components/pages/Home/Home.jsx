@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 import {
   resetFilter,
   resetFilters,
@@ -33,7 +34,6 @@ import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
-import { useSearchParams } from "../../../hooks/useSearchParams.ts";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -299,7 +299,14 @@ export function Listings() {
   return (
     <main className="home">
       <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
-      {isOnMobile() ? <h1>PBMRKT</h1> : false}
+      {isOnMobile() ? (
+        <div className='mobile-page-header'>
+          <h1>PBMRKT</h1>
+          {isOnMobile() ? <MobileSearchBar /> : false}
+        </div>
+      ) : (
+        false
+      )}
       <div className="sidebar-and-grid">
         {filtersSidebarToggled && (
           <>
@@ -319,9 +326,8 @@ export function Listings() {
             windowSize.width > 625 && filtersSidebarToggled ? "has-sidebar-margin" : ""
           } listings-section`}
         >
-          {isOnMobile() ? <MobileSearchBar /> : false}
           <div className="listing-controls">
-            <ViewSelector /> 
+            <ViewSelector />
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (

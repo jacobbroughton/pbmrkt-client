@@ -305,6 +305,7 @@
 @media only screen and (max-device-width: 480px) {
   .modal.search-modal {
     top: 15px;
+    width: calc(100% - 20px);
   }
 
   .search-modal .search-results-container .search-types-list {

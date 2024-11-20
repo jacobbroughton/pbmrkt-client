@@ -171,7 +171,7 @@ export const SearchModal = () => {
 
   return (
     <>
-      <div className="modal search-modal">
+      <div className={`modal search-modal ${searchValue.draft !== '' ? 'active' : ''}`}>
         {error && (
           <ErrorBanner
             error={error.toString()}

@@ -36,6 +36,7 @@
 @media screen and (max-device-width: 480px) {
 
   .overview {
+    margin-top: 15px;
     padding: 0 10px 100px 10px;
   } 
 

@@ -19,6 +19,7 @@ body,
   --shadow-subtle: 0 1px 2px #000000;
   --text-color: #ffffffde;
   --lightgreen: #4ad493;
+  --lightgreen-hover: hsla(152, 62%, 56%, 0.75);
   --red: #ff607d;
   --yellow: var(--lightgreen);
   --orange: #ff9400;

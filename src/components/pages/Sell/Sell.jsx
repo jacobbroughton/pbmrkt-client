@@ -697,7 +697,7 @@ export const Sell = () => {
               ref={whatIsThisRef}
             >
               <label
-                className="italic"
+                
                 title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling."
               >
                 What is this item?
@@ -713,7 +713,7 @@ export const Sell = () => {
                 className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
                 ref={categoryRef}
               >
-                <label className="italic">
+                <label >
                   Select the most accurate category for this item
                 </label>
 
@@ -734,7 +734,7 @@ export const Sell = () => {
               className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
               ref={conditionRef}
             >
-              <label className="italic">How about the condition?</label>
+              <label >How about the condition?</label>
 
               <RadioOptions
                 options={radioOptions.conditionOptions}
@@ -835,7 +835,7 @@ export const Sell = () => {
             {!noShipping && (
               <>
                 <div className="form-group shipping">
-                  <label className="italic">Are you covering the shipping cost?</label>
+                  <label >Are you covering the shipping cost?</label>
                   <div className="shipping-selector-and-input">
                     <div className="shipping-selector">
                       <button

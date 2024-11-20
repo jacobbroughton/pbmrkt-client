@@ -31,6 +31,7 @@ import { ImageIcon } from "../../ui/Icons/ImageIcon";
 import { EditCoverPhotoMenu } from "../../ui/EditCoverPhotoMenu/EditCoverPhotoMenu";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
 import PageTitle from "../../ui/PageTitle/PageTitle";
+import { Tabs } from "../../ui/Tabs/Tabs";
 
 export const UserProfile = () => {
   const { username: usernameFromURL } = useParams();
@@ -317,41 +318,34 @@ export const UserProfile = () => {
             "../../../assets/background-images/placeholder-cover-photo.png"
           }
         />
-        {/* <label htmlFor="edit-cover-photo">
-          <input
-            type="file"
-            className=""
-            title="Edit cover photo"
-            id="edit-cover-photo"
-            onChange={uploadCoverPhoto}
-          />
-          Edit Cover Photo {newCoverPhotoLoading ? <p>...</p> : <EditIcon />}
-        </label> */}
-        <div className="edit-cover-photo-container">
-          <button
-            className="edit-cover-photo"
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(
-                toggleModal({
-                  key: "editCoverPhotoMenu",
-                  value: !editCoverPhotoMenuToggled,
-                })
-              );
-            }}
-          >
-            <ImageIcon /> Edit Cover Photo
-          </button>
-          {editCoverPhotoMenuToggled && (
-            <EditCoverPhotoMenu
-              localUser={localUser}
-              setLocalUser={setLocalUser}
-              newCoverPhotoLoading={newCoverPhotoLoading}
-              setNewCoverPhotoLoading={setNewCoverPhotoLoading}
-              setCoverPhotoStagedForFullScreen={setCoverPhotoStagedForFullScreen}
-            />
-          )}
-        </div>
+
+        {isAdmin && (
+          <div className="edit-cover-photo-container">
+            <button
+              className="edit-cover-photo"
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(
+                  toggleModal({
+                    key: "editCoverPhotoMenu",
+                    value: !editCoverPhotoMenuToggled,
+                  })
+                );
+              }}
+            >
+              <ImageIcon /> Edit Cover Photo
+            </button>
+            {editCoverPhotoMenuToggled && (
+              <EditCoverPhotoMenu
+                localUser={localUser}
+                setLocalUser={setLocalUser}
+                newCoverPhotoLoading={newCoverPhotoLoading}
+                setNewCoverPhotoLoading={setNewCoverPhotoLoading}
+                setCoverPhotoStagedForFullScreen={setCoverPhotoStagedForFullScreen}
+              />
+            )}
+          </div>
+        )}
       </section>
       <section className="main-profile-content">
         <div className="info-section">
@@ -428,14 +422,16 @@ export const UserProfile = () => {
         <div className="controls-and-listings">
           <div className="listing-controls">
             <div className="tabs">
-              {["For Sale", "Sold", "Wanted", "Saved"].map((label) => (
-                <button
-                  onClick={() => setSelectedTab(label)}
-                  className={`${label === selectedTab ? "selected" : ""}`}
-                >
-                  {label}
-                </button>
-              ))}
+              <Tabs
+                tabs={[
+                  { label: "For Sale" },
+                  { label: "Sold" },
+                  { label: "Wanted" },
+                  { label: "Saved" },
+                ]}
+                isSelected={(selectedLabel) => selectedLabel === selectedTab}
+                onClick={(option) => setSelectedTab(option.label)}
+              />
             </div>
             {/* <p className="my-listings">For Sale</p> */}
             <SortSelect sort={sort} setSort={setSort} />

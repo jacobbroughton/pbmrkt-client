@@ -1,0 +1,41 @@
+.tabs {
+  align-self: flex-start;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  height: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.tabs button {
+  padding: 5px 0 2px 0;
+  padding-bottom: 2px;
+  /* margin-bottom: -2px; */
+  background-color: transparent;
+  border: 0;
+  border-radius: 3px;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  font-size: 0.875rem;
+  color: white;
+  cursor: pointer;
+}
+
+.tabs button:not(:first-child) {
+  border-left: 0;
+}
+
+.tabs button.selected::before {
+  display: none;
+}
+
+.tabs button:not(:disabled).selected {
+  background-color: transparent;
+  border-bottom: 1px solid var(--lightgreen);
+}
+
+.tabs button:not(:disabled):hover {
+  border-bottom: 1px solid var(--lightgreen-hover);
+
+}

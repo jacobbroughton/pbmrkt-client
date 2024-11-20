@@ -6,7 +6,8 @@
   position: fixed;
   top: 58px;
   right: 10px;
-  box-shadow: -3px 3px 5px #18181877;
+  /* box-shadow: -3px 3px 5px #18181877; */
+  box-shadow: #4ad49450 0px 20px 30px -10px;
   overflow: hidden;
   z-index: 10 !important;
 }

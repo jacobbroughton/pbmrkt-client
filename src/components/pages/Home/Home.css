@@ -68,7 +68,7 @@ main.home > .view-mode-buttons {
   /* margin-bottom: 5px; */
   background-color: var(--bg-primary);
   padding-top: 10px;
-  position: sticky;
+  /* position: sticky; */
   padding-bottom: 10px;
   top: 47px !important;
 }
@@ -77,83 +77,9 @@ main.home > .view-mode-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0px 10px;
 }
 
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons {
-  align-self: flex-start;
-  margin: 0px 10px;
-  background-color: transparent;
-  border: 0;
-  padding: 0;
-  height: auto;
-  display: flex;
-  gap: 10px;
-}
-
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons
-  button {
-  padding: 0;
-  padding-bottom: 2px;
-  /* margin-bottom: -2px; */
-  background-color: transparent;
-  border: 0;
-  border-radius: 3px;
-  border-bottom: 1px solid transparent;
-  border-radius: 0;
-  font-size: 0.875rem;
-  color: white;
-}
-
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons
-  button:not(:first-child) {
-  border-left: 0;
-}
-
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons
-  button.selected::before {
-  display: none;
-}
-
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons
-  button:not(:disabled).selected {
-  background-color: transparent;
-  border-bottom: 1px solid var(--lightgreen);
-}
-
-.home
-  > .sidebar-and-grid
-  > .listings-section
-  > .listing-controls
-  > .view-settings
-  > .view-mode-buttons
-  button:not(:disabled).selected:hover {
-  background-color: transparent;
-}
 
 .home .listing-controls .control-group select label {
   background-color: lightblue;
@@ -236,7 +162,7 @@ main.home > .view-mode-buttons {
 
   .home .listings-section > .listing-controls {
     justify-content: space-between;
-    position: sticky;
+    /* position: sticky; */
     padding-bottom: 10px;
     padding: 0;
     top: 0 !important;

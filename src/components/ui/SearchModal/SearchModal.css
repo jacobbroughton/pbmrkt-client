@@ -65,11 +65,16 @@
 
 /* * Search Results */
 .search-modal .search-results-container {
-  display: flex;
+  display: none;
   flex-direction: column;
   /* border: 1px solid #555; */
   border-radius: 5px;
   overflow-y: auto;
+}
+
+.search-modal.active .search-results-container {
+  display: flex;
+
 }
 
 .search-modal .search-results-container .search-types-list {

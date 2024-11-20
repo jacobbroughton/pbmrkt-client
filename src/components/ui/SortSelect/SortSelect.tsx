@@ -1,3 +1,4 @@
+import { isOnMobile } from "../../../utils/usefulFunctions.js";
 import { SlidersIcon } from "../Icons/SlidersIcon.jsx";
 import { SortIcon } from "../Icons/SortIcon.tsx";
 import "./SortSelect.css";
@@ -11,7 +12,7 @@ export function SortSelect({
 }) {
   return (
     <>
-      <div className="control-group sort">
+      <div className={`sort-select`}>
         {/* Sort: */}
         <div className="mobile-icon-parent">
           <SlidersIcon />

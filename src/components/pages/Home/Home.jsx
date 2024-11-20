@@ -34,6 +34,7 @@ import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
+import { Tabs } from "../../ui/Tabs/Tabs";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -329,28 +330,45 @@ export function Listings() {
           <div className="listing-controls">
             <div className="view-settings">
               {isOnMobile() ? (
-                <div className="view-mode-buttons">
-                  {[
+                <Tabs
+                  tabs={[
                     { label: "For Sale", class: "for-sale" },
                     { label: "Wanted", class: "wanted" },
-                ].map((viewType) => (
-                    <button
-                      className={`${view.type === viewType.label ? "selected" : ""}`}
-                      onClick={() => {
-                        localStorage.setItem("pbmrkt_view_type", viewType.label);
-                        dispatch(setViewType(viewType.label));
+                  ]}
+                  isSelected={(selectedLabel) => selectedLabel == view.type}
+                  onClick={(option) => {
+                    localStorage.setItem("pbmrkt_view_type", option.label);
+                    dispatch(setViewType(option.label));
 
-                        addSearchParams([["view-type", viewType.class]]);
-                      }}
-                    >
-                      {viewType.label}
-                    </button>
-                  ))}
-                </div>
+                    addSearchParams([["view-type", option.class]]);
+                  }}
+                />
               ) : (
                 false
               )}
-              <ViewSelector />
+              <Tabs
+                tabs={[{ label: "Overview" }, { label: "Grid" }, { label: "List" }]}
+                isSelected={(selectedLabel) => selectedLabel === view.layout}
+                onClick={(option) => {
+                  let optionValue = option.label;
+                  if (optionValue === "Overview" && filters.saved[view.type].category)
+                    dispatch(
+                      setFilters({
+                        ...filters,
+                        saved: {
+                          ...filters.saved,
+                          [view.type]: {
+                            ...filters.saved[view.type],
+                            category: null,
+                          },
+                        },
+                      })
+                    );
+                  localStorage.setItem("pbmrkt_view_layout", optionValue);
+                  dispatch(setViewLayout(optionValue));
+                  addSearchParams([["view-layout", optionValue.toLowerCase()]]);
+                }}
+              />
             </div>
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>

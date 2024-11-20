@@ -344,17 +344,23 @@ s .wanted-item .details p {
   width: 15px;
 }
 
-.wanted-item .images-and-content .content .status-as-of.still-searching svg {
+.wanted-item .images-and-content .content .status-as-of.green svg {
   fill: var(--lightgreen);
-  /* background-color: var(--lightgreen); */
-  /* border-radius: 50%; */
-  /* fill: white; */
-  /* padding: 2px; */
 }
 
-.wanted-item .images-and-content .content .status-as-of.sold svg {
+.wanted-item .images-and-content .content .status-as-of.red svg {
   fill: var(--red);
 }
+
+.wanted-item .images-and-content .content .status-as-of.yellow svg {
+  fill: var(--yellow);
+}
+
+
+.wanted-item .images-and-content .content .status-as-of.grey svg {
+  fill: grey;
+}
+
 
 .wanted-item .images-and-content .content .price-and-toggle {
   display: flex;

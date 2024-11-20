@@ -21,6 +21,7 @@ import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsMod
 import "./WantedItem.css";
 import ContactBuyerModal from "../../ui/ContactBuyerModal/ContactBuyerModal";
 import PageTitle from "../../ui/PageTitle/PageTitle";
+import { SearchIcon } from "../../ui/Icons/SearchIcon";
 
 export function WantedItem() {
   const dispatch = useDispatch();
@@ -126,6 +127,25 @@ export function WantedItem() {
     console.log(item);
   }, [item]);
 
+  async function handleStatusChange(newStatus) {
+    if (!["Still Searching", "Not Searching"].includes(newStatus)) return;
+
+    setMarkAsSoldLoading(true);
+    const { data, error } = await supabase.rpc("update_wanted_item_status", {
+      p_status: newStatus,
+      p_item_id: item.info.id,
+    });
+
+    if (error) {
+      console.error(error);
+      throw error.message;
+    }
+
+    setItem({ ...item, info: { ...item.info, status: newStatus } });
+
+    setMarkAsSoldLoading(false);
+  }
+
   if (!item && loading)
     return <LoadingOverlay message="Fetching item..." verticalAlignment="center" />;
   if (!item) return <p>item not found</p>;
@@ -139,18 +159,14 @@ export function WantedItem() {
     <main className="wanted-item">
       <PageTitle title={`Wanted: ${item.info.title}`} />
       <div className="images-and-content">
-        <div className="images-and-wanted-poster">
-          <div className="wanted-poster">
-            <h1>Wanted</h1>
-          </div>
-          {item.photos.length > 0 && (
-            <ItemImages
-              photos={item.photos}
-              selectedPhoto={selectedPhoto}
-              setSelectedPhoto={setSelectedPhoto}
-            />
-          )}
-        </div>
+        {item.photos.length > 0 && (
+          <ItemImages
+            photos={item.photos}
+            selectedPhoto={selectedPhoto}
+            setSelectedPhoto={setSelectedPhoto}
+          />
+        )}
+
         <div className="content">
           <div className="header-buttons">
             <button
@@ -174,12 +190,17 @@ export function WantedItem() {
                 <button
                   onClick={() =>
                     handleStatusChange(
-                      item.info.status == "Still Searching" ? "Sold" : "Still Searching"
+                      item.info.status == "Still Searching"
+                        ? "Not Searching"
+                        : "Still Searching"
                     )
                   }
                 >
                   Mark as "
-                  {item.info.status == "Still Searching" ? "Sold" : "Still Searching"}"
+                  {item.info.status == "Still Searching"
+                    ? "Not Searching"
+                    : "Still Searching"}
+                  "
                 </button>
                 <button
                   onClick={(e) => {
@@ -205,6 +226,9 @@ export function WantedItem() {
             )}
           </div>
           <div className="info">
+            {/* <div className="wanted-poster">
+              <h1>Wanted</h1>
+            </div> */}
             <div className="info-and-contact">
               <div className="primary-info-and-votes">
                 {isAdmin && (
@@ -218,7 +242,9 @@ export function WantedItem() {
                   />
                 )}
                 <div className="primary-info">
-                  <h1>{item.info.title}</h1>
+                  <h1>
+                    <span className="italic ">Wanted</span>: {item.info.title}
+                  </h1>
                   <div className="price-and-toggle">
                     <p>
                       <strong>Budget:</strong> ${item.info.budget}
@@ -226,12 +252,9 @@ export function WantedItem() {
                   </div>
                   <div className="status-as-of-container">
                     <p
-                      className={`status-as-of ${item.info.status
-                        .split(" ")
-                        .join("-")
-                        .toLowerCase()}`}
+                      className={`status-as-of ${item.info.status === 'Still Searching' ? 'green' : 'grey'}`}
                     >
-                      {item.info.status == "Still Searching" ? <CheckIcon /> : <XIcon />}
+                      {item.info.status == "Still Searching" ? <SearchIcon /> : <XIcon />}
                       {item.info.status}
                     </p>
                   </div>
@@ -249,10 +272,10 @@ export function WantedItem() {
                 <p>
                   <WarningTriangle /> No details were provided
                 </p>
-                <p>
+                {!isAdmin && <p>
                   Make sure to be clear to the buyer about what it is you're selling. E.g.
                   condition, extra shipping cost, etc..
-                </p>
+                </p>}
               </div>
             )}
 

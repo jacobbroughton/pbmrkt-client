@@ -287,26 +287,27 @@ main.item .images-and-content .content .status-as-of {
   background-color: #2f2f2f;
 }
 
-main.item .images-and-content .content .status-as-of.available:text {
-  color: blue;
-}
-
 main.item .images-and-content .content .status-as-of svg {
   width: 100%;
   width: 15px;
 }
 
-main.item .images-and-content .content .status-as-of.available svg {
+main.item .images-and-content .content .status-as-of.green svg {
   fill: var(--lightgreen);
-  /* background-color: var(--lightgreen); */
-  /* border-radius: 50%; */
-  /* fill: white; */
-  /* padding: 2px; */
 }
 
-main.item .images-and-content .content .status-as-of.sold svg {
+main.item .images-and-content .content .status-as-of.red svg {
   fill: var(--red);
 }
+
+main.item .images-and-content .content .status-as-of.yellow svg {
+  fill: var(--yellow);
+}
+
+main.item .images-and-content .content .status-as-of.grey svg {
+  fill: grey;
+}
+
 
 main.item .images-and-content .content .price-and-toggle {
   display: flex;
@@ -445,7 +446,6 @@ main.item .images-and-content .content .no-details-warning p:nth-child(2) {
 }
 
 @media only screen and (max-device-width: 485px) {
-  
   main.item {
     padding-bottom: 100px;
     padding-top: 0;

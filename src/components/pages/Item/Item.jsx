@@ -141,7 +141,7 @@ export const Item = () => {
     if (!["Available", "Pending", "Sold"].includes(newStatus)) return;
 
     setMarkAsSoldLoading(true);
-    const { data, error } = await supabase.rpc("update_item_status", {
+    const { data, error } = await supabase.rpc("update_sale_item_status", {
       p_status: newStatus,
       p_item_id: item.info.id,
     });
@@ -285,7 +285,7 @@ export const Item = () => {
                     </p>
                   </div>
                   <div className="status-as-of-container">
-                    <p className={`status-as-of ${item.info.status.toLowerCase()}`}>
+                    <p className={`status-as-of ${item.info.status === 'Available' ? 'green' : 'red'}`}>
                       {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
                       {item.info.status}
                     </p>
@@ -304,10 +304,10 @@ export const Item = () => {
                 <p>
                   <WarningTriangle /> No details were provided
                 </p>
-                <p>
+                {!isAdmin && <p>
                   Make sure to request more info from the seller prior to purchasing, so
                   there are no surprises.
-                </p>
+                </p>}
               </div>
             )}
 

@@ -35,17 +35,20 @@ export const Comment = ({
 
   const [votes, setVotes] = useState(comment.votes);
   const [existingVote, setExistingVote] = useState(comment.existing_vote || null);
-  const [userVote, setUserVote] = useState(comment.existing_vote || null);
+  const [userVote, setUpdatedVote] = useState(comment.existing_vote || null);
   const [voteNeedsUpdate, setVoteNeedsUpdate] = useState(false);
 
   const { createNotification } = useNotification();
 
   async function handleUpvote(e, comment) {
+    let initialVote = existingVote;
+
     try {
       if (!user) {
         dispatch(toggleModal({ key: "loginModal", value: true }));
         return;
       }
+
 
       const { data, error } = await supabase.rpc("add_comment_vote", {
         p_comment_id: comment.id,
@@ -55,7 +58,7 @@ export const Comment = ({
 
       if (error) throw error.message;
 
-      setUserVote("Up");
+      setUpdatedVote("Up");
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes += 1));
@@ -63,10 +66,8 @@ export const Comment = ({
         setVotes((prevVotes) => (prevVotes += 2));
       } else if (existingVote == "Up") {
         setVotes((prevVotes) => (prevVotes -= 1));
-        setUserVote(null);
+        setUpdatedVote(null);
       }
-
-   
 
       const commentId = data[0].id;
 
@@ -81,11 +82,14 @@ export const Comment = ({
   }
 
   async function handleDownvote(e, comment) {
+    let initialVote = existingVote;
+
     try {
       if (!user) {
         dispatch(toggleModal({ key: "loginModal", value: true }));
         return;
       }
+
       // Add reference here (ike 'to vote, you'll need to sign in)
 
       const { data, error } = await supabase.rpc("add_comment_vote", {
@@ -102,10 +106,8 @@ export const Comment = ({
         setVotes((prevVotes) => (prevVotes -= 2));
       } else if (existingVote == "Down") {
         setVotes((prevVotes) => (prevVotes += 1));
-        setUserVote(null);
+        setUpdatedVote(null);
       }
-
-
 
       const commentId = data[0].id;
 
@@ -116,7 +118,7 @@ export const Comment = ({
     } catch (error) {
       console.error(error);
       setError(error.toString());
-    }
+    } 
   }
 
   return (

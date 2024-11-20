@@ -249,7 +249,7 @@ export function PhotoUpload({
                   onChange={(e) => handleImageUpload(e.target.files)}
                   type="file"
                   multiple
-                  accept=".jpg"
+                  accept="image/.jpg"
                   name="photos"
                   ref={imageInputRef}
                   capture

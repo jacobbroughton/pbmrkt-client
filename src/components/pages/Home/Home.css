@@ -111,6 +111,7 @@ main.home > .view-mode-buttons {
   border-bottom: 1px solid transparent;
   border-radius: 0;
   font-size: 0.875rem;
+  color: white;
 }
 
 .home

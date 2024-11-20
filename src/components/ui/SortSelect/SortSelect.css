@@ -32,7 +32,7 @@
   /* background-color: #3b3b3b; */
 }
 
-.control-group.sort svg {
+/* .control-group.sort svg {
   width: 9px;
   min-width: none;
   fill: #ddd;
@@ -41,13 +41,13 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-}
+} */
 
 .control-group.sort p {
   font-weight: 600;
 }
 
-.control-group.sort > .desktop-icon-parent{
+.control-group.sort > .desktop-icon-parent {
   display: flex;
   position: absolute;
   right: 10px;
@@ -65,11 +65,9 @@
   width: 9px;
 }
 
-.control-group.sort > .mobile-icon-parent{
+.control-group.sort > .mobile-icon-parent {
   display: none;
 }
-
-
 
 @media only screen and (max-device-width: 450px) {
   .control-group.sort {
@@ -77,7 +75,7 @@
     min-width: 100%;
   }
 
-  .control-group.sort > select{
+  .control-group.sort > select {
     width: 100%;
     min-width: 100%;
     background: transparent;
@@ -88,16 +86,15 @@
     padding: 0px 10px;
   }
 
-  .control-group.sort > .desktop-icon-parent{
+  .control-group.sort > .desktop-icon-parent {
     display: none;
   }
 
-  .control-group.sort > .mobile-icon-parent{
+  .control-group.sort > .mobile-icon-parent {
     display: block;
   }
 
   .control-group.sort > .mobile-icon-parent > svg {
     width: 15px;
   }
-
 }

@@ -548,7 +548,7 @@ export const Sell = () => {
 
         <div className="form-block seller-info">
           <div className="header">
-            <h2>Your Info</h2>
+            <h2>Your Info 3/4</h2>
           </div>
 
           <div className="form-content">
@@ -696,7 +696,10 @@ export const Sell = () => {
               } required`}
               ref={whatIsThisRef}
             >
-              <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
+              <label
+                className="italic"
+                title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling."
+              >
                 What is this item?
               </label>
               <input
@@ -710,7 +713,9 @@ export const Sell = () => {
                 className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
                 ref={categoryRef}
               >
-                <label>Select the most accurate category for this item</label>
+                <label className="italic">
+                  Select the most accurate category for this item
+                </label>
 
                 <SelectCategoryToggle
                   label={categories.saved?.selected?.plural_name}
@@ -729,7 +734,7 @@ export const Sell = () => {
               className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
               ref={conditionRef}
             >
-              <label>Condition</label>
+              <label className="italic">How about the condition?</label>
 
               <RadioOptions
                 options={radioOptions.conditionOptions}
@@ -774,7 +779,7 @@ export const Sell = () => {
                   type="number"
                   step={0.01}
                   value={price}
-                  placeholder="11.50"
+                  placeholder="240.00"
                   className="dollars"
                   required
                 />
@@ -830,7 +835,7 @@ export const Sell = () => {
             {!noShipping && (
               <>
                 <div className="form-group shipping">
-                  <label>Are you covering the shipping cost?</label>
+                  <label className="italic">Are you covering the shipping cost?</label>
                   <div className="shipping-selector-and-input">
                     <div className="shipping-selector">
                       <button

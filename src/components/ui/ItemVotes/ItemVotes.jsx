@@ -12,9 +12,12 @@ export function ItemVotes({
   postType,
 }) {
   const { user } = useSelector((state) => state.auth);
+  const initialVote = existingVote
 
   async function handleItemDownvote() {
     try {
+      setExistingVote('Down');
+
       const { data, error } = await supabase.rpc("add_item_vote", {
         p_item_id: itemId,
         p_vote_direction: "Down",
@@ -36,11 +39,15 @@ export function ItemVotes({
     } catch (error) {
       console.error(error);
       setError(error.toString());
+
+      setExistingVote(initialVote);
     }
   }
 
   async function handleItemUpvote() {
     try {
+      setExistingVote('Up');
+
       const { data, error } = await supabase.rpc("add_item_vote", {
         p_item_id: itemId,
         p_vote_direction: "Up",
@@ -62,6 +69,7 @@ export function ItemVotes({
     } catch (error) {
       console.error(error);
       setError(error.toString());
+      setExistingVote(initialVote);
     }
   }
 

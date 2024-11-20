@@ -83,6 +83,10 @@ textarea {
   min-width: 150px;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .modal-overlay {
   background-color: #333333a5;
   position: fixed;

@@ -331,8 +331,8 @@ export function Listings() {
               {isOnMobile() ? (
                 <div className="view-mode-buttons">
                   {[
-                  { label: "Wanted", class: "wanted" },
-                  { label: "For Sale", class: "for-sale" },
+                    { label: "For Sale", class: "for-sale" },
+                    { label: "Wanted", class: "wanted" },
                 ].map((viewType) => (
                     <button
                       className={`${view.type === viewType.label ? "selected" : ""}`}

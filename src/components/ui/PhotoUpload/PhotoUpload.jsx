@@ -6,6 +6,7 @@ import { TrashIcon } from "../Icons/TrashIcon";
 import { StarIcon } from "../Icons/StarIcon";
 import { v4 as uuidv4 } from "uuid";
 import "./PhotoUpload.css";
+import { isOnMobile } from "../../../utils/usefulFunctions";
 
 export function PhotoUpload({
   ref,
@@ -243,13 +244,13 @@ export function PhotoUpload({
                 <ImagesIcons />
                 <div className="text">
                   <p>Add Photos (Up to 5)</p>
-                  <p>or drag and drop</p>
+                  {!isOnMobile() && <p>or drag and drop</p>}
                 </div>
                 <input
                   onChange={(e) => handleImageUpload(e.target.files)}
                   type="file"
                   multiple
-                  accept="image/.jpg"
+                  // accept=".jpg"
                   name="photos"
                   ref={imageInputRef}
                   capture

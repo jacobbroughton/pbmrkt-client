@@ -35,7 +35,8 @@
 .radio-options > .radio-option svg.checked {
   width: 14px;
   /* fill: var(--lightgreen); */
-  fill: white;
+  /* fill: white; */
+  fill: var(--lightgreen);
 }
 
 .radio-options:not(.disabled) > .radio-option:hover > svg:not(.checked) {

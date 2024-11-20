@@ -11,6 +11,7 @@ export function MobileSearchBar() {
       className="search-button"
       onClick={() => dispatch(toggleModal({ key: "searchModal", value: true }))}
     >
+      Search
       <SearchIcon />
     </button>
   );

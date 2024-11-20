@@ -15,6 +15,7 @@ button.search-button {
   font-size: 0.875rem;
   /* margin-bottom: 10px; */
   box-shadow: #222 0px 2px 8px 0px;
+
 }
 
 button.search-button > svg {
@@ -25,10 +26,14 @@ button.search-button > svg {
 @media screen and (max-device-width: 480px) {
   button.search-button {
     padding: 0;
-    width: 40px;
+    /* width: auto; */
     height: 40px;
     align-items: center;
     justify-content: center;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 0 10px;
+    /* padding-left: 60px; */
   }
 }

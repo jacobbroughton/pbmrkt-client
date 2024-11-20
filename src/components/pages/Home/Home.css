@@ -77,7 +77,6 @@ main.home > .view-mode-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
 }
 
 .home
@@ -111,6 +110,7 @@ main.home > .view-mode-buttons {
   border-radius: 3px;
   border-bottom: 1px solid transparent;
   border-radius: 0;
+  font-size: 0.875rem;
 }
 
 .home
@@ -277,7 +277,7 @@ main.home > .view-mode-buttons {
   }
 }
 
-@media screen and (max-device-width: 480px) {
+@media only screen and (max-device-width: 480px) {
   .home {
     height: auto;
   }
@@ -289,5 +289,9 @@ main.home > .view-mode-buttons {
   .home .listings-section > .listing-controls {
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+
+  .home > .sidebar-and-grid > .listings-section > .listing-controls > .view-settings {
+    width: 100%;
   }
 }

@@ -48,7 +48,21 @@
 }
 
 .control-group.sort > .desktop-icon-parent{
-  display: block;
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 9px;
+  transform: translateY(-50%);
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+}
+
+.control-group.sort > .desktop-icon-parent > svg {
+  fill: #ddd;
+  width: 9px;
 }
 
 .control-group.sort > .mobile-icon-parent{

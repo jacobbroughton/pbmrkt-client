@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../../../utils/supabase";
 import "./ListingList.css";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
+import { GearIcon } from "../Icons/GearIcon";
 
 export const ListingList = ({ listings, isOnUserProfile }) => {
   return (

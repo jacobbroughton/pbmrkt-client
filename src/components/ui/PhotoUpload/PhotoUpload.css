@@ -34,6 +34,11 @@ div.form-block.photo-uploader label.photo-upload p:first-child {
   font-weight: 600;
 }
 
+div.form-block.photo-uploader label.photo-upload p:nth-child(2) {
+  font-size: 0.875rem;
+
+}
+
 div.form-block.photo-uploader label.photo-upload input[type="file"] {
   display: none;
 }

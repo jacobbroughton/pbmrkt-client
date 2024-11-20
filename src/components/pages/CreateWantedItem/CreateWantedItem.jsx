@@ -288,7 +288,7 @@ export const CreateWantedItem = () => {
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
-      <h1>Create Wanted Post</h1>
+      <h1>Create a new wanted listing</h1>
 
       <form onSubmit={handleSubmit}>
         <PhotoUpload

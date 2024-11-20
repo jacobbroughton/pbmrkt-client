@@ -488,8 +488,13 @@ s .wanted-item .details p {
   }
 }
 
-@media only screen and (max-device-width: 485px) {
-  .wanted-item {
+@media only screen and (max-device-width: 480px) {
+  main.wanted-item {
+    padding-top: 10px;
     padding-bottom: 100px;
+  }
+
+  main.wanted-item .images-and-content .content .primary-info > h1 {
+    font-size: 1.5rem;
   }
 }

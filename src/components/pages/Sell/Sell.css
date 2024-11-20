@@ -5,7 +5,7 @@ main.sell {
   padding-top: 65px;
   max-width: 1265px; /* same as stack overflow */
   margin: 0 auto;
-  
+
   max-width: 620px;
   margin: 0 auto;
   display: flex;
@@ -14,8 +14,6 @@ main.sell {
   padding-bottom: 100px;
   width: 100%;
 }
-
-
 
 .sell h1 {
   font-size: 1.5rem;
@@ -254,7 +252,6 @@ main.sell {
   width: 12px;
 }
 
-
 .sell > form .form-group.year,
 .sell > form .form-group.price {
   max-width: 100px;
@@ -483,7 +480,6 @@ main.sell {
 .sell > form .form-group input:not([type="radio"]):not([type="file"]),
 .sell > form .form-group textarea {
   padding: 5px 10px;
-
 }
 
 .sell > form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
@@ -635,4 +631,14 @@ main.sell {
 .sell .form-group .cant-find-city-toggle svg {
   fill: whitesmoke;
   width: 9px;
+}
+
+@media only screen and (max-device-width: 480px) {
+  main.sell {
+    padding-top: 10px;;
+  }
+
+  main.sell > form {
+    gap: 20px;
+  }
 }

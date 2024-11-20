@@ -222,3 +222,13 @@ div.form-block.photo-uploader label.photo-upload:not(:disabled):not(.marked):hov
 .create-wanted-item > form .form-group input:not([type="radio"]):not([type="file"]):not(.marked):hover {
   border-color: #666;
 }
+
+@media only screen and (max-device-width: 480px) {
+  main.create-wanted-item {
+    padding-top: 10px;;
+  }
+
+  main.create-wanted-item > form {
+    gap: 20px;
+  }
+}

@@ -187,7 +187,7 @@ export function WantedItem() {
                     dispatch(toggleModal({ key: "deleteModal", value: true }));
                   }}
                 >
-                  Delete Delete
+                  Delete
                 </button>
                 <button
                   onClick={() =>

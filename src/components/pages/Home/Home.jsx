@@ -11,7 +11,7 @@ import { setFlag } from "../../../redux/flags.ts";
 import { toggleModal } from "../../../redux/modals.ts";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.ts";
-import { setViewLayout } from "../../../redux/view.ts";
+import { setViewLayout, setViewType } from "../../../redux/view.ts";
 import { supabase } from "../../../utils/supabase.ts";
 import {
   collapseAllCategoryFolders,
@@ -300,7 +300,7 @@ export function Listings() {
     <main className="home">
       <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
       {isOnMobile() ? (
-        <div className='mobile-page-header'>
+        <div className="mobile-page-header">
           <h1>PBMRKT</h1>
           {isOnMobile() ? <MobileSearchBar /> : false}
         </div>
@@ -327,7 +327,31 @@ export function Listings() {
           } listings-section`}
         >
           <div className="listing-controls">
-            <ViewSelector />
+            <div className="view-settings">
+              {isOnMobile() ? (
+                <div className="view-mode-buttons">
+                  {[
+                  { label: "Wanted", class: "wanted" },
+                  { label: "For Sale", class: "for-sale" },
+                ].map((viewType) => (
+                    <button
+                      className={`${view.type === viewType.label ? "selected" : ""}`}
+                      onClick={() => {
+                        localStorage.setItem("pbmrkt_view_type", viewType.label);
+                        dispatch(setViewType(viewType.label));
+
+                        addSearchParams([["view-type", viewType.class]]);
+                      }}
+                    >
+                      {viewType.label}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                false
+              )}
+              <ViewSelector />
+            </div>
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
           {filterTags.filter((filter) => filter.active).length >= 1 && (

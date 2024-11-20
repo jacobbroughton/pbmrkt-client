@@ -211,7 +211,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                       localStorage.setItem("pbmrkt_view_type", viewType.label);
                       dispatch(setViewType(viewType.label));
 
-                      // navigate(`/${viewType.class}`);
                       addSearchParams([["view-type", viewType.class]]);
                     }}
                   >

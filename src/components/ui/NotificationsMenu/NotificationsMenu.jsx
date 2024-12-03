@@ -97,52 +97,77 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
             if (error) throw error.message;
 
             const profile_picture_url = data.publicUrl;
-            return (
-              <li key={notif.id}>
-                <Link
-                  to={`/listing/${notif.item_id}`}
-                  onClick={() => {
-                    dispatch(toggleModal({ key: "notificationsMenu", value: false }));
-                    if (!notif.is_read) handleNotificationRead(notif);
-                  }}
-                >
-                  <div className="profile-picture-container">
-                    <img className="profile-picture" src={profile_picture_url} />
-                  </div>
-                  <div className="notification-body">
-                    {notif.entity_type_id == 1 ? (
-                      <p>{notif.actor_username} commented on your post</p>
-                    ) : notif.entity_type_id == 2 ? (
-                      <p>{notif.actor_username} replied to your comment</p>
-                    ) : notif.entity_type_id == 3 ? (
-                      <p>{notif.actor_username} liked your comment</p>
-                    ) : notif.entity_type_id == 4 ? (
-                      <p>{notif.actor_username} disliked your comment</p>
-                    ) : notif.entity_type_id == 5 ? (
-                      <p>
-                        {notif.actor_username} sent you an inquiry for your 'Wanted' post
-                      </p>
-                    ) : notif.entity_type_id == 6 ? (
-                      <p>
-                        {notif.actor_username} sent you an inquiry for your 'For sale'
-                        post'
-                      </p>
-                    ) : (
-                      false
-                    )}
-                    <p className="time-ago">{getTimeAgo(new Date(notif.created_at))}</p>
-                  </div>
-                  <div
-                    className={`read-circle ${notif.is_read ? "read" : "unread"}`}
-                    title={`This notification${
-                      notif.status == "Read"
-                        ? `was read at ${notif.read_at}`
-                        : " has not been read yet"
-                    }`}
-                  ></div>
-                </Link>
-              </li>
-            );
+
+            let notificationLink = `/`;
+            let notificationBody = ``;
+
+            console.log("notification", notif);
+
+            switch (notif.entity_type_id) {
+              case 1: {
+                notificationLink = `/listing/${notif.item_id}`;
+                notificationBody = `${notif.actor_username} commented on your post`;
+                break;
+              }
+              case 2: {
+                notificationLink = `/`;
+                notificationBody = `${notif.actor_username} replied to your comment`;
+                break;
+              }
+              case 3: {
+                notificationLink = `/`;
+                notificationBody = `${notif.actor_username} liked your comment`;
+                break;
+              }
+              case 4: {
+                notificationLink = `/`;
+                notificationBody = `${notif.actor_username} disliked your comment`;
+                break;
+              }
+              case 5: {
+                notificationLink = `${notif.actor_username} sent you an inquiry for your 'Wanted' post`;
+                notificationBody = ``;
+                break;
+              }
+              case 6: {
+                notificationLink = `/`;
+                notificationBody = `${notif.actor_username} sent you an inquiry for your 'For sale' post'`;
+                break;
+              }
+              default: {
+                notificationLink = `/`;
+                notificationBody = `Unknown notification type`;
+              }
+            }
+
+            if (notif.entity_type_id == 1)
+              return (
+                <li key={notif.id}>
+                  <Link
+                    to={notificationLink}
+                    onClick={() => {
+                      dispatch(toggleModal({ key: "notificationsMenu", value: false }));
+                      if (!notif.is_read) handleNotificationRead(notif);
+                    }}
+                  >
+                    <div className="profile-picture-container">
+                      <img className="profile-picture" src={profile_picture_url} />
+                    </div>
+                    <div className="notification-body">
+                      {notificationBody}
+                      <p className="time-ago">{getTimeAgo(new Date(notif.created_at))}</p>
+                    </div>
+                    <div
+                      className={`read-circle ${notif.is_read ? "read" : "unread"}`}
+                      title={`This notification${
+                        notif.status == "Read"
+                          ? `was read at ${notif.read_at}`
+                          : " has not been read yet"
+                      }`}
+                    ></div>
+                  </Link>
+                </li>
+              );
           })
         ) : (
           <div className="no-notifications">

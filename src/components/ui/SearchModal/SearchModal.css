@@ -53,14 +53,17 @@
   /* height: 100%;; */
   /* border-top-right-radius: 25px;
   border-bottom-right-radius: 25px; */
-  background-color: var(--lightgreen);
+  /* border: 1px solid var(--lightgreen); */
   color: white;
-  border: 0;
   font-weight: 600;
 }
 
 .search-modal .search-input-container button:not(:disabled) {
   cursor: pointer;
+}
+
+.search-modal .search-input-container button:not(:disabled):hover {
+  background-color: #3f3f3f;
 }
 
 /* * Search Results */

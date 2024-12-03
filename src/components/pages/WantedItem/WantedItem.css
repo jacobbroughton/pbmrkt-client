@@ -150,7 +150,6 @@ s .wanted-item .details p {
   justify-content: flex-start;
   flex-direction: column;
   /* padding-bottom: 50px; */
-  min-height: 350px;
   overflow: hidden;
   /* background-color: #444;
   border: 1px solid #555; */

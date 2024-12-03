@@ -311,6 +311,7 @@
 .comment > .bars-and-content > .comment-contents > .controls button:hover,
 .comment .comment-form .buttons button:hover {
   background-color: transparent;
+  color: white;
 }
 
 .comment > .bars-and-content > .comment-contents > .controls button:not(:disabled),

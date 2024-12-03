@@ -21,6 +21,9 @@ import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsMod
 import "./Item.css";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 import PageTitle from "../../ui/PageTitle/PageTitle";
+import { useSearchParams } from "../../../hooks/useSearchParams";
+import { Arrow } from "../../ui/Icons/Arrow";
+import { Chevron } from "../../ui/Icons/Chevron";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ export const Item = () => {
     deleteModalToggled,
   } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
+  const { searchParams } = useSearchParams();
   const { itemID } = useParams();
   const [item, setItem] = useState(null);
   const [error, setError] = useState("");
@@ -52,6 +56,7 @@ export const Item = () => {
   const [deleteItemLoading, setDeleteItemLoading] = useState(false);
 
   useEffect(() => {
+    console.log(searchParams);
     async function getItem() {
       setLoading(true);
       try {
@@ -178,11 +183,10 @@ export const Item = () => {
       {deleteModalToggled && (
         <DeleteModal
           label="Delete this listing?"
-          deleteLoading={deleteItemLoading}
+          // deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
               console.log("Swag");
-              setDeleteItemLoading(true);
               const { error, data } = await supabase.rpc("delete_item", {
                 p_item_id: item.info.id,
               });
@@ -201,6 +205,11 @@ export const Item = () => {
             }
           }}
         />
+      )}
+      {searchParams.get("back-ref") === "dashboard" && (
+        <Link to={`http://localhost:3000/`} className="button back-button">
+          <Arrow direction={'left'}/> Go back to listings 
+        </Link>
       )}
       <div className="images-and-content">
         <ItemImages
@@ -285,7 +294,11 @@ export const Item = () => {
                     </p>
                   </div>
                   <div className="status-as-of-container">
-                    <p className={`status-as-of ${item.info.status === 'Available' ? 'green' : 'red'}`}>
+                    <p
+                      className={`status-as-of ${
+                        item.info.status === "Available" ? "green" : "red"
+                      }`}
+                    >
                       {item.info.status == "Available" ? <CheckIcon /> : <XIcon />}
                       {item.info.status}
                     </p>
@@ -304,13 +317,15 @@ export const Item = () => {
                 <p>
                   <WarningTriangle /> No details were provided
                 </p>
-                {!isAdmin && <p>
-                  Make sure to request more info from the seller prior to purchasing, so
-                  there are no surprises.
-                </p>}
+                {!isAdmin && (
+                  <p>
+                    Make sure to request more info from the seller prior to purchasing, so
+                    there are no surprises.
+                  </p>
+                )}
               </div>
             )}
-
+{item.info.accepted_trades}
             <MetadataTable
               rows={[
                 { label: "Condition", values: [item.info.condition] },
@@ -321,7 +336,7 @@ export const Item = () => {
                   values: [
                     item.info.trades,
                     ...(item.info.accepted_trades
-                      ? `"${item.info.accepted_trades}"`
+                      ? [`"${item.info.accepted_trades}"`]
                       : []),
                   ],
                 },

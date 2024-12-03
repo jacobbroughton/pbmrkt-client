@@ -80,7 +80,6 @@ main.home > .view-mode-buttons {
   padding: 0px 10px;
 }
 
-
 .home .listing-controls .control-group select label {
   background-color: lightblue;
   width: 100%;
@@ -114,23 +113,6 @@ main.home > .view-mode-buttons {
   height: 100%;
   position: relative;
 }
-
-/* .home .sidebar-toggle-button {
-  background-color: var(--lightgreen);
-  padding: 7px 15px;
-  align-self: flex-start;
-  border-radius: 3px;
-  font-size: 1rem;
-  color: #212529;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.1s ease filter;
-  width: 100%;
-  color: white;
-  text-shadow: 1px 1px 3px #21252953;
-  font-weight: 600;
-  transition: color 0.1s ease, background-color 0.1s ease;
-} */
 
 @media screen and (max-width: 625px) {
   .home .listings-section {

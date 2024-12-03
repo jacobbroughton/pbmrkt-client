@@ -1,4 +1,4 @@
-.sort-select {
+.sort-select-container {
   display: flex;
   font-size: 1rem;
   gap: 10px;
@@ -9,7 +9,7 @@
   /* margin-bottom: 10px; */
 }
 
-.sort-select > select {
+.sort-select-container > select {
   background-color: transparent;
   border: 0;
   border-radius: 3px;
@@ -25,22 +25,23 @@
   font-size: 0.875rem;
   /* height: 33px; */
   text-align: end;
+  padding-left: 30px;
 
   /* background-color: #333; */
   /* border-top: 1px solid #444;
   border-bottom: 1px solid #444; */
 }
-.sort-select > select:hover {
+.sort-select-container > select:hover {
   color: white;
   /* background-color: #3b3b3b; */
 }
 
-.sort-select p {
+.sort-select-container p {
   font-weight: 600;
 }
 
-.sort-select > .desktop-icon-parent,
-.sort-select > .mobile-icon-parent {
+.sort-select-container > .desktop-icon-parent,
+.sort-select-container > .mobile-icon-parent {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -50,34 +51,34 @@
   margin-left: 0;
 }
 
-.sort-select > .mobile-icon-parent {
+.sort-select-container > .mobile-icon-parent {
   right: 10px;
   display: none;
 }
 
-.sort-select > .desktop-icon-parent {
+.sort-select-container > .desktop-icon-parent {
   display: flex;
   left: 10px;
   width: 9px;
 }
 
-.sort-select > .desktop-icon-parent > svg,
-.sort-select > .mobile-icon-parent > svg {
+.sort-select-container > .desktop-icon-parent > svg,
+.sort-select-container > .mobile-icon-parent > svg {
   fill: #ddd;
   width: 9px;
 }
 
-.sort-select > .mobile-icon-parent {
+.sort-select-container > .mobile-icon-parent {
   display: none;
 }
 
 @media only screen and (max-device-width: 450px) {
-  .sort-select {
+  .sort-select-container {
     width: 100%;
     min-width: 100%;
   }
 
-  .sort-select > select {
+  .sort-select-container > select {
     width: 100%;
     min-width: 100%;
     background: transparent;
@@ -85,20 +86,20 @@
     border-right: 0;
     border-radius: 0;
     text-align: start;
-    padding: 0px 10px;
+    padding: 5px 10px;
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
   }
 
-  .sort-select > .desktop-icon-parent {
+  .sort-select-container > .desktop-icon-parent {
     display: none;
   }
 
-  .sort-select > .mobile-icon-parent {
+  .sort-select-container > .mobile-icon-parent {
     display: flex;
   }
 
-  .sort-select > .mobile-icon-parent > svg {
+  .sort-select-container > .mobile-icon-parent > svg {
     width: 15px;
   }
 }

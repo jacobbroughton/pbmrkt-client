@@ -293,7 +293,7 @@ form .select-container > select {
   padding: 5px 10px 5px 30px;
 }
 
-form .form-group .select-container > select.sort-select {
+form .form-group .select-container > select.form-sort-select {
   width: 100%;
   /* background-color: transparent; */
   /* border: 0; */
@@ -421,8 +421,8 @@ h1 {
 }
 
 .button svg {
-  width: 13px;
-  min-width: 13px;
+  width: 11px;
+  min-width: 12px;
   fill: white;
 }
 
@@ -439,7 +439,7 @@ button.link-button:focus,
 button.link-button:focus-visible,
 button.link-button:focus-within,
 button.link-button:active{
-  background-color: green;
+  font-style: italic;
 }
 
 button.link-button:not(:disabled):hover,

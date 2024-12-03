@@ -1,11 +1,12 @@
 import { XIcon } from "../Icons/XIcon";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./DeleteModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { useDispatch } from "react-redux";
 
-export function DeleteModal({ label = "", handleDeleteClick, deleteLoading }) {
+export function DeleteModal({ label = "", handleDeleteClick }) {
   const modalRef = useRef(null);
+  const [deleteLoading, setDeleteLoading] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,9 +49,11 @@ export function DeleteModal({ label = "", handleDeleteClick, deleteLoading }) {
           </button>
           <button
             className="delete"
-            onClick={() => {
+            onClick={async () => {
               if (deleteLoading) return
-              handleDeleteClick();
+              setDeleteLoading(true)
+              await handleDeleteClick();
+              setDeleteLoading(false)
               dispatch(toggleModal({ key: "deleteModal", value: false }));
             }}
           >

@@ -298,7 +298,7 @@ export const UserProfile = () => {
 
   return (
     <main className="user-profile-page">
-      <PageTitle title="Profile" />
+      <PageTitle title={`${localUser.username}'s Profile`} />
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}

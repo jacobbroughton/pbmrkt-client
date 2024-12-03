@@ -12,7 +12,7 @@ export function SortSelect({
 }) {
   return (
     <>
-      <div className={`sort-select`}>
+      <div className={`sort-select-container`}>
         {/* Sort: */}
         <div className="mobile-icon-parent">
           <SlidersIcon />
@@ -21,7 +21,6 @@ export function SortSelect({
           <SortIcon />
         </div>
         <select
-          className="sort-select"
           id="sort-select"
           onChange={(e) => {
             setSort(e.target.value);

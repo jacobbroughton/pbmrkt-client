@@ -548,7 +548,7 @@ export const Sell = () => {
 
         <div className="form-block seller-info">
           <div className="header">
-            <h2>Your Info 3/4</h2>
+            <h2>Your Info</h2>
           </div>
 
           <div className="form-content">

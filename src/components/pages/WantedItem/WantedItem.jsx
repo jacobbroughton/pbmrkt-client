@@ -252,7 +252,9 @@ export function WantedItem() {
                   </div>
                   <div className="status-as-of-container">
                     <p
-                      className={`status-as-of ${item.info.status === 'Still Searching' ? 'green' : 'grey'}`}
+                      className={`status-as-of ${
+                        item.info.status === "Still Searching" ? "green" : "grey"
+                      }`}
                     >
                       {item.info.status == "Still Searching" ? <SearchIcon /> : <XIcon />}
                       {item.info.status}
@@ -272,10 +274,12 @@ export function WantedItem() {
                 <p>
                   <WarningTriangle /> No details were provided
                 </p>
-                {!isAdmin && <p>
-                  Make sure to be clear to the buyer about what it is you're selling. E.g.
-                  condition, extra shipping cost, etc..
-                </p>}
+                {!isAdmin && (
+                  <p>
+                    Make sure to be clear to the buyer about what it is you're selling.
+                    E.g. condition, extra shipping cost, etc..
+                  </p>
+                )}
               </div>
             )}
 
@@ -338,10 +342,9 @@ export function WantedItem() {
       {deleteModalToggled && (
         <DeleteModal
           label="Delete this listing?"
-          deleteLoading={deleteItemLoading}
+          // deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
-              setDeleteItemLoading(true);
               const { error, data } = await supabase.rpc("delete_item", {
                 p_item_id: item.info.id,
               });
@@ -355,8 +358,6 @@ export function WantedItem() {
               });
             } catch (error) {
               console.error(error);
-            } finally {
-              setDeleteItemLoading(false);
             }
           }}
         />

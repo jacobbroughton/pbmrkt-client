@@ -11,7 +11,7 @@ export function FormSelect({
     <div className="form-select">
       <select
         disabled={disabled}
-        className="sort-select"
+        className="form-sort-select"
         onChange={handleChange}
         value={selectedOption}
       >

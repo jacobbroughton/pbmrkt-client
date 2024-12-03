@@ -22,7 +22,7 @@ export const ListingGrid = ({ listings, accountForSidebar, loading }) => {
         const imageUrl = data.publicUrl;
         return (
           <Link
-            to={`/listing/${listing.id}`}
+            to={`/listing/${listing.id}?back-ref=dashboard`}
             key={listing.id}
             title={listing.what_is_this}
           >

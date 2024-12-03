@@ -20,7 +20,10 @@ export const ListingList = ({ listings, isOnUserProfile }) => {
         return (
           <li key={listing.id}>
             <div className="image-wrapper">
-              <Link className="image-container" to={`/listing/${listing.id}`}>
+              <Link
+                className="image-container"
+                to={`/listing/${listing.id}?back-ref=dashboard`}
+              >
                 <img src={imageUrl} />
               </Link>
               {listing.image_count > 1 && (

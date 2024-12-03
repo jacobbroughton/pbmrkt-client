@@ -13,6 +13,7 @@ import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../../hooks/useNotification";
+import { DeleteModal } from "../DeleteModal/DeleteModal";
 
 export const Comment = ({
   comment,
@@ -31,6 +32,7 @@ export const Comment = ({
   postType,
 }) => {
   const { user } = useSelector((state) => state.auth);
+  const { deleteModalToggled } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 
   const [votes, setVotes] = useState(comment.votes);
@@ -48,7 +50,6 @@ export const Comment = ({
         dispatch(toggleModal({ key: "loginModal", value: true }));
         return;
       }
-
 
       const { data, error } = await supabase.rpc("add_comment_vote", {
         p_comment_id: comment.id,
@@ -118,7 +119,7 @@ export const Comment = ({
     } catch (error) {
       console.error(error);
       setError(error.toString());
-    } 
+    }
   }
 
   return (
@@ -199,7 +200,8 @@ export const Comment = ({
                   {comment.created_by_id == user?.auth_id && (
                     <button
                       className="button"
-                      onClick={(e) => handleDeleteComment(e, comment.id)}
+                      // onClick={(e) => handleDeleteComment(e, comment.id)}
+                      onClick={(e) => dispatch(toggleModal({key: 'deleteModal', value: true}))}
                       type="button"
                     >
                       Delete
@@ -273,6 +275,19 @@ export const Comment = ({
           )}
         </div>
       </div>
+      {deleteModalToggled && (
+        <DeleteModal
+          label="Delete this comment?"
+          // deleteLoading={deleteItemLoading}
+          handleDeleteClick={async () => {
+            try {
+              console.log('delete comment')
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -87,6 +87,19 @@ main.item .images-and-content {
   gap: 15px;
 }
 
+main.item .back-button {
+  border: 0;
+  width: fit-content;
+  font-size: 0.875rem;
+  background-color: #2f2f2f;
+  border: 1px solid #555;
+}
+
+main.item .back-button:hover {
+  text-decoration: none;
+  background-color: #3b3b3b;
+}
+
 /* Content section */
 main.item .images-and-content .content {
   display: flex;
@@ -307,7 +320,6 @@ main.item .images-and-content .content .status-as-of.yellow svg {
 main.item .images-and-content .content .status-as-of.grey svg {
   fill: grey;
 }
-
 
 main.item .images-and-content .content .price-and-toggle {
   display: flex;

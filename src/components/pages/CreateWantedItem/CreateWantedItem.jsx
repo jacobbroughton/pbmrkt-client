@@ -275,7 +275,6 @@ export const CreateWantedItem = () => {
       }
     };
 
-    console.log("render");
     getDefaultSelections();
     getItemCategories();
   }, []);

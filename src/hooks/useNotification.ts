@@ -4,7 +4,6 @@ export function useNotification() {
   async function createNotification(
     actorId: number,
     notifierId: number,
-    entityId: number,
     entityTypeId: number
   ) {
     try {
@@ -12,13 +11,11 @@ export function useNotification() {
         error,
         data: [notificationObject],
       } = await supabase.rpc("add_notification_object", {
-        p_entity_id: entityId,
         p_entity_type_id: entityTypeId,
       });
 
       if (error) throw error.message || error.toString();
 
-      console.log("added notification object", notificationObject);
 
       const {
         error: error2,
@@ -31,7 +28,6 @@ export function useNotification() {
 
       if (error2) throw error2.message || error2.toString();
 
-      console.log("added notification", notification);
     } catch (error) {
       console.error(error);
     }

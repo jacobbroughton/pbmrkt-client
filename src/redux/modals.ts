@@ -46,7 +46,6 @@ const modalsSlice = createSlice({
       };
     },
     closeAllModals: (state, { payload }) => {
-      console.log("state at close all modals", state);
 
       return {
         ...initialState,

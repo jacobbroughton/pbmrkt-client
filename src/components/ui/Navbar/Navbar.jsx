@@ -89,7 +89,6 @@ export const Navbar = () => {
             filter: `related_user_id=eq.${user.auth_id}`,
           },
           (payload) => {
-            console.log("Change received!", payload);
             if (payload.new.related_user_id != user.auth_id) {
               localNotifications.unshift(payload.new);
               setNotifications(localNotifications);

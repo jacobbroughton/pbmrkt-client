@@ -85,7 +85,6 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
         </button>
       </div>
       <ul>
-        {console.log({ notifications })}
         {notifications && notifications?.length != 0 ? (
           notifications?.map((notif) => {
             const { data, error } = supabase.storage
@@ -101,11 +100,11 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
             let notificationLink = `/`;
             let notificationBody = ``;
 
-            console.log("notification", notif);
 
             switch (notif.entity_type_id) {
               case 1: {
-                notificationLink = `/listing/${notif.item_id}`;
+                // notificationLink = `/listing/${notif.item_id}`;
+                notificationLink = `/listing/asdf`;
                 notificationBody = `${notif.actor_username} commented on your post`;
                 break;
               }

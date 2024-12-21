@@ -46,14 +46,24 @@ export function App() {
   async function getUser(passedSession) {
     try {
       if (!passedSession) throw "no session sent to getUser()";
-      const { data: data, error: error } = await supabase.rpc("get_user_profile_simple", {
-        p_username: passedSession.user.user_metadata.username,
-      });
+      
+      // const { data: data, error: error } = await supabase.rpc("get_user_profile_simple", {
+      //   p_username: passedSession.user.user_metadata.username,
+      // });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
+      const response = await fetch('http://localhost:4000/get-user-profile')
+
+      if (!response.ok) {
+        throw new Error(response.statusText || 'There was a problem at get-user-profile')
       }
+
+      // if (error) {
+      //   console.error(error);
+      //   throw error.message;
+      // }
+
+      const data = await response.json()
+
 
       if (!data[0]) {
         setSessionLoading(false);
@@ -121,6 +131,7 @@ export function App() {
   // }, []);
 
   const onAuthStateChange = (callback) => {
+    console.log("onAuthStateChange, 'callback' arg:", callback)
     let currentSession;
     return supabase.auth.onAuthStateChange((event, _session) => {
       if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
@@ -154,9 +165,6 @@ export function App() {
     }, 0);
   }, []);
 
-  useEffect(() => {
-    console.log("render from app.jsx");
-  }, []);
 
   if (sessionLoading)
     return (

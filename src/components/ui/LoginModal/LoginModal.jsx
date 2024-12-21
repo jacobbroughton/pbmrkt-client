@@ -24,6 +24,10 @@ export const LoginModal = () => {
     try {
       setLoading(true);
 
+      alert("Hello from sign in")
+
+      return 
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,

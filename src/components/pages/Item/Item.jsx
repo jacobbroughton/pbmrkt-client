@@ -56,7 +56,6 @@ export const Item = () => {
   const [deleteItemLoading, setDeleteItemLoading] = useState(false);
 
   useEffect(() => {
-    console.log(searchParams);
     async function getItem() {
       setLoading(true);
       try {
@@ -168,7 +167,6 @@ export const Item = () => {
   const isAdmin = user && item.info?.created_by_id == user?.auth_id;
 
   if (error) return <p className="error-text small-text">{error.toString()}</p>;
-  console.log("item", item);
   if (item.info?.is_deleted)
     return (
       <main className="item">
@@ -186,14 +184,12 @@ export const Item = () => {
           // deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
-              console.log("Swag");
               const { error, data } = await supabase.rpc("delete_item", {
                 p_item_id: item.info.id,
               });
 
               if (error) throw error;
 
-              console.log(data);
               setItem({
                 ...item,
                 info: { ...item.info, is_deleted: true },

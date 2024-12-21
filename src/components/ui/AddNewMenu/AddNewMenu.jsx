@@ -11,7 +11,6 @@ export const AddNewMenu = () => {
   const menuRef = useRef(null);
 
   function handler(e) {
-    console.log(e.target.classList);
     if (
       menuRef.current &&
       !menuRef.current.contains(e.target) &&

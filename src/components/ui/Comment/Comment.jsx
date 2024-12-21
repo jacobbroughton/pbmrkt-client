@@ -281,7 +281,7 @@ export const Comment = ({
           // deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
-              console.log('delete comment')
+              console.log('delete comment, this block doesn\'t do anything')
             } catch (error) {
               console.error(error);
             }

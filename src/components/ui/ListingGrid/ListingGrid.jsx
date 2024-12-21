@@ -4,7 +4,6 @@ import { supabase } from "../../../utils/supabase";
 import "./ListingGrid.css";
 
 export const ListingGrid = ({ listings, accountForSidebar, loading }) => {
-  console.log(listings)
   return (
     <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => {

@@ -71,10 +71,9 @@ export const SearchModal = () => {
 
         if (error) throw error.message;
       } else {
-        console.log("No user, no search history"); // TODO - fix and delete
+        console.log("No user, no search history. this block isn't doing anything"); // TODO - fix 
       }
 
-      console.log("clicked here swag");
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
       dispatch(toggleModal({ key: "searchModal", value: false }));
@@ -139,7 +138,6 @@ export const SearchModal = () => {
           (searchHistoryItem) => searchHistoryItem.id !== recentSearch.id
         )
       );
-      console.log(data, recentSearch);
     } catch (error) {
       console.error(error);
       setError(error.toString());

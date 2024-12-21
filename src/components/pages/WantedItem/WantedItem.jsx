@@ -61,7 +61,6 @@ export function WantedItem() {
           p_user_id: user?.auth_id,
         });
 
-        console.log(data);
 
         if (error) {
           console.error(error);
@@ -123,9 +122,6 @@ export function WantedItem() {
     getWantedItem();
   }, [wantedItemID]);
 
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
 
   async function handleStatusChange(newStatus) {
     if (!["Still Searching", "Not Searching"].includes(newStatus)) return;
@@ -351,7 +347,6 @@ export function WantedItem() {
 
               if (error) throw error;
 
-              console.log(data);
               setItem({
                 ...item,
                 info: { ...item.info, is_deleted: true },

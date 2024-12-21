@@ -7,7 +7,6 @@ export const WantedListingList = ({ listings }) => {
   return (
     <ul className="listing-list">
       {listings.map((listing) => {
-        console.log(listing);
         const { data } = supabase.storage
           .from("wanted_item_images")
           .getPublicUrl(listing.thumbnail_path);

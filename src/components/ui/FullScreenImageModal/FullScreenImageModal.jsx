@@ -43,7 +43,6 @@ export const FullScreenImageModal = ({ photos, selectedPhoto }) => {
     setSelectedPhotoLocal(photos[selectedPhotoLocal?.index + 1]);
   }
 
-  console.log(photos);
 
   return (
     <>

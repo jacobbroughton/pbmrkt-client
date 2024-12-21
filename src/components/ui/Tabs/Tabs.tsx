@@ -11,7 +11,6 @@ export function Tabs({
   isSelected: (selectedLabel: string) => boolean;
   onClick: (option: Tab) => void;
 }) {
-  console.log();
   return (
     <div className="tabs">
       {tabs.map((option) => (

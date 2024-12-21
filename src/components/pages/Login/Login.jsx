@@ -23,15 +23,33 @@ export const Login = () => {
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch("/login", {
+        method: "post",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      if (!response.ok) throw new Error("There was an error logging in")
+
+      const data = await response.json()
+
+      console.log("Logged in", data)      
+
+      // return;
+      // const { data, error } = await supabase.auth.signInWithPassword({
+      //   email,
+      //   password,
+      // });
+
+      // if (error) {
+      //   console.error(error);
+      //   throw error.message;
+      // }
 
       // TODO - Check for user in tbl_user, decline with support message
       const { data: data2, error: error2 } = await supabase.rpc(

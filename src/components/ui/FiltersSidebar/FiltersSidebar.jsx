@@ -48,7 +48,6 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   }, [windowSize.width]);
 
   function handlePriceFilterSelect(selectedOption, viewType) {
-    console.log(filters.draft, selectedOption);
     const newDraft = {
       ...filters.draft,
       [viewType]: {

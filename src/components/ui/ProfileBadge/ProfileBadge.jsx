@@ -16,7 +16,6 @@ export function ProfileBadge({
 }) {
   const dispatch = useDispatch();
 
-  console.log(userInfo)
   return (
     <div className="profile-badge">
       <div className="profile-picture-container">

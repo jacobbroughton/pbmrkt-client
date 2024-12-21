@@ -15,7 +15,6 @@ const search = createSlice({
       };
     },
     setSavedSearchValue: (state, { payload }) => {
-      console.log("clicked", payload);
       return {
         ...state,
         savedSearchValue: payload,

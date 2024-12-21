@@ -11,8 +11,8 @@ import PageTitle from "../../ui/PageTitle/PageTitle";
 export const Login = () => {
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("testemail@gmail.com");
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,7 +23,7 @@ export const Login = () => {
     try {
       setLoading(true);
 
-      const response = await fetch("/login", {
+      const response = await fetch("http://localhost:4000/auth/login", {
         method: "post",
         body: JSON.stringify({
           email,
@@ -34,7 +34,9 @@ export const Login = () => {
         },
       });
 
-      if (!response.ok) throw new Error("There was an error logging in")
+      console.log(response)
+
+      if (!response.ok) throw new Error(response.statusText || "There was an error logging in")
 
       const data = await response.json()
 
@@ -52,17 +54,17 @@ export const Login = () => {
       // }
 
       // TODO - Check for user in tbl_user, decline with support message
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "check_for_user_in_local_db",
-        {
-          p_user_id: data.user.id,
-        }
-      );
+      // const { data: data2, error: error2 } = await supabase.rpc(
+      //   "check_for_user_in_local_db",
+      //   {
+      //     p_user_id: data.id,
+      //   }
+      // );
 
-      if (error2) throw error2.message;
+      // if (error2) throw error2.message;
 
-      if (data2 == 0)
-        throw "There was a problem finding the user account you are trying to access.";
+      // if (data2 == 0)
+      //   throw "There was a problem finding the user account you are trying to access.";
 
       navigate("/");
     } catch (error) {
@@ -89,6 +91,7 @@ export const Login = () => {
                 placeholder="Email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
             <div className="form-group">
@@ -98,6 +101,7 @@ export const Login = () => {
                   placeholder="Password"
                   type={passwordVisible ? "text" : "password"}
                   onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
                 <button
                   onClick={() => setPasswordVisible(!passwordVisible)}

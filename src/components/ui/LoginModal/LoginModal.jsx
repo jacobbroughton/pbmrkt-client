@@ -23,28 +23,34 @@ export const LoginModal = () => {
 
     try {
       setLoading(true);
-
-      alert("Hello from sign in")
-
-      return 
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch("http://localhost:4000/auth/login", {
+        method: "post",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        headers: {
+          "content-type": "application/json", 
+        },
       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      if (!response.ok) throw new Error("There was an error logging in")
+
+      const data = await response.json()
+
+      console.log("Logged in", data) 
 
       // TODO - Check for user in tbl_user, decline with support message
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "check_for_user_in_local_db",
-        {
-          p_user_id: data.user.id,
-        }
-      );
+      // const { data: data2, error: error2 } = await supabase.rpc(
+      //   "check_for_user_in_local_db",
+      //   {
+      //     p_user_id: data.user.id,
+      //   }
+      // );
+
+      const [error2, data2] = ['Need to check for user', null]
+
+      console.log([error2, data2])
 
       if (error2) throw error2.message;
 

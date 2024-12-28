@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { useSearchParams } from "../../../hooks/useSearchParams";
 import { toggleModal } from "../../../redux/modals";
 import { supabase } from "../../../utils/supabase";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
+import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
+import { Arrow } from "../../ui/Icons/Arrow";
 import { CheckIcon } from "../../ui/Icons/CheckIcon";
 import { WarningTriangle } from "../../ui/Icons/WarningTriangle";
 import { XIcon } from "../../ui/Icons/XIcon";
@@ -15,15 +18,11 @@ import { ItemVotes } from "../../ui/ItemVotes/ItemVotes";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { MetadataTable } from "../../ui/MetadataTable/MetadataTable";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 import { PriceChangeHistoryModal } from "../../ui/PriceChangeHistoryModal/PriceChangeHistoryModal";
 import { ProfileBadge } from "../../ui/ProfileBadge/ProfileBadge";
 import { SellerReviewsModal } from "../../ui/SellerReviewsModal/SellerReviewsModal";
 import "./Item.css";
-import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
-import PageTitle from "../../ui/PageTitle/PageTitle";
-import { useSearchParams } from "../../../hooks/useSearchParams";
-import { Arrow } from "../../ui/Icons/Arrow";
-import { Chevron } from "../../ui/Icons/Chevron";
 
 export const Item = () => {
   const dispatch = useDispatch();
@@ -43,10 +42,6 @@ export const Item = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState(true);
   const [deletedModalShowing, setDeletedModalShowing] = useState(false);
-  // const [newCommentBody, setNewCommentBody] = useState("");
-  // const [localComments, setLocalComments] = useState(null);
-  // const [repliesLoading, setRepliesLoading] = useState(false);
-  // const [commentIdWithRepliesOpening, setCommentIdWithRepliesOpening] = useState(null);
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
@@ -59,25 +54,32 @@ export const Item = () => {
     async function getItem() {
       setLoading(true);
       try {
-        const { data, error } = await supabase.rpc("get_item", {
-          p_item_id: itemID,
-          p_user_id: user?.auth_id,
-        });
+        const urlSearchParams = new URLSearchParams({
+          item_id: itemID,
+          user_id: user?.id,
+        }).toString();
 
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
-        if (!data[0]) throw "Item not found";
+        const response = await fetch(`http://localhost:4000/get-item?${urlSearchParams}`);
+
+        if (!response.ok) throw new Error("Something happened get-item");
+
+        const { data } = await response.json();
+
+        if (!data || !data.length === 0) throw new Error("Item was not found");
 
         getPriceChangeHistory(itemID);
 
-        let { data: data2, error: error2 } = await supabase.rpc(
-          "get_item_photo_metadata",
-          { p_item_id: itemID }
+        const urlSearchParams2 = new URLSearchParams({ item_id: itemID }).toString();
+
+        const response2 = await fetch(
+          `http://localhost:4000/get-item-photo-metadata?${urlSearchParams2}`
         );
 
-        if (error2) throw error2.message;
+        if (!response2.ok) throw new Error("Something happened get-item-photo-metadata");
+
+        let { data: data2 } = await response2.json();
+
+        if (!data2) throw new Error("Item photo metadata not found");
 
         data2 = data2.map((img) => {
           const { data, error } = supabase.storage
@@ -98,11 +100,19 @@ export const Item = () => {
 
         if (error3) throw error.message;
 
-        const { data: data4, error: error4 } = await supabase.rpc("get_seller_reviews", {
+        const urlSearchParams3 = new URLSearchParams({
           p_reviewee_id: data[0].created_by_id,
-        });
+        }).toString();
 
-        if (error4) throw error4.message;
+        const response4 = await fetch(
+          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+        );
+
+        if (!response4.ok) throw new Error("Something happened get-seller-reviews");
+
+        let { data: data4 } = await response4.json();
+
+        if (!data4) throw new Error("Seller reviews not found");
 
         setSellerReviews({
           count: data4.length,
@@ -128,11 +138,26 @@ export const Item = () => {
 
   async function getPriceChangeHistory(itemId) {
     try {
-      const { data, error } = await supabase.rpc("get_price_change_history", {
-        p_item_id: itemId,
-      });
+      const urlSearchParams = new URLSearchParams().toString();
 
-      if (error) throw error.message;
+      const response = await fetch(
+        `http://localhost:4000/get-price-change-history?${urlSearchParams}`,
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            item_id: itemId,
+          }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Something happened get-price-change-history");
+
+      let data = await response.json();
+
+      if (!data || data.length == 0) throw new Error("price change history not found");
 
       setPriceChangeHistory(data);
     } catch (error) {
@@ -145,19 +170,52 @@ export const Item = () => {
     if (!["Available", "Pending", "Sold"].includes(newStatus)) return;
 
     setMarkAsSoldLoading(true);
-    const { data, error } = await supabase.rpc("update_sale_item_status", {
-      p_status: newStatus,
-      p_item_id: item.info.id,
-    });
 
-    if (error) {
-      console.error(error);
-      throw error.message;
-    }
+    const response = await fetch(
+      `http://localhost:4000/update-sale-item-price?${urlSearchParams3}`,
+      {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          item_id: item.info.id,
+        }),
+      }
+    );
+
+    if (!response.ok) throw new Error("Something happened update-sale-item-price");
 
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
     setMarkAsSoldLoading(false);
+  }
+
+  async function handleDeleteItem() {
+    try {
+      const response2 = await fetch("http://localhost:4000/delete-item", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          item_id: item.info.id,
+        }),
+      });
+
+      if (!response2.ok) throw new Error("Something happened at delete-item");
+
+      setItem({
+        ...item,
+        info: { ...item.info, is_deleted: true },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDeleteItemLoading(false);
+    }
   }
 
   if (!item && loading)
@@ -182,29 +240,12 @@ export const Item = () => {
         <DeleteModal
           label="Delete this listing?"
           // deleteLoading={deleteItemLoading}
-          handleDeleteClick={async () => {
-            try {
-              const { error, data } = await supabase.rpc("delete_item", {
-                p_item_id: item.info.id,
-              });
-
-              if (error) throw error;
-
-              setItem({
-                ...item,
-                info: { ...item.info, is_deleted: true },
-              });
-            } catch (error) {
-              console.error(error);
-            } finally {
-              setDeleteItemLoading(false);
-            }
-          }}
+          handleDeleteClick={handleDeleteItem}
         />
       )}
       {searchParams.get("back-ref") === "dashboard" && (
         <Link to={`http://localhost:3000/`} className="button back-button">
-          <Arrow direction={'left'}/> Go back to listings 
+          <Arrow direction={"left"} /> Go back to listings
         </Link>
       )}
       <div className="images-and-content">
@@ -321,7 +362,7 @@ export const Item = () => {
                 )}
               </div>
             )}
-{item.info.accepted_trades}
+            {item.info.accepted_trades}
             <MetadataTable
               rows={[
                 { label: "Condition", values: [item.info.condition] },

@@ -72,14 +72,16 @@ export const UserProfile = () => {
   async function getProfile() {
     try {
       setLoading(true);
-      const { data, error } = await supabase.rpc("get_user_profile_complex", {
-        p_username: usernameFromURL,
-      });
+      const response = await fetch(
+        `http://localhost:4000/auth/get-user-profile-complex/${usernameFromURL}`
+      );
 
-      if (error) {
-        console.error(error);
-        throw error.message;
+      if (!response.ok) {
+        throw new Error(
+          response.statusText || "There was a problem at get-user-profile-complex"
+        );
       }
+      const data = await response.json();
 
       if (!data[0]) throw new Error("No profile was found");
 
@@ -91,11 +93,19 @@ export const UserProfile = () => {
 
       data[0].profile_picture_url = data3.publicUrl;
 
-      const { data: data4, error: error4 } = await supabase.rpc("get_seller_reviews", {
-        p_reviewee_id: data[0].auth_id,
-      });
+      const urlSearchParams3 = new URLSearchParams({
+        p_reviewee_id: data[0].id,
+      }).toString();
 
-      if (error4) throw error4.message;
+      const response4 = await fetch(
+        `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+      );
+
+      if (!response4.ok) throw new Error("Something happened get-seller-reviews");
+
+      let { data: data4 } = await response4.json();
+
+      if (!data4) throw new Error("Seller reviews not found");
 
       const { data: data5, error: error5 } = supabase.storage
         .from("cover_photos")
@@ -126,39 +136,54 @@ export const UserProfile = () => {
   async function getListings(passedUser) {
     try {
       setListingsLoading(true);
-      let { data: data2, error: error2 } = await supabase.rpc("get_items", {
-        p_search_value: "",
-        p_min_price: 0,
-        p_max_price: null,
-        p_state: null,
-        p_condition: getCheckedOps([
-          { id: 0, value: "Brand New", checked: true },
-          { id: 1, value: "Like New", checked: true },
-          { id: 2, value: "Used", checked: true },
-          { id: 3, value: "Heavily Used", checked: true },
-          { id: 4, value: "Not Functional", checked: true },
-        ]),
-        p_shipping: getCheckedOps([
-          { id: 0, value: "Willing to Ship", checked: true },
-          { id: 1, value: "Local Only", checked: true },
-        ]),
-        p_trades: getCheckedOps([
-          { id: 0, value: "Accepting Trades", checked: true },
-          { id: 1, value: "No Trades", checked: true },
-        ]),
-        p_negotiable: getCheckedOps([
-          { id: 0, value: "Firm", checked: true },
-          { id: 1, value: "OBO/Negotiable", checked: true },
-        ]),
-        p_sort: sort,
-        p_seller_id: passedUser?.auth_id,
-        p_city: null,
-        p_category_id: null,
-      });
 
-      if (error2) throw error2.message;
+      const initialConditionOptions = [
+        { id: 0, value: "Brand New", checked: true },
+        { id: 1, value: "Like New", checked: true },
+        { id: 2, value: "Used", checked: true },
+        { id: 3, value: "Heavily Used", checked: true },
+        { id: 4, value: "Not Functional", checked: true },
+      ];
 
-      if (!data2) throw "No listings available";
+      const initialShippingOptions = [
+        { id: 0, value: "Willing to Ship", checked: true },
+        { id: 1, value: "Local Only", checked: true },
+      ];
+
+      const initialTradeOptions = [
+        { id: 0, value: "Accepting Trades", checked: true },
+        { id: 1, value: "No Trades", checked: true },
+      ];
+
+      const initialNegotiableOptions = [
+        { id: 0, value: "Firm", checked: true },
+        { id: 1, value: "OBO/Negotiable", checked: true },
+      ];
+
+      const params = {
+        search_value: "",
+        min_price: 0,
+        max_price: null,
+        state: null,
+        condition: getCheckedOps(initialConditionOptions),
+        shipping: getCheckedOps(initialShippingOptions),
+        trades: getCheckedOps(initialTradeOptions),
+        negotiable: getCheckedOps(initialNegotiableOptions),
+        sort: sort,
+        seller_id: passedUser?.id,
+        city: null,
+        category_id: null,
+      };
+
+      const paramsAsString = new URLSearchParams(params).toString();
+
+      const response = await fetch(`http://localhost:4000/get-items?${paramsAsString}`);
+
+      if (!response.ok) throw new Error("Something happened get-items");
+
+      let { data: data2 } = await response.json();
+
+      if (!data2 || !data2.length === 0) throw new Error("No items were fetched");
 
       data2 = data2.map((item) => {
         const { data, error } = supabase.storage
@@ -189,7 +214,7 @@ export const UserProfile = () => {
       const file = e.target.files[0];
       const { data, error } = await supabase.storage
         .from("profile_pictures")
-        .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
+        .upload(`${user.id}/${thisUploadUUID}`, file, {
           cacheControl: "3600",
           upsert: false,
         });
@@ -209,13 +234,25 @@ export const UserProfile = () => {
 
       let newProfilePictureUrl = data2.publicUrl;
 
-      const { data: data3, error: error3 } = await supabase.rpc("add_profile_image", {
-        p_generated_id: data.id,
-        p_full_path: data.fullPath,
-        p_path: data.path,
-        p_user_id: user.auth_id,
+      const response = await fetch("http://localhost:4000/add-profile-image", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          generated_id: data.id,
+          path: data.path,
+          full_path: data.fullPath,
+          user_id: user.id,
+        }),
       });
-      if (error3) throw error3.message;
+
+      if (!response.ok) throw new Error("Something happened at add-profile-image");
+
+      const { data: data3 } = await response.json();
+
+      console.log(data);
 
       setLocalUser({
         ...localUser,
@@ -243,7 +280,7 @@ export const UserProfile = () => {
   //     const file = e.target.files[0];
   //     const { data, error } = await supabase.storage
   //       .from("cover_photos")
-  //       .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
+  //       .upload(`${user.id}/${thisUploadUUID}`, file, {
   //         cacheControl: "3600",
   //         upsert: false,
   //       });
@@ -267,7 +304,7 @@ export const UserProfile = () => {
   //       p_generated_id: data.id,
   //       p_full_path: data.fullPath,
   //       p_path: data.path,
-  //       p_user_id: user.auth_id,
+  //       p_user_id: user.id,
   //     });
   //     if (error3) throw error3.message;
 
@@ -289,7 +326,7 @@ export const UserProfile = () => {
   //   setNewCoverPhotoLoading(false);
   // }
 
-  const isAdmin = user?.auth_id == localUser?.auth_id;
+  const isAdmin = user?.id == localUser?.id;
 
   if (loading)
     return <LoadingOverlay message="Loading user..." verticalAlignment={"center"} />;

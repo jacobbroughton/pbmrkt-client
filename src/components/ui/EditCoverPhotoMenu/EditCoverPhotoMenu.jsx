@@ -68,13 +68,22 @@ export const EditCoverPhotoMenu = ({
 
       let newCoverPhotoUrl = data2.publicUrl;
 
-      const { error: error3 } = await supabase.rpc("add_cover_photo", {
-        p_generated_id: data.id,
-        p_full_path: data.fullPath,
-        p_path: data.path,
-        p_user_id: user.auth_id,
+      const response = await fetch("http://localhost:4000/add-cover-photo", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          generated_id: data.id,
+          full_path: data.fullPath,
+          path: data.path,
+          user_id: user.auth_id,
+        }),
       });
-      if (error3) throw error3.message;
+
+      if (!response.ok) {
+        throw new Error(response.statusText || "There was a problem at add-cover-photo");
+      }
 
       setLocalUser({
         ...localUser,

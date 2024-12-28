@@ -60,38 +60,25 @@ export const Register = () => {
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            phoneNumber,
-          },
+      const response = await fetch("http://localhost:4000/auth/signup", {
+        method: "post",
+        body: JSON.stringify({
+          email,
+          username,
+          phone_number: phoneNumber,
+          first_name: firstName,
+          last_name: lastName,
+          state,
+          city,
+          bio,
+        }),
+        headers: {
+          "content-type": "application/json",
         },
       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-      if (!data) throw "no data after signup";
-
-      const user = data.user;
-
-      const { error: error2 } = await supabase.rpc("add_user", {
-        p_generated_id: user.id,
-        p_email: user.email,
-        p_username: username,
-        p_phone_number: phoneNumber,
-        p_first_name: firstName,
-        p_last_name: lastName,
-        p_state: state,
-        p_city: city,
-        p_bio: bio,
-      });
-
-      if (error2) throw error2.message;
+      if (!response.ok)
+        throw new Error(response.statusText || "There was an error logging in");
 
       dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
 
@@ -113,16 +100,17 @@ export const Register = () => {
       setUsernameIsInitial(false);
       setUsernameExistsLoading(true);
 
-      const { data, error } = await supabase.rpc("check_for_existing_username", {
-        p_username: newUsername,
-      });
+      const urlSearchParams = new URLSearchParams({ username: newUsername }).toString();
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const response = await fetch(
+        `http://localhost:4000/auth/check-for-existing-username/?${urlSearchParams}`
+      );
 
-      setUsernameExists(data);
+      if (!response.ok) throw new Error("Something happened check-for-existing-username");
+
+      const { data } = await response.json();
+
+      setUsernameExists(data ? 1 : 0);
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());

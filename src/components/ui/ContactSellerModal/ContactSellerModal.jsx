@@ -33,16 +33,26 @@ const ContactSellerModal = ({ contactInfo }) => {
 
     setSubmitLoading(true);
     try {
-      const { data, error } = await supabase.rpc("add_for_sale_inquiry", {
-        p_full_name: fullName,
-        p_email: email,
-        p_offer: offer,
-        p_message: message,
-        p_user_id: user?.auth_id,
-        p_seller_id: contactInfo.created_by_id,
+      const response = await fetch("http://localhost:4000/add-for-sale-inquiry", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: fullName,
+          email: email,
+          offer: offer,
+          message: message,
+          user_id: user?.auth_id,
+          seller_id: contactInfo.created_by_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) {
+        throw new Error(
+          response.statusText || "There was a problem at add-for-sale-inquiry"
+        );
+      }
 
       setFullName("");
       setEmail("");

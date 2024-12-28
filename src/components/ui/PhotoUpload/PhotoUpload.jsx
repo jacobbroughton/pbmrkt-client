@@ -76,20 +76,55 @@ export function PhotoUpload({
           throw error.message;
         }
 
-        const { data: data22, error: error2 } = await supabase.rpc(
-          isForWantedItem ? "add_wanted_item_photo_temp" : "add_item_photo_temp",
-          {
-            p_group_id: generatedGroupId,
-            p_generated_id: data.id,
-            p_full_path: data.fullPath,
-            p_path: data.path,
-            p_is_cover: i == 0,
-            p_created_by_id: user.auth_id,
-          }
-        );
-        if (error2) throw error2.message;
+        if (isForWantedItem) {
+          const response = await fetch(
+            "http://localhost:4000/add-wanted-item-photo-temp",
+            {
+              method: "post",
+              headers: {
+                "content-type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                group_id: generatedGroupId,
+                generated_id: data.id,
+                full_path: data.fullPath,
+                path: data.path,
+                is_cover: i == 0,
+                created_by_id: user.auth_id,
+              }),
+            }
+          );
 
-        tempImages.push(data22[0]);
+          if (!response.ok)
+            throw new Error("Something happened at add-wanted-item-photo-temp");
+
+          const data = await response.json();
+
+          tempImages.push(data[0]);
+        } else {
+          const response = await fetch("http://localhost:4000/add-item-photo-temp", {
+            method: "post",
+            headers: {
+              "content-type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              group_id: generatedGroupId,
+              generated_id: data.id,
+              full_path: data.fullPath,
+              path: data.path,
+              is_cover: i == 0,
+              created_by_id: user.auth_id,
+            }),
+          });
+
+          if (!response.ok) throw new Error("Something happened at add-item-photo-temp");
+
+          const data = await response.json();
+
+          tempImages.push(data[0]);
+        }
 
         index += 1;
         setNumPhotosUploaded(index);
@@ -133,15 +168,41 @@ export function PhotoUpload({
   }
 
   async function handleImageDelete(image) {
-    const { data, error } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_image" : "delete_temp_image", {
-      p_image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
-    });
+    if (isForWantedItem) {
+      const response = await fetch(
+        "http://localhost:4000/delete-temp-wanted-item-image",
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            mage_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
+          }),
+        }
+      );
 
-    if (error) throw error.message;
+      if (!response.ok)
+        throw new Error("Something happened at delete-temp-wanted-item-image");
+    } else {
+      const response = await fetch("http://localhost:4000/delete-temp-image", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Something happened at delete-temp-image");
+    }
 
     const photosLeft = photos.filter((photo) => photo.id != image.id);
 
-    if (!error) setPhotos(photosLeft);
+    setPhotos(photosLeft);
 
     if (photosLeft.length === 0 && imageInputRef.current)
       imageInputRef.current.value = "";
@@ -159,19 +220,48 @@ export function PhotoUpload({
         (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
-      const { data, error } = await supabase.storage.from(isForWantedItem ? "wanted_item_images" : "item_images").remove(paths);
+      const { data, error } = await supabase.storage
+        .from(isForWantedItem ? "wanted_item_images" : "item_images")
+        .remove(paths);
 
       if (error) {
         console.error(error);
         throw error.message;
       }
 
-      const { error: error2 } = await supabase.rpc(isForWantedItem ? "delete_temp_wanted_item_images" : "delete_temp_images", {
-        p_user_id: user.auth_id,
-        p_group_id: generatedGroupId,
-      });
+      if (isForWantedItem) {
+        const response = await fetch(
+          "http://localhost:4000/delete-temp-wanted-item-images",
+          {
+            method: "post",
+            headers: {
+              "content-type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              user_id: user.auth_id,
+              group_id: generatedGroupId,
+            }),
+          }
+        );
 
-      if (error2) throw error2.message;
+        if (!response.ok)
+          throw new Error("Something happened at delete-temp-wanted-item-images");
+      } else {
+        const response = await fetch("http://localhost:4000/delete-temp-images", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            user_id: user.auth_id,
+            group_id: generatedGroupId,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Something happened at delete-temp-images");
+      }
 
       setPhotos([]);
       setNumPhotosUploaded(0);
@@ -186,7 +276,11 @@ export function PhotoUpload({
   const imagesLoadingSubsequently = imagesUploading && numPhotosUploaded;
 
   return (
-    <div className={`form-block photo-uploader ${markedFieldKey == "images" ? "marked" : ""}`}>
+    <div
+      className={`form-block photo-uploader ${
+        markedFieldKey == "images" ? "marked" : ""
+      }`}
+    >
       <div className="form-content">
         {photos.length != 0 && (
           <div className="selling-item-images">
@@ -203,7 +297,11 @@ export function PhotoUpload({
                     <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
                   )}
                   <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${isForWantedItem ? "wanted_item_images" : "item_images"}/temp/${user.auth_id}/${generatedGroupId}/${image.name}?width=73&height=73`}
+                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${
+                      isForWantedItem ? "wanted_item_images" : "item_images"
+                    }/temp/${user.auth_id}/${generatedGroupId}/${
+                      image.name
+                    }?width=73&height=73`}
                   />
                 </div>
               );

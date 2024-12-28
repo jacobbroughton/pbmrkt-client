@@ -33,15 +33,24 @@ export const CommentsList = ({
     e.preventDefault();
 
     try {
-      const { data, error } = await supabase.rpc("add_comment", {
-        p_body: newReplyBody,
-        p_created_by_id: user.auth_id,
-        p_item_id: repliedComment.item_id,
-        p_parent_id: repliedComment.id,
-        p_post_type: postType,
+      const response = await fetch("http://localhost:4000/add-comment", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          p_body: newReplyBody,
+          p_created_by_id: user.auth_id,
+          p_item_id: repliedComment.item_id,
+          p_parent_id: repliedComment.id,
+          p_post_type: postType,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at CommentsList add-comment");
+
+      const data = await response.json();
 
       const { data: data3, error: error3 } = supabase.storage
         .from("profile_pictures")
@@ -83,11 +92,20 @@ export const CommentsList = ({
     try {
       if (!commentWithReplies.repliesToggled) {
         setRepliesLoading(true);
-        const { data, error } = await supabase.rpc("get_child_comments", {
-          p_item_id: commentWithReplies.item_id,
-          p_parent_comment_id: commentWithReplies.id,
-          p_post_type: postType,
-        });
+
+        const queryParams = new URLSearchParams({
+          item_id: commentWithReplies.item_id,
+          parent_comment_id: commentWithReplies.id,
+          post_type: postType,
+        }).toString();
+
+        const response = await fetch(
+          `http://localhost:4000/get-child-comments/${queryParams}`
+        );
+
+        if (!response.ok) throw new Error("Something happened at get-child-comments");
+
+        const data = await response.json();
 
         const replies = data.map((comment) => {
           const { data: data2, error: error2 } = supabase.storage

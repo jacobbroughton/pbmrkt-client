@@ -45,23 +45,26 @@ export function WantedViews({ sort, setTotalListings }) {
     try {
       setListingsLoading(true);
 
-      let { data, error } = await supabase.rpc("get_wanted_items", {
-        p_search_value: searchValue,
-        p_min_budget: filters.saved["Wanted"].minBudget || 0,
-        p_max_budget: filters.saved["Wanted"].maxBudget,
-        p_state:
+      const urlSearchParams = new URLSearchParams({
+        search_value: searchValue,
+        min_budget: filters.saved["Wanted"].minBudget || 0,
+        max_budget: filters.saved["Wanted"].maxBudget,
+        state:
           filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
-        p_shipping_ok: true,
-        p_sort: sort,
-        p_seller_id: null,
-        p_city:
-          filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
-        p_category_id: filters.saved["Wanted"].category?.id || null,
-      });
+        shipping_ok: true,
+        sort: sort,
+        seller_id: null,
+        city: filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+        category_id: filters.saved["Wanted"].category?.id || null,
+      }).toString();
 
-      if (error) {
-        throw error.message;
-      }
+      const response = await fetch(
+        `http://localhost:4000/get-wanted-items?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened get-wanted-items");
+
+      let { data } = await response.json();
 
       if (!data) throw "No listings available";
 
@@ -80,25 +83,26 @@ export function WantedViews({ sort, setTotalListings }) {
 
       setListings(data);
 
-      let { data: data2, error: error2 } = await supabase.rpc(
-        "get_view_all_wanted_count",
-        {
-          p_search_value: searchValue,
-          p_min_budget: filters.saved["Wanted"].minBudget || 0,
-          p_max_budget: filters.saved["Wanted"].maxBudget,
-          p_state:
-            filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
-          p_shipping_ok: true,
-          p_seller_id: null,
-          p_city:
-            filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
-          p_category_id: filters.saved["Wanted"].category?.id || null,
-        }
+      const urlSearchParams2 = new URLSearchParams({
+        search_value: searchValue,
+        min_budget: filters.saved["Wanted"].minBudget || 0,
+        max_budget: filters.saved["Wanted"].maxBudget,
+        state:
+          filters.saved["Wanted"].state == "All" ? null : filters.saved["Wanted"].state,
+        shipping_ok: true,
+        seller_id: null,
+        city: filters.saved["Wanted"].city == "All" ? null : filters.saved["Wanted"].city,
+        category_id: filters.saved["Wanted"].category?.id || null,
+      }).toString();
+
+      const response2 = await fetch(
+        `http://localhost:4000/get-view-all-wanted-count?${urlSearchParams2}`
       );
 
-      if (error2) {
-        throw error2.message;
-      }
+      if (!response.ok)
+        throw new Error("Something happened at get-view-all-wanted-count");
+
+      const { data: data2 } = await response2.json();
 
       setTotalListings(data2[0].num_results);
 
@@ -126,7 +130,6 @@ export function WantedViews({ sort, setTotalListings }) {
   const loadedWithNoResults = !isInitialLoad && listings.length === 0;
 
   // if (subsequentlyLoading) return <p>Subsequently loooooaaaaddddddiiiiiiinnnnnggggg</p>
-
 
   return error ? (
     <p className="small-text error-text">{error}</p>

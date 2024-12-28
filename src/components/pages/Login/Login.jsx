@@ -34,37 +34,12 @@ export const Login = () => {
         },
       });
 
-      console.log(response)
+      if (!response.ok)
+        throw new Error(response.statusText || "There was an error logging in");
 
-      if (!response.ok) throw new Error(response.statusText || "There was an error logging in")
+      const data = await response.json();
 
-      const data = await response.json()
-
-      console.log("Logged in", data)      
-
-      // return;
-      // const { data, error } = await supabase.auth.signInWithPassword({
-      //   email,
-      //   password,
-      // });
-
-      // if (error) {
-      //   console.error(error);
-      //   throw error.message;
-      // }
-
-      // TODO - Check for user in tbl_user, decline with support message
-      // const { data: data2, error: error2 } = await supabase.rpc(
-      //   "check_for_user_in_local_db",
-      //   {
-      //     p_user_id: data.id,
-      //   }
-      // );
-
-      // if (error2) throw error2.message;
-
-      // if (data2 == 0)
-      //   throw "There was a problem finding the user account you are trying to access.";
+      console.log("Logged in", data);
 
       navigate("/");
     } catch (error) {

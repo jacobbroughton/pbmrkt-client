@@ -46,14 +46,12 @@ export function App() {
 
   async function getUser() {
     try {
-      // const { data: data, error: error } = await supabase.rpc("get_user_profile_simple", {
-      //   p_username: passedSession.user.user_metadata.username,
-      // });
-
       // todo - get username from session
 
+      const urlSearchParams = new URLSearchParams({ username: "testusername" });
+
       const response = await fetch(
-        "http://localhost:4000/auth/get-user-profile-simple/testusername"
+        `http://localhost:4000/auth/get-user-profile-simple/${urlSearchParams}`
       );
 
       if (!response.ok) {
@@ -61,12 +59,6 @@ export function App() {
           response.statusText || "There was a problem at get-user-profile-simple"
         );
       }
-
-      // if (error) {
-      //   console.error(error);
-      //   throw error.message;
-      // }
-
       const data = await response.json();
 
       if (!data[0]) {

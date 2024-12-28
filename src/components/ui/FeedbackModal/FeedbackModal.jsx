@@ -23,14 +23,21 @@ const FeedbackModal = () => {
 
       setSubmitLoading(true);
 
-      const { data, error } = await supabase.rpc("add_feedback", {
-        p_body: feedbackBody,
-        p_name: name,
-        p_email: email,
-        p_user_id: user.auth_id,
+      const response = await fetch("http://localhost:4000/add-feedback", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          body: feedbackBody,
+          name: name,
+          email: email,
+          user_id: user.auth_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at add-feedback");
 
       setFeedbackBody("");
     } catch (error) {

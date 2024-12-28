@@ -141,46 +141,79 @@ export const CreateWantedItem = () => {
 
       const checkedShippingValue = radioOptions.shippingOptions.find((op) => op.checked);
       let okWithShipping = checkedShippingValue.value === "Ok with shipping";
-      const {
-        data: [createdWantedItem],
-        error,
-      } = await supabase.rpc("add_wanted_item", {
-        p_title: whatIsIt,
-        p_description: description,
-        p_budget: budget,
-        p_shipping_ok: okWithShipping,
-        p_category_id: categories.saved.selected?.id,
-        p_created_by_id: user.auth_id,
-        p_state: state,
-        p_city: city,
+
+      const response = await fetch("http://localhost:4000/add-wanted-item", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          title: whatIsIt,
+          description: description,
+          budget: budget,
+          shipping_ok: okWithShipping,
+          category_id: categories.saved.selected?.id,
+          created_by_id: user.auth_id,
+          state: state,
+          city: city,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at add-wanted-item");
+
+      const { data: createdWantedItem } = await response.json();
 
       if (!createdWantedItem) throw new Error("No new wanted post was created");
 
       if (newCoverPhotoId) {
-        const { error } = await supabase.rpc("update_wanted_cover_photo", {
-          p_item_id: createdWantedItem.id,
-          p_image_id: newCoverPhotoId,
+        const response = await fetch("http://localhost:4000/update-wanted-cover-photo", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            item_id: createdWantedItem.id,
+            image_id: newCoverPhotoId,
+          }),
         });
 
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
+        if (!response.ok)
+          throw new Error("Something happened at update-wanted-cover-photo");
+
+        const { data: coverPhoto } = await response.json();
+
+        if (!coverPhoto)
+          throw new Error("Wanted cover photo was not retrieved after update");
       }
 
       const imagePaths = photos.map(
         (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
-      const { data: movedImagesFromTempTableData, error: error2 } = await supabase.rpc(
-        "move_wanted_item_images_from_temp",
-        { p_item_id: createdWantedItem.id, p_group_id: generatedGroupId }
+      const response2 = await fetch(
+        "http://localhost:4000/move-wanted-item-images-from-temp",
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            item_id: createdWantedItem.id,
+            group_id: generatedGroupId,
+          }),
+        }
       );
 
-      if (error2) throw error2.message;
+      if (!response2.ok)
+        throw new Error("Something happened at move-wanted-item-images-from-temp");
+
+      const { data: movedImagesFromTempTableData } = await response2.json();
+
+      if (!movedImagesFromTempTableData || movedImagesFromTempTableData.length === 0)
+        throw new Error("failed to move temp wanted item images to non-temp");
 
       imagePaths.forEach(async (path) => {
         const { error } = await supabase.storage
@@ -209,11 +242,18 @@ export const CreateWantedItem = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_all_item_categories");
+        const response = await fetch("http://localhost:4000/get-item-categories");
 
-        if (error) throw error.message;
+        if (!response.ok) throw new Error("Something happened get-item-categories");
 
-        const nestedItemCategories = nestItemCategories(data, null);
+        const { data: itemCategories } = await response.json();
+
+        if (!itemCategories || !itemCategories.length === 0)
+          throw new Error("No item categories were fetched");
+
+        const nestedItemCategories = nestItemCategories(itemCategories, null);
+
+        console.log("Yepppp");
 
         setCategories({
           draft: {
@@ -233,13 +273,18 @@ export const CreateWantedItem = () => {
 
     const getDefaultSelections = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_default_seller_inputs", {
-          p_user_id: user.auth_id,
-        });
+        const urlSearchParams = new URLSearchParams({ user_id: user.id }).toString();
 
-        if (error) throw error.message;
+        const response = await fetch(
+          `http://localhost:4000/get-default-seller-inputs?${urlSearchParams}`
+        );
 
-        if (!data[0]) return;
+        if (!response.ok) throw new Error("Something happened get-default-seller-inputs");
+
+        const { data: defaultSellerInputs } = await response.json();
+
+        if (!defaultSellerInputs || !defaultSellerInputs.length === 0)
+          throw new Error("No default seller inputs were fetched");
 
         const {
           phone_number: defaultPhoneNumber,

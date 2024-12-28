@@ -56,24 +56,36 @@ export function WantedItem() {
     async function getWantedItem() {
       setLoading(true);
       try {
-        const { data, error } = await supabase.rpc("get_wanted_item", {
-          p_item_id: wantedItemID,
-          p_user_id: user?.auth_id,
-        });
+        const urlSearchParams = new URLSearchParams({
+          item_id: wantedItemID,
+          user_id: user?.auth_id,
+        }).toString();
 
-
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
-        if (!data) throw "Item not found";
-
-        let { data: data2, error: error2 } = await supabase.rpc(
-          "get_wanted_item_photo_metadata",
-          { p_item_id: wantedItemID }
+        const response = await fetch(
+          `http://localhost:4000/get-wanted-item?${urlSearchParams}`
         );
 
-        if (error2) throw error2.message;
+        if (!response.ok) throw new Error("Something happened get-wanted-item");
+
+        const { data } = await response.json();
+
+        if (!data || !data.length === 0) throw new Error("Wanted item was not found");
+
+        const urlSearchParams2 = new URLSearchParams({
+          item_id: wantedItemID,
+        }).toString();
+
+        const response2 = await fetch(
+          `http://localhost:4000/get-wanted-item-photo-metadata?${urlSearchParams2}`
+        );
+
+        if (!response2.ok)
+          throw new Error("Something happened get-wanted-item-photo-metadata");
+
+        let { data: data2 } = await response.json();
+
+        if (!data2 || !data2.length === 0)
+          throw new Error("Wanted item photo metadata was not found");
 
         data2 = data2.map((img) => {
           const { data, error } = supabase.storage
@@ -94,11 +106,19 @@ export function WantedItem() {
 
         if (error3) throw error.message;
 
-        const { data: data4, error: error4 } = await supabase.rpc("get_seller_reviews", {
+        const urlSearchParams3 = new URLSearchParams({
           p_reviewee_id: data[0].created_by_id,
-        });
+        }).toString();
 
-        if (error4) throw error4.message;
+        const response4 = await fetch(
+          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+        );
+
+        if (!response4.ok) throw new Error("Something happened get-seller-reviews");
+
+        let { data: data4 } = await response4.json();
+
+        if (!data4) throw new Error("Seller reviews not found");
 
         setBuyerReviews({
           count: data4.length,
@@ -122,24 +142,54 @@ export function WantedItem() {
     getWantedItem();
   }, [wantedItemID]);
 
-
   async function handleStatusChange(newStatus) {
     if (!["Still Searching", "Not Searching"].includes(newStatus)) return;
 
     setMarkAsSoldLoading(true);
-    const { data, error } = await supabase.rpc("update_wanted_item_status", {
-      p_status: newStatus,
-      p_item_id: item.info.id,
+
+    const response = await fetch("http://localhost:4000/update-wanted-item-status", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        status: newStatus,
+        item_id: item.info.id,
+      }),
     });
 
-    if (error) {
-      console.error(error);
-      throw error.message;
-    }
+    if (!response.ok) throw new Error("Something happened at update-wanted-item-status");
 
     setItem({ ...item, info: { ...item.info, status: newStatus } });
 
     setMarkAsSoldLoading(false);
+  }
+
+  async function handleDeleteItem() {
+    try {
+      const response = await fetch("http://localhost:4000/delete-item", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          item_id: item.info.id,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Something happened at delete-item");
+
+      setItem({
+        ...item,
+        info: { ...item.info, is_deleted: true },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDeleteItemLoading(false);
+    }
   }
 
   if (!item && loading)
@@ -339,22 +389,7 @@ export function WantedItem() {
         <DeleteModal
           label="Delete this listing?"
           // deleteLoading={deleteItemLoading}
-          handleDeleteClick={async () => {
-            try {
-              const { error, data } = await supabase.rpc("delete_item", {
-                p_item_id: item.info.id,
-              });
-
-              if (error) throw error;
-
-              setItem({
-                ...item,
-                info: { ...item.info, is_deleted: true },
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          }}
+          handleDeleteClick={handleDeleteItem}
         />
       )}
     </main>

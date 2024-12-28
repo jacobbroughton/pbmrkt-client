@@ -32,11 +32,18 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
   async function handleNotificationRead(notification) {
     try {
-      const { error } = await supabase.rpc("read_notification", {
-        p_notification_id: notification.id,
+      const response = await fetch("http://localhost:4000/read-notification", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          notification_id: notification.id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at read-notification");
 
       setNotifications(
         notifications.map((notif) => ({
@@ -54,11 +61,21 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
   async function handleMarkAllAsRead() {
     try {
-      const { data, error } = await supabase.rpc("mark_all_notifications_read", {
-        p_user_id: user.auth_id,
+      const response = await fetch("http://localhost:4000/mark-all-notifications-read", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          user_id: user.auth_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok)
+        throw new Error("Something happened at mark-all-notifications-read");
+
+      const data = await response.json();
 
       setNotifications(data);
     } catch (error) {
@@ -99,7 +116,6 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
 
             let notificationLink = `/`;
             let notificationBody = ``;
-
 
             switch (notif.entity_type_id) {
               case 1: {

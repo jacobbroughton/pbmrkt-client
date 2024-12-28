@@ -48,18 +48,24 @@ export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
     e.preventDefault();
 
     try {
-      const { data, error } = await supabase.rpc("add_review", {
-        p_reviewer_id: user.auth_id,
-        p_reviewee_id: seller.auth_id,
-        p_rating: rating,
-        p_title: title,
-        p_body: body,
+      const response = await fetch("http://localhost:4000/add-review", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          reviewer_id: user.auth_id,
+          reviewee_id: seller.auth_id,
+          rating: rating,
+          title: title,
+          body: body,
+        }),
       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      if (!response.ok) throw new Error("Something happened at add-review");
+
+      const data = await response.json();
 
       dispatch(toggleModal({ key: "addReviewModal", value: false }));
 

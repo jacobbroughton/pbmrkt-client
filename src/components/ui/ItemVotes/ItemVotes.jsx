@@ -12,20 +12,27 @@ export function ItemVotes({
   postType,
 }) {
   const { user } = useSelector((state) => state.auth);
-  const initialVote = existingVote
+  const initialVote = existingVote;
 
   async function handleItemDownvote() {
     try {
-      setExistingVote('Down');
+      setExistingVote("Down");
 
-      const { data, error } = await supabase.rpc("add_item_vote", {
-        p_item_id: itemId,
-        p_vote_direction: "Down",
-        p_user_id: user?.auth_id,
-        p_post_type: postType,
+      const response = await fetch("http://localhost:4000/add-item-vote", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          item_id: itemId,
+          vote_direction: "Down",
+          user_id: user?.auth_id,
+          post_type: postType,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at add-item-vote");
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes -= 1));
@@ -46,16 +53,23 @@ export function ItemVotes({
 
   async function handleItemUpvote() {
     try {
-      setExistingVote('Up');
+      setExistingVote("Up");
 
-      const { data, error } = await supabase.rpc("add_item_vote", {
-        p_item_id: itemId,
-        p_vote_direction: "Up",
-        p_user_id: user?.auth_id,
-        p_post_type: postType,
+      const response = await fetch("http://localhost:4000/add-item-vote", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          item_id: itemId,
+          vote_direction: "Up",
+          user_id: user?.auth_id,
+          post_type: postType,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at add-item-vote");
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes += 1));
@@ -75,7 +89,6 @@ export function ItemVotes({
 
   return (
     <div className="item-like-and-dislike">
-      
       <button
         disabled={false}
         onClick={(e) => handleItemUpvote(e)}

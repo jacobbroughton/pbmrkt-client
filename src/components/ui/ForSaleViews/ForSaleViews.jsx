@@ -46,28 +46,32 @@ export function ForSaleViews({ sort, setTotalListings }) {
       setListingsLoading(true);
       // }
 
-      const FSFilters = filters.saved["For Sale"];
+      const forSaleFilters = filters.saved["For Sale"];
 
-      let { data, error } = await supabase.rpc("get_items", {
+      const params = {
         p_search_value: searchValue,
-        p_min_price: FSFilters.minPrice || 0,
-        p_max_price: FSFilters.maxPrice,
-        p_state: FSFilters.state == "All" ? null : FSFilters.state,
-        p_condition: getCheckedOps(FSFilters.conditionOptions),
-        p_shipping: getCheckedOps(FSFilters.shippingOptions),
-        p_trades: getCheckedOps(FSFilters.tradeOptions),
-        p_negotiable: getCheckedOps(FSFilters.negotiableOptions),
+        p_min_price: forSaleFilters.minPrice || 0,
+        p_max_price: forSaleFilters.maxPrice,
+        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        p_condition: getCheckedOps(forSaleFilters.conditionOptions),
+        p_shipping: getCheckedOps(forSaleFilters.shippingOptions),
+        p_trades: getCheckedOps(forSaleFilters.tradeOptions),
+        p_negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
         p_sort: sort,
         p_seller_id: null,
-        p_city: FSFilters.city == "All" ? null : FSFilters.city,
-        p_category_id: FSFilters.category?.id || null,
-      });
+        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        p_category_id: forSaleFilters.category?.id || null,
+      };
 
-      if (error) {
-        throw error.message;
-      }
+      const paramsAsString = new URLSearchParams(params).toString();
 
-      if (!data) throw "No listings available";
+      const response = await fetch(`http://localhost:4000/get-items?${paramsAsString}`);
+
+      if (!response.ok) throw new Error("Something happened get-items");
+
+      let { data } = await response.json();
+
+      if (!data || !data.length === 0) throw new Error("No items were fetched");
 
       data = data.map((item) => {
         const { data, error } = supabase.storage
@@ -84,23 +88,27 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       setListings(data);
 
-      let { data: data2, error: error2 } = await supabase.rpc("get_items_count", {
-        p_search_value: searchValue,
-        p_min_price: FSFilters.minPrice || 0,
-        p_max_price: FSFilters.maxPrice,
-        p_state: FSFilters.state == "All" ? null : FSFilters.state,
-        p_condition: getCheckedOps(FSFilters.conditionOptions),
-        p_shipping: getCheckedOps(FSFilters.shippingOptions),
-        p_trades: getCheckedOps(FSFilters.tradeOptions),
-        p_negotiable: getCheckedOps(FSFilters.negotiableOptions),
-        p_seller_id: null,
-        p_city: FSFilters.city == "All" ? null : FSFilters.city,
-        p_category_id: FSFilters.category?.id || null,
-      });
+      const urlSearchQueries = new URLSearchParams({
+        search_value: searchValue,
+        min_price: FSFilters.minPrice || 0,
+        max_price: FSFilters.maxPrice,
+        state: FSFilters.state == "All" ? null : FSFilters.state,
+        condition: getCheckedOps(FSFilters.conditionOptions),
+        shipping: getCheckedOps(FSFilters.shippingOptions),
+        trades: getCheckedOps(FSFilters.tradeOptions),
+        negotiable: getCheckedOps(FSFilters.negotiableOptions),
+        seller_id: null,
+        city: FSFilters.city == "All" ? null : FSFilters.city,
+        category_id: FSFilters.category?.id || null,
+      }).toString();
 
-      if (error2) {
-        throw error2.message;
-      }
+      const response2 = await fetch(
+        `http://localhost:4000/get-items-count/${urlSearchQueries}`
+      );
+
+      if (!response2.ok) throw new Error("Something happened get-items-count");
+
+      const { data: data2 } = await response2.json();
 
       setTotalListings(data2[0].num_results);
 

@@ -112,11 +112,16 @@ export function Listings() {
 
   async function getItemCategories() {
     try {
-      const { data, error } = await supabase.rpc("get_item_categories");
+      const response = await fetch("http://localhost:4000/get-item-categories");
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened get-item-categories");
 
-      const nestedItemCategories = nestItemCategories(data, null);
+      const { data: itemCategories } = await response.json();
+
+      if (!itemCategories || !itemCategories.length === 0)
+        throw new Error("No item categories were fetched");
+
+      const nestedItemCategories = nestItemCategories(itemCategories, null);
 
       dispatch(setOverviewCategories({ flat: data, nested: nestedItemCategories }));
 

@@ -41,9 +41,30 @@ export const SearchModal = () => {
 
   async function getRecentSearches() {
     try {
-      const { data, error } = await supabase.rpc("get_search_history", {
-        p_user_id: user.auth_id,
-      });
+      const urlSearchParams = new URLSearchParams({
+        user_id: user.auth_id,
+      }).toString();
+
+      const response = await fetch(
+        `http://localhost:4000/get-search-history?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened at get-search-history");
+
+      const { data } = await response.json();
+
+      const urlSearchParams2 = new URLSearchParams({ user_id: user.id }).toString();
+
+      const response2 = await fetch(
+        `http://localhost:4000/get-default-seller-inputs?${urlSearchParams2}`
+      );
+
+      if (!response2.ok) throw new Error("Something happened get-default-seller-inputs");
+
+      const { data: defaultSellerInputs } = await response2.json();
+
+      if (!defaultSellerInputs || !defaultSellerInputs.length === 0)
+        throw new Error("No default seller inputs were fetched");
 
       if (error) throw error.message;
 
@@ -63,15 +84,22 @@ export const SearchModal = () => {
       if (location.pathname !== "/") navigate("/");
 
       if (user) {
-        const { data, error } = await supabase.rpc("add_search", {
-          p_created_by_id: user.auth_id,
-          p_search_value: searchValue.draft.trim(),
-          p_origin: origin,
+        const response = await fetch("http://localhost:4000/add-search", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            created_by_id: user.auth_id,
+            search_value: searchValue.draft.trim(),
+            origin: origin,
+          }),
         });
 
-        if (error) throw error.message;
+        if (!response.ok) throw new Error("Something happened at add-search");
       } else {
-        console.log("No user, no search history. this block isn't doing anything"); // TODO - fix 
+        console.log("No user, no search history. this block isn't doing anything"); // TODO - fix
       }
 
       dispatch(setSavedSearchValue(searchValue.draft));
@@ -92,11 +120,18 @@ export const SearchModal = () => {
     try {
       setResultsLoading(true);
 
-      let { data, error } = await supabase.rpc("get_search_result_listing_previews", {
-        p_search_value: searchValue,
-      });
+      const urlSearchParams = new URLSearchParams({
+        search_value: searchValue,
+      }).toString();
 
-      if (error) throw error.message;
+      const response = await fetch(
+        `http://localhost:4000/get-search-result-listing-previews?${urlSearchParams}`
+      );
+
+      if (!response.ok)
+        throw new Error("Something happened get-search-result-listing-previews");
+
+      let { data } = await response.json();
 
       data = data.map((img) => {
         const { data, error } = supabase.storage
@@ -127,11 +162,18 @@ export const SearchModal = () => {
   async function deleteRecentSearch(e, recentSearch) {
     e.stopPropagation();
     try {
-      let { data, error } = await supabase.rpc("delete_search", {
-        p_search_id: recentSearch.id,
+      const response = await fetch("http://localhost:4000/delete-search", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          search_id: recentSearch.id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at delete-search");
 
       setSearchHistory(
         searchHistory.filter(
@@ -169,7 +211,7 @@ export const SearchModal = () => {
 
   return (
     <>
-      <div className={`modal search-modal ${searchValue.draft !== '' ? 'active' : ''}`}>
+      <div className={`modal search-modal ${searchValue.draft !== "" ? "active" : ""}`}>
         {error && (
           <ErrorBanner
             error={error.toString()}

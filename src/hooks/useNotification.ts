@@ -7,27 +7,37 @@ export function useNotification() {
     entityTypeId: number
   ) {
     try {
-      const {
-        error,
-        data: [notificationObject],
-      } = await supabase.rpc("add_notification_object", {
-        p_entity_type_id: entityTypeId,
+      const response = await fetch("http://localhost:4000/add-notification-object", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          entity_type_id: entityTypeId,
+        }),
       });
 
-      if (error) throw error.message || error.toString();
+      if (!response.ok) throw new Error("Something happened at add-notification-object");
 
+      const [notificationObject] = await response.json();
 
-      const {
-        error: error2,
-        data: [notification],
-      } = await supabase.rpc("add_notification", {
-        p_notification_object_id: notificationObject.id,
-        p_notifier_id: notifierId,
-        p_actor_id: actorId,
+      const response2 = await fetch("http://localhost:4000/add-notification", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          notification_object_id: notificationObject.id,
+          notifier_id: notifierId,
+          actor_id: actorId,
+        }),
       });
 
-      if (error2) throw error2.message || error2.toString();
+      if (!response.ok) throw new Error("Something happened at add-notification");
 
+      const [notification] = await response2.json();
     } catch (error) {
       console.error(error);
     }

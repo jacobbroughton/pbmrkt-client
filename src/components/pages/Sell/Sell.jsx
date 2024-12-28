@@ -174,9 +174,12 @@ export const Sell = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_all_item_categories");
+        const response = await fetch(`http://localhost:4000/get-all-item-categories`);
 
-        if (error) throw error.message;
+        if (!response.ok)
+          throw new Error("Something happened at get-all-item-categories");
+
+        const { data } = await response.json();
 
         const nestedItemCategories = nestItemCategories(data, null);
 
@@ -198,13 +201,18 @@ export const Sell = () => {
 
     const getDefaultSelections = async () => {
       try {
-        const { data, error } = await supabase.rpc("get_default_seller_inputs", {
-          p_user_id: user.auth_id,
-        });
+        const urlSearchParams = new URLSearchParams({ user_id: user.id }).toString();
 
-        if (error) throw error.message;
+        const response = await fetch(
+          `http://localhost:4000/get-default-seller-inputs?${urlSearchParams}`
+        );
 
-        if (!data[0]) return;
+        if (!response.ok) throw new Error("Something happened get-default-seller-inputs");
+
+        const { data: defaultSellerInputs } = await response.json();
+
+        if (!defaultSellerInputs || !defaultSellerInputs.length === 0)
+          throw new Error("No default seller inputs were fetched");
 
         const {
           phone_number: defaultPhoneNumber,
@@ -213,7 +221,7 @@ export const Sell = () => {
           trades: defaultTrades,
           shipping: defaultShipping,
           negotiable: defaultNegotiable,
-        } = data[0];
+        } = defaultSellerInputs[0];
 
         let localGeneratedFilters = { ...generatedFilters };
         let localRadioOptions = { ...radioOptions };
@@ -271,52 +279,74 @@ export const Sell = () => {
     try {
       setSubmitLoading(true);
 
-      const { data, error } = await supabase.rpc("add_item", {
-        p_created_by_id: user.auth_id,
-        p_details: details,
-        p_state: state,
-        p_price: price,
-        p_status: "Available",
-        p_what_is_this: whatIsThisItem,
-        p_shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
-        p_trades: radioOptions.tradeOptions.find((op) => op.checked).value,
-        p_negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
-        p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
-        p_shipping_cost: shippingCost,
-        p_city: city || null,
-        p_category_id: categories.saved?.selected?.id,
-        p_accepted_trades: acceptedTrades,
+      const response = await fetch("http://localhost:4000/add-item", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          created_by_id: user.auth_id,
+          details: details,
+          state: state,
+          price: price,
+          status: "Available",
+          what_is_this: whatIsThisItem,
+          shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
+          trades: radioOptions.tradeOptions.find((op) => op.checked).value,
+          negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
+          condition: radioOptions.conditionOptions.find((op) => op.checked).value,
+          shipping_cost: shippingCost,
+          city: city || null,
+          category_id: categories.saved?.selected?.id,
+          accepted_trades: acceptedTrades,
+        }),
       });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      if (!response.ok) throw new Error("Something happened at add-item");
 
-      if (!data) throw "no response from 'add_item'";
+      const { data } = await response.json();
 
       if (newCoverPhotoId) {
-        const { error } = await supabase.rpc("update_cover_photo", {
-          p_item_id: data,
-          p_image_id: newCoverPhotoId,
+        const response = await fetch("http://localhost:4000/update-cover-photo", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            item_id: data,
+            image_id: newCoverPhotoId,
+          }),
         });
 
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
+        if (!response.ok) throw new Error("Something happened at update-cover-photo");
+
+        const { data } = await response.json();
+
+        console.log(data);
       }
 
       const imagePaths = photos.map(
         (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
       );
 
-      const { data: movedImagesFromTempTableData, error: error2 } = await supabase.rpc(
-        "move_item_images_from_temp",
-        { p_item_id: data, p_group_id: generatedGroupId }
-      );
+      const response = await fetch("http://localhost:4000/move-item-images-from-temp", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          item_id: data,
+          group_id: generatedGroupId,
+        }),
+      });
 
-      if (error2) throw error2.message;
+      if (!response.ok) {
+        throw new Error(
+          response.statusText || "There was a problem at move-item-images-from-temp"
+        );
+      }
 
       imagePaths.forEach(async (path) => {
         const { error } = await supabase.storage
@@ -696,10 +726,7 @@ export const Sell = () => {
               } required`}
               ref={whatIsThisRef}
             >
-              <label
-                
-                title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling."
-              >
+              <label title="Please be descriptive, but don't keyword-stuff. I recommend using as few words as possible to best describe what you're selling.">
                 What is this item?
               </label>
               <input
@@ -713,9 +740,7 @@ export const Sell = () => {
                 className={`form-group ${markedFieldKey == "category" ? "marked" : ""}`}
                 ref={categoryRef}
               >
-                <label >
-                  Select the most accurate category for this item
-                </label>
+                <label>Select the most accurate category for this item</label>
 
                 <SelectCategoryToggle
                   label={categories.saved?.selected?.plural_name}
@@ -734,7 +759,7 @@ export const Sell = () => {
               className={`form-group ${markedFieldKey == "condition" ? "marked" : ""}`}
               ref={conditionRef}
             >
-              <label >How about the condition?</label>
+              <label>How about the condition?</label>
 
               <RadioOptions
                 options={radioOptions.conditionOptions}
@@ -835,7 +860,7 @@ export const Sell = () => {
             {!noShipping && (
               <>
                 <div className="form-group shipping">
-                  <label >Are you covering the shipping cost?</label>
+                  <label>Are you covering the shipping cost?</label>
                   <div className="shipping-selector-and-input">
                     <div className="shipping-selector">
                       <button

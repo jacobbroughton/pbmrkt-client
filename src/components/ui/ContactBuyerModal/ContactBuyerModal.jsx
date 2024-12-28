@@ -33,20 +33,30 @@ const ContactBuyerModal = ({ contactInfo }) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!price || !email || !name || !message) return 
+    if (!price || !email || !name || !message) return;
 
     setSubmitLoading(true);
     try {
-      const { data, error } = await supabase.rpc("add_wanted_inquiry", {
-        p_full_name: fullName,
-        p_email: email,
-        p_price: price,
-        p_message: message,
-        p_user_id: user?.auth_id,
-        p_buyer_id: contactInfo.created_by_id,
+      const response = await fetch("http://localhost:4000/add-wanted-inquiry", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: fullName,
+          email: email,
+          price: price,
+          message: message,
+          user_id: user?.auth_id,
+          buyer_id: contactInfo.created_by_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) {
+        throw new Error(
+          response.statusText || "There was a problem at add-wanted-inquiry"
+        );
+      }
 
       await createNotification(
         user?.auth_id,

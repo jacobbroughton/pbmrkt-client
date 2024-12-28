@@ -23,22 +23,25 @@ export const WantedOverview = () => {
       setSubsequentlyLoading(true);
 
       const wantedFilters = filters.saved["Wanted"];
+      const urlSearchParams = new URLSearchParams({
+        search_value: savedSearchValue,
+        min_budget: wantedFilters.minPrice || 0,
+        max_budget: wantedFilters.maxPrice,
+        shipping_ok: true,
+        seller_id: null,
+        state: wantedFilters.state == "All" ? null : wantedFilters.state,
+        city: wantedFilters.city == "All" ? null : wantedFilters.city,
+        category_id: wantedFilters.category?.id || null,
+      }).toString();
 
-      const { data, error } = await supabase.rpc(
-        "get_wanted_item_category_result_counts",
-        {
-          p_search_value: savedSearchValue,
-          p_min_budget: wantedFilters.minPrice || 0,
-          p_max_budget: wantedFilters.maxPrice,
-          p_shipping_ok: true,
-          p_seller_id: null,
-          p_state: wantedFilters.state == "All" ? null : wantedFilters.state,
-          p_city: wantedFilters.city == "All" ? null : wantedFilters.city,
-          p_category_id: wantedFilters.category?.id || null,
-        }
+      const response = await fetch(
+        `http://localhost:4000/get-wanted-item-category-result-counts?${urlSearchParams2}`
       );
 
-      if (error) throw error.message;
+      if (!response.ok)
+        throw new Error("Something happened at get-wanted-item-category-result-counts");
+
+      const data = await response.json();
 
       const hashedData = {};
 
@@ -47,24 +50,25 @@ export const WantedOverview = () => {
       }
 
       dispatch(addCountsToOverviewCategories(hashedData));
+      const urlSearchParams2 = new URLSearchParams({
+        search_value: savedSearchValue,
+        seller_id: null,
+        city: wantedFilters.city == "All" ? null : wantedFilters.city,
+        state: wantedFilters.state == "All" ? null : wantedFilters.state,
+        category_id: wantedFilters.category?.id || null,
+        min_budget: wantedFilters.minPrice || 0,
+        max_budget: wantedFilters.maxPrice,
+        shipping_ok: true,
+      }).toString();
 
-      const params = {
-        p_search_value: savedSearchValue,
-        p_seller_id: null,
-        p_city: wantedFilters.city == "All" ? null : wantedFilters.city,
-        p_state: wantedFilters.state == "All" ? null : wantedFilters.state,
-        p_category_id: wantedFilters.category?.id || null,
-        p_min_budget: wantedFilters.minPrice || 0,
-        p_max_budget: wantedFilters.maxPrice,
-        p_shipping_ok: true,
-      };
-
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "get_view_all_wanted_count",
-        params
+      const response2 = await fetch(
+        `http://localhost:4000/get-view-all-wanted-count?${urlSearchParams2}`
       );
 
-      if (error2) throw error2.message;
+      if (!response.ok)
+        throw new Error("Something happened at get-view-all-wanted-count");
+
+      const { data: data2 } = await response2.json();
 
       setListingsViewAllCount(data2[0].num_results);
     } catch (error) {
@@ -143,42 +147,42 @@ const OverviewOptionList = ({ options, level, loading }) => {
   }
 
   return (
-      <ul className={`overview-option-list tier-${level + 1}`}>
-        {options?.map((category, id) => {
-          let newLevel = level + 2;
-          return (
-            <li
-              key={id}
-              className={`${category.children.length >= 1 ? "has-children" : ""}`}
-            >
-              {category.is_folder ? (
-                <p className="label">{category.plural_name}</p>
-              ) : (
-                <button
-                  className="link-button"
-                  onClick={() => handleCategoryClick(category)}
-                  id={id}
-                >
-                  {category.plural_name}{" "}
-                  <span>
-                    {loading ? (
-                      <div className="loading-result-number"></div>
-                    ) : (
-                      `(${category.num_results || 0})`
-                    )}
-                  </span>
-                </button>
-              )}
-              {category.children.length >= 1 && (
-                <OverviewOptionList
-                  options={category.children}
-                  level={newLevel}
-                  loading={loading}
-                />
-              )}
-            </li>
-          );
-        })}
-      </ul>
+    <ul className={`overview-option-list tier-${level + 1}`}>
+      {options?.map((category, id) => {
+        let newLevel = level + 2;
+        return (
+          <li
+            key={id}
+            className={`${category.children.length >= 1 ? "has-children" : ""}`}
+          >
+            {category.is_folder ? (
+              <p className="label">{category.plural_name}</p>
+            ) : (
+              <button
+                className="link-button"
+                onClick={() => handleCategoryClick(category)}
+                id={id}
+              >
+                {category.plural_name}{" "}
+                <span>
+                  {loading ? (
+                    <div className="loading-result-number"></div>
+                  ) : (
+                    `(${category.num_results || 0})`
+                  )}
+                </span>
+              </button>
+            )}
+            {category.children.length >= 1 && (
+              <OverviewOptionList
+                options={category.children}
+                level={newLevel}
+                loading={loading}
+              />
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 };

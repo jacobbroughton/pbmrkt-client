@@ -75,19 +75,26 @@ export const RegisterModal = () => {
 
       const user = data.user;
 
-      const { error: error2 } = await supabase.rpc("add_user", {
-        p_generated_id: user.id,
-        p_email: user.email,
-        p_username: username,
-        p_phone_number: phoneNumber,
-        p_first_name: firstName,
-        p_last_name: lastName,
-        p_state: state,
-        p_city: city,
-        p_bio: bio,
+      const response = await fetch("http://localhost:4000/add-user", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          generated_id: user.id,
+          email: user.email,
+          username: username,
+          phone_number: phoneNumber,
+          first_name: firstName,
+          last_name: lastName,
+          state: state,
+          city: city,
+          bio: bio,
+        }),
       });
 
-      if (error2) throw error2.message;
+      if (!response.ok) throw new Error("Something happened at add-user");
 
       setLoading(false);
       dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
@@ -112,14 +119,15 @@ export const RegisterModal = () => {
       setUsernameIsInitial(false);
       setUsernameExistsLoading(true);
 
-      const { data, error } = await supabase.rpc("check_for_existing_username", {
-        p_username: newUsername,
-      });
+      const urlSearchParams = new URLSearchParams({ username: newUsername }).toString();
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const response = await fetch(
+        `http://localhost:4000/auth/check-for-existing-username/?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened check-for-existing-username");
+
+      const { data } = await response.json();
 
       setUsernameExists(data);
     } catch (error) {

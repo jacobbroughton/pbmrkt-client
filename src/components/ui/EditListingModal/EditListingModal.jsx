@@ -130,37 +130,54 @@ export const EditListingModal = ({ item, setItem }) => {
     try {
       setSubmitLoading(true);
 
-      const { data, error } = await supabase.rpc("edit_item", {
-        p_item_id: item.info.id,
-        p_trades: radioOptions.tradeOptions.find((op) => op.checked).value,
-        p_condition: radioOptions.conditionOptions.find((op) => op.checked).value,
-        p_details: details,
-        p_state: "NC",
-        p_model: model,
-        p_price: price,
-        p_shipping_cost: shippingCost, // TODO - Add this to supabase function
-        p_status: "Available",
-        p_what_is_this: whatIsThisItem,
-        p_shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
-        p_negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
-        p_city: "Matthews",
-        p_category_id: categories.saved.selected?.id,
+      const response = await fetch("http://localhost:4000/edit-item", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          item_id: item.info.id,
+          trades: radioOptions.tradeOptions.find((op) => op.checked).value,
+          condition: radioOptions.conditionOptions.find((op) => op.checked).value,
+          details: details,
+          state: "NC",
+          model: model,
+          price: price,
+          shipping_cost: shippingCost, // TODO - Add this to supabase function
+          status: "Available",
+          what_is_this: whatIsThisItem,
+          shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
+          negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
+          city: "Matthews",
+          category_id: categories.saved.selected?.id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) {
+        throw new Error(response.statusText || "There was a problem at edit-item");
+      }
 
       if (item.info.price != price) {
-        // TODO - Add price change here
-        const { data, error } = await supabase.rpc("add_price_change", {
-          p_item_id: item.info.id,
-          p_prev_price: item.info.price,
-          p_new_price: price,
-          p_prev_shipping_price: item.info.shipping_cost,
-          p_new_shipping_price: shippingCost,
-          p_user_id: user.auth_id,
+        const response = await fetch("http://localhost:4000/add-price-change", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            item_id: item.info.id,
+            prev_price: item.info.price,
+            new_price: price,
+            prev_shipping_price: item.info.shipping_cost,
+            new_shipping_price: shippingCost,
+            user_id: user.auth_id,
+          }),
         });
 
-        if (error) throw error.message;
+        if (!response.ok) {
+          throw new Error(
+            response.statusText || "There was a problem at add-price-change"
+          );
+        }
       }
 
       const { data: data2, error: error3 } = supabase.storage
@@ -183,77 +200,15 @@ export const EditListingModal = ({ item, setItem }) => {
       setError(error.toString());
       setLoading(false);
     }
-
-    // // Old below
-
-    // try {
-    //   e.preventDefault();
-    //   setLoading(true);
-
-    //   const priceIsNumber = price % 1 != 0 || Number.isInteger(price);
-
-    //   if (!priceIsNumber) throw "Invalid price given";
-
-    //   const { data, error } = await supabase.rpc("edit_item", {
-    //     p_item_id: item.info.id,
-    //     p_trades: trades,
-    //     p_condition: condition,
-    //     p_details: details,
-    //     p_state: "NC",
-    //     p_price: price,
-    //     p_shipping_cost: shippingCost, // TODO - Add this to supabase function
-    //     p_status: "Available",
-    //     p_what_is_this: whatIsThisItem,
-    //     p_shipping: shipping,
-    //     p_negotiable: negotiable,
-    //     p_city: "Matthews",
-    //   });
-
-    //   if (error) throw error.message;
-
-    //   if (item.info.price != price) {
-    //     // TODO - Add price change here
-    //     const { data, error } = await supabase.rpc("add_price_change", {
-    //       p_item_id: item.info.id,
-    //       p_prev_price: item.info.price,
-    //       p_new_price: price,
-    //       p_prev_shipping_price: item.info.shipping_cost,
-    //       p_new_shipping_price: shippingCost,
-    //       p_user_id: user.auth_id,
-    //     });
-
-    //     if (error) throw error.message;
-
-    //   }
-
-    //   const { data: data2, error: error3 } = supabase.storage
-    //     .from("profile_pictures")
-    //     .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-    //   if (error3) throw error.message;
-
-    // setItem({
-    //   photos: data,
-    //   info: { ...data[0], profile_picture_url: data2?.publicUrl },
-    // });
-
-    // setItem({
-    //   info: { ...data[0], profile_picture_url: data2?.publicUrl },
-    //   photos: item.photos,
-    // });
-    // setLoading(false);
-    // dispatch(toggleModal({ key: "editListingModal", value: false }));
-    // } catch (error) {
-    //   console.error(error);
-    //   setError(error.toString());
-    // }
   }
 
   async function getItemCategories() {
     try {
-      const { data, error } = await supabase.rpc("get_all_item_categories");
+      const response = await fetch(`http://localhost:4000/get-all-item-categories`);
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at get-all-item-categories");
+
+      const { data } = await response.json();
 
       const { nestedCategories, preSelectedCategory } = nestItemCategoriesExperimental(
         data,
@@ -322,7 +277,9 @@ export const EditListingModal = ({ item, setItem }) => {
         <div className="header">
           <h2>Edit/Modify This Listing</h2>
           <button
-            onClick={() => dispatch(toggleModal({ key: "editListingModal", value: false }))}
+            onClick={() =>
+              dispatch(toggleModal({ key: "editListingModal", value: false }))
+            }
             type="button"
             className="button close"
           >

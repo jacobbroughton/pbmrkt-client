@@ -61,13 +61,20 @@ export function MobileBottomNav() {
   async function handleNotificationsSubscribe() {
     try {
       if (!user) return;
+      
+      const urlSearchParams = new URLSearchParams({
+        user_id: user?.id,
+      }).toString();
 
-      const { data, error } = await supabase.rpc("get_notifications", {
-        p_user_id: user.auth_id,
-      });
+      const response = await fetch(
+        `http://localhost:4000/get-notifications?${urlSearchParams}`
+      );
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened get-notifications");
 
+      const { data } = await response.json();
+
+      if (!data || !data.length === 0) throw new Error("No notifications  found");
       let localNotifications = data.map((notif) => {
         const { data: data2, error: error2 } = supabase.storage
           .from("profile_pictures")

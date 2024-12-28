@@ -45,25 +45,29 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
 
     // p_city, p_email, p_first_name, p_last_name, p_phone_number, p_state, p_user_id)
     try {
-      const { data, error } = await supabase.rpc("edit_user_profile", {
-        p_user_id: localUser.auth_id,
-        // p_email: email,
-        p_phone_number: phoneNumber,
-        p_first_name: firstName,
-        p_last_name: lastName,
-        p_state: state,
-        p_city: city,
-        p_bio: bio,
+      const response = await fetch("http://localhost:4000/edit-user-profile", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localUser.auth_id,
+          phone_number: phoneNumber,
+          first_name: firstName,
+          last_name: lastName,
+          state: state,
+          city: city,
+          bio: bio,
+        }),
       });
 
-      //   p_user_id uuid,
-      // p_phone_number character varying,
-      // p_first_name character varying,
-      // p_last_name character varying,
-      // p_state character varying,
-      // p_city character varying,
-      // p_bio character varying
-      if (error) throw error.message;
+      if (!response.ok) {
+        throw new Error(
+          response.statusText || "There was a problem at edit-user-profile"
+        );
+      }
+
+      const data = await response.json();
 
       const newUser = {
         ...data[0],
@@ -107,13 +111,23 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
 
       let newProfilePictureUrlLocal = data2.publicUrl;
 
-      const { data: data3, error: error3 } = await supabase.rpc("add_profile_image", {
-        p_generated_id: data.id,
-        p_full_path: data.fullPath,
-        p_path: data.path,
-        p_user_id: localUser.auth_id,
+      const response = await fetch("http://localhost:4000/add-profile-image", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          generated_id: data.id,
+          full_path: data.fullPath,
+          path: data.path,
+          user_id: localUser.auth_id,
+        }),
       });
-      if (error3) throw error3.message;
+
+      if (!response.ok) throw new Error("Something happened at add-profile-image");
+
+      const { data: data3 } = await response.json();
 
       // dispatch(
       //   setUser({
@@ -160,12 +174,9 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
 
   return (
     <div className="modal edit-user-profile-modal">
-       {error && (
-          <ErrorBanner
-            error={error.toString()}
-            handleCloseBanner={() => setError(null)}
-          />
-        )}
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
       <div className="header">
         <h2>Edit profile</h2>
         <button
@@ -286,13 +297,13 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         </div>
 
         <div className="form-group">
-            <label htmlFor="email">Headline</label>
-            <input
-              placeholder='"Premier paintball trader since 2007"'
-              value={headline}
-              onChange={(e) => setHeadline(e.target.value)}
-            />
-          </div>
+          <label htmlFor="email">Headline</label>
+          <input
+            placeholder='"Premier paintball trader since 2007"'
+            value={headline}
+            onChange={(e) => setHeadline(e.target.value)}
+          />
+        </div>
 
         <div className="form-group">
           <label htmlFor="bio">Details about you?</label>

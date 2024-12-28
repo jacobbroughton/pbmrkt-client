@@ -32,21 +32,28 @@ const Overview = () => {
 
       const forSaleFilters = filters.saved["For Sale"];
 
-      const { data, error } = await supabase.rpc("get_item_category_result_counts", {
-        p_search_value: savedSearchValue,
-        p_min_price: forSaleFilters.minPrice || 0,
-        p_max_price: forSaleFilters.maxPrice,
-        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
-        p_condition: getCheckedOps(forSaleFilters.conditionOptions),
-        p_shipping: getCheckedOps(forSaleFilters.shippingOptions),
-        p_trades: getCheckedOps(forSaleFilters.tradeOptions),
-        p_negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
-        p_seller_id: null,
-        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
-        p_category_id: forSaleFilters.category?.id || null,
-      });
+      const urlSearchParams = new URLSearchParams({
+        search_value: savedSearchValue,
+        min_price: forSaleFilters.minPrice || 0,
+        max_price: forSaleFilters.maxPrice,
+        state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        condition: getCheckedOps(forSaleFilters.conditionOptions),
+        shipping: getCheckedOps(forSaleFilters.shippingOptions),
+        trades: getCheckedOps(forSaleFilters.tradeOptions),
+        negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
+        seller_id: null,
+        city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        category_id: forSaleFilters.category?.id || null,
+      }).toString();
 
-      if (error) throw error.message;
+      const response = await fetch(
+        `http://localhost:4000/get-item-category-result-counts?${urlSearchParams}`
+      );
+
+      if (!response.ok)
+        throw new Error("Something happened at get-item-category-result-counts");
+
+      const { data } = await response.json();
 
       const hashedData = {};
 
@@ -61,34 +68,36 @@ const Overview = () => {
       // const { nestedCategories } = nestItemCategoriesExperimental(data, null);
       // setNestedCategories(nestedCategories);
 
-      let params = {
-        p_search_value: savedSearchValue,
-        p_seller_id: null,
-        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
-        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
-        p_category_id: forSaleFilters.category?.id || null,
-        p_min_price: forSaleFilters.minPrice || 0,
-        p_max_price: forSaleFilters.maxPrice,
-        p_condition: forSaleFilters.conditionOptions
+      const urlSearchParams2 = new URLSearchParams({
+        search_value: savedSearchValue,
+        seller_id: null,
+        city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        category_id: forSaleFilters.category?.id || null,
+        min_price: forSaleFilters.minPrice || 0,
+        max_price: forSaleFilters.maxPrice,
+        condition: forSaleFilters.conditionOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_shipping: forSaleFilters.shippingOptions
+        shipping: forSaleFilters.shippingOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_trades: forSaleFilters.tradeOptions
+        trades: forSaleFilters.tradeOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-        p_negotiable: forSaleFilters.negotiableOptions
+        negotiable: forSaleFilters.negotiableOptions
           .filter((option) => option.checked)
           .map((option) => option.value),
-      };
+      }).toString();
 
-      const { data: data2, error: error2 } = await supabase.rpc(
-        "get_view_all_count",
-        params
+      const response2 = await fetch(
+        `http://localhost:4000/get-item-category-result-counts?${urlSearchParams2}`
       );
 
-      if (error2) throw error2.message;
+      if (!response.ok)
+        throw new Error("Something happened at get-item-category-result-counts");
+
+      const { data: data2 } = await response2.json();
 
       setListingsViewAllCount(data2[0].num_results);
     } catch (error) {

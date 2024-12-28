@@ -26,18 +26,30 @@ export function ItemCommentsSection({
     try {
       if (!newCommentBody) throw "Cannot add comment, body empty";
 
-      const { data, error } = await supabase.rpc("add_comment", {
-        p_body: newCommentBody,
-        p_created_by_id: user.auth_id,
-        p_item_id: itemInfo.id,
-        p_parent_id: null,
-        p_post_type: "For Sale",
+      const response = await fetch("http://localhost:4000/add-comment", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          body: newCommentBody,
+          created_by_id: user.auth_id,
+          item_id: itemInfo.id,
+          parent_id: null,
+          post_type: "For Sale",
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok)
+        throw new Error("Something happened at ItemCommentsSection add-comment");
+
+      const data = await response.json();
+
       if (user.auth_id != itemInfo.id) {
         await createNotification(user.auth_id, itemInfo.createdById, data[0].id, 1);
       }
+
       getComments();
       setNewCommentBody("");
     } catch (error) {
@@ -48,12 +60,18 @@ export function ItemCommentsSection({
 
   async function getComments() {
     try {
-      const { data, error } = await supabase.rpc("get_comments_experimental", {
-        p_item_id: itemInfo.id,
-        p_user_id: user?.auth_id,
-      });
+      const urlSearchParams = new URLSearchParams({
+        item_id: itemInfo.id,
+        user_id: user?.auth_id,
+      }).toString();
 
-      if (error) throw error.message;
+      const response = await fetch(
+        `http://localhost:4000/get-comments-experimental?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened get-comments-experimental");
+
+      const { data } = await response.json();
 
       const comments = data.map((comment) => {
         const { data: data2, error: error2 } = supabase.storage
@@ -80,9 +98,18 @@ export function ItemCommentsSection({
   async function handleDeleteComment(e, commentId) {
     e.preventDefault();
     try {
-      await supabase.rpc("delete_comment", {
-        p_comment_id: commentId,
+      const response = await fetch("http://localhost:4000/delete-comment", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          comment_id: commentId,
+        }),
       });
+
+      if (!response.ok) throw new Error("Something happened at delete-comment");
 
       setLocalComments(
         localComments.map((comment) => {
@@ -109,17 +136,22 @@ export function ItemCommentsSection({
     if (!commentWithReplies.repliesToggled) {
       setCommentIdWithRepliesOpening(commentWithReplies.id);
       setRepliesLoading(true);
-      const { data, error } = await supabase.rpc("get_child_comments", {
-        p_item_id: itemInfo.id,
-        p_parent_comment_id: commentWithReplies.id,
-        p_user_id: user?.auth_id,
-        p_post_type: "For Sale",
-      });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const urlSearchParams = new URLSearchParams({
+        item_id: itemInfo.id,
+        parent_comment_id: commentWithReplies.id,
+        user_id: user?.auth_id,
+        post_type: "For Sale",
+      }).toString();
+
+      const response = await fetch(
+        `http://localhost:4000/get-child-comments?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened get-child-comments");
+
+      const { data } = await response.json();
+
       const replies = data.map((comment) => {
         const { data: data2, error: error2 } = supabase.storage
           .from("profile_pictures")

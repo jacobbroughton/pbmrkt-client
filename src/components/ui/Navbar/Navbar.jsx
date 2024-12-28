@@ -41,7 +41,9 @@ export const Navbar = () => {
     // dispatch(toggleModal({ key: "addNewMenu", value: false }));
     // dispatch(toggleModal({ key: "notificationsMenu", value: false }));
     // dispatch(toggleModal({ key: "searchModal", value: false }));
-    dispatch(toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled, closeAll: true }));
+    dispatch(
+      toggleModal({ key: "rightSideMenu", value: !rightSideMenuToggled, closeAll: true })
+    );
   }
 
   function handleNotificationsMenuToggle(e) {
@@ -50,18 +52,32 @@ export const Navbar = () => {
     // dispatch(toggleModal({ key: "addNewMenu", value: false }));
     // dispatch(toggleModal({ key: "rightSideMenu", value: false }));
     // dispatch(toggleModal({ key: "searchModal", value: false }));
-    dispatch(toggleModal({ key: "notificationsMenu", value: !notificationsMenuToggled, closeAll: true }));
+    dispatch(
+      toggleModal({
+        key: "notificationsMenu",
+        value: !notificationsMenuToggled,
+        closeAll: true,
+      })
+    );
   }
 
   async function handleNotificationsSubscribe() {
     try {
       if (!user) return;
 
-      const { data, error } = await supabase.rpc("get_notifications", {
-        p_user_id: user.auth_id,
-      });
+      const urlSearchParams = new URLSearchParams({
+        user_id: user?.id,
+      }).toString();
 
-      if (error) throw error.message;
+      const response = await fetch(
+        `http://localhost:4000/get-notifications?${urlSearchParams}`
+      );
+
+      if (!response.ok) throw new Error("Something happened get-notifications");
+
+      const { data } = await response.json();
+
+      if (!data || !data.length === 0) throw new Error("No notifications  found");
 
       let localNotifications = data.map((notif) => {
         const { data: data2, error: error2 } = supabase.storage
@@ -123,9 +139,7 @@ export const Navbar = () => {
     if (user) handleNotificationsSubscribe();
   }, [user]);
 
-  const unreadNotificationCount = notifications?.filter(
-    (notif) => notif.is_read
-  ).length;
+  const unreadNotificationCount = notifications?.filter((notif) => notif.is_read).length;
 
   return (
     <nav className="desktop">
@@ -199,7 +213,13 @@ export const Navbar = () => {
           className={`add-new-menu-toggle ${addNewMenuToggled ? "toggled" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(toggleModal({ key: "addNewMenu", value: !addNewMenuToggled, closeAll: true}));
+            dispatch(
+              toggleModal({
+                key: "addNewMenu",
+                value: !addNewMenuToggled,
+                closeAll: true,
+              })
+            );
           }}
         >
           <PlusIcon />

@@ -23,14 +23,23 @@ const BugModal = () => {
 
       setSubmitLoading(true);
 
-      const { data, error } = await supabase.rpc("add_bug", {
-        p_body: bugBody,
-        p_name: name,
-        p_email: email,
-        p_user_id: user?.auth_id,
+      const response = await fetch("http://localhost:4000/add-bug", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          body: bugBody,
+          name: name,
+          email: email,
+          user_id: user?.auth_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response.ok) throw new Error("Something happened at add-bug");
+
+      await response.json();
 
       setBugBody("");
     } catch (error) {

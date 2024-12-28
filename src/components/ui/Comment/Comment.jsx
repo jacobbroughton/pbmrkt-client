@@ -51,13 +51,20 @@ export const Comment = ({
         return;
       }
 
-      const { data, error } = await supabase.rpc("add_comment_vote", {
-        p_comment_id: comment.id,
-        p_vote_direction: "Up",
-        p_user_id: user?.auth_id,
+      const response2 = await fetch("http://localhost:4000/add-comment-vote", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          comment_id: comment.id,
+          vote_direction: "Up",
+          user_id: user?.auth_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response2.ok) throw new Error("Something happened at add-comment-vote");
 
       setUpdatedVote("Up");
 
@@ -93,13 +100,20 @@ export const Comment = ({
 
       // Add reference here (ike 'to vote, you'll need to sign in)
 
-      const { data, error } = await supabase.rpc("add_comment_vote", {
-        p_comment_id: comment.id,
-        p_vote_direction: "Down",
-        p_user_id: user.auth_id,
+      const response2 = await fetch("http://localhost:4000/add-comment-vote", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          comment_id: comment.id,
+          vote_direction: "Down",
+          user_id: user?.auth_id,
+        }),
       });
 
-      if (error) throw error.message;
+      if (!response2.ok) throw new Error("Something happened at add-comment-vote");
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes -= 1));
@@ -201,7 +215,9 @@ export const Comment = ({
                     <button
                       className="button"
                       // onClick={(e) => handleDeleteComment(e, comment.id)}
-                      onClick={(e) => dispatch(toggleModal({key: 'deleteModal', value: true}))}
+                      onClick={(e) =>
+                        dispatch(toggleModal({ key: "deleteModal", value: true }))
+                      }
                       type="button"
                     >
                       Delete
@@ -281,7 +297,7 @@ export const Comment = ({
           // deleteLoading={deleteItemLoading}
           handleDeleteClick={async () => {
             try {
-              console.log('delete comment, this block doesn\'t do anything')
+              console.log("delete comment, this block doesn't do anything");
             } catch (error) {
               console.error(error);
             }

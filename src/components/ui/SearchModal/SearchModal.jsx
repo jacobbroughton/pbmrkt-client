@@ -133,13 +133,6 @@ export const SearchModal = () => {
 
       let { data } = await response.json();
 
-      data = data.map((img) => {
-        return {
-          ...img,
-          image_url: "",
-        };
-      });
-
       setSearchResults({
         ...searchResults,
         listings: data,
@@ -289,7 +282,7 @@ export const SearchModal = () => {
                         to={`/listing/${listing.id}`}
                       >
                         <div className="image-container">
-                          <img src={listing.image_url} />
+                          <img src={listing.url} />
                         </div>
                         <div className="listing-info">
                           <p className="what-is-this">{listing.what_is_this}</p>

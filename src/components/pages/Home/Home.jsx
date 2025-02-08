@@ -12,7 +12,6 @@ import { toggleModal } from "../../../redux/modals.ts";
 import { setOverviewCategories } from "../../../redux/overviewCategories.js";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search.ts";
 import { setViewLayout, setViewType } from "../../../redux/view.ts";
-import { supabase } from "../../../utils/supabase.ts";
 import {
   collapseAllCategoryFolders,
   expandAllCategoryFolders,
@@ -35,6 +34,7 @@ import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
 import { Tabs } from "../../ui/Tabs/Tabs";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner.tsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export function Listings() {
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
+  const [error, setError] = useState(null);
 
   // const { searchParams } = useSearchParams();
   const [sort, setSort] = useState("Date (New-Old)");
@@ -123,7 +124,7 @@ export function Listings() {
 
       const nestedItemCategories = nestItemCategories(itemCategories, null);
 
-      dispatch(setOverviewCategories({ flat: data, nested: nestedItemCategories }));
+      dispatch(setOverviewCategories({ flat: <itemCategories></itemCategories>, nested: nestedItemCategories }));
 
       dispatch(
         setFilters({
@@ -305,6 +306,9 @@ export function Listings() {
   return (
     <main className="home">
       <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} hasMargin={true}/>
+      )}
       {isOnMobile() ? (
         <div className="mobile-page-header">
           <h1>PBMRKT</h1>

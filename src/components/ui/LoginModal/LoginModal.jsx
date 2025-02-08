@@ -2,12 +2,12 @@ import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
 import { EyeIcon } from "../Icons/EyeIcon";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../../utils/supabase";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { useDispatch } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./LoginModal.css";
 import { isValidEmail } from "../../../utils/usefulFunctions";
+import { setUser } from "../../../redux/auth";
 
 export const LoginModal = () => {
   const dispatch = useDispatch();
@@ -30,32 +30,23 @@ export const LoginModal = () => {
           password,
         }),
         headers: {
-          "content-type": "application/json", 
+          "content-type": "application/json",
         },
+        credentials: "include",
       });
 
-      if (!response.ok) throw new Error("There was an error logging in")
+      if (!response.ok) throw new Error("There was an error logging in");
 
-      const data = await response.json()
+      const data = await response.json();
 
-      console.log("Logged in", data) 
+      dispatch(setUser(data.data.user));
 
-      // TODO - Check for user in tbl_user, decline with support message
-      // const { data: data2, error: error2 } = await supabase.rpc(
-      //   "check_for_user_in_local_db",
-      //   {
-      //     p_user_id: data.user.id,
-      //   }
-      // );
+      // const [error2, data2] = ['Need to check for user', null]
 
-      const [error2, data2] = ['Need to check for user', null]
+      // if (error2) throw new Error(error2.message || error2);
 
-      console.log([error2, data2])
-
-      if (error2) throw error2.message;
-
-      if (data2 == 0)
-        throw "There was a problem finding the user account you are trying to access.";
+      // if (data2 == 0)
+      //   throw "There was a problem finding the user account you are trying to access.";
 
       // navigate("/");
       dispatch(toggleModal({ key: "loginModal", value: false }));

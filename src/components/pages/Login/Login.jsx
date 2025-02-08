@@ -1,21 +1,25 @@
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
 import { EyeIcon } from "../../ui/Icons/EyeIcon";
 import { Footer } from "../../ui/Footer/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../../../utils/supabase";
 import "./Login.css";
 import { isValidEmail } from "../../../utils/usefulFunctions";
 import PageTitle from "../../ui/PageTitle/PageTitle";
+import { setUser } from "../../../redux/auth";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Login = () => {
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState("password");
-  const [email, setEmail] = useState("testemail@gmail.com");
+  const dispatch = useDispatch();
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -32,6 +36,7 @@ export const Login = () => {
         headers: {
           "content-type": "application/json",
         },
+        credentials: "include",
       });
 
       if (!response.ok)
@@ -39,15 +44,20 @@ export const Login = () => {
 
       const data = await response.json();
 
-      console.log("Logged in", data);
+      dispatch(setUser(data.user));
 
       navigate("/");
     } catch (error) {
       console.error(error);
       setLoginError(error.toString());
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, []);
 
   return (
     <main className="login">

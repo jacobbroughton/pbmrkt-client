@@ -178,7 +178,7 @@
   background-color: blue;
 } */
 
-.edit-item form .custom-photo-upload {
+.edit-item form .custom-image-upload {
   height: 60px;
   border: 1px solid grey;
   display: flex;
@@ -192,26 +192,26 @@
   width: 100%;
 }
 
-.edit-item form .custom-photo-upload p:first-child {
+.edit-item form .custom-image-upload p:first-child {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.edit-item form .custom-photo-upload input[type="file"] {
+.edit-item form .custom-image-upload input[type="file"] {
   display: none;
 }
 
-.edit-item form .custom-photo-upload.secondary {
+.edit-item form .custom-image-upload.secondary {
   background-color: #4f4f4f;
   padding: 0;
   font-weight: 500;
 }
 
-.edit-item form .custom-photo-upload.secondary:hover {
+.edit-item form .custom-image-upload.secondary:hover {
   text-decoration: underline;
 }
 
-.edit-item form .custom-photo-upload.dragging {
+.edit-item form .custom-image-upload.dragging {
   border-color: #666;
 }
 
@@ -383,7 +383,7 @@
 }
 
 /* .edit-item form .form-group .radio-options .radio-option label,
-.edit-item form .custom-photo-upload.secondary {
+.edit-item form .custom-image-upload.secondary {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -401,7 +401,7 @@
   border-color: #666;
 } */
 
-.edit-item form .custom-photo-upload.secondary {
+.edit-item form .custom-image-upload.secondary {
   align-self: flex-start;
   width: auto;
   padding: 1px 5px 1px 5px;
@@ -460,7 +460,7 @@
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .edit-item form .form-group textarea:not(:disabled):hover,
 .edit-item form .form-group select:not(:disabled):hover,
-.edit-item form .custom-photo-upload:not(:disabled):hover,
+.edit-item form .custom-image-upload:not(:disabled):hover,
 .edit-item form .form-block .reset-images-button:not(:disabled):hover,
 .edit-item
   form

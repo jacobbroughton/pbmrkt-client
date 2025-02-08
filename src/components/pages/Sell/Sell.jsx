@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals.ts";
 import { smoothScrollOptions } from "../../../utils/constants.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { supabase } from "../../../utils/supabase";
 import {
   capitalizeWords,
   collapseAllCategoryFolders,
@@ -174,10 +173,9 @@ export const Sell = () => {
   useEffect(() => {
     const getItemCategories = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/get-all-item-categories`);
+        const response = await fetch(`http://localhost:4000/get-item-categories`);
 
-        if (!response.ok)
-          throw new Error("Something happened at get-all-item-categories");
+        if (!response.ok) throw new Error("Something happened at get-item-categories");
 
         const { data } = await response.json();
 
@@ -286,76 +284,68 @@ export const Sell = () => {
         },
         credentials: "include",
         body: JSON.stringify({
-          created_by_id: user.auth_id,
-          details: details,
-          state: state,
-          price: price,
-          status: "Available",
           what_is_this: whatIsThisItem,
-          shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
-          trades: radioOptions.tradeOptions.find((op) => op.checked).value,
-          negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
-          condition: radioOptions.conditionOptions.find((op) => op.checked).value,
+          price: price,
           shipping_cost: shippingCost,
+          condition: radioOptions.conditionOptions.find((op) => op.checked).value,
+          details: details,
+          shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
+          negotiable: radioOptions.negotiableOptions.find((op) => op.checked).value,
+          trades: radioOptions.tradeOptions.find((op) => op.checked).value,
+          status: "Available",
+          state: state,
           city: city || null,
           category_id: categories.saved?.selected?.id,
           accepted_trades: acceptedTrades,
+          created_by_id: user.id,
         }),
       });
 
       if (!response.ok) throw new Error("Something happened at add-item");
 
-      const { data } = await response.json();
+      const { data: createdItem } = await response.json();
 
       if (newCoverPhotoId) {
-        const response = await fetch("http://localhost:4000/update-cover-photo", {
+        const response = await fetch("http://localhost:4000/update-cover-image", {
           method: "post",
           headers: {
             "content-type": "application/json",
           },
           credentials: "include",
           body: JSON.stringify({
-            item_id: data,
+            item_id: createdItem.id,
             image_id: newCoverPhotoId,
           }),
         });
 
-        if (!response.ok) throw new Error("Something happened at update-cover-photo");
+        if (!response.ok) throw new Error("Something happened at update-cover-image");
 
         const { data } = await response.json();
-
-        console.log(data);
       }
 
       const imagePaths = photos.map(
-        (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
+        (image) => `${user.id}/${generatedGroupId}/${image.name}`
       );
 
-      const response = await fetch("http://localhost:4000/move-item-images-from-temp", {
+      const response2 = await fetch("http://localhost:4000/move-item-images-from-temp", {
         method: "post",
         headers: {
           "content-type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
-          item_id: data,
+          item_id: createdItem.id,
           group_id: generatedGroupId,
         }),
       });
 
-      if (!response.ok) {
+      if (!response2.ok) {
         throw new Error(
-          response.statusText || "There was a problem at move-item-images-from-temp"
+          response2.statusText || "There was a problem at move-item-images-from-temp"
         );
       }
 
-      imagePaths.forEach(async (path) => {
-        const { error } = await supabase.storage
-          .from("item_images")
-          .move(`temp/${path}`, `saved/${path}`);
-        if (error) throw error.message;
-        setListedItemID(data);
-        navigate(`/listing/${data}`);
-      });
+      navigate(`/listing/${createdItem.id}`);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -408,7 +398,7 @@ export const Sell = () => {
   const fieldErrors = [
     {
       fieldKey: "images",
-      warningText: "Include at least one photo of the item you're selling",
+      warningText: "Include at least one image of the item you're selling",
       active: photos?.length == 0,
       onClick: (e) => {
         e.preventDefault();
@@ -556,7 +546,11 @@ export const Sell = () => {
     <main className="sell">
       <PageTitle title="Sell | PBMRKT" />
       {error && (
-        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+        <ErrorBanner
+          error={error.toString()}
+          handleCloseBanner={() => setError(null)}
+          hasMargin={true}
+        />
       )}
       <h1>Create a new listing</h1>
       <form

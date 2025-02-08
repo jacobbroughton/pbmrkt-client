@@ -12,7 +12,7 @@ export const ItemSkeleton = ({ blinking }) => {
       <div className={`words-skeleton skeleton  ${blinking ? "blinking" : ""}`}>
         &nbsp;
       </div>
-      <div className={`profile-picture-and-name-skeletons`}>
+      <div className={`profile-image-and-name-skeletons`}>
         <div className={`words-skeleton skeleton  ${blinking ? "blinking" : ""}`}></div>
       </div>
     </div>

@@ -11,7 +11,6 @@ import { useWindowSize } from "../../../utils/useWindowSize";
 import { isOnMobile } from "../../../utils/usefulFunctions";
 import { NotificationsMenu } from "../NotificationsMenu/NotificationsMenu";
 import { BellIcon } from "../Icons/BellIcon";
-import { supabase } from "../../../utils/supabase";
 import React, { useEffect, useState } from "react";
 import { Caret } from "../Icons/Caret";
 import { PlusIcon } from "../Icons/PlusIcon";
@@ -70,7 +69,11 @@ export const Navbar = () => {
       }).toString();
 
       const response = await fetch(
-        `http://localhost:4000/get-notifications?${urlSearchParams}`
+        `http://localhost:4000/get-notifications?${urlSearchParams}`,
+        {
+          method: "get",
+          credentials: "include",
+        }
       );
 
       if (!response.ok) throw new Error("Something happened get-notifications");
@@ -80,56 +83,13 @@ export const Navbar = () => {
       if (!data || !data.length === 0) throw new Error("No notifications  found");
 
       let localNotifications = data.map((notif) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(notif.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
         return {
           ...notif,
-          profile_picture_url: data2.publicUrl,
+          profile_image_url: "",
         };
       });
 
       setNotifications(localNotifications);
-
-      supabase
-        .channel("comment_notifications")
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "comment_notifications",
-            filter: `related_user_id=eq.${user.auth_id}`,
-          },
-          (payload) => {
-            if (payload.new.related_user_id != user.auth_id) {
-              localNotifications.unshift(payload.new);
-              setNotifications(localNotifications);
-            }
-          }
-        )
-        .subscribe((status, err) => {
-          if (status === "SUBSCRIBED") {
-            console.log("Subscribed to comment notifications!");
-          }
-
-          if (status === "CHANNEL_ERROR") {
-            console.log(
-              `There was an error subscribing to channel: ${err?.message || "default"}`
-            );
-          }
-
-          if (status === "TIMED_OUT") {
-            console.log("Realtime server did not respond in time.");
-          }
-
-          if (status === "CLOSED") {
-            console.log("Realtime channel was unexpectedly closed.");
-          }
-        });
     } catch (error) {
       console.error(error);
     }
@@ -248,11 +208,11 @@ export const Navbar = () => {
             className="right-side-menu-button"
           >
             <img
-              className="profile-picture"
+              className="profile-image"
               src={
                 user
-                  ? user.profile_picture_url
-                  : "https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/profile_pictures/placeholders/user-placeholder"
+                  ? user.profile_image_url
+                  : "../../../assets/images/user-placeholder.jpeg"
               }
             />
           </button>

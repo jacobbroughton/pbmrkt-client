@@ -6,7 +6,7 @@ import "./ProfileBadge.css";
 
 export function ProfileBadge({
   userInfo = {
-    profilePictureUrl: "",
+    profileImageUrl: "",
     username: "",
     city: "",
     state: "",
@@ -18,8 +18,8 @@ export function ProfileBadge({
 
   return (
     <div className="profile-badge">
-      <div className="profile-picture-container">
-        <img className="profile-picture" src={userInfo.profilePictureUrl} />
+      <div className="profile-image-container">
+        <img className="profile-image" src={userInfo.profileImageUrl} />
       </div>
       <div className="text">
         <Link to={`/user/${userInfo.username}`} className="user-link">

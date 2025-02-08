@@ -70,7 +70,7 @@ nav.mobile-nav .sidebar-toggle-button.active svg {
   fill: var(--lightgreen);
 }
 
-nav.mobile-nav .right-side-menu-button .profile-picture-container {
+nav.mobile-nav .right-side-menu-button .profile-image-container {
   height: 40px;
   width: 40px;
   min-width: 40px;
@@ -79,11 +79,11 @@ nav.mobile-nav .right-side-menu-button .profile-picture-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-nav.mobile-nav .right-side-menu-button.toggled .profile-picture-container {
+nav.mobile-nav .right-side-menu-button.toggled .profile-image-container {
   border-color: var(--lightgreen);
 }
 
-nav.mobile-nav .right-side-menu-button .profile-picture {
+nav.mobile-nav .right-side-menu-button .profile-image {
   height: 100%;
   width: 100%;
   border-radius: 50%;

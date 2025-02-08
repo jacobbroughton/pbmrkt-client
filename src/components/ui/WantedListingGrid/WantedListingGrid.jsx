@@ -1,24 +1,11 @@
 import { Link } from "react-router-dom";
 import { LoadingOverlay } from "../LoadingOverlay/LoadingOverlay";
-import { supabase } from "../../../utils/supabase";
 import "./WantedListingGrid.css";
 
 export const WantedListingGrid = ({ listings, accountForSidebar, loading }) => {
   return (
     <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => {
-        const { data, error } = supabase.storage
-          .from("wanted_item_images")
-          .getPublicUrl(listing?.thumbnail_path, {
-            // transform: {
-            //   height: 400,
-            //   width: 400,
-            // },
-          });
-
-        if (error) throw error.message;
-
-        const imageUrl = data.publicUrl;
         return (
           <Link
             to={`/wanted/${listing.id}`}
@@ -46,13 +33,12 @@ export const WantedListingGrid = ({ listings, accountForSidebar, loading }) => {
                     false
                   )}
                 </div>
-                {listing.thumbnail_path ? (
-                  <img src={imageUrl} />
-                ) : (
-                  <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/wanted_item_images/placeholders/placeholder.jpg`}
-                  />
-                )}
+                <img
+                  src={
+                    listing.url ||
+                    `https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`
+                  }
+                />
               </div>
               <div className="listing-card-info">
                 <div className="price-and-name">
@@ -62,8 +48,8 @@ export const WantedListingGrid = ({ listings, accountForSidebar, loading }) => {
                 <div className="profile">
                   asdf
                   <Link className="small-text bold" to={`/user/${listing.username}`}>
-                    <div className="profile-picture-container">
-                      <img className="profile-picture" src={listing.profile_picture} />
+                    <div className="profile-image-container">
+                      <img className="profile-image" src={listing.profile_picture} />
                     </div>
                     {listing.username}
                   </Link>

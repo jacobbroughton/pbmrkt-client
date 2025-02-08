@@ -25,19 +25,19 @@
   width: 100%;
 }
 
-.item-skeleton-container .profile-picture-and-name-skeletons {
+.item-skeleton-container .profile-image-and-name-skeletons {
   display: flex;
   align-items: center;
   flex-direction: row;
   gap: 5px;
 }
 
-.item-skeleton-container .profile-picture-and-name-skeletons .words-skeleton {
+.item-skeleton-container .profile-image-and-name-skeletons .words-skeleton {
   width: calc(100% - 125px);
   height: 0.875rem;
 }
 
-.item-skeleton-container .profile-picture.skeleton {
+.item-skeleton-container .profile-image.skeleton {
   width: 23px;
   height: 23px;
   min-width: 23px;

@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
-import { supabase } from "../../../utils/supabase";
 import {
   capitalizeWords,
   collapseAllCategoryFolders,
@@ -154,7 +153,7 @@ export const CreateWantedItem = () => {
           budget: budget,
           shipping_ok: okWithShipping,
           category_id: categories.saved.selected?.id,
-          created_by_id: user.auth_id,
+          created_by_id: user.id,
           state: state,
           city: city,
         }),
@@ -167,7 +166,7 @@ export const CreateWantedItem = () => {
       if (!createdWantedItem) throw new Error("No new wanted post was created");
 
       if (newCoverPhotoId) {
-        const response = await fetch("http://localhost:4000/update-wanted-cover-photo", {
+        const response = await fetch("http://localhost:4000/update-wanted-cover-image", {
           method: "post",
           headers: {
             "content-type": "application/json",
@@ -180,17 +179,17 @@ export const CreateWantedItem = () => {
         });
 
         if (!response.ok)
-          throw new Error("Something happened at update-wanted-cover-photo");
+          throw new Error("Something happened at update-wanted-cover-image");
 
         const { data: coverPhoto } = await response.json();
 
         if (!coverPhoto)
-          throw new Error("Wanted cover photo was not retrieved after update");
+          throw new Error("Wanted cover image was not retrieved after update");
       }
 
-      const imagePaths = photos.map(
-        (photo) => `${user.auth_id}/${generatedGroupId}/${photo.name}`
-      );
+      // const imagePaths = photos.map(
+      //   (image) => `${user.id}/${generatedGroupId}/${image.name}`
+      // );
 
       const response2 = await fetch(
         "http://localhost:4000/move-wanted-item-images-from-temp",
@@ -212,16 +211,12 @@ export const CreateWantedItem = () => {
 
       const { data: movedImagesFromTempTableData } = await response2.json();
 
+      console.log({ movedImagesFromTempTableData });
+
       if (!movedImagesFromTempTableData || movedImagesFromTempTableData.length === 0)
         throw new Error("failed to move temp wanted item images to non-temp");
 
-      imagePaths.forEach(async (path) => {
-        const { error } = await supabase.storage
-          .from("wanted_item_images")
-          .move(`temp/${path}`, `saved/${path}`);
-        if (error) throw error.message;
-        navigate(`/wanted/${createdWantedItem.id}`);
-      });
+      navigate(`/wanted/${createdWantedItem.id}`);
     } catch (error) {
       console.error(error);
       setError("1" + error.toString());
@@ -252,8 +247,6 @@ export const CreateWantedItem = () => {
           throw new Error("No item categories were fetched");
 
         const nestedItemCategories = nestItemCategories(itemCategories, null);
-
-        console.log("Yepppp");
 
         setCategories({
           draft: {
@@ -293,7 +286,7 @@ export const CreateWantedItem = () => {
           trades: defaultTrades,
           shipping: defaultShipping,
           negotiable: defaultNegotiable,
-        } = data[0];
+        } = defaultSellerInputs[0];
 
         let localGeneratedFilters = { ...generatedFilters };
         let localRadioOptions = { ...radioOptions };
@@ -330,7 +323,11 @@ export const CreateWantedItem = () => {
     <main className="create-wanted-item">
       <PageTitle title="Create wanted listing" />
       {error && (
-        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+        <ErrorBanner
+          error={error.toString()}
+          handleCloseBanner={() => setError(null)}
+          hasMargin={true}
+        />
       )}
       <h1>Create a new wanted listing</h1>
 

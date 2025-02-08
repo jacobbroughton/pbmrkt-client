@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants";
-import { supabase } from "../../../utils/supabase";
 import { isValidEmail } from "../../../utils/usefulFunctions";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
@@ -47,7 +46,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
           email: email,
           price: price,
           message: message,
-          user_id: user?.auth_id,
+          user_id: user?.id,
           buyer_id: contactInfo.created_by_id,
         }),
       });
@@ -59,7 +58,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
       }
 
       await createNotification(
-        user?.auth_id,
+        user?.id,
         contactInfo.created_by_id,
         contactInfo.id,
         5

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
-import { supabase } from "../../../utils/supabase";
 import {
   capitalizeWords,
   getCheckedOps,
@@ -81,24 +80,18 @@ export const UserProfile = () => {
           response.statusText || "There was a problem at get-user-profile-complex"
         );
       }
-      const data = await response.json();
-
-      if (!data[0]) throw new Error("No profile was found");
-
-      const { data: data3, error: error3 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-      if (error3) throw error3.message;
-
-      data[0].profile_picture_url = data3.publicUrl;
+      const { data: foundUserComplex } = await response.json();
 
       const urlSearchParams3 = new URLSearchParams({
-        p_reviewee_id: data[0].id,
+        reviewee_id: foundUserComplex.id,
       }).toString();
 
       const response4 = await fetch(
-        `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+        `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`,
+        {
+          method: "get",
+          credentials: "include",
+        }
       );
 
       if (!response4.ok) throw new Error("Something happened get-seller-reviews");
@@ -107,24 +100,14 @@ export const UserProfile = () => {
 
       if (!data4) throw new Error("Seller reviews not found");
 
-      const { data: data5, error: error5 } = supabase.storage
-        .from("cover_photos")
-        .getPublicUrl(
-          data[0].cover_photo_path || "placeholders/user-cover-placeholder.png"
-        );
-
-      if (error5) throw error5.message;
-
-      data[0].cover_photo_url = data5.publicUrl;
-
       setReviews({
         count: data4.length,
         list: data4,
       });
 
-      setLocalUser(data[0]);
+      setLocalUser(foundUserComplex);
 
-      getListings(data[0]);
+      getListings(foundUserComplex);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -177,24 +160,19 @@ export const UserProfile = () => {
 
       const paramsAsString = new URLSearchParams(params).toString();
 
-      const response = await fetch(`http://localhost:4000/get-items?${paramsAsString}`);
+      const response = await fetch(`http://localhost:4000/get-items/?${paramsAsString}`);
 
-      if (!response.ok) throw new Error("Something happened get-items");
+      if (!response.ok)
+        throw new Error("Something happened at get-items at user profile");
 
       let { data: data2 } = await response.json();
 
       if (!data2 || !data2.length === 0) throw new Error("No items were fetched");
 
       data2 = data2.map((item) => {
-        const { data, error } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error) throw error.message;
-
         return {
           ...item,
-          profile_picture: data.publicUrl,
+          profile_picture: "",
         };
       });
 
@@ -210,60 +188,29 @@ export const UserProfile = () => {
     try {
       setNewProfilePictureLoading(true);
 
-      const thisUploadUUID = uuidv4();
       const file = e.target.files[0];
-      const { data, error } = await supabase.storage
-        .from("profile_pictures")
-        .upload(`${user.id}/${thisUploadUUID}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const formData = new FormData();
+      formData.append("profile-image-upload", file);
 
-      if (!data.path) throw "New profile picture path not found";
-
-      const { data: data2, error: error2 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data.path);
-
-      if (error2) throw error2.message;
-
-      let newProfilePictureUrl = data2.publicUrl;
-
-      const response = await fetch("http://localhost:4000/add-profile-image", {
+      const response2 = await fetch("http://localhost:4000/upload-profile-image", {
         method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
+        body: formData,
         credentials: "include",
-        body: JSON.stringify({
-          generated_id: data.id,
-          path: data.path,
-          full_path: data.fullPath,
-          user_id: user.id,
-        }),
       });
 
-      if (!response.ok) throw new Error("Something happened at add-profile-image");
+      if (!response2.ok) throw new Error("There was an error at upload profile picture");
 
-      const { data: data3 } = await response.json();
+      const dataFromUpload = await response2.json();
 
-      console.log(data);
+      if (!dataFromUpload.url) throw "New profile picture path not found";
+
+      let newProfileImageUrl = dataFromUpload.url;
 
       setLocalUser({
         ...localUser,
-        profile_picture_url: newProfilePictureUrl,
+        profile_image_url: newProfileImageUrl,
       });
-
-      // dispatch(
-      //   setUserProfilePicture(newProfilePictureUrl)
-      // );
-
-      // setProfilePicture(data2[0].full_path);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -271,60 +218,6 @@ export const UserProfile = () => {
 
     setNewProfilePictureLoading(false);
   }
-
-  // async function uploadCoverPhoto(e) {
-  //   try {
-  //     setNewCoverPhotoLoading(true);
-
-  //     const thisUploadUUID = uuidv4();
-  //     const file = e.target.files[0];
-  //     const { data, error } = await supabase.storage
-  //       .from("cover_photos")
-  //       .upload(`${user.id}/${thisUploadUUID}`, file, {
-  //         cacheControl: "3600",
-  //         upsert: false,
-  //       });
-
-  //     if (error) {
-  //       console.error(error);
-  //       throw error.message;
-  //     }
-
-  //     if (!data.path) throw "New profile picture path not found";
-
-  //     const { data: data2, error: error2 } = supabase.storage
-  //       .from("cover_photos")
-  //       .getPublicUrl(data.path);
-
-  //     if (error2) throw error2.message;
-
-  //     let newCoverPhotoUrl = data2.publicUrl;
-
-  //     const { data: data3, error: error3 } = await supabase.rpc("add_cover_photo", {
-  //       p_generated_id: data.id,
-  //       p_full_path: data.fullPath,
-  //       p_path: data.path,
-  //       p_user_id: user.id,
-  //     });
-  //     if (error3) throw error3.message;
-
-  //     setLocalUser({
-  //       ...localUser,
-  //       cover_photo_url: newCoverPhotoUrl,
-  //     });
-
-  //     // dispatch(
-  //     //   setUserCoverPhoto(newCoverPhotoUrl)
-  //     // );
-
-  //     // setCoverPhoto(data2[0].full_path);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError(error.toString());
-  //   }
-
-  //   setNewCoverPhotoLoading(false);
-  // }
 
   const isAdmin = user?.id == localUser?.id;
 
@@ -337,7 +230,11 @@ export const UserProfile = () => {
     <main className="user-profile-page">
       <PageTitle title={`${localUser.username}'s Profile`} />
       {error && (
-        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+        <ErrorBanner
+          error={error.toString()}
+          handleCloseBanner={() => setError(null)}
+          hasMargin={true}
+        />
       )}
       <section
         className="cover-container"
@@ -349,17 +246,17 @@ export const UserProfile = () => {
         }}
       >
         <img
-          className="cover-photo"
+          className="cover-image"
           src={
-            localUser.cover_photo_url ||
-            "../../../assets/background-images/placeholder-cover-photo.png"
+            localUser.cover_image_url ||
+            "../../../assets/background-images/placeholder-cover-image.png"
           }
         />
 
         {isAdmin && (
-          <div className="edit-cover-photo-container">
+          <div className="edit-cover-image-container">
             <button
-              className="edit-cover-photo"
+              className="edit-cover-image"
               onClick={(e) => {
                 e.stopPropagation();
                 dispatch(
@@ -386,18 +283,18 @@ export const UserProfile = () => {
       </section>
       <section className="main-profile-content">
         <div className="info-section">
-          <div className="profile-picture-container">
-            <img className="profile-picture" src={localUser.profile_picture_url} />
+          <div className="profile-image-container">
+            <img className="profile-image" src={localUser.profile_image_url} />
             {isAdmin && (
-              <label htmlFor="change-profile-picture">
+              <label htmlFor="change-profile-image">
                 <input
                   type="file"
                   className=""
                   title="Edit profile picture"
-                  id="change-profile-picture"
+                  id="change-profile-image"
                   onChange={uploadProfilePicture}
                 />
-                {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+                <EditIcon loading={newProfilePictureLoading} />
               </label>
             )}
           </div>
@@ -532,8 +429,8 @@ export const UserProfile = () => {
       )}
       {coverPhotoStagedForFullScreen && fullScreenImageModalToggled && (
         <FullScreenImageModal
-          photos={[{ url: localUser.cover_photo_url }]}
-          selectedPhoto={{ url: localUser.cover_photo_url }}
+          photos={[{ url: localUser.cover_image_url }]}
+          selectedPhoto={{ url: localUser.cover_image_url }}
         />
       )}
     </main>

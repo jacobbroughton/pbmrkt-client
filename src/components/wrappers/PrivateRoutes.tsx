@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export const PrivateRoutes = ({
-  session,
-  sessionLoading,
+  user,
+  initialUserLoading,
 }: {
-  session: unknown;
-  sessionLoading: boolean;
+  user: unknown;
+  initialUserLoading: boolean;
 }) => {
-  const userAuthenticated = session && !sessionLoading;
+
+  const userAuthenticated = user && !initialUserLoading;
   return userAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };

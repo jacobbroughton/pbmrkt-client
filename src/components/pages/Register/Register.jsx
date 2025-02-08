@@ -5,7 +5,6 @@ import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import { Link, useNavigate } from "react-router-dom";
 // import { setUser } from "../../../redux/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { supabase } from "../../../utils/supabase";
 import { setSession } from "../../../redux/auth";
 import { EyeIcon } from "../../ui/Icons/EyeIcon";
 import { Chevron } from "../../ui/Icons/Chevron";
@@ -81,9 +80,6 @@ export const Register = () => {
         throw new Error(response.statusText || "There was an error logging in");
 
       dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
-
-      // dispatch(setSession(data));
-      // navigate("/login");
     } catch (e) {
       setRegisterError(e.toString());
       setLoading(false);
@@ -121,15 +117,8 @@ export const Register = () => {
 
   async function handleConfirmationEmailResend() {
     try {
-      console;
-      const { data, error } = await supabase.auth.resend({
-        type: "signup",
-        email,
-        options: {
-          emailRedirectTo: `https://pbmrkt.onrender.com/`,
-        },
-      });
-      if (error) throw error.message;
+      // handle email resend
+      alert("Add http resend functionality")
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());

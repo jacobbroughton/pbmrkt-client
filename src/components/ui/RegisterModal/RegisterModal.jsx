@@ -6,7 +6,6 @@ import "./RegisterModal.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { smoothScrollOptions } from "../../../utils/constants.js";
-import { supabase } from "../../../utils/supabase";
 import { isValidEmail, isValidUsername } from "../../../utils/usefulFunctions";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
 import { Chevron } from "../../ui/Icons/Chevron";
@@ -27,7 +26,7 @@ export const RegisterModal = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [registerError, setRegisterError] = useState("");
-  const [usernameExists, setUsernameExists] = useState(0);
+  const [usernameExists, setUsernameExists] = useState(false);
   const [usernameExistsLoading, setUsernameExistsLoading] = useState("");
   const [usernameIsInitial, setUsernameIsInitial] = useState(true);
   const [usernameHasBeenInteracted, setUsernameHasBeenInteracted] = useState(false);
@@ -56,45 +55,23 @@ export const RegisterModal = () => {
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            phoneNumber,
-          },
-        },
-      });
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-      if (!data) throw "no data after signup";
-
-      const user = data.user;
-
-      const response = await fetch("http://localhost:4000/add-user", {
+      const response = await fetch("http://localhost:4000/auth/signup", {
         method: "post",
         headers: {
           "content-type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
-          generated_id: user.id,
-          email: user.email,
-          username: username,
-          phone_number: phoneNumber,
-          first_name: firstName,
-          last_name: lastName,
-          state: state,
-          city: city,
-          bio: bio,
+          email,
+          password,
+          username,
         }),
       });
 
-      if (!response.ok) throw new Error("Something happened at add-user");
+      if (!response.ok) {
+        throw new Error(response.statusText || "There was an error at signup");
+      }
+
+      await response.json();
 
       setLoading(false);
       dispatch(toggleModal({ key: "verifyUserCheckedEmailModal", value: true }));
@@ -127,9 +104,9 @@ export const RegisterModal = () => {
 
       if (!response.ok) throw new Error("Something happened check-for-existing-username");
 
-      const { data } = await response.json();
+      const { data: numMatchingUsernameRecords } = await response.json();
 
-      setUsernameExists(data);
+      setUsernameExists(numMatchingUsernameRecords >= 1);
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());
@@ -140,15 +117,8 @@ export const RegisterModal = () => {
 
   async function handleConfirmationEmailResend() {
     try {
-      console;
-      const { data, error } = await supabase.auth.resend({
-        type: "signup",
-        email,
-        options: {
-          emailRedirectTo: `https://pbmrkt.onrender.com/`,
-        },
-      });
-      if (error) throw error.message;
+      // TODO - add the functionality
+      alert("Doesn't work, add functionality for handleConfirmationEmailResend")
     } catch (error) {
       console.error(error);
       setRegisterError(error.toString());
@@ -200,7 +170,7 @@ export const RegisterModal = () => {
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="standard">
           <p>
-            Have an account already?
+            Have an account already?{" "}
             <button
               className="link-button"
               onClick={() => {
@@ -296,7 +266,7 @@ export const RegisterModal = () => {
             </div>
           </div>
 
-          <div className="form-block optional-fields">
+          {/* <div className="form-block optional-fields">
             <button
               type="button"
               className={`optional-fields-toggle ${
@@ -360,7 +330,7 @@ export const RegisterModal = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           {fieldErrors.filter((fieldError) => fieldError.active).length >= 1 && (
             <FieldErrorButtons

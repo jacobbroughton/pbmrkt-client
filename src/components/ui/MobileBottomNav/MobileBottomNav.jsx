@@ -5,7 +5,6 @@ import { resetFilters } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
 import { closeAllModals, toggleModal } from "../../../redux/modals";
 import { setSearchBarToggled } from "../../../redux/search";
-import { supabase } from "../../../utils/supabase";
 import { isOnMobile } from "../../../utils/usefulFunctions";
 import { BellIcon } from "../Icons/BellIcon";
 import { HamburgerMenuIcon } from "../Icons/HamburgerMenuIcon";
@@ -61,13 +60,17 @@ export function MobileBottomNav() {
   async function handleNotificationsSubscribe() {
     try {
       if (!user) return;
-      
+
       const urlSearchParams = new URLSearchParams({
         user_id: user?.id,
       }).toString();
 
       const response = await fetch(
-        `http://localhost:4000/get-notifications?${urlSearchParams}`
+        `http://localhost:4000/get-notifications?${urlSearchParams}`,
+        {
+          method: "get",
+          credentials: "include",
+        }
       );
 
       if (!response.ok) throw new Error("Something happened get-notifications");
@@ -76,50 +79,15 @@ export function MobileBottomNav() {
 
       if (!data || !data.length === 0) throw new Error("No notifications  found");
       let localNotifications = data.map((notif) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(notif.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
         return {
           ...notif,
-          profile_picture_url: data2.publicUrl,
+          profile_image_url: "",
         };
       });
 
       setNotifications(localNotifications);
 
-      supabase
-        .channel("comment_notifications")
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "comment_notifications",
-            filter: `related_user_id=eq.${user.auth_id}`,
-          },
-          (payload) => {
-            if (payload.new.related_user_id != user.auth_id) {
-              localNotifications.unshift(payload.new);
-              setNotifications(localNotifications);
-            }
-          }
-        )
-        .subscribe((status, err) => {
-          if (status === "SUBSCRIBED") {
-          }
-
-          if (status === "CHANNEL_ERROR") {
-          }
-
-          if (status === "TIMED_OUT") {
-          }
-
-          if (status === "CLOSED") {
-          }
-        });
+      //
     } catch (error) {
       console.error(error);
     }
@@ -210,14 +178,8 @@ export function MobileBottomNav() {
           onClick={handleRightSideMenuToggle}
           className={`right-side-menu-button ${rightSideMenuToggled ? "toggled" : ""}`}
         >
-          <div className="profile-picture-container">
-            <img
-              className="profile-picture"
-              src={
-                user?.profile_picture_url ??
-                "https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/profile_pictures/placeholders/user-placeholder?t=2024-06-20T15%3A58%3A46.381Z"
-              }
-            />
+          <div className="profile-image-container">
+            <img className="profile-image" src={user?.profile_image_url || ""} />
           </div>
         </button>
       </>

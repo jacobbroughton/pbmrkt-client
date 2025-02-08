@@ -3,7 +3,6 @@ import { toggleModal } from "../../../redux/modals";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
-import { supabase } from "../../../utils/supabase";
 import "./NotificationsMenu.css";
 
 export const NotificationsMenu = ({ notifications, setNotifications }) => {
@@ -68,7 +67,7 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
         },
         credentials: "include",
         body: JSON.stringify({
-          user_id: user.auth_id,
+          user_id: user.id,
         }),
       });
 
@@ -104,15 +103,7 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
       <ul>
         {notifications && notifications?.length != 0 ? (
           notifications?.map((notif) => {
-            const { data, error } = supabase.storage
-              .from("profile_pictures")
-              .getPublicUrl(
-                notif.actor_profile_picture_path || "placeholders/user-placeholder"
-              );
-
-            if (error) throw error.message;
-
-            const profile_picture_url = data.publicUrl;
+            const profile_image_url = "";
 
             let notificationLink = `/`;
             let notificationBody = ``;
@@ -165,8 +156,8 @@ export const NotificationsMenu = ({ notifications, setNotifications }) => {
                       if (!notif.is_read) handleNotificationRead(notif);
                     }}
                   >
-                    <div className="profile-picture-container">
-                      <img className="profile-picture" src={profile_picture_url} />
+                    <div className="profile-image-container">
+                      <img className="profile-image" src={profile_image_url} />
                     </div>
                     <div className="notification-body">
                       {notificationBody}

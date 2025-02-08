@@ -9,7 +9,6 @@ import { MinusIcon } from "../Icons/MinusIcon";
 import { PlusIcon } from "../Icons/PlusIcon";
 import { Spinner } from "../Icons/Spinner/Spinner";
 import { Arrow } from "../Icons/Arrow";
-import { supabase } from "../../../utils/supabase";
 import { toggleModal } from "../../../redux/modals";
 import { useEffect, useState } from "react";
 import { useNotification } from "../../../hooks/useNotification";
@@ -60,7 +59,7 @@ export const Comment = ({
         body: JSON.stringify({
           comment_id: comment.id,
           vote_direction: "Up",
-          user_id: user?.auth_id,
+          user_id: user?.id,
         }),
       });
 
@@ -79,7 +78,7 @@ export const Comment = ({
 
       const commentId = data[0].id;
 
-      await createNotification(user.auth_id, comment.created_by_id, commentId, 3);
+      await createNotification(user.id, comment.created_by_id, commentId, 3);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
@@ -109,7 +108,7 @@ export const Comment = ({
         body: JSON.stringify({
           comment_id: comment.id,
           vote_direction: "Down",
-          user_id: user?.auth_id,
+          user_id: user?.id,
         }),
       });
 
@@ -126,7 +125,7 @@ export const Comment = ({
 
       const commentId = data[0].id;
 
-      await createNotification(user.auth_id, comment.created_by_id, commentId, 4);
+      await createNotification(user.id, comment.created_by_id, commentId, 4);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
@@ -144,9 +143,9 @@ export const Comment = ({
       }`}
     >
       <div className="bars-and-content">
-        <div className="profile-picture-container">
-          <Link to={`/user/${comment.username}`} className="profile-picture-link">
-            <img className="profile-picture" src={comment.profile_picture_url} />
+        <div className="profile-image-container">
+          <Link to={`/user/${comment.username}`} className="profile-image-link">
+            <img className="profile-image" src={comment.profile_image_url} />
           </Link>
           {comment.reply_count >= 1 && (
             <>
@@ -211,7 +210,7 @@ export const Comment = ({
                   >
                     Reply
                   </button>
-                  {comment.created_by_id == user?.auth_id && (
+                  {comment.created_by_id == user?.id && (
                     <button
                       className="button"
                       // onClick={(e) => handleDeleteComment(e, comment.id)}

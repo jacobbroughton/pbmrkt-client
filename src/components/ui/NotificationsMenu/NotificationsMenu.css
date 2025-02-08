@@ -59,12 +59,12 @@
   border-bottom: 1px solid #555;
 }
 
-.notifications-menu ul li .profile-picture-container {
+.notifications-menu ul li .profile-image-container {
   margin-right: 10px;
   margin-top: 3px;
 }
 
-.notifications-menu ul li .profile-picture-container .profile-picture {
+.notifications-menu ul li .profile-image-container .profile-image {
   background-color: #666;
   border-radius: 100px;
   width: 30px;

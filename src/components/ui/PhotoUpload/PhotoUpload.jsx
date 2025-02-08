@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import { ImagesIcons } from "../Icons/ImagesIcons";
 import { TrashIcon } from "../Icons/TrashIcon";
@@ -61,94 +60,53 @@ export function PhotoUpload({
 
       setImagesUploading(true);
 
-      for (let i = 0; i < imageFiles.length; i++) {
-        const thisUploadUUID = uuidv4();
-        const file = imageFiles[i];
-        const { data, error } = await supabase.storage
-          .from(isForWantedItem ? "wanted_item_images" : "item_images")
-          .upload(`temp/${user.auth_id}/${generatedGroupId}/${thisUploadUUID}`, file, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+      // TODO - Make sure all images are uploaded
 
-        if (error) {
-          console.error(error);
-          throw error.message;
-        }
+      for (let i = 0; i < imageFiles.length; i++) {
+        const file = imageFiles[i];
+
+        const formData = new FormData();
+        formData.append("item_image_upload", file);
+        formData.append("group_id", generatedGroupId);
+        formData.append("is_cover", i == 0);
+
+        // TODO - stopped here, next step: get formdata working on add-wanted-item-image-temp" (and other add-item-image queries)
 
         if (isForWantedItem) {
           const response = await fetch(
-            "http://localhost:4000/add-wanted-item-photo-temp",
+            "http://localhost:4000/add-wanted-item-image-temp",
             {
               method: "post",
-              headers: {
-                "content-type": "application/json",
-              },
               credentials: "include",
-              body: JSON.stringify({
-                group_id: generatedGroupId,
-                generated_id: data.id,
-                full_path: data.fullPath,
-                path: data.path,
-                is_cover: i == 0,
-                created_by_id: user.auth_id,
-              }),
+              body: formData,
             }
           );
 
           if (!response.ok)
-            throw new Error("Something happened at add-wanted-item-photo-temp");
+            throw new Error("Something happened at add-wanted-item-image-temp");
 
           const data = await response.json();
 
-          tempImages.push(data[0]);
+          tempImages.push(data);
         } else {
-          const response = await fetch("http://localhost:4000/add-item-photo-temp", {
+          const response = await fetch("http://localhost:4000/add-item-image-temp", {
             method: "post",
-            headers: {
-              "content-type": "application/json",
-            },
             credentials: "include",
-            body: JSON.stringify({
-              group_id: generatedGroupId,
-              generated_id: data.id,
-              full_path: data.fullPath,
-              path: data.path,
-              is_cover: i == 0,
-              created_by_id: user.auth_id,
-            }),
+            body: formData,
           });
 
-          if (!response.ok) throw new Error("Something happened at add-item-photo-temp");
+          if (!response.ok) throw new Error("Something happened at add-item-image-temp");
 
           const data = await response.json();
 
-          tempImages.push(data[0]);
+          tempImages.push(data);
         }
 
         index += 1;
         setNumPhotosUploaded(index);
       }
 
-      const { data, error } = await supabase.storage
-        .from(isForWantedItem ? "wanted_item_images" : "item_images")
-        .list(`temp/${user.auth_id}/${generatedGroupId}/`, {
-          limit: 100,
-          offset: 0,
-        });
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-
-      setNewCoverPhotoId(data[0].id);
-      setPhotos(
-        data.map((photo, i) => ({
-          ...photo,
-          is_cover: i == 0,
-        }))
-      );
+      setPhotos(tempImages);
 
       setImagesUploading(false);
       // }
@@ -160,47 +118,34 @@ export function PhotoUpload({
   function handleNewCoverImage(clickedPhoto) {
     setNewCoverPhotoId(clickedPhoto.id);
     setPhotos(
-      photos.map((photo) => ({
-        ...photo,
-        is_cover: photo.id == clickedPhoto.id,
+      photos.map((image) => ({
+        ...image,
+        is_cover: image.id == clickedPhoto.id,
       }))
     );
   }
 
   async function handleImageDelete(image) {
-    if (isForWantedItem) {
-      const response = await fetch(
-        "http://localhost:4000/delete-temp-wanted-item-image",
-        {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            mage_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
-          }),
-        }
-      );
-
-      if (!response.ok)
-        throw new Error("Something happened at delete-temp-wanted-item-image");
-    } else {
-      const response = await fetch("http://localhost:4000/delete-temp-image", {
+    const response = await fetch(
+      isForWantedItem
+        ? "http://localhost:4000/delete-temp-wanted-item-image"
+        : "http://localhost:4000/delete-temp-image",
+      {
         method: "post",
         headers: {
           "content-type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({
-          image_name: `temp/${user.auth_id}/${generatedGroupId}/${image.name}`,
+          image_name: `temp/${user.id}/${generatedGroupId}/${image.name}`,
         }),
-      });
+      }
+    );
 
-      if (!response.ok) throw new Error("Something happened at delete-temp-image");
-    }
+    if (!response.ok)
+      throw new Error("Something happened at delete-temp-wanted-item-image");
 
-    const photosLeft = photos.filter((photo) => photo.id != image.id);
+    const photosLeft = photos.filter((image) => image.id != image.id);
 
     setPhotos(photosLeft);
 
@@ -216,19 +161,6 @@ export function PhotoUpload({
       // todo - need to delete from tables as well
       setDiscardImagesLoading(true);
 
-      const paths = photos.map(
-        (photo) => `temp/${user.auth_id}/${generatedGroupId}/${photo.name}`
-      );
-
-      const { data, error } = await supabase.storage
-        .from(isForWantedItem ? "wanted_item_images" : "item_images")
-        .remove(paths);
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-
       if (isForWantedItem) {
         const response = await fetch(
           "http://localhost:4000/delete-temp-wanted-item-images",
@@ -239,7 +171,7 @@ export function PhotoUpload({
             },
             credentials: "include",
             body: JSON.stringify({
-              user_id: user.auth_id,
+              user_id: user.id,
               group_id: generatedGroupId,
             }),
           }
@@ -255,7 +187,7 @@ export function PhotoUpload({
           },
           credentials: "include",
           body: JSON.stringify({
-            user_id: user.auth_id,
+            user_id: user.id,
             group_id: generatedGroupId,
           }),
         });
@@ -277,7 +209,7 @@ export function PhotoUpload({
 
   return (
     <div
-      className={`form-block photo-uploader ${
+      className={`form-block image-uploader ${
         markedFieldKey == "images" ? "marked" : ""
       }`}
     >
@@ -297,11 +229,12 @@ export function PhotoUpload({
                     <StarIcon title="Marked as 'cover image'. Meaning this image will show in the feed of items for sale, and will be featured on the item listing." />
                   )}
                   <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${
-                      isForWantedItem ? "wanted_item_images" : "item_images"
-                    }/temp/${user.auth_id}/${generatedGroupId}/${
-                      image.name
-                    }?width=73&height=73`}
+                    // src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/${
+                    //   isForWantedItem ? "wanted_item_images" : "item_images"
+                    // }/temp/${user.id}/${generatedGroupId}/${
+                    //   image.name
+                    // }?width=73&height=73`}
+                    src={image.url}
                   />
                 </div>
               );
@@ -330,7 +263,7 @@ export function PhotoUpload({
               </div>
             ) : (
               <label
-                className={`photo-upload ${markedFieldKey == "images" ? "marked" : ""} ${
+                className={`image-upload ${markedFieldKey == "images" ? "marked" : ""} ${
                   photos.length > 0 ? "secondary" : ""
                 } ${draggingPhotos ? "dragging" : ""}`}
                 onDragOver={(e) => e.preventDefault()}

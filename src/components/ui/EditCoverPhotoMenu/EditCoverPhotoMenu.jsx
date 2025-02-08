@@ -6,7 +6,6 @@ import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 import { EditIcon } from "../Icons/EditIcon";
 import { TrashIcon } from "../Icons/TrashIcon";
 import "./EditCoverPhotoMenu.css";
-import { supabase } from "../../../utils/supabase";
 import { ExpandIcon } from "../Icons/ExpandIcon";
 import { UploadIcon } from "../Icons/UploadIcon";
 
@@ -27,9 +26,10 @@ export const EditCoverPhotoMenu = ({
       if (
         editCoverPhotoMenuRef.current &&
         !editCoverPhotoMenuRef.current.contains(e.target) &&
-        !e.target.classList.contains("edit-cover-photo-menu-button")
+        !e.target.classList.contains("edit-cover-image-menu-button")
       ) {
         dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
+        dispatch(toggleModal({ key: "fullScreenImageModal", value: false }));
       }
     }
 
@@ -46,48 +46,27 @@ export const EditCoverPhotoMenu = ({
 
       const thisUploadUUID = uuidv4();
       const file = e.target.files[0];
-      const { data, error } = await supabase.storage
-        .from("cover_photos")
-        .upload(`${user.auth_id}/${thisUploadUUID}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const formData = new FormData();
+      formData.append("cover-image-upload", file);
 
-      if (!data.path) throw "New profile picture path not found";
-
-      const { data: data2, error: error2 } = supabase.storage
-        .from("cover_photos")
-        .getPublicUrl(data.path);
-
-      if (error2) throw error2.message;
-
-      let newCoverPhotoUrl = data2.publicUrl;
-
-      const response = await fetch("http://localhost:4000/add-cover-photo", {
+      const resposne = await fetch("http://localhost:4000/upload-cover-image", {
         method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          generated_id: data.id,
-          full_path: data.fullPath,
-          path: data.path,
-          user_id: user.auth_id,
-        }),
+        body: formData,
+        credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error(response.statusText || "There was a problem at add-cover-photo");
-      }
+      if (!resposne.ok) throw new Error("There was an error at upload cover image");
+
+      const data = await resposne.json();
+
+      if (!data.url) throw "New cover image path not found";
+
+      const { url: newCoverPhotoUrl } = data;
 
       setLocalUser({
         ...localUser,
-        cover_photo_url: newCoverPhotoUrl,
+        cover_image_url: newCoverPhotoUrl,
       });
     } catch (error) {
       console.error(error);
@@ -98,7 +77,7 @@ export const EditCoverPhotoMenu = ({
   }
 
   return (
-    <div className="edit-cover-photo-menu" ref={editCoverPhotoMenuRef}>
+    <div className="edit-cover-image-menu" ref={editCoverPhotoMenuRef}>
       {error && (
         <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
       )}
@@ -112,17 +91,17 @@ export const EditCoverPhotoMenu = ({
         }}
       >
         <EditIcon />
-        <label>Upload a new cover photo</label>
+        <label>Upload a new cover image</label>
       </button> */}
-      <label htmlFor="edit-cover-photo" className="menu-item">
+      <label htmlFor="edit-cover-image" className="menu-item">
         <input
           type="file"
           className=""
-          title="Edit cover photo"
-          id="edit-cover-photo"
+          title="Edit cover image"
+          id="edit-cover-image"
           onChange={uploadCoverPhoto}
         />
-        {newCoverPhotoLoading ? <p>...</p> : <UploadIcon />} Upload a new cover photo
+        {newCoverPhotoLoading ? <p>...</p> : <UploadIcon />} Upload a new cover image
       </label>
       <button
         className="menu-item"
@@ -133,18 +112,16 @@ export const EditCoverPhotoMenu = ({
         }}
       >
         <ExpandIcon />
-        <label>View cover photo</label>
+        <label>View cover image</label>
       </button>
       <button
         className="menu-item"
         onClick={() => {
-          dispatch(toggleModal({ key: "feedbackModal", value: true }));
-          dispatch(toggleModal({ key: "bugModal", value: false }));
-          dispatch(toggleModal({ key: "editCoverPhotoMenu", value: false }));
+          alert("This doesn't do anything");
         }}
       >
         <TrashIcon />
-        <label>Delete cover photo</label>
+        <label>Delete cover image</label>
       </button>
     </div>
   );

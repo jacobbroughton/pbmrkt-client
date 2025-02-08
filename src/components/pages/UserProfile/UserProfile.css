@@ -25,11 +25,11 @@ main.user-profile-page > section.cover-container {
   /* overflow: hidden; */
 }
 
-main.user-profile-page > section.cover-container > img.cover-photo {
+main.user-profile-page > section.cover-container > img.cover-image {
   border-radius: 0;
 }
 
-main.user-profile-page > section.cover-container > img.cover-photo {
+main.user-profile-page > section.cover-container > img.cover-image {
   background-color: #555;
   height: 100%;
   width: 100%;
@@ -39,7 +39,7 @@ main.user-profile-page > section.cover-container > img.cover-photo {
   object-fit: cover;
 }
 
-main.user-profile-page > section.cover-container > .edit-cover-photo-button {
+main.user-profile-page > section.cover-container > .edit-cover-image-button {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -56,18 +56,18 @@ main.user-profile-page > section.cover-container > .edit-cover-photo-button {
   transition: background-color 0.05s ease, border 0.05s ease;
 }
 
-main.user-profile-page > section.cover-container > .edit-cover-photo-button > svg {
+main.user-profile-page > section.cover-container > .edit-cover-image-button > svg {
   width: 25px;
   fill: white;
 }
 
-main.user-profile-page > section.cover-container > .edit-cover-photo-container {
+main.user-profile-page > section.cover-container > .edit-cover-image-container {
   height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
 }
-main.user-profile-page > section.cover-container button.edit-cover-photo {
+main.user-profile-page > section.cover-container button.edit-cover-image {
   position: absolute;
   white-space: nowrap;
   bottom: 5px;
@@ -99,7 +99,7 @@ main.user-profile-page > section.cover-container label input[type="file"] {
   display: none;
 }
 
-main.user-profile-page > section.cover-container button.edit-cover-photo svg {
+main.user-profile-page > section.cover-container button.edit-cover-image svg {
   width: 15px;
   fill: whitesmoke;
   transition: fill 0.1s ease, filter 0.1s ease;
@@ -343,7 +343,7 @@ main.user-profile-page
 main.user-profile-page
   > .main-profile-content
   > .info-section
-  .profile-picture-container {
+  .profile-image-container {
   width: 125px;
   height: 125px;
   min-width: 125px;
@@ -357,8 +357,8 @@ main.user-profile-page
 .user-profile-page
   .main-profile-content
   > .info-section
-  .profile-picture-container
-  .profile-picture {
+  .profile-image-container
+  .profile-image {
   background-color: white;
   height: 100%;
   width: 100%;
@@ -369,7 +369,7 @@ main.user-profile-page
 .user-profile-page
   > .main-profile-content
   > .info-section
-  .profile-picture-container
+  .profile-image-container
   label {
   position: absolute;
   bottom: 0;
@@ -390,7 +390,7 @@ main.user-profile-page
 .user-profile-page
   .main-profile-content
   > .info-section
-  .profile-picture-container
+  .profile-image-container
   label:hover {
   background-color: #4449;
   border: 1px solid #5559;
@@ -399,7 +399,7 @@ main.user-profile-page
 .user-profile-page
   .main-profile-content
   > .info-section
-  .profile-picture-container
+  .profile-image-container
   label
   input[type="file"] {
   display: none;
@@ -408,7 +408,7 @@ main.user-profile-page
 .user-profile-page
   .main-profile-content
   > .info-section
-  .profile-picture-container
+  .profile-image-container
   label
   svg {
   width: 20px;
@@ -592,7 +592,7 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
     border-radius: 0;
   }
 
-  main.user-profile-page > section.cover-container > img.cover-photo {
+  main.user-profile-page > section.cover-container > img.cover-image {
     border-radius: 0;
   }
 
@@ -660,7 +660,7 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
     height: 125px;
   }
 
-  main.user-profile-page > section.cover-container > img.cover-photo {
+  main.user-profile-page > section.cover-container > img.cover-image {
     border-radius: 0;
   }
 }
@@ -674,7 +674,7 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
     > .main-profile-content
     > .info-section
     > .picture-and-info
-    .profile-picture-container {
+    .profile-image-container {
     width: 150px;
     height: 150px;
     max-width: 150px;
@@ -694,7 +694,7 @@ main.user-profile-page > .main-profile-content > .info-section .edit-button:hove
   main.user-profile-page
     > .main-profile-content
     > .info-section
-    .profile-picture-container {
+    .profile-image-container {
     width: 125px;
     height: 125px;
     max-width: 125px;

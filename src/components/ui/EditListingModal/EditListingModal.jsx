@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import "./EditListingModal.css";
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { XIcon } from "../Icons/XIcon";
 import { EditIcon } from "../Icons/EditIcon";
@@ -143,7 +142,7 @@ export const EditListingModal = ({ item, setItem }) => {
           state: "NC",
           model: model,
           price: price,
-          shipping_cost: shippingCost, // TODO - Add this to supabase function
+          shipping_cost: shippingCost,
           status: "Available",
           what_is_this: whatIsThisItem,
           shipping: radioOptions.shippingOptions.find((op) => op.checked).value,
@@ -169,7 +168,7 @@ export const EditListingModal = ({ item, setItem }) => {
             new_price: price,
             prev_shipping_price: item.info.shipping_cost,
             new_shipping_price: shippingCost,
-            user_id: user.auth_id,
+            user_id: user.id,
           }),
         });
 
@@ -180,14 +179,8 @@ export const EditListingModal = ({ item, setItem }) => {
         }
       }
 
-      const { data: data2, error: error3 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-      if (error3) throw error.message;
-
       setItem({
-        info: { ...data[0], profile_picture_url: data2?.publicUrl },
+        info: { ...data[0], profile_image_url: "" },
         photos: item.photos,
       });
 
@@ -204,9 +197,9 @@ export const EditListingModal = ({ item, setItem }) => {
 
   async function getItemCategories() {
     try {
-      const response = await fetch(`http://localhost:4000/get-all-item-categories`);
+      const response = await fetch(`http://localhost:4000/get-item-categories`);
 
-      if (!response.ok) throw new Error("Something happened at get-all-item-categories");
+      if (!response.ok) throw new Error("Something happened at get-item-categories");
 
       const { data } = await response.json();
 

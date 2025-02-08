@@ -72,7 +72,7 @@
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .edit-user-profile-modal > form .form-group textarea:not(:disabled):hover,
 .edit-user-profile-modal > form .form-group select:not(:disabled):hover,
-.edit-user-profile-modal > form .custom-photo-upload:not(:disabled):hover,
+.edit-user-profile-modal > form .custom-image-upload:not(:disabled):hover,
 .edit-user-profile-modal > form .form-block .reset-images-button:not(:disabled):hover,
 .sell
   form
@@ -86,7 +86,7 @@
   cursor: pointer;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container {
+.edit-user-profile-modal > form .form-group .profile-image-container {
   width: 100px;
   height: 100px;
   min-width: 100px;
@@ -96,11 +96,11 @@
   position: relative;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container {
+.edit-user-profile-modal > form .form-group .profile-image-container {
   margin-top: 3px;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container .profile-picture {
+.edit-user-profile-modal > form .form-group .profile-image-container .profile-image {
   background-color: white;
   height: 100%;
   width: 100%;
@@ -108,7 +108,7 @@
   object-fit: cover;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container label {
+.edit-user-profile-modal > form .form-group .profile-image-container label {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -125,13 +125,13 @@
 .edit-user-profile-modal
   > form
   .form-group
-  .profile-picture-container
+  .profile-image-container
   label
   input[type="file"] {
   display: none;
 }
 
-.edit-user-profile-modal > form .form-group .profile-picture-container label svg {
+.edit-user-profile-modal > form .form-group .profile-image-container label svg {
   width: 20px;
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
   fill: white;

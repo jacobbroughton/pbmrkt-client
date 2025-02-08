@@ -21,12 +21,12 @@
   display: block;
 }
 
-.profile-badge .profile-picture-container {
+.profile-badge .profile-image-container {
   margin-right: 10px;
   margin-top: 3px;
 }
 
-.profile-badge .profile-picture-container .profile-picture {
+.profile-badge .profile-image-container .profile-image {
   background-color: #666;
   border-radius: 100px;
   width: 30px;

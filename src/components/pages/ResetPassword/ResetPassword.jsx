@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./ResetPassword.css";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
-import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
@@ -28,17 +27,7 @@ export const ResetPassword = () => {
       e.preventDefault();
       setLoading(true);
 
-      // const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      //   redirectTo: "http://localhost:3000/update-password",
-      // });
-
-      // if (error) {
-      //   console.error(error);
-      //   throw error.message;
-      // }
-
       setIsVerifying(true);
-      // navigate("/update-password");
       dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
       console.error(error);

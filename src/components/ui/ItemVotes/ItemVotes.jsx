@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { supabase } from "../../../utils/supabase";
 import { Arrow } from "../Icons/Arrow";
 import "./ItemVotes.css";
 
@@ -27,7 +26,7 @@ export function ItemVotes({
         body: JSON.stringify({
           item_id: itemId,
           vote_direction: "Down",
-          user_id: user?.auth_id,
+          user_id: user?.id,
           post_type: postType,
         }),
       });
@@ -64,7 +63,7 @@ export function ItemVotes({
         body: JSON.stringify({
           item_id: itemId,
           vote_direction: "Up",
-          user_id: user?.auth_id,
+          user_id: user?.id,
           post_type: postType,
         }),
       });

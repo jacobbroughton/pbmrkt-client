@@ -28,17 +28,17 @@
   margin-top: 10px;
 }
 
-.comment .bars-and-content .profile-picture-container {
+.comment .bars-and-content .profile-image-container {
   margin-right: 10px;
   position: relative;
   margin-top: 5px;
 }
 
-.comment .bars-and-content .profile-picture-container .profile-picture-link {
+.comment .bars-and-content .profile-image-container .profile-image-link {
   height: 100%;
 }
 
-.comment .bars-and-content .profile-picture-container .profile-picture {
+.comment .bars-and-content .profile-image-container .profile-image {
   background-color: #666;
   border-radius: 100px;
   width: 35px;
@@ -50,15 +50,15 @@
 
 .comment:not(.is-root-level)
   .bars-and-content
-  .profile-picture-container
-  .profile-picture {
+  .profile-image-container
+  .profile-image {
   width: 25px;
   min-width: 25px;
   height: 25px;
   object-fit: cover;
 }
 
-.comment .bars-and-content .profile-picture-container .thread-bar-target {
+.comment .bars-and-content .profile-image-container .thread-bar-target {
   width: 20px;
   cursor: pointer;
   height: 100%;
@@ -70,7 +70,7 @@
   top: 0;
 }
 
-.comment .bars-and-content .profile-picture-container .thread-bar {
+.comment .bars-and-content .profile-image-container .thread-bar {
   width: 2px;
   pointer-events: none;
   height: calc(100% - 15px);
@@ -82,18 +82,18 @@
   z-index: 2;
 }
 
-.comment .bars-and-content .profile-picture-container .thread-bar:hover {
+.comment .bars-and-content .profile-image-container .thread-bar:hover {
 }
 
 .comment
   .bars-and-content
-  .profile-picture-container
+  .profile-image-container
   .thread-bar-target:hover
   + .thread-bar {
   background-color: #555 !important ;
 }
 
-.comment .bars-and-content .profile-picture-container svg {
+.comment .bars-and-content .profile-image-container svg {
   fill: var(--bg-primary);
   padding: 1px 3px;
   height: 18px;
@@ -112,33 +112,33 @@
   border: 1px solid transparent;
 }
 
-.comment .bars-and-content .profile-picture-container svg:not(.spinner) {
+.comment .bars-and-content .profile-image-container svg:not(.spinner) {
   transform: translateX(-50%);
 }
 
-.comment .bars-and-content .profile-picture-container svg.spinner {
+.comment .bars-and-content .profile-image-container svg.spinner {
   /* position: absolute;
   top: 0;
   left: 0; */
   /* transform: translateX(-50%) !important; */
 }
 
-.comment .bars-and-content .profile-picture-container svg:hover {
+.comment .bars-and-content .profile-image-container svg:hover {
   background-color: #555;
   border: 1px solid #666;
   /* text-shadow: 1px 1px 3px rgba(0, 0, 0, 1.233); */
 }
 
-.comment .bars-and-content .profile-picture-container .thread-bar svg.up {
+.comment .bars-and-content .profile-image-container .thread-bar svg.up {
   transform: translateX(-50%) rotate(180deg) !important;
 }
 
-.comment .bars-and-content .profile-picture-container .thread-bar svg.down {
+.comment .bars-and-content .profile-image-container .thread-bar svg.down {
   fill: var(--yellow);
   transform: translateX(-50%) rotate(0deg) !important;
 }
 
-.comment.is-root-level .bars-and-content .profile-picture-container .thread-bar-target {
+.comment.is-root-level .bars-and-content .profile-image-container .thread-bar-target {
   /* height: calc(100% - 45px); */
 }
 

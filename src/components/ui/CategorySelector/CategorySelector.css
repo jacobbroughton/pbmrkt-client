@@ -114,7 +114,7 @@
   .categories-list-container
   button.category-button:hover:not(:has(button:hover)) {
   color: var(--lightgreen);
-  background-color: #444;
+  /* background-color: #444; */
 }
 
 .category-selector .categories-list-container button.category-button.selected {

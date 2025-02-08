@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { setViewLayout } from "../../../redux/view";
-import { supabase } from "../../../utils/supabase";
 import { nestItemCategoriesExperimental } from "../../../utils/usefulFunctions";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";

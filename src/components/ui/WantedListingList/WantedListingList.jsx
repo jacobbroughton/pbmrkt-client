@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { supabase } from "../../../utils/supabase";
 import "./WantedListingList.css";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 
@@ -7,11 +6,6 @@ export const WantedListingList = ({ listings }) => {
   return (
     <ul className="listing-list">
       {listings.map((listing) => {
-        const { data } = supabase.storage
-          .from("wanted_item_images")
-          .getPublicUrl(listing.thumbnail_path);
-        const imageUrl = data.publicUrl;
-
         let truncatedDescriptionText = listing.description;
 
         if (truncatedDescriptionText.length > 200) {
@@ -23,16 +17,15 @@ export const WantedListingList = ({ listings }) => {
           <li key={listing.id}>
             <div className="image-wrapper">
               <Link className="image-container" to={`/wanted/${listing.id}`}>
-                {listing.thumbnail_path ? (
-                  <img src={imageUrl} />
-                ) : (
-                  <img
-                    src={`https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/wanted_item_images/placeholders/placeholder.jpg`}
-                  />
-                )}
+                <img
+                  src={
+                    listing.url ||
+                    `https://mrczauafzaqkmjtqioan.supabase.co/storage/v1/object/public/item_images/placeholders/placeholder.jpg`
+                  }
+                />
               </Link>
               {listing.image_count > 1 && (
-                <p className="small-text photo-count">{listing.image_count} Photos</p>
+                <p className="small-text image-count">{listing.image_count} Photos</p>
               )}
             </div>
             <div className="info">

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useSearchParams } from "../../../hooks/useSearchParams";
 import { toggleModal } from "../../../redux/modals";
-import { supabase } from "../../../utils/supabase";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
@@ -56,10 +55,15 @@ export const Item = () => {
       try {
         const urlSearchParams = new URLSearchParams({
           item_id: itemID,
-          user_id: user?.id,
         }).toString();
 
-        const response = await fetch(`http://localhost:4000/get-item?${urlSearchParams}`);
+        const response = await fetch(
+          `http://localhost:4000/get-item?${urlSearchParams}`,
+          {
+            method: "get",
+            credentials: "include",
+          }
+        );
 
         if (!response.ok) throw new Error("Something happened get-item");
 
@@ -72,40 +76,25 @@ export const Item = () => {
         const urlSearchParams2 = new URLSearchParams({ item_id: itemID }).toString();
 
         const response2 = await fetch(
-          `http://localhost:4000/get-item-photo-metadata?${urlSearchParams2}`
+          `http://localhost:4000/get-item-image-metadata?${urlSearchParams2}`
         );
 
-        if (!response2.ok) throw new Error("Something happened get-item-photo-metadata");
+        if (!response2.ok) throw new Error("Something happened get-item-image-metadata");
 
         let { data: data2 } = await response2.json();
 
-        if (!data2) throw new Error("Item photo metadata not found");
-
-        data2 = data2.map((img) => {
-          const { data, error } = supabase.storage
-            .from("item_images")
-            .getPublicUrl(img.path);
-
-          if (error) throw error.message;
-
-          return {
-            ...img,
-            url: data.publicUrl,
-          };
-        });
-
-        const { data: data3, error: error3 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-        if (error3) throw error.message;
+        if (!data2) throw new Error("Item image metadata not found");
 
         const urlSearchParams3 = new URLSearchParams({
-          p_reviewee_id: data[0].created_by_id,
+          reviewee_id: data[0].created_by_id,
         }).toString();
 
         const response4 = await fetch(
-          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`,
+          {
+            method: "get",
+            credentials: "include",
+          }
         );
 
         if (!response4.ok) throw new Error("Something happened get-seller-reviews");
@@ -121,7 +110,7 @@ export const Item = () => {
 
         setItem({
           photos: data2,
-          info: { ...data[0], profile_picture_url: data3?.publicUrl },
+          info: { ...data[0], profile_image_url: "" },
         });
         setVotes(data[0].votes);
         setExistingVote(data[0].existing_vote);
@@ -138,18 +127,15 @@ export const Item = () => {
 
   async function getPriceChangeHistory(itemId) {
     try {
-      const urlSearchParams = new URLSearchParams().toString();
+      const urlSearchParams = new URLSearchParams({
+        item_id: itemId,
+      }).toString();
 
       const response = await fetch(
         `http://localhost:4000/get-price-change-history?${urlSearchParams}`,
         {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            item_id: itemId,
-          }),
+          method: "get",
+          credentials: "include",
         }
       );
 
@@ -222,7 +208,7 @@ export const Item = () => {
     return <LoadingOverlay message="Fetching item..." verticalAlignment="center" />;
   if (!item) return <p>item not found</p>;
 
-  const isAdmin = user && item.info?.created_by_id == user?.auth_id;
+  const isAdmin = user && item.info?.created_by_id == user?.id;
 
   if (error) return <p className="error-text small-text">{error.toString()}</p>;
   if (item.info?.is_deleted)
@@ -382,7 +368,7 @@ export const Item = () => {
 
             <ProfileBadge
               userInfo={{
-                profilePictureUrl: item.info.profile_picture_url,
+                profileImageUrl: item.info.profile_image_url,
                 username: item.info.created_by_username,
                 city: item.info.city,
                 state: item.info.state,

@@ -10,6 +10,10 @@
   overflow: hidden;
 }
 
+.error-banner.has-margin {
+  margin-top: 60px;
+}
+
 .error-banner > .content {
   padding: 3px 5px;
   height: 100%;

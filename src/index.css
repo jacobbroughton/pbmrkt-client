@@ -200,14 +200,14 @@ form.standard .form-block fieldset {
 }
 
 form.standard .form-group.marked,
-form.standard .custom-photo-upload.marked {
+form.standard .custom-image-upload.marked {
   padding: 5px;
   border: 1px solid var(--red);
   border-radius: 5px;
 }
 
 form .form-group.marked,
-form .custom-photo-upload.marked {
+form .custom-image-upload.marked {
   padding: 5px;
   border: 1px solid var(--red);
   border-radius: 5px;

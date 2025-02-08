@@ -59,7 +59,7 @@ main.create-wanted-item {
   position: relative;
 }
 
-.create-wanted-item form div.form-block:not(.photo-uploader) {
+.create-wanted-item form div.form-block:not(.image-uploader) {
   padding: 0;
 }
 
@@ -169,7 +169,7 @@ main.create-wanted-item {
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .create-wanted-item > form .form-group textarea:not(:disabled):hover,
 .create-wanted-item > form .form-group select:not(:disabled):hover,
-.create-wanted-item > form .custom-photo-upload:not(:disabled):not(.marked):hover,
+.create-wanted-item > form .custom-image-upload:not(:disabled):not(.marked):hover,
 .create-wanted-item > form .form-block .reset-images-button:not(:disabled):hover,
 .sell
   form
@@ -218,7 +218,7 @@ c > form .form-group select:not(:disabled) {
   cursor: not-allowed;
 }
 
-div.form-block.photo-uploader label.photo-upload:not(:disabled):not(.marked):hover,
+div.form-block.image-uploader label.image-upload:not(:disabled):not(.marked):hover,
 .create-wanted-item > form .form-group input:not([type="radio"]):not([type="file"]):not(.marked):hover {
   border-color: #666;
 }

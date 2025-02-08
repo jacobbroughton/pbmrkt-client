@@ -4,7 +4,6 @@ import "./ContactSellerModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { useRef, useState } from "react";
 import { isValidEmail } from "../../../utils/usefulFunctions";
-import { supabase } from "../../../utils/supabase";
 import { smoothScrollOptions } from "../../../utils/constants";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
@@ -43,7 +42,7 @@ const ContactSellerModal = ({ contactInfo }) => {
           email: email,
           offer: offer,
           message: message,
-          user_id: user?.auth_id,
+          user_id: user?.id,
           seller_id: contactInfo.created_by_id,
         }),
       });

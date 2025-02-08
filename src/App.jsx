@@ -22,14 +22,14 @@ import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
 import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
 import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
 import { setSession, setUser } from "./redux/auth.ts";
-import { supabase } from "./utils/supabase.ts";
 import { isOnMobile } from "./utils/usefulFunctions.js";
 import { PrivateRoutes } from "./components/wrappers/PrivateRoutes.tsx";
+import VerifyEmailRedirect from "./components/pages/VerifyEmailRedirect/VerifyEmailRedirect.tsx";
 
 export function App() {
   const dispatch = useDispatch();
 
-  const session = useSelector((state) => state.auth.session);
+  const user = useSelector((state) => state.auth.user);
 
   const resetPasswordModalToggled = useSelector(
     (state) => state.modals.resetPasswordModalToggled
@@ -41,85 +41,48 @@ export function App() {
   const searchModalToggled = useSelector((state) => state.modals.searchModalToggled);
 
   const navigate = useNavigate();
-  const [sessionLoading, setSessionLoading] = useState(true);
+  const [initialUserLoading, setInitialUserLoading] = useState(true);
   const [error, setError] = useState(null);
 
   async function getUser() {
     try {
       // todo - get username from session
 
-      const urlSearchParams = new URLSearchParams({ username: "testusername" });
-
-      const response = await fetch(
-        `http://localhost:4000/auth/get-user-profile-simple/${urlSearchParams}`
-      );
+      const response = await fetch("http://localhost:4000/auth", {
+        method: "GET",
+        credentials: "include",
+      });
 
       if (!response.ok) {
-        throw new Error(
-          response.statusText || "There was a problem at get-user-profile-simple"
-        );
+        throw new Error(response.statusText || "There was a problem at index auth route");
       }
+
       const data = await response.json();
 
+      dispatch(setUser(data.user));
+
       if (!data[0]) {
-        setSessionLoading(false);
+        setInitialUserLoading(false);
         return;
       }
 
-      const { data: data2 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-      const newUser = {
-        ...passedSession.user,
-        ...data[0],
-        profile_picture_url: data2.publicUrl,
-      };
-
-      if (!session) {
-        dispatch(setUser(newUser));
-        dispatch(
-          setSession({
-            ...passedSession,
-            user: newUser,
-          })
-        );
-      }
-
-      setSessionLoading(false);
+      setInitialUserLoading(false);
     } catch (error) {
       console.error(error);
       setError(error.toString());
-      setSessionLoading(false);
+      setInitialUserLoading(false);
     }
   }
 
-  // const onAuthStateChange = (callback) => {
-  //   console.log("onAuthStateChange, 'callback' arg:", callback);
-  //   let currentSession;
-  //   return supabase.auth.onAuthStateChange((event, _session) => {
-  //     console.log({event, _session})
-  //     if (currentSession && _session?.user?.id == currentSession?.user?.id) return;
-  //     currentSession = _session;
-  //     if (!_session) setSessionLoading(false);
-  //     else getUser(_session);
-  //     // if (_session) {
-  //     //   getUser(_session);
-  //     // } else {
-  //     //   setSessionLoading(false);
-  //     // }
-
-  //     callback(event);
-  //   });
-  // };
-
   useEffect(() => {
-    if (!session && !sessionLoading) navigate("/login");
-    // getUser();
-    setSessionLoading(false);
+    // if (!user && !initialUserLoading) {
+    //   alert("");
+    //   navigate("/login");}
+    getUser();
+    // setInitialUserLoading(false);
   }, []);
 
-  if (sessionLoading)
+  if (initialUserLoading)
     return (
       <LoadingOverlay message={"Loading..."} verticalAlignment={"center"} zIndex={3} />
     );
@@ -128,15 +91,20 @@ export function App() {
     <>
       {isOnMobile() ? <MobileBottomNav /> : <Navbar />}
       {error && (
-        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+        <ErrorBanner
+          error={error.toString()}
+          handleCloseBanner={() => setError(null)}
+          hasMargin={true}
+        />
       )}
       <Routes>
         <Route path="*" element={<p>Page not found</p>} />
         <Route element={<Listings />} path="/" />
         <Route element={<Register />} path="/register" />
+        <Route element={<VerifyEmailRedirect />} path="/verify-email-redirect" />
         <Route element={<Login />} path="/login" />
         <Route
-          element={<PrivateRoutes session={session} sessionLoading={sessionLoading} />}
+          element={<PrivateRoutes user={user} initialUserLoading={initialUserLoading} />}
         >
           <Route path="/sell" element={<Sell />} />
           <Route path="/wanted" element={<CreateWantedItem />} />

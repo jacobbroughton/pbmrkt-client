@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
 export const FullScreenImageModal = ({ photos, selectedPhoto }) => {
   const dispatch = useDispatch();
 
-  photos = photos.map((photo, i) => ({
-    ...photo,
+  photos = photos.map((image, i) => ({
+    ...image,
     index: i,
   }));
 
@@ -49,15 +49,15 @@ export const FullScreenImageModal = ({ photos, selectedPhoto }) => {
       <div className="modal full-screen-image-modal">
         <div className="item-thumbnails">
           {photos.length > 1 &&
-            photos.map((photo) => (
+            photos.map((image) => (
               <div className="item-thumbnail-image-container">
                 <img
-                  key={photo.id}
+                  key={image.id}
                   className={`item-thumbnail-image ${
-                    photo.id === selectedPhotoLocal?.id ? "selected" : ""
+                    image.id === selectedPhotoLocal?.id ? "selected" : ""
                   }`}
-                  onClick={() => setSelectedPhotoLocal(photo)}
-                  src={photo.url}
+                  onClick={() => setSelectedPhotoLocal(image)}
+                  src={image.url}
                 />
               </div>
             ))}

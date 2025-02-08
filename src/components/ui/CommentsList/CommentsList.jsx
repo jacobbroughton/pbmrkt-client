@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Comment } from "../Comment/Comment";
-import { supabase } from "../../../utils/supabase";
 import { useSelector } from "react-redux";
 import { CommentsIcon } from "../Icons/CommentsIcon";
 import "./CommentsList.css";
@@ -40,11 +39,11 @@ export const CommentsList = ({
         },
         credentials: "include",
         body: JSON.stringify({
-          p_body: newReplyBody,
-          p_created_by_id: user.auth_id,
-          p_item_id: repliedComment.item_id,
-          p_parent_id: repliedComment.id,
-          p_post_type: postType,
+          body: newReplyBody,
+          created_by_id: user.id,
+          item_id: repliedComment.item_id,
+          parent_id: repliedComment.id,
+          post_type: postType,
         }),
       });
 
@@ -52,19 +51,15 @@ export const CommentsList = ({
 
       const data = await response.json();
 
-      const { data: data3, error: error3 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
       data[0] = {
         ...data[0],
-        profile_picture_url: data3.publicUrl,
+        profile_image_url: "",
       };
 
       if (error3) throw error.message;
 
-      if (repliedComment.created_by_id != user.auth_id) {
-        await createNotification(user.auth_id, repliedComment.createdById, data[0].id, 2);
+      if (repliedComment.created_by_id != user.id) {
+        await createNotification(user.id, repliedComment.createdById, data[0].id, 2);
       }
 
       setCommentWithReplyWindowID(null);
@@ -108,21 +103,11 @@ export const CommentsList = ({
         const data = await response.json();
 
         const replies = data.map((comment) => {
-          const { data: data2, error: error2 } = supabase.storage
-            .from("profile_pictures")
-            .getPublicUrl(
-              comment.profile_picture_path || "placeholders/user-placeholder"
-            );
-
-          if (error2) throw error.message;
-
           return {
             ...comment,
-            profile_picture_url: data2.publicUrl,
+            profile_image_url: "",
           };
         });
-
-        if (error) throw error.message;
 
         const updatedComments = localComments.map((comm) => {
           return {

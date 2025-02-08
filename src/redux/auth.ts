@@ -28,7 +28,7 @@ const authSlice = createSlice({
         ...state,
         user: {
           ...state.user,
-          profile_picture_url: payload,
+          profile_image_url: payload,
         },
       };
     },

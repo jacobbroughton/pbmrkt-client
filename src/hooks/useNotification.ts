@@ -1,9 +1,9 @@
-import { supabase } from "../utils/supabase";
 
 export function useNotification() {
   async function createNotification(
     actorId: number,
     notifierId: number,
+    entityId: string,
     entityTypeId: number
   ) {
     try {

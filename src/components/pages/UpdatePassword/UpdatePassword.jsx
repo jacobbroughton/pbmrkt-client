@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./UpdatePassword.css";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
-import { supabase } from "../../../utils/supabase";
 import PageTitle from "../../ui/PageTitle/PageTitle";
 
 export const UpdatePassword = () => {
@@ -16,13 +15,9 @@ export const UpdatePassword = () => {
       e.preventDefault();
       setLoading(true);
 
-      const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+      // todo -- add update password functionality http
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
-
+      alert("Doesn't do anything, add update password functionality")
       // navigate("/update-password");
     } catch (error) {
       console.error(error);

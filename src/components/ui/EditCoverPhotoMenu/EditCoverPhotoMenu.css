@@ -1,4 +1,4 @@
-.edit-cover-photo-menu {
+.edit-cover-image-menu {
   /* padding: 10px; */
   /* z-index: 5; */
   border: 1px solid #555;
@@ -12,13 +12,13 @@
   z-index: 10 !important;
 }
 
-.edit-cover-photo-menu .error-text {
+.edit-cover-image-menu .error-text {
   margin: 5px;
   width: 100%;
   max-width: 200px;
 }
 
-.edit-cover-photo-menu .menu-item {
+.edit-cover-image-menu .menu-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -32,20 +32,20 @@
   font-size: 1rem;
 }
 
-.edit-cover-photo-menu .menu-item:hover {
+.edit-cover-image-menu .menu-item:hover {
   background-color: #444;
   text-decoration: none;
 }
 
-.edit-cover-photo-menu .menu-item:active {
+.edit-cover-image-menu .menu-item:active {
   background-color: #6f6f6f;
 }
 
-.edit-cover-photo-menu .menu-item label {
+.edit-cover-image-menu .menu-item label {
   pointer-events: none;
 }
 
-.edit-cover-photo-menu .menu-item svg {
+.edit-cover-image-menu .menu-item svg {
   fill: white;
   width: 15px;
 }

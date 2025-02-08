@@ -7,7 +7,6 @@ import {
   isValidEmail,
   isValidPhoneNumber,
 } from "../../../utils/usefulFunctions";
-import { supabase } from "../../../utils/supabase";
 import { setUser } from "../../../redux/auth.ts";
 import { EditIcon } from "../Icons/EditIcon.jsx";
 import { v4 as uuidv4 } from "uuid";
@@ -34,7 +33,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   const [headline, setHeadline] = useState(localUser.headline || "");
   const [error, setError] = useState(null);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
-  const [newProfilePictureUrl, setNewProfilePictureUrl] = useState(null);
+  const [newprofileImageUrl, setNewprofileImageUrl] = useState(null);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
   const [cantFindCity, setCantFindCity] = useState(false);
 
@@ -43,7 +42,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // p_city, p_email, p_first_name, p_last_name, p_phone_number, p_state, p_user_id)
     try {
       const response = await fetch("http://localhost:4000/edit-user-profile", {
         method: "post",
@@ -51,7 +49,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          user_id: localUser.auth_id,
+          user_id: localuser.id,
           phone_number: phoneNumber,
           first_name: firstName,
           last_name: lastName,
@@ -71,7 +69,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
 
       const newUser = {
         ...data[0],
-        profile_picture_url: localUser.profile_picture_url,
+        profile_image_url: localUser.profile_image_url,
       };
 
       setLocalUser(newUser);
@@ -88,28 +86,25 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       setNewProfilePictureLoading(true);
 
       const thisUploadUUID = uuidv4();
+
       const file = e.target.files[0];
-      const { data, error } = await supabase.storage
-        .from("profile_pictures")
-        .upload(`${localUser.auth_id}/${thisUploadUUID}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
 
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      const formData = new FormData();
+      formData.append("profile-image-upload", file);
 
-      if (!data.path) throw "New profile picture path not found";
+      const response2 = await fetch("http://localhost:4000/upload-profile-image", {
+        method: "post",
+        body: formData,
+        credentials: "include",
+      });
 
-      const { data: data2, error: error2 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data.path);
+      if (!response2.ok) throw new Error("There was an error at upload profile picture");
 
-      if (error2) throw error2.message;
+      const dataFromUpload = await response2.json();
 
-      let newProfilePictureUrlLocal = data2.publicUrl;
+      if (!dataFromUpload.url) throw "New profile picture path not found";
+
+      let newProfileImageUrl = dataFromUpload.url;
 
       const response = await fetch("http://localhost:4000/add-profile-image", {
         method: "post",
@@ -121,7 +116,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
           generated_id: data.id,
           full_path: data.fullPath,
           path: data.path,
-          user_id: localUser.auth_id,
+          user_id: localuser.id,
         }),
       });
 
@@ -132,24 +127,18 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       // dispatch(
       //   setUser({
       //     ...localUser,
-      //     profile_picture_url: newProfilePictureUrlLocal,
+      //     profile_image_url: newProfileImageUrl,
       //   })
       // );
 
-      const { data: data4, error: error4 } = supabase.storage
-        .from("profile_pictures")
-        .getPublicUrl(data3.path || "placeholders/user-placeholder");
-
-      if (error4) throw error4.message;
-
       setLocalUser({
         ...localUser,
-        profile_picture_url: data4.publicUrl,
+        profile_image_url: "",
       });
 
-      setNewProfilePictureUrl(newProfilePictureUrlLocal);
+      setNewprofileImageUrl(newProfileImageUrl);
       // dispatch(
-      //   setUserProfilePicture(newProfilePictureUrlLocal)
+      //   setUserProfilePicture(newProfileImageUrl)
       // );
 
       // setProfilePicture(data2[0].full_path);
@@ -192,14 +181,14 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
         <div className="form-group">
           <label>Change your profile picture</label>
           <div></div>
-          <div className="profile-picture-container">
-            <img className="profile-picture" src={localUser.profile_picture_url} />
-            <label htmlFor="change-profile-picture">
+          <div className="profile-image-container">
+            <img className="profile-image" src={localUser.profile_image_url} />
+            <label htmlFor="change-profile-image">
               <input
                 type="file"
                 className=""
                 title="Edit profile picture"
-                id="change-profile-picture"
+                id="change-profile-image"
                 onChange={uploadProfilePicture}
               />
               {newProfilePictureLoading ? <p>...</p> : <EditIcon />}

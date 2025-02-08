@@ -40,7 +40,7 @@ ul.listing-list li .image-wrapper {
   gap: 5px;
 }
 
-ul.listing-list li .image-wrapper p.photo-count {
+ul.listing-list li .image-wrapper p.image-count {
   color: lightgrey;
 }
 

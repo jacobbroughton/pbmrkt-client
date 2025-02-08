@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { setFlag } from "../../../redux/flags";
 import { toggleModal } from "../../../redux/modals";
 import { setDraftSearchValue, setSavedSearchValue } from "../../../redux/search";
-import { supabase } from "../../../utils/supabase";
 import { getTimeAgo, isOnMobile } from "../../../utils/usefulFunctions";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 import { Arrow } from "../Icons/Arrow";
@@ -42,7 +41,7 @@ export const SearchModal = () => {
   async function getRecentSearches() {
     try {
       const urlSearchParams = new URLSearchParams({
-        user_id: user.auth_id,
+        user_id: user.id,
       }).toString();
 
       const response = await fetch(
@@ -83,24 +82,25 @@ export const SearchModal = () => {
 
       if (location.pathname !== "/") navigate("/");
 
-      if (user) {
-        const response = await fetch("http://localhost:4000/add-search", {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            created_by_id: user.auth_id,
-            search_value: searchValue.draft.trim(),
-            origin: origin,
-          }),
-        });
+      if (!user)
+        throw new Error("No user, no search history. this block isn't doing anything");
 
-        if (!response.ok) throw new Error("Something happened at add-search");
-      } else {
-        console.log("No user, no search history. this block isn't doing anything"); // TODO - fix
-      }
+      // const response = await fetch("http") // split the queries up
+
+      const response2 = await fetch("http://localhost:4000/add-search", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          created_by_id: user.id,
+          search_value: searchValue.draft.trim(),
+          origin: origin,
+        }),
+      });
+
+      if (!response2.ok) throw new Error("Something happened at add-search");
 
       dispatch(setSavedSearchValue(searchValue.draft));
       dispatch(setFlag({ key: "searchedListingsNeedUpdate", value: true }));
@@ -134,15 +134,9 @@ export const SearchModal = () => {
       let { data } = await response.json();
 
       data = data.map((img) => {
-        const { data, error } = supabase.storage
-          .from("item_images")
-          .getPublicUrl(img.path);
-
-        if (error) throw error.message;
-
         return {
           ...img,
-          image_url: data.publicUrl,
+          image_url: "",
         };
       });
 

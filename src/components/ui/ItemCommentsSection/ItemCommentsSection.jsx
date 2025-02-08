@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { CommentsList } from "../CommentsList/CommentsList";
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { SendIcon } from "../Icons/SendIcon";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
 import { useNotification } from "../../../hooks/useNotification";
@@ -34,7 +33,6 @@ export function ItemCommentsSection({
         credentials: "include",
         body: JSON.stringify({
           body: newCommentBody,
-          created_by_id: user.auth_id,
           item_id: itemInfo.id,
           parent_id: null,
           post_type: "For Sale",
@@ -44,10 +42,11 @@ export function ItemCommentsSection({
       if (!response.ok)
         throw new Error("Something happened at ItemCommentsSection add-comment");
 
-      const data = await response.json();
+      const { data } = await response.json();
 
-      if (user.auth_id != itemInfo.id) {
-        await createNotification(user.auth_id, itemInfo.createdById, data[0].id, 1);
+      if (user.id != itemInfo.id) {
+        console.log(data);
+        await createNotification(user.id, itemInfo.createdById, data[0].id, 1);
       }
 
       getComments();
@@ -62,7 +61,7 @@ export function ItemCommentsSection({
     try {
       const urlSearchParams = new URLSearchParams({
         item_id: itemInfo.id,
-        user_id: user?.auth_id,
+        user_id: user?.id,
       }).toString();
 
       const response = await fetch(
@@ -74,17 +73,11 @@ export function ItemCommentsSection({
       const { data } = await response.json();
 
       const comments = data.map((comment) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
         return {
           ...comment,
           replies: [],
           repliesToggled: false,
-          profile_picture_url: data2.publicUrl,
+          profile_image_url: "",
         };
       });
 
@@ -140,7 +133,7 @@ export function ItemCommentsSection({
       const urlSearchParams = new URLSearchParams({
         item_id: itemInfo.id,
         parent_comment_id: commentWithReplies.id,
-        user_id: user?.auth_id,
+        user_id: user?.id,
         post_type: "For Sale",
       }).toString();
 
@@ -153,15 +146,9 @@ export function ItemCommentsSection({
       const { data } = await response.json();
 
       const replies = data.map((comment) => {
-        const { data: data2, error: error2 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(comment.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error2) throw error.message;
-
         return {
           ...comment,
-          profile_picture_url: data2.publicUrl,
+          profile_image_url: "",
         };
       });
 

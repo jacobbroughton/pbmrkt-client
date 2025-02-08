@@ -165,7 +165,7 @@ div.grid .grid-item > .listing-card-info > .profile {
   margin-top: 3px;
 }
 
-div.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-container {
+div.grid .grid-item > .listing-card-info > .profile > a > .profile-image-container {
   position: relative;
   width: 23px;
   height: 23px;
@@ -176,8 +176,8 @@ div.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-conta
   > .listing-card-info
   > .profile
   > a
-  > .profile-picture-container
-  > .profile-picture {
+  > .profile-image-container
+  > .profile-image {
   background-color: #666;
   border-radius: 100px;
   width: 23px;
@@ -187,8 +187,8 @@ div.grid .grid-item > .listing-card-info > .profile > a > .profile-picture-conta
 
 .comment:not(.is-root-level)
   .bars-and-content
-  .profile-picture-container
-  .profile-picture {
+  .profile-image-container
+  .profile-image {
   width: 25px;
   min-width: 25px;
   height: 25px;

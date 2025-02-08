@@ -7,7 +7,6 @@ import { ListingGrid } from "../ListingGrid/ListingGrid";
 import { ListingList } from "../ListingList/ListingList";
 import { useWindowSize } from "../../../utils/useWindowSize";
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
 import "./ForSaleViews.css";
@@ -48,41 +47,37 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       const forSaleFilters = filters.saved["For Sale"];
 
-      const params = {
-        p_search_value: searchValue,
-        p_min_price: forSaleFilters.minPrice || 0,
-        p_max_price: forSaleFilters.maxPrice,
-        p_state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
-        p_condition: getCheckedOps(forSaleFilters.conditionOptions),
-        p_shipping: getCheckedOps(forSaleFilters.shippingOptions),
-        p_trades: getCheckedOps(forSaleFilters.tradeOptions),
-        p_negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
-        p_sort: sort,
-        p_seller_id: null,
-        p_city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
-        p_category_id: forSaleFilters.category?.id || null,
-      };
+      // TODO - fix seller_id
+      const params = new URLSearchParams({
+        search_value: searchValue,
+        min_price: forSaleFilters.minPrice || 0,
+        max_price: forSaleFilters.maxPrice,
+        state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        condition: getCheckedOps(forSaleFilters.conditionOptions),
+        shipping: getCheckedOps(forSaleFilters.shippingOptions),
+        trades: getCheckedOps(forSaleFilters.tradeOptions),
+        negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
+        sort: sort,
+        seller_id: null,
+        city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        category_id:
+          forSaleFilters.category?.id === "null"
+            ? null
+            : forSaleFilters.category?.id || null,
+      }).toString();
 
-      const paramsAsString = new URLSearchParams(params).toString();
+      const response = await fetch(`http://localhost:4000/get-items?${params}`);
 
-      const response = await fetch(`http://localhost:4000/get-items?${paramsAsString}`);
-
-      if (!response.ok) throw new Error("Something happened get-items");
+      if (!response.ok) throw new Error("Something happened at get-items listing view");
 
       let { data } = await response.json();
 
       if (!data || !data.length === 0) throw new Error("No items were fetched");
 
       data = data.map((item) => {
-        const { data, error } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error) throw error.message;
-
         return {
           ...item,
-          profile_picture: data.publicUrl,
+          profile_picture: "",
         };
       });
 
@@ -90,20 +85,20 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       const urlSearchQueries = new URLSearchParams({
         search_value: searchValue,
-        min_price: FSFilters.minPrice || 0,
-        max_price: FSFilters.maxPrice,
-        state: FSFilters.state == "All" ? null : FSFilters.state,
-        condition: getCheckedOps(FSFilters.conditionOptions),
-        shipping: getCheckedOps(FSFilters.shippingOptions),
-        trades: getCheckedOps(FSFilters.tradeOptions),
-        negotiable: getCheckedOps(FSFilters.negotiableOptions),
+        min_price: forSaleFilters.minPrice || 0,
+        max_price: forSaleFilters.maxPrice,
+        state: forSaleFilters.state == "All" ? null : forSaleFilters.state,
+        condition: getCheckedOps(forSaleFilters.conditionOptions),
+        shipping: getCheckedOps(forSaleFilters.shippingOptions),
+        trades: getCheckedOps(forSaleFilters.tradeOptions),
+        negotiable: getCheckedOps(forSaleFilters.negotiableOptions),
         seller_id: null,
-        city: FSFilters.city == "All" ? null : FSFilters.city,
-        category_id: FSFilters.category?.id || null,
+        city: forSaleFilters.city == "All" ? null : forSaleFilters.city,
+        category_id: forSaleFilters.category?.id || null,
       }).toString();
 
       const response2 = await fetch(
-        `http://localhost:4000/get-items-count/${urlSearchQueries}`
+        `http://localhost:4000/get-items-count/?${urlSearchQueries}`
       );
 
       if (!response2.ok) throw new Error("Something happened get-items-count");

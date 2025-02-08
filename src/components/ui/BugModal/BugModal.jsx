@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./BugModal.css";
-import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import { toggleModal } from "../../../redux/modals";
@@ -33,7 +32,7 @@ const BugModal = () => {
           body: bugBody,
           name: name,
           email: email,
-          user_id: user?.auth_id,
+          user_id: user?.id,
         }),
       });
 

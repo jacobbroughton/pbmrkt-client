@@ -3,7 +3,6 @@ import { toggleModal } from "../../../redux/modals";
 import { useDispatch, useSelector } from "react-redux";
 import { Star } from "../Icons/Star";
 import { XIcon } from "../Icons/XIcon";
-import { supabase } from "../../../utils/supabase";
 import { setFlag } from "../../../redux/flags";
 import "./AddReviewModal.css";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
@@ -11,7 +10,7 @@ import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
 export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
   const dispatch = useDispatch();
   const modalRef = useRef(null);
-  const { user } = useSelector((state) => state.auth.session);
+  const user = useSelector((state) => state.auth.user);
   const [rating, setRating] = useState(0);
   const [error, setError] = useState(null);
   // const [rating, setRating] = useState(0);
@@ -55,7 +54,7 @@ export const AddReviewModal = ({ seller, reviews, setReviews, setSeller }) => {
         },
         credentials: "include",
         body: JSON.stringify({
-          reviewer_id: user.auth_id,
+          reviewer_id: user.id,
           reviewee_id: seller.auth_id,
           rating: rating,
           title: title,

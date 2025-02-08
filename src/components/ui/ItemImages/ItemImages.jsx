@@ -29,19 +29,19 @@ export function ItemImages({ photos, selectedPhoto, setSelectedPhoto }) {
       </div>
       {photos.length > 1 && (
         <div className="item-thumbnails">
-          {photos.map((photo) => (
+          {photos.map((image) => (
             <div className="item-thumbnail-image-container">
               <img
-                key={photo.id}
+                key={image.id}
                 className={`item-thumbnail-image ${
-                  photo.id === selectedPhoto?.id ? "selected" : ""
+                  image.id === selectedPhoto?.id ? "selected" : ""
                 }`}
-                onClick={() => setSelectedPhoto(photo)}
+                onClick={() => setSelectedPhoto(image)}
                 onDoubleClick={() => {
-                  setSelectedPhoto(photo);
+                  setSelectedPhoto(image);
                   dispatch(toggleModal({ key: "fullScreenImageModal", value: true }));
                 }}
-                src={photo.url}
+                src={image.url}
               />
             </div>
           ))}

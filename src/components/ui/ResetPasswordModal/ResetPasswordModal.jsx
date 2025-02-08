@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay";
-import { supabase } from "../../../utils/supabase";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
 import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
@@ -43,7 +42,7 @@ export const ResetPasswordModal = () => {
       // navigate("/update-password");
       dispatch(toggleModal({ key: "validateResetPasswordModal", value: true }));
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
   }
@@ -52,18 +51,12 @@ export const ResetPasswordModal = () => {
     try {
       setLoading(true);
 
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "http://localhost:3000/update-password",
-      });
-
-      if (error) {
-        console.error(error);
-        throw error.message;
-      }
+      // TODO - Add functionality for this
+      alert("Doesn't work, fix sendEmail()");
 
       setIsVerifying(true);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error.toString());
     }
 
@@ -85,7 +78,7 @@ export const ResetPasswordModal = () => {
         <h1>Reset Password</h1>
         <form onSubmit={handleRequestEmail} className="standard">
           <p>
-            Need to create an account? 
+            Need to create an account?
             <button
               onClick={() => {
                 dispatch(toggleModal({ key: "resetPasswordModal", value: false }));
@@ -108,7 +101,7 @@ export const ResetPasswordModal = () => {
 
           <button
             type="submit"
-            disabled={ email === "" || loading || !isValidEmail(email)}
+            disabled={email === "" || loading || !isValidEmail(email)}
           >
             Send Email
           </button>

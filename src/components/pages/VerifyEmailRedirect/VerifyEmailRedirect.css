@@ -1,0 +1,13 @@
+main.verify-email-redirect {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  /* gap: 35px; */
+  position: relative;
+  max-width: 1300px;
+}

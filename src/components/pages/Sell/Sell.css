@@ -412,7 +412,7 @@ main.sell {
 }
 
 /* .sell > form .form-group .radio-options .radio-option label,
-.sell > form .custom-photo-upload.secondary {
+.sell > form .custom-image-upload.secondary {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -430,7 +430,7 @@ main.sell {
   border-color: #666;
 } */
 
-.sell > form .custom-photo-upload.secondary {
+.sell > form .custom-image-upload.secondary {
   align-self: flex-start;
   width: auto;
   padding: 1px 5px 1px 5px;
@@ -493,7 +493,7 @@ main.sell {
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
 .sell > form .form-group textarea:not(:disabled):hover,
 .sell > form .form-group select:not(:disabled):hover,
-.sell > form .photo-upload:not(:disabled):not(.marked):hover,
+.sell > form .image-upload:not(:disabled):not(.marked):hover,
 .sell > form .form-block .reset-images-button:not(:disabled):hover,
 .sell
   form

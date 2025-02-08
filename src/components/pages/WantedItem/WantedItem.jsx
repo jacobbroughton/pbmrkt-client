@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
-import { supabase } from "../../../utils/supabase";
-import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
 import { FullScreenImageModal } from "../../ui/FullScreenImageModal/FullScreenImageModal";
@@ -22,6 +20,7 @@ import "./WantedItem.css";
 import ContactBuyerModal from "../../ui/ContactBuyerModal/ContactBuyerModal";
 import PageTitle from "../../ui/PageTitle/PageTitle";
 import { SearchIcon } from "../../ui/Icons/SearchIcon";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 
 export function WantedItem() {
   const dispatch = useDispatch();
@@ -58,80 +57,78 @@ export function WantedItem() {
       try {
         const urlSearchParams = new URLSearchParams({
           item_id: wantedItemID,
-          user_id: user?.auth_id,
         }).toString();
 
         const response = await fetch(
-          `http://localhost:4000/get-wanted-item?${urlSearchParams}`
+          `http://localhost:4000/get-wanted-item?${urlSearchParams}`,
+          { method: "get", credentials: "include" }
         );
 
-        if (!response.ok) throw new Error("Something happened get-wanted-item");
+        if (!response.ok)
+          throw new Error(response.statusText || "Something happened at get-wanted-item");
 
-        const { data } = await response.json();
+        const { data: wantedItemFromDB } = await response.json();
 
-        if (!data || !data.length === 0) throw new Error("Wanted item was not found");
+        // if (!wantedItemFromDB || wantedItemFromDB.length === 0)
+        //   throw new Error("Wanted item was not found");
 
         const urlSearchParams2 = new URLSearchParams({
           item_id: wantedItemID,
         }).toString();
 
-        const response2 = await fetch(
-          `http://localhost:4000/get-wanted-item-photo-metadata?${urlSearchParams2}`
+        const wantedItemResponse = await fetch(
+          `http://localhost:4000/get-wanted-item-image-metadata?${urlSearchParams2}`
         );
 
-        if (!response2.ok)
-          throw new Error("Something happened get-wanted-item-photo-metadata");
+        if (!wantedItemResponse.ok)
+          throw new Error("Something happened get-wanted-item-image-metadata");
 
-        let { data: data2 } = await response.json();
+        let { data: imageMetadataFromDB } = await wantedItemResponse.json();
 
-        if (!data2 || !data2.length === 0)
-          throw new Error("Wanted item photo metadata was not found");
+        if (!imageMetadataFromDB || !imageMetadataFromDB.length === 0)
+          throw new Error("Wanted item image metadata was not found");
 
-        data2 = data2.map((img) => {
-          const { data, error } = supabase.storage
-            .from("wanted_item_images")
-            .getPublicUrl(img.path);
-
-          if (error) throw error.message;
-
+        imageMetadataFromDB = imageMetadataFromDB.map((img) => {
           return {
             ...img,
-            url: data.publicUrl,
+            url: "",
           };
         });
 
-        const { data: data3, error: error3 } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(data[0].profile_picture_path || "placeholders/user-placeholder");
-
-        if (error3) throw error.message;
-
         const urlSearchParams3 = new URLSearchParams({
-          p_reviewee_id: data[0].created_by_id,
+          p_reviewee_id: wantedItemFromDB[0].created_by_id,
         }).toString();
 
-        const response4 = await fetch(
-          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`
+        const sellerReviewsResponse = await fetch(
+          `http://localhost:4000/get-seller-reviews?${urlSearchParams3}`,
+          {
+            method: "get",
+            credentials: "include",
+          }
         );
 
-        if (!response4.ok) throw new Error("Something happened get-seller-reviews");
+        if (!sellerReviewsResponse.ok)
+          throw new Error("Something happened get-seller-reviews");
 
-        let { data: data4 } = await response4.json();
+        let { data: sellerReviewsFromDB } = await sellerReviewsResponse.json();
 
-        if (!data4) throw new Error("Seller reviews not found");
+        if (!sellerReviewsFromDB) throw new Error("Seller reviews not found");
 
         setBuyerReviews({
-          count: data4.length,
-          list: data4,
+          count: sellerReviewsFromDB.length,
+          list: sellerReviewsFromDB,
         });
 
         setItem({
-          photos: data2,
-          info: { ...data[0], profile_picture_url: data3?.publicUrl },
+          photos: imageMetadataFromDB,
+          info: {
+            ...wantedItemFromDB[0],
+            profile_image_url: "https://helllllooooworld.com",
+          },
         });
-        setVotes(data[0].votes);
-        setExistingVote(data[0].existing_vote);
-        setSelectedPhoto(data2[0]);
+        setVotes(wantedItemFromDB[0].votes);
+        setExistingVote(wantedItemFromDB[0].existing_vote);
+        setSelectedPhoto(imageMetadataFromDB[0]);
       } catch (error) {
         console.error(error);
         setError(error.toString());
@@ -194,11 +191,17 @@ export function WantedItem() {
 
   if (!item && loading)
     return <LoadingOverlay message="Fetching item..." verticalAlignment="center" />;
-  if (!item) return <p>item not found</p>;
 
-  const isAdmin = user && item.info?.created_by_id == user?.auth_id;
+  const isAdmin = user && item.info?.created_by_id == user?.id;
 
-  if (error) return <p className="error-text small-text">{error.toString()}</p>;
+  if (error)
+    return (
+      <ErrorBanner
+        error={error.toString()}
+        handleCloseBanner={() => setError(null)}
+        hasMargin={true}
+      />
+    );
   if (item.info?.is_deleted) return <p>This item was deleted.</p>;
 
   return (
@@ -331,7 +334,7 @@ export function WantedItem() {
 
             <ProfileBadge
               userInfo={{
-                profilePictureUrl: item.info.profile_picture_url,
+                profileImageUrl: item.info.profile_image_url,
                 username: item.info.created_by_username,
                 city: item.info.city,
                 state: item.info.state,

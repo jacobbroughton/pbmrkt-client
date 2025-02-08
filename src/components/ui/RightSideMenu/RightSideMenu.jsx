@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
-import { supabase } from "../../../utils/supabase";
 import { LogOutIcon } from "../Icons/LogOutIcon";
 import { useEffect, useRef, useState } from "react";
 import { HomeIcon } from "../Icons/HomeIcon";
@@ -13,6 +12,7 @@ import FeedbackIcon from "../Icons/FeedbackIcon";
 import ArrowRightToBracket from "../Icons/ArrowRightToBracket";
 import IDCardIcon from "../Icons/IDCardIcon";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
+import { setUser } from "../../../redux/auth";
 
 export const RightSideMenu = () => {
   const navigate = useNavigate();
@@ -46,9 +46,16 @@ export const RightSideMenu = () => {
     try {
       dispatch(setLogoutLoading(true));
 
-      const { error } = await supabase.auth.signOut();
+      const response = await fetch("http://localhost:4000/auth/logout", {
+        method: "get",
+        credentials: "include",
+      });
 
-      if (error) throw error.message;
+      if (!response.ok) {
+        throw new Error(response.statusText || "There was an issue logging out");
+      }
+
+      dispatch(setUser(null));
 
       navigate("/");
 
@@ -63,12 +70,9 @@ export const RightSideMenu = () => {
 
   return (
     <div className="right-side-menu" ref={rightSideMenuRef}>
-       {error && (
-          <ErrorBanner
-            error={error.toString()}
-            handleCloseBanner={() => setError(null)}
-          />
-        )}
+      {error && (
+        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} />
+      )}
       {user && (
         <Link
           to={`/user/${user.username}`}
@@ -76,7 +80,7 @@ export const RightSideMenu = () => {
           onClick={() => dispatch(toggleModal({ key: "rightSideMenu", value: false }))}
         >
           <div className="profile-link">
-            <img className="profile-picture" src={user.profile_picture_url} />
+            <img className="profile-image" src={user.profile_image_url} />
             <div className="info">
               <label>View Profile</label>
               <p className="user-email">{user.username}</p>

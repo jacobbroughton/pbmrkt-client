@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { supabase } from "../../../utils/supabase";
 import "./ListingList.css";
 import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { GearIcon } from "../Icons/GearIcon";
@@ -8,9 +7,6 @@ export const ListingList = ({ listings, isOnUserProfile }) => {
   return (
     <ul className="listing-list">
       {listings.map((listing) => {
-        const { data } = supabase.storage.from("item_images").getPublicUrl(listing.path);
-        const imageUrl = data.publicUrl;
-
         let truncatedDetailsText = listing.details;
 
         if (truncatedDetailsText.length > 200) {
@@ -24,10 +20,10 @@ export const ListingList = ({ listings, isOnUserProfile }) => {
                 className="image-container"
                 to={`/listing/${listing.id}?back-ref=dashboard`}
               >
-                <img src={imageUrl} />
+                <img src={listing.url} />
               </Link>
               {listing.image_count > 1 && (
-                <p className="small-text photo-count">{listing.image_count} Photos</p>
+                <p className="small-text image-count">{listing.image_count} Photos</p>
               )}
             </div>
             <div className="info">

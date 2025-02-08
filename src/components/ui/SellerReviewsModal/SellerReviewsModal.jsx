@@ -46,9 +46,9 @@ export const SellerReviewsModal = ({ seller, reviews, zIndex = 2 }) => {
           Close <XIcon />
         </button>
       </div>
-      {user?.auth_id != seller.auth_id &&
+      {user?.id != seller.auth_id &&
         (!reviews.list.find((rev) => {
-          return rev.created_by_id == user.auth_id;
+          return rev.created_by_id == user.id;
         }) && (
           <button
             className="button add-review-modal-toggle-button"

@@ -7,7 +7,6 @@ import { ListingGrid } from "../ListingGrid/ListingGrid";
 import { ListingList } from "../ListingList/ListingList";
 import { useWindowSize } from "../../../utils/useWindowSize";
 import { useEffect, useState } from "react";
-import { supabase } from "../../../utils/supabase";
 import { setFiltersUpdated } from "../../../redux/filters";
 import { setFlag } from "../../../redux/flags";
 import "./WantedViews.css";
@@ -69,15 +68,9 @@ export function WantedViews({ sort, setTotalListings }) {
       if (!data) throw "No listings available";
 
       data = data.map((item) => {
-        const { data, error } = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(item.profile_picture_path || "placeholders/user-placeholder");
-
-        if (error) throw error.message;
-
         return {
           ...item,
-          profile_picture: data.publicUrl,
+          profile_picture: "",
         };
       });
 

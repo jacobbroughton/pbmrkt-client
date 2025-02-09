@@ -68,7 +68,7 @@
 
 /* * Search Results */
 .search-modal .search-results-container {
-  display: none;
+  /* display: none; */
   flex-direction: column;
   /* border: 1px solid #555; */
   border-radius: 5px;

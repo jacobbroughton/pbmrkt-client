@@ -88,13 +88,6 @@ export function WantedItem() {
         if (!imageMetadataFromDB || !imageMetadataFromDB.length === 0)
           throw new Error("Wanted item image metadata was not found");
 
-        imageMetadataFromDB = imageMetadataFromDB.map((img) => {
-          return {
-            ...img,
-            url: "",
-          };
-        });
-
         const urlSearchParams3 = new URLSearchParams({
           p_reviewee_id: wantedItemFromDB[0].created_by_id,
         }).toString();
@@ -123,7 +116,7 @@ export function WantedItem() {
           photos: imageMetadataFromDB,
           info: {
             ...wantedItemFromDB[0],
-            profile_image_url: "https://helllllooooworld.com",
+            profile_image_url: "",
           },
         });
         setVotes(wantedItemFromDB[0].votes);

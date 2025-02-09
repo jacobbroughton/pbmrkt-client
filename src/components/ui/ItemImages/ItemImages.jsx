@@ -5,6 +5,7 @@ import "./ItemImages.css";
 
 export function ItemImages({ photos, selectedPhoto, setSelectedPhoto }) {
   const dispatch = useDispatch();
+  console.log(photos)
   return (
     <div className="item-images">
       <div

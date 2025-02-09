@@ -193,6 +193,8 @@ export const SearchModal = () => {
     searchRef.current.focus();
   }, []);
 
+  console.log(searchValue, searchHistory);
+
   const selectedSearchType = searchTypes.find((type) => type.toggled);
   const resultsForView = searchResults[selectedSearchType?.label?.toLowerCase()];
 
@@ -299,7 +301,7 @@ export const SearchModal = () => {
               ) : selectedSearchType.label == "Users" ? (
                 <div className="user-results">Search users found</div>
               ) : (
-                false
+                <p>asdfasdf</p>
               )}
             </div>
           )}

@@ -105,7 +105,7 @@ export function ForSaleViews({ sort, setTotalListings }) {
 
       const { data: data2 } = await response2.json();
 
-      setTotalListings(data2[0].num_results);
+      setTotalListings(data2[0].count);
 
       if (isInitialLoad) setIsInitialLoad(false);
       if (flags.searchedListingsNeedUpdate)

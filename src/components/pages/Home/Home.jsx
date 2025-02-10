@@ -124,7 +124,7 @@ export function Listings() {
 
       const nestedItemCategories = nestItemCategories(itemCategories, null);
 
-      dispatch(setOverviewCategories({ flat: <itemCategories></itemCategories>, nested: nestedItemCategories }));
+      dispatch(setOverviewCategories({ flat: itemCategories, nested: nestedItemCategories }));
 
       dispatch(
         setFilters({

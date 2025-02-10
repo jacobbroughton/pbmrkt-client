@@ -15,7 +15,7 @@ export const WantedOverview = () => {
   const [error, setError] = useState();
   const [initiallyLoading, setInitiallyLoading] = useState(true); // initial load and between tabs currently
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
-  const [viewAllCount, setListingsViewAllCount] = useState(0);
+  const [viewAllCount, setViewAllCount] = useState(0);
 
   async function getItemCategoryResultsCount() {
     try {
@@ -69,7 +69,7 @@ export const WantedOverview = () => {
 
       const { data: data2 } = await response2.json();
 
-      setListingsViewAllCount(data2[0].num_results);
+      setViewAllCount(data2[0].num_results);
     } catch (error) {
       console.error(error);
       setError(error.toString());

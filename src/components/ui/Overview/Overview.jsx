@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  getCheckedOps,
-  nestItemCategoriesExperimental,
-} from "../../../utils/usefulFunctions";
-import { Link } from "react-router-dom";
-import "./Overview.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilters, setFiltersUpdated } from "../../../redux/filters";
-import { setViewLayout } from "../../../redux/view";
-import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
 import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";
-import { StarIcon } from "../Icons/StarIcon";
+import { setViewLayout } from "../../../redux/view";
+import { getCheckedOps } from "../../../utils/usefulFunctions";
+import "./Overview.css";
 
 const Overview = () => {
   const dispatch = useDispatch();
@@ -19,11 +13,9 @@ const Overview = () => {
   const overviewCategories = useSelector((state) => state.overviewCategories);
   const { savedSearchValue } = useSelector((state) => state.search);
   const [error, setError] = useState();
-  const [nestedCategories, setNestedCategories] = useState(null);
-  const [flatCategories, setFlatCategories] = useState(null);
   const [initiallyLoading, setInitiallyLoading] = useState(true); // initial load and between tabs currently
   const [subsequentlyLoading, setSubsequentlyLoading] = useState(false); // updating filters
-  const [viewAllCount, setListingsViewAllCount] = useState(0);
+  const [viewAllCount, setViewAllCount] = useState(0);
 
   async function getItemCategoryResultsCount() {
     try {
@@ -54,18 +46,14 @@ const Overview = () => {
 
       const { data } = await response.json();
 
-      const hashedData = {};
+      const categoryResultCounts = {};
 
       for (let i = 0; i < data.length; i++) {
-        hashedData[data[i].id] = data[i];
+        categoryResultCounts[data[i].id] = data[i];
       }
 
-      dispatch(addCountsToOverviewCategories(hashedData));
-
-      // setFlatCategories(data);
-
-      // const { nestedCategories } = nestItemCategoriesExperimental(data, null);
-      // setNestedCategories(nestedCategories);
+      console.log(overviewCategories)
+      dispatch(addCountsToOverviewCategories(categoryResultCounts));
 
       const urlSearchParams2 = new URLSearchParams({
         search_value: savedSearchValue,
@@ -90,15 +78,16 @@ const Overview = () => {
       }).toString();
 
       const response2 = await fetch(
-        `http://localhost:4000/get-item-category-result-counts?${urlSearchParams2}`
+        `http://localhost:4000/get-view-all-count?${urlSearchParams2}`
       );
 
-      if (!response.ok)
-        throw new Error("Something happened at get-item-category-result-counts");
+      if (!response.ok) throw new Error("Something happened at get-view-all-count");
 
       const { data: data2 } = await response2.json();
 
-      setListingsViewAllCount(data2[0].num_results);
+      console.log(data2);
+
+      setViewAllCount(data2[0].num_results);
     } catch (error) {
       console.error(error);
       setError(error.toString());

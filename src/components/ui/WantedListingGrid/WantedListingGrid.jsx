@@ -43,7 +43,7 @@ export const WantedListingGrid = ({ listings, accountForSidebar, loading }) => {
               <div className="listing-card-info">
                 <div className="price-and-name">
                   <p className="price">${listing.budget.toLocaleString("en-US")}</p>
-                  <p className="what-is-this">WANTED: {listing.title}</p>
+                  <p className="what-is-this">Wanted: {listing.title}</p>
                 </div>
                 <div className="profile">
                   asdf

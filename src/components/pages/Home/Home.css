@@ -77,7 +77,6 @@ main.home > .view-mode-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0px 10px;
 }
 
 .home .listing-controls .control-group select label {
@@ -115,6 +114,10 @@ main.home > .view-mode-buttons {
 }
 
 @media screen and (max-width: 625px) {
+  .home > .sidebar-and-grid > .listings-section > .listing-controls > .view-settings {
+    padding: 0px 10px;
+  }
+  
   .home .listings-section {
     margin-left: 0;
     padding: 0 10px;

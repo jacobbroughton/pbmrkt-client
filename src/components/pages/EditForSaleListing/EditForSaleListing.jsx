@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals.ts";
 import { smoothScrollOptions } from "../../../utils/constants.js";
@@ -15,87 +15,104 @@ import {
   toggleCategoryFolder,
 } from "../../../utils/usefulFunctions";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
+import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 import { FieldErrorButtons } from "../../ui/FieldErrorButtons/FieldErrorButtons.jsx";
 import { Arrow } from "../../ui/Icons/Arrow";
 import { MagicWand } from "../../ui/Icons/MagicWand.jsx";
 import { RadioIcon } from "../../ui/Icons/RadioIcon.jsx";
 import { SortIcon } from "../../ui/Icons/SortIcon.tsx";
 import { LoadingOverlay } from "../../ui/LoadingOverlay/LoadingOverlay.jsx";
+import PageTitle from "../../ui/PageTitle/PageTitle";
 import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload.jsx";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions.jsx";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle.jsx";
-import "./Sell.css";
-import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
-import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
+import "./EditForSaleListing.css";
 
-const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
-
-const randomPrice = priceArr[Math.floor(Math.random() * priceArr.length)];
-const initialRadioOptions = {
-  conditionOptions: [
-    { id: 0, value: "Brand New", title: "Brand New", description: "", checked: false },
-    { id: 1, value: "Like New", title: "Like New", description: "", checked: false },
-    { id: 2, value: "Used", title: "Used", description: "", checked: true },
-    {
-      id: 3,
-      value: "Not Functional",
-      title: "Not Functional",
-      description: "",
-      checked: false,
-    },
-  ],
-  shippingOptions: [
-    {
-      id: 0,
-      value: "Willing to Ship",
-      title: "Yes, I will ship this item if needed",
-      description: "",
-      checked: true,
-    },
-    {
-      id: 1,
-      value: "Local Only",
-      title: "No, local meetups only",
-      description: "",
-      checked: false,
-    },
-  ],
-  tradeOptions: [
-    {
-      id: 0,
-      value: "No Trades",
-      title: "No, for sale only",
-      description: "",
-      checked: true,
-    },
-    {
-      id: 1,
-      value: "Accepting Trades",
-      title: "Yes, i would consider trade offers",
-      description: "",
-      checked: false,
-    },
-  ],
-  negotiableOptions: [
-    { id: 0, value: "Firm", title: "No, price is firm", description: "", checked: false },
-    {
-      id: 1,
-      value: "OBO/Negotiable",
-      title: "OBO/Negotiable",
-      description: "",
-      checked: true,
-    },
-  ],
-};
-
-export const Sell = () => {
+export const EditForSaleListing = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { itemID } = useParams();
   const { user } = useSelector((state) => state.auth);
   const filters = useSelector((state) => state.filters);
   const categorySelectorModalToggled = useSelector(
     (state) => state.modals.categorySelectorModalToggled
   );
+  const [originalItem, setOriginalItem] = useState(null);
+  const [modifiedItem, setModifiedItem] = useState(null);
+  const [radioOptions, setRadioOptions] = useState({
+    conditionOptions: [
+      {
+        id: 0,
+        value: "Brand New",
+        title: "Brand New",
+        description: "",
+        checked: false,
+      },
+      {
+        id: 1,
+        value: "Like New",
+        title: "Like New",
+        description: "",
+        checked: false,
+      },
+      { id: 2, value: "Used", title: "Used", description: "", checked: false },
+      {
+        id: 3,
+        value: "Not Functional",
+        title: "Not Functional",
+        description: "",
+        checked: false,
+      },
+    ],
+    shippingOptions: [
+      {
+        id: 0,
+        value: "Willing to Ship",
+        title: "Yes, I will ship this item if needed",
+        description: "",
+        checked: false,
+      },
+      {
+        id: 1,
+        value: "Local Only",
+        title: "No, local meetups only",
+        description: "",
+        checked: false,
+      },
+    ],
+    tradeOptions: [
+      {
+        id: 0,
+        value: "No Trades",
+        title: "No, for sale only",
+        description: "",
+        checked: false,
+      },
+      {
+        id: 1,
+        value: "Accepting Trades",
+        title: "Yes, i would consider trade offers",
+        description: "",
+        checked: false,
+      },
+    ],
+    negotiableOptions: [
+      {
+        id: 0,
+        value: "Firm",
+        title: "No, price is firm",
+        description: "",
+        checked: false,
+      },
+      {
+        id: 1,
+        value: "OBO/Negotiable",
+        title: "OBO/Negotiable",
+        description: "",
+        checked: false,
+      },
+    ],
+  });
   const [price, setPrice] = useState(null);
   const [details, setDetails] = useState("");
   const [buyerPaysShipping, setBuyerPaysShipping] = useState(null);
@@ -112,11 +129,10 @@ export const Sell = () => {
   const [error, setError] = useState("");
   const [listedItemID, setListedItemID] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [getItemLoading, setGetItemLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [whatIsThisItem, setWhatIsThisItem] = useState("");
-  const [radioOptions, setRadioOptions] = useState(initialRadioOptions);
   const photosRef = useRef(null);
-
   const [state, setState] = useState(null);
   const [city, setCity] = useState(null);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
@@ -197,6 +213,26 @@ export const Sell = () => {
       }
     };
 
+    const getItemImagesMetadata = async () => {
+      try {
+        const urlSearchParams2 = new URLSearchParams({ item_id: itemID }).toString();
+
+        const response = await fetch(
+          `http://localhost:4000/get-item-image-metadata?${urlSearchParams2}`
+        );
+
+        if (!response.ok) throw new Error("Something happened get-item-image-metadata");
+
+
+        const { data } = await response.json();
+
+        setPhotos(data)
+      } catch (error) {
+        console.error(error);
+        setError(error);
+      }
+    };
+
     const getDefaultSelections = async () => {
       try {
         const urlSearchParams = new URLSearchParams({ user_id: user.id }).toString();
@@ -238,7 +274,7 @@ export const Sell = () => {
           setCity(capitalizeWords(defaultCity));
         }
 
-        setRadioOptions(localRadioOptions);
+        // setRadioOptions(localRadioOptions);
         setGeneratedFilters(localGeneratedFilters);
       } catch (error) {
         console.error(error);
@@ -246,6 +282,56 @@ export const Sell = () => {
       }
     };
 
+    async function getItem() {
+      try {
+        setGetItemLoading(true);
+        const urlQueryParams = new URLSearchParams({ item_id: itemID }).toString();
+        const response = await fetch(`http://localhost:4000/get-item?${urlQueryParams}`, {
+          method: "get",
+          credentials: "include",
+        });
+
+        if (!response.ok)
+          throw new Error(response.statusText || "There was an error at get-item");
+
+        const { data } = await response.json();
+
+        setOriginalItem(data[0]);
+        setModifiedItem(data[0]);
+
+        console.log(data[0]);
+        console.log(radioOptions);
+        // set checked radio options
+        setRadioOptions({
+          conditionOptions: radioOptions.conditionOptions.map((op) => {
+            console.log(data[0], op);
+            return {
+              ...op,
+              checked: op.value === data[0].condition,
+            };
+          }),
+          tradeOptions: radioOptions.tradeOptions.map((op) => ({
+            ...op,
+            checked: op.value === data[0].trades,
+          })),
+          negotiableOptions: radioOptions.negotiableOptions.map((op) => ({
+            ...op,
+            checked: op.value === data[0].negotiable,
+          })),
+          shippingOptions: radioOptions.shippingOptions.map((op) => ({
+            ...op,
+            checked: op.value === data[0].shipping,
+          })),
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setGetItemLoading(false);
+      }
+    }
+
+    getItem();
+    getItemImagesMetadata()
     getDefaultSelections();
     getItemCategories();
   }, []);
@@ -319,13 +405,7 @@ export const Sell = () => {
         });
 
         if (!response.ok) throw new Error("Something happened at update-cover-image");
-
-        const { data } = await response.json();
       }
-
-      const imagePaths = photos.map(
-        (image) => `${user.id}/${generatedGroupId}/${image.name}`
-      );
 
       const response2 = await fetch("http://localhost:4000/move-item-images-from-temp", {
         method: "post",
@@ -357,17 +437,17 @@ export const Sell = () => {
 
   function handleStateReset() {
     // setImagesUploading(false);
-    setPrice(randomPrice);
+    setPrice(0);
     setDetails("");
-    setContactPhoneNumber("7047708371");
-    setSellerName("Jacob Broughton");
+    setContactPhoneNumber("");
+    setSellerName("");
     setGeneratedGroupId(uuidv4());
     setNewCoverPhotoId(null);
     setPhotos([]);
     setError("");
     setListedItemID(false);
     setLoading(false);
-    setRadioOptions(initialRadioOptions);
+    // setRadioOptions(initialRadioOptions);
   }
 
   function handleRadioSelect(optionTypeKey, selectedOption) {
@@ -542,9 +622,17 @@ export const Sell = () => {
 
   if (!whatIsThisItem) warnings.push("");
 
+  if (!modifiedItem)
+    return (
+      <main className="edit-listing">
+        {getItemLoading.toString()}
+        loading...
+      </main>
+    );
+
   return (
-    <main className="sell">
-      <PageTitle title="Sell | PBMRKT" />
+    <main className="edit-listing">
+      <PageTitle title="Edit Listing | PBMRKT" />
       {error && (
         <ErrorBanner
           error={error.toString()}
@@ -552,7 +640,7 @@ export const Sell = () => {
           hasMargin={true}
         />
       )}
-      <h1>Create a new listing</h1>
+      <h1>Edit Listing</h1>
       <form
         onSubmit={handleSubmit}
         autoComplete="off"
@@ -570,7 +658,7 @@ export const Sell = () => {
           setError={setError}
         />
 
-        {/* <div className="form-block seller-info">
+        <div className="form-block seller-info">
           <div className="header">
             <h2>Your Info</h2>
           </div>
@@ -707,7 +795,7 @@ export const Sell = () => {
               </div>
             </fieldset>
           </div>
-        </div> */}
+        </div>
 
         <div className="form-block item-details">
           <div className="header">
@@ -724,8 +812,13 @@ export const Sell = () => {
                 What is this item?
               </label>
               <input
-                onChange={(e) => setWhatIsThisItem(e.target.value)}
-                value={whatIsThisItem}
+                onChange={(e) =>
+                  setModifiedItem({
+                    ...modifiedItem,
+                    what_is_this: e.target.value,
+                  })
+                }
+                value={modifiedItem.what_is_this}
                 placeholder='e.g. "GI Cut Planet Eclipse LV1"'
               />
             </div>
@@ -772,8 +865,13 @@ export const Sell = () => {
                 included, condition details, etc.)
               </label>
               <textarea
-                onChange={(e) => setDetails(e.target.value)}
-                value={details}
+                onChange={(e) =>
+                  setModifiedItem({
+                    ...modifiedItem,
+                    details: e.target.value,
+                  })
+                }
+                value={modifiedItem.details}
                 placeholder={detailsPlaceholderText}
               />
             </div>

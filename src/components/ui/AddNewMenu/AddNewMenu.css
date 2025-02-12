@@ -12,40 +12,54 @@
   z-index: 10 !important;
 }
 
-.add-new-menu a.menu-item {
+.add-new-menu a.add-new-menu-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   padding: 10px 15px;
   cursor: pointer;
-  gap: 10px;
+  gap: 15px;
   color: white;
   background-color: #2f2f2f;
   border: 0;
   font-size: 1rem;
 }
 
-.add-new-menu a.menu-item:not(:last-child) {
+.add-new-menu a.add-new-menu-item:not(:last-child) {
   border-bottom: 1px solid #555;
 }
 
-.add-new-menu a.menu-item:hover {
+.add-new-menu a.add-new-menu-item:hover {
   background-color: #444;
   text-decoration: none;
 }
 
-.add-new-menu a.menu-item label {
+.add-new-menu a.add-new-menu-item .content {
+display: flex;
+flex-direction: column;
+}
+
+.add-new-menu a.add-new-menu-item .content .complete-profile-message {
+  display: flex;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: orange;
+}
+
+
+
+.add-new-menu a.add-new-menu-item label {
   pointer-events: none;
 }
 
-.add-new-menu a.menu-item svg {
+.add-new-menu a.add-new-menu-item svg {
   fill: white;
   width: 20px;
 }
 
-.add-new-menu a.menu-item.current,
-.add-new-menu a.menu-item.current {
+.add-new-menu a.add-new-menu-item.current,
+.add-new-menu a.add-new-menu-item.current {
   border-left: 2px solid var(--lightgreen);
 }
 

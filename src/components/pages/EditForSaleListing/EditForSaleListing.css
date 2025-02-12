@@ -1,4 +1,4 @@
-main.sell {
+main.edit-listing {
   display: flex;
   flex-direction: column;
   padding: 15px;
@@ -15,11 +15,11 @@ main.sell {
   width: 100%;
 }
 
-.sell h1 {
+main.edit-listing h1 {
   font-size: 1.5rem;
 }
 
-.sell .success-modal {
+main.edit-listing .success-modal {
   position: fixed;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -35,30 +35,25 @@ main.sell {
   width: calc(100% - 40px);
 }
 
-.sell .success-modal h2 {
+main.edit-listing .success-modal h2 {
   margin-bottom: 30px;
 }
 
-.sell .success-modal-overlay {
+main.edit-listing .success-modal-overlay {
   position: fixed;
   background-color: rgba(0, 0, 0, 0.447);
   inset: 0;
   z-index: 1;
 }
 
-.image-skeletons {
-  display: flex;
-}
-
-
-.sell > form {
+main.edit-listing > form {
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 100%;
 }
 
-.sell > form .form-block {
+main.edit-listing > form .form-block {
   background-color: #2b2b2b;
   border-radius: 3px;
   display: flex;
@@ -66,7 +61,7 @@ main.sell {
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
-.sell > form .form-block .header {
+main.edit-listing > form .form-block .header {
   border-bottom: 1px solid #555;
   border-left: 5px solid #666;
   padding: 10px;
@@ -74,31 +69,34 @@ main.sell {
   border-top-right-radius: 3px;
 }
 
-.sell > form .form-block .header h2 {
+main.edit-listing > form .form-block .header h2 {
   font-size: 1.5rem;
 }
 
-.sell > form .form-block .form-content {
+main.edit-listing > form .form-block .form-content {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+.image-skeletons {
+  display: flex;
+}
 
-.sell > form fieldset {
+main.edit-listing > form fieldset {
   border: 0;
   display: flex;
   justify-content: space-between;
   gap: 15px;
 }
 
-.sell > form .input-container {
+main.edit-listing > form .input-container {
   width: 100%;
   position: relative;
 }
 
-.sell > form .input-container::before {
+main.edit-listing > form .input-container::before {
   content: "$";
   position: absolute;
   left: 10px;
@@ -115,12 +113,12 @@ main.sell {
   align-items: center;
 }
 
-.sell > form .input-container input {
+main.edit-listing > form .input-container input {
   padding-left: 37px !important;
   position: relative;
 }
 
-.sell > form .form-group {
+main.edit-listing > form .form-group {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -129,11 +127,11 @@ main.sell {
   gap: 3px;
 }
 
-.sell > form .form-group:first-child {
+main.edit-listing > form .form-group:first-child {
   flex-grow: 0;
 }
 
-.sell > form .form-group .option-buttons {
+main.edit-listing > form .form-group .option-buttons {
   display: flex;
   flex-direction: column;
   /* border: 1px solid #666; */
@@ -142,7 +140,7 @@ main.sell {
   width: 100%;
 }
 
-.sell > form .form-group .option-buttons button {
+main.edit-listing > form .form-group .option-buttons button {
   /* padding: 10px; */
   border: 0;
   background-color: #4b4b4b;
@@ -157,23 +155,23 @@ main.sell {
   font-size: 0.875rem;
 }
 
-.sell > form .form-group .option-buttons button:not(:disabled).selected {
+main.edit-listing > form .form-group .option-buttons button:not(:disabled).selected {
   border-left: 2px solid var(--lightgreen);
 }
 
-.sell > form .form-group .option-buttons button:not(:last-child) {
+main.edit-listing > form .form-group .option-buttons button:not(:last-child) {
   border-bottom: 1px solid #666;
 }
 
-.sell > form .form-group .option-buttons button:not(:disabled):hover {
+main.edit-listing > form .form-group .option-buttons button:not(:disabled):hover {
   background-color: #4b4b4b;
 }
 
-.sell > form .form-group .option-buttons button:not(:disabled):active {
+main.edit-listing > form .form-group .option-buttons button:not(:disabled):active {
   background-color: #4d4d4d;
 }
 
-.sell > form .form-group .option-buttons button .radio-icon-container {
+main.edit-listing > form .form-group .option-buttons button .radio-icon-container {
   display: flex;
   border-right: 1px solid #555;
   height: 100%;
@@ -182,7 +180,7 @@ main.sell {
   padding: 5px;
 }
 
-.sell > form .form-group .option-buttons button .option-content {
+main.edit-listing > form .form-group .option-buttons button .option-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -191,7 +189,7 @@ main.sell {
   width: 100%;
 }
 
-.sell > form .form-group .radio-options,
+main.edit-listing > form .form-group .radio-options,
 .accepting-trades-container {
   /* border: 1px solid #4b4b4b; */
   /* padding: 10px; */
@@ -208,22 +206,22 @@ main.sell {
   padding-top: 10px;
 }
 
-.sell > form .form-group .option-buttons button svg {
+main.edit-listing > form .form-group .option-buttons button svg {
   width: 15px;
   fill: grey;
 }
 
-.sell > form .form-group .option-buttons button:not(:disabled).selected svg {
+main.edit-listing > form .form-group .option-buttons button:not(:disabled).selected svg {
   fill: var(--lightgreen);
 }
 
-.sell > form .form-group label {
+main.edit-listing > form .form-group label {
   display: flex;
   gap: 5px;
   white-space: wrap;
 }
 
-.sell > form .form-group label .question-number {
+main.edit-listing > form .form-group label .question-number {
   border-radius: 50%;
   font-weight: 500;
   /* width: 20px;
@@ -236,7 +234,7 @@ main.sell {
   font-size: 0.7rem;
 }
 
-.sell > form .auto-completed-span {
+main.edit-listing > form .auto-completed-span {
   /* background-color: var(--yellow); */
   display: flex;
   align-items: center;
@@ -245,44 +243,44 @@ main.sell {
   cursor: help;
 }
 
-.sell > form .auto-completed-span.legend {
+main.edit-listing > form .auto-completed-span.legend {
   align-self: flex-start;
 }
 
-.sell > form .auto-completed-span svg {
+main.edit-listing > form .auto-completed-span svg {
   fill: grey;
   width: 12px;
 }
 
-.sell > form .form-group.year,
-.sell > form .form-group.price {
+main.edit-listing > form .form-group.year,
+main.edit-listing > form .form-group.price {
   max-width: 100px;
 }
 
-.sell > form .form-group.shipping {
+main.edit-listing > form .form-group.shipping {
   /* max-width: 300px; */
 }
 
-.sell > form .form-group.shipping button {
+main.edit-listing > form .form-group.shipping button {
   gap: 15px;
 }
 
-.sell > form .form-group.shipping button svg {
+main.edit-listing > form .form-group.shipping button svg {
   width: 14px;
   fill: lightgrey;
 }
 
-.sell > form .form-group.shipping button svg.checked {
+main.edit-listing > form .form-group.shipping button svg.checked {
   fill: var(--lightgreen);
 }
 
-.sell > form .form-group.price input,
-.sell > form .form-group.shipping input {
+main.edit-listing > form .form-group.price input,
+main.edit-listing > form .form-group.shipping input {
   position: relative;
 }
 
-.sell > form .form-group.price input::before,
-.sell > form .form-group.shipping input::before {
+main.edit-listing > form .form-group.price input::before,
+main.edit-listing > form .form-group.shipping input::before {
   content: "$";
   z-index: 2;
   color: green;
@@ -291,37 +289,37 @@ main.sell {
   left: 0;
 }
 
-.sell > form .form-group.price input::before {
+main.edit-listing > form .form-group.price input::before {
   content: "$";
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.sell > form .form-group.disabled {
+main.edit-listing > form .form-group.disabled {
   cursor: not-allowed;
 }
 
-.sell > form .form-group.disabled label {
+main.edit-listing > form .form-group.disabled label {
   color: grey;
 }
 
-.sell > form .form-group.shipping {
+main.edit-listing > form .form-group.shipping {
   display: flex;
 }
 
-.sell > form .form-group.shipping .shipping-selector-and-input {
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input {
   display: flex;
   gap: 5px;
   width: 100%;
 }
-.sell > form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input .shipping-selector {
   display: flex;
   width: 100%;
   max-width: 350px;
 }
 
-.sell form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+main.edit-listing form .form-group.shipping .shipping-selector-and-input .shipping-selector {
   max-width: 500px !;
   width: 100%;
 }
@@ -348,26 +346,26 @@ main.sell {
   cursor: pointer;
 }
 
-.sell > form .form-group.shipping .shipping-selector .shipping-toggle-button.selected {
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button.selected {
   border-color: var(--lightgreen);
   color: var(--lightgreen);
 }
 
-.sell > form .form-group.shipping .shipping-selector .shipping-toggle-button:first-child {
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.sell > form .form-group.shipping .shipping-selector .shipping-toggle-button:last-child {
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button:last-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.sell > form .form-group.shipping .shipping-selector-and-input input {
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input input {
   max-width: 100px;
 }
 
-.sell > form .form-group.shipping .shipping-selector-and-input input:disabled {
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input input:disabled {
   border-color: #4f4f4f;
   color: #6f6f6f;
 }
@@ -390,31 +388,31 @@ main.sell {
   color: #4f4f4f;
 }
 
-.sell > form .what-the-buyer-sees {
+main.edit-listing > form .what-the-buyer-sees {
   padding: 5px 10px;
   background-color: #555;
   border: 1px solid #666;
   border-radius: 3px;
 }
 
-.sell > form .what-the-buyer-sees p:first-child {
+main.edit-listing > form .what-the-buyer-sees p:first-child {
   font-weight: 500;
   font-style: italic;
 }
 
-.sell > form .form-group .radio-options {
+main.edit-listing > form .form-group .radio-options {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
 
-.sell > form .form-group .radio-options .radio-option {
+main.edit-listing > form .form-group .radio-options .radio-option {
   width: 100%;
 }
 
-/* .sell > form .form-group .radio-options .radio-option label,
-.sell > form .custom-image-upload.secondary {
+/* main.edit-listing > form .form-group .radio-options .radio-option label,
+main.edit-listing > form .custom-image-upload.secondary {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -428,17 +426,17 @@ main.sell {
   cursor: pointer;
 }
 
-.sell > form .form-group .radio-options .radio-option label:hover {
+main.edit-listing > form .form-group .radio-options .radio-option label:hover {
   border-color: #666;
 } */
 
-.sell > form .custom-image-upload.secondary {
+main.edit-listing > form .custom-image-upload.secondary {
   align-self: flex-start;
   width: auto;
   padding: 1px 5px 1px 5px;
 }
 
-.sell > form .form-group .toggle-button {
+main.edit-listing > form .form-group .toggle-button {
   padding: 3px 5px;
   font-size: 1rem;
   border: 1px solid transparent;
@@ -446,16 +444,16 @@ main.sell {
   transition: 0;
 }
 
-.sell > form .form-group .toggle-button.activated {
+main.edit-listing > form .form-group .toggle-button.activated {
   border: 1px solid var(--lightgreen);
 }
 
-.sell > form label {
+main.edit-listing > form label {
   font-size: 0.875rem;
   white-space: nowrap;
 }
 
-.sell > form .form-group textarea {
+main.edit-listing > form .form-group textarea {
   --padding: 10px;
   min-height: 150px;
   min-height: calc(5lh + 2 * var(--padding));
@@ -466,9 +464,9 @@ main.sell {
   padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
 }
 
-.sell > form .form-group input:not([type="radio"]):not([type="file"]),
-.sell > form .form-group textarea,
-.sell > form .form-group select {
+main.edit-listing > form .form-group input:not([type="radio"]):not([type="file"]),
+main.edit-listing > form .form-group textarea,
+main.edit-listing > form .form-group select {
   width: 100%;
   font-family: inherit;
   font-size: 1rem;
@@ -479,12 +477,12 @@ main.sell {
   /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
 }
 
-.sell > form .form-group input:not([type="radio"]):not([type="file"]),
-.sell > form .form-group textarea {
+main.edit-listing > form .form-group input:not([type="radio"]):not([type="file"]),
+main.edit-listing > form .form-group textarea {
   padding: 5px 10px;
 }
 
-.sell > form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
+main.edit-listing > form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
   color: grey;
   cursor: not-allowed;
 }
@@ -493,10 +491,10 @@ main.sell {
   > form
   .form-group
   input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
-.sell > form .form-group textarea:not(:disabled):hover,
-.sell > form .form-group select:not(:disabled):hover,
-.sell > form .image-upload:not(:disabled):not(.marked):hover,
-.sell > form .form-block .reset-images-button:not(:disabled):hover,
+main.edit-listing > form .form-group textarea:not(:disabled):hover,
+main.edit-listing > form .form-group select:not(:disabled):hover,
+main.edit-listing > form .image-upload:not(:disabled):not(.marked):hover,
+main.edit-listing > form .form-block .reset-images-button:not(:disabled):hover,
 .sell
   form
   .form-group.shipping
@@ -505,11 +503,11 @@ main.sell {
   border-color: #666;
 }
 
-.sell > form .form-group select:not(:disabled) {
+main.edit-listing > form .form-group select:not(:disabled) {
   cursor: pointer;
 }
 
-.sell > form .form-group input[type="file"] {
+main.edit-listing > form .form-group input[type="file"] {
   width: 100%;
   font-family: inherit;
   font-size: 1rem;
@@ -518,26 +516,26 @@ main.sell {
   border-radius: 3px;
 }
 
-.sell > form .form-group input[type="file"] {
+main.edit-listing > form .form-group input[type="file"] {
   padding: 0;
 }
 
-.sell > form .form-group select {
+main.edit-listing > form .form-group select {
   position: pointer;
 }
 
-.sell > form .submit-container {
+main.edit-listing > form .submit-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.sell > form .submit-container .warning {
+main.edit-listing > form .submit-container .warning {
   font-size: 0.875rem;
   color: var(--red);
 }
 
-.sell > form button[type="submit"] {
+main.edit-listing > form button[type="submit"] {
   background-color: var(--lightgreen);
   padding: 7px 15px;
   align-self: flex-start;
@@ -551,11 +549,11 @@ main.sell {
   text-shadow: 1px 1px 3px #21252963;
 }
 
-.sell > form button[type="submit"]:not(:disabled):hover {
+main.edit-listing > form button[type="submit"]:not(:disabled):hover {
   filter: brightness(1.1);
 }
 
-.sell > form button[type="submit"]:disabled {
+main.edit-listing > form button[type="submit"]:disabled {
   color: grey;
   background-color: #444;
   cursor: not-allowed;
@@ -565,24 +563,24 @@ main.sell {
 }
 
 @media screen and (max-width: 400px) {
-  .sell > form .form-block {
+  main.edit-listing > form .form-block {
     /* gap: 10px; */
   }
 
-  .sell > form .form-block fieldset {
+  main.edit-listing > form .form-block fieldset {
     gap: 15px;
   }
 
-  /* .sell > form .shipping-selector {
+  /* main.edit-listing > form .shipping-selector {
     flex-direction: column;
   } */
 
-  .sell > form .shipping-selector-and-input,
-  .sell > form .shipping-selector-and-input .shipping-selector {
+  main.edit-listing > form .shipping-selector-and-input,
+  main.edit-listing > form .shipping-selector-and-input .shipping-selector {
     width: 100%;
   }
 
-  .sell > form .form-group.price {
+  main.edit-listing > form .form-group.price {
     max-width: 75px;
   }
 
@@ -609,7 +607,7 @@ main.sell {
   }
 }
 
-.sell .form-group .cant-find-city-toggle {
+main.edit-listing .form-group .cant-find-city-toggle {
   color: white;
   font-size: 0.875rem;
   background-color: transparent;
@@ -622,25 +620,25 @@ main.sell {
   margin-top: 3px;
 }
 
-.sell .form-group.disabled .cant-find-city-toggle {
+main.edit-listing .form-group.disabled .cant-find-city-toggle {
   color: grey;
 }
 
-.sell .form-group .cant-find-city-toggle:hover {
+main.edit-listing .form-group .cant-find-city-toggle:hover {
   text-decoration: underline;
 }
 
-.sell .form-group .cant-find-city-toggle svg {
+main.edit-listing .form-group .cant-find-city-toggle svg {
   fill: whitesmoke;
   width: 9px;
 }
 
 @media only screen and (max-device-width: 480px) {
-  main.sell {
+  mainmain.sell {
     padding-top: 10px;;
   }
 
-  main.sell > form {
+  mainmain.sell > form {
     gap: 20px;
   }
 }

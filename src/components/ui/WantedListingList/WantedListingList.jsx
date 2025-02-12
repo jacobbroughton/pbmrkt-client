@@ -30,7 +30,7 @@ export const WantedListingList = ({ listings }) => {
             </div>
             <div className="info">
               <Link className="what-is-this" to={`/wanted/${listing.id}`}>
-                WANTED: {listing.title}
+                Buying: {listing.title}
               </Link>
               <p className="small-text details">{truncatedDescriptionText}</p>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSearchParams } from "../../../hooks/useSearchParams";
 import { toggleModal } from "../../../redux/modals";
 import ContactSellerModal from "../../ui/ContactSellerModal/ContactSellerModal";
@@ -48,6 +48,7 @@ export const Item = () => {
   const [existingVote, setExistingVote] = useState(null);
   const [votes, setVotes] = useState(null);
   const [deleteItemLoading, setDeleteItemLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getItem() {
@@ -278,17 +279,30 @@ export const Item = () => {
                   Delete Listing
                 </button>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     dispatch(
                       toggleModal({
                         key: "editListingModal",
                         value: !editItemMenuToggled,
                       })
-                    )
-                  }
+                    );
+                  }}
+                >
+                  Edit/Modify Listing Button
+                </button>
+                <Link
+                  onClick={() => {
+                    dispatch(
+                      toggleModal({
+                        key: "editListingModal",
+                        value: !editItemMenuToggled,
+                      })
+                    );
+                  }}
+                  to={`/edit-listing/forsale/${item.info.id}`}
                 >
                   Edit/Modify Listing
-                </button>
+                </Link>
               </>
             )}
           </div>
@@ -311,7 +325,8 @@ export const Item = () => {
                   <div className="price-and-toggle">
                     <p>
                       ${item.info.price}
-                      {item.info.shipping_cost
+                      {console.log(item.info.shipping_cost)}
+                      {item.info.shipping_cost && item.info.shipping_cost !== "0.00"
                         ? ` + $${item.info.shipping_cost} shipping`
                         : " w/ Free Shipping"}{" "}
                     </p>

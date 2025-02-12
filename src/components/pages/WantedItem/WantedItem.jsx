@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toggleModal } from "../../../redux/modals";
 import { DeleteModal } from "../../ui/DeleteModal/DeleteModal";
 import { EditListingModal } from "../../ui/EditListingModal/EditListingModal";
@@ -33,6 +33,7 @@ export function WantedItem() {
     deleteModalToggled,
   } = useSelector((state) => state.modals);
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const { wantedItemID } = useParams();
   const [item, setItem] = useState(null);
   const [error, setError] = useState("");
@@ -252,18 +253,19 @@ export function WantedItem() {
                 >
                   Delete
                 </button>
-                <button
-                  onClick={() =>
-                    dispatch(
-                      toggleModal({
-                        key: "editListingModal",
-                        value: !editItemMenuToggled,
-                      })
-                    )
-                  }
+                <Link
+                  onClick={() => {
+                    // dispatch(
+                    //   toggleModal({
+                    //     key: "editListingModal",
+                    //     value: !editItemMenuToggled,
+                    //   })
+                    // );
+                    navigate(`/edit-listing/wanted/${item.info.id}`);
+                  }}
                 >
                   Edit/Modify Listing
-                </button>
+                </Link>
               </>
             )}
           </div>

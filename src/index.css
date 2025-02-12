@@ -183,7 +183,7 @@ form.standard {
 }
 
 form.standard .form-block {
-  background-color: #3b3b3b;
+  /* background-color: #3b3b3b; */
   border: 1px solid #555;
   padding: 10px;
   border-radius: 3px;

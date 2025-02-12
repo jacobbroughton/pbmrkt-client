@@ -179,6 +179,7 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
       </div>
       <form onSubmit={handleSubmit} className="standard">
         <div className="form-group">
+          {console.log(localUser)}
           <label>Change your profile picture</label>
           <div></div>
           <div className="profile-image-container">
@@ -213,6 +214,16 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
             />
           </div>
         </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Headline</label>
+          <input
+            placeholder="Headline"
+            value={headline}
+            onChange={(e) => setHeadline(e.target.value)}
+          />
+        </div>
+        
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">State</label>
@@ -285,25 +296,6 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email">Headline</label>
-          <input
-            placeholder='"Premier paintball trader since 2007"'
-            value={headline}
-            onChange={(e) => setHeadline(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="bio">Details about you?</label>
-          <textarea
-            id="bio"
-            value={bio}
-            placeholder="I'm 25, i've been playing paintball since i was 15 around the western PA area."
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </div>
-
         <div className="form-groups">
           <div className="form-group">
             <label htmlFor="email">Phone Number</label>
@@ -322,6 +314,16 @@ export const EditUserProfileModal = ({ localUser, setLocalUser }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="bio">Details about you?</label>
+          <textarea
+            id="bio"
+            value={bio}
+            placeholder="I'm 25, i've been playing paintball since i was 15 around the western PA area."
+            onChange={(e) => setBio(e.target.value)}
+          />
         </div>
         <button type="submit" disabled={submitDisabled}>
           Submit

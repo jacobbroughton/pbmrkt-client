@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import {
@@ -47,6 +47,7 @@ export const UserProfile = () => {
   const [listings, setListings] = useState(null);
   const [coverPhotoStagedForFullScreen, setCoverPhotoStagedForFullScreen] =
     useState(false);
+    const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -56,7 +57,6 @@ export const UserProfile = () => {
     list: [],
   });
   const [sort, setSort] = useState("Date (New-Old)");
-  const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [newCoverPhotoLoading, setNewCoverPhotoLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState("For Sale");
 
@@ -81,6 +81,8 @@ export const UserProfile = () => {
         );
       }
       const { data: foundUserComplex } = await response.json();
+
+      console.log(foundUserComplex)
 
       const urlSearchParams3 = new URLSearchParams({
         reviewee_id: foundUserComplex.id,
@@ -342,14 +344,15 @@ export const UserProfile = () => {
               <p>{localUser.bio ? localUser.bio?.trim() : "No bio has been added"}</p>
             </div>
             {isAdmin && (
-              <button
+              <Link
+                to='/edit-profile'
                 className="edit-profile-button"
                 onClick={() =>
-                  dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
+                  dispatch(toggleModal({ key: "editUserProfileModal", value: true })) 
                 }
               >
                 <EditIcon /> Edit Profile
-              </button>
+              </Link>
             )}
           </div>
         </div>
@@ -383,13 +386,13 @@ export const UserProfile = () => {
               <SkeletonsListingList
                 message={
                   selectedTab === "For Sale"
-                    ? `${localUser.username} hasn't created any for sale listings yet!`
+                    ? `You haven't created any for sale listings yet!`
                     : selectedTab === "Wanted"
-                    ? `${localUser.username} hasn't created any wanted listings yet!`
+                    ? `You haven't created any wanted listings yet!`
                     : selectedTab === "Sold"
-                    ? `${localUser.username} hasn't marked any listings as sold yet`
+                    ? `You haven't marked any listings as sold yet`
                     : selectedTab === "Saved"
-                    ? `${localUser.username} hasn't saved any listings yet`
+                    ? `You haven't saved any listings yet`
                     : ""
                 }
                 hasOverlay={true}

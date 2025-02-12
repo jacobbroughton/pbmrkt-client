@@ -1,0 +1,376 @@
+main.edit-user-profile {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 100px;
+  width: 100%;
+}
+
+main.edit-user-profile .header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  padding: 15px;
+}
+
+main.edit-user-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+main.edit-user-profile .form-block {
+  background-color: #2b2b2b;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+main.edit-user-profile .form-block .header {
+  border-bottom: 1px solid #555;
+  border-left: 5px solid #666;
+  padding: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+main.edit-user-profile .form-block .header h2 {
+  font-size: 1.5rem;
+}
+
+main.edit-user-profile .form-block .form-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+main.edit-user-profile fieldset {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+main.edit-user-profile .input-container {
+  width: 100%;
+  position: relative;
+}
+
+main.edit-user-profile > form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+}
+
+main.edit-user-profile > form > .form-block {
+  display: flex;
+  gap: 10px;
+}
+
+main.edit-user-profile > form > .form-block .form-group {
+  width: 100%;
+  padding: 10px;
+}
+
+main.edit-user-profile > form .form-group textarea {
+  --padding: 10px;
+  min-height: 100px;
+  min-height: calc(2lh + 2 * var(--padding));
+  max-height: calc(4lh + 2 * var(--padding));
+  field-sizing: content;
+  line-height: 1.5;
+  padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
+}
+
+main.edit-user-profile > form .form-group input:not([type="radio"]):not([type="file"]),
+main.edit-user-profile > form .form-group textarea,
+main.edit-user-profile > form .form-group select {
+  width: 100%;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #3b3b3b;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 3px;
+  /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
+}
+
+main.edit-user-profile
+  > form
+  .form-group.disabled
+  input:not([type="radio"]):not([type="file"]) {
+  color: grey;
+  cursor: not-allowed;
+}
+
+main.edit-user-profile
+  > form
+  .form-group
+  input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
+main.edit-user-profile > form .form-group textarea:not(:disabled):hover,
+main.edit-user-profile > form .form-group select:not(:disabled):hover,
+main.edit-user-profile > form .custom-image-upload:not(:disabled):hover,
+main.edit-user-profile > form .form-block .reset-images-button:not(:disabled):hover,
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector
+  .shipping-toggle-button:not(.selected):hover {
+  border-color: #666;
+}
+
+main.edit-user-profile > form .form-group select:not(:disabled) {
+  cursor: pointer;
+}
+
+main.edit-user-profile > form .form-group .cover-image-container .cover-image {
+  background-color: white;
+  height: 150px;
+  width: 100%;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container .profile-image {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container {
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  border-radius: 500px;
+  /* overflow: hidden; */
+  display: flex;
+  position: relative;
+}
+
+main.edit-user-profile > form .form-group .cover-image-container {
+  display: flex;
+  position: relative;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container {
+  margin-top: 3px;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container .profile-image {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container label,
+main.edit-user-profile > form .form-group .cover-image-container label {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* background-color: orange; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  z-index: 3;
+  cursor: pointer;
+}
+
+main.edit-user-profile
+  > form
+  .form-group
+  .profile-image-container
+  label
+  input[type="file"],
+main.edit-user-profile
+  > form
+  .form-group
+  .cover-image-container
+  label
+  input[type="file"] {
+  display: none;
+}
+
+main.edit-user-profile > form .form-group .profile-image-container label svg,
+main.edit-user-profile > form .form-group .cover-image-container label svg {
+  width: 20px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 1));
+  fill: white;
+  transition: fill 0.1s ease, filter 0.1s ease;
+}
+
+main.edit-user-profile > form .form-group .select-container {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+main.edit-user-profile > form .form-group .select-container > select {
+  /* background-color: transparent; */
+  /* border: 0; */
+  background-color: #3b3b3b;
+  border-radius: 3px;
+  /* border-left: 2px solid ; */
+  /* padding: 5px 7px; */
+  cursor: pointer;
+  transition: 0.05s ease background-color;
+  color: whitesmoke;
+  padding-left: 30px;
+  z-index: 1;
+  border: 1px solid #555;
+  width: 100%;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+}
+
+main.edit-user-profile > form .form-group .select-container svg {
+  position: absolute;
+  width: 9px;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: whitesmoke;
+  z-index: 2;
+}
+
+main.edit-user-profile > form .form-group .cant-find-city-toggle {
+  color: white;
+  font-size: 0.875rem;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+main.edit-user-profile > form .form-group.disabled .cant-find-city-toggle {
+  color: grey;
+}
+
+main.edit-user-profile > form .form-group .cant-find-city-toggle:hover {
+  text-decoration: underline;
+}
+
+main.edit-user-profile > form .form-group .cant-find-city-toggle svg {
+  fill: whitesmoke;
+  width: 9px;
+}
+
+main.edit-profile-page > section.main-profile-content {
+  display: flex;
+  gap: 20px;
+}
+
+main.edit-profile-page > section.cover-container {
+  height: 200px;
+  width: calc(100% - 30px);
+  position: absolute;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+main.edit-profile-page > section.cover-container > img.cover-image {
+  border-radius: 0;
+}
+
+main.edit-profile-page > section.cover-container > img.cover-image {
+  background-color: #555;
+  height: 100%;
+  width: 100%;
+  appearance: none;
+  border-radius: 3px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+main.edit-profile-page > section.cover-container > .edit-cover-image-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* background-color: orange; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  z-index: 3;
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
+  cursor: pointer;
+  border: 1px solid #555;
+  background-color: #333;
+  transition: background-color 0.05s ease, border 0.05s ease;
+}
+
+main.edit-profile-page > section.cover-container > .edit-cover-image-button > svg {
+  width: 25px;
+  fill: white;
+}
+
+main.edit-profile-page > section.cover-container > .edit-cover-image-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+main.edit-profile-page > section.cover-container button.edit-cover-image {
+  position: absolute;
+  white-space: nowrap;
+  bottom: 5px;
+  right: 5px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 3;
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); */
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.05s ease, border 0.05s ease;
+  color: whitesmoke;
+  border: 1px solid #555;
+  font-weight: 600;
+  gap: 10px;
+  font-size: 0.875rem;
+}
+
+/* main.edit-profile-page > section.cover-container label:hover {
+  background-color: #4449;
+  border: 1px solid #5559;
+} */
+
+main.edit-profile-page > section.cover-container label input[type="file"] {
+  display: none;
+}
+
+main.edit-profile-page > section.cover-container button.edit-cover-image svg {
+  width: 15px;
+  fill: whitesmoke;
+  transition: fill 0.1s ease, filter 0.1s ease;
+}
+
+main.edit-user-profile > form > button[type="submit"] {
+  align-self: start;
+  padding: 3px 5px;
+  font-size: 1rem;
+}

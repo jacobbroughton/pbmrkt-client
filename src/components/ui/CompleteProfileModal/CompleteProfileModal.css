@@ -1,0 +1,19 @@
+.modal.complete-profile-modal {
+  max-width: 500px;
+  z-index: 7;
+  padding: 0;
+  top: 70px;
+  transform: translateX(-50%);
+}
+
+.modal.complete-profile-modal > .header {
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  flex-direction: column ;
+  align-items: flex-start;
+}
+
+.modal.modal.complete-profile-modal .content {
+  padding: 10px;
+  justify-content: flex-start;
+}

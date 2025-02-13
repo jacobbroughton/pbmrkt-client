@@ -56,10 +56,8 @@ export const CommentsList = ({
         profile_image_url: "",
       };
 
-      if (error3) throw error.message;
-
       if (repliedComment.created_by_id != user.id) {
-        await createNotification(user.id, repliedComment.createdById, data[0].id, 2);
+        // await createNotification(user.id, repliedComment.createdById, data[0].id, 2);
       }
 
       setCommentWithReplyWindowID(null);
@@ -95,7 +93,8 @@ export const CommentsList = ({
         }).toString();
 
         const response = await fetch(
-          `http://localhost:4000/get-child-comments/${queryParams}`
+          `http://localhost:4000/get-child-comments/${queryParams}`,
+          { method: "get", credentials: "include" }
         );
 
         if (!response.ok) throw new Error("Something happened at get-child-comments");

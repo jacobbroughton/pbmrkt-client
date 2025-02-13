@@ -193,7 +193,6 @@ export const SearchModal = () => {
     searchRef.current.focus();
   }, []);
 
-  console.log(searchValue, searchHistory);
 
   const selectedSearchType = searchTypes.find((type) => type.toggled);
   const resultsForView = searchResults[selectedSearchType?.label?.toLowerCase()];

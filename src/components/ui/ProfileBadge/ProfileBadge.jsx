@@ -6,11 +6,11 @@ import "./ProfileBadge.css";
 
 export function ProfileBadge({
   userInfo = {
-    profileImageUrl: "",
+    profile_image_url: "",
     username: "",
     city: "",
     state: "",
-    reviewCount: 0,
+    review_count: 0,
     rating: 0,
   },
 }) {
@@ -19,7 +19,7 @@ export function ProfileBadge({
   return (
     <div className="profile-badge">
       <div className="profile-image-container">
-        <img className="profile-image" src={userInfo.profileImageUrl} />
+        <img className="profile-image" src={userInfo.profile_image_url} />
       </div>
       <div className="text">
         <Link to={`/user/${userInfo.username}`} className="user-link">
@@ -32,12 +32,12 @@ export function ProfileBadge({
           className="stars-button"
           onClick={(e) => {
             e.stopPropagation();
-            if (userInfo.reviewCount <= 0) return;
+            if (userInfo.review_count <= 0) return;
             dispatch(toggleModal({ key: "sellerReviewsModal", value: true }));
           }}
-          disabled={userInfo.reviewCount == 0}
+          disabled={userInfo.review_count == 0}
         >
-          <Stars rating={userInfo.rating} /> <span>({userInfo.reviewCount})</span>
+          <Stars rating={userInfo.rating} /> <span>({userInfo.review_count})</span>
         </button>
       </div>
     </div>

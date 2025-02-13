@@ -20,7 +20,9 @@ export function useNotification() {
 
       if (!response.ok) throw new Error("Something happened at add-notification-object");
 
-      const [notificationObject] = await response.json();
+      const data = await response.json();
+
+      console.log("response2 data", data)
 
       const response2 = await fetch("http://localhost:4000/add-notification", {
         method: "post",
@@ -29,7 +31,7 @@ export function useNotification() {
         },
         credentials: "include",
         body: JSON.stringify({
-          notification_object_id: notificationObject.id,
+          notification_object_id: data.id,
           notifier_id: notifierId,
           actor_id: actorId,
         }),
@@ -37,7 +39,9 @@ export function useNotification() {
 
       if (!response.ok) throw new Error("Something happened at add-notification");
 
-      const [notification] = await response2.json();
+      const data2 = await response2.json();
+
+      console.log("response2 data", data2)
     } catch (error) {
       console.error(error);
     }

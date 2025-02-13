@@ -34,7 +34,7 @@ export const Comment = ({
   const { deleteModalToggled } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 
-  const [votes, setVotes] = useState(comment.votes);
+  const [votes, setVotes] = useState(parseInt(comment.votes));
   const [existingVote, setExistingVote] = useState(comment.existing_vote || null);
   const [userVote, setUpdatedVote] = useState(comment.existing_vote || null);
   const [voteNeedsUpdate, setVoteNeedsUpdate] = useState(false);
@@ -42,55 +42,6 @@ export const Comment = ({
   const { createNotification } = useNotification();
 
   async function handleUpvote(e, comment) {
-    let initialVote = existingVote;
-
-    try {
-      if (!user) {
-        dispatch(toggleModal({ key: "loginModal", value: true }));
-        return;
-      }
-
-      const response2 = await fetch("http://localhost:4000/add-comment-vote", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          comment_id: comment.id,
-          vote_direction: "Up",
-          user_id: user?.id,
-        }),
-      });
-
-      if (!response2.ok) throw new Error("Something happened at add-comment-vote");
-
-      setUpdatedVote("Up");
-
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes += 1));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 2));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 1));
-        setUpdatedVote(null);
-      }
-
-      const commentId = data[0].id;
-
-      await createNotification(user.id, comment.created_by_id, commentId, 3);
-
-      setExistingVote(data[0].vote_direction);
-      setVoteNeedsUpdate(true);
-    } catch (error) {
-      console.error(error);
-      setError(error.toString());
-    }
-  }
-
-  async function handleDownvote(e, comment) {
-    let initialVote = existingVote;
-
     try {
       if (!user) {
         dispatch(toggleModal({ key: "loginModal", value: true }));
@@ -99,7 +50,63 @@ export const Comment = ({
 
       // Add reference here (ike 'to vote, you'll need to sign in)
 
-      const response2 = await fetch("http://localhost:4000/add-comment-vote", {
+      const response = await fetch("http://localhost:4000/add-comment-vote", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          comment_id: comment.id,
+          vote_direction: "Up",
+        }),
+      });
+
+      if (!response.ok) throw new Error("Something happened at add-comment-vote");
+
+      const { data } = await response.json();
+
+      let diff = 0;
+
+      switch (existingVote) {
+        case "Down": {
+          diff = 1;
+          break;
+        }
+        case "Up": {
+          diff = -2;
+          break;
+        }
+        default:
+          diff = -1;
+      }
+
+      console.log(diff);
+
+      setVotes((prevVotes) => prevVotes + diff);
+
+      // await createNotification(user.id, comment.created_by_id, commentId, 3 /* 3, upvoted comment */);
+
+      console.log(data);
+
+      setExistingVote(data.vote_direction);
+      setVoteNeedsUpdate(true);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+  }
+
+  async function handleDownvote(e, comment) {
+    try {
+      if (!user) {
+        dispatch(toggleModal({ key: "loginModal", value: true }));
+        return;
+      }
+
+      // Add reference here (ike 'to vote, you'll need to sign in)
+
+      const response = await fetch("http://localhost:4000/add-comment-vote", {
         method: "post",
         headers: {
           "content-type": "application/json",
@@ -108,11 +115,12 @@ export const Comment = ({
         body: JSON.stringify({
           comment_id: comment.id,
           vote_direction: "Down",
-          user_id: user?.id,
         }),
       });
 
-      if (!response2.ok) throw new Error("Something happened at add-comment-vote");
+      if (!response.ok) throw new Error("Something happened at add-comment-vote");
+
+      const data = await response.json();
 
       if (!existingVote) {
         setVotes((prevVotes) => (prevVotes -= 1));
@@ -123,11 +131,14 @@ export const Comment = ({
         setUpdatedVote(null);
       }
 
-      const commentId = data[0].id;
+      console.log(data);
 
-      await createNotification(user.id, comment.created_by_id, commentId, 4);
+      const commentId = data.id;
 
-      setExistingVote(data[0].vote_direction);
+      // todo - handle on server instead
+      // await createNotification(user.id, comment.created_by_id, commentId, 4);
+
+      setExistingVote(data.vote_direction);
       setVoteNeedsUpdate(true);
     } catch (error) {
       console.error(error);
@@ -144,6 +155,7 @@ export const Comment = ({
     >
       <div className="bars-and-content">
         <div className="profile-image-container">
+          {console.log(comment)}
           <Link to={`/user/${comment.username}`} className="profile-image-link">
             <img className="profile-image" src={comment.profile_image_url} />
           </Link>

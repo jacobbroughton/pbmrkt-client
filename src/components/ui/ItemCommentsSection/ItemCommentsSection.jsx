@@ -45,8 +45,7 @@ export function ItemCommentsSection({
       const { data } = await response.json();
 
       if (user.id != itemInfo.id) {
-        console.log(data);
-        await createNotification(user.id, itemInfo.createdById, data[0].id, 1);
+        // await createNotification(user.id, itemInfo.createdById, data[0].id, 1);
       }
 
       getComments();
@@ -77,7 +76,6 @@ export function ItemCommentsSection({
           ...comment,
           replies: [],
           repliesToggled: false,
-          profile_image_url: "",
         };
       });
 
@@ -133,24 +131,22 @@ export function ItemCommentsSection({
       const urlSearchParams = new URLSearchParams({
         item_id: itemInfo.id,
         parent_comment_id: commentWithReplies.id,
-        user_id: user?.id,
         post_type: "For Sale",
       }).toString();
 
       const response = await fetch(
-        `http://localhost:4000/get-child-comments?${urlSearchParams}`
+        `http://localhost:4000/get-child-comments?${urlSearchParams}`,
+        {
+          method: "get",
+          credentials: "include",
+        }
       );
+
+      console.log(response);
 
       if (!response.ok) throw new Error("Something happened get-child-comments");
 
       const { data } = await response.json();
-
-      const replies = data.map((comment) => {
-        return {
-          ...comment,
-          profile_image_url: "",
-        };
-      });
 
       setLocalComments(
         localComments.map((comm) => {
@@ -158,9 +154,9 @@ export function ItemCommentsSection({
             ...comm,
             tier: 0,
             ...(comm.id == commentWithReplies.id && {
-              replies: replies,
+              replies: data,
               repliesToggled: !comm.repliesToggled,
-              reply_count: replies.length,
+              reply_count: data.length,
             }),
           };
         })

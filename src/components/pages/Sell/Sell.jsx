@@ -27,6 +27,7 @@ import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCatego
 import "./Sell.css";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
+import CompleteProfileBanner from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 
@@ -143,6 +144,7 @@ export const Sell = () => {
   const [acceptedTrades, setAcceptedTrades] = useState("");
 
   const submitDisabled =
+    !user.eligible_to_sell || 
     submitLoading ||
     !isValidPhoneNumber(contactPhoneNumber) ||
     !categories.saved?.selected ||
@@ -553,6 +555,7 @@ export const Sell = () => {
         />
       )}
       <h1>Create a new listing</h1>
+      {!user.eligible_to_sell && <CompleteProfileBanner/>}
       <form
         onSubmit={handleSubmit}
         autoComplete="off"

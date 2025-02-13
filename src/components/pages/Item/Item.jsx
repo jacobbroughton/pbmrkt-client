@@ -111,7 +111,7 @@ export const Item = () => {
 
         setItem({
           photos: data2,
-          info: { ...data[0], profile_image_url: "" },
+          info: { ...data[0] },
         });
         setVotes(data[0].votes);
         setExistingVote(data[0].existing_vote);
@@ -383,11 +383,11 @@ export const Item = () => {
 
             <ProfileBadge
               userInfo={{
-                profileImageUrl: item.info.profile_image_url,
+                profile_image_url: item.info.profile_image_url,
                 username: item.info.created_by_username,
                 city: item.info.city,
                 state: item.info.state,
-                reviewCount: sellerReviews.count,
+                review_count: sellerReviews.count,
                 rating: item.info.seller_rating,
               }}
             />

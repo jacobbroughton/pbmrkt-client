@@ -57,12 +57,12 @@ const ContactBuyerModal = ({ contactInfo }) => {
         );
       }
 
-      await createNotification(
-        user?.id,
-        contactInfo.created_by_id,
-        contactInfo.id,
-        5
-      );
+      // await createNotification(
+      //   user?.id,
+      //   contactInfo.created_by_id,
+      //   contactInfo.id,
+      //   5
+      // );
 
       setFullName("");
       setEmail("");

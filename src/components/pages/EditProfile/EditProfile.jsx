@@ -38,6 +38,7 @@ export const EditProfile = () => {
   const [headline, setHeadline] = useState(modifiedUser.headline || "");
   const [error, setError] = useState(null);
   const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
+  const [newCoverImageLoading, setNewCoverImageLoading] = useState(false);
   const [newprofileImageUrl, setNewprofileImageUrl] = useState(null);
   const [markedFieldKey, setMarkedFieldKey] = useState(null);
   const [cantFindCity, setCantFindCity] = useState(false);
@@ -95,12 +96,10 @@ export const EditProfile = () => {
       setError(error);
     }
   }
-
+  
   async function uploadProfilePicture(e) {
     try {
       setNewProfilePictureLoading(true);
-
-      const thisUploadUUID = uuidv4();
 
       const file = e.target.files[0];
 
@@ -121,40 +120,118 @@ export const EditProfile = () => {
 
       let newProfileImageUrl = dataFromUpload.url;
 
-      const response = await fetch("http://localhost:4000/add-profile-image", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          generated_id: data.id,
-          full_path: data.fullPath,
-          path: data.path,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Something happened at add-profile-image");
-
-      const { data: data3 } = await response.json();
-
       setModifiedUser({
         ...modifiedUser,
-        profile_image_url: "",
+        profile_image_url: newProfileImageUrl,
       });
-
-      setNewprofileImageUrl(newProfileImageUrl);
-      // dispatch(
-      //   setUserProfilePicture(newProfileImageUrl)
-      // );
-
-      // setProfilePicture(data2[0].full_path);
     } catch (error) {
       console.error(error);
       setError(error.toString());
     }
 
     setNewProfilePictureLoading(false);
+  }
+
+
+  async function uploadCoverImage(e) {
+    try {
+      setNewCoverImageLoading(true);
+
+      const file = e.target.files[0];
+
+      const formData = new FormData();
+      formData.append("cover-image-upload", file);
+
+      const response2 = await fetch("http://localhost:4000/upload-cover-image", {
+        method: "post",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response2.ok) throw new Error("There was an error at upload cover image");
+
+      const dataFromUpload = await response2.json();
+
+      if (!dataFromUpload.url) throw "New cover image path not found";
+
+      let newProfileImageUrl = dataFromUpload.url;
+
+      setModifiedUser({
+        ...modifiedUser,
+        profile_image_url: newProfileImageUrl,
+      });
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+
+    setNewCoverImageLoading(false);
+  }
+
+  async function uploadCoverImage(e) {
+    try {
+      setNewCoverImageLoading(true);
+
+      const thisUploadUUID = uuidv4();
+
+      const file = e.target.files[0];
+
+      const formData = new FormData();
+      formData.append("cover-image-upload", file);
+
+      const response2 = await fetch("http://localhost:4000/upload-cover-image", {
+        method: "post",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response2.ok) throw new Error("There was an error at upload profile picture");
+
+      const dataFromUpload = await response2.json();
+
+      if (!dataFromUpload.url) throw "New cover image path not found";
+
+      setModifiedUser({
+        ...modifiedUser,
+        cover_image_url: dataFromUpload.url
+      })
+
+      // let newProfileImageUrl = dataFromUpload.url;
+
+      // const response = await fetch("http://localhost:4000/add-profile-image", {
+      //   method: "post",
+      //   headers: {
+      //     "content-type": "application/json",
+      //   },
+      //   credentials: "include",
+      //   body: JSON.stringify({
+      //     generated_id: data.id,
+      //     full_path: data.fullPath,
+      //     path: data.path,
+      //   }),
+      // });
+
+      // if (!response.ok) throw new Error("Something happened at add-profile-image");
+
+      // const { data: data3 } = await response.json();
+
+      // setModifiedUser({
+      //   ...modifiedUser,
+      //   profile_image_url: "",
+      // });
+
+      // setNewprofileImageUrl(newProfileImageUrl);
+      // dispatch(
+      //   setUserCover(newProfileImageUrl)
+      // );
+
+      // setCover(data2[0].full_path);
+    } catch (error) {
+      console.error(error);
+      setError(error.toString());
+    }
+
+    setNewCoverImageLoading(false);
   }
 
   const submitDisabled =
@@ -208,16 +285,16 @@ export const EditProfile = () => {
             <div className="form-group">
               <label>Change your cover image</label>
               <div className="cover-image-container">
-                <img className="cover-image" src={modifiedUser.profile_image_url} />
+                <img className="cover-image" src={modifiedUser.cover_image_url} />
                 <label htmlFor="change-cover-image">
                   <input
                     type="file"
                     className=""
                     title="Edit cover image"
                     id="change-cover-image"
-                    onChange={uploadProfilePicture}
+                    onChange={uploadCoverImage}
                   />
-                  {newProfilePictureLoading ? <p>...</p> : <EditIcon />}
+                  {newCoverImageLoading ? <p>...</p> : <EditIcon />}
                 </label>
               </div>
             </div>

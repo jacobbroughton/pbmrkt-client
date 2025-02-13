@@ -93,27 +93,20 @@ export const CommentsList = ({
         }).toString();
 
         const response = await fetch(
-          `http://localhost:4000/get-child-comments/${queryParams}`,
+          `http://localhost:4000/get-child-comments/?${queryParams}`,
           { method: "get", credentials: "include" }
         );
 
         if (!response.ok) throw new Error("Something happened at get-child-comments");
 
-        const data = await response.json();
-
-        const replies = data.map((comment) => {
-          return {
-            ...comment,
-            profile_image_url: "",
-          };
-        });
+        const { data } = await response.json();
 
         const updatedComments = localComments.map((comm) => {
           return {
             ...comm,
             tier: comm.tier + 1,
             ...(comm.id == commentWithReplies.id && {
-              replies: replies,
+              replies: data,
               repliesToggled: !comm.repliesToggled,
             }),
           };

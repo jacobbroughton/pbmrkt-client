@@ -34,13 +34,15 @@ export const WantedOverview = () => {
       }).toString();
 
       const response = await fetch(
-        `http://localhost:4000/get-wanted-item-category-result-counts?${urlSearchParams2}`
+        `http://localhost:4000/get-wanted-item-category-result-counts?${urlSearchParams}`
       );
 
       if (!response.ok)
         throw new Error("Something happened at get-wanted-item-category-result-counts");
 
-      const data = await response.json();
+      const { data } = await response.json();
+
+      console.log("get-wanted-item-category-result-counts", data);
 
       const hashedData = {};
 
@@ -48,15 +50,24 @@ export const WantedOverview = () => {
         hashedData[data[i].id] = data[i];
       }
 
+      console.log("hashedData:", hashedData);
+
+      if (hashedData === {}) {
+        throw new Error("Empty hashedData");
+      }
+
       dispatch(addCountsToOverviewCategories(hashedData));
+
+      console.log("wantedFilters: ", wantedFilters)
+
       const urlSearchParams2 = new URLSearchParams({
         search_value: savedSearchValue,
         seller_id: null,
         city: wantedFilters.city == "All" ? null : wantedFilters.city,
         state: wantedFilters.state == "All" ? null : wantedFilters.state,
         category_id: wantedFilters.category?.id || null,
-        min_budget: wantedFilters.minPrice || 0,
-        max_budget: wantedFilters.maxPrice,
+        min_budget: wantedFilters.minBudget || 0,
+        max_budget: wantedFilters.maxBudget,
         shipping_ok: true,
       }).toString();
 
@@ -68,6 +79,8 @@ export const WantedOverview = () => {
         throw new Error("Something happened at get-view-all-wanted-count");
 
       const { data: data2 } = await response2.json();
+
+      console.log(data2);
 
       setViewAllCount(data2[0].num_results);
     } catch (error) {

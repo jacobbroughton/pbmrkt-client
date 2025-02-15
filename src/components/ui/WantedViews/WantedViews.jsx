@@ -82,13 +82,15 @@ export function WantedViews({ sort, setTotalListings }) {
       }).toString();
 
       const response2 = await fetch(
-        `http://localhost:4000/get-view-all-wanted-count?${urlSearchParams2}`
+        `http://localhost:4000/get-wanted-items-count?${urlSearchParams2}`
       );
 
-      if (!response.ok)
-        throw new Error("Something happened at get-view-all-wanted-count");
+      if (!response.ok) throw new Error("Something happened at get-wanted-items-count");
 
       const { data: data2 } = await response2.json();
+
+      if (!data2) throw new Error("No wanted items count found");
+      console.log(data2[0].num_results);
 
       setTotalListings(data2[0].num_results);
 

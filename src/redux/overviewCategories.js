@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { nestItemCategoriesExperimental } from "../utils/usefulFunctions";
 
 const overviewCategoriesSlice = createSlice({
@@ -18,6 +18,8 @@ const overviewCategoriesSlice = createSlice({
       };
     },
     addCountsToOverviewCategories: (state, { payload }) => {
+
+
       const categoriesWithNumResults = state.flatCategories.map((flatCat) => ({
         ...flatCat,
         num_results: payload[flatCat.id].num_results,

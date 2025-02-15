@@ -1,5 +1,5 @@
 /* * Grid */
-div.grid {
+div.for-sale-listing-grid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -8,19 +8,19 @@ div.grid {
   position: relative;
 }
 
-.grid.accounts-for-sidebar {
+div.for-sale-listing-grid.accounts-for-sidebar {
   grid-template-columns: repeat(4, 1fr);
 }
 
-div.grid a {
+div.for-sale-listing-grid a {
   text-decoration: none;
 }
 
-div.grid a:hover {
+div.for-sale-listing-grid a:hover {
   text-decoration: none;
 }
 
-div.grid .grid-item {
+div.for-sale-listing-grid .grid-item {
   color: white;
   cursor: pointer;
   text-decoration: none;
@@ -28,27 +28,25 @@ div.grid .grid-item {
   height: 280px;
 }
 
-div.grid .grid-item:hover .image-container {
-  /* transform: translateY(-1px); */
-  border: 1px solid var(--lightgreen);
-}
-
-div.grid .grid-item > .image-container {
+div.for-sale-listing-grid .grid-item > .image-container {
   max-width: 100%;
   max-height: 200px;
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
-  /* background-color: #444; */
   padding: 5px;
-  border-radius: 3px;
-  border: transparent 1px solid;
-  /* border: 0; */
+  border-radius: 5px;
+  border: #333 1px solid;
+  background-color: #333;
   transition: background-color 0.1s ease;
 }
 
-div.grid .grid-item > .image-container .indicators {
+div.for-sale-listing-grid .grid-item:hover > .image-container {
+  border: 1px solid var(--lightgreen);
+}
+
+div.for-sale-listing-grid .grid-item > .image-container .indicators {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -58,31 +56,29 @@ div.grid .grid-item > .image-container .indicators {
   align-items: flex-start;
 }
 
-div.grid .grid-item > .image-container p {
+div.for-sale-listing-grid .grid-item > .image-container p {
   border-radius: 3px;
   padding: 1px 5px;
   font-size: 0.75rem;
   z-index: 2;
   background-color: grey;
   background-color: #2f2f2f;
-  border: 1px solid #777;
+border: 1px solid #333;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-
-
-div.grid .grid-item > .image-container p.free-shipping {
+div.for-sale-listing-grid .grid-item > .image-container p.free-shipping {
   border-left: 3px solid var(--lightgreen);
 }
 
-div.grid .grid-item > .image-container p.trades {
+div.for-sale-listing-grid .grid-item > .image-container p.trades {
   border-left: 3px solid orange;
   display: flex;
   gap: 5px;
   align-items: center;
 }
 
-div.grid .grid-item > .image-container p.trades p.info-bubble {
+div.for-sale-listing-grid .grid-item > .image-container p.trades p.info-bubble {
   background-color: #333;
   width: 15px;
   max-width: 15px;
@@ -95,7 +91,7 @@ div.grid .grid-item > .image-container p.trades p.info-bubble {
   cursor: help;
 }
 
-div.grid .grid-item > .image-container > img {
+div.for-sale-listing-grid .grid-item > .image-container > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -105,11 +101,11 @@ div.grid .grid-item > .image-container > img {
   border-radius: 2px;
 }
 
-div.grid .grid-item > .image-container.cover {
+div.for-sale-listing-grid .grid-item > .image-container.cover {
   border: 1px solid lightgrey;
 }
 
-div.grid .grid-item > .listing-card-info {
+div.for-sale-listing-grid .grid-item > .listing-card-info {
   /* position: absolute; */
   /* z-index: 2; */
   /* bottom: -40px; */
@@ -120,7 +116,7 @@ div.grid .grid-item > .listing-card-info {
   align-items: flex-start;
 }
 
-div.grid .grid-item > .listing-card-info .price-and-name {
+div.for-sale-listing-grid .grid-item > .listing-card-info .price-and-name {
   display: flex;
   flex-direction: column;
   /* gap: 5px;
@@ -128,36 +124,36 @@ div.grid .grid-item > .listing-card-info .price-and-name {
   width: 100%; */
 }
 
-div.grid .grid-item > .listing-card-info .what-is-this,
-div.grid .grid-item > .listing-card-info .price {
+div.for-sale-listing-grid .grid-item > .listing-card-info .what-is-this,
+div.for-sale-listing-grid .grid-item > .listing-card-info .price {
   font-size: 0.875rem;
   text-decoration: none !important;
 }
 
-div.grid .grid-item > .listing-card-info a {
+div.for-sale-listing-grid .grid-item > .listing-card-info a {
   color: white;
 }
 
-div.grid .grid-item > .listing-card-info a:hover,
-div.grid .grid-item > .listing-card-info a:focus {
+div.for-sale-listing-grid .grid-item > .listing-card-info a:hover,
+div.for-sale-listing-grid .grid-item > .listing-card-info a:focus {
   text-decoration: underline;
 }
 
-div.grid .grid-item > .listing-card-info .price {
+div.for-sale-listing-grid .grid-item > .listing-card-info .price {
   border-top-right-radius: 3px;
   font-weight: 600;
 }
 
-div.grid .grid-item:hover > .listing-card-info .what-is-this {
+div.for-sale-listing-grid .grid-item:hover > .listing-card-info .what-is-this {
   text-decoration: none !important;
 }
 
-div.grid .grid-item > .listing-card-info .location {
+div.for-sale-listing-grid .grid-item > .listing-card-info .location {
   font-size: 0.875rem;
   color: grey;
 }
 
-div.grid .grid-item > .listing-card-info > .profile {
+div.for-sale-listing-grid .grid-item > .listing-card-info > .profile {
   /* display: flex; */
   display: none;
   gap: 5px;
@@ -165,13 +161,13 @@ div.grid .grid-item > .listing-card-info > .profile {
   margin-top: 3px;
 }
 
-div.grid .grid-item > .listing-card-info > .profile > a > .profile-image-container {
+div.for-sale-listing-grid .grid-item > .listing-card-info > .profile > a > .profile-image-container {
   position: relative;
   width: 23px;
   height: 23px;
 }
 
-.grid
+div.for-sale-listing-grid
   .grid-item
   > .listing-card-info
   > .profile
@@ -185,71 +181,42 @@ div.grid .grid-item > .listing-card-info > .profile > a > .profile-image-contain
   object-fit: cover;
 }
 
-.comment:not(.is-root-level)
-  .bars-and-content
-  .profile-image-container
-  .profile-image {
-  width: 25px;
-  min-width: 25px;
-  height: 25px;
-  object-fit: cover;
-}
-
-.view-toggle {
-  margin-bottom: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.view-toggle button {
-  padding: 3px 5px;
-  font-size: 0.875rem;
-  border: 1px solid grey;
-  border-radius: 3px;
-  background-color: #555;
-  cursor: pointer;
-}
-
-.view-toggle button.toggled {
-  border: 1px solid var(--lightgreen);
-}
-
 @media screen and (max-width: 1000px) {
-  div.grid {
+  div.for-sale-listing-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .grid.accounts-for-sidebar {
+  div.for-sale-listing-grid.accounts-for-sidebar{
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 750px) {
-  div.grid {
+  div.for-sale-listing-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .grid.accounts-for-sidebar {
+  div.for-sale-listing-grid.accounts-for-sidebar{
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 625px) {
-  div.grid {
+  div.for-sale-listing-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .grid.accounts-for-sidebar {
+  div.for-sale-listing-grid.accounts-for-sidebar{
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 530px) {
-  div.grid {
+  div.for-sale-listing-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .grid.accounts-for-sidebar {
+  div.for-sale-listing-grid.accounts-for-sidebar{
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -259,18 +226,17 @@ div.grid .grid-item > .listing-card-info > .profile > a > .profile-image-contain
 }
 
 @media screen and (max-width: 325px) {
-  div.grid {
+  div.for-sale-listing-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media only screen and (max-device-width: 480px) {
-  div.grid {
-
+  div.for-sale-listing-grid {
     padding: 0 10px;
   }
 
-  div.grid .grid-item:hover .image-container {
+  div.for-sale-listing-grid .grid-item:hover .image-container {
     transform: none;
     border: 1px solid transparent;
   }

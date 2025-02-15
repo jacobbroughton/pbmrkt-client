@@ -4,6 +4,7 @@ import { getTimeAgo } from "../../../utils/usefulFunctions";
 import { GearIcon } from "../Icons/GearIcon";
 
 export const ListingList = ({ listings, isOnUserProfile }) => {
+  console.log(listings)
   return (
     <ul className="listing-list">
       {listings.map((listing) => {
@@ -12,6 +13,7 @@ export const ListingList = ({ listings, isOnUserProfile }) => {
         if (truncatedDetailsText.length > 200) {
           truncatedDetailsText = truncatedDetailsText.slice(0, 150).trim() + "...";
         }
+
 
         return (
           <li key={listing.id}>

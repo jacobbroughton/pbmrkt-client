@@ -4,7 +4,7 @@ import "./WantedListingGrid.css";
 
 export const WantedListingGrid = ({ listings, accountForSidebar, loading }) => {
   return (
-    <div className={`grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
+    <div className={`wanted-listing-grid ${accountForSidebar ? "accounts-for-sidebar" : ""}`}>
       {listings?.map((listing) => {
         return (
           <Link

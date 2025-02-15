@@ -4,7 +4,7 @@ import "./ContactSellerModal.css";
 import { toggleModal } from "../../../redux/modals";
 import { useRef, useState } from "react";
 import { isValidEmail } from "../../../utils/usefulFunctions";
-import { smoothScrollOptions } from "../../../utils/constants";
+import { smoothScrollConfig } from "../../../utils/constants";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { LoginPrompt } from "../LoginPrompt/LoginPrompt";
 import { ErrorBanner } from "../ErrorBanner/ErrorBanner";
@@ -74,7 +74,7 @@ const ContactSellerModal = ({ contactInfo }) => {
       active: fullName === "" || fullName.length == 1,
       onClick: (e) => {
         e.preventDefault();
-        fullNameRef.current.scrollIntoView(smoothScrollOptions);
+        fullNameRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -83,7 +83,7 @@ const ContactSellerModal = ({ contactInfo }) => {
       active: !isValidEmail(email),
       onClick: (e) => {
         e.preventDefault();
-        emailRef.current.scrollIntoView(smoothScrollOptions);
+        emailRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -92,7 +92,7 @@ const ContactSellerModal = ({ contactInfo }) => {
       active: !offer || offer == 0,
       onClick: (e) => {
         e.preventDefault();
-        offerRef.current.scrollIntoView(smoothScrollOptions);
+        offerRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -101,7 +101,7 @@ const ContactSellerModal = ({ contactInfo }) => {
       active: message === "",
       onClick: (e) => {
         e.preventDefault();
-        messageRef.current.scrollIntoView(smoothScrollOptions);
+        messageRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];

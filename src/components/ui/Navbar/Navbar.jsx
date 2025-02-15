@@ -60,7 +60,7 @@ export const Navbar = () => {
     );
   }
 
-  async function handleNotificationsSubscribe() {
+  async function handleGetNotifications() {
     try {
       if (!user) return;
 
@@ -96,7 +96,7 @@ export const Navbar = () => {
   }
 
   useEffect(() => {
-    if (user) handleNotificationsSubscribe();
+    if (user) handleGetNotifications();
   }, [user]);
 
   const unreadNotificationCount = notifications?.filter((notif) => notif.is_read).length;
@@ -212,7 +212,7 @@ export const Navbar = () => {
               src={
                 user
                   ? user.profile_image_url
-                  : "../../../assets/images/user-placeholder.jpeg"
+                  : "/src/assets/images/user-placeholder.jpeg"
               }
             />
           </button>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
-import { smoothScrollOptions } from "../../../utils/constants";
+import { smoothScrollConfig } from "../../../utils/constants";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import {
   capitalizeWords,
@@ -25,6 +25,8 @@ import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
 import "./CreateWantedItem.css";
+import { SortIcon } from "../../ui/Icons/SortIcon.tsx";
+import CompleteProfileBanner from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 export const CreateWantedItem = () => {
   const filters = useSelector((state) => state.filters);
@@ -109,7 +111,7 @@ export const CreateWantedItem = () => {
       active: !whatIsIt,
       onClick: (e) => {
         e.preventDefault();
-        whatIsItRef.current.scrollIntoView(smoothScrollOptions);
+        whatIsItRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -118,7 +120,7 @@ export const CreateWantedItem = () => {
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
-        categoryRef.current.scrollIntoView(smoothScrollOptions);
+        categoryRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -127,7 +129,7 @@ export const CreateWantedItem = () => {
       active: !budget,
       onClick: (e) => {
         e.preventDefault();
-        budgetRef.current.scrollIntoView(smoothScrollOptions);
+        budgetRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];
@@ -330,7 +332,7 @@ export const CreateWantedItem = () => {
         />
       )}
       <h1>Create a new wanted listing</h1>
-
+      {!user.eligible_to_sell && <CompleteProfileBanner />}
       <form onSubmit={handleSubmit}>
         <PhotoUpload
           ref={photosRef}
@@ -343,7 +345,7 @@ export const CreateWantedItem = () => {
           setNewCoverPhotoId={setNewCoverPhotoId}
           setError={setError}
         />
-        <div className="form-block seller-info">
+        {/* <div className="form-block seller-info">
           <div className="header">
             <h2>Your Info</h2>
           </div>
@@ -398,17 +400,25 @@ export const CreateWantedItem = () => {
                     </span>
                   )}
                 </label>
-                <FormSelect
-                  options={["Select One", ...states]}
-                  selectedOption={state}
-                  handleChange={(e) =>
-                    setState(
-                      ["All", "Select One"].includes(e.target.value)
-                        ? null
-                        : e.target.value
-                    )
-                  }
-                />
+                <div className="select-container">
+                  <select
+                    onChange={(e) =>
+                      setState(
+                        ["All", "Select One"].includes(e.target.value)
+                          ? null
+                          : e.target.value
+                      )
+                    }
+                    value={state}
+                  >
+                    {["Select One", ...states].map((childState) => (
+                      <option value={childState} key={childState}>
+                        {childState}
+                      </option>
+                    ))}
+                  </select>
+                  <SortIcon />
+                </div>
               </div>
               <div
                 className={`form-group  ${markedFieldKey == "city" ? "marked" : ""} ${
@@ -443,7 +453,7 @@ export const CreateWantedItem = () => {
                   </>
                 ) : (
                   <>
-                    {/* <div className="select-container">
+                    <div className="select-container">
                       <select
                         disabled={!state}
                         onChange={(e) =>
@@ -460,21 +470,7 @@ export const CreateWantedItem = () => {
                         ))}
                       </select>
                       <SortIcon />
-                    </div> */}
-                    <FormSelect
-                      options={statesAndCities[state]?.map((city) =>
-                        capitalizeWords(city)
-                      )}
-                      selectedOption={city}
-                      handleChange={(e) => {
-                        setCity(
-                          ["All", "Select One"].includes(e.target.value)
-                            ? null
-                            : e.target.value
-                        );
-                      }}
-                      disabled={!state}
-                    />
+                    </div>
                     <button
                       onClick={() => setCantFindCity(true)}
                       className="cant-find-city-toggle"
@@ -486,10 +482,10 @@ export const CreateWantedItem = () => {
               </div>
             </fieldset>
           </div>
-        </div>
+        </div> */}
         <div className="form-block">
           <div className="header">
-            <h2>Item Info</h2>
+            <h2>Item Details</h2>
           </div>
           <div className="form-content">
             <div

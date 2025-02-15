@@ -9,7 +9,6 @@ import {
   getTimeAgo,
 } from "../../../utils/usefulFunctions";
 import { AddReviewModal } from "../../ui/AddReviewModal/AddReviewModal";
-import { EditUserProfileModal } from "../../ui/EditUserProfileModal/EditUserProfileModal";
 import { EditIcon } from "../../ui/Icons/EditIcon";
 import { SortIcon } from "../../ui/Icons/SortIcon";
 import { ListingGrid } from "../../ui/ListingGrid/ListingGrid";
@@ -38,7 +37,6 @@ export const UserProfile = () => {
 
   const { user } = useSelector((state) => state.auth);
   const {
-    editUserProfileModalToggled,
     addReviewModalToggled,
     sellerReviewsModalToggled,
     editCoverPhotoMenuToggled,
@@ -47,7 +45,7 @@ export const UserProfile = () => {
   const [listings, setListings] = useState(null);
   const [coverPhotoStagedForFullScreen, setCoverPhotoStagedForFullScreen] =
     useState(false);
-    const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
+  const [newProfilePictureLoading, setNewProfilePictureLoading] = useState(false);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,7 +80,7 @@ export const UserProfile = () => {
       }
       const { data: foundUserComplex } = await response.json();
 
-      console.log(foundUserComplex)
+      console.log(foundUserComplex);
 
       const urlSearchParams3 = new URLSearchParams({
         reviewee_id: foundUserComplex.id,
@@ -344,13 +342,7 @@ export const UserProfile = () => {
               <p>{localUser.bio ? localUser.bio?.trim() : "No bio has been added"}</p>
             </div>
             {isAdmin && (
-              <Link
-                to='/edit-profile'
-                className="edit-profile-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "editUserProfileModal", value: true })) 
-                }
-              >
+              <Link to="/edit-profile" className="edit-profile-button">
                 <EditIcon /> Edit Profile
               </Link>
             )}
@@ -402,17 +394,6 @@ export const UserProfile = () => {
         </div>
       </section>
 
-      {editUserProfileModalToggled && (
-        <>
-          <EditUserProfileModal setLocalUser={setLocalUser} localUser={localUser} />
-          <ModalOverlay
-            zIndex={9}
-            onClick={() =>
-              dispatch(toggleModal({ key: "editUserProfileModal", value: false }))
-            }
-          />
-        </>
-      )}
       {addReviewModalToggled && (
         <>
           <AddReviewModal

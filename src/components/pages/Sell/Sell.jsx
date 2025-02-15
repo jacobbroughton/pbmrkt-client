@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals.ts";
-import { smoothScrollOptions } from "../../../utils/constants.js";
+import { smoothScrollConfig } from "../../../utils/constants.js";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import {
   capitalizeWords,
@@ -404,7 +404,7 @@ export const Sell = () => {
       active: photos?.length == 0,
       onClick: (e) => {
         e.preventDefault();
-        imagesRef.current.scrollIntoView(smoothScrollOptions);
+        imagesRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -414,7 +414,7 @@ export const Sell = () => {
       active: false,
       onClick: (e) => {
         e.preventDefault();
-        fullNameRef.current.scrollIntoView(smoothScrollOptions);
+        fullNameRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -424,7 +424,7 @@ export const Sell = () => {
       active: false,
       onClick: (e) => {
         e.preventDefault();
-        contactPhoneNumberRef.current.scrollIntoView(smoothScrollOptions);
+        contactPhoneNumberRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -433,7 +433,7 @@ export const Sell = () => {
       active: !state,
       onClick: (e) => {
         e.preventDefault();
-        stateRef.current.scrollIntoView(smoothScrollOptions);
+        stateRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -442,7 +442,7 @@ export const Sell = () => {
       active: !city,
       onClick: (e) => {
         e.preventDefault();
-        cityRef.current.scrollIntoView(smoothScrollOptions);
+        cityRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -451,7 +451,7 @@ export const Sell = () => {
       active: !whatIsThisItem,
       onClick: (e) => {
         e.preventDefault();
-        whatIsThisRef.current.scrollIntoView(smoothScrollOptions);
+        whatIsThisRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -460,7 +460,7 @@ export const Sell = () => {
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
-        categoryRef.current.scrollIntoView(smoothScrollOptions);
+        categoryRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -469,7 +469,7 @@ export const Sell = () => {
       active: !radioOptions.shippingOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        shippingRef.current.scrollIntoView(smoothScrollOptions);
+        shippingRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -478,7 +478,7 @@ export const Sell = () => {
       active: !radioOptions.tradeOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        tradesRef.current.scrollIntoView(smoothScrollOptions);
+        tradesRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -487,7 +487,7 @@ export const Sell = () => {
       active: !radioOptions.conditionOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        conditionRef.current.scrollIntoView(smoothScrollOptions);
+        conditionRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -496,7 +496,7 @@ export const Sell = () => {
       active: !radioOptions.negotiableOptions.find((option) => option.checked),
       onClick: (e) => {
         e.preventDefault();
-        negotiableRef.current.scrollIntoView(smoothScrollOptions);
+        negotiableRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -505,7 +505,7 @@ export const Sell = () => {
       active: !price,
       onClick: (e) => {
         e.preventDefault();
-        priceRef.current.scrollIntoView(smoothScrollOptions);
+        priceRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -514,7 +514,7 @@ export const Sell = () => {
       active: buyerPaysShipping && !shippingCost,
       onClick: (e) => {
         e.preventDefault();
-        shippingCostRef.current.scrollIntoView(smoothScrollOptions);
+        shippingCostRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -523,7 +523,7 @@ export const Sell = () => {
       active: !details,
       onClick: (e) => {
         e.preventDefault();
-        detailsRef.current.scrollIntoView(smoothScrollOptions);
+        detailsRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];

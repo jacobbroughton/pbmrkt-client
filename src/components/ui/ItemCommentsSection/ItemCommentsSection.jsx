@@ -60,7 +60,6 @@ export function ItemCommentsSection({
     try {
       const urlSearchParams = new URLSearchParams({
         item_id: itemInfo.id,
-        user_id: user?.id,
       }).toString();
 
       const response = await fetch(

@@ -36,8 +36,6 @@ export const Comment = ({
 
   const [votes, setVotes] = useState(parseInt(comment.votes));
   const [existingVote, setExistingVote] = useState(comment.existing_vote || null);
-  const [userVote, setUpdatedVote] = useState(comment.existing_vote || null);
-  const [voteNeedsUpdate, setVoteNeedsUpdate] = useState(false);
 
   const { createNotification } = useNotification();
 
@@ -70,27 +68,22 @@ export const Comment = ({
 
       switch (existingVote) {
         case "Down": {
-          diff = 1;
+          diff = 2;
           break;
         }
         case "Up": {
-          diff = -2;
+          diff = -1;
           break;
         }
         default:
-          diff = -1;
+          diff = 1;
       }
 
-      console.log(diff);
-
-      setVotes((prevVotes) => prevVotes + diff);
+      setVotes((prevVotes) => (prevVotes += diff));
 
       // await createNotification(user.id, comment.created_by_id, commentId, 3 /* 3, upvoted comment */);
 
-      console.log(data);
-
       setExistingVote(data.vote_direction);
-      setVoteNeedsUpdate(true);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -120,26 +113,32 @@ export const Comment = ({
 
       if (!response.ok) throw new Error("Something happened at add-comment-vote");
 
-      const data = await response.json();
+      const { data } = await response.json();
 
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes -= 1));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 2));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 1));
-        setUpdatedVote(null);
+      let diff = 0;
+
+      console.log("existing vote: before downvote", existingVote);
+
+      switch (existingVote) {
+        case "Down": {
+          diff = 1;
+          break;
+        }
+        case "Up": {
+          diff = -2;
+          break;
+        }
+        case null: {
+          diff = -1;
+        }
       }
 
-      console.log(data);
-
-      const commentId = data.id;
-
       // todo - handle on server instead
+      // const commentId = data.id;
       // await createNotification(user.id, comment.created_by_id, commentId, 4);
 
+      setVotes((prevVotes) => (prevVotes += diff));
       setExistingVote(data.vote_direction);
-      setVoteNeedsUpdate(true);
     } catch (error) {
       console.error(error);
       setError(error.toString());
@@ -155,7 +154,6 @@ export const Comment = ({
     >
       <div className="bars-and-content">
         <div className="profile-image-container">
-          {console.log(comment)}
           <Link to={`/user/${comment.username}`} className="profile-image-link">
             <img className="profile-image" src={comment.profile_image_url} />
           </Link>

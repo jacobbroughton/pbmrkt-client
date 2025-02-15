@@ -67,13 +67,6 @@ export function WantedViews({ sort, setTotalListings }) {
 
       if (!data) throw "No listings available";
 
-      data = data.map((item) => {
-        return {
-          ...item,
-          profile_picture: "",
-        };
-      });
-
       setListings(data);
 
       const urlSearchParams2 = new URLSearchParams({

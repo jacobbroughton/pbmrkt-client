@@ -5,7 +5,7 @@ import { ModalOverlay } from "../../ui/ModalOverlay/ModalOverlay";
 import "./RegisterModal.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import { smoothScrollOptions } from "../../../utils/constants.js";
+import { smoothScrollConfig } from "../../../utils/constants.js";
 import { isValidEmail, isValidUsername } from "../../../utils/usefulFunctions";
 import { CityStateFieldset } from "../../ui/CityStateFieldset/CityStateFieldset.jsx";
 import { Chevron } from "../../ui/Icons/Chevron";
@@ -132,7 +132,7 @@ export const RegisterModal = () => {
       active: !isValidEmail(email),
       onClick: (e) => {
         e.preventDefault();
-        emailRef.current.scrollIntoView(smoothScrollOptions);
+        emailRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -142,7 +142,7 @@ export const RegisterModal = () => {
       active: !isValidUsername(username) || usernameExists || !username,
       onClick: (e) => {
         e.preventDefault();
-        usernameRef.current.scrollIntoView(smoothScrollOptions);
+        usernameRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -151,7 +151,7 @@ export const RegisterModal = () => {
       active: !password,
       onClick: (e) => {
         e.preventDefault();
-        passwordRef.current.scrollIntoView(smoothScrollOptions);
+        passwordRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];

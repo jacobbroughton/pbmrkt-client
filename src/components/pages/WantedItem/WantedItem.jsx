@@ -90,7 +90,7 @@ export function WantedItem() {
           throw new Error("Wanted item image metadata was not found");
 
         const urlSearchParams3 = new URLSearchParams({
-          p_reviewee_id: wantedItemFromDB[0].created_by_id,
+          p_reviewee_id: wantedItemFromDB.created_by_id,
         }).toString();
 
         const sellerReviewsResponse = await fetch(
@@ -115,13 +115,10 @@ export function WantedItem() {
 
         setItem({
           photos: imageMetadataFromDB,
-          info: {
-            ...wantedItemFromDB[0],
-            profile_image_url: "",
-          },
+          info: wantedItemFromDB,
         });
-        setVotes(wantedItemFromDB[0].votes);
-        setExistingVote(wantedItemFromDB[0].existing_vote);
+        setVotes(wantedItemFromDB.votes);
+        setExistingVote(wantedItemFromDB.existing_vote);
         setSelectedPhoto(imageMetadataFromDB[0]);
       } catch (error) {
         console.error(error);
@@ -329,11 +326,11 @@ export function WantedItem() {
 
             <ProfileBadge
               userInfo={{
-                profileImageUrl: item.info.profile_image_url,
+                profile_image_url: item.info.profile_image_url,
                 username: item.info.created_by_username,
                 city: item.info.city,
                 state: item.info.state,
-                reviewCount: buyerReviews.count,
+                review_count: buyerReviews.count,
                 rating: item.info.seller_rating,
               }}
             />

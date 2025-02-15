@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../redux/modals";
-import { smoothScrollOptions } from "../../../utils/constants";
+import { smoothScrollConfig } from "../../../utils/constants";
 import { isValidEmail } from "../../../utils/usefulFunctions";
 import { FieldErrorButtons } from "../FieldErrorButtons/FieldErrorButtons";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
@@ -85,7 +85,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
       active: fullName === "" || fullName.length == 1,
       onClick: (e) => {
         e.preventDefault();
-        fullNameRef.current.scrollIntoView(smoothScrollOptions);
+        fullNameRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -94,7 +94,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
       active: !isValidEmail(email),
       onClick: (e) => {
         e.preventDefault();
-        emailRef.current.scrollIntoView(smoothScrollOptions);
+        emailRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -103,7 +103,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
       active: !price || price == 0,
       onClick: (e) => {
         e.preventDefault();
-        priceRef.current.scrollIntoView(smoothScrollOptions);
+        priceRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -112,7 +112,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
       active: message === "",
       onClick: (e) => {
         e.preventDefault();
-        messageRef.current.scrollIntoView(smoothScrollOptions);
+        messageRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];

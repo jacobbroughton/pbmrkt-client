@@ -1,1 +1,1 @@
-export const smoothScrollOptions = { behavior: "smooth", block: "center", inline: "center" };
+export const smoothScrollConfig = { behavior: "smooth", block: "center", inline: "center" };

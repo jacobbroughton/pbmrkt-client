@@ -70,7 +70,7 @@ export const Item = () => {
 
         const { data } = await response.json();
 
-        if (!data || !data.length === 0) throw new Error("Item was not found");
+        if (!data) throw new Error("Item was not found");
 
         getPriceChangeHistory(itemID);
 
@@ -87,7 +87,7 @@ export const Item = () => {
         if (!data2) throw new Error("Item image metadata not found");
 
         const urlSearchParams3 = new URLSearchParams({
-          reviewee_id: data[0].created_by_id,
+          reviewee_id: data.created_by_id,
         }).toString();
 
         const response4 = await fetch(
@@ -111,10 +111,10 @@ export const Item = () => {
 
         setItem({
           photos: data2,
-          info: { ...data[0] },
+          info: { ...data },
         });
-        setVotes(data[0].votes);
-        setExistingVote(data[0].existing_vote);
+        setVotes(data.votes);
+        setExistingVote(data.existing_vote);
         setSelectedPhoto(data2[0]);
       } catch (error) {
         console.error(error);

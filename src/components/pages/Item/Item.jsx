@@ -69,7 +69,7 @@ export const Item = () => {
 
         const { data } = await response.json();
 
-        if (!data || !data.length === 0) throw new Error("Item was not found");
+        if (!data || data.length === 0) throw new Error("Item was not found");
 
         getPriceChangeHistory(itemID);
 
@@ -84,6 +84,8 @@ export const Item = () => {
         let { data: data2 } = await response2.json();
 
         if (!data2) throw new Error("Item image metadata not found");
+
+        console.log(data);
 
         const urlSearchParams3 = new URLSearchParams({
           reviewee_id: data[0].created_by_id,

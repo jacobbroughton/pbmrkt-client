@@ -36,11 +36,11 @@
   width: 14px;
   /* fill: var(--lightgreen); */
   /* fill: white; */
-  fill: var(--lightgreen);
+  fill: white;
 }
 
 .radio-options:not(.disabled) > .radio-option:hover > svg:not(.checked) {
-  fill: var(--lightgreen);
+  fill: white;
 }
 
 .radio-options.disabled > .radio-option label {

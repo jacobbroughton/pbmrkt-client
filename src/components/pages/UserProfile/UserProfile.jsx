@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
 import {
@@ -342,14 +342,9 @@ export const UserProfile = () => {
               <p>{localUser.bio ? localUser.bio?.trim() : "No bio has been added"}</p>
             </div>
             {isAdmin && (
-              <button
-                className="edit-profile-button"
-                onClick={() =>
-                  dispatch(toggleModal({ key: "editUserProfileModal", value: true }))
-                }
-              >
+              <Link to="/edit-profile" className="edit-profile-button">
                 <EditIcon /> Edit Profile
-              </button>
+              </Link>
             )}
           </div>
         </div>

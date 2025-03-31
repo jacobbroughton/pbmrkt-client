@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { toggleModal } from "../../../redux/modals";
-import { smoothScrollOptions } from "../../../utils/constants";
+import { smoothScrollConfig } from "../../../utils/constants";
 import { states, statesAndCities } from "../../../utils/statesAndCities.js";
 import {
   capitalizeWords,
@@ -109,7 +109,7 @@ export const CreateWantedItem = () => {
       active: !whatIsIt,
       onClick: (e) => {
         e.preventDefault();
-        whatIsItRef.current.scrollIntoView(smoothScrollOptions);
+        whatIsItRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -118,7 +118,7 @@ export const CreateWantedItem = () => {
       active: !categories.saved.selected,
       onClick: (e) => {
         e.preventDefault();
-        categoryRef.current.scrollIntoView(smoothScrollOptions);
+        categoryRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
     {
@@ -127,7 +127,7 @@ export const CreateWantedItem = () => {
       active: !budget,
       onClick: (e) => {
         e.preventDefault();
-        budgetRef.current.scrollIntoView(smoothScrollOptions);
+        budgetRef.current.scrollIntoView(smoothScrollConfig);
       },
     },
   ];

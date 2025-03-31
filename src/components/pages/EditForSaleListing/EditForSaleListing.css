@@ -1,0 +1,644 @@
+main.edit-listing {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-top: 65px;
+  max-width: 1265px; /* same as stack overflow */
+  margin: 0 auto;
+
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 100px;
+  width: 100%;
+}
+
+main.edit-listing h1 {
+  font-size: 1.5rem;
+}
+
+main.edit-listing .success-modal {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  padding: 20px;
+  border-radius: 3px;
+  background-color: #555;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+  max-width: 600px;
+  width: calc(100% - 40px);
+}
+
+main.edit-listing .success-modal h2 {
+  margin-bottom: 30px;
+}
+
+main.edit-listing .success-modal-overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.447);
+  inset: 0;
+  z-index: 1;
+}
+
+main.edit-listing > form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+main.edit-listing > form .form-block {
+  background-color: #2b2b2b;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+main.edit-listing > form .form-block .header {
+  border-bottom: 1px solid #555;
+  border-left: 5px solid #666;
+  padding: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+main.edit-listing > form .form-block .header h2 {
+  font-size: 1.5rem;
+}
+
+main.edit-listing > form .form-block .form-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-skeletons {
+  display: flex;
+}
+
+main.edit-listing > form fieldset {
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+main.edit-listing > form .input-container {
+  width: 100%;
+  position: relative;
+}
+
+main.edit-listing > form .input-container::before {
+  content: "$";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  z-index: 2;
+  color: grey;
+  transform: translateY(-50%);
+  top: 50%;
+  border-right: 1px solid grey;
+  padding-right: 10px;
+  height: calc(100% - 2px);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+main.edit-listing > form .input-container input {
+  padding-left: 37px !important;
+  position: relative;
+}
+
+main.edit-listing > form .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+  gap: 3px;
+}
+
+main.edit-listing > form .form-group:first-child {
+  flex-grow: 0;
+}
+
+main.edit-listing > form .form-group .option-buttons {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid #666; */
+  border-radius: 3px;
+  overflow: hidden;
+  width: 100%;
+}
+
+main.edit-listing > form .form-group .option-buttons button {
+  /* padding: 10px; */
+  border: 0;
+  background-color: #4b4b4b;
+  appearance: none;
+  display: flex;
+  flex-direction: row;
+  /* gap: 10px; */
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+main.edit-listing > form .form-group .option-buttons button:not(:disabled).selected {
+  border-left: 2px solid var(--lightgreen);
+}
+
+main.edit-listing > form .form-group .option-buttons button:not(:last-child) {
+  border-bottom: 1px solid #666;
+}
+
+main.edit-listing > form .form-group .option-buttons button:not(:disabled):hover {
+  background-color: #4b4b4b;
+}
+
+main.edit-listing > form .form-group .option-buttons button:not(:disabled):active {
+  background-color: #4d4d4d;
+}
+
+main.edit-listing > form .form-group .option-buttons button .radio-icon-container {
+  display: flex;
+  border-right: 1px solid #555;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+main.edit-listing > form .form-group .option-buttons button .option-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  /* padding: 10px; */
+  width: 100%;
+}
+
+main.edit-listing > form .form-group .radio-options,
+.accepting-trades-container {
+  /* border: 1px solid #4b4b4b; */
+  /* padding: 10px; */
+  /* border-radius: 5px; */
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  width: 100%;
+}
+
+.accepting-trades-container {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+}
+
+main.edit-listing > form .form-group .option-buttons button svg {
+  width: 15px;
+  fill: grey;
+}
+
+main.edit-listing > form .form-group .option-buttons button:not(:disabled).selected svg {
+  fill: var(--lightgreen);
+}
+
+main.edit-listing > form .form-group label {
+  display: flex;
+  gap: 5px;
+  white-space: wrap;
+}
+
+main.edit-listing > form .form-group label .question-number {
+  border-radius: 50%;
+  font-weight: 500;
+  /* width: 20px;
+  min-width: 20px;
+  height: 20px; */
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+main.edit-listing > form .auto-completed-span {
+  /* background-color: var(--yellow); */
+  display: flex;
+  align-items: center;
+  /* align-self: flex-start; */
+  margin-left: 5px;
+  cursor: help;
+}
+
+main.edit-listing > form .auto-completed-span.legend {
+  align-self: flex-start;
+}
+
+main.edit-listing > form .auto-completed-span svg {
+  fill: grey;
+  width: 12px;
+}
+
+main.edit-listing > form .form-group.year,
+main.edit-listing > form .form-group.price {
+  max-width: 100px;
+}
+
+main.edit-listing > form .form-group.shipping {
+  /* max-width: 300px; */
+}
+
+main.edit-listing > form .form-group.shipping button {
+  gap: 15px;
+}
+
+main.edit-listing > form .form-group.shipping button svg {
+  width: 14px;
+  fill: lightgrey;
+}
+
+main.edit-listing > form .form-group.shipping button svg.checked {
+  fill: var(--lightgreen);
+}
+
+main.edit-listing > form .form-group.price input,
+main.edit-listing > form .form-group.shipping input {
+  position: relative;
+}
+
+main.edit-listing > form .form-group.price input::before,
+main.edit-listing > form .form-group.shipping input::before {
+  content: "$";
+  z-index: 2;
+  color: green;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+main.edit-listing > form .form-group.price input::before {
+  content: "$";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+main.edit-listing > form .form-group.disabled {
+  cursor: not-allowed;
+}
+
+main.edit-listing > form .form-group.disabled label {
+  color: grey;
+}
+
+main.edit-listing > form .form-group.shipping {
+  display: flex;
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+  display: flex;
+  width: 100%;
+  max-width: 350px;
+}
+
+main.edit-listing form .form-group.shipping .shipping-selector-and-input .shipping-selector {
+  max-width: 500px !;
+  width: 100%;
+}
+
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector-and-input
+  .shipping-selector
+  .shipping-toggle-button {
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  gap: 10px;
+  background-color: #4f4f4f;
+  border: 1px solid #555;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button.selected {
+  border-color: var(--lightgreen);
+  color: var(--lightgreen);
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector .shipping-toggle-button:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input input {
+  max-width: 100px;
+}
+
+main.edit-listing > form .form-group.shipping .shipping-selector-and-input input:disabled {
+  border-color: #4f4f4f;
+  color: #6f6f6f;
+}
+
+.sell
+  > form
+  .form-group.shipping
+  .shipping-selector-and-input
+  input:disabled::placeholder {
+  color: #4f4f4f;
+  opacity: 1; /* Firefox */
+}
+
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector-and-input
+  input:disabled::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: #4f4f4f;
+}
+
+main.edit-listing > form .what-the-buyer-sees {
+  padding: 5px 10px;
+  background-color: #555;
+  border: 1px solid #666;
+  border-radius: 3px;
+}
+
+main.edit-listing > form .what-the-buyer-sees p:first-child {
+  font-weight: 500;
+  font-style: italic;
+}
+
+main.edit-listing > form .form-group .radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+main.edit-listing > form .form-group .radio-options .radio-option {
+  width: 100%;
+}
+
+/* main.edit-listing > form .form-group .radio-options .radio-option label,
+main.edit-listing > form .custom-image-upload.secondary {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  gap: 5px;
+  background-color: #4f4f4f;
+  border: 1px solid #555;
+  padding: 3px 5px 3px 3px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+main.edit-listing > form .form-group .radio-options .radio-option label:hover {
+  border-color: #666;
+} */
+
+main.edit-listing > form .custom-image-upload.secondary {
+  align-self: flex-start;
+  width: auto;
+  padding: 1px 5px 1px 5px;
+}
+
+main.edit-listing > form .form-group .toggle-button {
+  padding: 3px 5px;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0;
+}
+
+main.edit-listing > form .form-group .toggle-button.activated {
+  border: 1px solid var(--lightgreen);
+}
+
+main.edit-listing > form label {
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+main.edit-listing > form .form-group textarea {
+  --padding: 10px;
+  min-height: 150px;
+  min-height: calc(5lh + 2 * var(--padding));
+  /* max-height: calc(5lh + 2 * var(--padding)); */
+  max-height: calc(10lh + 2 * var(--padding));
+  /* field-sizing: content; */
+  line-height: 1.5;
+  padding-inline: calc(var(--padding) + calc(1lh + 1ex) / 2);
+}
+
+main.edit-listing > form .form-group input:not([type="radio"]):not([type="file"]),
+main.edit-listing > form .form-group textarea,
+main.edit-listing > form .form-group select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #333;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 3px;
+  /* transition: border-color 0.025s cubic-bezier(0.25, 0.1, 0.25, 1); */
+}
+
+main.edit-listing > form .form-group input:not([type="radio"]):not([type="file"]),
+main.edit-listing > form .form-group textarea {
+  padding: 5px 10px;
+}
+
+main.edit-listing > form .form-group.disabled input:not([type="radio"]):not([type="file"]) {
+  color: grey;
+  cursor: not-allowed;
+}
+
+.sell
+  > form
+  .form-group
+  input:not([type="radio"]):not([type="file"]):not(:disabled):hover,
+main.edit-listing > form .form-group textarea:not(:disabled):hover,
+main.edit-listing > form .form-group select:not(:disabled):hover,
+main.edit-listing > form .image-upload:not(:disabled):not(.marked):hover,
+main.edit-listing > form .form-block .reset-images-button:not(:disabled):hover,
+.sell
+  form
+  .form-group.shipping
+  .shipping-selector
+  .shipping-toggle-button:not(.selected):hover {
+  border-color: #666;
+}
+
+main.edit-listing > form .form-group select:not(:disabled) {
+  cursor: pointer;
+}
+
+main.edit-listing > form .form-group input[type="file"] {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  /* background-color: #3B3B3B; */
+  /* border: 1px solid #555; */
+  border-radius: 3px;
+}
+
+main.edit-listing > form .form-group input[type="file"] {
+  padding: 0;
+}
+
+main.edit-listing > form .form-group select {
+  position: pointer;
+}
+
+main.edit-listing > form .submit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+main.edit-listing > form .submit-container .warning {
+  font-size: 0.875rem;
+  color: var(--red);
+}
+
+main.edit-listing > form button[type="submit"] {
+  background-color: var(--lightgreen);
+  padding: 7px 15px;
+  align-self: flex-start;
+  border-radius: 3px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.1s ease filter;
+  text-shadow: 1px 1px 3px #21252963;
+}
+
+main.edit-listing > form button[type="submit"]:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+main.edit-listing > form button[type="submit"]:disabled {
+  color: grey;
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 610px) {
+}
+
+@media screen and (max-width: 400px) {
+  main.edit-listing > form .form-block {
+    /* gap: 10px; */
+  }
+
+  main.edit-listing > form .form-block fieldset {
+    gap: 15px;
+  }
+
+  /* main.edit-listing > form .shipping-selector {
+    flex-direction: column;
+  } */
+
+  main.edit-listing > form .shipping-selector-and-input,
+  main.edit-listing > form .shipping-selector-and-input .shipping-selector {
+    width: 100%;
+  }
+
+  main.edit-listing > form .form-group.price {
+    max-width: 75px;
+  }
+
+  .sell
+    > form
+    .form-group.shipping
+    .shipping-selector
+    .shipping-toggle-button:first-child {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .sell
+    > form
+    .form-group.shipping
+    .shipping-selector
+    .shipping-toggle-button:last-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+}
+
+main.edit-listing .form-group .cant-find-city-toggle {
+  color: white;
+  font-size: 0.875rem;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+main.edit-listing .form-group.disabled .cant-find-city-toggle {
+  color: grey;
+}
+
+main.edit-listing .form-group .cant-find-city-toggle:hover {
+  text-decoration: underline;
+}
+
+main.edit-listing .form-group .cant-find-city-toggle svg {
+  fill: whitesmoke;
+  width: 9px;
+}
+
+@media only screen and (max-device-width: 480px) {
+  mainmain.sell {
+    padding-top: 10px;;
+  }
+
+  mainmain.sell > form {
+    gap: 20px;
+  }
+}

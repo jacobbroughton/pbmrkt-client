@@ -25,6 +25,8 @@ import { setSession, setUser } from "./redux/auth.ts";
 import { isOnMobile } from "./utils/usefulFunctions.js";
 import { PrivateRoutes } from "./components/wrappers/PrivateRoutes.tsx";
 import VerifyEmailRedirect from "./components/pages/VerifyEmailRedirect/VerifyEmailRedirect.tsx";
+import { EditProfile } from "./components/pages/EditProfile/EditProfile.jsx";
+import { EditForSaleListing } from "./components/pages/EditForSaleListing/EditForSaleListing.jsx";
 
 export function App() {
   const dispatch = useDispatch();
@@ -109,6 +111,8 @@ export function App() {
           <Route path="/sell" element={<Sell />} />
           <Route path="/wanted" element={<CreateWantedItem />} />
           <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/edit-listing/forsale/:itemID" element={<EditForSaleListing />} />
         </Route>
         <Route path="/user/:username" element={<UserProfile />} />
         <Route element={<Item />} path="/listing/:itemID" />

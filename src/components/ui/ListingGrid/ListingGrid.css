@@ -28,9 +28,8 @@ div.grid .grid-item {
   height: 280px;
 }
 
-div.grid .grid-item:hover .image-container {
-  /* transform: translateY(-1px); */
-  border: 1px solid var(--lightgreen);
+div.grid .grid-item:hover p.what-is-this {
+  text-decoration: underline;
 }
 
 div.grid .grid-item > .image-container {
@@ -128,10 +127,15 @@ div.grid .grid-item > .listing-card-info .price-and-name {
   width: 100%; */
 }
 
-div.grid .grid-item > .listing-card-info .what-is-this,
+div.grid .grid-item > .listing-card-info .what-is-this {
+  /* font-size: 1.15rem; */
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: normal
+}
+
 div.grid .grid-item > .listing-card-info .price {
   font-size: 0.875rem;
-  text-decoration: none !important;
 }
 
 div.grid .grid-item > .listing-card-info a {
@@ -148,9 +152,9 @@ div.grid .grid-item > .listing-card-info .price {
   font-weight: 600;
 }
 
-div.grid .grid-item:hover > .listing-card-info .what-is-this {
+/* div.grid .grid-item:hover > .listing-card-info .what-is-this {
   text-decoration: none !important;
-}
+} */
 
 div.grid .grid-item > .listing-card-info .location {
   font-size: 0.875rem;

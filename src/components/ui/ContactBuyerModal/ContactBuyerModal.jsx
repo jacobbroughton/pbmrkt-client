@@ -15,7 +15,9 @@ const ContactBuyerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [fullName, setFullName] = useState(
-    user ? user.first_name + " " + user.last_name : ""
+    user && user.first_name && user.last_name
+      ? user.first_name + " " + user.last_name
+      : ""
   );
   const [email, setEmail] = useState(user ? user.email : "");
   const [price, setPrice] = useState(Math.floor(Math.random() * 1000));
@@ -57,12 +59,7 @@ const ContactBuyerModal = ({ contactInfo }) => {
         );
       }
 
-      await createNotification(
-        user?.id,
-        contactInfo.created_by_id,
-        contactInfo.id,
-        5
-      );
+      await createNotification(user?.id, contactInfo.created_by_id, contactInfo.id, 5);
 
       setFullName("");
       setEmail("");

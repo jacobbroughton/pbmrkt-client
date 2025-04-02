@@ -13,7 +13,9 @@ const ContactSellerModal = ({ contactInfo }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [fullName, setFullName] = useState(
-    user ? user.first_name + " " + user.last_name : ""
+    user && user.first_name && user.last_name
+      ? user.first_name + " " + user.last_name
+      : ""
   );
   const [email, setEmail] = useState(user ? user.email : "");
   const [offer, setOffer] = useState(0);

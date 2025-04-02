@@ -1,0 +1,12 @@
+a.complete-profile-banner {
+  margin-bottom: 10px;
+  display: block;
+  font-size: 0.875rem;
+  color: orange;
+}
+
+@media screen and (max-width: 625px) {
+  a.complete-profile-banner {
+    padding: 0px 10px;
+  }
+}

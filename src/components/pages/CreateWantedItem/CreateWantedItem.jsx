@@ -25,6 +25,7 @@ import { PhotoUpload } from "../../ui/PhotoUpload/PhotoUpload";
 import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
 import "./CreateWantedItem.css";
+import { CompleteProfileBanner } from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 export const CreateWantedItem = () => {
   const filters = useSelector((state) => state.filters);
@@ -330,6 +331,8 @@ export const CreateWantedItem = () => {
         />
       )}
       <h1>Create a new wanted listing</h1>
+      
+      {!user.eligible_to_sell && <CompleteProfileBanner />}
 
       <form onSubmit={handleSubmit}>
         <PhotoUpload

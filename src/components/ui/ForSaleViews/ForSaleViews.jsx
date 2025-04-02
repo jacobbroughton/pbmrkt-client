@@ -21,7 +21,7 @@ export function ForSaleViews({ sort, setTotalListings }) {
   const search = useSelector((state) => state.search);
   const filters = useSelector((state) => state.filters);
   const flags = useSelector((state) => state.flags);
-  const windowSize = useWindowSize();
+  const [windowSize] = useWindowSize();
 
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);

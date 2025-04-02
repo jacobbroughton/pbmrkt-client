@@ -22,7 +22,7 @@ import { RegisterModal } from "./components/ui/RegisterModal/RegisterModal.jsx";
 import { ResetPasswordModal } from "./components/ui/ResetPasswordModal/ResetPasswordModal.jsx";
 import { SearchModal } from "./components/ui/SearchModal/SearchModal.jsx";
 import { setSession, setUser } from "./redux/auth.ts";
-import { isOnMobile } from "./utils/usefulFunctions.js";
+import { isOnMobile } from "./utils/usefulFunctions";
 import { PrivateRoutes } from "./components/wrappers/PrivateRoutes.tsx";
 import VerifyEmailRedirect from "./components/pages/VerifyEmailRedirect/VerifyEmailRedirect.tsx";
 import { EditProfile } from "./components/pages/EditProfile/EditProfile.jsx";

@@ -20,8 +20,8 @@ import {
   nestItemCategories,
   setCategoryChecked,
   toggleCategoryFolder,
-} from "../../../utils/usefulFunctions.js";
-import { useWindowSize } from "../../../utils/useWindowSize.js";
+} from "../../../utils/usefulFunctions";
+import { useWindowSize } from "../../../utils/useWindowSize";
 import { CategorySelectorModal } from "../../ui/CategorySelectorModal/CategorySelectorModal.jsx";
 import { FiltersSidebar } from "../../ui/FiltersSidebar/FiltersSidebar.jsx";
 import { FilterTags } from "../../ui/FilterTags/FilterTags.jsx";
@@ -35,6 +35,7 @@ import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
 import "./Home.css";
 import { Tabs } from "../../ui/Tabs/Tabs";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner.tsx";
+import { CompleteProfileBanner } from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ export function Listings() {
   const filtersSidebarToggled = useSelector(
     (state) => state.modals.filtersSidebarToggled
   );
+  const user = useSelector((state) => state.auth.user);
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const search = useSelector((state) => state.search);
@@ -53,7 +55,7 @@ export function Listings() {
 
   // const { searchParams } = useSearchParams();
   const [sort, setSort] = useState("Date (New-Old)");
-  const windowSize = useWindowSize();
+  const [windowSize] = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [totalListings, setTotalListings] = useState(null);
 
@@ -124,7 +126,12 @@ export function Listings() {
 
       const nestedItemCategories = nestItemCategories(itemCategories, null);
 
-      dispatch(setOverviewCategories({ flat: <itemCategories></itemCategories>, nested: nestedItemCategories }));
+      dispatch(
+        setOverviewCategories({
+          flat: <itemCategories></itemCategories>,
+          nested: nestedItemCategories,
+        })
+      );
 
       dispatch(
         setFilters({
@@ -307,7 +314,11 @@ export function Listings() {
     <main className="home">
       <PageTitle title={`Home - ${view.type} - ${view.layout}`} />
       {error && (
-        <ErrorBanner error={error.toString()} handleCloseBanner={() => setError(null)} hasMargin={true}/>
+        <ErrorBanner
+          error={error.toString()}
+          handleCloseBanner={() => setError(null)}
+          hasMargin={true}
+        />
       )}
       {isOnMobile() ? (
         <div className="mobile-page-header">
@@ -381,9 +392,13 @@ export function Listings() {
             </div>
             {view.layout != "Overview" && <SortSelect sort={sort} setSort={setSort} />}
           </div>
+
           {filterTags.filter((filter) => filter.active).length >= 1 && (
             <FilterTags filterTags={filterTags} />
           )}
+
+          {user && !user.eligible_to_sell && <CompleteProfileBanner />}
+
           {view.type === "For Sale" ? (
             <ForSaleViews sort={sort} setTotalListings={setTotalListings} />
           ) : view.type === "Wanted" ? (

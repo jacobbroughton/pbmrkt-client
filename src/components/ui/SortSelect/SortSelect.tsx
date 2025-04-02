@@ -1,4 +1,4 @@
-import { isOnMobile } from "../../../utils/usefulFunctions.js";
+import { isOnMobile } from "../../.";
 import { SlidersIcon } from "../Icons/SlidersIcon.jsx";
 import { SortIcon } from "../Icons/SortIcon.tsx";
 import "./SortSelect.css";

@@ -33,19 +33,37 @@ export function ItemVotes({
 
       if (!response.ok) throw new Error("Something happened at add-item-vote");
 
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes -= 1));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 2));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 1));
+      const { data } = await response.json();
+
+      // if (!existingVote) {
+      //   setVotes((prevVotes) => (prevVotes -= 1));
+      // } else if (existingVote == "Up") {
+      //   setVotes((prevVotes) => (prevVotes -= 2));
+      // } else if (existingVote == "Down") {
+      //   setVotes((prevVotes) => (prevVotes += 1));
+      // }
+
+      let diff = 0;
+
+      switch (existingVote) {
+        case "Down": {
+          diff = 1;
+          break;
+        }
+        case "Up": {
+          diff = -2;
+          break;
+        }
+        default:
+          diff = -1;
       }
+
+      setVotes((prevVotes) => (prevVotes += diff));
 
       setExistingVote(data[0]?.vote_direction);
     } catch (error) {
       console.error(error);
-      setError(error.toString());
-
+      // setError(error.toString());
       setExistingVote(initialVote);
     }
   }
@@ -70,18 +88,37 @@ export function ItemVotes({
 
       if (!response.ok) throw new Error("Something happened at add-item-vote");
 
-      if (!existingVote) {
-        setVotes((prevVotes) => (prevVotes += 1));
-      } else if (existingVote == "Down") {
-        setVotes((prevVotes) => (prevVotes += 2));
-      } else if (existingVote == "Up") {
-        setVotes((prevVotes) => (prevVotes -= 1));
+      const { data } = await response.json();
+
+      // if (!existingVote) {
+      //   setVotes((prevVotes) => (prevVotes += 1));
+      // } else if (existingVote == "Down") {
+      //   setVotes((prevVotes) => (prevVotes += 2));
+      // } else if (existingVote == "Up") {
+      //   setVotes((prevVotes) => (prevVotes -= 1));
+      // }
+
+      let diff = 0;
+
+      switch (existingVote) {
+        case "Down": {
+          diff = 2;
+          break;
+        }
+        case "Up": {
+          diff = -1;
+          break;
+        }
+        default:
+          diff = 1;
       }
+
+      setVotes((prevVotes) => (prevVotes += diff));
 
       setExistingVote(data[0]?.vote_direction);
     } catch (error) {
       console.error(error);
-      setError(error.toString());
+      // setError(error.toString());
       setExistingVote(initialVote);
     }
   }

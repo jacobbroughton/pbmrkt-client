@@ -24,6 +24,7 @@
   background-color: #2f2f2f;
   border: 0;
   font-size: 1rem;
+  text-decoration: none;
 }
 
 .add-new-menu a.add-new-menu-item:not(:last-child) {

@@ -32,10 +32,10 @@ import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
 import { SortSelect } from "../../ui/SortSelect/SortSelect.tsx";
 import { ViewSelector } from "../../ui/ViewSelector/ViewSelector.jsx";
 import { WantedViews } from "../../ui/WantedViews/WantedViews.jsx";
-import "./Home.css";
 import { Tabs } from "../../ui/Tabs/Tabs";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner.tsx";
-import CompleteProfileBanner from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
+import { CompleteProfileBanner } from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
+import "./Home.css";
 
 export function Listings() {
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ export function Listings() {
 
   // const { searchParams } = useSearchParams();
   const [sort, setSort] = useState("Date (New-Old)");
-  const windowSize = useWindowSize();
+  const [windowSize] = useWindowSize();
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
   const [totalListings, setTotalListings] = useState(null);
 
@@ -302,7 +302,7 @@ export function Listings() {
   useEffect(() => {
     addSearchParams([
       ["view-type", view.type.toLowerCase().split(" ").join("-")],
-      ["view-layout", view.layout.toLowerCase().split(" ").join("-")],
+      // ["view-layout", view.layout.toLowerCase().split(" ").join("-")],
     ]);
     return () => dispatch(resetFilters());
   }, []);
@@ -349,8 +349,9 @@ export function Listings() {
               {isOnMobile() ? (
                 <Tabs
                   tabs={[
-                    { label: "For Sale", class: "for-sale" },
-                    { label: "Wanted", class: "wanted" },
+                    { label: "Overview", url: "/overview" },
+                    { label: "Grid", url: "/listings?layout=grid" },
+                    { label: "List", url: "/listings?layout=list" },
                   ]}
                   isSelected={(selectedLabel) => selectedLabel == view.type}
                   onClick={(option) => {
@@ -364,7 +365,11 @@ export function Listings() {
                 false
               )}
               <Tabs
-                tabs={[{ label: "Overview" }, { label: "Grid" }, { label: "List" }]}
+                tabs={[
+                  { label: "Overview", url: "/overview" },
+                  { label: "Grid", url: "/listings?layout=grid" },
+                  { label: "List", url: "/listings?layout=list" },
+                ]}
                 isSelected={(selectedLabel) => selectedLabel === view.layout}
                 onClick={(option) => {
                   let optionValue = option.label;

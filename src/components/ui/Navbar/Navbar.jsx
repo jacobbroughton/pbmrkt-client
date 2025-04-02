@@ -121,7 +121,7 @@ export const Navbar = () => {
           </button>
         )}
         <Link
-          to="/"
+          to="/overview"
           className="home-link"
           onClick={() => {
             dispatch(resetFilters());
@@ -131,7 +131,7 @@ export const Navbar = () => {
         >
           PBMRKT
         </Link>
-        {location.pathname == "/" && isOnMobile() && (
+        {location.pathname == "/overview" && isOnMobile() && (
           <button
             className="filters-toggle-button"
             onClick={() =>

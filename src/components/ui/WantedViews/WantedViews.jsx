@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Overview from "../Overview/Overview";
+import Overview from "../OverviewSection/OverviewSection";
 import { SkeletonsListingGrid } from "../SkeletonsListingGrid/SkeletonsListingGrid";
 import { SkeletonsListingList } from "../SkeletonsListingList/SkeletonsListingList";
 import { SkeletonsOverview } from "../SkeletonsOverview/SkeletonsOverview";
@@ -23,7 +23,7 @@ export function WantedViews({ sort, setTotalListings }) {
   const search = useSelector((state) => state.search);
   const filters = useSelector((state) => state.filters);
   const flags = useSelector((state) => state.flags);
-  const windowSize = useWindowSize();
+  const [windowSize] = useWindowSize();
 
   const [listings, setListings] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(true);
@@ -102,6 +102,8 @@ export function WantedViews({ sort, setTotalListings }) {
     } catch (error) {
       console.error(error);
       setError(error.toString());
+    } finally {
+      dispatch(setFiltersUpdated(false));
     }
 
     setListingsLoading(false);

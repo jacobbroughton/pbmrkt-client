@@ -50,7 +50,7 @@ export function ViewSelector() {
               );
             localStorage.setItem("pbmrkt_view_layout", viewOption);
             dispatch(setViewLayout(viewOption));
-            addSearchParams([["view-layout", viewOption.toLowerCase()]]);
+            // addSearchParams([["view-layout", viewOption.toLowerCase()]]);
           }}
           className={`view-option ${viewOption == view.layout ? "selected" : ""}`}
           key={viewOption}

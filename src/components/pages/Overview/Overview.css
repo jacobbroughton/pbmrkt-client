@@ -1,0 +1,84 @@
+main.overview {
+  display: flex;
+  flex-direction: column;
+  padding-top: 65px;
+  max-width: 1265px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+main.overview > .sidebar-and-grid {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  position: relative;
+}
+
+main.overview > .sidebar-and-grid > .listings-section {
+  width: 100%; /* this breaks the page on safari */
+  padding-right: 10px;
+}
+
+main.overview
+  > .sidebar-and-grid
+  > .listings-section
+  > .listing-controls
+  > .view-settings {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+main.overview > .sidebar-and-grid > .listings-section > .listing-controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  /* padding: 10px 0 10px 0; */
+  padding-top: 0;
+  z-index: 2;
+  width: 100%;
+  z-index: 4;
+  background-color: var(--bg-primary);
+  /* padding-top: 10px; */
+  /* position: sticky; */
+  padding-bottom: 10px;
+  top: 47px !important;
+}
+
+@media only screen and (max-device-width: 480px) {
+  main.overview
+    > .sidebar-and-grid
+    > .listings-section
+    > .listing-controls
+    > .view-settings {
+    padding: 0px 10px;
+  }
+
+  main.overview > .sidebar-and-grid .sidebar {
+    z-index: 10;
+  }
+
+  main.overview > .sidebar-and-grid .modal-overlay {
+    z-index: 9 !important;
+  }
+
+  main.overview
+    > .sidebar-and-grid
+    > .listings-section
+    > .listing-controls
+    > .view-settings {
+    width: 100%;
+  }
+
+  main.overview
+    > .sidebar-and-grid
+    > .listings-section
+    > .listing-controls
+    > .view-settings {
+    padding: 0px 10px;
+  }
+}

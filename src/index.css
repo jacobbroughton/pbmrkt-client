@@ -72,11 +72,11 @@ input[type="radio"] {
   accent-color: var(--lightgreen);
 }
 
-a {
+/* a {
   appearance: none;
   color: var(--lightgreen);
   text-decoration: none;
-}
+} */
 
 textarea {
   resize: vertical;

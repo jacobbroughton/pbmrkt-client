@@ -7,7 +7,6 @@ export const PrivateRoutes = ({
   user: unknown;
   initialUserLoading: boolean;
 }) => {
-
   const userAuthenticated = user && !initialUserLoading;
   return userAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };

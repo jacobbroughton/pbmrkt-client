@@ -27,7 +27,7 @@ import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCatego
 import "./Sell.css";
 import { ErrorBanner } from "../../ui/ErrorBanner/ErrorBanner";
 import PageTitle from "../../ui/PageTitle/PageTitle.jsx";
-import CompleteProfileBanner from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
+import { CompleteProfileBanner } from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 const priceArr = [150, 200, 400, 440, 1300, 1140, 1150, 1900, 800, 241];
 

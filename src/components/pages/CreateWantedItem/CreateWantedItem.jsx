@@ -26,7 +26,7 @@ import { RadioOptions } from "../../ui/RadioOptions/RadioOptions";
 import { SelectCategoryToggle } from "../../ui/SelectCategoryToggle/SelectCategoryToggle";
 import "./CreateWantedItem.css";
 import { SortIcon } from "../../ui/Icons/SortIcon.tsx";
-import CompleteProfileBanner from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
+import { CompleteProfileBanner } from "../../ui/CompleteProfileBanner/CompleteProfileBanner.jsx";
 
 export const CreateWantedItem = () => {
   const filters = useSelector((state) => state.filters);

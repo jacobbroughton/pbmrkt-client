@@ -4,7 +4,8 @@ import { setFilters, setFiltersUpdated } from "../../../redux/filters";
 import { addCountsToOverviewCategories } from "../../../redux/overviewCategories";
 import { setViewLayout } from "../../../redux/view";
 import { getCheckedOps } from "../../../utils/usefulFunctions";
-import "./Overview.css";
+import "./OverviewSection.css";
+import { OverviewOptionList } from "../OverviewOptionList/OverviewOptionList";
 
 const Overview = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Overview = () => {
 
   async function getItemCategoryResultsCount() {
     try {
+      console.log("Hello from getItemCategoryResultsCount");
       setSubsequentlyLoading(true);
 
       const forSaleFilters = filters.saved["For Sale"];
@@ -52,7 +54,7 @@ const Overview = () => {
         categoryResultCounts[data[i].id] = data[i];
       }
 
-      console.log(overviewCategories)
+      console.log(overviewCategories);
       dispatch(addCountsToOverviewCategories(categoryResultCounts));
 
       const urlSearchParams2 = new URLSearchParams({
@@ -91,6 +93,8 @@ const Overview = () => {
     } catch (error) {
       console.error(error);
       setError(error.toString());
+    } finally {
+      dispatch(setFiltersUpdated(false));
     }
 
     setSubsequentlyLoading(false);
@@ -142,73 +146,3 @@ const Overview = () => {
   );
 };
 export default Overview;
-
-const OverviewOptionList = ({ options, level, loading }) => {
-  const dispatch = useDispatch();
-
-  const filters = useSelector((state) => state.filters);
-
-  function handleCategoryClick(category) {
-    try {
-      dispatch(
-        setFilters({
-          ...filters,
-          saved: {
-            ...filters.saved,
-            ["For Sale"]: {
-              ...filters.saved["For Sale"],
-              categories: options,
-              category: category,
-            },
-          },
-        })
-      );
-      dispatch(setFiltersUpdated(true));
-      dispatch(setViewLayout("Grid"));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  return (
-    <>
-      <ul className={`overview-option-list tier-${level + 1}`}>
-        {options?.map((category, id) => {
-          let newLevel = level + 2;
-          return (
-            <li
-              key={id}
-              className={`${category.children.length >= 1 ? "has-children" : ""}`}
-            >
-              {category.is_folder ? (
-                <p className="label">{category.plural_name}</p>
-              ) : (
-                <button
-                  className="link-button"
-                  onClick={() => handleCategoryClick(category)}
-                  id={id}
-                >
-                  {category.plural_name}{" "}
-                  <span>
-                    {loading ? (
-                      <div className="loading-result-number"></div>
-                    ) : (
-                      `(${category.num_results || 0})`
-                    )}
-                  </span>
-                </button>
-              )}
-              {category.children.length >= 1 && (
-                <OverviewOptionList
-                  options={category.children}
-                  level={newLevel}
-                  loading={loading}
-                />
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
-};

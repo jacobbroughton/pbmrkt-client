@@ -37,6 +37,7 @@
   background-color: #2f2f2f;
   border: 0;
   font-size: 1rem;
+  text-decoration: none;
 }
 
 .right-side-menu .menu-item.current,

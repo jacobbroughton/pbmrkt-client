@@ -6,7 +6,7 @@ export const useWindowSize = () => {
   const handleSize = () => {
     setWindowSize({
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
     });
   };
 
@@ -18,6 +18,5 @@ export const useWindowSize = () => {
     return () => window.removeEventListener("resize", handleSize);
   }, []);
 
-  return windowSize;
+  return [windowSize];
 };
-

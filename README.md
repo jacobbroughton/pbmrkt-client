@@ -1,3 +1,3 @@
 # Paintball Market (Frontend)
 
-Backend for this application: [Repository](https://github.com/jacobbroughton/paintball-forum-backend)
+Backend for this application: [Repository](https://github.com/jacobbroughton/pbmrkt-backend)

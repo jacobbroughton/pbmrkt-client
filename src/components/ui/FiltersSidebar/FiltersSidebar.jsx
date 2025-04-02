@@ -28,10 +28,14 @@ import { SelectCategoryToggle } from "../SelectCategoryToggle/SelectCategoryTogg
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "../../../hooks/useSearchParams";
 
-export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
+export const FiltersSidebar = ({
+  allFiltersDisabled,
+  totalListings,
+  categorySelectorVisible,
+}) => {
   const { searchParams, addSearchParams } = useSearchParams();
   const dispatch = useDispatch();
-  const windowSize = useWindowSize();
+  const [windowSize] = useWindowSize();
   const view = useSelector((state) => state.view);
   const filters = useSelector((state) => state.filters);
   const [sidebarNeedsUpdate, setSidebarNeedsUpdate] = useState(windowSize.width > 625);
@@ -138,6 +142,8 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
   const noConditionOptionsChecked =
     filters.saved["For Sale"].conditionOptions.filter((op) => op.checked).length === 0;
 
+  console.log(filters.saved["For Sale"].conditionOptions);
+
   const noShippingOptionsChecked =
     filters.saved["For Sale"].shippingOptions.filter((op) => op.checked).length === 0;
 
@@ -220,7 +226,7 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
               </div>
             </div>
 
-            {view.layout !== "Overview" && (
+            {categorySelectorVisible && (
               <div className={`filter-item ${allFiltersDisabled ? "disabled" : ""}`}>
                 <div className="label-and-reset">
                   <label>Category</label>
@@ -515,7 +521,9 @@ export const FiltersSidebar = ({ allFiltersDisabled, totalListings }) => {
                 >
                   <div className="label-and-reset">
                     <label>Condition</label>
-                    {noConditionOptionsChecked && (
+                    {filters.draft["For Sale"].conditionOptions.find(
+                      (op) => !op.checked
+                    )  && (
                       <button
                         className="reset-button"
                         type="button"

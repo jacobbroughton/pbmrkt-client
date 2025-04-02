@@ -27,6 +27,8 @@ import { PrivateRoutes } from "./components/wrappers/PrivateRoutes.tsx";
 import VerifyEmailRedirect from "./components/pages/VerifyEmailRedirect/VerifyEmailRedirect.tsx";
 import { EditForSaleListing } from "./components/pages/EditForSaleListing/EditForSaleListing.jsx";
 import { EditProfile } from "./components/pages/EditProfile/EditProfile.jsx";
+import { Overview } from "./components/pages/Overview/Overview.tsx";
+import { ListingsLayout } from "./components/wrappers/ListingsLayout/ListingsLayout.tsx";
 
 export function App() {
   const dispatch = useDispatch();
@@ -102,6 +104,10 @@ export function App() {
       <Routes>
         <Route path="*" element={<p>Page not found</p>} />
         <Route element={<Listings />} path="/" />
+        {/* <Route element={<Listings />} path="/listings" />
+        <Route element={<Overview />} path="/overview" /> */}
+        <Route element={<ListingsLayout />} path="/listings" />
+        <Route element={<ListingsLayout />} path="/overview" />
         <Route element={<Register />} path="/register" />
         <Route element={<VerifyEmailRedirect />} path="/verify-email-redirect" />
         <Route element={<Login />} path="/login" />
@@ -114,8 +120,8 @@ export function App() {
           <Route path="/edit-listing/forsale/:itemID" element={<EditForSaleListing />} />
           {/* <Route path="/edit-listing/wanted/:itemID" element={<EditWantedListing />}} /> */}
         </Route>
-        <Route path="/user/:username" element={<UserProfile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/user/:username" element={<UserProfile />} />
         <Route element={<Item />} path="/listing/:itemID" />
         <Route element={<WantedItem />} path="/wanted/:wantedItemID" />
         <Route element={<ResetPassword />} path="/reset-password" />

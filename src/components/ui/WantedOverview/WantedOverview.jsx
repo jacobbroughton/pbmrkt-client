@@ -58,7 +58,7 @@ export const WantedOverview = () => {
 
       dispatch(addCountsToOverviewCategories(hashedData));
 
-      console.log("wantedFilters: ", wantedFilters)
+      console.log("wantedFilters: ", wantedFilters);
 
       const urlSearchParams2 = new URLSearchParams({
         search_value: savedSearchValue,
@@ -86,6 +86,8 @@ export const WantedOverview = () => {
     } catch (error) {
       console.error(error);
       setError(error.toString());
+    } finally {
+      dispatch(setFiltersUpdated(false));
     }
 
     setSubsequentlyLoading(false);

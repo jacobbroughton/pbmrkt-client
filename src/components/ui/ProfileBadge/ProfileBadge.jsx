@@ -15,6 +15,7 @@ export function ProfileBadge({
   },
 }) {
   const dispatch = useDispatch();
+  
 
   return (
     <div className="profile-badge">

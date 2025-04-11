@@ -44,11 +44,10 @@ export const Item = () => {
   const [markAsSoldLoading, setMarkAsSoldLoading] = useState(false);
   const [priceChangeHistory, setPriceChangeHistory] = useState(null);
   const [editItemMenuToggled, setEditItemMenuToggled] = useState(false);
-  const [sellerReviews, setSellerReviews] = useState();
+  const [sellerReviews, setSellerReviews] = useState(0);
   const [existingVote, setExistingVote] = useState(null);
   const [votes, setVotes] = useState(null);
   const [deleteItemLoading, setDeleteItemLoading] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getItem() {
@@ -383,11 +382,11 @@ export const Item = () => {
 
             <ProfileBadge
               userInfo={{
-                profile_image_url: item.info.profile_image_url,
+                profileImageUrl: item.info.profile_image_url,
                 username: item.info.created_by_username,
                 city: item.info.city,
                 state: item.info.state,
-                review_count: sellerReviews.count,
+                reviewCount: sellerReviews.count,
                 rating: item.info.seller_rating,
               }}
             />

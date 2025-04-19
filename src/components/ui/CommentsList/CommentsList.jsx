@@ -58,9 +58,9 @@ export const CommentsList = ({
 
       if (error3) throw error.message;
 
-      if (repliedComment.created_by_id != user.id) {
-        await createNotification(user.id, repliedComment.createdById, data[0].id, 2);
-      }
+      // if (repliedComment.created_by_id != user.id) {
+      //   await createNotification(user.id, repliedComment.createdById, data[0].id, 2);
+      // }
 
       setCommentWithReplyWindowID(null);
       setLocalComments(

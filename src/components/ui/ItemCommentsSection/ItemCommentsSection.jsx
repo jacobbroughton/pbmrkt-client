@@ -44,10 +44,10 @@ export function ItemCommentsSection({
 
       const { data } = await response.json();
 
-      if (user.id != itemInfo.id) {
-        console.log(data);
-        await createNotification(user.id, itemInfo.createdById, data[0].id, 1);
-      }
+      // if (user.id != itemInfo.id) {
+      //   console.log(data);
+      //   await createNotification(user.id, itemInfo.createdById, data[0].id, 1);
+      // }
 
       getComments();
       setNewCommentBody("");

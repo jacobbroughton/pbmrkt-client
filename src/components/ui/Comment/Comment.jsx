@@ -78,7 +78,7 @@ export const Comment = ({
 
       const commentId = data[0].id;
 
-      await createNotification(user.id, comment.created_by_id, commentId, 3);
+      // await createNotification(user.id, comment.created_by_id, commentId, 3);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
@@ -125,7 +125,7 @@ export const Comment = ({
 
       const commentId = data[0].id;
 
-      await createNotification(user.id, comment.created_by_id, commentId, 4);
+      // await createNotification(user.id, comment.created_by_id, commentId, 4);
 
       setExistingVote(data[0].vote_direction);
       setVoteNeedsUpdate(true);
